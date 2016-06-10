@@ -32,7 +32,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public async Task<UnitType> HandleAsync(DeleteCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
-            game.RemoveCollection(game.Collections.FindFromRequest(request));
+            var findCollection = game.Collections.FindFromRequest(request);
+            // TODO: Instead we should know if we have the collection also locally, and only delete it if we do!
+            if (findCollection!= null)
+                game.RemoveCollection(findCollection);
             return UnitType.Default;
         }
     }
