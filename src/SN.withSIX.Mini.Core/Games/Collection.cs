@@ -42,6 +42,10 @@ namespace SN.withSIX.Mini.Core.Games
         protected override bool HasUpdate(string desiredVersion = null)
             => base.HasUpdate(desiredVersion) || ContentsIsNotUptodate();
 
+        private bool ContentIsInstalled() => GetRelatedContent().All(x => x.Content.IsInstalled());
+
+        private bool ContentIsUptodate() => !ContentsIsNotUptodate();
+
         private bool ContentsIsNotUptodate() {
             var value = OriginalContentIsNotUptodate();
             if (Common.Flags.Verbose)
@@ -70,8 +74,10 @@ namespace SN.withSIX.Mini.Core.Games
 
         public override void UpdateState(bool force = true) {
             if (!IsInstalled()) {
-                if (!ContentsIsNotUptodate())
+                if (ContentIsUptodate())
                     Installed(Version, true);
+                else if (ContentIsInstalled())
+                    Installed(Version, false);
             }
             base.UpdateState(force);
         }
