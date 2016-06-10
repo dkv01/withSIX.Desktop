@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 
@@ -187,8 +188,29 @@ namespace SN.withSIX.Core
                 Contract.Requires<ArgumentNullException>(exe != null);
                 Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(exe));
 
-                return Process.GetProcessesByName(exe.Replace(".exe", string.Empty)).Any();
+                return GetRunningProcesses(exe).Any();
             }
+
+            public Process[] GetRunningProcesses(string exe)
+                => Process.GetProcessesByName(exe.Replace(".exe", string.Empty));
+
+            public IAbsoluteFilePath GetProcessPath(int processId) {
+                var query = "SELECT ExecutablePath FROM Win32_Process WHERE ProcessId = " + processId;
+
+                using (var mos = new ManagementObjectSearcher(query)) {
+                    using (var moc = mos.Get()) {
+                        var executablePath =
+                            (from mo in moc.Cast<ManagementObject>() select mo["ExecutablePath"]).FirstOrDefault(
+                                x => x != null);
+                        var s = executablePath as string;
+                        return s?.ToAbsoluteFilePath();
+                    }
+                }
+            }
+
+            public IEnumerable<IAbsoluteFilePath> GetExecuteablePaths(string exe)
+                => GetRunningProcesses(exe.Replace(".exe", string.Empty))
+                    .Select(x => GetProcessPath(x.Id));
 
             #region Nested type: NativeMethods
 

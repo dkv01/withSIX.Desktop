@@ -385,8 +385,11 @@ namespace SN.withSIX.Mini.Core.Games
                 });
 
         bool IsRunning() {
-            var executable = InstalledState.Executable;
-            return Tools.Processes.Running(executable.FileName);
+            // TODO: Optimize
+            var exeDir = InstalledState.Executable.ParentDirectoryPath;
+            return Metadata.Executables.SelectMany(x => Tools.Processes.GetExecuteablePaths(x))
+                .Where(x => x != null)
+                .Any(x => exeDir.Equals(x.ParentDirectoryPath));
         }
 
         public async Task UpdateSettings(GameSettings settings) {
