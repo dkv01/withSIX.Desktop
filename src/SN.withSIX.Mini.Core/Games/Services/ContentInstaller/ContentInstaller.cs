@@ -278,7 +278,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 
     public static class ItemStateExtensions
     {
-        public static bool IsNotUptodate(this ItemState state)
+        public static bool RequiresAction(this ItemState state)
             => state == ItemState.NotInstalled || state == ItemState.UpdateAvailable || state == ItemState.Incomplete;
 
         public static bool IsBusy(this ItemState state) => state >= ItemState.Installing;

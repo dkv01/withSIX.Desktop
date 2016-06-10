@@ -40,25 +40,23 @@ namespace SN.withSIX.Mini.Core.Games
         // A collection is considered installed when the installation of the collection completed for the first time
         // When a collection changes, e.g a mod has been added, or updated, the collection is considered to Have Updates (Rather than not being installed)
         protected override bool HasUpdate(string desiredVersion = null)
-            => base.HasUpdate(desiredVersion) || ContentsIsNotUptodate();
+            => base.HasUpdate(desiredVersion) || !ContentIsUptodate();
 
         private bool ContentIsInstalled() => GetRelatedContent().All(x => x.Content.IsInstalled());
 
-        private bool ContentIsUptodate() => !ContentsIsNotUptodate();
-
-        private bool ContentsIsNotUptodate() {
-            var value = OriginalContentIsNotUptodate();
+        private bool ContentIsUptodate() {
+            var value = OriginalContentIsUptodate();
             if (Common.Flags.Verbose)
-                LogContentsIsNotUptodate(value);
+                LogContentIsUptodate(value);
             return value;
         }
 
-        private bool OriginalContentIsNotUptodate() => Contents.Any(x => x.GetState().IsNotUptodate());
+        private bool OriginalContentIsUptodate() => Contents.All(x => !x.GetState().RequiresAction());
 
-        private void LogContentsIsNotUptodate(bool result) {
-            var notUpdate = string.Join(", ",
-                Contents.Where(x => x.GetState().IsNotUptodate()).Select(x => x.Content.Id));
-            MainLog.Logger.Info($"$$$ ContentsIsNotUptodate [{Id}] {Name}: {notUpdate}. Result: {result}");
+        private void LogContentIsUptodate(bool result) {
+            var requiresAction = string.Join(", ",
+                Contents.Where(x => x.GetState().RequiresAction()).Select(x => x.Content.Id));
+            MainLog.Logger.Info($"$$$ ContentsIsUptodate [{Id}] {Name}: Todos: {requiresAction}. Result: {result}");
         }
 
         protected IEnumerable<IContentSpec<Collection>> GetCollections(string constraint = null)
