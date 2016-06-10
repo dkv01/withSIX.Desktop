@@ -88,7 +88,7 @@ namespace SN.withSIX.Mini.Core.Games
         public long SizePacked { get; set; }
 
         // TODO: Lets cache this another day!
-        //[DataMember]
+        [IgnoreDataMember]
         protected ItemState? State { get; set; }
         [DataMember]
         public RecentInfo RecentInfo { get; protected set; }
