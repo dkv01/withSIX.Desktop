@@ -74,10 +74,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         public override void UpdateState(bool force = true) {
             if (!IsInstalled()) {
-                if (ContentIsUptodate())
+                if (ContentIsInstalled())
                     Installed(Version, true);
-                else if (ContentIsInstalled())
-                    Installed(Version, false);
             }
             base.UpdateState(force);
         }
