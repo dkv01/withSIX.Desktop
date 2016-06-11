@@ -12,7 +12,11 @@ namespace SN.withSIX.Mini.Plugin.Arma
     public class Initializer : IInitializer, IAMInitializer
     {
         public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperPluginArmaConfig.Setup(cfg);
-        public async Task Initialize() {}
+
+        public async Task Initialize() {
+            // TODO: Register auto through container??
+            UiTaskHandler.RegisterHandler(new ArmaExceptionHandler());
+        }
 
         public async Task Deinitialize() {}
     }

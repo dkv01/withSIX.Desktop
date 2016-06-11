@@ -22,6 +22,9 @@ namespace SN.withSIX.Core.Extensions
         public static bool IsElevationCancelled(this Win32Exception ex)
             => ex.NativeErrorCode == Win32ErrorCodes.ERROR_CANCELLED_ELEVATION;
 
+        public static bool IsOutOfDiskspace(this Win32Exception ex)
+            => ex.NativeErrorCode == Win32ErrorCodes.ERROR_OUT_OF_DISKSPACE;
+
         public static OperationCanceledException HandleUserCancelled(this Win32Exception ex) {
             MainLog.Logger.FormattedWarnException(ex, "User canceled elevation action");
             return new OperationCanceledException("User canceled elevation action", ex);

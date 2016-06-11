@@ -15,6 +15,7 @@ using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
@@ -73,25 +74,28 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         }
 
         private async Task<TResponse> TryExecuteCommand<TResponse>(Func<Task<TResponse>> action) {
+            // TODO: Handle more global or deeper
             try {
-                var r = await action().ConfigureAwait(false);
-                return r;
+                try {
+                    var r = await action().ConfigureAwait(false);
+                    return r;
+                } catch (Win32Exception ex) {
+                    if (ex.NativeErrorCode == 112)
+                        throw GetException(ex.NativeErrorCode, ex);
+                    if (ex.IsElevationCancelled())
+                        throw ex.HandleUserCancelled();
+                    throw;
+                } catch (IOException ex) {
+                    var error = Marshal.GetLastWin32Error();
+                    if (error == 112)
+                        throw GetException(error, ex);
+                    throw;
+                } catch (System.ComponentModel.DataAnnotations.ValidationException e) {
+                    throw new ValidationException(e.Message, e);
+                }
             } catch (OperationCanceledException ex) {
                 MainLog.Logger.FormattedDebugException(ex, "The user cancelled the operation");
                 throw new CanceledException(ex);
-                // TODO: Handle more global or deeper
-            } catch (Win32Exception ex) {
-                if (ex.NativeErrorCode == 112)
-                    throw GetException(ex.NativeErrorCode, ex);
-                throw;
-                // TODO: Handle more global or deeper
-            } catch (IOException ex) {
-                var error = Marshal.GetLastWin32Error();
-                if (error == 112)
-                    throw GetException(error, ex);
-                throw;
-            } catch (System.ComponentModel.DataAnnotations.ValidationException e) {
-                throw new ValidationException(e.Message, e);
             }
         }
 

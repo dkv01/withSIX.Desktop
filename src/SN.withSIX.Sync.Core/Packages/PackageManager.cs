@@ -220,9 +220,10 @@ namespace SN.withSIX.Sync.Core.Packages
 
             StatusRepo.Reset(RepoStatus.Processing, packages.Length);
 
-            foreach (var p in packages) {
-                if (Settings.GlobalWorkingPath != null)
-                    p.SetWorkingPath(Settings.GlobalWorkingPath.ToString());
+            if (Settings.GlobalWorkingPath != null) {
+                var s = Settings.GlobalWorkingPath.ToString();
+                foreach (var p in packages)
+                    p.SetWorkingPath(s);
             }
 
             await ProcessModern(noCheckout, packages).ConfigureAwait(false);
@@ -260,8 +261,6 @@ namespace SN.withSIX.Sync.Core.Packages
 
         public async Task<Package> DownloadPackage(string packageName, bool? useFullNameOverride = null) {
             var depInfo = ResolvePackageName(packageName);
-            if (depInfo == null)
-                throw new Exception("Could not resolve package " + packageName);
 
             var useFullName = Repo.Config.UseVersionedPackageFolders;
             var name = depInfo.GetFullName();
@@ -310,6 +309,13 @@ namespace SN.withSIX.Sync.Core.Packages
 
             foreach (var package in packages)
                 package.StatusRepo = StatusRepo;
+
+            if (packages.GroupBy(x => x.MetaData.Name.ToLower()).Any(x => x.Count() > 1))
+                throw new InvalidOperationException("Somehow got duplicate packges: " +
+                                                    string.Join(", ",
+                                                        packages.GroupBy(x => x.MetaData.Name.ToLower())
+                                                            .Where(x => x.Count() > 1)
+                                                            .Select(x => x.Key)));
         }
 
         private Task FetchAllRequestedPackages(IReadOnlyCollection<SpecificVersion> specificVersions) {
@@ -474,13 +480,20 @@ namespace SN.withSIX.Sync.Core.Packages
             Repo.AddPackage(package.GetFullName());
         }
 
-        SpecificVersion ResolvePackageName(string packageName) {
+        SpecificVersion TryResolvePackageName(string packageName) {
             var depInfo = new Dependency(packageName);
             //var remotes = FindRemotesWithPackage(packageName);
             return Repo.Remotes.Select(x => x.Index.GetPackage(depInfo))
                 .Where(x => x != null)
                 .OrderBy(x => x)
                 .LastOrDefault();
+        }
+
+        SpecificVersion ResolvePackageName(string packageName) {
+            var resolvePackageName = TryResolvePackageName(packageName);
+            if (resolvePackageName == null)
+                    throw new NoSourceFoundException("Could not resolve package " + packageName);
+            return resolvePackageName;
         }
 
         IEnumerable<Uri> FindRemotesWithPackage(string packageName)
@@ -492,7 +505,7 @@ namespace SN.withSIX.Sync.Core.Packages
 
         async Task ResolveDependencies(List<string> list, List<string> list2, List<Package> packages,
             SpecificVersion depInfo, List<SpecificVersion> done, bool useFullName = false, bool noCheckout = false) {
-            if (!noCheckout && list.Contains(depInfo.Name)) {
+            if (!noCheckout && list.Contains(depInfo.Name.ToLower())) {
                 Repository.Log("Conflicting package, not resolving {0}", depInfo);
                 return;
             }
@@ -521,8 +534,9 @@ namespace SN.withSIX.Sync.Core.Packages
         }
 
         static void OrderPackageLast(ICollection<string> list, ICollection<Package> packages, Package package) {
-            list.Remove(package.MetaData.Name);
-            list.Add(package.MetaData.Name);
+            var name = package.MetaData.Name.ToLower();
+            list.Remove(name);
+            list.Add(name);
             packages.Remove(package);
             packages.Add(package);
         }

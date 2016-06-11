@@ -409,6 +409,15 @@ namespace SN.withSIX.Core
 
     public interface IDomainEvent {}
 
+    public abstract class DomainEvent<T> : IDomainEvent
+    {
+        protected DomainEvent(T subject) {
+            Contract.Requires<ArgumentNullException>(subject != null);
+            Subject = subject;
+        }
+        public T Subject { get; }
+    }
+
     public static class GameUUids
     {
         public const string Arma1 = "1781B5A8-7C05-4B5D-8EC3-62C14DA42B5B";

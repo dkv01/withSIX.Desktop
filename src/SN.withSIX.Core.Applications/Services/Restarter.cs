@@ -98,7 +98,7 @@ namespace SN.withSIX.Core.Applications.Services
                 return false;
             }
 
-            var report = await UserError.Throw(new BasicUserError("Restart the application elevated?",
+            var report = await UserError.Throw(new UserError("Restart the application elevated?",
                 $"The application failed to write to the path, probably indicating permission issues\nWould you like to restart the application Elevated?\n\n {mp}",
                 RecoveryCommandsImmediate.YesNoCommands, null, ex)) == RecoveryOptionResult.RetryOperation;
 

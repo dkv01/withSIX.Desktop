@@ -12,6 +12,7 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Packages;
+using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 
 namespace SN.withSIX.Mini.Applications
@@ -29,15 +30,18 @@ namespace SN.withSIX.Mini.Applications
             return Handle((dynamic) ex, action);
         }
 
+        protected static RecoverableUserError Handle(GameIsRunningException ex, string action)
+            => new RecoverableUserError(ex, ex.Message, "Please close the game and try again");
+
         // TODO: Better handler where we guide the user to go to the settings, and configure the game, then retry?
         protected static InformationalUserError Handle(GameNotInstalledException ex, string action)
             => new ConfigureGameFirstUserError(ex, ex.Message, "Please configure the game first in the Settings");
 
-        protected static InformationalUserError Handle(AlreadyLockedException ex, string action)
-            => new InformationalUserError(ex, "Currently only one action per game is supported", "Unsupported");
+        protected static RecoverableUserError Handle(AlreadyLockedException ex, string action)
+            => new RecoverableUserError(ex, "Currently only one action per game is supported. Wait until the action is finished and try again", "Unsupported");
 
-        protected static InformationalUserError Handle(QueueProcessingError ex, string action)
-            => new InformationalUserError(ex,
+        protected static RecoverableUserError Handle(QueueProcessingError ex, string action)
+            => new RecoverableUserError(ex,
                 "The following errors occurred: " +
                 string.Join("\n", ex.Flatten().InnerExceptions.Select(x => x.Message)) + "\n\nSee log for more details",
                 "One or more errors occured while processing");
@@ -56,11 +60,15 @@ namespace SN.withSIX.Mini.Applications
         protected static InformationalUserError Handle(NotFoundException ex, string action)
             => new InformationalUserError(ex, CouldNotFindTheDesiredContent, "Could not find the desired content");
 
-        protected static InformationalUserError Handle(HostListExhausted ex, string action)
-            => new InformationalUserError(ex, @"There was an issue downloading the content.
+        
+        protected static InformationalUserError Handle(SynqPathException ex, string action)
+            => new InformationalUserError(ex, ex.Message, "Please reconfigure the Sync directory");
+
+        protected static RecoverableUserError Handle(HostListExhausted ex, string action)
+            => new RecoverableUserError(ex, @"There was an issue downloading the content.
 Network or connection issues might prevent the download to succeed.
 
-Please confirm your internet connection, and try again later", "Download error");
+Please confirm your internet connection, and try again", "Download error");
     }
 
     public class ConfigureGameFirstUserError : InformationalUserError

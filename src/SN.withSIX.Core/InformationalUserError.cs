@@ -20,14 +20,6 @@ namespace SN.withSIX.Core
         ReactiveCommand<bool?> Close { get; set; }
     }
 
-    public abstract class UserErrorBase : UserError
-    {
-        protected UserErrorBase(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
-            Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
-    }
-
     public class NonRecoveryCommand : RecoveryCommandImmediate, IDontRecover
     {
         public NonRecoveryCommand(string commandName) : base(commandName) {}
@@ -124,47 +116,35 @@ public static class RecoveryCommands
 
     public interface IDontRecover {}
 
-    public class BasicUserError : UserErrorBase
+    public class BasicUserError : UserError
     {
-        public BasicUserError(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
+        public BasicUserError(string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
+            : base(errorMessage, errorCauseOrResolution, new [] {RecoveryCommandImmediate.Cancel}, contextInfo, innerException) {}
     }
 
-    public class UnknownUserError : BasicUserError
+    public class RecoverableUserError : UserError
     {
-        public UnknownUserError(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
-            Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
+        public RecoverableUserError(Exception innerException, string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null)
+            : base(errorMessage, errorCauseOrResolution, RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) { }
     }
 
-
-    public class DatabaseUserError : UserErrorBase
-    {
-        public DatabaseUserError(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
-            Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
-    }
-
-    public class InformationalUserError : UserErrorBase
+    public class InformationalUserError : BasicUserError
     {
         public InformationalUserError(Exception exception, string message, string title = null)
             : base(
                 title ?? "Non fatal error occurred", message + "\n\nError Info: " + exception.Message,
-                new[] {RecoveryCommandImmediate.Cancel}, null, exception) {
+                null, exception) {
             // TODO: Temp log here... because we are loosing it otherwise ..
             MainLog.Logger.FormattedWarnException(exception);
         }
     }
 
-    public class UsernamePasswordUserError : UserErrorBase
+    public class UsernamePasswordUserError : RecoverableUserError
     {
-        public UsernamePasswordUserError(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
-            Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
+        public UsernamePasswordUserError(Exception innerException, string errorMessage,
+            string errorCauseOrResolution = null,
+            Dictionary<string, object> contextInfo = null)
+            : base(innerException, errorMessage, errorCauseOrResolution, contextInfo) {}
     }
 }

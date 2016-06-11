@@ -5,6 +5,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
@@ -15,6 +17,7 @@ using System.Text.RegularExpressions;
 using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Api.Models;
+using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -42,6 +45,23 @@ namespace SN.withSIX.Core.Extensions
                 offset += array.Length;
             }
             return rv;
+        }
+
+        public static void TryKill(this Process p) {
+            var id = -1;
+            try {
+                p.Kill();
+            } catch (Win32Exception e) {
+                try {
+                    id = p.Id;
+                } catch { }
+                MainLog.Logger.FormattedWarnException(e, "Error while trying to kill process " + id);
+            } catch (InvalidOperationException e) {
+                try {
+                    id = p.Id;
+                } catch { }
+                MainLog.Logger.FormattedWarnException(e, "Error while trying to kill process" + id);
+            }
         }
 
         public static IEnumerable<IAbsoluteFilePath> GetFiles(this IDirectoryPath path,

@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace SN.withSIX.Core.Applications.Errors
 {
-    public class RestartAsAdministratorUserError : UserErrorBase
+    public class RestartAsAdministratorUserError : UserError
     {
         public static readonly IRecoveryCommand Restart = new RecoveryCommandImmediate("Restart as Administrator",
             o => RecoveryOptionResult.RetryOperation);
@@ -21,7 +21,7 @@ namespace SN.withSIX.Core.Applications.Errors
                 new[] {Restart, RecoveryCommandImmediate.Cancel}, contextInfo, innerException) {}
     }
 
-    public class NotConnectedUserError : UserErrorBase
+    public class NotConnectedUserError : UserError
     {
         public NotConnectedUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
@@ -29,7 +29,7 @@ namespace SN.withSIX.Core.Applications.Errors
                 RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 
-    public class NotLoggedInUserError : UserErrorBase
+    public class NotLoggedInUserError : UserError
     {
         public NotLoggedInUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
@@ -37,7 +37,7 @@ namespace SN.withSIX.Core.Applications.Errors
                 RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 
-    public class BusyUserError : UserErrorBase
+    public class BusyUserError : UserError
     {
         public BusyUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
@@ -46,7 +46,7 @@ namespace SN.withSIX.Core.Applications.Errors
                 RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 
-    public class CanceledUserError : UserErrorBase
+    public class CanceledUserError : UserError
     {
         public CanceledUserError(string errorMessage, string errorCauseOrResolution = null,
             IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,

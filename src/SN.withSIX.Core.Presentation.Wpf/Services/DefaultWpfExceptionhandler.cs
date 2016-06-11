@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -71,6 +72,15 @@ More info: " + ex.Message, innerException: ex);
         protected static UserError Handle(OperationCanceledException ex, string action)
             => new CanceledUserError(action, innerException: ex);
 
+
+        protected static UserError Handle(UnauthorizedAccessException ex, string action)
+            => new RecoverableUserError(ex, "Access denied", "Please make sure the path is writable and not in use by a running game or otherwise\n\nError info: " + ex.Message);
+
+        protected static UserError Handle(HttpRequestException ex)
+            =>
+                new RecoverableUserError(ex, "Could not connect",
+                    "A http request has failed, is your internet connected? Are the DNS servers configured correctly?\n\nError info: " + ex.Message);
+
         //        protected static UserError Handle(Win32Exception ex, string action) {
         //            return ex.NativeErrorCode == Win32ErrorCodes.ERROR_CANCELLED_ELEVATION
         //                ? new CanceledUserError(action, innerException: ex)
@@ -82,14 +92,14 @@ More info: " + ex.Message, innerException: ex);
                 $"There appears to be a problem with your database. If the problem persists, you can delete the databases from:\n{Common.Paths.LocalDataPath} and {Common.Paths.DataPath}" +
                 "\nError message: " + ex.Message;
             var title = "An error has occured while trying to '" + action + "'";
-            return new DatabaseUserError(title, message, innerException: ex);
+            return new UserError(title, message, innerException: ex);
         }
 
         protected static UserError Handle(Exception ex, string action) {
             var message = "An unexpected error has occurred while trying to execute the requested action:" +
                           "\n" + ex.Message;
             var title = "An error has occured while trying to '" + action + "'";
-            return new UnknownUserError(title, message, innerException: ex);
+            return new UserError(title, message, innerException: ex);
         }
 
         protected static string GetHumanReadableActionName(string action) => action.Split('.').Last();

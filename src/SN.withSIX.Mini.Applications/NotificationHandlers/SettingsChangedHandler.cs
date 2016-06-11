@@ -17,7 +17,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
         public SettingsChangedHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
         public async Task HandleAsync(SettingsUpdated notification) {
-            _startWithWindowsHandler.HandleStartWithWindows(notification.Settings.Local.StartWithWindows);
+            _startWithWindowsHandler.HandleStartWithWindows(notification.Subject.Local.StartWithWindows);
         }
     }
 }

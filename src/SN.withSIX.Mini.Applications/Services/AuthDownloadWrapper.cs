@@ -33,7 +33,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 // TODO: Or should we rather abstract this away into the downloader exceptions instead?
                 if (e.StatusCode != HttpStatusCode.Unauthorized)
                     throw;
-                var r = await HandleError(uri).ConfigureAwait(false);
+                var r = await HandleError(uri, e).ConfigureAwait(false);
                 if (r == null)
                     throw new OperationCanceledException("The user did not enter the requested info", e);
                 uri = r;
@@ -42,7 +42,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 if (e.StatusCode != FtpStatusCode.NotLoggedIn && e.StatusCode != FtpStatusCode.AccountNeeded &&
                     e.StatusCode != FtpStatusCode.NeedLoginAccount)
                     throw;
-                var r = await HandleError(uri).ConfigureAwait(false);
+                var r = await HandleError(uri, e).ConfigureAwait(false);
                 if (r == null)
                     throw new OperationCanceledException("The user did not enter the requested info", e);
                 uri = r;
@@ -50,10 +50,10 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        async Task<Uri> HandleError(Uri uri) {
+        async Task<Uri> HandleError(Uri uri, Exception ex) {
             var currentAuthInfo = _authProvider.GetAuthInfoFromUriWithCache(uri);
-            var userError = new UsernamePasswordUserError("Username password required", "Please enter the info",
-                RecoveryCommandsImmediate.RetryCommands, new Dictionary<string, object> {
+            var userError = new UsernamePasswordUserError(ex, "Username password required", "Please enter the info",
+                new Dictionary<string, object> {
                     {"userName", currentAuthInfo.Username ?? ""},
                     {"password", ""} // , currentAuthInfo.Password ?? "" .. lets think about this ;-)
                 });

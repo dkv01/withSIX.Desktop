@@ -359,7 +359,7 @@ namespace SN.withSIX.Core.Infra.Services
             _launched.OnNext(Tuple.Create(process.StartInfo, process.Id));
 
             using (SetupMonitoringDisposable(process, monitorOutput, monitorResponding))
-            using (token.Register(process.Kill))
+            using (token.Register(process.TryKill))
                 await task.ConfigureAwait(false);
             _terminated.OnNext(Tuple.Create(process.StartInfo, process.ExitCode, process.Id));
             return new ProcessExitResult(process.ExitCode, process.Id, process.StartInfo);

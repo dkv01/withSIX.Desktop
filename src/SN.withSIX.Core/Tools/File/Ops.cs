@@ -534,7 +534,7 @@ namespace SN.withSIX.Core
 
                     this.Logger().FormattedDebugException(e);
                     var result =
-                        await UserError.Throw(new BasicUserError("Disk operation failed. Retry?",
+                        await UserError.Throw(new UserError("Disk operation failed. Retry?",
                             string.Join(", ", filePath) + ": " + e.Message
                             + "\n\n" + GetIoRetryMessage(e), RecoveryCommandsImmediate.YesNoCommands, null, e));
                     return result == RecoveryOptionResult.RetryOperation;

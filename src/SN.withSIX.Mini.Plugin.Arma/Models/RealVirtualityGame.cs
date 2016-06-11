@@ -264,11 +264,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             public IAbsoluteDirectoryPath ModPath { get; set; }
         }
 
-        protected class ParFileException : Exception
-        {
-            public ParFileException(string message, Exception exception) : base(message, exception) {}
-        }
-
         protected class RvProfileInfo
         {
             public RvProfileInfo(string mainName, string otherProfilesName, string profileExtension) {
@@ -555,5 +550,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             public bool UseParFile { get; set; }
             public LaunchType LaunchType { get; set; }
         }
+    }
+
+    public class ParFileException : Exception
+    {
+        public ParFileException(string message, Exception exception) : base(message, exception) {}
     }
 }

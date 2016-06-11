@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -28,24 +29,33 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             }
         }
 
-        public void AddTransactionCallback(Action act) => _transactionCallbacks.Add(act);
+        public void AddTransactionCallback(Action act) {
+            Contract.Requires<ArgumentNullException>(act != null);
+            _transactionCallbacks.Add(act);
+        }
 
-        public void AddTransactionCallback(Func<Task> act) => _transactionCallbacksAsync.Add(act);
+        public void AddTransactionCallback(Func<Task> act) {
+            Contract.Requires<ArgumentNullException>(act != null);
+            _transactionCallbacksAsync.Add(act);
+        }
 
         async Task ExecuteTransactionCallbacks() {
             using (this.Bench()) {
                 var callbacks = _transactionCallbacks.ToArray();
                 _transactionCallbacks.Clear();
-
                 var asyncCallbacks = _transactionCallbacksAsync.ToArray();
                 _transactionCallbacksAsync.Clear();
 
-                foreach (var c in callbacks)
-                    c();
-
-                foreach (var c in asyncCallbacks)
-                    await c().ConfigureAwait(false);
+                await ExecuteTransactionCallbacksInternal(callbacks, asyncCallbacks).ConfigureAwait(false);
             }
+        }
+
+        private static async Task ExecuteTransactionCallbacksInternal(Action[] callbacks, Func<Task>[] asyncCallbacks) {
+            foreach (var c in callbacks)
+                c();
+
+            foreach (var c in asyncCallbacks)
+                await c().ConfigureAwait(false);
         }
 
         async Task RaiseEvents() {

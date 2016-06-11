@@ -192,6 +192,7 @@
     <Compile Include="ApiModels\RealVirtualityGameSettingsApiModel.cs" />
     <Compile Include="ApiModels\TakeOnHelicoptersGameSettingsApiModel.cs" />
     <Compile Include="ApiModels\TakeOnMarsGameSettingsApiModel.cs" />
+    <Compile Include="ArmaExceptionHandler.cs" />
     <Compile Include="Attributes\RvProfileInfo.cs" />
     <Compile Include="AutoMapperPluginArmaConfig.cs" />
     <Compile Include="Initializer.cs" />

@@ -76,8 +76,9 @@ namespace SN.withSIX.Core
                     }
                 }
 
-                if (!p.SafeHasExited())
-                    p.Kill();
+                if (p.SafeHasExited())
+                    return;
+                p.Kill();
             }
 
             public virtual bool KillByName(string name, string path = null, bool gracefully = false) {

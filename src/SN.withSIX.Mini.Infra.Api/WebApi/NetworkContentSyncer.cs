@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Api.Models.Collections;
+using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
@@ -55,7 +56,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                         .ConfigureAwait(false);
 
             if (countCheck && contents.Count < collections.Count)
-                throw new Exception("Could not find all requested collections");
+                throw new NotFoundException("Could not find all requested collections");
 
             foreach (var c in contents) {
                 var col = collections.FindOrThrow(c.Id);
@@ -73,7 +74,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     DownloadCollections(new[] {Tuple.Create(gameId, collectionIds.ToList())})
                         .ConfigureAwait(false);
             if (contents.Count < collectionIds.Count)
-                throw new Exception("Could not find all requested collections");
+                throw new NotFoundException("Could not find all requested collections");
             var collections = new List<SubscribedCollection>();
             foreach (var c in contents) {
                 var col = c.MapTo<SubscribedCollection>();

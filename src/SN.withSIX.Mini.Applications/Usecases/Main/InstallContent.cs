@@ -34,11 +34,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public string PauseTitleOverride => Force ? "Cancel" : null;
 
         public DownloadContentAction GetAction(Game game) {
-            var content = game.Contents.FindContentOrThrow(Content.Id);
+            var content = game.Contents.OfType<IInstallableContent>().FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
             return new DownloadContentAction(CTS.Token,
-                new InstallContentSpec((IInstallableContent) content, Content.Constraint)) {
+                new InstallContentSpec(content, Content.Constraint)) {
                     HideLaunchAction = HideLaunchAction,
                     Force = Force,
                     Name = content.Name,
@@ -66,9 +66,9 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CTS.Token,
             Contents.Select(x => new {Content = game.Contents.FindContentOrThrow(x.Id), x.Constraint})
-                .Where(x => x.Content is IInstallableContent)
-                .Select(
-                    x => new InstallContentSpec((IInstallableContent) x.Content, x.Constraint))
+                .Select(x => new { Content = x.Content as IInstallableContent, x.Constraint})
+                .Where(x => x.Content != null)
+                .Select(x => new InstallContentSpec(x.Content, x.Constraint))
                 .ToArray()) {
                     Name = Name,
                     HideLaunchAction = HideLaunchAction,

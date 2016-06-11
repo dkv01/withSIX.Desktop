@@ -1,6 +1,6 @@
-<SmartAssemblyProject ProjectId="{7cf67ac8-4b69-4a4d-a3d3-20e3d9c5d24e}" Version="2.0">
+<SmartAssemblyProject ProjectId="{64314bb7-75df-4f91-9f38-ffdeff4d4e44}" Version="2.0">
     <MainAssemblyFileName>..\src\SN.withSIX.Mini.Presentation.Wpf\bin\Release\Sync.exe</MainAssemblyFileName>
-    <FriendlyName>withSIX</FriendlyName>
+    <FriendlyName>Sync</FriendlyName>
     <CompanyName>SIX Networks GmbH</CompanyName>
     <Configuration Name="Release">
         <Options>

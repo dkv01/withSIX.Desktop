@@ -85,7 +85,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
                 if (loopCount < 2)
                     return false;
                 if (!process.SafeHasExited())
-                    TryKillProcess(process);
+                    process.TryKill();
                 return true;
             }
 
@@ -93,16 +93,6 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
             progress.ZsyncLoopCount = 0;
 
             return false;
-        }
-
-        static void TryKillProcess(Process process) {
-            try {
-                process.Kill();
-            } catch (Win32Exception e) {
-                MainLog.Logger.FormattedWarnException(e, "Error while trying to kill zsync loop process");
-            } catch (InvalidOperationException e) {
-                MainLog.Logger.FormattedWarnException(e, "Error while trying to kill zsync loop process");
-            }
         }
     }
 }

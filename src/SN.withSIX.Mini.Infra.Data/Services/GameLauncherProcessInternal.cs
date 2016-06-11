@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
+using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -58,7 +59,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             Process _launchedGame;
             GameLaunchSpec _spec;
             bool _steamError;
-            string _steamExePath;
+            IAbsoluteFilePath _steamExePath;
             //public GameLauncher(IShutdownHandler shutdownHandler, IRestarter restarter)
             //{
             //  _shutdownHandler = shutdownHandler;
@@ -119,10 +120,10 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             }
 
             void PrepareSteamState() {
-                if (!string.IsNullOrWhiteSpace(_spec.SteamPath))
-                    _steamExePath = Path.Combine(_spec.SteamPath, SteamInfos.SteamExecutable);
-                _isSteamGameAndAvailable = _spec.SteamID != 0 && !string.IsNullOrWhiteSpace(_steamExePath) &&
-                                           File.Exists(_steamExePath);
+                if (_spec.SteamPath != null)
+                    _steamExePath = _spec.SteamPath.GetChildFileWithName(SteamInfos.SteamExecutable);
+                _isSteamGameAndAvailable = _spec.SteamID != 0 && _steamExePath != null &&
+                                           _steamExePath.Exists;
             }
 
             void LegacySteamLaunch() {
@@ -132,7 +133,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             void PrepareLegacySteamLaunch() {
                 _gameStartInfo = new ProcessStartInfo {
-                    FileName = _steamExePath,
+                    FileName = _steamExePath.ToString(),
                     Arguments = "-applaunch " + _spec.SteamID + " " + _spec.Arguments,
                     UseShellExecute = true
                 };
@@ -193,7 +194,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             }
 
             bool IsSteamMainModule(Process p)
-                => p.MainModule.FileName.Equals(_steamExePath, StringComparison.InvariantCultureIgnoreCase);
+                => p.MainModule.FileName.Equals(_steamExePath.ToString(), StringComparison.InvariantCultureIgnoreCase);
 
             void DetectSteamRunning() {
                 var processes = GetSteamProcesses();
@@ -215,7 +216,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             void TryStartSteam() {
                 using (Launch(new ProcessStartInfo {
-                    FileName = _steamExePath,
+                    FileName = _steamExePath.ToString(),
                     UseShellExecute = true,
                     Arguments = "-forceservice"
                 })) {}
@@ -264,11 +265,16 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 try {
                     _launchedGame = Launch(_gameStartInfo);
                 } catch (Win32Exception ex) {
-                    if (!Tools.Processes.Uac.CheckUac())
-                        throw;
-                    throw new NotSupportedException("this is currently not supported", ex);
-                    //_restarter.RestartWithUacInclEnvironmentCommandLine();
-                    //_launchedGame = null;
+                    if (ex.ErrorCode == 740) {
+                        if (!Tools.Processes.Uac.CheckUac())
+                            throw;
+                        throw new NotSupportedException(
+                            "The game requires elevation to launch, please restart the client elevated ('run as administrator'), or change the requirement of the game",
+                            ex);
+                        //_restarter.RestartWithUacInclEnvironmentCommandLine();
+                        //_launchedGame = null;
+                    }
+                    throw;
                 }
             }
 
@@ -288,7 +294,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 Environment.SetEnvironmentVariable("SteamGameID", Convert.ToString(_spec.SteamID));
 
                 //TryInject();
-                Launch(new ProcessStartInfo(Path.Combine(_spec.SteamPath, "GameOverlayUI.exe"),
+                Launch(new ProcessStartInfo(_spec.SteamPath.GetChildFileWithName("GameOverlayUI.exe").ToString(),
                     "-pid " + _launchedGame.Id));
 
                 //if (_spec.SteamID != 0)
@@ -352,7 +358,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 public bool LegacyLaunch { get; set; }
                 public bool SteamDRM { get; set; }
                 public int SteamID { get; set; }
-                public string SteamPath { get; set; }
+                public IAbsoluteDirectoryPath SteamPath { get; set; }
                 public string WorkingDirectory { get; set; }
                 public ProcessPriorityClass Priority { get; set; }
                 public int[] Affinity { get; set; }
@@ -555,7 +561,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             => new GameLauncherProcessInternal.GameLauncher.GameLaunchSpec {
                 GamePath = info.LaunchExecutable.ToString(),
                 WorkingDirectory = info.WorkingDirectory.ToString(),
-                SteamPath = Common.Paths.SteamPath.ToString(),
+                SteamPath = Common.Paths.SteamPath,
                 Arguments = info.StartupParameters.CombineParameters(),
                 Priority = info.Priority,
                 Affinity = info.Affinity
