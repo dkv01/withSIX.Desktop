@@ -48,6 +48,7 @@ using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Factories;
 using SN.withSIX.Mini.Applications.Factories.Factories;
+using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -277,10 +278,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         private async Task StartupInternal() {
             ConfigureInstances();
 
+            var settingsStorage = _container.GetInstance<ISettingsStorage>();
+            var settings = await settingsStorage.GetSettings().ConfigureAwait(false);
+            await SetupApiPort(settings, settingsStorage).ConfigureAwait(false);
             TryHandleFirefoxInBackground();
             //TryInstallFlashInBackground();
             TryHandlePorts();
-            var settings = await _container.GetInstance<ISettingsStorage>().GetSettings().ConfigureAwait(false);
             _isPremium = () => (settings.Secure.Login?.IsPremium).GetValueOrDefault();
             if (settings.Local.EnableDiagnosticsMode)
                 Common.Flags.Verbose = true;
@@ -290,6 +293,14 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     i.ConfigureAutoMapper(cfg);
             }).CreateMapper();
             await RunInitializers().ConfigureAwait(false);
+        }
+
+        private static async Task SetupApiPort(Settings settings, ISettingsStorage settingsStorage) {
+            if (Cheat.Args.Port.HasValue) {
+                settings.Local.ApiPort = Cheat.Args.Port;
+                await settingsStorage.SaveChanges().ConfigureAwait(false);
+            }
+            Consts.ApiPort = settings.ApiPort;
         }
 
         private void TryInstallFlashInBackground() => Task.Factory.StartNew(InstallFlash,

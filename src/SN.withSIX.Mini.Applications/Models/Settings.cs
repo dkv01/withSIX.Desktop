@@ -48,6 +48,8 @@ namespace SN.withSIX.Mini.Applications.Models
             Local.InstalledExtension = state;
             PrepareEvent(new ExtensionStateChanged(state));
         }
+
+        public int ApiPort => Local.ApiPort.GetValueOrDefault(Consts.DefaultHttpsPort);
     }
 
     public class ExtensionStateChanged : IDomainEvent
@@ -145,6 +147,8 @@ namespace SN.withSIX.Mini.Applications.Models
         public bool InstalledExtension { get; protected internal set; }
         [DataMember]
         public int? MaxConcurrentDownloads { get; set; }
+        [DataMember]
+        public int? ApiPort { get; set; }
     }
 
     public class PremiumAccessToken : PremiumAccessTokenV1, IEquatable<PremiumAccessToken>
