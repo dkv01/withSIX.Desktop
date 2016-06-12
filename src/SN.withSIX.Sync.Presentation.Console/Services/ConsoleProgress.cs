@@ -41,7 +41,7 @@ namespace SN.withSIX.Sync.Presentation.Console.Services
                 observable.Subscribe(x => WriteProgress(x.Action, x.Progress, x.Speed)), new RepoWatcher(_status));
         }
 
-        void WriteProgress(RepoStatus action, double progress, long speed) {
+        void WriteProgress(RepoStatus action, double progress, long? speed) {
             _action = action;
             var line = action + ":" + GetProgressComponent(progress) + GetSpeedComponent(speed)
                        + GetItemComponent(_status);
@@ -82,9 +82,9 @@ namespace SN.withSIX.Sync.Presentation.Console.Services
 
         static string GetProgressComponent(double progress) => " " + progress + "%";
 
-        static string GetSpeedComponent(long speed) => speed > 0
-    ? " " + GetSpeed(speed)
-    : "";
+        static string GetSpeedComponent(long? speed) => speed > 0
+            ? " " + GetSpeed(speed.Value)
+            : "";
 
         static string GetSpeed(long speed) => Tools.FileUtil.GetFileSize(speed) + "/s";
 

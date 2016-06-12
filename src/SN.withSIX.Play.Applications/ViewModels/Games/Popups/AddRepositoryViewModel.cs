@@ -106,12 +106,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Popups
         }
     }
 
-    public class RepositoryDownloadUserError : UserErrorBase
+    public class RepositoryDownloadUserError : UserError
     {
         public RepositoryDownloadUserError(Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
             : base("Error while trying to access the custom repo. Retry?",
                 "This is usually caused by the custom repository being down, internet connection issues, or faulty address.",
-                RecoveryCommands.RetryCommands, contextInfo, innerException) {}
+                RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 }

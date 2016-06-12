@@ -105,8 +105,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
         static Timer SetupTransferProgress(IWebClient webClient, ITransferProgress transferProgress) {
             var lastTime = Tools.Generic.GetCurrentUtcDateTime;
             long lastBytes = 0;
-
-            transferProgress.Progress = 0;
+            transferProgress.Update(null, 0);
             transferProgress.FileSizeTransfered = 0;
 
             webClient.DownloadProgressChanged +=
@@ -114,16 +113,18 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
                     var bytes = args.BytesReceived;
                     var now = Tools.Generic.GetCurrentUtcDateTime;
 
-                    transferProgress.Progress = args.ProgressPercentage;
                     transferProgress.FileSizeTransfered = bytes;
+
+                    long? speed = null;
 
                     if (lastBytes != 0) {
                         var timeSpan = now - lastTime;
                         var bytesChange = bytes - lastBytes;
 
                         if (timeSpan.TotalMilliseconds > 0)
-                            transferProgress.Speed = (long)(bytesChange / (timeSpan.TotalMilliseconds / 1000.0));
+                            speed = (long)(bytesChange / (timeSpan.TotalMilliseconds / 1000.0));
                     }
+                    transferProgress.Update(speed, args.ProgressPercentage);
 
                     lastBytes = bytes;
                     lastTime = now;

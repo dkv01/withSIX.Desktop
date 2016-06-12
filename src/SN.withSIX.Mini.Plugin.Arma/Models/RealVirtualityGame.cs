@@ -234,18 +234,16 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             private async Task PostInstall(bool processed) {
                 await InstallUserconfig(processed).ConfigureAwait(false);
                 if (_game.ShouldLaunchAsDedicatedServer)
-                    InstallBikeys();
+                    await InstallBikeys().ConfigureAwait(false);
             }
 
             private Task<string> InstallUserconfig(bool processed)
                 => ucp.ProcessUserconfig(_myPath, _game.InstalledState.Directory, null, processed);
 
-            private void InstallBikeys() {
+            private async Task InstallBikeys() {
                 var keysPath = _game.KeysPath;
-                foreach (var key in GetBiKeys()) {
-                    Tools.FileUtil.Ops.Copy(key,
-                        keysPath.GetChildFileWithName(key.FileName), true, true);
-                }
+                foreach (var key in GetBiKeys())
+                    await key.CopyAsync(keysPath.GetChildFileWithName(key.FileName), true, true).ConfigureAwait(false);
             }
 
             IEnumerable<IAbsoluteFilePath> GetBiKeys()

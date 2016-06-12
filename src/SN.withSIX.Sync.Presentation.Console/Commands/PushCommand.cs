@@ -45,7 +45,7 @@ namespace SN.withSIX.Sync.Presentation.Console.Commands
             using (
                 new TimerWithoutOverlap(200,
                     () =>
-                        System.Console.Write("\r" + status.Progress + "% " + Tools.FileUtil.GetFileSize(status.Speed) +
+                        System.Console.Write("\r" + status.Progress + "% " + (status.Speed.HasValue ? Tools.FileUtil.GetFileSize(status.Speed.Value) : "0 b") +
                                              "/s                    ")))
                 rm.Push(status);
 

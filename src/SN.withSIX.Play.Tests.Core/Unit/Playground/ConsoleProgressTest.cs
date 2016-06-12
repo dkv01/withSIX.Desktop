@@ -45,8 +45,8 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
 
         protected static string GetProgressComponent(double progress) => " " + progress + "%";
 
-        protected static string GetSpeedComponent(long speed) => speed > 0
-    ? " " + GetSpeed(speed)
+        protected static string GetSpeedComponent(long? speed) => speed > 0
+    ? " " + GetSpeed(speed.Value)
     : "               ";
 
         static string GetSpeed(long speed) => Tools.FileUtil.GetFileSize(speed) + "/s";

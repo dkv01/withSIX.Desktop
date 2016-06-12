@@ -90,7 +90,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
             $"Status: {statusInfo.Action} {name} {statusInfo.Progress:#.00}%";
 
         static string GenerateDownloadingInfo(StatusInfo statusInfo, string name) =>
-            $"Status: {statusInfo.Action} {name} {statusInfo.Progress:#.00}% @ {SpeedConverter.ConvertSpeed(statusInfo.Speed)}";
+            $"Status: {statusInfo.Action} {name} {statusInfo.Progress:#.00}% @ {SpeedConverter.ConvertSpeed(statusInfo.Speed.GetValueOrDefault(0))}";
 
         void dataGrid2_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             var dg = (DataGrid) sender;

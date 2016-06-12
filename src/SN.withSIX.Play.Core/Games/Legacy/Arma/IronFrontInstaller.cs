@@ -238,7 +238,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
             foreach (var f in files) {
                 ProcessPbo(f, tempPath, destination);
                 i++;
-                status.Progress = ((double) i/files.Length)*100;
+                status.Update(null, ((double)i / files.Length) * 100);
             }
         }
 
