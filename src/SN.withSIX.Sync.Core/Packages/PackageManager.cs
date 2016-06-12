@@ -240,10 +240,11 @@ namespace SN.withSIX.Sync.Core.Packages
 
             var doRemoval = Settings.CheckoutType != CheckoutType.CheckoutWithoutRemoval;
             var synqer = new Synqer();
+            var allRemotes = packages.SelectMany(x => FindRemotesWithPackage(x.GetFullName())).Distinct().ToArray();
             await
                 synqer.DownloadPackages(packages,
                     Repo.ObjectsPath.GetChildDirectoryWithName("temp"),
-                    Repo.Remotes.SelectMany(x => x.GetRemotes()).Distinct().ToArray(), StatusRepo, doRemoval ? Progress.Cleanup : null, Progress.Processing)
+                    allRemotes, StatusRepo, doRemoval ? Progress.Cleanup : null, Progress.Processing)
                     .ConfigureAwait(false);
             // TODO: Only when changed?
             foreach (var p in packages)
@@ -322,9 +323,9 @@ namespace SN.withSIX.Sync.Core.Packages
             var i = 0;
             var totalCount = specificVersions.Count;
             var lObject = new object();
+            var allRemotes = specificVersions.SelectMany(x => FindRemotesWithPackage(x.GetFullName())).Distinct().ToArray();
             return
-                SyncEvilGlobal.DownloadHelper.DownloadFilesAsync(
-                    Repo.Remotes.SelectMany(x => x.GetRemotes()).Distinct().ToArray(), StatusRepo,
+                SyncEvilGlobal.DownloadHelper.DownloadFilesAsync(allRemotes, StatusRepo,
                     specificVersions.ToDictionary(x => new FileFetchInfo("packages/" + x.GetFullName() + ".json"),
                         x =>
                             (ITransferStatus)

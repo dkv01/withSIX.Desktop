@@ -84,7 +84,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 // path.
                 map.RunSignalR(hubConfiguration);
             });
-            app.Map("", builder => builder.Run(ctx => Task.Run(() => ctx.Response.Redirect("https://withsix.com"))));
+            app.Map("", builder => builder.Run(async ctx => ctx.Response.Redirect("https://withsix.com")));
         }
 
         static async Task Load<T, TOut>(IOwinContext context, Func<T, Task<TOut>> handler) {
