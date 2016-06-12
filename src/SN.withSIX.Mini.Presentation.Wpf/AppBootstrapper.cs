@@ -296,7 +296,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private static async Task SetupApiPort(Settings settings, ISettingsStorage settingsStorage) {
-            if (Cheat.Args.Port.HasValue) {
+            if (Cheat.Args.Port.HasValue && settings.Local.ApiPort != Cheat.Args.Port) {
                 settings.Local.ApiPort = Cheat.Args.Port;
                 await settingsStorage.SaveChanges().ConfigureAwait(false);
             }
