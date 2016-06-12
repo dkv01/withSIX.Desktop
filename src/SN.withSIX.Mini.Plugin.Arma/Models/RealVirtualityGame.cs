@@ -159,6 +159,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             var installAction = GetInstallAction(content);
             PrepareUserconfigPostInstallActions(installAction);
             await installationService.Install(installAction).ConfigureAwait(false);
+
+            if (ShouldLaunchAsDedicatedServer())
+                InstallBiKeys(GetPackagedContent(installAction).Select(x => new RvMod(ContentPaths.Path, x)));
         }
 
         void PrepareUserconfigPostInstallActions(InstallContentAction installAction) {
@@ -170,15 +173,29 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             // TODO: Cache the existing userconfig checksums etc like in PwS?
             var ucp = new UserconfigProcessor();
-            foreach (
-                var c in installAction.Content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
-                    .Select(x => x.Content).Distinct().OfType<IHavePackageName>()) {
+            foreach (var c in GetPackagedContent(installAction)) {
                 var c2 = (IContent) c;
                 c2.RegisterAdditionalPostInstallTask(
                     () => ucp.ProcessUserconfig(installAction.Paths.Path.GetChildDirectoryWithName(c.PackageName),
                         InstalledState.Directory, null));
             }
         }
+
+        private static IEnumerable<IHavePackageName> GetPackagedContent(InstallContentAction installAction)
+            => installAction.Content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
+                .Select(x => x.Content).Distinct().OfType<IHavePackageName>();
+
+        void InstallBiKeys(IEnumerable<RvMod> procced) {
+            var keysPath = InstalledState.Directory.GetChildDirectoryWithName("keys");
+            Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(keysPath);
+            foreach (var key in GetKeys(procced)) {
+                Tools.FileUtil.Ops.Copy(key,
+                    keysPath.GetChildFileWithName(key.FileName), true, true);
+            }
+        }
+
+        static IEnumerable<IAbsoluteFilePath> GetKeys(IEnumerable<RvMod> procced)
+            => procced.SelectMany(mod => mod.GetBiKeys());
 
         StartupBuilderSpec GetStartupSpec(ILaunchContentAction<IContent> action) {
             var content = GetLaunchables(action);
@@ -218,6 +235,22 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         protected virtual IEnumerable<IAbsoluteDirectoryPath> GetAdditionalLaunchMods()
             => Enumerable.Empty<IAbsoluteDirectoryPath>();
+
+        class RvMod
+        {
+            private readonly IAbsoluteDirectoryPath _myPath;
+
+            public RvMod(IAbsoluteDirectoryPath path, IHavePackageName content) {
+                _myPath = path.GetChildDirectoryWithName(content.PackageName);
+            }
+
+            public IEnumerable<IAbsoluteFilePath> GetBiKeys()
+                => new[] {_myPath.GetChildDirectoryWithName("keys"), _myPath.GetChildDirectoryWithName("store\\keys")}
+                    .Where(x => x.Exists).SelectMany(GetBiKeysFromPath);
+
+            static IEnumerable<IAbsoluteFilePath> GetBiKeysFromPath(IAbsoluteDirectoryPath path)
+                => path.ChildrenFilesPath.Where(x => x.HasExtension(".bikey"));
+        }
 
         // TODO: Local mods in separate folders (Custom path) support
         protected class ModListBuilder
