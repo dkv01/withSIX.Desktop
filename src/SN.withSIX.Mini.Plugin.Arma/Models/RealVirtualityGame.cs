@@ -201,9 +201,13 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected virtual IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
             => action.GetLaunchables().ToArray();
 
-        CollectionServer GetServer(ILaunchContentAction<IContent> action, IEnumerable<ILaunchableContent> content) {
+        protected bool ShouldLaunchAsDedicatedServer() {
             var casted = Settings as ILaunchAsDedicatedServer;
-            if ((casted?.LaunchAsDedicatedServer).GetValueOrDefault())
+            return (casted?.LaunchAsDedicatedServer).GetValueOrDefault();
+        }
+
+        CollectionServer GetServer(ILaunchContentAction<IContent> action, IEnumerable<ILaunchableContent> content) {
+            if (ShouldLaunchAsDedicatedServer())
                 return null;
             if (action.Action == LaunchAction.Default)
                 return content.OfType<IHaveServers>().FirstOrDefault()?.Servers.FirstOrDefault();

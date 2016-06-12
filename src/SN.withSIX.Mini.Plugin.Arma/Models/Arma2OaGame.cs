@@ -67,8 +67,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         private bool LaunchNormally(IAbsoluteFilePath beExecutable)
             => ShouldLaunchAsDedicatedServer() || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
 
-        private bool ShouldLaunchAsDedicatedServer() => _settings.LaunchAsDedicatedServer.GetValueOrDefault();
-
         IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => BeGameParam.Concat(defParams);
 
         protected override StartupBuilder GetStartupBuilder() => new StartupBuilder(this, new Arma2OaModListBuilder());
