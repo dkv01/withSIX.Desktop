@@ -27,8 +27,8 @@ namespace SN.withSIX.Mini.Core.Games
         ItemState GetState(string constraint);
         void Installed(string version, bool completed);
         IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
-        Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken);
-        void RegisterAdditionalPostInstallTask(Func<Task> task);
+        Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
+        void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         void Use(LaunchType launchType = LaunchType.Default);
     }
 
@@ -37,7 +37,9 @@ namespace SN.withSIX.Mini.Core.Games
         string PackageName { get; set; }
     }
 
-    public interface IPackagedContent : IContent, IHavePackageName, IUninstallableContent {}
+    public interface IContentWithPackageName : IHavePackageName, IContent { }
+
+    public interface IPackagedContent : IContentWithPackageName, IUninstallableContent {}
 
     public interface IModContent : IPackagedContent, ILaunchableContent {}
 
@@ -76,7 +78,7 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public string Author { get; set; }
         [IgnoreDataMember]
-        List<Func<Task>> AdditionalPostInstallActions { get; } = new List<Func<Task>>();
+        List<Func<bool, Task>> AdditionalPostInstallActions { get; } = new List<Func<bool, Task>>();
 
         [DataMember]
         public Guid? GroupId { get; set; }
@@ -116,12 +118,13 @@ namespace SN.withSIX.Mini.Core.Games
         public IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null)
             => GetRelatedContent(constraint: constraint).Select(x => x.Content).OfType<ILaunchableContent>();
 
-        public virtual async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken) {
+        public virtual async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
+            bool processed) {
             foreach (var a in AdditionalPostInstallActions)
-                await a().ConfigureAwait(false);
+                await a(processed).ConfigureAwait(false);
         }
 
-        public void RegisterAdditionalPostInstallTask(Func<Task> task) => AdditionalPostInstallActions.Add(task);
+        public void RegisterAdditionalPostInstallTask(Func<bool, Task> task) => AdditionalPostInstallActions.Add(task);
 
         public ItemState GetState() => State ?? InitialCachedState();
 

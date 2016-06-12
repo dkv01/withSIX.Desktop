@@ -22,7 +22,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Commands
         readonly GameLauncherProcessInternal.GameLauncher.GameLaunchSpec _spec = new GameLauncherProcessInternal.GameLauncher.GameLaunchSpec {
             Priority = ProcessPriorityClass.Normal
         };
-        public int ProcessID;
+        public int ProcessId;
 
         public LaunchGameCommand() {
             IsCommand(UpdaterCommands.LaunchGame, "Launch a selected game.");
@@ -50,10 +50,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Commands
         public override int Run(params string[] remainingArguments) {
             this.Logger().Info(_spec.Inspect().PrettyPrint());
             var shutdownHandler = new WpfShutdownHandler(new ExitHandler());
-            ProcessID =
+            ProcessId =
                 new GameLauncherProcessInternal.GameLauncher(new Restarter(shutdownHandler,
                     new WpfDialogManager(new WpfCustomDialogManager(new WindowManager()))))
                     .LaunchGame(_spec);
+            Console.WriteLine(new { ProcessId }.ToJson());
             return 0;
         }
     }

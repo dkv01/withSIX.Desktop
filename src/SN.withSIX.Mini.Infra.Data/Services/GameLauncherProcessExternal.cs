@@ -1,12 +1,14 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="GameLauncherProcessExternal.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SmartAssembly.ReportUsage;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
@@ -58,13 +60,45 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         async Task<Process> LaunchUpdaterProcess(LaunchGameInfoBase spec, ProcessStartInfo startInfo) {
             LogGameInfo(spec);
             LogStartupInfo(startInfo);
-            if (spec.WaitForExit)
-                await _processManager.LaunchAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
-            else
+            if (spec.WaitForExit) {
+                if (spec.LaunchAsAdministrator)
+                    await LaunchAsAdmin(startInfo).ConfigureAwait(false);
+                else {
+                    var lResult = await LaunchNormally(startInfo).ConfigureAwait(false);
+                    try {
+                        var p = Process.GetProcessById(lResult.ProcessId);
+                        var path = Tools.Processes.GetProcessPath(lResult.ProcessId);
+                        if (path != null && path.Equals(spec.ExpectedExecutable))
+                            return p;
+                    } catch (ArgumentException) {}
+                }
+            } else
                 using (var p = _processManager.Start(startInfo)) {}
-
             var procName = spec.ExpectedExecutable.FileNameWithoutExtension;
             return await FindGameProcess(procName).ConfigureAwait(false);
+        }
+
+        private async Task<LaunchResult> LaunchNormally(ProcessStartInfo startInfo) {
+            var info =
+                await _processManager.LaunchAndGrabAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
+            if (info.ExitCode != 0)
+                throw new Exception("Launching failed with error code " + info.ExitCode);
+            var lResult =
+                Tools.Serialization.Json.LoadJson<LaunchResult>(
+                    info.StandardOutput.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
+                        .Last());
+            return lResult;
+        }
+
+        private async Task LaunchAsAdmin(ProcessStartInfo startInfo) {
+            var info = await _processManager.LaunchAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
+            if (info.ExitCode != 0)
+                throw new Exception("Launching failed with error code " + info.ExitCode);
+        }
+
+        public class LaunchResult
+        {
+            public int ProcessId { get; set; }
         }
 
         void LogGameInfo(LaunchGameInfoBase spec) {
@@ -158,18 +192,18 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         protected string GetStartupParameters() => "--arguments=" + Spec.StartupParameters.CombineParameters();
 
         public virtual IEnumerable<string> Build() => new[] {
-                UpdaterCommands.LaunchGame,
-                "--gamePath=" + Spec.LaunchExecutable,
-                "--workingDirectory=" + Spec.WorkingDirectory,
-                GetPriority(),
-                GetAffinity(),
-                //GetRealExe(),
-                GetStartupParameters()
-            }.Where(x => x != null);
+            UpdaterCommands.LaunchGame,
+            "--gamePath=" + Spec.LaunchExecutable,
+            "--workingDirectory=" + Spec.WorkingDirectory,
+            GetPriority(),
+            GetAffinity(),
+            //GetRealExe(),
+            GetStartupParameters()
+        }.Where(x => x != null);
 
         protected string GetAffinity() => Spec.Affinity != null && Spec.Affinity.Any()
-    ? "--affinity=" + string.Join(",", Spec.Affinity)
-    : null;
+            ? "--affinity=" + string.Join(",", Spec.Affinity)
+            : null;
 
         protected string GetPriority() => "--priority=" + Spec.Priority;
 
@@ -182,17 +216,17 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
     class SULaunchDefaultGameArgumentsBuilder : SULaunchGameArgumentsBuilder
     {
-        public SULaunchDefaultGameArgumentsBuilder(LaunchGameInfo spec) : base(spec) { }
+        public SULaunchDefaultGameArgumentsBuilder(LaunchGameInfo spec) : base(spec) {}
 
         public override IEnumerable<string> Build() => new[] {
-                UpdaterCommands.LaunchGame,
-                "--gamePath=" + Spec.LaunchExecutable,
-                "--workingDirectory=" + Spec.WorkingDirectory,
-                GetPriority(),
-                GetAffinity(),
-                //GetRealExe(),
-                GetStartupParameters()
-            }.Where(x => x != null);
+            UpdaterCommands.LaunchGame,
+            "--gamePath=" + Spec.LaunchExecutable,
+            "--workingDirectory=" + Spec.WorkingDirectory,
+            GetPriority(),
+            GetAffinity(),
+            //GetRealExe(),
+            GetStartupParameters()
+        }.Where(x => x != null);
     }
 
     class SULaunchGameJavaArgumentsBuilder : SULaunchGameArgumentsBuilder
@@ -228,17 +262,17 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         protected string GetSteamPath() => "--steamPath=" + _steamPath;
 
         public override IEnumerable<string> Build() => new[] {
-                UpdaterCommands.LaunchGame,
-                "--gamePath=" + Spec.LaunchExecutable,
-                "--workingDirectory=" + Spec.WorkingDirectory,
-                GetSteamDRM(),
-                GetSteamAppId(),
-                GetSteamPath(),
-                GetPriority(),
-                GetAffinity(),
-                //GetRealExe(),
-                GetStartupParameters()
-            }.Where(x => x != null);
+            UpdaterCommands.LaunchGame,
+            "--gamePath=" + Spec.LaunchExecutable,
+            "--workingDirectory=" + Spec.WorkingDirectory,
+            GetSteamDRM(),
+            GetSteamAppId(),
+            GetSteamPath(),
+            GetPriority(),
+            GetAffinity(),
+            //GetRealExe(),
+            GetStartupParameters()
+        }.Where(x => x != null);
 
         string GetSteamDRM() => _spec.SteamDRM ? "--steamDRM" : null;
     }
@@ -247,19 +281,19 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     {
         public SULaunchGameSteamLegacyArgumentsBuilder(LaunchGameWithSteamLegacyInfo spec,
             IAbsoluteDirectoryPath steamPath)
-            : base(spec, steamPath) { }
+            : base(spec, steamPath) {}
 
         public override IEnumerable<string> Build() => new[] {
-                UpdaterCommands.LaunchGame,
-                "--gamePath=" + Spec.LaunchExecutable,
-                "--workingDirectory=" + Spec.WorkingDirectory,
-                "--legacyLaunch",
-                GetSteamAppId(),
-                GetSteamPath(),
-                GetPriority(),
-                GetAffinity(),
-                //GetRealExe(),
-                GetStartupParameters()
-            }.Where(x => x != null);
+            UpdaterCommands.LaunchGame,
+            "--gamePath=" + Spec.LaunchExecutable,
+            "--workingDirectory=" + Spec.WorkingDirectory,
+            "--legacyLaunch",
+            GetSteamAppId(),
+            GetSteamPath(),
+            GetPriority(),
+            GetAffinity(),
+            //GetRealExe(),
+            GetStartupParameters()
+        }.Where(x => x != null);
     }
 }

@@ -36,7 +36,7 @@ namespace SN.withSIX.Mini.Applications.Services
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _getIsPremium;
         readonly List<Tuple<IPackagedContent, string>> _installed = new List<Tuple<IPackagedContent, string>>();
-        readonly List<Dependency> _installedPackages = new List<Dependency>();
+        readonly List<Dependency> _installedContent = new List<Dependency>();
         //private readonly ProgressLeaf _preparingProgress;
         private readonly ProgressComponent _progress;
         readonly Func<ProgressInfo, Task> _statusChange;
@@ -181,7 +181,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     fullyQualifiedName += "-" + x.Constraint;
                 return new Dependency(fullyQualifiedName);
             })
-                .Where(x => !_installedPackages.Contains(x.Value))
+                .Where(x => !_installedContent.Contains(x.Value))
                 .ToDictionary(x => x.Key, x => x.Value);
 
             // Add collections if available
@@ -320,7 +320,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 await InstallGroupContent().ConfigureAwait(false);
                 await InstallRepoContent().ConfigureAwait(false);
             }
-            await PerformPostInstallTasks(_installableContent.Keys).ConfigureAwait(false);
+            await PerformPostInstallTasks(_installableContent).ConfigureAwait(false);
         }
 
         private void MarkContentAsUnfinished() {
@@ -339,9 +339,11 @@ namespace SN.withSIX.Mini.Applications.Services
             _action.Game.RefreshCollections();
         }
 
-        async Task PerformPostInstallTasks(IEnumerable<IPackagedContent> toInstall) {
-            foreach (var c in toInstall)
-                await c.PostInstall(this, _action.CancelToken).ConfigureAwait(false);
+        async Task PerformPostInstallTasks(Dictionary<IPackagedContent, Dependency> installableContent) {
+            foreach (var c in installableContent)
+                await
+                    c.Key.PostInstall(this, _action.CancelToken, _installedContent.Contains(c.Value))
+                        .ConfigureAwait(false);
         }
 
         Task InstallToolsIfNeeded() => _toolsInstaller.SingleToolsInstallTask();
@@ -357,7 +359,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var i = 0;
             foreach (var cInfo in _groupContentToInstall)
                 await InstallGroupC(cInfo.Value, cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
-            _installedPackages.AddRange(_groupContentToInstall.Values);
+            _installedContent.AddRange(_groupContentToInstall.Values);
         }
 
         private async Task InstallGroupC(Dependency dep, IPackagedContent c, ProgressLeaf progressComponent) {
@@ -381,7 +383,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var i = 0;
             foreach (var cInfo in _repoContentToInstall)
                 await InstallRepoC(cInfo.Value, cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
-            _installedPackages.AddRange(_repoContentToInstall.Values);
+            _installedContent.AddRange(_repoContentToInstall.Values);
         }
 
         private async Task InstallRepoC(Dependency dep, IPackagedContent c, ProgressLeaf progress) {
@@ -416,7 +418,7 @@ namespace SN.withSIX.Mini.Applications.Services
                         x.MetaData.GetVersionInfo()))
                 .Where(x => x.Item1 != null); // Null check because we might download additional packages defined in package dependencies :S
             _installed.AddRange(installedContent);
-            _installedPackages.AddRange(_packageContent.Values);
+            _installedContent.AddRange(_packageContent.Values);
         }
 
         private Dictionary<IPackagedContent, Dependency> OnlyWhenNewOrUpdateAvailable(

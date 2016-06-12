@@ -5,7 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Threading;
 using SimpleInjector;
@@ -17,6 +19,10 @@ using SN.withSIX.Core.Presentation.SA.Views;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Mini.Applications;
+using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Usecases.Main;
+using SN.withSIX.Mini.Applications.Usecases.Main.Games;
+using SN.withSIX.Mini.Core.Games;
 using Splat;
 
 namespace SN.withSIX.Mini.Presentation.Wpf
@@ -27,9 +33,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     public partial class App : SingleInstanceApp
     {
         AppBootstrapper _bootstrapper;
+        private readonly SIHandler _siHandler;
 
         public App() {
             AppEvent += OnAppEvent;
+            _siHandler = new SIHandler();
 #if !DEBUG
             SetupExceptionHandler();
 #endif
@@ -42,6 +50,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 mainWindow.Activate();
             }
             HandleNewVersion(list);
+            Task.Run(() => HandleCall(list));
+        }
+
+        private async Task HandleCall(IList<string> list) {
+            await Cheat.IsInitializedTask;
+            await _siHandler.HandleSingleInstanceCall(list.ToList()).ConfigureAwait(false);
         }
 
         void HandleNewVersion(IEnumerable<string> list) {
@@ -83,7 +97,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 await CreateMainWindow();
         });
 
+        [DllImport("Kernel32.dll")]
+        public static extern bool AttachConsole(int processId);
+
         void RunCommands() {
+            AttachConsole(-1);
             Environment.Exit(
                 _bootstrapper.GetCommandMode().RunCommandsAndLog(Environment.GetCommandLineArgs().Skip(1).ToArray()));
         }

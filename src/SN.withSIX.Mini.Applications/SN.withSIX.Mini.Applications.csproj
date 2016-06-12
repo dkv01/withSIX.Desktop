@@ -209,6 +209,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -269,6 +270,7 @@
     <Compile Include="RequestMemoryDecorator.cs" />
     <Compile Include="Services\AuthDownloadWrapper.cs" />
     <Compile Include="Services\DefaultPlatformProvider.cs" />
+    <Compile Include="Services\Excecutor.cs" />
     <Compile Include="Services\FolderHandler.cs" />
     <Compile Include="Services\GameLocker.cs" />
     <Compile Include="Services\GameLockMonitor.cs" />

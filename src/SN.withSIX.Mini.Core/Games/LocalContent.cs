@@ -20,7 +20,7 @@ namespace SN.withSIX.Mini.Core.Games
     }
 
     [DataContract]
-    public abstract class LocalContent : Content, IHaveImage, IUninstallableContent, IHavePackageName
+    public abstract class LocalContent : Content, IHaveImage, IUninstallableContent, IContentWithPackageName
     {
         protected LocalContent() {}
 

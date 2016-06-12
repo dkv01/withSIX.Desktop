@@ -34,12 +34,22 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
     {
         public const string BohemiaStudioRegistry = @"SOFTWARE\Bohemia Interactive Studio";
         public const string BohemiaRegistry = @"SOFTWARE\Bohemia Interactive";
+
+        readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
         readonly RvContentScanner _rvContentScanner;
         readonly RealVirtualityGameSettings _settings;
+
+        private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
 
         protected RealVirtualityGame(Guid id, RealVirtualityGameSettings settings) : base(id, settings) {
             _settings = settings;
             ProfileInfo = this.GetMetaData<RvProfileInfoAttribute>();
+            _shouldLaunchAsDedicatedServer = new Lazy<bool>(() => {
+                var casted = Settings as ILaunchAsDedicatedServer;
+                return (casted?.LaunchAsDedicatedServer).GetValueOrDefault();
+            });
+            _keysPath =
+                new Lazy<IAbsoluteDirectoryPath>(() => InstalledState.Directory.GetChildDirectoryWithName("keys"));
 
             SetupDefaultDirectories();
             _rvContentScanner = new RvContentScanner(this);
@@ -47,6 +57,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         RvProfileInfoAttribute ProfileInfo { get; }
         protected override bool DefaultDirectoriesOverriden => true;
+        private IAbsoluteDirectoryPath KeysPath => _keysPath.Value;
+
+        protected bool ShouldLaunchAsDedicatedServer => _shouldLaunchAsDedicatedServer.Value;
 
         void SetupDefaultDirectories() {
             if (Settings.GameDirectory == null)
@@ -157,45 +170,17 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected override async Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> content) {
             var installAction = GetInstallAction(content);
-            PrepareUserconfigPostInstallActions(installAction);
+            if (ShouldLaunchAsDedicatedServer)
+                Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
+            foreach (var m in GetPackagedContent(content.Content).Select(x => new RvMod(this, x)))
+                m.Register();
             await installationService.Install(installAction).ConfigureAwait(false);
-
-            if (ShouldLaunchAsDedicatedServer())
-                InstallBiKeys(GetPackagedContent(installAction).Select(x => new RvMod(ContentPaths.Path, x)));
         }
 
-        void PrepareUserconfigPostInstallActions(InstallContentAction installAction) {
-            // TODO: userconfig processing should happen as part of the Mod Installation
-            // However we do not have Mod implementation classes per Game atm. Should we?
-            // Or should we rather make it part of the ContentEngine?
-            // In that case we could determine actions like UserConfig processing based on the Guid or type of the game,
-            // then the flow of control is at least at the Mod, instead of here..
-
-            // TODO: Cache the existing userconfig checksums etc like in PwS?
-            var ucp = new UserconfigProcessor();
-            foreach (var c in GetPackagedContent(installAction)) {
-                var c2 = (IContent) c;
-                c2.RegisterAdditionalPostInstallTask(
-                    () => ucp.ProcessUserconfig(installAction.Paths.Path.GetChildDirectoryWithName(c.PackageName),
-                        InstalledState.Directory, null));
-            }
-        }
-
-        private static IEnumerable<IHavePackageName> GetPackagedContent(InstallContentAction installAction)
-            => installAction.Content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
-                .Select(x => x.Content).Distinct().OfType<IHavePackageName>();
-
-        void InstallBiKeys(IEnumerable<RvMod> procced) {
-            var keysPath = InstalledState.Directory.GetChildDirectoryWithName("keys");
-            Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(keysPath);
-            foreach (var key in GetKeys(procced)) {
-                Tools.FileUtil.Ops.Copy(key,
-                    keysPath.GetChildFileWithName(key.FileName), true, true);
-            }
-        }
-
-        static IEnumerable<IAbsoluteFilePath> GetKeys(IEnumerable<RvMod> procced)
-            => procced.SelectMany(mod => mod.GetBiKeys());
+        private static IEnumerable<IContentWithPackageName> GetPackagedContent(
+            IEnumerable<IContentSpec<IInstallableContent>> content)
+            => content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
+                .Select(x => x.Content).Distinct().OfType<IContentWithPackageName>();
 
         StartupBuilderSpec GetStartupSpec(ILaunchContentAction<IContent> action) {
             var content = GetLaunchables(action);
@@ -218,13 +203,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected virtual IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
             => action.GetLaunchables().ToArray();
 
-        protected bool ShouldLaunchAsDedicatedServer() {
-            var casted = Settings as ILaunchAsDedicatedServer;
-            return (casted?.LaunchAsDedicatedServer).GetValueOrDefault();
-        }
-
         CollectionServer GetServer(ILaunchContentAction<IContent> action, IEnumerable<ILaunchableContent> content) {
-            if (ShouldLaunchAsDedicatedServer())
+            if (ShouldLaunchAsDedicatedServer)
                 return null;
             if (action.Action == LaunchAction.Default)
                 return content.OfType<IHaveServers>().FirstOrDefault()?.Servers.FirstOrDefault();
@@ -238,13 +218,37 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         class RvMod
         {
+            private static readonly UserconfigProcessor ucp = new UserconfigProcessor();
+            private readonly IContentWithPackageName _content;
+            private readonly RealVirtualityGame _game;
             private readonly IAbsoluteDirectoryPath _myPath;
 
-            public RvMod(IAbsoluteDirectoryPath path, IHavePackageName content) {
-                _myPath = path.GetChildDirectoryWithName(content.PackageName);
+            public RvMod(RealVirtualityGame game, IContentWithPackageName content) {
+                _game = game;
+                _content = content;
+                _myPath = game.ContentPaths.Path.GetChildDirectoryWithName(content.PackageName);
             }
 
-            public IEnumerable<IAbsoluteFilePath> GetBiKeys()
+            internal void Register() => _content.RegisterAdditionalPostInstallTask(PostInstall);
+
+            private async Task PostInstall(bool processed) {
+                await InstallUserconfig(processed).ConfigureAwait(false);
+                if (_game.ShouldLaunchAsDedicatedServer)
+                    InstallBikeys();
+            }
+
+            private Task<string> InstallUserconfig(bool processed)
+                => ucp.ProcessUserconfig(_myPath, _game.InstalledState.Directory, null, processed);
+
+            private void InstallBikeys() {
+                var keysPath = _game.KeysPath;
+                foreach (var key in GetBiKeys()) {
+                    Tools.FileUtil.Ops.Copy(key,
+                        keysPath.GetChildFileWithName(key.FileName), true, true);
+                }
+            }
+
+            IEnumerable<IAbsoluteFilePath> GetBiKeys()
                 => new[] {_myPath.GetChildDirectoryWithName("keys"), _myPath.GetChildDirectoryWithName("store\\keys")}
                     .Where(x => x.Exists).SelectMany(GetBiKeysFromPath);
 

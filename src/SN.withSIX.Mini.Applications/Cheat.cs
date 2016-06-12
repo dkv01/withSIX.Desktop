@@ -66,7 +66,14 @@ namespace SN.withSIX.Mini.Applications
         public static IMessageBus MessageBus => _cheat.MessageBus;
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
         public static bool IsNode { get; set; }
-        public static bool Initialized { get; set; }
+        public static bool Initialized { get; private set; }
+        private static readonly TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+        public static Task IsInitializedTask => tcs.Task;
+
+        public static void SetInitialized() {
+            Initialized = true;
+            tcs.SetResult(null);
+        }
         public static ArgsO Args { get; set; } = new ArgsO();
 
         public static void SetServices(ICheatImpl cheat) {
