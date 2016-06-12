@@ -329,7 +329,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
 
         protected async Task<int> RegisterLaunchIf(Process p, IGameLauncher launcher) {
             if (p == null)
-                return 0;
+                return -1;
 
             var id = p.Id;
             // TODO: better not to hold on to the process because of info going out of date / Id can't be called when the process is killed etc?

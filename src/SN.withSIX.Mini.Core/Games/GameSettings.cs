@@ -37,6 +37,9 @@ namespace SN.withSIX.Mini.Core.Games
                 GameDirectoryInternal = null;
             }
         }
+
+        [DataMember]
+        public bool? LaunchAsAdministrator { get; set; }
     }
 
     public interface IHavePackageDirectory

@@ -6,7 +6,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Runtime.InteropServices;
@@ -15,9 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
@@ -26,19 +25,26 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     // TODO: Decide if we should relaunch the withSIX process, more like the withSIX-Updater, or stick to current implementation.
     // (outputting the LaunchGameInfos to console commands, and picking them up again and transforming them to LaunchSpec)
     // That kind of processing would then need to happen before the App.xaml.cs's 'SingleInstance' processing has been completed.
-    public class GameLauncherProcessInternal : IEnableLogging, IGameLauncherProcess, IInfrastructureService
+    public class GameLauncherProcessInternal : IEnableLogging, IGameLauncherProcess
     {
+        private readonly IRestarter _restarter;
+        public GameLauncherProcessInternal(IRestarter restarter) {
+            _restarter = restarter;
+        }
+
         public async Task<Process> LaunchInternal(LaunchGameInfo info)
-            => Process.GetProcessById(new GameLauncher().LaunchGame(info.ToLaunchSpec()));
+            => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
+
+        private GameLauncher CreateLauncher() => new GameLauncher(_restarter);
 
         public async Task<Process> LaunchInternal(LaunchGameWithJavaInfo info)
-            => Process.GetProcessById(new GameLauncher().LaunchGame(info.ToLaunchSpec()));
+            => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
 
         public async Task<Process> LaunchInternal(LaunchGameWithSteamInfo info)
-            => Process.GetProcessById(new GameLauncher().LaunchGame(info.ToLaunchSpec()));
+            => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
 
         public async Task<Process> LaunchInternal(LaunchGameWithSteamLegacyInfo info)
-            => Process.GetProcessById(new GameLauncher().LaunchGame(info.ToLaunchSpec()));
+            => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
 
         public static class SteamInfos
         {
@@ -50,7 +56,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         // TODO: Re-use the external launcher option - by relaunching sync.exe with the commandline params etc.
         public class GameLauncher
         {
-            //readonly IRestarter _restarter;
+            readonly IRestarter _restarter;
             //readonly IShutdownHandler _shutdownHandler;
             ProcessStartInfo _gameStartInfo;
             bool _isSteamGameAndAvailable;
@@ -60,11 +66,10 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             GameLaunchSpec _spec;
             bool _steamError;
             IAbsoluteFilePath _steamExePath;
-            //public GameLauncher(IShutdownHandler shutdownHandler, IRestarter restarter)
-            //{
-            //  _shutdownHandler = shutdownHandler;
-            //_restarter = restarter;
-            //}
+            public GameLauncher(IRestarter restarter)
+            {
+            _restarter = restarter;
+            }
 
             public int LaunchGame(GameLaunchSpec spec) {
                 Contract.Requires<ArgumentNullException>(spec != null);
@@ -268,11 +273,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                     if (ex.ErrorCode == 740) {
                         if (!Tools.Processes.Uac.CheckUac())
                             throw;
-                        throw new NotSupportedException(
-                            "The game requires elevation to launch, please restart the client elevated ('run as administrator'), or change the requirement of the game",
-                            ex);
-                        //_restarter.RestartWithUacInclEnvironmentCommandLine();
-                        //_launchedGame = null;
+                        _restarter.RestartWithUacInclEnvironmentCommandLine();
+                        _launchedGame = null;
                     }
                     throw;
                 }

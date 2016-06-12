@@ -14,8 +14,9 @@ namespace SN.withSIX.Play.Infra.Data.Services
 {
     public class GameLauncherProcessInternal : IEnableLogging, IGameLauncherProcess
     {
-        public async Task<Process> LaunchInternal(LaunchGameInfo info) => Process.Start(new ProcessStartInfo(info.LaunchExecutable.ToString(),
-    info.StartupParameters.CombineParameters()));
+        public async Task<Process> LaunchInternal(LaunchGameInfo info)
+            => Process.Start(new ProcessStartInfo(info.LaunchExecutable.ToString(),
+                info.StartupParameters.CombineParameters()));
 
         public Task<Process> LaunchInternal(LaunchGameWithJavaInfo info) {
             throw new NotImplementedException();

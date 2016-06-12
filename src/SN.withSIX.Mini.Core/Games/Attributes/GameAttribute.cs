@@ -28,7 +28,7 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         public Uri Image { get; set; }
         public Uri BackgroundImage { get; set; }
         public string[] Dlcs { get; set; }
-        public TimeSpan? AfterLaunchDelay { get; set; } = TimeSpan.FromSeconds(20);
+        public TimeSpan? AfterLaunchDelay { get; set; } = TimeSpan.FromSeconds(10);
 
         public Guid Id { get; }
     }

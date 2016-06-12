@@ -31,6 +31,7 @@ namespace SN.withSIX.Mini.Applications.Factories
         public string GameDirectory { get; set; }
         public string RepoDirectory { get; set; }
         public string StartupLine { get; set; }
+        public bool? LaunchAsAdministrator { get; set; }
     }
 
     public abstract class GameSettingsWithConfigurablePackageApiModel : GameSettingsApiModel

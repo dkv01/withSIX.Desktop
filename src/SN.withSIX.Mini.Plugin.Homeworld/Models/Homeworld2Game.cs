@@ -49,7 +49,9 @@ namespace SN.withSIX.Mini.Plugin.Homeworld.Models
             =>
                 factory.Create(this)
                     .Launch(new LaunchGameInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
-                        InstalledState.WorkingDirectory, GetStartupParameters()));
+                        InstalledState.WorkingDirectory, GetStartupParameters()) {
+                            LaunchAsAdministrator = ShouldLaunchAsAdministrator()
+                        });
 
         // TODO
         protected override async Task ScanForLocalContentImpl() {}

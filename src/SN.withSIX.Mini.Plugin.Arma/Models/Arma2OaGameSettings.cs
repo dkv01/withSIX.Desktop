@@ -7,8 +7,12 @@ using Newtonsoft.Json;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
+    public interface ILaunchAsDedicatedServer {
+        bool? LaunchAsDedicatedServer { get; set; }
+    }
+
     [DataContract]
-    public class Arma2OaGameSettings : Arma2GameSettings
+    public class Arma2OaGameSettings : Arma2GameSettings, ILaunchAsDedicatedServer
     {
         [JsonConstructor]
         public Arma2OaGameSettings(Arma2OaStartupParameters startupParameters) : base(startupParameters) {
@@ -21,6 +25,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         public bool LaunchThroughBattlEye { get; set; } = true;
 
         [DataMember]
-        public bool LaunchAsDedicatedServer { get; set; }
+        public bool? LaunchAsDedicatedServer { get; set; }
     }
 }

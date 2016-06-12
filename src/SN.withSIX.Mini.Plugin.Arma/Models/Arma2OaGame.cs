@@ -44,7 +44,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected virtual string[] BeGameParam { get; } = {"2", "0"};
 
         protected override string[] GetExecutables()
-            => _settings.LaunchAsDedicatedServer ? Metadata.ServerExecutables : Metadata.Executables;
+            => ShouldLaunchAsDedicatedServer() ? Metadata.ServerExecutables : Metadata.Executables;
 
         protected override IAbsoluteFilePath GetLaunchExecutable() {
             var battleEyeClientExectuable = GetBattleEyeClientExectuable();
@@ -65,7 +65,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         private bool LaunchNormally(IAbsoluteFilePath beExecutable)
-            => _settings.LaunchAsDedicatedServer || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
+            => ShouldLaunchAsDedicatedServer() || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
+
+        private bool ShouldLaunchAsDedicatedServer() => _settings.LaunchAsDedicatedServer.GetValueOrDefault();
 
         IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => BeGameParam.Concat(defParams);
 

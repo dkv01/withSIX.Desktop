@@ -290,7 +290,7 @@ namespace SN.withSIX.Mini.Core.Games
 
             int id;
             using (var p = await LaunchImpl(factory, action).ConfigureAwait(false))
-                id = p.Id;
+                id = p?.Id ?? -1;
             LastPlayed = Tools.Generic.GetCurrentUtcDateTime;
             PrepareEvent(new GameLaunched(this, id));
 
@@ -374,15 +374,20 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual Task<LaunchGameInfo> GetDefaultLaunchInfo(IEnumerable<string> startupParameters)
             => Task.FromResult(new LaunchGameInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
                 InstalledState.WorkingDirectory,
-                startupParameters));
+                startupParameters) {
+                    LaunchAsAdministrator = ShouldLaunchAsAdministrator()
+            });
 
         protected virtual Task<LaunchGameWithSteamInfo> GetSteamLaunchInfo(IEnumerable<string> startupParameters)
             => Task.FromResult(new LaunchGameWithSteamInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
                 InstalledState.WorkingDirectory,
                 startupParameters) {
                     SteamAppId = SteamInfo.AppId,
-                    SteamDRM = SteamInfo.DRM
+                    SteamDRM = SteamInfo.DRM,
+                    LaunchAsAdministrator = ShouldLaunchAsAdministrator()
                 });
+
+        protected bool ShouldLaunchAsAdministrator() => Settings.LaunchAsAdministrator.GetValueOrDefault();
 
         bool IsRunning() {
             // TODO: Optimize

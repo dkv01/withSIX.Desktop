@@ -144,6 +144,7 @@
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SmartAssembly.ReportUsage, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL" />
     <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -201,6 +202,7 @@
     <Compile Include="Services\DomainEventHandlerGrabber.cs" />
     <Compile Include="Services\GameContext.cs" />
     <Compile Include="Services\GameContextJsonImplementation.cs" />
+    <Compile Include="Services\GameLauncherProcessExternal.cs" />
     <Compile Include="Services\GameLauncherProcessInternal.cs" />
     <Compile Include="Services\SettingsStorage.cs" />
   </ItemGroup>

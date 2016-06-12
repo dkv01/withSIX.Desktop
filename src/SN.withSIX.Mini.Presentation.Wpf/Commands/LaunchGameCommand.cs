@@ -2,9 +2,22 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
+using System.Diagnostics;
+using System.Linq;
+using Caliburn.Micro;
+using NDepend.Path;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation;
+using SN.withSIX.Core.Presentation.Wpf.Services;
+using SN.withSIX.Mini.Infra.Data.Services;
+
 namespace SN.withSIX.Mini.Presentation.Wpf.Commands
 {
-    /*public class LaunchGameCommand : BaseCommand
+    public class LaunchGameCommand : BaseCommand
     {
         readonly GameLauncherProcessInternal.GameLauncher.GameLaunchSpec _spec = new GameLauncherProcessInternal.GameLauncher.GameLaunchSpec {
             Priority = ProcessPriorityClass.Normal
@@ -16,7 +29,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Commands
             HasRequiredOption("gamePath=", "Path the the Game Executable", a => _spec.GamePath = a);
             HasOption("workingDirectory=", "The directory you wish to launch Game in.",
                 a => _spec.WorkingDirectory = a);
-            HasOption("steamPath=", "Path to Steam", a => _spec.SteamPath = a);
+            HasOption("steamPath=", "Path to Steam", a => _spec.SteamPath = a?.ToAbsoluteDirectoryPath());
             HasOption("steamID=", "The Steam App ID of the Game being launched", a => _spec.SteamID = a.TryInt());
             HasOption("bypassUAC", "Bypass User Account Control", a => _spec.BypassUAC = a != null);
             HasOption("steamDRM", "Launch Game using the Steam DRM system. (Some games may require this)",
@@ -38,9 +51,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Commands
             this.Logger().Info(_spec.Inspect().PrettyPrint());
             var shutdownHandler = new WpfShutdownHandler(new ExitHandler());
             ProcessID =
-                new GameLauncherProcessInternal.GameLauncher(shutdownHandler,
-                    new Restarter(shutdownHandler, new WpfDialogManager(new WindowManager()))).LaunchGame(_spec);
+                new GameLauncherProcessInternal.GameLauncher(new Restarter(shutdownHandler,
+                    new WpfDialogManager(new WpfCustomDialogManager(new WindowManager()))))
+                    .LaunchGame(_spec);
             return 0;
         }
-    }*/
+    }
 }
