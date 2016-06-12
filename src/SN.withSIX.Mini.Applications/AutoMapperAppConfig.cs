@@ -292,6 +292,7 @@ namespace SN.withSIX.Mini.Applications
         static void SetupSettingsTabs(IMapperConfiguration cfg) {
             cfg.CreateMap<Settings, GeneralSettings>()
                 .IgnoreAllMembers()
+                .ForMember(x => x.ApiPort, opt => opt.MapFrom(src => src.Local.ApiPort))
                 .ForMember(x => x.OptOutErrorReports, opt => opt.MapFrom(src => src.Local.OptOutReporting))
                 .ForMember(x => x.EnableDesktopNotifications,
                     opt => opt.MapFrom(src => src.Local.ShowDesktopNotifications))

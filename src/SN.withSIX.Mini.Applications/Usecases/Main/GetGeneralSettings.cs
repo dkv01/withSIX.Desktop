@@ -28,5 +28,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public bool UseSystemBrowser { get; set; }
         public string Version { get; set; }
         public bool EnableDiagnosticsMode { get; set; }
+        public int? ApiPort { get; set; }
     }
 }
