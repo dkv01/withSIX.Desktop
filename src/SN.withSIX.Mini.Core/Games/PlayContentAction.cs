@@ -27,6 +27,8 @@ namespace SN.withSIX.Mini.Core.Games
             LaunchType launchType = LaunchType.Default,
             CancellationToken cancelToken = default(CancellationToken))
             : base(content, launchType, cancelToken) {}
+
+        public override void Use(IContent content) => content.Use(this);
     }
 
     public class PlayLocalContentAction : PlayContentAction<LocalContent>
@@ -40,6 +42,8 @@ namespace SN.withSIX.Mini.Core.Games
             LaunchType launchType = LaunchType.Default,
             CancellationToken cancelToken = default(CancellationToken))
             : base(content, launchType, cancelToken) {}
+
+        public override void Use(IContent content) => content.Use(this);
     }
 
     public interface IPlayContentAction<out T> : IDownloadContentAction<T>, ILaunchContentAction<T> where T : IContent {}

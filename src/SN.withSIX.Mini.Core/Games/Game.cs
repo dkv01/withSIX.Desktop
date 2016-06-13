@@ -197,7 +197,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         public void UseContent(IContentAction<IContent> action) {
             var content = HandleContentAction(action);
-            content.Use();
+            action.Use(content);
         }
 
         private IContent HandleContentAction(IContentAction<IContent> action) {
@@ -540,11 +540,13 @@ namespace SN.withSIX.Mini.Core.Games
 
     public class ContentUsed : IDomainEvent
     {
-        public ContentUsed(Content content) {
+        public ContentUsed(Content content, IContentAction<IContent> action) {
             Content = content;
+            Action = action;
         }
 
         public Content Content { get; }
+        public IContentAction<IContent> Action { get; }
     }
 
     public class ContentInstalled : IDomainEvent

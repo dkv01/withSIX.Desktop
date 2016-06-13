@@ -16,6 +16,8 @@ namespace SN.withSIX.Mini.Core.Games
         public UninstallLocalContentAction(IReadOnlyCollection<IContentSpec<IUninstallableContent>> content,
             CancellationToken cancelToken = default(CancellationToken))
             : base(content, cancelToken) {}
+
+        public override void Use(IContent content) => content.Use(this);
     }
 
     public interface IUninstallContentAction<out T> : IContentAction<T> where T : IContent {}

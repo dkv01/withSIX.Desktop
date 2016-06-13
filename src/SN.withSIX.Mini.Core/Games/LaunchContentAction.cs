@@ -15,6 +15,8 @@ namespace SN.withSIX.Mini.Core.Games
             LaunchType = launchType;
         }
 
+
+
         public LaunchType LaunchType { get; }
         public LaunchAction Action { get; set; }
     }
@@ -28,6 +30,8 @@ namespace SN.withSIX.Mini.Core.Games
         public LaunchContentAction(LaunchType launchType = LaunchType.Default,
             CancellationToken cancelToken = new CancellationToken(), params IContentSpec<Content>[] content)
             : this(content, launchType, cancelToken) {}
+
+        public override void Use(IContent content) => content.Use(this);
     }
 
     public interface ILaunchContentAction<out T> : IContentAction<T> where T : IContent

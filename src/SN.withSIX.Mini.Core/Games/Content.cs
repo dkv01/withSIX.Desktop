@@ -29,7 +29,8 @@ namespace SN.withSIX.Mini.Core.Games
         IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
         Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
         void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
-        void Use(LaunchType launchType = LaunchType.Default);
+        void Use(IContentAction<IContent> action);
+        void Use(ILaunchContentAction<IContent> action);
     }
 
     public interface IHavePackageName
@@ -131,9 +132,14 @@ namespace SN.withSIX.Mini.Core.Games
         public ItemState GetState(string constraint)
             => constraint == null || Version == constraint ? GetState() : CalculateState(constraint);
 
-        public void Use(LaunchType launchType = LaunchType.Default) {
-            RecentInfo = new RecentInfo(launchType);
-            PrepareEvent(new ContentUsed(this));
+        public void Use(IContentAction<IContent> action) {
+            RecentInfo = new RecentInfo();
+            PrepareEvent(new ContentUsed(this, action));
+        }
+
+        public void Use(ILaunchContentAction<IContent> action) {
+            RecentInfo = new RecentInfo(action.LaunchType);
+            PrepareEvent(new ContentUsed(this, action));
         }
 
         public bool IsInstalled() => InstallInfo != null && InstallInfo.Completed;

@@ -29,9 +29,11 @@ namespace SN.withSIX.Mini.Core.Games
 
         public string Name { get; set; }
         public Uri Href { get; set; }
+
+        public abstract void Use(IContent content);
     }
 
-    public class ContentAction : ContentAction<Content>
+    public abstract class ContentAction : ContentAction<Content>
     {
         public ContentAction(CancellationToken cancelToken = default(CancellationToken),
             params IContentSpec<Content>[] content)
@@ -49,5 +51,6 @@ namespace SN.withSIX.Mini.Core.Games
     {
         string Name { get; set; }
         Uri Href { get; set; }
+        void Use(IContent content);
     }
 }

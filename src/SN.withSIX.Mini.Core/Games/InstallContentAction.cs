@@ -22,6 +22,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         public bool HideLaunchAction { get; set; }
         public bool Force { get; set; }
+        public override void Use(IContent content) => content.Use(this);
     }
 
     public interface IDownloadContentAction<out T> : IContentAction<T> where T : IContent
@@ -84,6 +85,7 @@ namespace SN.withSIX.Mini.Core.Games
         public InstallStatusOverview Status { get; } = InstallContentAction.CreateInstallStatusOverview();
         public Game Game { get; }
         public ContentPaths Paths { get; set; }
+        public override void Use(IContent content) => content.Use(this);
     }
 
     public interface IUninstallContentAction2<out T> : IContentAction<T> where T : IContent
