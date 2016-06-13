@@ -110,6 +110,7 @@ namespace SN.withSIX.Mini.Core.Games
         public SyncInfo SyncInfo { get; protected set; } = new SyncInfo();
         // TODO: we could also choose to implement this as a wrapper/adapter class instead
         IAbsoluteDirectoryPath IContentEngineGame.WorkingDirectory => InstalledState.WorkingDirectory;
+
         protected virtual IAbsoluteDirectoryPath GetContentDirectory() => InstalledState.WorkingDirectory;
 
         public IAbsoluteDirectoryPath GetContentPath(IHavePackageName content) {
@@ -215,8 +216,10 @@ namespace SN.withSIX.Mini.Core.Games
             if (existing != null)
                 return existing;
             var isNotUpdateAll = action.Name != "Update all" && action.Name != "Available updates";
-            var name = isNotUpdateAll ? $"{action.Name ?? "Playlist"} {DateTime.UtcNow.ToString(Tools.GenericTools.DefaultDateFormat)}" : action.Name;
-            var localCollection = new LocalCollection(Id, name, contents) { Image = GetActionImage(action) };
+            var name = isNotUpdateAll
+                ? $"{action.Name ?? "Playlist"} {DateTime.UtcNow.ToString(Tools.GenericTools.DefaultDateFormat)}"
+                : action.Name;
+            var localCollection = new LocalCollection(Id, name, contents) {Image = GetActionImage(action)};
             if (isNotUpdateAll)
                 Contents.Add(localCollection);
             return localCollection;
@@ -329,7 +332,7 @@ namespace SN.withSIX.Mini.Core.Games
                 throw new GameIsRunningException(Metadata.Name + " is already running");
         }
 
-        void ConfirmInstalled() {
+        protected void ConfirmInstalled() {
             if (!InstalledState.IsInstalled)
                 throw new GameNotInstalledException(Metadata.Name + " is not found");
         }
@@ -376,7 +379,7 @@ namespace SN.withSIX.Mini.Core.Games
                 InstalledState.WorkingDirectory,
                 startupParameters) {
                     LaunchAsAdministrator = ShouldLaunchAsAdministrator()
-            });
+                });
 
         protected virtual Task<LaunchGameWithSteamInfo> GetSteamLaunchInfo(IEnumerable<string> startupParameters)
             => Task.FromResult(new LaunchGameWithSteamInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
@@ -438,6 +441,14 @@ namespace SN.withSIX.Mini.Core.Games
         public void ClearRecent() {
             foreach (var r in RecentItems.ToArray())
                 r.RemoveRecentInfo();
+        }
+
+        public virtual IAbsoluteDirectoryPath GetConfigPath() {
+            throw new NotImplementedException();
+        }
+
+        public virtual IAbsoluteDirectoryPath GetConfigPath(IPackagedContent content) {
+            throw new NotImplementedException();
         }
     }
 

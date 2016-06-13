@@ -36,6 +36,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         public const string BohemiaRegistry = @"SOFTWARE\Bohemia Interactive";
 
         readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
+        readonly Lazy<IAbsoluteDirectoryPath> _userconfigPath;
         readonly RvContentScanner _rvContentScanner;
         readonly RealVirtualityGameSettings _settings;
 
@@ -50,6 +51,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             });
             _keysPath =
                 new Lazy<IAbsoluteDirectoryPath>(() => InstalledState.Directory.GetChildDirectoryWithName("keys"));
+            _userconfigPath =
+                new Lazy<IAbsoluteDirectoryPath>(() => InstalledState.Directory.GetChildDirectoryWithName("userconfig"));
 
             SetupDefaultDirectories();
             _rvContentScanner = new RvContentScanner(this);
@@ -215,6 +218,21 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         protected virtual IEnumerable<IAbsoluteDirectoryPath> GetAdditionalLaunchMods()
             => Enumerable.Empty<IAbsoluteDirectoryPath>();
+
+        public override IAbsoluteDirectoryPath GetConfigPath() {
+            ConfirmInstalled();
+            return UserconfigPath;
+        }
+
+        private IAbsoluteDirectoryPath UserconfigPath => _userconfigPath.Value;
+
+        public override IAbsoluteDirectoryPath GetConfigPath(IPackagedContent content) {
+            ConfirmInstalled();
+            return GetConfigPath()
+                .GetChildDirectoryWithName(content.PackageName.StartsWith("@")
+                    ? content.PackageName.Substring(1)
+                    : content.PackageName);
+        }
 
         class RvMod
         {
