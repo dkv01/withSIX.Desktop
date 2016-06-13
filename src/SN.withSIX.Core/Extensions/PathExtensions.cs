@@ -16,6 +16,17 @@ namespace SN.withSIX.Core.Extensions
 
         public static string EscapePath(this string arg) => $"\"{arg}\"";
 
+        public static IAbsoluteDirectoryPath GetNearestExisting(this IAbsoluteDirectoryPath path) {
+            if (path.Exists)
+                return path;
+            while (path.HasParentDirectory) {
+                path = path.ParentDirectoryPath;
+                if (path.Exists)
+                    return path;
+            }
+            return path;
+        }
+
         public static IAbsoluteDirectoryPath ToAbsoluteDirectoryPathNullSafe(this string path)
             => string.IsNullOrEmpty(path) ? null : path.ToAbsoluteDirectoryPath();
 

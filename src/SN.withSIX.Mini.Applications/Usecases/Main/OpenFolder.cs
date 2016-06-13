@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NDepend.Path;
 using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
@@ -16,17 +17,17 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
     public class OpenFolder : IAsyncVoidCommand, IExcludeGameWriteLock, IHaveGameId
     {
-        public OpenFolder(Guid gameId, Guid? id = null, FolderType type = FolderType.Default) {
+        public OpenFolder(Guid gameId, Guid? id = null, FolderType folderType = FolderType.Default) {
             GameId = gameId;
             Id = id;
-            Type = type;
+            FolderType = folderType;
         }
 
         public Guid? Id { get; }
 
-        public Guid GameId { get; }
+        public FolderType FolderType { get; }
 
-        public FolderType Type { get; }
+        public Guid GameId { get; }
     }
 
     public enum FolderType
@@ -41,18 +42,26 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public async Task<UnitType> HandleAsync(OpenFolder request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
+            var path = GetPath(game, request.Id, request.FolderType);
 
-            if (request.Id.HasValue) {
-                if (request.Id.Value == Guid.Empty)
-                    Tools.FileUtil.OpenFolderInExplorer(request.Type == FolderType.Config ? game.GetConfigPath() : game.GetContentPath());
-                else {
-                    var content = game.Contents.OfType<IPackagedContent>().FindOrThrow(request.Id.Value);
-                    Tools.FileUtil.OpenFolderInExplorer(request.Type == FolderType.Config ? game.GetConfigPath(content) : game.GetContentPath(content));
-                }
-            } else
-                Tools.FileUtil.OpenFolderInExplorer(game.GetPath());
+            Tools.FileUtil.OpenFolderInExplorer(path.GetNearestExisting());
 
             return UnitType.Default;
+        }
+
+        private static IAbsoluteDirectoryPath GetPath(Game game, Guid? id, FolderType type) {
+            if (!id.HasValue)
+                return game.GetPath();
+
+            if (id.Value == Guid.Empty) {
+                return type == FolderType.Config
+                    ? game.GetConfigPath()
+                    : game.GetContentPath();
+            }
+            var content = game.Contents.OfType<IPackagedContent>().FindOrThrow(id.Value);
+            return type == FolderType.Config
+                ? game.GetConfigPath(content)
+                : game.GetContentPath(content);
         }
     }
 }

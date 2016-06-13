@@ -228,8 +228,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         public override IAbsoluteDirectoryPath GetConfigPath(IPackagedContent content) {
             ConfirmInstalled();
-            return GetConfigPath()
-                .GetChildDirectoryWithName(content.PackageName.StartsWith("@")
+            return UserconfigPath.GetChildDirectoryWithName(content.PackageName.StartsWith("@")
                     ? content.PackageName.Substring(1)
                     : content.PackageName);
         }
