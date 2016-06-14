@@ -83,6 +83,10 @@ namespace SN.withSIX.Mini.Applications.Services
                 .Subscribe(Handle);
             messageBus.Listen<GameTerminated>()
                 .Subscribe(Handle);
+            messageBus.Listen<RecentItemRemoved>()
+                .Subscribe(Handle);
+            messageBus.Listen<ContentUsed>()
+                .Subscribe(Handle);
 
             //this.Listen<GameLockChanged>()
             //  .Subscribe(Handle);
@@ -217,6 +221,20 @@ namespace SN.withSIX.Mini.Applications.Services
                 Current.NextAction = null;
                 Current.NextActionInfo = null;
             }
+        }
+
+        void Handle(RecentItemRemoved message) {
+            var gameState = Games[message.Content.GameId].State;
+            ContentStatus state;
+            if (gameState.TryGetValue(message.Content.Id, out state))
+                state.LastUsed = null;
+        }
+
+        void Handle(ContentUsed message) {
+            var gameState = Games[message.Content.GameId].State;
+            ContentStatus state;
+            if (gameState.TryGetValue(message.Content.Id, out state))
+                state.LastUsed = message.Content.RecentInfo.LastUsed;
         }
 
         void Handle(GameLaunched message) {
