@@ -37,12 +37,13 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         }
 
         public void Handle(ContentUsed notification) {
-            //_hubContext.Clients.All.RecentItemAdded(notification.Content.GameId,
-            //  notification.Content.MapTo<RecentContentModel>());
+            _hubContext.Clients.All.RecentItemAdded(notification.Content.GameId,
+                notification.Content.MapTo<RecentContentModel>());
             _hubContext.Clients.All.RecentItemUsed(notification.Content.GameId, notification.Content.Id,
                 notification.Content.RecentInfo.LastUsed);
         }
 
+        // TODO! notification.Content.GameId, 
         public void Handle(RecentItemRemoved notification) {
             _hubContext.Clients.All.RecentItemRemoved(notification.Content.Id);
         }
