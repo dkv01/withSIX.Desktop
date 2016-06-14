@@ -36,6 +36,10 @@ namespace SN.withSIX.Sync.Core.Packages
 
     public class Synqer : IDomainService, ISynqer
     {
+        private static readonly IEnumerable<IRelativeDirectoryPath> excludeFolders =
+            new[] {"./.rsync", "./.git", "./.svn"}.Select(x => x.ToRelativeDirectoryPath());
+        private static readonly string[] excludeFiles = {".synqinfo"};
+
         public Task DownloadPackages(Package[] p,
             IAbsoluteDirectoryPath downloadPath, Uri[] hosts, StatusRepo status, ProgressLeaf cleanup,
             ProgressContainer progress)
@@ -112,16 +116,23 @@ namespace SN.withSIX.Sync.Core.Packages
             ProgressLeaf status) => status.Do(() => PerformCleanupInternal(dict, status));
 
         private static void PerformCleanupInternal(Dictionary<IAbsoluteDirectoryPath, FileObjectMapping[]> dict,
-            ProgressLeaf status) {
+            IUpdateSpeedAndProgress status) {
             var i = 0;
             foreach (var folder in dict) {
                 // Find all unneeded files and delete them
-                var neededFiles = folder.Value.Select(x => folder.Key.GetChildFileWithName(x.FilePath)).ToArray();
+                var neededFiles =
+                    folder.Value.Select(x => x.FilePath)
+                        .Concat(excludeFiles)
+                        .Select(x => folder.Key.GetChildFileWithName(x));
                 foreach (
                     var f in
                         folder.Key.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
                             .Select(x => x.FullName.ToAbsoluteFilePath())
-                            .Except(neededFiles)) {
+                            .Except(neededFiles)
+                            .Where(x => {
+                                var relative = x.GetRelativePathFrom(folder.Key);
+                                return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
+                            })) {
                     if (Common.Flags.Verbose)
                         MainLog.Logger.Info($"Deleting {f}");
                     f.Delete();
@@ -131,7 +142,14 @@ namespace SN.withSIX.Sync.Core.Packages
                 foreach (
                     var d in
                         folder.Key.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
-                            .Where(x => !x.EnumerateFileSystemInfos().Any())) {
+                            .Select(x => x.FullName.ToAbsoluteDirectoryPath())
+                            .Where(x => !excludeFolders.Contains(x.GetRelativePathFrom(folder.Key).GetRoot()))
+                            .Where(x => {
+                                var relative = x.GetRelativePathFrom(folder.Key);
+                                return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
+                            })
+                            .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())
+                    ) {
                     if (Common.Flags.Verbose)
                         MainLog.Logger.Info($"Deleting directory {d}");
                     d.Delete();
@@ -281,7 +299,8 @@ namespace SN.withSIX.Sync.Core.Packages
                     f.Data.Progress.RemoveComponentsExcept(f.Data.Progress.Checking, f.Data.Progress.Compressing,
                         f.Data.Progress.Downloading,
                         f.Data.Progress.Extracting);
-                    _processor.AddToCompressor(() => f.Data.Progress.Compressing.Do(() => HandleCompressionInternal(f, firstExistingFile)));
+                    _processor.AddToCompressor(
+                        () => f.Data.Progress.Compressing.Do(() => HandleCompressionInternal(f, firstExistingFile)));
                 }
             }
 

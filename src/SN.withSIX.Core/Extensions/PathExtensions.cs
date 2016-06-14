@@ -16,6 +16,36 @@ namespace SN.withSIX.Core.Extensions
 
         public static string EscapePath(this string arg) => $"\"{arg}\"";
 
+        public static IRelativeDirectoryPath GetRoot(this IRelativeDirectoryPath path) {
+            var dir = path;
+            while (dir.HasParentDirectory)
+                dir = path.ParentDirectoryPath;
+            return dir;
+        }
+
+        public static bool MatchesSub(this IRelativeFilePath path, string name) => path.ParentDirectoryPath.MatchesSub(name);
+
+        public static bool MatchesSub(this IRelativeDirectoryPath path, string name) {
+            var dir = path;
+            if (dir.DirectoryName.Equals(name))
+                return true;
+            while (dir.HasParentDirectory) {
+                dir = path.ParentDirectoryPath;
+                if (dir.DirectoryName.Equals(name))
+                    return true;
+            }
+            return false;
+        }
+
+        public static IAbsoluteDirectoryPath GetRoot(this IAbsoluteDirectoryPath path) {
+            var dir = path;
+            while (dir.HasParentDirectory)
+                dir = path.ParentDirectoryPath;
+            return dir;
+        }
+
+        public static IRelativeDirectoryPath GetRoot(this IRelativeFilePath path) => path.ParentDirectoryPath.GetRoot();
+
         public static IAbsoluteDirectoryPath GetNearestExisting(this IAbsoluteDirectoryPath path) {
             if (path.Exists)
                 return path;
