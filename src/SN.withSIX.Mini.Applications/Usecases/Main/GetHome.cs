@@ -44,7 +44,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public string Type { get; set; }
         public string GameSlug { get; set; }
         public string Version { get; set; }
-        public DateTime UpdatedVersion { get; set; }
+        public DateTime? UpdatedVersion { get; set; }
         public DateTime? LastUsed { get; set; }
         public DateTime? LastInstalled { get; set; }
         public DateTime? LastUpdated { get; set; }
