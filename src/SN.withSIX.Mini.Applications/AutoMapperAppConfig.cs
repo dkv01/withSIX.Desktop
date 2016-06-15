@@ -185,6 +185,7 @@ namespace SN.withSIX.Mini.Applications
                 .ForMember(x => x.Type, opt => opt.MapFrom(src => ConvertToType(src)));
             cfg.CreateMap<Collection, ContentApiModel>()
                 .ForMember(x => x.Type, opt => opt.MapFrom(src => ConvertToType(src)))
+                .ForMember(x => x.TypeScope, opt => opt.ResolveUsing(GetTypeScope))
                 .Include<NetworkCollection, ContentApiModel>()
                 .Include<LocalCollection, ContentApiModel>();
             cfg.CreateMap<NetworkCollection, ContentApiModel>();
@@ -266,6 +267,14 @@ namespace SN.withSIX.Mini.Applications
                         dest.Title = "Processing";
                 })
                 .ForMember(x => x.Details, opt => opt.MapFrom(src => src.Text));
+        }
+
+        private static object GetTypeScope(Collection x) {
+            if (x is SubscribedCollection)
+                return TypeScope.Subscribed;
+            if (x is LocalCollection)
+                return TypeScope.Local;
+            return TypeScope.Published;
         }
 
         private static FlatProgressInfo GetActiveComponent(ProgressInfo info) {
