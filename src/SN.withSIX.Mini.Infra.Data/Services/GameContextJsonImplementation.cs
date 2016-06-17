@@ -86,7 +86,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         // TODO: Be specific about which games dependencies can be taken from, like A3, could accesss the previous games content etc.
         internal static void FixUpDependencies(IReadOnlyCollection<NetworkContent> nc) {
             foreach (var c in nc) {
-                c.Dependencies.Replace(c.InternalDependencies
+                c.ReplaceDependencies(c.InternalDependencies
                     .Select(x => new {Content = nc.Find(x.Id), x.Constraint})
                     .Where(x => x.Content != null)
                     .Select(x => new NetworkContentSpec(x.Content, x.Constraint)));

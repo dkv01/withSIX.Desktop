@@ -27,7 +27,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
 
         protected virtual Dictionary<string, SixRepoModDto> Mods { get; set; } = new Dictionary<string, SixRepoModDto>()
             ;
-        protected virtual ICollection<Uri> Hosts { get; } = new List<Uri>();
+        protected virtual ICollection<Uri> Hosts { get; private set; } = new List<Uri>();
 
         public bool Loaded { get; set; }
 
@@ -42,7 +42,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
             Uri = uri;
             var config = await Tools.Transfer.GetYaml<SixRepoConfigDto>(Uri).ConfigureAwait(false);
             Mods = config.Mods;
-            Hosts.Replace(config.Hosts);
+            Hosts = config.Hosts.ToList();
             Loaded = true;
         }
 

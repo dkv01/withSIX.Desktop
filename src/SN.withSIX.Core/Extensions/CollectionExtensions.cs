@@ -56,6 +56,7 @@ namespace SN.withSIX.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="col"></param>
         /// <param name="replacement"></param>
+        [Obsolete("Doing it wrong (tm)")]
         public static void Replace<T>(this ICollection<T> col, IEnumerable<T> replacement) {
             col.Clear();
             col.AddRange(replacement);

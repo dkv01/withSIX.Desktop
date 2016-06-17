@@ -94,7 +94,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return group.Content;
         }
 
-        static async Task<CustomRepo[]> GetRepositories(SubscribedCollection col) {
+        static async Task<CustomRepo[]> GetRepositories(IHaveRepositories col) {
             var repositories = col.Repositories.Select(r => new CustomRepo(CustomRepo.GetRepoUri(new Uri(r)))).ToArray();
             foreach (var r in repositories) {
                 try {
@@ -121,23 +121,24 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var ctx = _locator.GetGameContext();
             await ctx.Load(compatGameIds).ConfigureAwait(false);
             var gameContent = allContent.Where(x => compatGameIds.Contains(x.GameId)).ToArray();
-            ProcessContents(game, ctx.Games.Where(x => compatGameIds.Contains(x.Id)).ToArray(), gameContent);
+            //var allGames = ctx.Games.Where(x => compatGameIds.Contains(x.Id)).ToArray();
+            ProcessContents(game, gameContent);
             ProcessLocalContent(game);
             game.RefreshCollections();
         }
 
-        static void ProcessContents(Game game, IReadOnlyCollection<Game> games, IEnumerable<ModDto> contents) {
+        static void ProcessContents(Game game, IEnumerable<ModDto> contents) {
             // TODO: If we timestamp the DTO's, and save the timestamp also in our database,
             // then we can simply update data only when it has actually changed and speed things up.
             // The only thing to remember is when there are schema changes / new fields etc, either all timestamps need updating
             // or the syncer needs to take it into account..
             var mapping = new Dictionary<ModDto, ModNetworkContent>();
-            UpdateContents(game, games, contents, mapping);
+            UpdateContents(game, contents, mapping);
             HandleDependencies(game, mapping);
         }
 
-        static void UpdateContents(Game game, IReadOnlyCollection<Game> games, IEnumerable<ModDto> contents,
-            Dictionary<ModDto, ModNetworkContent> content) {
+        static void UpdateContents(Game game, IEnumerable<ModDto> contents,
+            IDictionary<ModDto, ModNetworkContent> content) {
             var newContent = new List<ModNetworkContent>();
             var emptyTags = new List<string>();
             foreach (
@@ -181,7 +182,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         // http://stackoverflow.com/questions/21686499/how-to-restore-circular-references-e-g-id-from-json-net-serialized-json
         static void HandleDependencies(KeyValuePair<ModDto, ModNetworkContent> nc,
             IEnumerable<ModNetworkContent> networkContent) {
-            nc.Value.Dependencies.Replace(
+            nc.Value.ReplaceDependencies(
                 nc.Key.Dependencies.Select(
                     d =>
                         networkContent.FirstOrDefault(
@@ -229,8 +230,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
         static void HandleContent(IReadOnlyCollection<NetworkContent> content, Collection col,
             CollectionModelWithLatestVersion c, IReadOnlyCollection<CustomRepo> customRepos,
-            IReadOnlyCollection<GroupContent> groupContent) {
-            col.Contents.Replace(
+            IEnumerable<GroupContent> groupContent) {
+            col.ReplaceContent(
                 c.LatestVersion
                     .Dependencies
                     .Select(
@@ -241,12 +242,11 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                                 x.Constraint
                             })
                     .Where(x => x.Content != null)
-                    .Select(x => new ContentSpec(x.Content, x.Constraint))
-                    .ToList());
+                    .Select(x => new ContentSpec(x.Content, x.Constraint)));
         }
 
         static Content ConvertToGroupOrRepoContent(CollectionVersionDependencyModel x, Collection col,
-            IReadOnlyCollection<CustomRepo> customRepos, IReadOnlyCollection<GroupContent> groupContent,
+            IReadOnlyCollection<CustomRepo> customRepos, IEnumerable<GroupContent> groupContent,
             IReadOnlyCollection<NetworkContent> content) {
             var gc =
                 groupContent.FirstOrDefault(
@@ -316,7 +316,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             dependencies.Add(name);
         }
 
-        static Content ConvertToContentOrLocal(CollectionVersionDependencyModel x, Collection col,
+        static Content ConvertToContentOrLocal(CollectionVersionDependencyModel x, IHaveGameId col,
             IEnumerable<NetworkContent> content) => (Content) content.FirstOrDefault(
                 cnt =>
                     cnt.PackageName.Equals(x.Dependency,

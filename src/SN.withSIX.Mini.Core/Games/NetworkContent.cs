@@ -46,7 +46,10 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public string OriginalGameSlug { get; set; }
         [IgnoreDataMember]
-        public virtual ICollection<NetworkContentSpec> Dependencies { get; } = new List<NetworkContentSpec>();
+        public virtual ICollection<NetworkContentSpec> Dependencies { get; private set; } = new List<NetworkContentSpec>();
+
+        public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
+            => Dependencies = dependencies.ToList();
 
         public string GetPath() => this.GetContentPath(ContentSlug);
 
