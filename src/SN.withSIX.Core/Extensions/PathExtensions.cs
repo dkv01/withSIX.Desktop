@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,8 +17,17 @@ namespace SN.withSIX.Core.Extensions
 
         public static string EscapePath(this string arg) => $"\"{arg}\"";
 
-        public static IRelativeDirectoryPath GetRoot(this IRelativeDirectoryPath path) {
-            var dir = path;
+        public static IRelativeDirectoryPath GetRoot(this IRelativeFilePath path) => path.ParentDirectoryPath.GetRoot();
+
+        public static IRelativeDirectoryPath GetRoot(this IRelativeDirectoryPath dir) {
+            if (!dir.HasParentDirectory)
+                return dir;
+            while (dir.ParentDirectoryPath.HasParentDirectory)
+                dir = dir.ParentDirectoryPath;
+            return dir;
+        }
+
+        public static IAbsoluteDirectoryPath GetRoot(this IAbsoluteDirectoryPath dir) {
             while (dir.HasParentDirectory)
                 dir = dir.ParentDirectoryPath;
             return dir;
@@ -25,26 +35,25 @@ namespace SN.withSIX.Core.Extensions
 
         public static bool MatchesSub(this IRelativeFilePath path, string name) => path.ParentDirectoryPath.MatchesSub(name);
 
-        public static bool MatchesSub(this IRelativeDirectoryPath path, string name) {
-            var dir = path;
-            if (dir.DirectoryName.Equals(name))
-                return true;
+        public static bool MatchesSub(this IRelativeDirectoryPath dir, string name) {
             while (dir.HasParentDirectory) {
-                dir = dir.ParentDirectoryPath;
                 if (dir.DirectoryName.Equals(name))
                     return true;
+                dir = dir.ParentDirectoryPath;
             }
             return false;
         }
 
-        public static IAbsoluteDirectoryPath GetRoot(this IAbsoluteDirectoryPath path) {
-            var dir = path;
-            while (dir.HasParentDirectory)
-                dir = dir.ParentDirectoryPath;
-            return dir;
-        }
+        public static bool SubStartsWith(this IRelativeFilePath path, string name) => path.ParentDirectoryPath.SubStartsWith(name);
 
-        public static IRelativeDirectoryPath GetRoot(this IRelativeFilePath path) => path.ParentDirectoryPath.GetRoot();
+        public static bool SubStartsWith(this IRelativeDirectoryPath dir, string name) {
+            while (dir.HasParentDirectory) {
+                if (dir.DirectoryName.StartsWith(name))
+                    return true;
+                dir = dir.ParentDirectoryPath;
+            }
+            return false;
+        }
 
         public static IAbsoluteDirectoryPath GetNearestExisting(this IAbsoluteDirectoryPath path) {
             if (path.Exists)
