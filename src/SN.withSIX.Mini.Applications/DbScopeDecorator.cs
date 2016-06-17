@@ -25,8 +25,6 @@ namespace SN.withSIX.Mini.Applications
                 TResponseData v;
                 try {
                     v = _target.Request(request);
-                    if (request is IWrite)
-                        scope.SaveChanges();
                 } catch (OperationCanceledException) {
                     // we still want to save on cancelling..
                     if (request is IWrite)
