@@ -120,17 +120,18 @@ namespace SN.withSIX.Sync.Core.Packages
             var i = 0;
             foreach (var folder in dict) {
                 // Find all unneeded files and delete them
+                var packageDirectory = folder.Key;
                 var neededFiles =
                     folder.Value.Select(x => x.FilePath)
                         .Concat(excludeFiles)
-                        .Select(x => folder.Key.GetChildFileWithName(x));
+                        .Select(x => packageDirectory.GetChildFileWithName(x));
                 foreach (
                     var f in
-                        folder.Key.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
-                            .Select(x => x.FullName.ToAbsoluteFilePath())
+                        packageDirectory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
+                            .Select(x => x.ToAbsoluteFilePath())
                             .Except(neededFiles)
                             .Where(x => {
-                                var relative = x.GetRelativePathFrom(folder.Key);
+                                var relative = x.GetRelativePathFrom(packageDirectory);
                                 return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
                             })) {
                     if (Common.Flags.Verbose)
@@ -141,11 +142,11 @@ namespace SN.withSIX.Sync.Core.Packages
                 // Find all empty directories and delete them
                 foreach (
                     var d in
-                        folder.Key.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
-                            .Select(x => x.FullName.ToAbsoluteDirectoryPath())
-                            .Where(x => !excludeFolders.Contains(x.GetRelativePathFrom(folder.Key).GetRoot()))
+                        packageDirectory.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
+                            .Select(x => x.ToAbsoluteDirectoryPath())
+                            .Where(x => !excludeFolders.Contains(x.GetRelativePathFrom(packageDirectory).GetRoot()))
                             .Where(x => {
-                                var relative = x.GetRelativePathFrom(folder.Key);
+                                var relative = x.GetRelativePathFrom(packageDirectory);
                                 return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
                             })
                             .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())

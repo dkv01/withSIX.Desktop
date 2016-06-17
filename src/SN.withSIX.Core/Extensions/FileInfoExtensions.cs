@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using NDepend.Path;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -22,5 +23,8 @@ namespace SN.withSIX.Core.Extensions
                 return false;
             return uri.IsUnc;
         }
+
+        public static IAbsoluteFilePath ToAbsoluteFilePath(this FileInfo This) => This.FullName.ToAbsoluteFilePath();
+        public static IAbsoluteDirectoryPath ToAbsoluteDirectoryPath(this DirectoryInfo This) => This.FullName.ToAbsoluteDirectoryPath();
     }
 }
