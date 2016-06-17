@@ -19,7 +19,7 @@ namespace SN.withSIX.Core.Extensions
         public static IRelativeDirectoryPath GetRoot(this IRelativeDirectoryPath path) {
             var dir = path;
             while (dir.HasParentDirectory)
-                dir = path.ParentDirectoryPath;
+                dir = dir.ParentDirectoryPath;
             return dir;
         }
 
@@ -30,7 +30,7 @@ namespace SN.withSIX.Core.Extensions
             if (dir.DirectoryName.Equals(name))
                 return true;
             while (dir.HasParentDirectory) {
-                dir = path.ParentDirectoryPath;
+                dir = dir.ParentDirectoryPath;
                 if (dir.DirectoryName.Equals(name))
                     return true;
             }
@@ -40,7 +40,7 @@ namespace SN.withSIX.Core.Extensions
         public static IAbsoluteDirectoryPath GetRoot(this IAbsoluteDirectoryPath path) {
             var dir = path;
             while (dir.HasParentDirectory)
-                dir = path.ParentDirectoryPath;
+                dir = dir.ParentDirectoryPath;
             return dir;
         }
 
