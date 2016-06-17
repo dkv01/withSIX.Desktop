@@ -119,43 +119,46 @@ namespace SN.withSIX.Sync.Core.Packages
             IUpdateSpeedAndProgress status) {
             var i = 0;
             foreach (var folder in dict) {
-                // Find all unneeded files and delete them
-                var packageDirectory = folder.Key;
-                var neededFiles =
-                    folder.Value.Select(x => x.FilePath)
-                        .Concat(excludeFiles)
-                        .Select(x => packageDirectory.GetChildFileWithName(x));
-                foreach (
-                    var f in
-                        packageDirectory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
-                            .Select(x => x.ToAbsoluteFilePath())
-                            .Except(neededFiles)
-                            .Where(x => {
-                                var relative = x.GetRelativePathFrom(packageDirectory);
-                                return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
-                            })) {
-                    if (Common.Flags.Verbose)
-                        MainLog.Logger.Info($"Deleting {f}");
-                    f.Delete();
-                }
-
-                // Find all empty directories and delete them
-                foreach (
-                    var d in
-                        packageDirectory.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
-                            .Select(x => x.ToAbsoluteDirectoryPath())
-                            .Where(x => !excludeFolders.Contains(x.GetRelativePathFrom(packageDirectory).GetRoot()))
-                            .Where(x => {
-                                var relative = x.GetRelativePathFrom(packageDirectory);
-                                return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
-                            })
-                            .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())
-                    ) {
-                    if (Common.Flags.Verbose)
-                        MainLog.Logger.Info($"Deleting directory {d}");
-                    d.Delete();
-                }
+                CleanupPackage(folder.Key, folder.Value.Select(x => x.FilePath));
                 status.Update(null, i++.ToProgress(dict.Count));
+            }
+        }
+
+        private static void CleanupPackage(IAbsoluteDirectoryPath packageDirectory, IEnumerable<string> packageFiles) {
+            // Find all unneeded files and delete them
+            var neededFiles =
+                packageFiles
+                    .Concat(excludeFiles)
+                    .Select(packageDirectory.GetChildFileWithName);
+            foreach (
+                var f in
+                    packageDirectory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
+                        .Select(x => x.ToAbsoluteFilePath())
+                        .Except(neededFiles)
+                        .Where(x => {
+                            var relative = x.GetRelativePathFrom(packageDirectory);
+                            return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
+                        })) {
+                if (Common.Flags.Verbose)
+                    MainLog.Logger.Info($"Deleting {f}");
+                f.Delete();
+            }
+
+            // Find all empty directories and delete them
+            foreach (
+                var d in
+                    packageDirectory.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
+                        .Select(x => x.ToAbsoluteDirectoryPath())
+                        .Where(x => !excludeFolders.Contains(x.GetRelativePathFrom(packageDirectory).GetRoot()))
+                        .Where(x => {
+                            var relative = x.GetRelativePathFrom(packageDirectory);
+                            return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
+                        })
+                        .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())
+                ) {
+                if (Common.Flags.Verbose)
+                    MainLog.Logger.Info($"Deleting directory {d}");
+                d.Delete();
             }
         }
 
