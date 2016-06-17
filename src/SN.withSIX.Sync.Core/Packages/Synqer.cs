@@ -36,8 +36,6 @@ namespace SN.withSIX.Sync.Core.Packages
 
     public class Synqer : IDomainService, ISynqer
     {
-        private static readonly IEnumerable<IRelativeDirectoryPath> excludeFolders =
-            new[] {"./.rsync", "./.git", "./.svn"}.Select(x => x.ToRelativeDirectoryPath());
         private static readonly string[] excludeFiles = {".synqinfo"};
 
         public Task DownloadPackages(Package[] p,
@@ -137,7 +135,7 @@ namespace SN.withSIX.Sync.Core.Packages
                         .Except(neededFiles)
                         .Where(x => {
                             var relative = x.GetRelativePathFrom(packageDirectory);
-                            return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
+                            return !relative.SubStartsWith(".");
                         })) {
                 if (Common.Flags.Verbose)
                     MainLog.Logger.Info($"Deleting {f}");
@@ -149,10 +147,9 @@ namespace SN.withSIX.Sync.Core.Packages
                 var d in
                     packageDirectory.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
                         .Select(x => x.ToAbsoluteDirectoryPath())
-                        .Where(x => !excludeFolders.Contains(x.GetRelativePathFrom(packageDirectory).GetRoot()))
                         .Where(x => {
                             var relative = x.GetRelativePathFrom(packageDirectory);
-                            return !excludeFolders.Any(d => relative.MatchesSub(d.DirectoryName));
+                            return !relative.SubStartsWith(".");
                         })
                         .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())
                 ) {
