@@ -10,13 +10,13 @@ using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 
 namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
-    // TODO: Error reporting to the Website client?
-    // TODO: Error reporting to the Desktop client?
     public class ContentHub : HubBase<IContentClientHub>
     {
         public Task<ClientContentInfo2> GetContent(Guid gameId) => RequestAsync(new GetContent(gameId));
 
         public Task SelectGame(SelectGame command) => RequestAsync(command);
+
+        public Task CloseGame(CloseGame command) => RequestAsync(command);
 
         public Task PlayContent(PlayContent command) => RequestAsync(command);
 

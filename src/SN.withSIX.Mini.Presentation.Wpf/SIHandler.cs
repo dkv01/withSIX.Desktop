@@ -7,6 +7,7 @@ using ShortBus;
 using SN.withSIX.Api.Models;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
+using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Presentation.Wpf.Node;

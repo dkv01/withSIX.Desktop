@@ -209,9 +209,9 @@ namespace SN.withSIX.Core
                 }
             }
 
-            public IEnumerable<IAbsoluteFilePath> GetExecuteablePaths(string exe)
+            public IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetExecuteablePaths(string exe)
                 => GetRunningProcesses(exe.Replace(".exe", string.Empty))
-                    .Select(x => GetProcessPath(x.Id));
+                    .Select(x => Tuple.Create(x, GetProcessPath(x.Id)));
 
             #region Nested type: NativeMethods
 

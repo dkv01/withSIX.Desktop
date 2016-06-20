@@ -300,6 +300,7 @@
     <Compile Include="Usecases\Main\ApiDbCommandBase.cs" />
     <Compile Include="Usecases\Main\BrowseFolder.cs" />
     <Compile Include="Usecases\Main\CancelQueueItem.cs" />
+    <Compile Include="Usecases\Main\CloseGame.cs" />
     <Compile Include="Usecases\Main\DeleteCollection.cs" />
     <Compile Include="Usecases\Main\GetClientInfo.cs" />
     <Compile Include="Usecases\Main\GetContent.cs" />
@@ -356,6 +357,7 @@
     <Compile Include="Usecases\Settings\InstallExtension.cs" />
     <Compile Include="Usecases\Settings\StartInDiagnosticsMode.cs" />
     <Compile Include="Usecases\Shutdown.cs" />
+    <Compile Include="Usecases\UnhandledUserException.cs" />
     <Compile Include="Usecases\UriOpener.cs" />
     <Compile Include="ViewModels\CMBase.cs" />
     <Compile Include="ViewModels\FlyoutViewModel.cs" />

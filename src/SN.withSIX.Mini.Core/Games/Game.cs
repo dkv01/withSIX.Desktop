@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
@@ -392,13 +393,14 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected bool ShouldLaunchAsAdministrator() => Settings.LaunchAsAdministrator.GetValueOrDefault();
 
-        bool IsRunning() {
-            // TODO: Optimize
-            var exeDir = InstalledState.Executable.ParentDirectoryPath;
-            return Metadata.Executables.SelectMany(x => Tools.Processes.GetExecuteablePaths(x))
-                .Where(x => x != null)
-                .Any(x => exeDir.Equals(x.ParentDirectoryPath));
-        }
+        bool IsRunning() => GetRunningInstances().Any();
+
+        private IAbsoluteDirectoryPath ExecutablePath => InstalledState.Executable.ParentDirectoryPath;
+
+        // TODO: Optimize
+        private IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetRunningInstances()
+            => Metadata.Executables.SelectMany(x => Tools.Processes.GetExecuteablePaths(x))
+                .Where(x => x != null && ExecutablePath.Equals(x.Item2.ParentDirectoryPath));
 
         public async Task UpdateSettings(GameSettings settings) {
             Settings = settings;
@@ -449,6 +451,11 @@ namespace SN.withSIX.Mini.Core.Games
 
         public virtual IAbsoluteDirectoryPath GetConfigPath(IPackagedContent content) {
             throw new NotImplementedException();
+        }
+
+        public void Close() {
+            ConfirmInstalled();
+            GetRunningInstances().ForEach(x => x.Item1.TryKill());
         }
     }
 

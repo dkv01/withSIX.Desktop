@@ -10,14 +10,16 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
+using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
+using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Applications.Usecases.Settings;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Node
 {
     public class Api : IUsecaseExecutor
     {
-        private Excecutor _executor = new Excecutor();
+        private readonly Excecutor _executor = new Excecutor();
         public Task<object> Invoke(dynamic input) {
             try {
                 var request = (string) input.request;
@@ -29,15 +31,31 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Node
                 case "saveSettings":
                     return Request<SaveGeneralSettings, UnitType>(requestData);
                 case "saveLogs":
-                    return Request<SaveLogs, UnitType>(requestData);
+                    return VoidCommand<SaveLogs>(requestData);
                 case "enableDiagnostics":
-                    return Request<StartInDiagnosticsMode, UnitType>(requestData);
+                    return VoidCommand<StartInDiagnosticsMode>(requestData);
                 case "installExplorerExtension":
-                    return Request<InstallExtension, UnitType>(requestData);
+                    return VoidCommand<InstallExtension>(requestData);
                 case "uninstallExplorerExtension":
-                    return Request<RemoveExtension, UnitType>(requestData);
+                    return VoidCommand<RemoveExtension>(requestData);
                 case "handleParameters":
-                    return HandleSingleInstanceCall(Tools.Serialization.Json.LoadJson<SICall>(SerializationExtension.ToJson(requestData)));
+                    return
+                        HandleSingleInstanceCall(
+                            Tools.Serialization.Json.LoadJson<SICall>(SerializationExtension.ToJson(requestData)));
+                case "installContent":
+                    return VoidCommand<InstallContent>(requestData);
+                case "installContents":
+                    return VoidCommand<InstallContents>(requestData);
+                case "uninstallContent":
+                    return VoidCommand<UninstallContent>(requestData);
+                case "uninstallContents":
+                    return VoidCommand<UninstallContents>(requestData);
+                case "launchContent":
+                    return VoidCommand<LaunchContent>(requestData);
+                case "launchContents":
+                    return VoidCommand<LaunchContents>(requestData);
+                case "closeGame":
+                    return VoidCommand<CloseGame>(requestData);
                 default:
                     throw new Exception("Unknown command");
                 }
@@ -55,6 +73,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Node
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
+        Task<object> VoidCommand<T>(dynamic requestData) where T : IAsyncRequest<UnitType>
+            => Request<T, UnitType>(requestData);
+
         async Task<object> Request<T, T2>(dynamic requestData) where T : IAsyncRequest<T2> {
             var data = SerializationExtension.ToJson(requestData);
             T request = Tools.Serialization.Json.LoadJson<T>(data);
@@ -63,10 +84,5 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Node
         }
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
-    }
-
-    internal class UnhandledUserException : Exception
-    {
-        public UnhandledUserException(string s, Exception exception) : base(s, exception) {}
     }
 }

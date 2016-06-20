@@ -18,10 +18,14 @@ using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Owin;
+using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Services;
+using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
+using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.Hubs;
 
@@ -29,6 +33,7 @@ namespace SN.withSIX.Mini.Infra.Api
 {
     public class Startup : IUsecaseExecutor
     {
+        private readonly Excecutor _executor = new Excecutor();
         static Startup() {
             var serializer = CreateJsonSerializer();
             GlobalHost.DependencyResolver.Register(typeof (JsonSerializer), () => serializer);
@@ -53,20 +58,32 @@ namespace SN.withSIX.Mini.Infra.Api
 
         public void Configuration(IAppBuilder app) {
             app.UseCors(new MyCorsOptions());
+
             app.Map("/api", api => {
+                api.Map("/content", content => {
+                    content.Map("/install-content", builder => builder.Run(ExcecuteVoidCommand<InstallContent>));
+                    content.Map("/install-contents", builder => builder.Run(ExcecuteVoidCommand<InstallContents>));
+                    content.Map("/uninstall-content", builder => builder.Run(ExcecuteVoidCommand<UninstallContent>));
+                    content.Map("/uninstall-contents", builder => builder.Run(ExcecuteVoidCommand<UninstallContents>));
+                    content.Map("/launch-content", builder => builder.Run(ExcecuteVoidCommand<LaunchContent>));
+                    content.Map("/launch-contents", builder => builder.Run(ExcecuteVoidCommand<LaunchContents>));
+                    content.Map("/close-game", builder => builder.Run(ExcecuteVoidCommand<CloseGame>));
+                });
+
                 api.Map("/get-upload-folders",
                     builder =>
                         builder.Run(
                             context =>
-                                Load<List<string>, List<FolderInfo>>(context,
+                                ProcessRequest<List<string>, List<FolderInfo>>(context,
                                     folders => this.RequestAsync(new GetFolders(folders)))));
+
                 api.Map("/whitelist-upload-folders",
-                    builder => builder.Run(context => Load<List<string>, object>(context,
-                        async folders => {
-                            await this.RequestAsync(new WhiteListFolders(folders)).ConfigureAwait(false);
-                            return "";
-                        })));
+                    builder =>
+                        builder.Run(
+                            context =>
+                                ProcessRequest<List<string>>(context, folders => this.RequestAsync(new WhiteListFolders(folders)))));
             });
+
             app.Map("/signalr", map => {
                 var debug =
 #if DEBUG
@@ -84,15 +101,31 @@ namespace SN.withSIX.Mini.Infra.Api
                 // path.
                 map.RunSignalR(hubConfiguration);
             });
+
             app.Map("", builder => builder.Run(async ctx => ctx.Response.Redirect("https://withsix.com")));
         }
 
-        static async Task Load<T, TOut>(IOwinContext context, Func<T, Task<TOut>> handler) {
+        Task ExcecuteVoidCommand<T>(IOwinContext context) where T : IAsyncRequest<UnitType>
+            => ExecuteRequest<T, UnitType>(context);
+
+        Task ExecuteRequest<T, TOut>(IOwinContext context) where T : IAsyncRequest<TOut> where TOut : class
+            => ProcessRequest<T, TOut>(context,
+                request => _executor.ApiAction(() => this.RequestAsync(request), request,
+                    CreateException));
+
+        private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
+
+        static Task ProcessRequest<T>(IOwinContext context, Func<T, Task> handler) => ProcessRequest<T, string>(context, async d => {
+            await handler(d).ConfigureAwait(false);
+            return "";
+        });
+
+        static async Task ProcessRequest<T, TOut>(IOwinContext context, Func<T, Task<TOut>> handler) {
             context.Response.ContentType = "application/json";
             using (var memoryStream = new MemoryStream()) {
                 await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                var folders = Tools.Serialization.Json.LoadJson<T>(Encoding.UTF8.GetString(memoryStream.ToArray()));
-                var returnValue = await handler(folders).ConfigureAwait(false);
+                var requestData = Tools.Serialization.Json.LoadJson<T>(Encoding.UTF8.GetString(memoryStream.ToArray()));
+                var returnValue = await handler(requestData).ConfigureAwait(false);
                 await
                     context.Response.WriteAsync(JsonConvert.SerializeObject(returnValue,
                         SerializationExtension.DefaultSettings)).ConfigureAwait(false);
