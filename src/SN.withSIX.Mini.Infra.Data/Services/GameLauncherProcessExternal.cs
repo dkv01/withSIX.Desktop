@@ -61,6 +61,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             LogGameInfo(spec);
             LogStartupInfo(startInfo);
             if (spec.WaitForExit) {
+                // TODO: Problem; WaitForExit actually doesnt stop after the child process is exited, but also all i'ts child processes>?!
                 if (spec.LaunchAsAdministrator)
                     await LaunchAsAdmin(startInfo).ConfigureAwait(false);
                 else {

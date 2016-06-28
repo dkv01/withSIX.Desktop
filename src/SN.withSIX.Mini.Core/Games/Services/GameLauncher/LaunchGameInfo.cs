@@ -41,7 +41,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
         public ProcessPriorityClass Priority { get; set; }
         public int[] Affinity { get; set; }
         public bool LaunchAsAdministrator { get; set; }
-        public bool WaitForExit { get; set; } = true;
+        public bool WaitForExit { get; set; }
         public IAbsoluteFilePath ExpectedExecutable { get; }
     }
 
