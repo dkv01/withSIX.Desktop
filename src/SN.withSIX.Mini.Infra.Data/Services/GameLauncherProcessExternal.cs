@@ -83,11 +83,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 await _processManager.LaunchAndGrabAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
             if (info.ExitCode != 0)
                 throw new Exception("Launching failed with error code " + info.ExitCode);
-            var lResult =
-                Tools.Serialization.Json.LoadJson<LaunchResult>(
-                    info.StandardOutput.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
-                        .Last());
-            return lResult;
+            var results = info.StandardOutput.Split(new[] {Environment.NewLine, "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+            return Tools.Serialization.Json.LoadJson<LaunchResult>(results.Last());
         }
 
         private async Task LaunchAsAdmin(ProcessStartInfo startInfo) {
