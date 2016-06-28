@@ -4,6 +4,8 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 
@@ -57,6 +59,16 @@ namespace SN.withSIX.Core.Services.Infrastructure
 
     public static class ProcessExtensions
     {
+        public static Task WaitForExitAsync(this Process process,
+            CancellationToken cancellationToken = default(CancellationToken)) {
+            var tcs = new TaskCompletionSource<object>();
+            process.EnableRaisingEvents = true;
+            process.Exited += (sender, args) => tcs.TrySetResult(null);
+            if (cancellationToken != default(CancellationToken))
+                cancellationToken.Register(() => tcs.TrySetCanceled());
+            return tcs.Task;
+        }
+
         public static ProcessException GenerateException(this ProcessExitResult exitResult)
             => new ProcessException(GenerateMessage(exitResult));
 
