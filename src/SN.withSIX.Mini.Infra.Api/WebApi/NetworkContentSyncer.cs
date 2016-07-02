@@ -111,7 +111,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var mods =
                 await
                     Tools.Transfer.GetJson<List<ModDto>>(
-                        new Uri("http://api-cdn.withsix.com/api/v2/mods.json.gz?v=" + hashes.Mods))
+                        new Uri("http://withsix-api.azureedge.net/api/v2/mods.json.gz?v=" + hashes.Mods))
                         .ConfigureAwait(false);
             return mods.Where(x => gameIds.Contains(x.GameId)).ToList();
         }

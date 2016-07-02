@@ -70,9 +70,7 @@ namespace SN.withSIX.Core
         public static readonly string FacebookUrl = @"https://www.facebook.com/withSIX";
         public static readonly string GplusUrl = @"https://plus.google.com/104785560298357015306";
         public static readonly Uri ApiCdnUrl = new Uri("http://" + Buckets.WithSixApi.CdnHostname);
-        public static readonly Uri CdnUrl = new Uri("http://cdn.withsix.com");
-        public static readonly Uri ImageCdn = new Uri("https://img-cdn.withsix.com");
-        public static readonly Uri UsercontentCdn = new Uri("https://" + Buckets.WithSixUsercontent.CdnHostname);
+        public static readonly Uri ImageCdn = new Uri("https://withsix-img.azureedge.net");
         public static readonly Uri UsercontentCdnProduction =
             new Uri("https://" + Buckets.WthSiUsercontentProduction.CdnHostname);
         public static readonly Uri ConnectUrlHttp = new Uri(UrlBuilder.GetUri("http"), "me/");
@@ -274,7 +272,7 @@ namespace SN.withSIX.Core
             Value = value;
             Hostname = value + "." + host;
             CdnHostname = environment == Environments.Production
-                ? value + "-cdn.withsix.com"
+                ? value + ".azureedge.net"
                 : Hostname;
         }
 
