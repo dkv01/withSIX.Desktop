@@ -46,7 +46,7 @@ namespace SN.withSIX.Mini.Infra.Api
             _factory = factory;
         }
 
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperInfraApiConfig.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperInfraApiConfig.Setup(cfg);
 
         public async Task InitializeAfterUI() {
             // We have to run this outside of a DB scope

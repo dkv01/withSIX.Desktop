@@ -17,7 +17,7 @@ namespace SN.withSIX.Mini.Applications
 {
     public class AutoMapperAppConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             SetupSettingsTabs(cfg);
             SetupApi(cfg);
 
@@ -26,7 +26,7 @@ namespace SN.withSIX.Mini.Applications
             cfg.CreateMap<ProgressContainer, FlatProgressInfo>();
         }
 
-        static void SetupApi(IMapperConfiguration cfg) {
+        static void SetupApi(IProfileExpression cfg) {
             cfg.CreateMap<Game, ClientContentInfo2>()
                 .ForMember(x => x.FavoriteContent, opt => opt.MapFrom(src => src.FavoriteItems))
                 .ForMember(x => x.RecentContent,
@@ -298,7 +298,7 @@ namespace SN.withSIX.Mini.Applications
             return convert;
         }
 
-        static void SetupSettingsTabs(IMapperConfiguration cfg) {
+        static void SetupSettingsTabs(IProfileExpression cfg) {
             cfg.CreateMap<Settings, GeneralSettings>()
                 .IgnoreAllMembers()
                 .ForMember(x => x.ApiPort, opt => opt.MapFrom(src => src.Local.ApiPort))

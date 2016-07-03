@@ -8,6 +8,6 @@ namespace SN.withSIX.Mini.Infra.Data
 {
     public class AutoMapperInfraDataConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {}
+        public static void Setup(IProfileExpression cfg) {}
     }
 }

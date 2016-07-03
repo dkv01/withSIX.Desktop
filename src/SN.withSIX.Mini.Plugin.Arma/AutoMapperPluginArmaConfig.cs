@@ -10,11 +10,11 @@ namespace SN.withSIX.Mini.Plugin.Arma
 {
     public class AutoMapperPluginArmaConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             SetupApiModels(cfg);
         }
 
-        static void SetupApiModels(IMapperConfiguration cfg) {
+        static void SetupApiModels(IProfileExpression cfg) {
             cfg.CreateMap<Arma2COGameSettings, Arma2COGameSettingsApiModel>();
             cfg.CreateMap<Arma2COGameSettingsApiModel, Arma2COGameSettings>();
             cfg.CreateMap<Arma3GameSettings, Arma3GameSettingsApiModel>();

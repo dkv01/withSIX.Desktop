@@ -11,7 +11,7 @@ namespace SN.withSIX.Mini.Plugin.Homeworld
 {
     public class Initializer : IInitializer, IAMInitializer
     {
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperPluginHomeworldConfig.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperPluginHomeworldConfig.Setup(cfg);
 
         public async Task Initialize() {}
 

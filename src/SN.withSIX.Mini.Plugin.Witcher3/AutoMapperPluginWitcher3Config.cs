@@ -10,11 +10,11 @@ namespace SN.withSIX.Mini.Plugin.Witcher3
 {
     public class AutoMapperPluginWitcher3Config
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             SetupApiModels(cfg);
         }
 
-        static void SetupApiModels(IMapperConfiguration cfg) {
+        static void SetupApiModels(IProfileExpression cfg) {
             cfg.CreateMap<Witcher3GameSettings, Witcher3GameSettingsApiModel>();
             cfg.CreateMap<Witcher3GameSettingsApiModel, Witcher3GameSettings>();
         }

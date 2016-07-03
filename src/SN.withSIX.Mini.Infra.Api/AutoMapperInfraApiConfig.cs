@@ -16,7 +16,7 @@ namespace SN.withSIX.Mini.Infra.Api
 {
     public class AutoMapperInfraApiConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             cfg.CreateMap<ContentDto, NetworkContent>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.Image,

@@ -12,7 +12,7 @@ namespace SN.withSIX.Mini.Plugin.Witcher3
 {
     public class Initializer : IInitializer, IAMInitializer
     {
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperPluginWitcher3Config.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperPluginWitcher3Config.Setup(cfg);
 
         public Task Initialize() {
             // TODO: Register auto through container??

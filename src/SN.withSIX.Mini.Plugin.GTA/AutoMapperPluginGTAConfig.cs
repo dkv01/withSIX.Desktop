@@ -10,11 +10,11 @@ namespace SN.withSIX.Mini.Plugin.GTA
 {
     public class AutoMapperPluginGTAConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             SetupApiModels(cfg);
         }
 
-        static void SetupApiModels(IMapperConfiguration cfg) {
+        static void SetupApiModels(IProfileExpression cfg) {
             cfg.CreateMap<GTA4GameSettings, GTA4GameSettingsApiModel>();
             cfg.CreateMap<GTA4GameSettingsApiModel, GTA4GameSettings>();
 

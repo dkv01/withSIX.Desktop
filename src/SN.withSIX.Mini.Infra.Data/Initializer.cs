@@ -11,7 +11,7 @@ namespace SN.withSIX.Mini.Infra.Data
 {
     public class Initializer : IInitializer, IAMInitializer
     {
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperInfraDataConfig.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperInfraDataConfig.Setup(cfg);
         public async Task Initialize() {}
 
         public async Task Deinitialize() {}

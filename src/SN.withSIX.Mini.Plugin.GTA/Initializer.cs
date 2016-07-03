@@ -13,7 +13,7 @@ namespace SN.withSIX.Mini.Plugin.GTA
 {
     public class Initializer : IInitializer, IAMInitializer
     {
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperPluginGTAConfig.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperPluginGTAConfig.Setup(cfg);
 
         public Task Initialize() {
             // TODO: Register auto through container??

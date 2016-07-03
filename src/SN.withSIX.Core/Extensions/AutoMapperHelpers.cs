@@ -11,29 +11,29 @@ namespace SN.withSIX.Core.Extensions
 {
     public static class AutoMapperHelpers
     {
-        public static void SetupConverters(this IMapperConfiguration config) {
+        public static void SetupConverters(this IProfileExpression config) {
             config.SetupUriConverter();
             config.SetupDirConverter();
             config.SetupVersionConverter();
             config.SetupServerAddressConverter();
         }
 
-        static void SetupUriConverter(this IMapperConfiguration config) {
+        static void SetupUriConverter(this IProfileExpression config) {
             config.CreateMap<Uri, string>().ConvertUsing<UriToStringConverter>();
             config.CreateMap<string, Uri>().ConvertUsing<StringToUriConverter>();
         }
 
-        static void SetupServerAddressConverter(this IMapperConfiguration config) {
+        static void SetupServerAddressConverter(this IProfileExpression config) {
             config.CreateMap<ServerAddress, string>().ConvertUsing<ServerAddressToStringConverter>();
             config.CreateMap<string, ServerAddress>().ConvertUsing<StringToServerAddressConverter>();
         }
 
-        static void SetupVersionConverter(this IMapperConfiguration config) {
+        static void SetupVersionConverter(this IProfileExpression config) {
             config.CreateMap<Version, string>().ConvertUsing<VersionToStringConverter>();
             config.CreateMap<string, Version>().ConvertUsing<StringToVersionConverter>();
         }
 
-        static void SetupDirConverter(this IMapperConfiguration config) {
+        static void SetupDirConverter(this IProfileExpression config) {
             config.CreateMap<IAbsoluteDirectoryPath, string>().ConvertUsing<AbsoluteDirToStringConverter>();
             config.CreateMap<string, IAbsoluteDirectoryPath>().ConvertUsing<StringToAbsoluteDirConverter>();
             config.CreateMap<IAbsoluteFilePath, string>().ConvertUsing<AbsoluteFileToStringConverter>();
@@ -42,63 +42,54 @@ namespace SN.withSIX.Core.Extensions
 
         class AbsoluteDirToStringConverter : ITypeConverter<IAbsoluteDirectoryPath, string>
         {
-            public string Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : context.SourceValue.ToString();
+            public string Convert(IAbsoluteDirectoryPath source, ResolutionContext context) => source?.ToString();
         }
 
         class AbsoluteFileToStringConverter : ITypeConverter<IAbsoluteFilePath, string>
         {
-            public string Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : context.SourceValue.ToString();
+            public string Convert(IAbsoluteFilePath source, ResolutionContext context) => source?.ToString();
+
         }
 
         class StringToAbsoluteDirConverter : ITypeConverter<string, IAbsoluteDirectoryPath>
         {
-            public IAbsoluteDirectoryPath Convert(ResolutionContext context) => context.IsSourceValueNull
-                ? null
-                : ((string) context.SourceValue).ToAbsoluteDirectoryPathNullSafe();
+            public IAbsoluteDirectoryPath Convert(string source, ResolutionContext context) => source?.ToAbsoluteDirectoryPath();
         }
 
         class StringToAbsoluteFileConverter : ITypeConverter<string, IAbsoluteFilePath>
         {
-            public IAbsoluteFilePath Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : ((string) context.SourceValue).ToAbsoluteFilePathNullSafe();
+            public IAbsoluteFilePath Convert(string source, ResolutionContext context) => source?.ToAbsoluteFilePath();
         }
 
         class StringToUriConverter : ITypeConverter<string, Uri>
         {
-            public Uri Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : new Uri((string) context.SourceValue);
+            public Uri Convert(string source, ResolutionContext context) => source == null ? null : new Uri(source);
         }
 
         class StringToServerAddressConverter : ITypeConverter<string, ServerAddress>
         {
-            public ServerAddress Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : new ServerAddress((string) context.SourceValue);
+
+            public ServerAddress Convert(string source, ResolutionContext context) => source == null ? null : new ServerAddress(source);
         }
 
         class StringToVersionConverter : ITypeConverter<string, Version>
         {
-            public Version Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : Version.Parse((string) context.SourceValue);
+            public Version Convert(string source, ResolutionContext context) => source == null ? null : Version.Parse(source);
         }
 
         class UriToStringConverter : ITypeConverter<Uri, string>
         {
-            public string Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : ((Uri) context.SourceValue).AbsoluteUri;
+            public string Convert(Uri source, ResolutionContext context) => source?.AbsoluteUri;
         }
 
         class ServerAddressToStringConverter : ITypeConverter<ServerAddress, string>
         {
-            public string Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : ((ServerAddress) context.SourceValue).ToString();
+            public string Convert(ServerAddress source, ResolutionContext context) => source?.ToString();
         }
 
         class VersionToStringConverter : ITypeConverter<Version, string>
         {
-            public string Convert(ResolutionContext context)
-                => context.IsSourceValueNull ? null : context.SourceValue.ToString();
+            public string Convert(Version source, ResolutionContext context) => source?.ToString();
         }
     }
 }

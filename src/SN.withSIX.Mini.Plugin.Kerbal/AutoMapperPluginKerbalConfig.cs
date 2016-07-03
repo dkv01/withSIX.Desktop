@@ -10,11 +10,11 @@ namespace SN.withSIX.Mini.Plugin.Kerbal
 {
     public class AutoMapperPluginKerbalConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             SetupApiModels(cfg);
         }
 
-        static void SetupApiModels(IMapperConfiguration cfg) {
+        static void SetupApiModels(IProfileExpression cfg) {
             cfg.CreateMap<KerbalSPGameSettings, KerbalSPGameSettingsApiModel>();
             cfg.CreateMap<KerbalSPGameSettingsApiModel, KerbalSPGameSettings>();
         }

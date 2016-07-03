@@ -10,11 +10,11 @@ namespace SN.withSIX.Mini.Plugin.Homeworld
 {
     public class AutoMapperPluginHomeworldConfig
     {
-        public static void Setup(IMapperConfiguration cfg) {
+        public static void Setup(IProfileExpression cfg) {
             SetupApiModels(cfg);
         }
 
-        static void SetupApiModels(IMapperConfiguration cfg) {
+        static void SetupApiModels(IProfileExpression cfg) {
             cfg.CreateMap<Homeworld2GameSettings, Homeworld2GameSettingsApiModel>();
             cfg.CreateMap<Homeworld2GameSettingsApiModel, Homeworld2GameSettings>();
         }

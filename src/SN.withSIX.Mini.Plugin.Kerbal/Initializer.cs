@@ -11,7 +11,7 @@ namespace SN.withSIX.Mini.Plugin.Kerbal
 {
     public class Initializer : IInitializer, IAMInitializer
     {
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperPluginKerbalConfig.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperPluginKerbalConfig.Setup(cfg);
 
         public async Task Initialize() {}
 

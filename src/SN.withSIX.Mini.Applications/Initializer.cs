@@ -10,7 +10,7 @@ namespace SN.withSIX.Mini.Applications
 {
     public class Initializer : IInitializer, IAMInitializer
     {
-        public void ConfigureAutoMapper(IMapperConfiguration cfg) => AutoMapperAppConfig.Setup(cfg);
+        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperAppConfig.Setup(cfg);
 
         public async Task Initialize() {
             UiTaskHandler.RegisterHandler(new GameExceptionHandler());
@@ -21,6 +21,6 @@ namespace SN.withSIX.Mini.Applications
 
     public interface IAMInitializer
     {
-        void ConfigureAutoMapper(IMapperConfiguration cfg);
+        void ConfigureAutoMapper(IProfileExpression cfg);
     }
 }
