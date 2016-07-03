@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 
-namespace SN.withSIX.Mini.Applications.ViewModels
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
 {
     public interface IRoutableViewModel : ReactiveUI.IRoutableViewModel, ISomeViewModel {}
 

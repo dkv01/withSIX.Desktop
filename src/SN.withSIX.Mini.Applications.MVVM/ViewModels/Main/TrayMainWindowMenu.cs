@@ -14,7 +14,7 @@ using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
 
-namespace SN.withSIX.Mini.Applications.ViewModels.Main
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
 {
     public class TrayMainWindowMenu : CMBase
     {
@@ -31,8 +31,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
             // TODO: Activation doesnt work atm :S
             // this.WhenActivated(d => d(ListenIncludeLatest<LoginChanged>().Select(x => x == null ? null : x.LoginInfo).ObserveOnMainThread().Subscribe(UpdateLogin)));
             this.Listen<LoginChanged>()
-                .Select(x => x.LoginInfo)
-                .ObserveOnMainThread()
+                .Select(x => x.LoginInfo).ObserveOnMainThread<LoginInfo>()
                 .Subscribe(UpdateLogin);
         }
 

@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Mini.Applications.ViewModels;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Applications.Views
+namespace SN.withSIX.Mini.Applications.MVVM.Views
 {
     public interface ITrayNotification : IViewFor<ITrayNotificationViewModel> {}
 }

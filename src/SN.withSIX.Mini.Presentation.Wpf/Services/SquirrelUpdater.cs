@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 using Splat;
 using Squirrel;

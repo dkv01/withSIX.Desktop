@@ -276,7 +276,6 @@
     <Compile Include="Services\GameLockMonitor.cs" />
     <Compile Include="Services\GameSwitcher.cs" />
     <Compile Include="Services\IExplorerExtensionInstaller.cs" />
-    <Compile Include="Services\IFlyoutOpener.cs" />
     <Compile Include="Services\Infra\IContentFolderLinkContext.cs" />
     <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
     <Compile Include="Services\Infra\IDbContext.cs" />
@@ -288,7 +287,7 @@
     <Compile Include="Services\INodeApi.cs" />
     <Compile Include="Services\IPlatformProvider.cs" />
     <Compile Include="Services\IQueueManager.cs" />
-    <Compile Include="Services\IScreenOpener.cs" />
+    <Compile Include="Services\ISquirrelApp.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />
     <Compile Include="Services\Queue.cs" />
     <Compile Include="Services\StateHandler.cs" />
@@ -342,7 +341,6 @@
     <Compile Include="Usecases\ContentsBase.cs" />
     <Compile Include="Usecases\GameContentBase.cs" />
     <Compile Include="Usecases\DbCommandBase.cs" />
-    <Compile Include="Usecases\GetMiniMain.cs" />
     <Compile Include="Usecases\IdBased.cs" />
     <Compile Include="Usecases\Main\Games\UnfavoriteContent.cs" />
     <Compile Include="Usecases\Main\Games\GetGame.cs" />
@@ -359,18 +357,6 @@
     <Compile Include="Usecases\Shutdown.cs" />
     <Compile Include="Usecases\UnhandledUserException.cs" />
     <Compile Include="Usecases\UriOpener.cs" />
-    <Compile Include="ViewModels\CMBase.cs" />
-    <Compile Include="ViewModels\FlyoutViewModel.cs" />
-    <Compile Include="ViewModels\Main\StatusViewModel.cs" />
-    <Compile Include="ViewModels\Main\TrayMainWindowMenu.cs" />
-    <Compile Include="ViewModels\MiniMainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ScreenViewModel.cs" />
-    <Compile Include="ViewModels\RoutableViewModel.cs" />
-    <Compile Include="ViewModels\SomeViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModel.cs" />
-    <Compile Include="ViewModels\TrayNotificationViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
-    <Compile Include="Views\ITrayNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

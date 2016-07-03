@@ -5,7 +5,7 @@
 using ReactiveUI;
 using SN.withSIX.Mini.Applications.Extensions;
 
-namespace SN.withSIX.Mini.Applications.ViewModels
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
 {
     public abstract class ViewModel : ReactiveObject, IViewModel, ISupportsActivation
     {

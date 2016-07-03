@@ -5,7 +5,6 @@
                                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                   xmlns:tb="http://www.hardcodet.net/taskbar"
                                   xmlns:applications="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
-                                  xmlns:viewModels="clr-namespace:SN.withSIX.Mini.Applications.ViewModels;assembly=SN.withSIX.Mini.Applications"
                                   xmlns:controls="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Controls"
                                   xmlns:services="clr-namespace:SN.withSIX.Core.Applications.Services;assembly=SN.withSIX.Core.Applications"
                                   mc:Ignorable="d"

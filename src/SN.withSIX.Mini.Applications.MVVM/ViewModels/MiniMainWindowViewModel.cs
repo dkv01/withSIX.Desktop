@@ -9,10 +9,10 @@ using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels.Main;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.ViewModels.Main;
 
-namespace SN.withSIX.Mini.Applications.ViewModels
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
 {
     public class MiniMainWindowViewModel : ScreenViewModel, IMiniMainWindowViewModel
     {
@@ -35,13 +35,11 @@ namespace SN.withSIX.Mini.Applications.ViewModels
             /*            Listen<ApiUserActionStarted>()
                 .ObserveOnMainThread()
                 .InvokeCommand(OpenPopup);*/
-            this.Listen<ClientInfoUpdated>()
-                .Where(x => x.Info.UpdateState == AppUpdateState.Updating)
-                .ObserveOnMainThread()
+            RxExtensions.ObserveOnMainThread<ClientInfoUpdated>(this.Listen<ClientInfoUpdated>()
+                    .Where(x => x.Info.UpdateState == AppUpdateState.Updating))
                 .InvokeCommand(OpenPopup);
-            this.Listen<ShowTrayNotification>()
-                .Select(x => new TrayNotificationViewModel(x.Subject, x.Text, x.CloseIn, x.Actions))
-                .ObserveOnMainThread()
+            RxExtensions.ObserveOnMainThread<TrayNotificationViewModel>(this.Listen<ShowTrayNotification>()
+                    .Select(x => new TrayNotificationViewModel(x.Subject, x.Text, x.CloseIn, x.Actions)))
                 .InvokeCommand(ShowNotification);
         }
 

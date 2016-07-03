@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Mini.Applications.ViewModels;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace SN.withSIX.Mini.Applications.MVVM.Services
 {
     public interface IFlyoutOpener
     {

@@ -8,8 +8,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Hardcodet.Wpf.TaskbarNotification;
 using ReactiveUI;
-using SN.withSIX.Mini.Applications.ViewModels;
-using SN.withSIX.Mini.Applications.Views;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels;
+using SN.withSIX.Mini.Applications.MVVM.Views;
 using SN.withSIX.Mini.Presentation.Wpf.Controls;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Views

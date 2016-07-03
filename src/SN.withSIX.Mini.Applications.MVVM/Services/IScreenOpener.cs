@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.ViewModels;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace SN.withSIX.Mini.Applications.MVVM.Services
 {
     public interface IScreenOpener : IUsecaseExecutor
     {

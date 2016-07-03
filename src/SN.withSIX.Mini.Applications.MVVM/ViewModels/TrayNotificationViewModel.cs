@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.ViewModels
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
 {
     public interface ITrayNotificationViewModel
     {

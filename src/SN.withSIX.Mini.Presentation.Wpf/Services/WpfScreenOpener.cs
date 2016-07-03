@@ -10,8 +10,9 @@ using MahApps.Metro.Controls;
 using ReactiveUI;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications;
+using SN.withSIX.Mini.Applications.MVVM.Services;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.ViewModels;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Services
 {

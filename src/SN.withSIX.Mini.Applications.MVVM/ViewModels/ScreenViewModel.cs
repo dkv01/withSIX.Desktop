@@ -9,7 +9,7 @@ using SN.withSIX.Mini.Applications.Components;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Usecases;
 
-namespace SN.withSIX.Mini.Applications.ViewModels
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
 {
     public interface IScreenViewModel : IViewModel, IScreen, IActivatableScreen, IHaveDisplayName
     {

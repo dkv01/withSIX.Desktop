@@ -9,7 +9,7 @@ using System.Windows.Input;
 using ReactiveUI;
 using SN.withSIX.Core.Presentation.Wpf.Behaviors;
 using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Applications.ViewModels;
+using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Extensions
 {

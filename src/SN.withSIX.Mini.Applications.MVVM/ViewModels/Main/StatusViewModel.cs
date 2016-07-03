@@ -11,7 +11,7 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Applications.ViewModels.Main
+namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
 {
     // TODO: Decide if Icons, Text or Colors are supposed to be part of the VM, or rather part of the Presentation layer..
     public class StatusViewModel : ViewModel, IStatusViewModel

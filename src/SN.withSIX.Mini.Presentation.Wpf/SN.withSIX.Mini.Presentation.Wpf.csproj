@@ -499,6 +499,10 @@
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>SN.withSIX.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications.MVVM\SN.withSIX.Mini.Applications.MVVM.csproj">
+      <Project>{d9525060-5d5c-4b28-a593-147d75f0680c}</Project>
+      <Name>SN.withSIX.Mini.Applications.MVVM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Applications\SN.withSIX.Mini.Applications.csproj">
       <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
       <Name>SN.withSIX.Mini.Applications</Name>
@@ -534,6 +538,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Witcher3\SN.withSIX.Mini.Plugin.Witcher3.csproj">
       <Project>{8a5bb322-d0fd-4fc3-b2fa-4ed1eccc089d}</Project>
       <Name>SN.withSIX.Mini.Plugin.Witcher3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\SN.withSIX.Mini.Presentation.Core.csproj">
+      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
+      <Name>SN.withSIX.Mini.Presentation.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Shell\SN.withSIX.Mini.Presentation.Shell.csproj">
       <Project>{956504fb-6cae-4857-8802-d6c24336ec15}</Project>

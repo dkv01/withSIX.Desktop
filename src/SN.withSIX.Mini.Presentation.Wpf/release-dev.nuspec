@@ -28,6 +28,7 @@
         <file src="bin\release\SN.withSIX.Core.Presentation.WinRT.dll" target="lib\net45\SN.withSIX.Core.Presentation.WinRT.dll" />
         <file src="bin\release\SN.withSIX.Core.Presentation.Wpf.dll" target="lib\net45\SN.withSIX.Core.Presentation.Wpf.dll" />
         <file src="bin\release\SN.withSIX.Mini.Applications.dll" target="lib\net45\SN.withSIX.Mini.Applications.dll" />
+        <file src="bin\release\SN.withSIX.Mini.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Mini.Applications.MVVM.dll" />
         <file src="bin\release\SN.withSIX.Mini.Core.dll" target="lib\net45\SN.withSIX.Mini.Core.dll" />
         <file src="bin\release\SN.withSIX.Mini.Infra.Api.dll" target="lib\net45\SN.withSIX.Mini.Infra.Api.dll" />
         <file src="bin\release\SN.withSIX.Mini.Infra.Data.dll" target="lib\net45\SN.withSIX.Mini.Infra.Data.dll" />
@@ -35,6 +36,7 @@
         <file src="bin\release\SN.withSIX.Mini.Plugin.GTA.dll" target="lib\net45\SN.withSIX.Mini.Plugin.GTA.dll" />
         <file src="bin\release\SN.withSIX.Mini.Plugin.Homeworld.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Homeworld.dll" />
         <file src="bin\release\SN.withSIX.Mini.Plugin.Kerbal.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Kerbal.dll" />
+        <file src="bin\release\SN.withSIX.Mini.Presentation.Core.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Core.dll" />
         <file src="bin\release\SN.withSIX.Mini.Presentation.Shell.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Shell.dll" />
         <file src="bin\release\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
 
