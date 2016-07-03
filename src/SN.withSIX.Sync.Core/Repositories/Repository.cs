@@ -204,8 +204,8 @@ namespace SN.withSIX.Sync.Core.Repositories
             // TODO: Should not allow Version or Branch to be changed after construct?
             mappingConfig.CreateMap<PackageMetaDataDto, PackageMetaData>()
                 .ConstructUsing(src => new PackageMetaData(src.Name))
-                .ForMember(x => x.Additional, opt => opt.Condition(src => !src.IsSourceValueNull))
-                .ForMember(x => x.Dependencies, opt => opt.Condition(src => !src.IsSourceValueNull))
+                .ForMember(x => x.Additional, opt => opt.Condition(src => src != null))
+                .ForMember(x => x.Dependencies, opt => opt.Condition(src => src != null))
                 .ForMember(x => x.Date, opt => opt.NullSubstitute(Tools.Generic.GetCurrentDateTime))
                 .ForMember(x => x.Version, opt => opt.NullSubstitute(SpecificVersion.DefaultV))
                 .ForMember(x => x.FullName, opt => opt.NullSubstitute(MetaDataBase.TodoFullName))
@@ -215,8 +215,8 @@ namespace SN.withSIX.Sync.Core.Repositories
                     opt => opt.NullSubstitute(MetaDataBase.TodoAuthors.ToDictionary(x => x.Key, x => x.Value)));
 
             mappingConfig.CreateMap<PackageMetaData, PackageMetaDataDto>()
-                .ForMember(x => x.Additional, opt => opt.Condition(src => !src.IsSourceValueNull))
-                .ForMember(x => x.Dependencies, opt => opt.Condition(src => !src.IsSourceValueNull))
+                .ForMember(x => x.Additional, opt => opt.Condition(src => src != null))
+                .ForMember(x => x.Dependencies, opt => opt.Condition(src => src != null))
                 .ForMember(x => x.Date, opt => opt.NullSubstitute(Tools.Generic.GetCurrentDateTime))
                 .ForMember(x => x.Version, opt => opt.NullSubstitute(SpecificVersion.DefaultV))
                 .ForMember(x => x.FullName, opt => opt.NullSubstitute(MetaDataBase.TodoFullName))
@@ -230,18 +230,18 @@ namespace SN.withSIX.Sync.Core.Repositories
             mappingConfig.CreateMap<PackageMetaDataDto, PackageMetaDataDto>();
 
             mappingConfig.CreateMap<PackagesStoreCustomConfigs, PackagesStoreCustomConfigsDto>()
-                .ForMember(x => x.KeepSpecificBranches, opt => opt.Condition(src => !src.IsSourceValueNull))
-                .ForMember(x => x.KeepSpecificVersions, opt => opt.Condition(src => !src.IsSourceValueNull));
+                .ForMember(x => x.KeepSpecificBranches, opt => opt.Condition(src => src != null))
+                .ForMember(x => x.KeepSpecificVersions, opt => opt.Condition(src => src != null));
 
             mappingConfig.CreateMap<PackagesStoreCustomConfigsDto, PackagesStoreCustomConfigs>()
-                .ForMember(x => x.KeepSpecificBranches, opt => opt.Condition(src => !src.IsSourceValueNull))
-                .ForMember(x => x.KeepSpecificVersions, opt => opt.Condition(src => !src.IsSourceValueNull));
+                .ForMember(x => x.KeepSpecificBranches, opt => opt.Condition(src => src != null))
+                .ForMember(x => x.KeepSpecificVersions, opt => opt.Condition(src => src != null));
 
 
             mappingConfig.CreateMap<BundleDto, Bundle>()
                 .ConstructUsing(src => new Bundle(src.Name))
-                .ForMember(x => x.Additional, opt => opt.Condition(src => !src.IsSourceValueNull))
-                .ForMember(x => x.Dependencies, opt => opt.Condition(src => !src.IsSourceValueNull))
+                .ForMember(x => x.Additional, opt => opt.Condition(src => src != null))
+                .ForMember(x => x.Dependencies, opt => opt.Condition(src => src != null))
                 .ForMember(x => x.Date, opt => opt.NullSubstitute(Tools.Generic.GetCurrentDateTime))
                 .ForMember(x => x.Version, opt => opt.NullSubstitute(SpecificVersion.DefaultV))
                 .ForMember(x => x.FullName, opt => opt.NullSubstitute(MetaDataBase.TodoFullName))
@@ -251,8 +251,8 @@ namespace SN.withSIX.Sync.Core.Repositories
                     opt => opt.NullSubstitute(MetaDataBase.TodoAuthors.ToDictionary(x => x.Key, x => x.Value)));
 
             mappingConfig.CreateMap<Bundle, BundleDto>()
-                .ForMember(x => x.Additional, opt => opt.Condition(src => !src.IsSourceValueNull))
-                .ForMember(x => x.Dependencies, opt => opt.Condition(src => !src.IsSourceValueNull))
+                .ForMember(x => x.Additional, opt => opt.Condition(src => src != null))
+                .ForMember(x => x.Dependencies, opt => opt.Condition(src => src != null))
                 .ForMember(x => x.Date, opt => opt.NullSubstitute(Tools.Generic.GetCurrentDateTime))
                 .ForMember(x => x.Version, opt => opt.NullSubstitute(SpecificVersion.DefaultV))
                 .ForMember(x => x.FullName, opt => opt.NullSubstitute(MetaDataBase.TodoFullName))

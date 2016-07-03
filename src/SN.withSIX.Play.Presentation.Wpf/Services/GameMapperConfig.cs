@@ -29,11 +29,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             CreateGameMap(config);
         });
 
-        void CreateProfileMap(IMapperConfiguration config) {
+        void CreateProfileMap(IProfileExpression config) {
             config.CreateMap<GameSettingsProfileBase, ProfileDataModel>();
         }
 
-        void CreateDlcMap(IMapperConfiguration config) {
+        void CreateDlcMap(IProfileExpression config) {
             config.CreateMap<DlcMetaData, DlcDataModel>();
             config.CreateMap<Dlc, DlcDataModel>()
                 .AfterMap(AfterDlcDataModelMap);
@@ -43,7 +43,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             Map(src.MetaData, dest);
         }
 
-        void CreateGameMap(IMapperConfiguration config) {
+        void CreateGameMap(IProfileExpression config) {
             config.CreateMap<InstalledState, GameDataModel>();
             config.CreateMap<GameMetaData, GameDataModel>();
             config.CreateMap<Game, GameDataModel>()
@@ -52,7 +52,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             CreateGameSettingsMap(config);
         }
 
-        void CreateGameSettingsMap(IMapperConfiguration config) {
+        void CreateGameSettingsMap(IProfileExpression config) {
             config.CreateMap<GameSettings, GameSettingsDataModel>()
                 .Include<RealVirtualitySettings, RealVirtualityGameSettingsDataModel>()
                 .Include<Homeworld2Settings, HomeWorld2SettingsDataModel>()

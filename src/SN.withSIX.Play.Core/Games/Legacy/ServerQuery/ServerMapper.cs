@@ -50,7 +50,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
             return mapConfig.CreateMapper();
         }
 
-        static void SetupGamespy(IMapperConfiguration mapConfig) {
+        static void SetupGamespy(IProfileExpression mapConfig) {
             mapConfig.CreateMap<GamespyServerQueryResult, Server>()
                 .ForMember(x => x.IsDedicated,
                     opt => opt.ResolveUsing(src => GetValueWithFallback(src, "dedicated", "ds").TryInt() == 1))
@@ -87,7 +87,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 
         static string GetValueWithFallback(GamespyServerQueryResult src, params string[] possibilities) => possibilities.Select(src.GetSettingOrDefault).FirstOrDefault(setting => setting != null);
 
-        static void SetupSource(IMapperConfiguration mapConfig) {
+        static void SetupSource(IProfileExpression mapConfig) {
             mapConfig.CreateMap<SourceServerQueryResult, Server>()
                 .ForMember(x => x.NumPlayers,
                     opt => opt.ResolveUsing(src => src.GetSettingOrDefault("playerCount").TryInt()))
@@ -108,7 +108,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
                 .AfterMap(SourceAfterMap);
         }
 
-        static void SetupSourceOld(IMapperConfiguration mapConfig) {
+        static void SetupSourceOld(IProfileExpression mapConfig) {
             mapConfig.CreateMap<SourceServerQueryResult, Server>()
                 .ForMember(x => x.NumPlayers,
                     opt => opt.ResolveUsing(src => src.GetSettingOrDefault("playerCount").TryInt()))
