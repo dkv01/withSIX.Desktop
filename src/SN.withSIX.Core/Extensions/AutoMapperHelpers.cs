@@ -38,6 +38,18 @@ namespace SN.withSIX.Core.Extensions
             config.CreateMap<string, IAbsoluteDirectoryPath>().ConvertUsing<StringToAbsoluteDirConverter>();
             config.CreateMap<IAbsoluteFilePath, string>().ConvertUsing<AbsoluteFileToStringConverter>();
             config.CreateMap<string, IAbsoluteFilePath>().ConvertUsing<StringToAbsoluteFileConverter>();
+            config.CreateMap<Guid, ShortGuid>().ConvertUsing<GuidToShortGuidConverter>();
+            config.CreateMap<ShortGuid, Guid>().ConvertUsing<ShortGuidToGuidConverter>();
+        }
+
+        class GuidToShortGuidConverter : ITypeConverter<Guid, ShortGuid>
+        {
+            public ShortGuid Convert(Guid source, ResolutionContext context) => new ShortGuid(source);
+        }
+
+        class ShortGuidToGuidConverter : ITypeConverter<ShortGuid, Guid>
+        {
+            public Guid Convert(ShortGuid source, ResolutionContext context) => source?.ToGuid() ?? Guid.Empty;
         }
 
         class AbsoluteDirToStringConverter : ITypeConverter<IAbsoluteDirectoryPath, string>
