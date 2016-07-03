@@ -245,7 +245,6 @@
     <Compile Include="AutoMapperAppConfig.cs" />
     <Compile Include="BasicExternalExceptionhandler.cs" />
     <Compile Include="Cheat.cs" />
-    <Compile Include="Components\IActivatableScreen.cs" />
     <Compile Include="Core\MainLog.cs" />
     <Compile Include="DbScopeDecorator.cs" />
     <Compile Include="Extensions\AutoMapperExtensions.cs" />
@@ -253,10 +252,9 @@
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\MediatorExtensions.cs" />
-    <Compile Include="Extensions\RoutingStateExtensions.cs" />
     <Compile Include="Extensions\UsecaseExecutorExtensions.cs" />
-    <Compile Include="Factories\Factories\GameLauncherFactory.cs" />
-    <Compile Include="Factories\Factories\InstallerSessionFactory.cs" />
+    <Compile Include="Factories\GameLauncherFactory.cs" />
+    <Compile Include="Factories\InstallerSessionFactory.cs" />
     <Compile Include="Factories\GameSettingsFactory.cs" />
     <Compile Include="GameExceptionHandler.cs" />
     <Compile Include="GameWriteLockDecorator.cs" />
@@ -269,7 +267,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestMemoryDecorator.cs" />
     <Compile Include="Services\AuthDownloadWrapper.cs" />
-    <Compile Include="Services\DefaultPlatformProvider.cs" />
     <Compile Include="Services\Excecutor.cs" />
     <Compile Include="Services\FolderHandler.cs" />
     <Compile Include="Services\GameLocker.cs" />
@@ -285,7 +282,6 @@
     <Compile Include="Services\Infra\ISettingsStorage.cs" />
     <Compile Include="Services\Infra\ITokenRefresher.cs" />
     <Compile Include="Services\INodeApi.cs" />
-    <Compile Include="Services\IPlatformProvider.cs" />
     <Compile Include="Services\IQueueManager.cs" />
     <Compile Include="Services\ISquirrelApp.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />

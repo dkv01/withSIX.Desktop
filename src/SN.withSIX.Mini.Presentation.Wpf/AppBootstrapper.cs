@@ -47,7 +47,6 @@ using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Factories;
-using SN.withSIX.Mini.Applications.Factories.Factories;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.MVVM.Usecases;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels;
@@ -62,7 +61,10 @@ using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Infra.Data.Services;
-using SN.withSIX.Mini.Presentation.Wpf.Commands;
+using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Core.Commands;
+using SN.withSIX.Mini.Presentation.Core.Services;
+using SN.withSIX.Mini.Presentation.Electron;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy;
@@ -146,12 +148,13 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             typeof (IContentEngineGameContext).Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] presentationAssemblies = new[] {
-            typeof (App).Assembly, typeof (SingleInstanceApp).Assembly,
+            typeof (App).Assembly, typeof(NodeApi).Assembly, typeof(ApiPortHandler).Assembly, typeof (SingleInstanceApp).Assembly,
             typeof (IPresentationService).Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] applicationAssemblies = new[] {
             typeof (GameSettingsApiModel).Assembly,
-            typeof (IWpfStartupManager).Assembly, typeof (IDialogManager).Assembly
+            typeof (IWpfStartupManager).Assembly, typeof (IDialogManager).Assembly,
+            typeof(GetMiniMain).Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
         private static readonly Assembly[] platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
@@ -529,7 +532,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             => pluginAssemblies.Concat(platformAssemblies).Concat(presentationAssemblies);
 
         void RegisterServices() {
-            _container.Register(() => Entrypoint.Api);
+            _container.RegisterSingleton(() => Entrypoint.Api);
 
             RegisterRegisteredServices();
 
@@ -558,8 +561,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 () =>
                     new ContentInstaller(evt => evt.Raise(), _container.GetInstance<IGameLocker>(),
                         _container.GetInstance<IINstallerSessionFactory>()));
-
-            _container.RegisterSingleton(() => Entrypoint.Api);
 
             // LEGACY
             AppBootstrapperBase.ContainerConfiguration.RegisterEventAggregator(_container);

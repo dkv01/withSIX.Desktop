@@ -3,6 +3,7 @@
 // </copyright>
 
 using SN.withSIX.Core.Presentation;
+using SN.withSIX.Mini.Applications.MVVM.Services;
 using SN.withSIX.Mini.Applications.Services;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Services

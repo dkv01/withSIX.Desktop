@@ -5,8 +5,8 @@
 using System.Windows.Input;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Components;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.MVVM.Services.Components;
 using SN.withSIX.Mini.Applications.Usecases;
 
 namespace SN.withSIX.Mini.Applications.MVVM.ViewModels

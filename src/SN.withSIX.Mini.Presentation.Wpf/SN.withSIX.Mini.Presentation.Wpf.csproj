@@ -330,19 +330,7 @@
     </ApplicationDefinition>
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="CommandRunner.cs" />
-    <Compile Include="Commands\BaseCommand.cs" />
-    <Compile Include="Commands\CopyCommand.cs" />
-    <Compile Include="Commands\CopyDirectoryCommand.cs" />
-    <Compile Include="Commands\DeleteCommand.cs" />
-    <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\LaunchGameCommand.cs" />
-    <Compile Include="Commands\MoveCommand.cs" />
-    <Compile Include="Commands\MoveDirectoryCommand.cs" />
-    <Compile Include="Commands\SetACLCommand.cs" />
-    <Compile Include="Commands\UninstallCommand.cs" />
-    <Compile Include="Commands\UnpackCommand.cs" />
-    <Compile Include="Commands\UnpackSingleGZipCommand.cs" />
     <Compile Include="Controls\MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>
     </Compile>
@@ -357,20 +345,15 @@
     <Compile Include="MiniMainWindow.xaml.cs">
       <DependentUpon>MiniMainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NLogSplatLogger.cs" />
-    <Compile Include="Node\Api.cs" />
     <Compile Include="Node\Startup.cs" />
     <Compile Include="Node\Teardown.cs" />
     <Compile Include="Resources\FontFamily.cs" />
-    <Compile Include="Services\ApiPortHandler.cs" />
-    <Compile Include="Services\ExplorerExtensionInstaller.cs" />
-    <Compile Include="Services\NodeDialogManager.cs" />
+    <Compile Include="Services\NullNodeApi.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\SquirrelUpdater.cs" />
     <Compile Include="Services\WpfFlyoutOpener.cs" />
     <Compile Include="Services\WpfNotificationProvider.cs" />
     <Compile Include="Services\WpfPlatformProvider.cs" />
-    <Compile Include="SIHandler.cs" />
     <Compile Include="UiConstants.cs" />
     <Compile Include="UnhandledExceptionHandler.cs" />
     <Compile Include="Views\TrayNotification.xaml.cs">
@@ -432,9 +415,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="nss-3.11.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -444,8 +424,6 @@
     </None>
     <AppDesigner Include="Properties\" />
     <EmbeddedResource Include="Resources\TrayIcon.ps1" />
-    <EmbeddedResource Include="server.pfx" />
-    <EmbeddedResource Include="server.cer" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -543,6 +521,10 @@
       <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
       <Name>SN.withSIX.Mini.Presentation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Electron\SN.withSIX.Mini.Presentation.Electron.csproj">
+      <Project>{F9E3D288-2AA7-48BA-B99B-4EAE4283AC34}</Project>
+      <Name>SN.withSIX.Mini.Presentation.Electron</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Shell\SN.withSIX.Mini.Presentation.Shell.csproj">
       <Project>{956504fb-6cae-4857-8802-d6c24336ec15}</Project>
       <Name>SN.withSIX.Mini.Presentation.Shell</Name>
@@ -555,12 +537,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="app.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="srm.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="VCRedistInstaller.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="PrerequisitesInstalling.png" />

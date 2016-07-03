@@ -30,23 +30,91 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ShortBus.Markers">
+      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
+    </Reference>
+    <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api.cs" />
+    <Compile Include="NodeDialogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SIHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
+      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
+      <Name>SN.withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
+      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
+      <Name>SN.withSIX.Core.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>SN.withSIX.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\SN.withSIX.Mini.Applications.csproj">
+      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
+      <Name>SN.withSIX.Mini.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
+      <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
+      <Name>SN.withSIX.Mini.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\SN.withSIX.Mini.Presentation.Core.csproj">
       <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
       <Name>SN.withSIX.Mini.Presentation.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

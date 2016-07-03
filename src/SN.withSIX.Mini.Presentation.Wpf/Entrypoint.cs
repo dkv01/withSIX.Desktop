@@ -10,11 +10,9 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.SA;
 using SN.withSIX.Core.Presentation.Services;
@@ -24,7 +22,8 @@ using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Presentation.Wpf.Node;
+using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Electron;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
 using ILogger = Splat.ILogger;
@@ -97,7 +96,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 Cheat.Args = Api.Args;
 
             //HandleSquirrel(arguments);
-            ErrorHandler.Handler = new Startup.NodeErrorHandler(Api);
+            ErrorHandler.Handler = new NodeErrorHandler(Api);
             LaunchAppThread();
             /*
             _bs = new AppBootstrapper(new Container(), Locator.CurrentMutable);
@@ -110,7 +109,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             ExceptionExtensions.FormatException = KnownExceptions.FormatException;
             Common.AppCommon.ApplicationName = Consts.InternalTitle; // Used in temp path too.
             MainLog.Logger.Info(
-                $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " + arguments);
+                $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +
+                arguments);
             Common.IsMini = true;
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }
@@ -125,7 +125,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         private static void LaunchWithoutNode() {
             new RuntimeCheckWpf().Check();
-            Api = new Startup.NullNodeApi();
+            Api = new NullNodeApi();
             SetupAssemblyLoader();
             SetupLogging();
             new AssemblyHandler().Register();
@@ -170,7 +170,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         static void HandleSingleInstance() {
             if (
                 !SingleInstance<App>.TryInitializeAsFirstInstance<App>("withSIX-Sync",
-                    new[] {"-NewVersion=" + Consts.ProductVersion },
+                    new[] {"-NewVersion=" + Consts.ProductVersion},
                     Path.GetFileName(Assembly.GetEntryAssembly().Location)))
                 // TODO; Deal with 'another version'
                 Environment.Exit(0);

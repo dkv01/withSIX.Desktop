@@ -14,6 +14,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Infra.Data.Services;
+using SN.withSIX.Mini.Presentation.Core.Commands;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Commands
 {
@@ -30,7 +31,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Commands
             HasOption("workingDirectory=", "The directory you wish to launch Game in.",
                 a => _spec.WorkingDirectory = a);
             HasOption("steamPath=", "Path to Steam", a => _spec.SteamPath = a?.ToAbsoluteDirectoryPath());
-            HasOption("steamID=", "The Steam App ID of the Game being launched", a => _spec.SteamID = a.TryInt());
+            HasOption("steamID=", "The Steam App ID of the Game being launched", a => _spec.SteamID = SystemExtensions.TryInt(a));
             HasOption("bypassUAC", "Bypass User Account Control", a => _spec.BypassUAC = a != null);
             HasOption("steamDRM", "Launch Game using the Steam DRM system. (Some games may require this)",
                 a => _spec.SteamDRM = a != null);
@@ -43,12 +44,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Commands
             HasOption("affinity=", "Launch game with affinity",
                 a =>
                     _spec.Affinity =
-                        string.IsNullOrWhiteSpace(a) ? new int[0] : a.Split(',').Select(int.Parse).ToArray());
+                        string.IsNullOrWhiteSpace(a) ? new int[0] : Enumerable.Select<string, int>(a.Split(','), int.Parse).ToArray());
             HasOption("arguments=", "Arguments will be sent to Game", a => _spec.Arguments = a);
         }
 
         public override int Run(params string[] remainingArguments) {
-            this.Logger().Info(_spec.Inspect().PrettyPrint());
+            this.Logger().Info(SystemExtensions.Inspect(_spec).PrettyPrint());
             var shutdownHandler = new WpfShutdownHandler(new ExitHandler());
             ProcessId =
                 new GameLauncherProcessInternal.GameLauncher(new Restarter(shutdownHandler,

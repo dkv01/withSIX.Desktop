@@ -23,6 +23,7 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Core.Games;
+using SN.withSIX.Mini.Presentation.Electron;
 using Splat;
 
 namespace SN.withSIX.Mini.Presentation.Wpf
