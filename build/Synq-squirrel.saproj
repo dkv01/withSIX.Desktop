@@ -1116,7 +1116,7 @@
                 </Merging>
                 <Embedding />
             </Assembly>
-            <Assembly AssemblyName="Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" MandatoryPath="..\src\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll">
+            <Assembly AssemblyName="Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" MandatoryPath="..\src\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll">
                 <Merging />
                 <Embedding Compress="1" Embed="0" Encrypt="0" />
             </Assembly>
