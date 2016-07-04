@@ -63,7 +63,8 @@ namespace SN.withSIX.Mini.Tests
         public void TestProgressDownloading() {
             SUT = new ProgressComponent("Stage");
             var networkMods = new ProgressComponent("Network mods");
-            var networkModsDownloads = new ProgressLeaf("Downloading") { Progress = 50, Speed = 500 };
+            var networkModsDownloads = new ProgressLeaf("Downloading");
+            networkModsDownloads.Update(500, 50);
             networkMods.AddComponents(networkModsDownloads);
             var groupMods = new ProgressComponent("Group mods");
             groupMods.AddComponents(new ProgressLeaf("Mod 3"));
@@ -91,7 +92,7 @@ namespace SN.withSIX.Mini.Tests
             var gMods = mods.Where(x => x.Type == ModType.Group).ToArray();
             var groupMods = new ProgressComponent("Group mods", gMods.Length);
             var groupModsProcessing = new ProgressComponent("Processing");
-            groupModsProcessing.AddComponents(gMods.Select(x => new ProgressLeaf(x.Name)));
+            groupModsProcessing.AddComponents(gMods.Select(x => new ProgressLeaf(x.Name)).ToArray());
             groupMods.AddComponents(groupModsProcessing);
             SUT.AddComponents(groupMods);
 
@@ -149,7 +150,8 @@ namespace SN.withSIX.Mini.Tests
         public void ProgressDownloadingFlatTest() {
             SUT = new ProgressComponent("Stage");
             var networkMods = new ProgressComponent("Network mods");
-            var networkModsDownloads = new ProgressLeaf("Downloading") { Progress = 50, Speed = 500 };
+            var networkModsDownloads = new ProgressLeaf("Downloading");
+            networkModsDownloads.Update(500, 50);
             networkMods.AddComponents(networkModsDownloads);
             var groupMods = new ProgressComponent("Group mods");
             groupMods.AddComponents(new ProgressLeaf("Mod 3"));
