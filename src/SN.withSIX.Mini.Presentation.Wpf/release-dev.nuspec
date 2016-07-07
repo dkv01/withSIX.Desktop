@@ -52,6 +52,9 @@
     		<file src="bin\release\SmartAssembly.ReportException.dll" target="lib\net45\SmartAssembly.ReportException.dll" />
     		<file src="bin\release\SmartAssembly.ReportUsage.dll" target="lib\net45\SmartAssembly.ReportUsage.dll" />
     		<file src="bin\release\SmartExceptionsCore.dll" target="lib\net45\SmartExceptionsCore.dll" />
+        <file src="bin\release\logentries.core.dll" target="lib\net45\logentries.core.dll" />
+        <file src="bin\release\logentries.nlog.dll" target="lib\net45\logentries.nlog.dll" />
+        <file src="bin\release\Microsoft.WindowsAzure.ConfigurationManager.dll" target="lib\net45\Microsoft.WindowsAzure.ConfigurationManager.dll" />
 
         <file src="bin\release\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
         <file src="bin\release\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
