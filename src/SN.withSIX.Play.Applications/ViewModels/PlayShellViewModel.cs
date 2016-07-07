@@ -253,9 +253,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
             set { SetProperty(ref _hasOverlay, value); }
         }
 
-        public void Handle(RequestOpenLogin message) {
-            Common.App.Events.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.LoginUrl));
-        }
+        public void Handle(RequestOpenLogin message) => Common.App.Events.PublishOnCurrentThread(new DoLogin());
 
         public ReactiveCommand Exit { get; protected set; }
         public ISoftwareUpdate SoftwareUpdate { get; }

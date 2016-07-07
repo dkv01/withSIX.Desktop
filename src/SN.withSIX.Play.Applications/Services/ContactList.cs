@@ -194,7 +194,7 @@ namespace SN.withSIX.Play.Applications.Services
             } catch (UnauthorizedException ex) {
                 this.Logger().FormattedWarnException(ex);
                 ConnectedState = ConnectedState.ConnectingFailed;
-                _eventBus.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.LoginUrl));
+                _eventBus.PublishOnCurrentThread(new DoLogin());
                 return;
             } catch (Exception e) {
                 this.Logger().FormattedWarnException(e);

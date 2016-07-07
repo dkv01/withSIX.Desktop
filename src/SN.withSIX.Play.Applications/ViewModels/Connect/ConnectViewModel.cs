@@ -133,19 +133,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
             IsProfileShown = !IsProfileShown;
         }
 
-        public void ExecuteJS(string function, params object[] pars) {
-            ApiBrowser.InvokeScript(function, pars);
-        }
+        public void ExecuteJS(string function, params object[] pars) => ApiBrowser.InvokeScript(function, pars);
 
         [SmartAssembly.Attributes.ReportUsage]
-        void Login() {
-            ContactList.RetrieveApiKey();
-        }
+        void Login() => ContactList.RetrieveApiKey();
 
         [SmartAssembly.Attributes.ReportUsage]
-        void Register() {
-            _eventBus.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.RegisterUrl));
-        }
+        void Register() => _eventBus.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.RegisterUrl));
 
         [SmartAssembly.Attributes.ReportUsage]
         void ShowEditProfile() {
@@ -157,4 +151,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
     }
 
     public class DoLogout {}
+
+    public class DoLogin {}
 }

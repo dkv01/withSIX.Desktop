@@ -12,6 +12,7 @@ using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Games.Entities;
@@ -21,7 +22,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 namespace SN.withSIX.Play.Applications.ViewModels
 {
     [DoNotObfuscate]
-    public class HomeViewModel : ModuleViewModelBase, IHandle<ActiveGameChanged>, IHandle<RequestOpenBrowser>
+    public class HomeViewModel : ModuleViewModelBase, IHandle<ActiveGameChanged>, IHandle<RequestOpenBrowser>, IHandle<DoLogout>, IHandle<DoLogin>
     {
         public enum NavigateMode
         {
@@ -120,14 +121,12 @@ namespace SN.withSIX.Play.Applications.ViewModels
             Url = GetUrl(message.Game);
         }
 
-        public void Handle(RequestOpenBrowser message) {
-            Nav(message.Url);
-        }
+        public void Handle(RequestOpenBrowser message) => Open();
 
-        void Nav(Uri url) {
-            //Url = url;
-            Open();
-        }
+
+        public void Handle(DoLogout message) => Open();
+
+        public void Handle(DoLogin message) => Open();
 
         #endregion
     }

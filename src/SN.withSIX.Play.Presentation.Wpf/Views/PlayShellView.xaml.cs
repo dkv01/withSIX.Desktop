@@ -30,6 +30,7 @@ using SN.withSIX.Core.Presentation.Wpf.Helpers;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 using SN.withSIX.Play.Applications.ViewModels;
+using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using SN.withSIX.Play.Applications.Views;
 using SN.withSIX.Play.Core.Connect;
@@ -118,7 +119,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         async Task<RecoveryOptionResult> NotConnectedDialog(NotConnectedUserError notConnectedUserError) {
             string action = null; // toDO;
             await _specialDialogManager.ShowPopup(new RequirementsPopupViewModel(UiTaskHandlerExtensions.ToCommand(
-                () => Common.App.PublishEvent(new RequestOpenBrowser(CommonUrls.LoginUrl)))) {
+                () => Common.App.PublishEvent(new DoLogin()))) {
                     DisplayName = "Action '" + action + "' requires connection",
                     Message = "Please connect first to perform this action",
                     CommandTitle = "Connect"
@@ -130,7 +131,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         async Task<RecoveryOptionResult> NotLoggedInDialog(NotLoggedInUserError notLoggedInUserError) {
             string action = null; // toDO;
             await _specialDialogManager.ShowPopup(new RequirementsPopupViewModel(UiTaskHandlerExtensions.ToCommand(
-                () => Common.App.PublishEvent(new RequestOpenBrowser(CommonUrls.LoginUrl)))) {
+                () => Common.App.PublishEvent(new DoLogin()))) {
                     DisplayName = "Action '" + action + "' requires login",
                     Message = "Please login first to perform this action",
                     CommandTitle = "Login"

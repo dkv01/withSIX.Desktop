@@ -27,7 +27,7 @@ using SN.withSIX.Play.Infra.Api;
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
     [DoNotObfuscate]
-    public partial class HomeView : UserControl, IEnableLogging, IHandle<DoLogout>, IHomeView, IHandle<RequestOpenBrowser>
+    public partial class HomeView : UserControl, IEnableLogging, IHandle<DoLogout>, IHandle<DoLogin>, IHomeView, IHandle<RequestOpenBrowser>
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof (HomeViewModel), typeof (HomeView),
@@ -85,6 +85,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         }
 
         public void Handle(DoLogout message) => Logout();
+
+        public void Handle(DoLogin message) => Login();
 
         object IViewFor.ViewModel
         {
@@ -187,8 +189,16 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         }
 */
 
-        void Reload() {
-            UiHelper.TryOnUiThread(() => WebControl.Reload(false));
+        void Reload() => UiHelper.TryOnUiThread(() => WebControl.Reload(false));
+
+        void Login() {
+            UiHelper.TryOnUiThread(() => {
+                try {
+                    WebControl.ExecuteScriptAsync("window.w6Cheat.api.login();");
+                } catch (InvalidOperationException ex) {
+                    MainLog.Logger.FormattedWarnException(ex, "Could not login the webpage");
+                }
+            });
         }
 
         void Logout() {
@@ -212,7 +222,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                     : message.Url.ToString();
                 if (currentAddress != null) {
                     WebControl.EvaluateScriptAsync(
-                        $"if (window.w6Cheat && window.w6Cheat.navigate) {"{ window.w6Cheat.navigate('" + relativeUrl + "'); }"} else {"{ window.location.href = '" + url + "'; }"}");
+                        $"if (window.w6Cheat && window.w6Cheat.api.navigate) {"{ window.w6Cheat.api.navigate('" + relativeUrl + "'); }"} else {"{ window.location.href = '" + url + "'; }"}");
                 } else {
                     WebControl.SetValue(ChromiumWebBrowser.AddressProperty, url);
                 }
