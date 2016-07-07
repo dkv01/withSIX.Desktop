@@ -131,11 +131,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                 _handleLogin = handleLogin;
             }
 
-            public void subscribedToCollection(Guid id)
+            public void subscribedToCollection(string id)
             {
                 try
                 {
-                    _connMan.MessageBus.SendMessage(new SubscribedToCollection(id));
+                    _connMan.MessageBus.SendMessage(new SubscribedToCollection(Guid.Parse(id)));
                 }
                 catch (Exception ex)
                 {
@@ -143,11 +143,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                 }
             }
 
-            public void unsubscribedFromCollection(Guid id)
+            public void unsubscribedFromCollection(string id)
             {
                 try
                 {
-                    _connMan.MessageBus.SendMessage(new UnsubscribedFromCollection(id));
+                    _connMan.MessageBus.SendMessage(new UnsubscribedFromCollection(Guid.Parse(id)));
                 }
                 catch (Exception ex)
                 {
