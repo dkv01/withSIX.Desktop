@@ -153,9 +153,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
             IsProfileShown = false;
         }
 
-        void Logout() {
-            Common.App.Events.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.AccountSettingsUrl));
-        }
+        void Logout() => Common.App.Events.PublishOnCurrentThread(new DoLogout());
     }
 
     public class DoLogout {}

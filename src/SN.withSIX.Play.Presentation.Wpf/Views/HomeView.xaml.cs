@@ -84,9 +84,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                 CanOpenInSystemBrowser));
         }
 
-        public void Handle(DoLogout message) {
-            Logout();
-        }
+        public void Handle(DoLogout message) => Logout();
 
         object IViewFor.ViewModel
         {
@@ -196,7 +194,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         void Logout() {
             UiHelper.TryOnUiThread(() => {
                 try {
-                    WebControl.ExecuteScriptAsync("$('form#logoutForm').submit();");
+                    WebControl.ExecuteScriptAsync("window.w6Cheat.api.logout();");
                 } catch (InvalidOperationException ex) {
                     MainLog.Logger.FormattedWarnException(ex, "Could not logout of the webpage");
                 }

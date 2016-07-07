@@ -19,6 +19,7 @@ using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.ViewModels.Popups;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
@@ -950,9 +951,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         }
 
         [SmartAssembly.Attributes.ReportUsage]
-        void Logout() {
-            Common.App.Events.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.AccountSettingsUrl));
-        }
+        void Logout() => Common.App.Events.PublishOnCurrentThread(new DoLogout());
     }
 
     public class LocaleItemsSource : IItemsSource
