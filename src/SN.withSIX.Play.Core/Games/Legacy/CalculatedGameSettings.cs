@@ -32,7 +32,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             "@AllInArmaStandalone", "@AllInArmaStandaloneLite",
             "@PWS_EnableA2OAContentInA3"
         };
-        readonly IEventAggregator _eventBus;
+        public static Action<object> RaiseEvent;
         readonly Game _game;
         readonly ISupportModding _modding;
         readonly bool _supportsMissions;
@@ -51,7 +51,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         Server _server;
 
         public CalculatedGameSettings(Game game) {
-            _eventBus = Common.App.Events;
             _game = game;
             _supportsModding = _game.SupportsMods();
             _supportsMissions = _game.SupportsMissions();
@@ -101,7 +100,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
                 if (!SetProperty(ref _gamePath, value))
                     return;
                 if (_raiseEvent)
-                    _eventBus.PublishOnCurrentThread(new GamePathChanged(value));
+                    RaiseEvent(new GamePathChanged(value));
             }
         }
         public Collection Collection
@@ -132,6 +131,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         public bool HasAllInArmaLegacy { get; private set; }
         [Obsolete("Legacy to support allinarma standalone")]
         public bool HasArma2CompatibilityPack { get; private set; }
+        public static Func<object, Task> NotifyEnMass { get; set; }
 
         public void UpdateSignatures() {
             var ms = Collection;
@@ -157,7 +157,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             if (!modsChanged)
                 return false;
 
-            _eventBus.PublishOnCurrentThread(new CalculatedGameSettingsUpdated(true, modsChanged));
+            RaiseEvent(new CalculatedGameSettingsUpdated(true, modsChanged));
 
             return true;
         }
@@ -191,8 +191,9 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             HasArma2CompatibilityPack =
                 _arma2CompatibilityPacks.Any(a => packageNames.ContainsIgnoreCase(a));
             if (a3Tp != HasArma2TerrainPacks || aia != HasAllInArmaLegacy || aiaLite != HasArma2CompatibilityPack)
-                await Common.App.Mediator.NotifyEnMass(new SubGamesChanged(_game)).ConfigureAwait(false);
+                await NotifyEnMass(new SubGamesChanged(_game)).ConfigureAwait(false);
         }
+
 
         public void Update() {
             _raiseEvent = true;
@@ -221,7 +222,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             }
 
             if (_raiseEvent)
-                _eventBus.PublishOnCurrentThread(new CalculatedGameSettingsUpdated(false, modsChanged));
+                RaiseEvent(new CalculatedGameSettingsUpdated(false, modsChanged));
             Info();
         }
 
@@ -431,7 +432,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             var mp = ModPath;
             if (ChangeModPath(paths.Path)
                 && _raiseEvent)
-                _eventBus.PublishOnCurrentThread(new ModPathChanged(ModPath, mp));
+                RaiseEvent(new ModPathChanged(ModPath, mp));
         }
 
         void SetSynqPath() {
@@ -439,7 +440,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             var sp = SynqPath;
             if (ChangeSynqPath(paths.RepositoryPath)
                 && _raiseEvent)
-                _eventBus.PublishOnCurrentThread(new SynqPathChanged(SynqPath, sp));
+                RaiseEvent(new SynqPathChanged(SynqPath, sp));
         }
 
         bool ChangeSynqPath(IAbsoluteDirectoryPath value) {

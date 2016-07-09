@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Options;
@@ -53,7 +54,7 @@ namespace SN.withSIX.Play.Infra.Api
             // TODO: cleanup vs ContactList
             //await ProcessLogin().ConfigureAwait(false);
             await DomainEvilGlobal.SecretData.Save().ConfigureAwait(false);
-            Common.App.PublishEvent(new ApiKeyUpdated(localUserInfo.AccessToken));
+            Cheat.PublishEvent(new ApiKeyUpdated(localUserInfo.AccessToken));
             _initial = true;
             //await new LoginChanged(localUserInfo).Raise().ConfigureAwait(false);
         }
@@ -150,7 +151,7 @@ namespace SN.withSIX.Play.Infra.Api
                     (newToken != null && newToken.Equals(existingToken) || (existingToken == null && newToken == null)))
                     return;
                 userInfo.Token = newToken;
-                await Common.App.Mediator.NotifyAsync(new TokenUpdatedEvent(newToken)).ConfigureAwait(false);
+                await Cheat.PublishDomainEvent(new TokenUpdatedEvent(newToken)).ConfigureAwait(false);
             }
 
             async Task<PremiumAccessToken> GetPremiumTokenInternal(string encryptedPremiumToken, string apiKey) {

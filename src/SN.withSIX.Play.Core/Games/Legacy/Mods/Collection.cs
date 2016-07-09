@@ -574,7 +574,7 @@ IContentManager contentList) => contentList.FindOrCreateLocalMods(Game,
                 }
                 if (Mods.Contains(key, StringComparer.InvariantCultureIgnoreCase))
                     return false;
-                Items.RemoveAll(x => x.ComparePK(mod));
+                Items.RemoveAll(Items.Where(x => x.ComparePK(mod)).ToArray());
                 DisabledItems.RemoveAllLocked(x => x.Equals(mod.Name, StringComparison.InvariantCultureIgnoreCase));
                 UpdateState();
                 return true;

@@ -215,14 +215,6 @@
       <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -325,7 +317,6 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
     <Reference Include="YamlDotNet, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.3.9.0\lib\net35\YamlDotNet.dll</HintPath>
       <Private>True</Private>
@@ -342,7 +333,6 @@
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Extensions\HashExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
-    <Compile Include="Extensions\MediatorExtensions.cs" />
     <Compile Include="Extensions\NDependPathHelpers.cs" />
     <Compile Include="Extensions\ParameterExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
@@ -402,7 +392,6 @@
     <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategyContext.cs" />
     <Compile Include="Extensions\JsonPrettyPrinterInternals\PPScopeState.cs" />
     <Compile Include="Extensions\PrettyPrinterExtensions.cs" />
-    <Compile Include="Extensions\ReactiveUIExtensions.cs" />
     <Compile Include="Extensions\SerializationExtension.cs" />
     <Compile Include="Extensions\SimpleQueueExtension.cs" />
     <Compile Include="Extensions\SocketExtensions.cs" />

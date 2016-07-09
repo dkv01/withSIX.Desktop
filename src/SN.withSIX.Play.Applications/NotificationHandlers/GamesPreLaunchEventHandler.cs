@@ -199,7 +199,7 @@ Note: The conversion and patching process will take several minutes - please be 
         }
 
         static void ProcessPwsUri(Uri pwsUri) {
-            Common.App.PublishEvent(new ProcessAppEvent(pwsUri.ToString()));
+            Cheat.PublishEvent(new ProcessAppEvent(pwsUri.ToString()));
         }
 
         async Task<bool> CheckLaunchServer() {

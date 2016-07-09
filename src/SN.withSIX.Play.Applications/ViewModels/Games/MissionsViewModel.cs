@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
 using SmartAssembly.Attributes;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
@@ -127,13 +128,14 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
         }
 
         public void Handle(GameContentInitialSynced message) {
-            if (LibraryVM != null)
-                LibraryVM.Setup();
+            LibraryVM?.Setup();
         }
 
-        public async void Handle(RequestPublishMission message) {
-            Open();
-            await ShowUploadOverlay(message.Mission).ConfigureAwait(false);
+        public void Handle(RequestPublishMission message) {
+            UiHelper.TryOnUiThread(() => {
+                Open();
+                ShowUploadOverlay(message.Mission);
+            });
         }
 
         #endregion

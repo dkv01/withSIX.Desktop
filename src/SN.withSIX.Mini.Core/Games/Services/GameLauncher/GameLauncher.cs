@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 
@@ -14,7 +13,6 @@ namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
 {
     public interface IGameLauncher
     {
-        Task Notify<T>(T message);
     }
 
     public interface ILaunch
@@ -51,8 +49,6 @@ namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
             _mediator = mediator;
             _gameLauncherInfra = gameLauncherInfra;
         }
-
-        public Task Notify<T>(T message) => _mediator.NotifyEnMass(message);
 
         protected Task<Process> LaunchInternal(LaunchGameInfo info) => _gameLauncherInfra.LaunchInternal(info);
 

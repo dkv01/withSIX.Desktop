@@ -5,6 +5,7 @@
 using System;
 using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Core.Connect
 {
@@ -16,7 +17,7 @@ namespace SN.withSIX.Play.Core.Connect
 
             if (DomainEvilGlobal.Settings.AppOptions.PreferSystemBrowser)
                 return Tools.Generic.TryOpenUrl(url);
-            Common.App.PublishEvent(new RequestOpenBrowser(new Uri(url)));
+            CalculatedGameSettings.RaiseEvent(new RequestOpenBrowser(new Uri(url)));
             return true;
         }
 
@@ -26,7 +27,7 @@ namespace SN.withSIX.Play.Core.Connect
 
             if (DomainEvilGlobal.Settings.AppOptions.PreferSystemBrowser)
                 return Tools.Generic.TryOpenUrl(uri);
-            Common.App.PublishEvent(new RequestOpenBrowser(uri));
+            CalculatedGameSettings.RaiseEvent(new RequestOpenBrowser(uri));
             return true;
         }
     }

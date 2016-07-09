@@ -1414,7 +1414,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
             if (slots <= minFreeSlots && (minFreeSlots <= 0 || slots != minFreeSlots))
                 return;
 
-            Common.App.PublishDomainEvent(new QueuedServerReadyEvent(queued));
+            Cheat.PublishDomainEvent(new QueuedServerReadyEvent(queued));
 
             _currentGame.CalculatedSettings.Server = queued;
             await Play().ConfigureAwait(false);

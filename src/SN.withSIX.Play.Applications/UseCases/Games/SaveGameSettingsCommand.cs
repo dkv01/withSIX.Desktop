@@ -53,11 +53,11 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
 
             if (!oldPaths.EqualPath(newPaths)) {
                 if (!oldPaths.EqualRepositoryPath(newPaths))
-                    Common.App.PublishDomainEvent(new ModAndSynqPathsChangedEvent(game, oldPaths, newPaths));
+                    Cheat.PublishDomainEvent(new ModAndSynqPathsChangedEvent(game, oldPaths, newPaths));
                 else
-                    Common.App.PublishDomainEvent(new ModPathChangedEvent(game, oldPaths, newPaths));
+                    Cheat.PublishDomainEvent(new ModPathChangedEvent(game, oldPaths, newPaths));
             } else if (!oldPaths.EqualRepositoryPath(newPaths))
-                Common.App.PublishDomainEvent(new SynqPathChangedEvent(game, oldPaths, newPaths));
+                Cheat.PublishDomainEvent(new SynqPathChangedEvent(game, oldPaths, newPaths));
         }
     }
 }

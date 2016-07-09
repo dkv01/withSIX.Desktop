@@ -296,6 +296,10 @@
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>SN.withSIX.Core.Applications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Play.Applications\SN.withSIX.Play.Applications.csproj">
+      <Project>{1240801B-EFCA-4236-B3B1-E710A8694F0A}</Project>
+      <Name>SN.withSIX.Play.Applications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>SN.withSIX.Sync.Core</Name>

@@ -103,10 +103,7 @@ namespace SN.withSIX.Core.Presentation
             SetupCaches();
         }
 
-        protected virtual void AfterSetup() {
-            Common.App.Events = Container.GetInstance<IEventAggregator>();
-            Common.App.Mediator = Container.GetInstance<IMediator>();
-        }
+        protected virtual void AfterSetup() {}
 
         void SetupGlobalServices() {
             // TODO: Get rid of this monstrosity.

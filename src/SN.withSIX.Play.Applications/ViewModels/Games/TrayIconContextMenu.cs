@@ -8,6 +8,7 @@ using MoreLinq;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core;

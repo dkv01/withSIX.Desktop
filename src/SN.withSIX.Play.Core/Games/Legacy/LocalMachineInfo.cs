@@ -45,7 +45,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             SteamHelper = new SteamHelper(SteamConfig, GetSteamPath());
 
             if (raiseEvent)
-                Common.App.PublishEvent(new LocalMachineInfoChanged());
+                CalculatedGameSettings.RaiseEvent(new LocalMachineInfoChanged());
         }
 
         void TryReadSteamConfig() {

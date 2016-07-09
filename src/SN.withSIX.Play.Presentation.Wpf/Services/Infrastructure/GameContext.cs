@@ -10,6 +10,7 @@ using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Play.Applications.Services.Infrastructure;

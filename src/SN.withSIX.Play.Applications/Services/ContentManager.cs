@@ -30,6 +30,7 @@ using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -199,7 +200,7 @@ namespace SN.withSIX.Play.Applications.Services
             var modSet = CreateAndAddCustomModSet(content);
             SelectCollection(modSet);
 
-            Common.App.PublishDomainEvent(new CollectionCreatedEvent(modSet));
+            Cheat.PublishDomainEvent(new CollectionCreatedEvent(modSet));
 
             return modSet;
         }
@@ -208,7 +209,7 @@ namespace SN.withSIX.Play.Applications.Services
             var modSet = CreateAndAddCustomModSet(content);
             SelectCollection(modSet);
 
-            Common.App.PublishDomainEvent(new CollectionCreatedEvent(modSet));
+            Cheat.PublishDomainEvent(new CollectionCreatedEvent(modSet));
 
             return modSet;
         }
@@ -623,7 +624,7 @@ namespace SN.withSIX.Play.Applications.Services
         // TODO: The processing of PwSUri is rather a Presentation concern, which should execute App/Domain layer stuff..
         void Share(KeyValuePair<string, string> item) {
             var relative = item.Value.Substring(1);
-            Common.App.PublishEvent(
+            Cheat.PublishEvent(
                 new ShareToContactEvent(new FakeContent("Shared content",
                     Tools.Transfer.JoinUri(CommonUrls.PlayUrl, relative))));
             /*
@@ -634,15 +635,15 @@ namespace SN.withSIX.Play.Applications.Services
 
             switch (contentType) {
                 case "missions": {
-                    Common.App.PublishEvent(new ShareToContactEvent(new FakeContent("Shared content", Tools.Transfer.JoinUri(CommonUrls.PlayUrl, relative))));
+                    Cheat.PublishEvent(new ShareToContactEvent(new FakeContent("Shared content", Tools.Transfer.JoinUri(CommonUrls.PlayUrl, relative))));
                     break;
                 }
                 case "collections": {
-                    Common.App.PublishEvent(new ShareToContactEvent(new CustomCollection(contentShortId.ToGuid(), game.Modding()) { Name = "Share content" }));
+                    Cheat.PublishEvent(new ShareToContactEvent(new CustomCollection(contentShortId.ToGuid(), game.Modding()) { Name = "Share content" }));
                     break;
                 }
                 case "mods": {
-                    Common.App.PublishEvent(new ShareToContactEvent(new Mod(contentShortId.ToGuid().ToString()) { Name = "Share content", Type =  }));
+                    Cheat.PublishEvent(new ShareToContactEvent(new Mod(contentShortId.ToGuid().ToString()) { Name = "Share content", Type =  }));
                     break;
                 }
             }
@@ -732,7 +733,7 @@ namespace SN.withSIX.Play.Applications.Services
                 var c =
                     await
                         _mediator.RequestAsync(new FetchCollectionQuery(collectionId.ToGuid())).ConfigureAwait(false);
-                Common.App.PublishEvent(
+                Cheat.PublishEvent(
                     new RequestOpenBrowser(c.ProfileUrl(_evilGlobalSelectedGame.ActiveGame)));
             } else {
                 SubscribedCollection ms;
@@ -815,12 +816,12 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         void SelectMissionByUuid(Guid id) {
-            Common.App.PublishEvent(new RequestShowMissionLibrary());
+            Cheat.PublishEvent(new RequestShowMissionLibrary());
             SelectMission(Missions.FirstOrDefault(x => x.Id == id));
         }
 
         void SelectMissionPackage(KeyValuePair<string, string> item) {
-            Common.App.PublishEvent(new RequestShowMissionLibrary());
+            Cheat.PublishEvent(new RequestShowMissionLibrary());
             SelectMission(Missions.FirstOrDefault(x => x.PackageName == item.Value));
         }
 

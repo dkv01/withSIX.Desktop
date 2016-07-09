@@ -22,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Caliburn.Micro;
 using NDepend.Path;
 using ReactiveUI;
 using SevenZip;
@@ -133,28 +132,11 @@ namespace SN.withSIX.Core
 #endif
             }
 
-            [Obsolete("Take a dependency on IEventAggregator instead")]
-            public IEventAggregator Events { get; set; }
             public Version ApplicationVersion { get; private set; }
             public string ProductVersion { get; private set; }
             public string AppTitle { get; private set; }
             [Obsolete("Workaround for need to check for Wpf Application availability in Core")]
             public bool IsWpfApp { get; set; }
-            public IMediator Mediator { get; set; }
-
-            public void PublishEvent<T>(T message) {
-                Events.PublishOnCurrentThread(message);
-            }
-
-            [Obsolete("This is only here because of lack of better approach to raising domain events currently")]
-            public void PublishDomainEvent<TEvent>(TEvent evt) where TEvent : IDomainEvent {
-                //Events.PublishOnCurrentThread(evt);
-                Mediator.Notify(evt);
-            }
-
-            //Events.PublishOnCurrentThread(evt);
-            [Obsolete("This is only here because of legacy code")]
-            public TResult Request<TResult>(IRequest<TResult> evt) => Mediator.Request(evt);
 
             public void Init(string appName) {
                 RxApp.SupportsRangeNotifications = false; // WPF doesnt :/

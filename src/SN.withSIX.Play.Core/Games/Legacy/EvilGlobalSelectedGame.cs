@@ -61,8 +61,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         async Task TryActiveGameChanged(Game x) {
             try {
                 x.RefreshState();
-                await Common.App.Mediator.NotifyEnMass(new ActiveGameChanged(x)).ConfigureAwait(false);
-                await Common.App.Mediator.NotifyEnMass(new ActiveGameChangedForReal(x)).ConfigureAwait(false);
+                await CalculatedGameSettings.NotifyEnMass(new ActiveGameChanged(x)).ConfigureAwait(false);
+                await CalculatedGameSettings.NotifyEnMass(new ActiveGameChangedForReal(x)).ConfigureAwait(false);
             } finally {
                 _settings.Ready = true;
             }

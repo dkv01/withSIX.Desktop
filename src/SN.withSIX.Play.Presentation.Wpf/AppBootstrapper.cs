@@ -46,6 +46,7 @@ using SN.withSIX.Play.Applications.UseCases.Games;
 using SN.withSIX.Play.Applications.ViewModels;
 using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
 using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
@@ -199,6 +200,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
                 return new SelfUpdater(() => appOptions.EnableBetaUpdates,
                     Container.GetInstance<IEventAggregator>(), Container.GetInstance<IProcessManager>(),
                     Container.GetInstance<IFileDownloader>(),
+                    Container.GetInstance<IMediator>(),
                     Container.GetInstance<ExportFactory<IWebClient>>(), Container.GetInstance<IRestarter>());
             });
 
@@ -230,6 +232,13 @@ namespace SN.withSIX.Play.Presentation.Wpf
 
         protected override void AfterSetup() {
             base.AfterSetup();
+
+            Cheat.SetServices(Container.GetInstance<ICheatImpl>());
+            CalculatedGameSettings.RaiseEvent = Cheat.PublishEvent;
+            CalculatedGameSettings.NotifyEnMass = async (message) => {
+                await Cheat.PublishDomainEvent(message).ConfigureAwait(false);
+                Cheat.PublishEvent(message);
+            };
 
             SetupSettings();
             DomainEvilGlobal.SelectedGame = Container.GetInstance<EvilGlobalSelectedGame>();

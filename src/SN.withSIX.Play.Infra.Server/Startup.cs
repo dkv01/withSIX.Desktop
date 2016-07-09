@@ -17,6 +17,7 @@ using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Infra.Server.Hubs;
 using SN.withSIX.Play.Infra.Server.UseCases;
@@ -89,7 +90,7 @@ namespace SN.withSIX.Play.Infra.Server
 
         Task InvokeCommand(IOwinContext context) {
             context.Response.ContentType = "text/plain";
-            Common.App.PublishEvent(new ProcessAppEvent("pws://" + context.Request.QueryString));
+            Cheat.PublishEvent(new ProcessAppEvent("pws://" + context.Request.QueryString));
             return context.Response.WriteAsync("Command executed");
         }
 

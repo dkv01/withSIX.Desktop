@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             Items.ItemChanged
                 .Where(x => x.PropertyName == "ActualDependency")
                 .Subscribe(
-                    x => Common.App.PublishEvent(new CurrentPackageChanged(x.Sender.ActualDependency)));
+                    x => CalculatedGameSettings.RaiseEvent(new CurrentPackageChanged(x.Sender.ActualDependency)));
         }
 
         public void ProcessPackages() {

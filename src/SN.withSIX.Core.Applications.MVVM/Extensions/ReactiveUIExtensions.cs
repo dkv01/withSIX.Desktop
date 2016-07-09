@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="ReactiveUIExtensions.cs">
+// <copyright company="SIX Networks GmbH" file="ReactiveUIExtensions.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -9,9 +9,10 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Extensions
+namespace SN.withSIX.Core.Applications.MVVM.Extensions
 {
     public static class ReactiveUIExtensions
     {

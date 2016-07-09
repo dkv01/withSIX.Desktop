@@ -11,6 +11,7 @@ using FakeItEasy;
 using NDepend.Path;
 using NLog;
 using NLog.Config;
+using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Infra.Services;
@@ -18,6 +19,7 @@ using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Sync.Core.Transfer;
@@ -39,10 +41,11 @@ namespace SN.withSIX.Play.Tests.Core.Support
             // Must set AppPath to curdir, otherwise we end up somewhere in test heaven
             // Also keep the test configuration and temp data separate from production
             Common.App.InitLocalWithCleanup("Test Runner");
-            Common.App.Events = new EventAggregator();
+            var ea = new EventAggregator();
+            Cheat.SetServices(new CheatImpl(ea, new Mediator(null)));
             DomainEvilGlobal.Settings = new UserSettings();
             Tools.RegisterServices(new ToolsServices(new ProcessManager(),
-                new Lazy<IWCFClient>(() => new WCFClient(Common.App.Events)),
+                new Lazy<IWCFClient>(() => new WCFClient(ea)),
                 new Lazy<IGeoIpService>(() => new GeoIpService(new ResourceService()))));
             ReSetupTools();
 

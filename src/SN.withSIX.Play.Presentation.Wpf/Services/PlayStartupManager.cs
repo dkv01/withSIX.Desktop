@@ -275,7 +275,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         static async Task CheckForNewVersion() {
             var newVersion = await new PlaySquirrel().GetNewVersion().ConfigureAwait(false);
             if (newVersion != null)
-                Common.App.PublishDomainEvent(new NewVersionAvailable(newVersion));
+                Cheat.PublishDomainEvent(new NewVersionAvailable(newVersion));
         }
 
         async void InitConnect() {

@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MenuItemAttribute.cs" />
+    <Compile Include="Extensions\ReactiveUIExtensions.cs" />
     <Compile Include="Extensions\RxExtensions.cs" />
     <Compile Include="IWpfStartupManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

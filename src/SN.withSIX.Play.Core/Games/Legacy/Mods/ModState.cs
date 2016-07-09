@@ -58,7 +58,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             DesiredRevision = GetSynqDesiredRevision();
             LatestRevision = GetSynqLatestRevision();
             State = !ModMatchesActiveGame(game) ? ContentState.Incompatible : GetSynqModState();
-            //Common.App.Mediator.Notify(new ModInfoChangedEvent(new ModInfo(_mod)));
+            //Cheat.PublishDomainEvent(new ModInfoChangedEvent(new ModInfo(_mod)));
         }
 
         string GetSynqLatestRevision() => _package.GetLatestAnyDependency().VersionData;

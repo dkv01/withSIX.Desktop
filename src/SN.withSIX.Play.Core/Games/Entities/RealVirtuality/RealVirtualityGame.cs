@@ -185,7 +185,7 @@ namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
             if (!path.Exists)
                 throw new DirectoryNotFoundException();
 
-            Common.App.Events.PublishOnUIThread(new RequestPublishMission(new MissionFolder(Guid.Empty) {
+            CalculatedGameSettings.RaiseEvent(new RequestPublishMission(new MissionFolder(Guid.Empty) {
                 CustomPath = path.ParentDirectoryPath,
                 Name = path.DirectoryName,
                 FolderName = path.DirectoryName

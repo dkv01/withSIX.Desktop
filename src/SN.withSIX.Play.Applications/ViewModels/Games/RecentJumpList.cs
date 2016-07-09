@@ -8,6 +8,7 @@ using System.Windows.Shell;
 using MoreLinq;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Options.Entries;

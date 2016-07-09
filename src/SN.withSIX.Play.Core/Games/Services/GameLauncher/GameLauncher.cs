@@ -10,6 +10,7 @@ using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
 {
@@ -46,14 +47,12 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
     abstract class GameLauncher : IGameLauncher, IEnableLogging, IDomainService
     {
         readonly IGameLauncherProcess _gameLauncherInfra;
-        readonly IMediator _mediator;
 
-        protected GameLauncher(IMediator mediator, IGameLauncherProcess gameLauncherInfra) {
-            _mediator = mediator;
+        protected GameLauncher(IGameLauncherProcess gameLauncherInfra) {
             _gameLauncherInfra = gameLauncherInfra;
         }
 
-        public Task Notify<T>(T message) => _mediator.NotifyEnMass(message);
+        public Task Notify<T>(T message) => CalculatedGameSettings.NotifyEnMass(message);
 
         protected Task<Process> LaunchInternal(LaunchGameInfo info) => _gameLauncherInfra.LaunchInternal(info);
 

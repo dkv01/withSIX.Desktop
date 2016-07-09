@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Microsoft.Win32;
 using NDepend.Path;
+using ShortBus;
 using SmartAssembly.ReportUsage;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -34,6 +35,7 @@ namespace SN.withSIX.Core.Applications.Services
         static readonly string RegistryPathBase = @"SOFTWARE\SIX Networks\";
         static readonly string applicationRegistryPath = RegistryPathBase + Common.AppCommon.ApplicationName;
         readonly IFileDownloader _downloader;
+        private readonly IMediator _mediator;
         readonly Func<bool> _enableBeta;
         readonly Version _entryAssemblyLocalVersion;
         readonly IAbsoluteFilePath _entryAssemblyLocation;
@@ -48,11 +50,12 @@ namespace SN.withSIX.Core.Applications.Services
         string _remoteProductCode = string.Empty;
 
         public SelfUpdater(Func<bool> enableBeta, IEventAggregator eventBus, IProcessManager processManager,
-            IFileDownloader downloader,
+            IFileDownloader downloader, IMediator mediator,
             ExportFactory<IWebClient> webClientFactory, IRestarter restarter) {
             _eventBus = eventBus;
             _processManager = processManager;
             _downloader = downloader;
+            _mediator = mediator;
             _webClientFactory = webClientFactory;
             _restarter = restarter;
             _enableBeta = enableBeta;
@@ -240,7 +243,7 @@ namespace SN.withSIX.Core.Applications.Services
 
         void PublishDomainEvent<TEvent>(TEvent evt) where TEvent : IDomainEvent {
             _eventBus.PublishOnCurrentThread(evt);
-            Common.App.PublishDomainEvent(evt);
+            _mediator.Notify(evt);
         }
 
         static void RegisterLocalAppKeys(IAbsoluteFilePath exePath) {

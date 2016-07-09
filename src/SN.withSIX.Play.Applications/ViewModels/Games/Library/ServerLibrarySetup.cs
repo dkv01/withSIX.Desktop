@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
 using SN.withSIX.Play.Core.Games.Legacy.Servers;

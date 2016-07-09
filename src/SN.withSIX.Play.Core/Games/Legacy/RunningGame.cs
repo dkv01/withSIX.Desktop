@@ -154,7 +154,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             var addr = session.HostIP;
             _hostIP = string.IsNullOrWhiteSpace(addr) ? null : new ServerAddress(addr);
 
-            Common.App.PublishEvent(new MyActiveServerAddressChanged(_hostIP));
+            CalculatedGameSettings.RaiseEvent(new MyActiveServerAddressChanged(_hostIP));
         }
 
         [DoNotObfuscate]

@@ -30,6 +30,7 @@ using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
@@ -232,7 +233,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         }
 
         async Task ApiHashesReceived(ApiHashes obj) {
-            await Common.App.Mediator.NotifyAsync(obj).ConfigureAwait(false);
+            await Cheat.PublishDomainEvent(obj).ConfigureAwait(false);
         }
 
         void Listen<TEvt>(Func<TEvt, Task> action) {
@@ -253,19 +254,19 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         }
 
         async Task CollectionUpdated(CollectionUpdated evt) {
-            await Common.App.Mediator.NotifyAsync(evt).ConfigureAwait(false);
+            await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);
         }
 
         async Task CollectionVersionAdded(CollectionVersionAdded evt) {
-            await Common.App.Mediator.NotifyAsync(evt).ConfigureAwait(false);
+            await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);
         }
 
         async Task UnsubscribeFromCollection(UnsubscribedFromCollection evt) {
-            await Common.App.Mediator.NotifyAsync(evt).ConfigureAwait(false);
+            await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);
         }
 
         async Task SubscribedToCollection(SubscribedToCollection evt) {
-            await Common.App.Mediator.NotifyAsync(evt).ConfigureAwait(false);
+            await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);
         }
 
         void UpdateAccount(MyAccountModel myAccount) {

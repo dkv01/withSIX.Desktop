@@ -106,7 +106,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
                 .SetNewCommand(this, x => x.LogoutCommand)
                 .Subscribe();
             ReactiveCommand.CreateAsyncTask(
-                x => Common.App.Events.PublishOnUIThreadAsync(new RequestGameSettingsOverlay(Guid.Empty)))
+                x => Cheat.PublishEventUi(new RequestGameSettingsOverlay(Guid.Empty)))
                 .SetNewCommand(this, x => x.GameSettingsCommand)
                 .Subscribe();
 
@@ -951,7 +951,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         }
 
         [SmartAssembly.Attributes.ReportUsage]
-        void Logout() => Common.App.Events.PublishOnCurrentThread(new DoLogout());
+        void Logout() => Cheat.PublishEvent(new DoLogout());
     }
 
     public class LocaleItemsSource : IItemsSource
