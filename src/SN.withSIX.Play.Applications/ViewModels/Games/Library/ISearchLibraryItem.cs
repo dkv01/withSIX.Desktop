@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library

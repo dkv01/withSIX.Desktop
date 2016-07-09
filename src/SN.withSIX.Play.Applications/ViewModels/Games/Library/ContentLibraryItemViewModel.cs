@@ -14,6 +14,7 @@ using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;

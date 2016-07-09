@@ -22,9 +22,9 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
         readonly IAbsoluteDirectoryPath _parPath;
         readonly IFileWriter _writer;
 
-        public RealVirtualityLauncher(IMediator mediator, IGameLauncherProcess processManager,
+        public RealVirtualityLauncher(IGameLauncherProcess processManager,
             IPathConfiguration pathConfiguration, IFileWriter writer)
-            : base(mediator, processManager) {
+            : base(processManager) {
             Contract.Requires<ArgumentNullException>(writer != null);
             _writer = writer;
             _parPath = pathConfiguration.LocalDataPath.GetChildDirectoryWithName("games");

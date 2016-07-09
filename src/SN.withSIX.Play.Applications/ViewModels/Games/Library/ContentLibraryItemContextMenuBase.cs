@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Legacy;

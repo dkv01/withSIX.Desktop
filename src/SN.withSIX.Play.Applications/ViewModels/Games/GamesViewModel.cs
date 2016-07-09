@@ -17,6 +17,7 @@ using ShortBus;
 using SmartAssembly.Attributes;
 using SmartAssembly.ReportUsage;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.DataModels.Games;

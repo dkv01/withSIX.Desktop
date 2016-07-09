@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using ShortBus;
 using SmartAssembly.Attributes;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.DataModels.Games;

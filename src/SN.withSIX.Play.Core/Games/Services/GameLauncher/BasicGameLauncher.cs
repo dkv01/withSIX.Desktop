@@ -12,8 +12,8 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
 
     class BasicGameLauncher : GameLauncher, IBasicGameLauncher
     {
-        public BasicGameLauncher(IMediator mediator, IGameLauncherProcess processManager)
-            : base(mediator, processManager) {}
+        public BasicGameLauncher(IGameLauncherProcess processManager)
+            : base(processManager) {}
 
         public Task<Process> Launch(LaunchGameInfo spec) => LaunchInternal(spec);
 

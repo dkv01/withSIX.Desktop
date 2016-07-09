@@ -23,9 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SevenZip;
-using ShortBus;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using Action = System.Action;
@@ -139,7 +137,6 @@ namespace SN.withSIX.Core
             public bool IsWpfApp { get; set; }
 
             public void Init(string appName) {
-                RxApp.SupportsRangeNotifications = false; // WPF doesnt :/
                 if (Flags.Staging || Flags.Portable)
                     InitLocal(appName);
                 else

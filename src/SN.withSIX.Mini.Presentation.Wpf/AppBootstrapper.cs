@@ -89,6 +89,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void InitializeCM() {
             base.InitializeCM();
+            RxApp.SupportsRangeNotifications = false; // WPF doesnt :/
+
             // Legacy
             Initialize(); // initialize CM framework
         }

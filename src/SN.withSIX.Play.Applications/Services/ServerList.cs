@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using MoreLinq;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;

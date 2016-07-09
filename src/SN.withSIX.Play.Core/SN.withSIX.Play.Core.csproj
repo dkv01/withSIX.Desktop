@@ -514,6 +514,12 @@
     <Compile Include="Games\Services\GameServerQueryHandler.cs" />
     <Compile Include="Games\Services\Infrastructure\IContentApiHandler.cs" />
     <Compile Include="Games\Services\GameLauncher\LaunchGameInfo.cs" />
+    <Compile Include="Glue\Helpers\HaveReactiveItems.cs" />
+    <Compile Include="Glue\Helpers\IHaveReactiveItems.cs" />
+    <Compile Include="Glue\Helpers\IHaveSelectedItem.cs" />
+    <Compile Include="Glue\Helpers\ISelectionList.cs" />
+    <Compile Include="Glue\Helpers\SelectionList.cs" />
+    <Compile Include="Glue\Helpers\SixReactiveList.cs" />
     <Compile Include="IHaveNotes.cs" />
     <Compile Include="Games\Services\ServersQueryExtensions.cs" />
     <Compile Include="Connect\Infrastructure\ConnectionStateChanged.cs" />
@@ -591,7 +597,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

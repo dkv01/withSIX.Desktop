@@ -14,8 +14,8 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
     {
         readonly IGetScreenSize _screenSize;
 
-        public Homeworld2GameLauncher(IMediator mediator, IGameLauncherProcess processManager, IGetScreenSize screenSize)
-            : base(mediator, processManager) {
+        public Homeworld2GameLauncher(IGameLauncherProcess processManager, IGetScreenSize screenSize)
+            : base(processManager) {
             _screenSize = screenSize;
         }
 

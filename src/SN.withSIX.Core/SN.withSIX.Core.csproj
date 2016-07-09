@@ -270,14 +270,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\SmartAssembly.Attributes.dll</HintPath>
     </Reference>
-    <Reference Include="SmartAssembly.ReportException, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\SmartAssembly.ReportException.dll</HintPath>
-    </Reference>
-    <Reference Include="SmartAssembly.ReportUsage, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\SmartAssembly.ReportUsage.dll</HintPath>
-    </Reference>
     <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -314,7 +306,6 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="YamlDotNet, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -341,23 +332,17 @@
     <Compile Include="Extensions\SizeExtensions.cs" />
     <Compile Include="Helpers\AsyncLock.cs" />
     <Compile Include="Helpers\BaseVersion.cs" />
-    <Compile Include="Helpers\HaveReactiveItems.cs" />
     <Compile Include="Helpers\IComparePK.cs" />
     <Compile Include="Helpers\ICopyProperties.cs" />
     <Compile Include="Helpers\IHaveItems.cs" />
     <Compile Include="Helpers\IHaveModel.cs" />
-    <Compile Include="Helpers\IHaveReactiveItems.cs" />
-    <Compile Include="Helpers\IHaveSelectedItem.cs" />
     <Compile Include="Helpers\IHaveTimestamps.cs" />
     <Compile Include="Helpers\IHaveType.cs" />
     <Compile Include="Helpers\IProgressState.cs" />
-    <Compile Include="Helpers\ISelectionList.cs" />
     <Compile Include="Helpers\ITProgress.cs" />
     <Compile Include="Helpers\ModelBase.cs" />
     <Compile Include="Helpers\ProgressComponent.cs" />
     <Compile Include="Helpers\PropertyChangedBase.cs" />
-    <Compile Include="Helpers\SelectionList.cs" />
-    <Compile Include="Helpers\SixReactiveList.cs" />
     <Compile Include="Helpers\TimerWithElapsedCancellation.cs">
       <SubType>Component</SubType>
     </Compile>

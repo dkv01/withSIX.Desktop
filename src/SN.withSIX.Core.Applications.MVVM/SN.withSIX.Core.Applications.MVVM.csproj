@@ -237,6 +237,12 @@
     <Compile Include="Attributes\MenuItemAttribute.cs" />
     <Compile Include="Extensions\ReactiveUIExtensions.cs" />
     <Compile Include="Extensions\RxExtensions.cs" />
+    <Compile Include="Helpers\HaveReactiveItems.cs" />
+    <Compile Include="Helpers\IHaveReactiveItems.cs" />
+    <Compile Include="Helpers\IHaveSelectedItem.cs" />
+    <Compile Include="Helpers\ISelectionList.cs" />
+    <Compile Include="Helpers\SelectionList.cs" />
+    <Compile Include="Helpers\SixReactiveList.cs" />
     <Compile Include="IWpfStartupManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UiHelper.cs" />

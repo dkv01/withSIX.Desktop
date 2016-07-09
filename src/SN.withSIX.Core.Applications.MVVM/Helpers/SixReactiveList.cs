@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Disposables;
 using ReactiveUI;
 
-namespace SN.withSIX.Core.Helpers
+namespace SN.withSIX.Core.Applications.MVVM.Helpers
 {
     public class SixReactiveDisposableList<T> : ReactiveList<T>, IDisposable
     {

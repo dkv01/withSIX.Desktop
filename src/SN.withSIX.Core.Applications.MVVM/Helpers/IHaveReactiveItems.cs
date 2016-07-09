@@ -3,8 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
+using SN.withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Helpers
+namespace SN.withSIX.Core.Applications.MVVM.Helpers
 {
     public interface IHaveReactiveItems<T> : IHaveItems<T, ReactiveList<T>> {}
 }

@@ -22,6 +22,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Glue.Helpers;
 using SN.withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods

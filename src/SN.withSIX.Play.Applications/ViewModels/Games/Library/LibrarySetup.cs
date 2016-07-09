@@ -5,6 +5,7 @@
 using System.ComponentModel;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.Extensions;
 using SN.withSIX.Play.Core.Games.Legacy;
