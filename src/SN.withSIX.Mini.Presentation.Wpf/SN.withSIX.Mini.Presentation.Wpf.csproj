@@ -437,10 +437,6 @@
       <Project>{69cfcb4f-5e81-4dae-adfe-d94e63989c1c}</Project>
       <Name>SN.withSIX.Core.Presentation.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.SA\SN.withSIX.Core.Presentation.SA.csproj">
-      <Project>{dd2a6dad-ef37-4542-89af-aec0845e71e9}</Project>
-      <Name>SN.withSIX.Core.Presentation.SA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
       <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
       <Name>SN.withSIX.Core.Presentation.Wpf</Name>

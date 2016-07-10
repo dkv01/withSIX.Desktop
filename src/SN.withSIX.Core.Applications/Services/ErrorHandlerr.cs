@@ -43,16 +43,12 @@ namespace SN.withSIX.Core.Applications.Services
         public static Task<bool> TryAction(Func<Task> act, string action = null)
             => _exceptionHandler.TryExecuteAction(act, action);
 
-        public static void SetExceptionHandler(IExceptionHandler handler) {
-            _exceptionHandler = handler;
-        }
+        public static void SetExceptionHandler(IExceptionHandler handler) => _exceptionHandler = handler;
 
         public static UserError HandleException(Exception ex, string action = "Action")
-            => ErrorHandlerr._exceptionHandler.HandleException(ex, action);
+            => _exceptionHandler.HandleException(ex, action);
 
 
-        public static void RegisterHandler(IExceptionHandlerHandle exceptionHandlerHandle) {
-            ErrorHandlerr._exceptionHandler.RegisterHandler(exceptionHandlerHandle);
-        }
+        public static void RegisterHandler(IExceptionHandlerHandle exceptionHandlerHandle) => _exceptionHandler.RegisterHandler(exceptionHandlerHandle);
     }
 }

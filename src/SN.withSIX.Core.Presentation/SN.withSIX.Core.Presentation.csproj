@@ -287,10 +287,6 @@
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>SN.withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.SA\SN.withSIX.Core.Presentation.SA.csproj">
-      <Project>{DD2A6DAD-EF37-4542-89AF-AEC0845E71E9}</Project>
-      <Name>SN.withSIX.Core.Presentation.SA</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

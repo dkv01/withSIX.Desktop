@@ -712,10 +712,6 @@
       <Project>{69cfcb4f-5e81-4dae-adfe-d94e63989c1c}</Project>
       <Name>SN.withSIX.Core.Presentation.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.SA\SN.withSIX.Core.Presentation.SA.csproj">
-      <Project>{DD2A6DAD-EF37-4542-89AF-AEC0845E71E9}</Project>
-      <Name>SN.withSIX.Core.Presentation.SA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
       <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
       <Name>SN.withSIX.Core.Presentation</Name>
