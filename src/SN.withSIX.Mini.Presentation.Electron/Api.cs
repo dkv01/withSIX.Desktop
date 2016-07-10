@@ -89,6 +89,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         private readonly Func<object, Task<object>> _showMessageBox;
         private readonly Func<object, Task<object>> _showOpenDialog;
         private readonly Func<object, Task<object>> _showSaveDialog;
+        private readonly Func<object, Task<object>> _showNotification;
 
         public ArgsO Args { get; }
 
@@ -97,6 +98,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             _showMessageBox = api.showMessageBox as Func<object, Task<object>>;
             _showOpenDialog = api.showOpenDialog as Func<object, Task<object>>;
             _showSaveDialog = api.showSaveDialog as Func<object, Task<object>>;
+            _showNotification = api.showNotification as Func<object, Task<object>>;
             _displayTrayBaloon = api.displayTrayBaloon as Func<object, Task<object>>;
             _setState = api.setState as Func<object, Task<object>>;
             _installSelfUpdate = api.installSelfUpdate as Func<object, Task<object>>;
@@ -128,6 +130,9 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var rO = (object[])r;
             return rO?.Cast<string>().ToArray();
         }
+
+        public async Task<bool?> ShowNotification(string title, string message = null)
+            => (bool?) await _showNotification(new {title, message}).ConfigureAwait(false);
 
         public async Task<string> ShowSaveDialog(string title = null, string defaultPath = null) {
             var r = await _showSaveDialog(new { title, defaultPath }).ConfigureAwait(false);

@@ -212,6 +212,7 @@
     <Compile Include="Entrypoint.cs" />
     <Compile Include="INodeApi.cs" />
     <Compile Include="NodeDialogManager.cs" />
+    <Compile Include="NodeNotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Teardown.cs" />
