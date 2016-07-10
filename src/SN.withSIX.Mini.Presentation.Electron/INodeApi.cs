@@ -4,8 +4,9 @@
 
 using System.Threading.Tasks;
 using ReactiveUI;
+using SN.withSIX.Mini.Applications;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace SN.withSIX.Mini.Presentation.Electron
 {
     public interface INodeApi
     {
@@ -16,6 +17,7 @@ namespace SN.withSIX.Mini.Applications.Services
         Task<string> ShowSaveDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFileDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFolderDialog(string title = null, string defaultPath = null);
+        Task<bool?> ShowNotification(string title, string message = null);
         Task DisplayTrayBaloon(string title, string content, string icon = null);
         Task SetState(BusyState state, string description, double? progress);
         Task InstallSelfUpdate();

@@ -223,7 +223,6 @@
     <Compile Include="Services\Infra\IQueueHubMessenger.cs" />
     <Compile Include="Services\Infra\ISettingsStorage.cs" />
     <Compile Include="Services\Infra\ITokenRefresher.cs" />
-    <Compile Include="Services\INodeApi.cs" />
     <Compile Include="Services\IQueueManager.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />
     <Compile Include="Services\Queue.cs" />

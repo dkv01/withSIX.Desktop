@@ -327,7 +327,6 @@
     </Compile>
     <Compile Include="Resources\FontFamily.cs" />
     <Compile Include="Services\ISquirrelApp.cs" />
-    <Compile Include="Services\NullNodeApi.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\SquirrelUpdater.cs" />
     <Compile Include="Services\WpfFlyoutOpener.cs" />
@@ -502,9 +501,7 @@
       <Name>SN.withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Node\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="app.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
