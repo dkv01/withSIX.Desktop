@@ -3,12 +3,8 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SimpleInjector;
@@ -16,7 +12,6 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.SA;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
@@ -119,7 +114,6 @@ namespace SN.withSIX.Mini.Presentation.Electron
         }
 
         private static void Init(string arguments) {
-            ExceptionExtensions.FormatException = KnownExceptions.FormatException;
             Common.AppCommon.ApplicationName = Consts.InternalTitle; // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +

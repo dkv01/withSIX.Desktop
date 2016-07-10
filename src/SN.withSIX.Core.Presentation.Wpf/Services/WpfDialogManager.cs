@@ -14,16 +14,10 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using ReactiveUI;
-using SharpCompress.Compressor.Deflate;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.SA;
-using SN.withSIX.Core.Presentation.SA.ViewModels;
-using SN.withSIX.Core.Presentation.SA.Views;
-using SN.withSIX.Core.Presentation.Wpf.Helpers;
 using Action = System.Action;
 using ViewLocator = ReactiveUI.ViewLocator;
 
@@ -246,54 +240,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             if (title == null)
                 title = "A problem has occurred";
 
-            var w32 = e as Win32Exception;
-            if (w32?.NativeErrorCode == Win32ErrorCodes.FILE_NOT_FOUND) {
-                // TODO: Would be nice if we could actually add the damn file name + path!
-                message +=
-                    "\n\nPossible causes:\n-A required file on the system is missing, make sure it was not accidentally deleted, or quarantined (possibly without reason) by your AntiVirus/Security suite.";
-            }
-
-            var zlibEx = e as ZlibException;
-            if (zlibEx != null) {
-                message +=
-                    "\n\nPossible causes: Corrupted downloads caused by security suite (e.g AV / FW), proxy, hardware or driver failure, or because the online files are corrupted (in that case, contact the custom repository owner or official network Support)";
-            }
-
-            var msg = KnownExceptions.ParseMessage(
-                $"Problem:\n{e.GetType().Name}, {e.Message}", false);
-            if (!string.IsNullOrWhiteSpace(message))
-                msg = $"{KnownExceptions.ParseMessage(message)}<LineBreak /><LineBreak />{msg}";
-
-            return Application.Current != null && await ShowExceptionDialog(msg, title, e, owner).ConfigureAwait(false);
+            await
+                MessageBox(new MessageBoxDialogParams(title, message + "\n" + e.Format(), SixMessageBoxButton.OK))
+                    .ConfigureAwait(false);
+            return true;
         }
-
-        static async Task<bool> ShowExceptionDialog(string message, string title, Exception e, object window = null) {
-            message = new XmlSanitizer().SanitizeXmlString(message);
-
-            var ev = new ExceptionDialogViewModel(e.Format()) {
-                Message = message,
-                Title = title,
-                Exception = e
-            };
-
-            await WpfCustomDialogManager.Schedule(() => ExceptionDialogInternal(window, ev)).ConfigureAwait(false);
-
-            if (ev.Throw)
-                throw new ExceptionDialogThrownException("Redirected exception", e);
-
-            return ev.Cancel;
-        }
-
-        private static void ExceptionDialogInternal(object window, ExceptionDialogViewModel ev) {
-            WpfCustomDialogManager.ConfirmAccess();
-            var w = new ExceptionDialogView {DataContext = ev};
-            if (window == null)
-                DialogHelper.SetMainWindowOwner(w);
-            else
-                w.Owner = (Window) window;
-            w.ShowDialog();
-        }
-
         protected string BrowseForFolderInternal(string selectedPath = null, string title = null) {
             WpfCustomDialogManager.ConfirmAccess();
             var dialog = new VistaFolderBrowserDialog {SelectedPath = selectedPath, Description = title};

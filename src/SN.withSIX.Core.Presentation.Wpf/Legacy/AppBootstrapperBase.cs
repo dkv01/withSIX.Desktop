@@ -26,9 +26,6 @@ using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
 using SN.withSIX.Core.Presentation.Extensions;
-using SN.withSIX.Core.Presentation.SA;
-using SN.withSIX.Core.Presentation.SA.Views;
-using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core;
@@ -53,8 +50,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
         protected Container Container { get; private set; }
 
         protected override void Configure() {
-            ExceptionExtensions.HandledException = (exception, s) => new ReportHandledException(s, exception);
-            ExceptionExtensions.FormatException = KnownExceptions.FormatException;
             Container = new Container();
             _config = new ContainerConfiguration(Container);
         }

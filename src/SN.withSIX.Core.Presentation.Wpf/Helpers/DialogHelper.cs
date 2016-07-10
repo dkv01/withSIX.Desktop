@@ -11,22 +11,12 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.SA;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Helpers
 {
     public static class DialogHelper
     {
-        static bool _mainWindowLoaded;
-        public static bool MainWindowLoaded
-        {
-            get { return _mainWindowLoaded; }
-            set
-            {
-                _mainWindowLoaded = value;
-                KnownExceptions.MainWindowShown = value;
-            }
-        }
+        public static bool MainWindowLoaded { get; set; }
 
         public static void ActivateWindows(bool activate = true, bool allWindows = true) {
             var app = Application.Current;

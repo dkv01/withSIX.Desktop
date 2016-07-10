@@ -12,14 +12,10 @@ using System.Windows.Threading;
 using SimpleInjector;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.SA;
-using SN.withSIX.Core.Presentation.SA.ViewModels;
-using SN.withSIX.Core.Presentation.SA.Views;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Electron;
 using Splat;
 
 namespace SN.withSIX.Mini.Presentation.Wpf

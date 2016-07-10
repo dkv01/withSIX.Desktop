@@ -7,23 +7,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Windows;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.SA;
-using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Electron;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
 using ILogger = Splat.ILogger;
@@ -50,7 +43,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private static void Init(string arguments) {
-            ExceptionExtensions.FormatException = KnownExceptions.FormatException;
             Common.AppCommon.ApplicationName = Consts.InternalTitle; // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +

@@ -43,9 +43,7 @@ namespace SN.withSIX.Sync.Presentation.Console
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void FatalException(Exception e, string message = null) {
-            if (message != null)
-                e = ExceptionExtensions.HandledException(e, message);
-
+            //System.Console.WriteLine(message + "\n" + e);
             MainLog.Logger.FormattedErrorException(e, message);
             System.Console.WriteLine(e.Format());
 

@@ -26,6 +26,7 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels.Popups;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation.SA;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Helpers;
 using SN.withSIX.Core.Presentation.Wpf.Services;
@@ -64,7 +65,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             IDialogManager dialogManager, IExceptionHandler exceptionHandler, ISpecialDialogManager specialDialogManager) {
             InitializeComponent();
 
-            Loaded += (sender, args) => DialogHelper.MainWindowLoaded = true;
+            Loaded += OnRoutedEventHandler;
 
             _userSettings = settings;
             _handler = handler;
@@ -94,6 +95,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             });
 
             ThemeManager.IsThemeChanged += CustomThemeManager.ThemeManagerOnIsThemeChanged;
+        }
+
+        private void OnRoutedEventHandler(object sender, RoutedEventArgs args) {
+            DialogHelper.MainWindowLoaded = true;
+            KnownExceptions.MainWindowShown = true;
         }
 
         internal TaskbarIcon TBI { get; private set; }

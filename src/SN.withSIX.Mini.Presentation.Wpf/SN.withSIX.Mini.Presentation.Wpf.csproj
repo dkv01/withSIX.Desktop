@@ -493,10 +493,6 @@
       <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
       <Name>SN.withSIX.Mini.Presentation.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Electron\SN.withSIX.Mini.Presentation.Electron.csproj">
-      <Project>{F9E3D288-2AA7-48BA-B99B-4EAE4283AC34}</Project>
-      <Name>SN.withSIX.Mini.Presentation.Electron</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Shell\SN.withSIX.Mini.Presentation.Shell.csproj">
       <Project>{956504fb-6cae-4857-8802-d6c24336ec15}</Project>
       <Name>SN.withSIX.Mini.Presentation.Shell</Name>

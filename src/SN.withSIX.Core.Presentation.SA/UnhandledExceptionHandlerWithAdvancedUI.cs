@@ -64,7 +64,7 @@ namespace SN.withSIX.Core.Presentation.SA
 
         static void LogError(Exception ex) {
             try {
-                LogManager.GetCurrentClassLogger().Error(KnownExceptions.FormatException(ex), ex);
+                LogManager.GetCurrentClassLogger().Error(PrettyExceptions.FormatException(ex), ex);
             } catch (Exception e) {
                 try {
                     LogManager.GetCurrentClassLogger().Error("Error during error handling", e);
@@ -105,7 +105,7 @@ namespace SN.withSIX.Core.Presentation.SA
 
         static void TryAddFullExceptionTrace(ReportExceptionEventArgs e) {
             try {
-                e.AddCustomProperty("Full exception trace", KnownExceptions.FormatException(e.Exception));
+                e.AddCustomProperty("Full exception trace", PrettyExceptions.FormatException(e.Exception));
             } catch {}
         }
 
