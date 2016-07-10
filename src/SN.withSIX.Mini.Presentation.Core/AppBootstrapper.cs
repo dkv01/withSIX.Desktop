@@ -59,8 +59,8 @@ using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using Splat;
-using Initializer = SN.withSIX.Mini.Infra.Api.Initializer;
 using IDependencyResolver = ShortBus.IDependencyResolver;
+using Initializer = SN.withSIX.Mini.Infra.Api.Initializer;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
