@@ -197,6 +197,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
+    <Reference Include="SharpCompress, Version=0.11.6.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
+      <HintPath>..\packages\sharpcompress.0.11.6\lib\net40\SharpCompress.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ShortBus">
       <HintPath>..\dll\ShortBus.dll</HintPath>
     </Reference>
@@ -272,6 +276,7 @@
     <Compile Include="ExitHandler.cs" />
     <Compile Include="IFirstTimeLicense.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CompressionUtil.cs" />
     <Compile Include="Services\DefaultLogManager.cs" />
     <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
     <Compile Include="Services\DepResolver.cs" />

@@ -232,10 +232,6 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpCompress, Version=0.11.6.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
-      <HintPath>..\packages\sharpcompress.0.11.6\lib\net40\SharpCompress.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -351,6 +347,7 @@
     <Compile Include="Services\JsonDictionary.cs" />
     <Compile Include="Services\JsonPrettyPrinter.cs" />
     <Compile Include="TimestampedDomainEvent.cs" />
+    <Compile Include="Tools\Compression\CompressionUtil.cs" />
     <Compile Include="Tools\Compression\GzipTools.cs" />
     <Compile Include="Tools\File\SafeIO.cs" />
     <Compile Include="Tools\File\Ops.cs" />

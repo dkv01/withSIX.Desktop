@@ -6,15 +6,8 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using NDepend.Path;
-using SharpCompress.Archive;
-using SharpCompress.Archive.GZip;
-using SharpCompress.Compressor.Deflate;
-
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using GZipStream = System.IO.Compression.GZipStream;
 
@@ -108,63 +101,7 @@ namespace SN.withSIX.Core
 
             public void UnpackSingleGzip(IAbsoluteFilePath sourceFile, IAbsoluteFilePath destFile,
                 ITProgress progress = null) {
-                using (var archive = GZipArchive.Open(sourceFile.ToString())) {
-                    try {
-                        TryUnpackArchive(destFile, progress, archive);
-                    } catch (ZlibException ex) {
-                        if (ex.Message == "Not a valid GZIP stream." || ex.Message == "Bad GZIP header."
-                            || ex.Message == "Unexpected end-of-file reading GZIP header."
-                            || ex.Message == "Unexpected EOF reading GZIP header.") {
-                            var header = TryReadHeader(sourceFile);
-                            throw new CompressedFileException(
-                                $"The archive appears corrupt: {sourceFile}. Header:\n{header}", ex);
-                        }
-                        throw;
-                    }
-                }
-            }
-
-            private static string TryReadHeader(IAbsoluteFilePath sourceFile) {
-                try {
-                    return ReadHeader(sourceFile);
-                } catch (Exception ex) {
-                    MainLog.Logger.FormattedWarnException(ex, "Could not read header from corrupt gzip file");
-                    return "$W6$: Could not read file";
-                }
-            }
-
-            private static string ReadHeader(IAbsoluteFilePath sourceFile) {
-                if (!sourceFile.Exists)
-                    return "$W6$: file does not exist";
-                var buffer = new byte[1024];
-                using (var f = new FileStream(sourceFile.ToString(), FileMode.Open))
-                    f.Read(buffer, 0, (int) Math.Min(f.Length, 1024));
-                return GetString(buffer);
-            }
-
-            static string GetString(byte[] bytes) {
-                var chars = new char[bytes.Length/sizeof (char)];
-                Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-                return new string(chars);
-            }
-
-            private static void TryUnpackArchive(IAbsoluteFilePath destFile, ITProgress progress, GZipArchive archive) {
-                destFile.RemoveReadonlyWhenExists();
-                var entry = archive.Entries.First();
-                if (progress != null) {
-                    var startTime = DateTime.UtcNow;
-                    archive.CompressedBytesRead += (sender, args) => {
-                        double prog = args.CompressedBytesRead/(float) archive.TotalSize;
-                        if (prog > 1)
-                            prog = 1;
-                        var totalMilliseconds = (DateTime.UtcNow - startTime).TotalMilliseconds;
-                        progress.Update(
-                            totalMilliseconds > 0 ? (long?) (args.CompressedBytesRead/(totalMilliseconds/1000.0)) : null,
-                            prog*100);
-                    };
-                }
-                entry.WriteToFile(destFile.ToString());
-                progress?.Update(null, 100);
+                _compressionUtil.UnpackGzip(sourceFile, destFile, progress);
             }
 
             public void UnpackSingleGzipWithFallbackAndRetry(IAbsoluteFilePath sourceFile, IAbsoluteFilePath destFile) {

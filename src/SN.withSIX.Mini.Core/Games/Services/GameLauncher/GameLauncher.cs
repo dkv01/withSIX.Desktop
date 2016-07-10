@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ShortBus;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 
