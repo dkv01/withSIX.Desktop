@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using ShortBus;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services;

@@ -6,9 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Games.Legacy;
 

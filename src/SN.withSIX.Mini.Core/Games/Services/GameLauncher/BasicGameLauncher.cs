@@ -4,7 +4,6 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ShortBus;
 
 namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
 {
@@ -12,8 +11,8 @@ namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
 
     class BasicGameLauncher : GameLauncher, IBasicGameLauncher
     {
-        public BasicGameLauncher(IMediator mediator, IGameLauncherProcess processManager)
-            : base(mediator, processManager) {}
+        public BasicGameLauncher(IGameLauncherProcess processManager)
+            : base(processManager) {}
 
         public Task<Process> Launch(LaunchGameInfo spec) => LaunchInternal(spec);
 

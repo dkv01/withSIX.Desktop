@@ -43,10 +43,8 @@ namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
     public abstract class GameLauncher : IGameLauncher, IEnableLogging, IDomainService
     {
         readonly IGameLauncherProcess _gameLauncherInfra;
-        readonly IMediator _mediator;
 
-        protected GameLauncher(IMediator mediator, IGameLauncherProcess gameLauncherInfra) {
-            _mediator = mediator;
+        protected GameLauncher(IGameLauncherProcess gameLauncherInfra) {
             _gameLauncherInfra = gameLauncherInfra;
         }
 

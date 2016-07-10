@@ -10,6 +10,16 @@ namespace SN.withSIX.Core.Applications.Extensions
 {
     public static class MediatorExtensions
     {
+        public static async Task<UnitType> Void<T>(this Task<T> task) {
+            await task.ConfigureAwait(false);
+            return UnitType.Default;
+        }
+
+        public static async Task<UnitType> Void(this Task task) {
+            await task.ConfigureAwait(false);
+            return UnitType.Default;
+        }
+
         /// <summary>
         ///     Wrapped into a Task.Run, so that all processing of the command happens on the background thread.
         /// </summary>
