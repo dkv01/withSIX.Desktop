@@ -13,7 +13,7 @@ namespace SN.withSIX.Core.Presentation.Services
 {
     public class DefaultLogManager : ILogManager
     {
-        const string SixMerged = "SN.Merged";
+        const string SixMerged = "SN.withSIX.Merged";
         public static LogFactory Factory = new LogFactory(LogManager.Configuration);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
