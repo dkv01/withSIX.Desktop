@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Core
@@ -10,6 +11,9 @@ namespace SN.withSIX.Core
     {
         public static IAssemblyLoader AssemblyLoader { get; set; } // = new AssemblyLoader(Assembly.GetEntryAssembly());
 
-        public static bool IsMerged() => typeof (CommonBase).Assembly.GetName().Name != "SN.withSIX.Core";
+        public static bool IsMerged()
+            =>
+                !(typeof (CommonBase).Assembly.GetName().Name).Equals("SN.withSIX.Core",
+                    StringComparison.CurrentCultureIgnoreCase);
     }
 }
