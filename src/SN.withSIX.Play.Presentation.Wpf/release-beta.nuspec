@@ -21,6 +21,10 @@
         <file src="..\..\..\bin\DeltaCompressionDotNet.PatchApi.dll" target="lib\net45\DeltaCompressionDotNet.PatchApi.dll" />
         <file src="..\..\..\bin\DeltaCompressionDotNet.MsDelta.dll" target="lib\net45\DeltaCompressionDotNet.MsDelta.dll" />
 
+        <file src="..\..\..\bin\logentriescore.dll" target="lib\net45\logentriescore.dll" />
+        <file src="..\..\..\bin\logentriesnlog.dll" target="lib\net45\logentriesnlog.dll" />
+        <file src="..\..\..\bin\Microsoft.WindowsAzure.ConfigurationManager.dll" target="lib\net45\Microsoft.WindowsAzure.ConfigurationManager.dll" />
+
         <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
         <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
         <file src="..\..\..\bin\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
