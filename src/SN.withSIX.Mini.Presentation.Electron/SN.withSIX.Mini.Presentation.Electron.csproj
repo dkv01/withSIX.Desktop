@@ -212,10 +212,12 @@
     <Compile Include="Entrypoint.cs" />
     <Compile Include="INodeApi.cs" />
     <Compile Include="NodeDialogManager.cs" />
+    <Compile Include="NodeErrorHandler.cs" />
     <Compile Include="NodeNotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Teardown.cs" />
+    <Compile Include="UpdateAvailable.cs" />
     <Compile Include="UpdateHandler.cs" />
   </ItemGroup>
   <ItemGroup>
