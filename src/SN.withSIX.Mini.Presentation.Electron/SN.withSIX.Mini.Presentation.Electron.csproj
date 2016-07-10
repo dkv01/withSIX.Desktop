@@ -102,6 +102,10 @@
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>SN.withSIX.Core.Applications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Assemblies\SN.withSIX.Core.Presentation.Assemblies.csproj">
+      <Project>{8c0b69bb-0e7c-4ebf-ace1-7cfeec682822}</Project>
+      <Name>SN.withSIX.Core.Presentation.Assemblies</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.SA\SN.withSIX.Core.Presentation.SA.csproj">
       <Project>{DD2A6DAD-EF37-4542-89AF-AEC0845E71E9}</Project>
       <Name>SN.withSIX.Core.Presentation.SA</Name>

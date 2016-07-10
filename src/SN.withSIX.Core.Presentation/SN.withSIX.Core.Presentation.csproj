@@ -268,7 +268,6 @@
     <Compile Include="Services\ErrorHandler.cs" />
     <Compile Include="Services\IExitHandler.cs" />
     <Compile Include="Services\IUpdaterWCF.cs" />
-    <Compile Include="Services\ResourceService.cs" />
     <Compile Include="Services\SimpleInjectorMutableDependencyResolver.cs" />
     <Compile Include="Services\WCFClient.cs" />
     <Compile Include="ShutdownHandler.cs" />
@@ -299,10 +298,6 @@
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.SA\SN.withSIX.Core.Presentation.SA.csproj">
       <Project>{DD2A6DAD-EF37-4542-89AF-AEC0845E71E9}</Project>
       <Name>SN.withSIX.Core.Presentation.SA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Resources\SN.withSIX.Core.Presentation.Resources.csproj">
-      <Project>{69CFCB4F-5E81-4DAE-ADFE-D94E63989C1C}</Project>
-      <Name>SN.withSIX.Core.Presentation.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

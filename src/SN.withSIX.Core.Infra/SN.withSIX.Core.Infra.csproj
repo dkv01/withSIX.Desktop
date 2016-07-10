@@ -232,8 +232,6 @@
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-Xaml.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />
@@ -273,6 +271,7 @@
     <Compile Include="Services\ReactiveProcess.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\ResourceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoIP\GeoIP.csproj">
@@ -295,6 +294,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="config\GeoIP.dat" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

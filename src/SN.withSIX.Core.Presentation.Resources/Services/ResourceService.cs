@@ -2,12 +2,12 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+
 using System.IO;
 using System.Reflection;
 using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Presentation.Resources;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace SN.withSIX.Core.Presentation.Resources.Services
 {
     public class ResourceService : IResourceService, IPresentationService
     {
@@ -27,4 +27,6 @@ namespace SN.withSIX.Core.Presentation.Services
         static string GetResourcePath(string path) => SourceAssemblyName + "." +
                                                       path.Replace("/", ".").Replace("\\", ".");
     }
+
+    public interface IPresentationService {}
 }

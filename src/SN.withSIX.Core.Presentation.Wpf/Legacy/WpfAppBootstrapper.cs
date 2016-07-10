@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +19,7 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Extensions;
+using SN.withSIX.Core.Presentation.Resources;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Services;
@@ -54,6 +57,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             var mutableDependencyResolver = Locator.CurrentMutable;
             SetupRx(mutableDependencyResolver);
         }
+
+        protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
+            typeof (WpfAppBootstrapper<>).Assembly,
+            typeof (DummyClass).Assembly,
+        }.Concat(base.SelectAssemblies()).Distinct();
 
         protected virtual void SetupRx(IMutableDependencyResolver dependencyResolver) {
             var viewLocator = new DefaultViewLocator();
