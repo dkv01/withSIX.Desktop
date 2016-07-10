@@ -8,7 +8,6 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
 using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
@@ -25,9 +24,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         readonly IAbsoluteDirectoryPath _parPath;
         readonly IFileWriter _writer;
 
-        public RealVirtualityLauncher(IMediator mediator, IGameLauncherProcess processManager,
+        public RealVirtualityLauncher(IGameLauncherProcess processManager,
             IPathConfiguration pathConfiguration, IFileWriter writer, IDbContextLocator contextLocator)
-            : base(mediator, processManager) {
+            : base(processManager) {
             Contract.Requires<ArgumentNullException>(writer != null);
             _writer = writer;
             _contextLocator = contextLocator;

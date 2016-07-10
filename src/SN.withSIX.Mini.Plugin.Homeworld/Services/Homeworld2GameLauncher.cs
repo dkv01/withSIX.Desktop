@@ -4,7 +4,6 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
@@ -14,8 +13,8 @@ namespace SN.withSIX.Mini.Plugin.Homeworld.Services
     {
         readonly IGetScreenSize _screenSize;
 
-        public Homeworld2GameLauncher(IMediator mediator, IGameLauncherProcess processManager, IGetScreenSize screenSize)
-            : base(mediator, processManager) {
+        public Homeworld2GameLauncher(IGameLauncherProcess processManager, IGetScreenSize screenSize)
+            : base(processManager) {
             _screenSize = screenSize;
         }
 
