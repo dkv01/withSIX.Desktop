@@ -13,7 +13,6 @@
     <files>
         <file src="bin\release\Sync.exe" target="lib\net45\sync.exe" />
         <file src="bin\release\Sync.exe.config" target="lib\net45\sync.exe.config" />
-        <file src="bin\release\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
 
         <file src="bin\release\SN.withSIX.Api.Models.dll" target="lib\net45\SN.withSIX.Api.Models.dll" />
         <file src="bin\release\SN.withSIX.ContentEngine.Core.dll" target="lib\net45\SN.withSIX.ContentEngine.Core.dll" />
