@@ -1528,7 +1528,7 @@
     </PropertyGroup>
     <Exec WorkingDirectory="$(SolutionDir)..\Build" Command="powershell .\MakeTools.ps1" />
     <Exec WorkingDirectory="$(BaseDir)" Command="&quot;$(NuGetApp)&quot; pack &quot;release$(VersionPostFix).nuspec&quot; -version $(NuGetPackageVersion) -noninteractive -outputdirectory &quot;$(TargetDir).&quot;" />
-    <Exec WorkingDirectory="$(BaseDir)" Command="&quot;$(SquirrelApp)&quot; --releasify &quot;$(TargetDir)PlaywithSIX$(PackagePostFix).$(NuGetPackageVersion).nupkg&quot; -g &quot;app.gif&quot; -i &quot;app.ico&quot; -n &quot;/a /f C:\builds\Keys\SIXNetworksGmbH.pfx /p 80got1&quot; -r &quot;C:/builds/playwithsix$(Folder)&quot;" />
+    <Exec WorkingDirectory="$(BaseDir)" Command="&quot;$(SquirrelApp)&quot; --releasify &quot;$(TargetDir)PlaywithSIX$(PackagePostFix).$(NuGetPackageVersion).nupkg&quot; -g &quot;app.gif&quot; -i &quot;app.ico&quot; --no-msi -n &quot;/a /f C:\builds\Keys\SIXNetworksGmbH.pfx /p 80got1&quot; -r &quot;C:/builds/playwithsix$(Folder)&quot;" />
     <Exec WorkingDirectory="$(SolutionDir)..\Build" Command="powershell .\HandleSetup.ps1 &quot;C:/builds/playwithsix$(Folder)&quot; PwS" />
     <Exec WorkingDirectory="$(SolutionDir)..\Build" Command="powershell .\CleanupBuilds.ps1 &quot;C:/builds/playwithsix&quot; '$(PackagePostFix)'" />
   </Target>
