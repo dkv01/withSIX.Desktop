@@ -70,7 +70,7 @@ namespace SN.withSIX.Mini.Tests
             groupMods.AddComponents(new ProgressLeaf("Mod 3"));
             SUT.AddComponents(networkMods, groupMods);
 
-            SUT.StatusText.Should().Be("Stage 1/2 25% Network mods 1/1 50% Downloading 50% @ 500 B/s");
+            SUT.StatusText.Should().Be("Stage 1/2 25%\nNetwork mods 1/1 50%\nDownloading 50% @ 500 B/s");
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace SN.withSIX.Mini.Tests
             groupMods.Progress.Should().Be(0);
             groupModsProcessing.Progress.Should().Be(0);
             SUT.Progress.Should().Be(50);
-            SUT.StatusText.Should().Be("Stage 1/2 50% Network mods 2/2 75% Extracting 2/2 50% Mod 2 0%");
+            SUT.StatusText.Should().Be("Stage 1/2 50%\nNetwork mods 2/2 75%\nExtracting 2/2 50%\nDone");
         }
 
         [Test]
@@ -124,25 +124,19 @@ namespace SN.withSIX.Mini.Tests
             sut[0].Progress.Should().Be(37.5);
             sut[0].ComponentsCount.Should().Be(2);
             sut[0].CurrentStage.Should().Be(1);
-            sut[0].Speed.Should().Be(-1);
+            sut[0].Speed.Should().Be(null);
 
             sut[1].Title.Should().Be("Network mods");
             sut[1].Progress.Should().Be(75);
             sut[1].ComponentsCount.Should().Be(2);
             sut[1].CurrentStage.Should().Be(2);
-            sut[1].Speed.Should().Be(-1);
+            sut[1].Speed.Should().Be(null);
 
             sut[2].Title.Should().Be("Extracting");
             sut[2].Progress.Should().Be(50);
             sut[2].ComponentsCount.Should().Be(2);
             sut[2].CurrentStage.Should().Be(2);
-            sut[2].Speed.Should().Be(-1);
-
-            sut[3].Title.Should().Be("Mod 2");
-            sut[3].Progress.Should().Be(0);
-            sut[3].ComponentsCount.Should().Be(0);
-            sut[3].CurrentStage.Should().Be(0);
-            sut[3].Speed.Should().Be(-1);
+            sut[2].Speed.Should().Be(null);
         }
 
 
@@ -163,13 +157,13 @@ namespace SN.withSIX.Mini.Tests
             sut[0].Progress.Should().Be(25);
             sut[0].ComponentsCount.Should().Be(2);
             sut[0].CurrentStage.Should().Be(1);
-            sut[0].Speed.Should().Be(-1);
+            sut[0].Speed.Should().Be(500);
 
             sut[1].Title.Should().Be("Network mods");
             sut[1].Progress.Should().Be(50);
             sut[1].ComponentsCount.Should().Be(1);
             sut[1].CurrentStage.Should().Be(1);
-            sut[1].Speed.Should().Be(-1);
+            sut[1].Speed.Should().Be(500);
 
             sut[2].Title.Should().Be("Downloading");
             sut[2].Progress.Should().Be(50);
