@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -107,7 +107,7 @@ namespace SN.withSIX.Sync.Core.Transfer
                 CreateZsyncFile(file, options);
         }
 
-        [DoNotObfuscate]
+        
         public class ZsyncMakeException : Exception
         {
             public ZsyncMakeException(string message, string output = null, string parameters = null)

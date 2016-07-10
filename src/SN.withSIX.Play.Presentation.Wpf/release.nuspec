@@ -66,7 +66,6 @@
         <file src="..\..\..\bin\Owin.dll" target="lib\net45\Owin.dll" />
         <file src="..\..\..\bin\ReactiveUI.dll" target="lib\net45\ReactiveUI.dll" />
         <file src="..\..\..\bin\RestSharp.dll" target="lib\net45\RestSharp.dll" />
-        <file src="..\..\..\bin\SevenZipSharp.dll" target="lib\net45\SevenZipSharp.dll" />
         <file src="..\..\..\bin\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="..\..\..\bin\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
         <file src="..\..\..\bin\Splat.dll" target="lib\net45\Splat.dll" />
@@ -102,7 +101,6 @@
 		    <file src="..\..\..\bin\x86\ClearScriptV8-32.dll" target="lib\net45\ClearScriptV8-32.dll" />
 		    <file src="..\..\..\bin\x86\v8-ia32.dll" target="lib\net45\v8-ia32.dll" />
 
-        <file src="..\..\..\bin\x86\7z.dll" target="lib\net45\x86\7z.dll" />
         <file src="..\..\..\bin\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
         <file src="..\..\..\bin\x86\steam_api.dll" target="lib\net45\x86\steam_api.dll" />
 

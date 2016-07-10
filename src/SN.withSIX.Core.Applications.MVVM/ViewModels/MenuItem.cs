@@ -7,7 +7,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -40,7 +40,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 
     public class MenuItem : MenuBase, IMenuItem
     {
-        [DoNotObfuscate] readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
+         readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
         Action _action;
         Func<Task> _asyncAction;
         string _icon;
@@ -154,7 +154,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 
     public class MenuItem<T> : MenuBase<T>, IMenuItem<T> where T : class
     {
-        [DoNotObfuscate] readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
+         readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
         Action<T> _action;
         Func<T, Task> _asyncAction;
         string _icon;

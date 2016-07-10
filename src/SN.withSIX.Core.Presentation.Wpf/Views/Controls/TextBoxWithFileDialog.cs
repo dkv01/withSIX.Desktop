@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Presentation.Wpf.Commands;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
@@ -41,12 +41,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
                 new RoutedEventHandler(DoubleClicked), true);
         }
 
-        [DoNotObfuscate]
+        
         void DoubleClicked(object sender, RoutedEventArgs e) {
             ShowFileOpenDialog();
         }
 
-        [ReportUsage]
         public void ShowFileOpenDialog() {
             var dialog = new OpenFileDialog {
                 DefaultExt = "*.*"

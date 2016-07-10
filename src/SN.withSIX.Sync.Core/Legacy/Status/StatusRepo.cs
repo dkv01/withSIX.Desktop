@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -17,7 +17,7 @@ using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Core.Legacy.Status
 {
-    [DoNotObfuscateType]
+    
     public class StatusRepo : ModelBase, IHaveTimestamps, IDisposable
     {
         RepoStatus _action;

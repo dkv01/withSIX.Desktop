@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Sync.Core.Transfer;
@@ -15,14 +15,14 @@ using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 
 namespace SN.withSIX.Sync.Core.Legacy
 {
-    [DoNotObfuscate]
+    
     public class AllZsyncFailException : Exception
     {
         public AllZsyncFailException(string message) : base(message) {}
     }
 
 
-    [DoNotObfuscateType]
+    
     public enum HostType
     {
         Unknown,

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    [DoNotObfuscateType]
+    
     public class TransferProgress : ITransferProgress
     {
         readonly ConsoleWriter _output = new ConsoleWriter();

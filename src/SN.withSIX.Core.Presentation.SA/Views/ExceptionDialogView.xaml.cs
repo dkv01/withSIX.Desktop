@@ -7,12 +7,11 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows;
 using SmartAssembly.ReportException;
-using SmartAssembly.SmartExceptionsCore;
 using SN.withSIX.Core.Presentation.SA.ViewModels;
 
 namespace SN.withSIX.Core.Presentation.SA.Views
 {
-    [DoNotObfuscate]
+    
     // This does not use commands but click eventhandlers because it is being used outside WindowManager usage.
     public partial class ExceptionDialogView : Window
     {
@@ -50,7 +49,7 @@ namespace SN.withSIX.Core.Presentation.SA.Views
         }
     }
 
-    [DoNotObfuscate]
+    
     [Serializable]
     public sealed class ReportHandledException : Exception
     {

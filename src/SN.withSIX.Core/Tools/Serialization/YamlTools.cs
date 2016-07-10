@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SmartAssembly.Attributes;
 using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Core
@@ -30,13 +29,13 @@ namespace SN.withSIX.Core
         }
     }
 
-    [DoNotObfuscate]
+    
     public class YamlExpectedOtherNodeTypeException : Exception
     {
         public YamlExpectedOtherNodeTypeException(string message) : base(message) {}
     }
 
-    [DoNotObfuscate]
+    
     public class YamlParseException : Exception
     {
         public YamlParseException(string message) : base(message) {}

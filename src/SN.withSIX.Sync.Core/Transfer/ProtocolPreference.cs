@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.ComponentModel;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    [DoNotObfuscateType]
+    
     public enum ProtocolPreference
     {
         Any = 0,

@@ -11,7 +11,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SmartAssembly.ReportUsage;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -64,8 +63,6 @@ namespace SN.withSIX.Core.Applications.Services
                             "Restart the application elevated?", SixMessageBoxButton.YesNo)).ConfigureAwait(false) ==
                 SixMessageBoxResult.Yes;
 
-            UsageCounter.ReportUsage("Dialog - Restart the application elevated: {0}".FormatWith(report));
-
             if (!report)
                 throw e;
             RestartWithUacInclEnvironmentCommandLine();
@@ -74,11 +71,9 @@ namespace SN.withSIX.Core.Applications.Services
 
         public void RestartWithoutElevation(params string[] args) => Restart(false, true, args);
 
-        [SmartAssembly.Attributes.ReportUsage]
         public void RestartInclEnvironmentCommandLine()
             => Restart(false, true, Tools.Generic.GetStartupParameters().ToArray());
 
-        [SmartAssembly.Attributes.ReportUsage]
         public void RestartWithUacInclEnvironmentCommandLine()
             => Restart(true, true, Tools.Generic.GetStartupParameters().ToArray());
 

@@ -9,11 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
-using SmartAssembly.SmartExceptionsCore;
+
 
 namespace SN.withSIX.Core.Presentation.SA.Views.Controls
 {
-    [DoNotObfuscate]
+    
     public class MyHyperlink : Hyperlink
     {
         public MyHyperlink() {
@@ -29,7 +29,7 @@ namespace SN.withSIX.Core.Presentation.SA.Views.Controls
 
     [ContentProperty("MarkupText")]
     [Localizability(LocalizationCategory.Text)]
-    [DoNotObfuscate]
+    
     public class MarkupTextBlock : TextBlock
     {
         public static readonly DependencyProperty MarkupTextProperty = DependencyProperty.Register(

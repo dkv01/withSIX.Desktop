@@ -5,14 +5,12 @@
 using System;
 using System.Windows;
 using ReactiveUI;
-using SmartAssembly.SmartExceptionsCore;
+
 
 namespace SN.withSIX.Core.Presentation.Wpf.Services
 {
     public static class BasicUserErrorHandler
     {
-        public static ReportSender SADummy = null;
-
         public static IDisposable RegisterDefaultHandler(this Window window)
             => UserError.RegisterHandler(error => UiRoot.Main.ErrorHandler.Handler(error, window));
     }

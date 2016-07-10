@@ -18,6 +18,7 @@ using ReactiveUI;
 using ShortBus;
 using SimpleInjector;
 using SmartAssembly.ReportException;
+using SmartAssembly.SmartExceptionsCore;
 using SN.withSIX.Api.Models;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -75,6 +76,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
             typeof (UserSettingsStorage).Assembly
         };
         IPlayStartupManager _startupManager;
+        public static ReportSender SADummy = null;
 
         protected override void SetupViewNamespaces() {
             base.SetupViewNamespaces();

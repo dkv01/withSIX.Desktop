@@ -3,11 +3,9 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
 
 namespace SN.withSIX.Core
 {
-    [DoNotObfuscate]
     public class PathDoesntExistException : Exception
     {
         public readonly string Path;

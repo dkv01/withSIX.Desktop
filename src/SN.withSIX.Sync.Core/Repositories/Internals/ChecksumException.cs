@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Repositories.Internals
 {
-    [DoNotObfuscate]
+    
     public class ChecksumException : Exception
     {
         public ChecksumException() {}

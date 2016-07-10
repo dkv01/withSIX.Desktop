@@ -3,12 +3,12 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.ContentEngine.Core;
 
 namespace SN.withSIX.ContentEngine.Infra.Services
 {
-    [DoNotObfuscateType]
+    
     public interface IGlobalFunctions_TS
     {
         [ActualType(null, typeof (IModS))]
@@ -24,7 +24,6 @@ namespace SN.withSIX.ContentEngine.Infra.Services
         object getService(string name, string token);
     }
 
-    [DoNotObfuscateType, DoNotSealType]
     class GlobalFunctions
     {
         readonly ContentEngine _engine;

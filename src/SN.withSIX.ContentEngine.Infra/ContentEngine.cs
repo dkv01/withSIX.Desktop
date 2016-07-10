@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using Microsoft.ClearScript;
 using Microsoft.ClearScript.V8;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.ContentEngine.Infra.UseCases;
@@ -142,7 +142,6 @@ namespace SN.withSIX.ContentEngine.Infra
         internal object GetService(string name, string token) => _serviceRegistry.GetServiceForScript(name, token);
     }
 
-    [DoNotObfuscateType, DoNotSealType]
     class ExpectedMod
     {
         internal ExpectedMod(Guid guid) {

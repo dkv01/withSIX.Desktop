@@ -13,7 +13,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -60,7 +60,7 @@ namespace SN.withSIX.Core.Infra.Services
         }
     }
 
-    [DoNotObfuscate]
+    
     public class ProcessManager : IProcessManager, IDisposable, IInfrastructureService
     {
         static readonly TimeSpan monitorInterval = TimeSpan.FromSeconds(1);

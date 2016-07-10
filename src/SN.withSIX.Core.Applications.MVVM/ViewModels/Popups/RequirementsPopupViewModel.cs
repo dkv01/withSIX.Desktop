@@ -4,11 +4,11 @@
 
 using System;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Popups
 {
-    [DoNotObfuscate]
+    
     public class RequirementsPopupViewModel : PopupBase
     {
         IObservable<object> _command;

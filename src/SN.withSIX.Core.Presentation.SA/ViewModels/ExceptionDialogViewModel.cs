@@ -4,11 +4,10 @@
 
 using System;
 using System.Security;
-using SmartAssembly.SmartExceptionsCore;
 
 namespace SN.withSIX.Core.Presentation.SA.ViewModels
 {
-    [DoNotObfuscate]
+    
     public class ExceptionDialogViewModel
     {
         public ExceptionDialogViewModel(string moreInfo = null) {

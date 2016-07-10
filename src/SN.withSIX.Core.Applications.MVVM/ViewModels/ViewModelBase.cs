@@ -6,14 +6,14 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public abstract class ViewModelBase : ReactiveValidatableObjectBase, IViewModel {}
 
     public abstract class RxViewModelBase : ViewModelBase, IDialog, IRxClose, ISupportsActivation

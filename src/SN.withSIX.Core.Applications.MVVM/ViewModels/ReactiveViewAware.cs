@@ -10,11 +10,11 @@ using Windows.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public class ReactiveViewAware : ReactiveValidatableObjectBase, IViewAware
     {
         /// <summary>

@@ -3,11 +3,9 @@
 // </copyright>
 
 using System.Collections.Generic;
-using SmartAssembly.Attributes;
 
 namespace SN.withSIX.Core
 {
-    [DoNotObfuscateType]
     public enum CountryFlags
     {
         Afghanistan,

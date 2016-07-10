@@ -4,11 +4,11 @@
 
 using System;
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public class ReactiveScreen : ReactiveViewAware, IScreen, IChild
     {
         static readonly ILog Log = LogManager.GetLog(typeof (ReactiveScreen));

@@ -3,13 +3,13 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Sync.Core.Legacy.Status
 {
-    [DoNotObfuscateType]
+    
     public class StatusMod : ModelBase, IHaveTimestamps
     {
         ActionState _action;

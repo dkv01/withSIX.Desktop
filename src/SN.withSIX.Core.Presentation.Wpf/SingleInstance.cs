@@ -19,13 +19,13 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Wpf
 {
-    [DoNotObfuscateType]
+    
     enum WM
     {
         NULL = 0x0000,
@@ -146,7 +146,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
     }
 
     [SuppressUnmanagedCodeSecurity]
-    [DoNotObfuscateType]
+    
     static class NativeMethods
     {
         #region Delegates
@@ -186,7 +186,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
         }
     }
 
-    [DoNotObfuscateType]
+    
     public static class SingleInstance<TApplication>
         where TApplication : Application, ISingleInstanceApp
 

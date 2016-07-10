@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscateType]
+    
     public interface ISingleInstanceApp
     {
         IList<string> LastAppEvent { get; set; }

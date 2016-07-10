@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Legacy;
@@ -134,7 +134,7 @@ namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
         }
     }
 
-    [DoNotObfuscate]
+    
     public class NoHostsAvailableException : Exception
     {
         public NoHostsAvailableException(string message, Exception inner) : base(message, inner) {}

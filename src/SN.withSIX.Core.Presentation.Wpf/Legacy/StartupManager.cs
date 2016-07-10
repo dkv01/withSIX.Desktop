@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Win32;
-using SmartAssembly.ReportUsage;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Infra.Cache;
@@ -53,7 +52,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             var tspan = Tools.Generic.GetCurrentUtcDateTime - Common.StartTime;
             var lifeTime = CalculateLifeSpan(tspan);
             MainLog.Logger.Info("Exiting application, lifetime: {0} ({1}s)", lifeTime, tspan.TotalSeconds);
-            UsageCounter.ReportUsage($"Play - Uptime: {lifeTime}");
         }
 
         protected virtual async Task ExitI() {

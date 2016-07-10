@@ -11,7 +11,7 @@
         <language>en-US</language>
     </metadata>
     <files>
-        <file src="bin\release\obf\squirrel-Sync.exe" target="lib\net45\sync.exe" />
+        <file src="bin\release\Sync.exe" target="lib\net45\sync.exe" />
         <file src="bin\release\Sync.exe.config" target="lib\net45\sync.exe.config" />
         <file src="bin\release\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
 
@@ -24,8 +24,6 @@
         <file src="bin\release\SN.withSIX.Core.Infra.dll" target="lib\net45\SN.withSIX.Core.Infra.dll" />
         <file src="bin\release\SN.withSIX.Core.Presentation.dll" target="lib\net45\SN.withSIX.Core.Presentation.dll" />
         <file src="bin\release\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
-        <file src="bin\release\SN.withSIX.Core.Presentation.SA.dll" target="lib\net45\SN.withSIX.Core.Presentation.SA.dll" />
-        <file src="bin\release\SN.withSIX.Core.Presentation.WinRT.dll" target="lib\net45\SN.withSIX.Core.Presentation.WinRT.dll" />
         <file src="bin\release\SN.withSIX.Core.Presentation.Wpf.dll" target="lib\net45\SN.withSIX.Core.Presentation.Wpf.dll" />
         <file src="bin\release\SN.withSIX.Mini.Applications.dll" target="lib\net45\SN.withSIX.Mini.Applications.dll" />
         <file src="bin\release\SN.withSIX.Mini.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Mini.Applications.MVVM.dll" />
@@ -48,10 +46,6 @@
         <file src="bin\release\RageLib.GTA5.dll" target="lib\net45\RageLib.GTA5.dll" />
         <file src="bin\release\RpfGeneratorTool.exe" target="lib\net45\RpfGeneratorTool.exe" />
 
-    		<file src="bin\release\SmartAssembly.Attributes.dll" target="lib\net45\SmartAssembly.Attributes.dll" />
-    		<file src="bin\release\SmartAssembly.ReportException.dll" target="lib\net45\SmartAssembly.ReportException.dll" />
-    		<file src="bin\release\SmartAssembly.ReportUsage.dll" target="lib\net45\SmartAssembly.ReportUsage.dll" />
-    		<file src="bin\release\SmartExceptionsCore.dll" target="lib\net45\SmartExceptionsCore.dll" />
         <file src="bin\release\logentries.core.dll" target="lib\net45\logentries.core.dll" />
         <file src="bin\release\logentries.nlog.dll" target="lib\net45\logentries.nlog.dll" />
         <file src="bin\release\Microsoft.WindowsAzure.ConfigurationManager.dll" target="lib\net45\Microsoft.WindowsAzure.ConfigurationManager.dll" />
@@ -101,8 +95,6 @@
         <file src="bin\release\ReactiveUI.dll" target="lib\net45\ReactiveUI.dll" />
         <file src="bin\release\ReactiveUI.Blend.dll" target="lib\net45\ReactiveUI.Blend.dll" />
         <file src="bin\release\ReactiveUI.Events.dll" target="lib\net45\ReactiveUI.Events.dll" />
-        <!-- <file src="bin\release\RestSharp.dll" target="lib\net45\RestSharp.dll" /> -->
-        <file src="bin\release\SevenZipSharp.dll" target="lib\net45\SevenZipSharp.dll" />
         <file src="bin\release\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="bin\release\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
         <file src="bin\release\Splat.dll" target="lib\net45\Splat.dll" />
@@ -114,7 +106,6 @@
         <file src="bin\release\ClearScript.dll" target="lib\net45\ClearScript.dll" />
         <file src="bin\release\x86\ClearScriptV8-32.dll" target="lib\net45\ClearScriptV8-32.dll" />
         <file src="bin\release\x86\v8-ia32.dll" target="lib\net45\v8-ia32.dll" />
-        <file src="bin\release\x86\7z.dll" target="lib\net45\x86\7z.dll" />
         <file src="bin\release\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
         <file src="bin\release\x86\steam_api.dll" target="lib\net45\x86\steam_api.dll" />
 

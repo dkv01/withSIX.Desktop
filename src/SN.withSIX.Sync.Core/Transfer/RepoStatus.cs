@@ -2,11 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    [DoNotObfuscateType]
+    
     public enum RepoStatus
     {
         Waiting,

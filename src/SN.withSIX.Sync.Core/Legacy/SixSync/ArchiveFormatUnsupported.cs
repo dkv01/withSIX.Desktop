@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
-    [DoNotObfuscate]
+    
     public class ArchiveFormatUnsupported : Exception
     {
         public ArchiveFormatUnsupported() {}

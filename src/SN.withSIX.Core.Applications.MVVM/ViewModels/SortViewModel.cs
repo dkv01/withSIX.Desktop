@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -26,7 +26,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         void ToggleVisibility();
     }
 
-    [DoNotObfuscate]
+    
     public class SortViewModel : PropertyChangedBase, ISortDescriptions
     {
         readonly SortData[] _requiredColumns;
@@ -86,7 +86,6 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             set { SetProperty(ref _selectedSort, value); }
         }
 
-        [ReportUsage]
         public void ToggleVisibility() {
             SortVisible = !SortVisible;
         }
@@ -95,7 +94,6 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             UiHelper.TryOnUiThread(() => { SelectedSort = Columns.First(x => x.Value == value); });
         }
 
-        [ReportUsage]
         void SortColumn() {
             var data = SelectedSort;
             var d = View.DeferRefresh();

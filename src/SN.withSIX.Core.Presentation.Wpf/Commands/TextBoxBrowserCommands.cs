@@ -4,11 +4,11 @@
 
 using System.Windows.Controls;
 using System.Windows.Input;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Presentation.Wpf.Commands
 {
-    [DoNotObfuscateType]
+    
     public class TextBoxBrowserCommands
     {
         public static RoutedUICommand BrowseCommand = new RoutedUICommand("Browse", "BrowseCommand", typeof (TextBox));

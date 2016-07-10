@@ -3,17 +3,17 @@
 // </copyright>
 
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public interface IShowBackButton
     {
         bool ShowBackButton { get; }
     }
 
-    [DoNotObfuscate]
+    
     public interface IModalScreen : IScreen, IShowBackButton
     {
         object Parent { get; set; }

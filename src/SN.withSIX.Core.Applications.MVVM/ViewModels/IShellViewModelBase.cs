@@ -3,11 +3,11 @@
 // </copyright>
 
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public interface IShellViewModelBase : IShellViewModel, IModalShell, IConductActiveItem
     {
         bool MainContentEnabled { get; }

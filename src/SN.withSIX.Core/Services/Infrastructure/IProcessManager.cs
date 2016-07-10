@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
 
 namespace SN.withSIX.Core.Services.Infrastructure
 {
@@ -30,7 +29,6 @@ namespace SN.withSIX.Core.Services.Infrastructure
         Task<ProcessExitResult> LaunchAndProcessAsync(LaunchAndProcessInfo info);
     }
 
-    [DoNotObfuscate]
     public interface IProcessManager : IProcessManagerSync, IProcessManagerAsync
     {
         TimeSpan DefaultMonitorOutputTimeOut { get; }

@@ -3,10 +3,10 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
 {
-    [DoNotObfuscate]
+    
     public class EmptyHostList : Exception {}
 }

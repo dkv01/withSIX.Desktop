@@ -6,13 +6,13 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 
 namespace SN.withSIX.Core.Presentation.Services
 {
-    [DoNotObfuscateType]
+    
     public class WCFClient : IDomainService, IWCFClient
     {
         readonly ChannelFactory<IUpdaterWCF> _pipeFactory;

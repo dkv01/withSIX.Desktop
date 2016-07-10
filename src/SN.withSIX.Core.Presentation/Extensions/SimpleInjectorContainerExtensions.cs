@@ -12,7 +12,7 @@ using System.Reflection;
 using ShortBus;
 using SimpleInjector;
 using SimpleInjector.Advanced;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
@@ -202,7 +202,7 @@ namespace SN.withSIX.Core.Presentation.Extensions
             };
         }
 
-        [DoNotObfuscate]
+        
         public static ExportFactory<T> CreateEF<T>(Container container) where T : class {
             ConfirmTransient(container, typeof (T));
             return new ExportFactory<T>(() => {
@@ -293,7 +293,7 @@ namespace SN.withSIX.Core.Presentation.Extensions
             };
         }
 
-        [DoNotObfuscate]
+        
         public static Lazy<T> CreateLazy<T>(Container container)
             where T : class => new Lazy<T>(container.GetInstance<T>);
 

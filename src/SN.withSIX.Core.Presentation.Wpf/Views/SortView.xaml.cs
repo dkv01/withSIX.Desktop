@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Windows.Controls;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views
 {
-    [DoNotObfuscate]
+    
     public partial class SortView : UserControl
     {
         public SortView() {

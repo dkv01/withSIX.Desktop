@@ -3,11 +3,9 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
 
 namespace SN.withSIX.Core.Helpers
 {
-    [DoNotObfuscateType]
     public interface IHaveTimestamps
     {
         DateTime CreatedAt { get; set; }

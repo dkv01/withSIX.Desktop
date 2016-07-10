@@ -7,13 +7,13 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
     public class SelectionCollectionHelper<T> : ReactiveObject, ISelectionCollectionHelper<T>
     {
-        [DoNotObfuscate] readonly ObservableAsPropertyHelper<bool> _isItemSelected;
+         readonly ObservableAsPropertyHelper<bool> _isItemSelected;
         readonly object _lock = new object();
         T _selectedItem;
 

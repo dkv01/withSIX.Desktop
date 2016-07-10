@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Repositories.Internals
 {
@@ -22,7 +22,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
         public List<string> KeepSpecificBranches { get; set; }
     }
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     public class PackagesStoreCustomConfigsDto
     {
         public PackagesStoreCustomConfigsDto() {

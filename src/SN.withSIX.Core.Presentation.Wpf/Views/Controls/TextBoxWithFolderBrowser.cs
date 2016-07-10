@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Ookii.Dialogs.Wpf;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Presentation.Wpf.Commands;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
@@ -43,12 +43,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
                 new RoutedEventHandler(DoubleClicked), true);
         }
 
-        [DoNotObfuscate]
+        
         void DoubleClicked(object sender, RoutedEventArgs e) {
             ShowFolderBrowser();
         }
 
-        [ReportUsage]
         public void ShowFolderBrowser() {
             var dialog = new VistaFolderBrowserDialog();
             if (dialog.ShowDialog() == true)

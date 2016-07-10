@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.Services
 {
-    [DoNotObfuscate]
+    
     public class About : IApplicationService
     {
         public About() {

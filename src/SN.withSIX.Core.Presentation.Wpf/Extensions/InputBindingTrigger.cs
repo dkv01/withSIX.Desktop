@@ -6,11 +6,11 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Presentation.Wpf.Extensions
 {
-    [DoNotObfuscateType]
+    
     public class InputBindingTrigger : TriggerBase<FrameworkElement>, ICommand
     {
         public static readonly DependencyProperty InputBindingProperty = DependencyProperty.Register("InputBinding",

@@ -5,7 +5,7 @@
 using System;
 using System.Windows;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -17,7 +17,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 
     public interface IDontIC {}
 
-    [DoNotObfuscate]
+    
     public class MessageBoxViewModel : MetroDialogBase, IMessageBoxViewModel, IDontIC
     {
         string _blueButtonContent;
@@ -140,7 +140,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
         }
     }
 
-    [DoNotObfuscate]
+    
     public class MetroMessageBoxViewModel : MetroDialogBase, IMessageBoxViewModel, IDontIC
     {
         string _blueButtonContent;

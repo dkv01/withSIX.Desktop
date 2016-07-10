@@ -4,14 +4,14 @@
 
 using System.Windows;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.MVVM.Views.Dialogs;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
-    [DoNotObfuscate]
+    
     public partial class EnterUserNamePasswordView : StandardDialog, IEnterUserNamePasswordView
     {
         public static readonly DependencyProperty ViewModelProperty =

@@ -4,7 +4,7 @@
 
 using System.Windows;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Popups;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 
@@ -13,7 +13,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Popups
     /// <summary>
     ///     Interaction logic for RequirementsPopupView.xaml
     /// </summary>
-    [DoNotObfuscate]
+    
     public partial class RequirementsPopupView : PopupControl, IViewFor<RequirementsPopupViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty =

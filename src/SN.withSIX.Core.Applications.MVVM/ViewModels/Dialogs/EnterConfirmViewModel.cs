@@ -4,7 +4,7 @@
 
 using System;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 
@@ -12,7 +12,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
     public interface IEnterConfirmViewModel {}
 
-    [DoNotObfuscate]
+    
     public class EnterConfirmViewModel : MetroDialogBase, IEnterConfirmViewModel
     {
         bool _canceled;
@@ -61,13 +61,11 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
             set { SetProperty(ref _isMultiline, value); }
         }
 
-        [ReportUsage]
         public void OK() {
             Closed = true;
             TryClose();
         }
 
-        [ReportUsage]
         public void Cancel() {
             Canceled = true;
             OK();

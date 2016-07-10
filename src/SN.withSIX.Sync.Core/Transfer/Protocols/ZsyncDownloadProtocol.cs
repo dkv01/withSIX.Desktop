@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -15,21 +15,21 @@ using SN.withSIX.Sync.Core.Transfer.Specs;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
 {
-    [DoNotObfuscate]
+    
     public class ZsyncException : DownloadException
     {
         public ZsyncException(string message, string output = null, string parameters = null, Exception inner = null)
             : base(message, output, parameters, inner) {}
     }
 
-    [DoNotObfuscate]
+    
     public class ZsyncSoftException : ZsyncException
     {
         public ZsyncSoftException(string message, string output = null, string parameters = null, Exception inner = null)
             : base(message, output, parameters, inner) {}
     }
 
-    [DoNotObfuscate]
+    
     public class ZsyncLoopDetectedException : ZsyncSoftException
     {
         public ZsyncLoopDetectedException(string message, string output = null, string parameters = null,
@@ -37,7 +37,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             : base(message, output, parameters, inner) {}
     }
 
-    [DoNotObfuscate]
+    
     public class ZsyncIncompatibleException : ZsyncSoftException
     {
         public ZsyncIncompatibleException(string message, string output = null, string parameters = null,
@@ -45,7 +45,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             : base(message, output, parameters, inner) {}
     }
 
-    [DoNotObfuscate]
+    
     public class ZsyncDownloadProtocol : DownloadProtocol
     {
         static readonly string[] schemes = {"zsync", "zsyncs"};

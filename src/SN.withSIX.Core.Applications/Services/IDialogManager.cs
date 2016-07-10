@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.Services
 {
@@ -21,7 +21,7 @@ namespace SN.withSIX.Core.Applications.Services
         Task<SixMessageBoxResult> MessageBox(MessageBoxDialogParams dialogParams);
     }
 
-    [DoNotObfuscate]
+    
     [ContractClass(typeof (DialogManagerContract))]
     /// <summary>
     /// Re-usable dialogs

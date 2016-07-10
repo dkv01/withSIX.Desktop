@@ -5,11 +5,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Repositories.Internals
 {
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     public class RepositoryStoreObjectsDto
     {
         public RepositoryStoreObjectsDto() {

@@ -4,11 +4,11 @@
 
 using System.ComponentModel;
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public interface IDashboardViewModelBase : INotifyPropertyChanged, IScreen
     {
         void ShowAbout();

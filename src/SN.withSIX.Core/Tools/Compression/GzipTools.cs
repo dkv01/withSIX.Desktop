@@ -11,7 +11,7 @@ using NDepend.Path;
 using SharpCompress.Archive;
 using SharpCompress.Archive.GZip;
 using SharpCompress.Compressor.Deflate;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
@@ -218,7 +218,6 @@ namespace SN.withSIX.Core
     }
 
 
-    [DoNotObfuscate]
     public class CompressedFileException : Exception
     {
         public CompressedFileException(string message) : base(message) {}

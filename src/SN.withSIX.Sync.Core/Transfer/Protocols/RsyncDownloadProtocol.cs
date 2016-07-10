@@ -5,20 +5,20 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
 {
-    [DoNotObfuscate]
+    
     public class RsyncException : DownloadException
     {
         public RsyncException(string message, string output = null, string parameters = null, Exception inner = null)
             : base(message, output, parameters, inner) {}
     }
 
-    [DoNotObfuscate]
+    
     public class RsyncSoftException : RsyncException
     {
         public RsyncSoftException(string message, string output = null, string parameters = null, Exception inner = null)

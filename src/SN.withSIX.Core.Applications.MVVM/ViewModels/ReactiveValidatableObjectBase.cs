@@ -8,13 +8,13 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
     [DataContract]
-    [DoNotObfuscate]
+    
     public abstract class ReactiveValidatableObjectBase : ReactiveValidatableObject, INotifyPropertyChangedEx,
         IEnableLogging
     {

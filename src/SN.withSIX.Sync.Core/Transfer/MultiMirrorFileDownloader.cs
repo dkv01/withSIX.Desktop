@@ -5,7 +5,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
@@ -152,7 +152,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             };
     }
 
-    [DoNotObfuscate]
+    
     public class VerificationError : Exception
     {
         public VerificationError(string message) : base(message) {}

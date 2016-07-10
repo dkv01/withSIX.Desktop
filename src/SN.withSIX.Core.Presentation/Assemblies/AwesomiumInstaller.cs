@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using Microsoft.Win32;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Presentation.Assemblies
 {
@@ -53,7 +53,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
         }
     }
 
-    [DoNotObfuscate]
+    
     public class InstallationFailed : Exception {}
 
     class TmpFile : IDisposable

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Sync.Core.Legacy
 {
-    [DoNotObfuscate]
+    
     public class AbortedException : Exception
     {
         public AbortedException() {}

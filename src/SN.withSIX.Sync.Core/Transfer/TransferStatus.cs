@@ -5,14 +5,14 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    [DoNotObfuscateType]
+    
     public class TransferStatus : ModelBase, ITransferStatus
     {
         readonly object _outputLock = new object();

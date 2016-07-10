@@ -3,12 +3,12 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Core.Legacy.Status
 {
-    [DoNotObfuscateType]
+    
     public class Status : TransferStatus, IStatus
     {
         long _fileSize;

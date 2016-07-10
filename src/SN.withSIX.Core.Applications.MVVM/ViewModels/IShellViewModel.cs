@@ -4,11 +4,11 @@
 
 using Caliburn.Micro;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    [DoNotObfuscate]
+    
     public interface IShellViewModel : IScreen {}
 
     public interface IShellViewModelTrayIcon : IScreen

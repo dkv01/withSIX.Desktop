@@ -9,14 +9,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Core.Legacy.Yoma
 {
-    [DoNotObfuscate]
+    
     class InvalidFileHash : Exception
     {
         public InvalidFileHash(string message) : base(message) {}

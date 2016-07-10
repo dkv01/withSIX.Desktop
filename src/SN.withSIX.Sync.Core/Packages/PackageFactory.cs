@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages.Internals;
@@ -96,7 +96,7 @@ namespace SN.withSIX.Sync.Core.Packages
         }
     }
 
-    [DoNotObfuscate]
+    
     public class PackageNotFoundException : Exception
     {
         public PackageNotFoundException(string message) : base(message) {}

@@ -4,12 +4,12 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.Infrastructure
 {
     [SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
-    [DoNotObfuscate]
+    
     public abstract class RestExceptionBase : Exception
     {
         protected RestExceptionBase(string message)
@@ -19,7 +19,7 @@ namespace SN.withSIX.Core.Applications.Infrastructure
             : base(message, innerException) {}
     }
 
-    [DoNotObfuscate]
+    
     public class RestResponseException : RestExceptionBase
     {
         public RestResponseException(string message)
@@ -29,7 +29,7 @@ namespace SN.withSIX.Core.Applications.Infrastructure
             : base(message, innerException) {}
     }
 
-    [DoNotObfuscate]
+    
     public class RestStatusException : RestExceptionBase
     {
         public RestStatusException(string message)

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Core.Applications.Attributes
 {
-    [AttributeUsage(AttributeTargets.Assembly), DoNotObfuscateType]
+    [AttributeUsage(AttributeTargets.Assembly)]
     public class ToolsVersionAttribute : Attribute
     {
         public string Version;

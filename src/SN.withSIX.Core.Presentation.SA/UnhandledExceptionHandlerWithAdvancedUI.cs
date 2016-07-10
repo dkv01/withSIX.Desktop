@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using NLog;
 using SmartAssembly.SmartExceptionsCore;
 
+
 namespace SN.withSIX.Core.Presentation.SA
 {
     // http://www.simple-talk.com/dotnet/.net-tools/customize-automated-error-reporting-in-smartassembly/

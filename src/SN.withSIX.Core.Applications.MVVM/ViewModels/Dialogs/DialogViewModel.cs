@@ -50,20 +50,20 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
             return Model;
         }
 
-        [DoNotObfuscate]
+        
         public void Cancel() {
             _dm.MsgLegacy(new MessageBoxDialogParams("Cancelled!"));
             IsShowing = false;
             TryClose(null);
         }
 
-        [DoNotObfuscate]
+        
         public void Yes() {
             TryClose(true);
             IsShowing = false;
         }
 
-        [DoNotObfuscate]
+        
         public void No() {
             TryClose(false);
             IsShowing = false;

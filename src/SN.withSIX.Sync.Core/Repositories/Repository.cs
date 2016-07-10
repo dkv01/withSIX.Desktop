@@ -13,7 +13,7 @@ using AutoMapper;
 using MoreLinq;
 using NDepend.Path;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -1154,13 +1154,13 @@ namespace SN.withSIX.Sync.Core.Repositories
         public ConfigurationException(string message) : base(message) {}
     }
 
-    [DoNotObfuscate]
+    
     class FileExistsException : Exception
     {
         public FileExistsException(string rootPath) : base(rootPath) {}
     }
 
-    [DoNotObfuscate]
+    
     public class NotARepositoryException : Exception
     {
         public NotARepositoryException(string folderDoesNotExist) : base(folderDoesNotExist) {}

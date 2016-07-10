@@ -4,12 +4,12 @@
 
 using System;
 using System.IO;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Core.Applications.Services
 {
-    [DoNotObfuscate]
+    
     public class Licenses : IApplicationService
     {
         public Licenses(IResourceService resourceService) {
