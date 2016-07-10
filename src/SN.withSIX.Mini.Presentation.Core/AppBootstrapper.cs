@@ -11,7 +11,6 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
@@ -60,7 +59,7 @@ using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using Splat;
-using Action = System.Action;
+using Initializer = SN.withSIX.Mini.Infra.Api.Initializer;
 using IDependencyResolver = ShortBus.IDependencyResolver;
 
 namespace SN.withSIX.Mini.Presentation.Core
@@ -80,28 +79,29 @@ namespace SN.withSIX.Mini.Presentation.Core
             typeof (ImageCacheManager).Assembly,
             typeof (IContentEngineGameContext).Assembly
         }.Distinct().ToArray();
-        static readonly Assembly[] presentationAssemblies = new[] {
-            typeof(ApiPortHandler).Assembly,
+        static readonly Assembly[] globalPresentationAssemblies = new[] {
+            typeof (ApiPortHandler).Assembly,
             typeof (IPresentationService).Assembly
         }.Distinct().ToArray();
-        static readonly Assembly[] applicationAssemblies = new[] {
+        static readonly Assembly[] globalApplicationAssemblies = new[] {
             typeof (GameSettingsApiModel).Assembly,
             typeof (IDialogManager).Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
         private static readonly Assembly[] platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
+        private readonly Assembly[] _applicationAssemblies;
+        readonly Paths _paths;
         protected readonly Container Container;
         protected readonly IMutableDependencyResolver DependencyResolver;
-        readonly Paths _paths;
         TaskPoolScheduler _cacheScheduler;
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
-
-        protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => applicationAssemblies;
-
-        public static bool CommandMode { get;set; }
+        private readonly Assembly[] _presentationAssemblies;
 
         protected AppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver) {
+            _applicationAssemblies = GetApplicationAssemblies().ToArray();
+            _presentationAssemblies = GetPresentationAssemblies().ToArray();
+
             Container = container;
             DependencyResolver = dependencyResolver;
             _paths = new Paths();
@@ -112,11 +112,15 @@ namespace SN.withSIX.Mini.Presentation.Core
             SetupContainer();
         }
 
+        public static bool CommandMode { get; set; }
+
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 
         public void Dispose() {
             Dispose(true);
         }
+
+        protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => globalApplicationAssemblies;
 
         protected virtual void Dispose(bool d) {
             if (!CommandMode)
@@ -186,7 +190,8 @@ namespace SN.withSIX.Mini.Presentation.Core
                 Cheat.SetInitialized();
                 await
                     Task.Factory.StartNew(
-                        () => new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()))
+                        () =>
+                            new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()))
                         .ConfigureAwait(false);
             } catch (SQLiteException ex) {
                 var message =
@@ -265,12 +270,12 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         private void HandleSystem() {
             var pm = Container.GetInstance<IProcessManager>();
-            var si = Infra.Api.Initializer.BuildSi(pm);
+            var si = Initializer.BuildSi(pm);
             if ((Consts.HttpAddress == null || si.IsHttpPortRegistered) &&
                 (Consts.HttpsAddress == null || si.IsSslRegistered()))
                 return;
             ApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm);
-            si = Infra.Api.Initializer.BuildSi(pm); // to output
+            si = Initializer.BuildSi(pm); // to output
         }
 
         async Task RunInitializers() {
@@ -306,7 +311,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterViews();
 
             if (CommandMode)
-                Container.RegisterPlugins<BaseCommand>(GetPresentationAssemblies());
+                Container.RegisterPlugins<BaseCommand>(_presentationAssemblies);
             // Fix JsonSerializer..
             //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));
         }
@@ -363,15 +368,15 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         protected virtual void RegisterViews() {
             var viewInterfaceFilterType = typeof (IViewFor);
-            DependencyResolver.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(),
+            DependencyResolver.RegisterAllInterfaces<IViewFor>(_presentationAssemblies,
                 (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
             //dependencyResolver.RegisterConstant(this, typeof (IScreen));
 
             // TODO: We might still want to leverage S.I also for RXUI View resolution, so that Views may import (presentation) services?
-            //_container.RegisterPlugins<ISettingsTabViewModel>(GetApplicationAssemblies());
+            //_container.RegisterPlugins<ISettingsTabViewModel>(_applicationAssemblies);
 
             /*
-            _container.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(), (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
+            _container.RegisterAllInterfaces<IViewFor>(_presentationAssemblies, (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
             dependencyResolver.Register(container.GetInstance<SettingsWindow>, typeof (IViewFor<SettingsViewModel>));
 
             //dependencyResolver.Register(container.GetInstance<SettingsView>, typeof (IViewFor<SettingsViewModel>));
@@ -400,21 +405,23 @@ namespace SN.withSIX.Mini.Presentation.Core
         public void RunCommands(string[] args) => Environment.Exit(GetCommandMode().RunCommandsAndLog(args));
 
         protected virtual IEnumerable<Assembly> GetPresentationAssemblies()
-            => pluginAssemblies.Concat(platformAssemblies).Concat(presentationAssemblies);
+            => pluginAssemblies.Concat(platformAssemblies).Concat(globalPresentationAssemblies);
 
         protected virtual void RegisterServices() {
             RegisterRegisteredServices();
 
-            Container.RegisterPlugins<INotificationProvider>(GetPresentationAssemblies(), Lifestyle.Singleton);
+            Container.RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
             //_container.RegisterSingleton<IDomainEventHandlerGrabber, DomainEventHandlerGrabber>();
 
             //_container.Register<IDepResolver, DepResolver>();
             var assemblies =
-                new[] {pluginAssemblies, presentationAssemblies, infraAssemblies, GetApplicationAssemblies(), coreAssemblies}
+                new[] {
+                    pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies, coreAssemblies
+                }
                     .SelectMany(x => x);
-                //AppDomain.CurrentDomain.GetAssemblies()
-                  //  .Where(x => !x.FullName.Contains("edge") && x.FullName.Contains("SN.withSIX"))
-                    //.Concat(new[] {typeof (App).Assembly}).Distinct();
+            //AppDomain.CurrentDomain.GetAssemblies()
+            //  .Where(x => !x.FullName.Contains("edge") && x.FullName.Contains("SN.withSIX"))
+            //.Concat(new[] {typeof (App).Assembly}).Distinct();
             Container.RegisterPlugins<IInitializer>(assemblies);
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(
@@ -453,9 +460,9 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         void RegisterRegisteredServices() {
             Container.RegisterSingleAllInterfaces<IDomainService>(pluginAssemblies.Concat(coreAssemblies));
-            Container.RegisterSingleAllInterfaces<IApplicationService>(pluginAssemblies.Concat(GetApplicationAssemblies()));
+            Container.RegisterSingleAllInterfaces<IApplicationService>(pluginAssemblies.Concat(_applicationAssemblies));
             Container.RegisterSingleAllInterfaces<IInfrastructureService>(pluginAssemblies.Concat(infraAssemblies));
-            Container.RegisterSingleAllInterfaces<IPresentationService>(GetPresentationAssemblies());
+            Container.RegisterSingleAllInterfaces<IPresentationService>(_presentationAssemblies);
         }
 
         void RegisterMediator() {
@@ -497,14 +504,14 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         void RegisterRequestHandlers(params Type[] types) {
             foreach (var h in types) {
-                Container.Register(h, GetApplicationAssemblies().Concat(infraAssemblies), Lifestyle.Singleton);
+                Container.Register(h, _applicationAssemblies.Concat(infraAssemblies), Lifestyle.Singleton);
                 // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
             }
         }
 
         void RegisterNotificationHandlers(params Type[] types) {
             foreach (var h in types) {
-                var assemblies = GetApplicationAssemblies().Concat(infraAssemblies).ToArray();
+                var assemblies = _applicationAssemblies.Concat(infraAssemblies).ToArray();
                 Container.RegisterCollection(h, assemblies);
                 // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
             }
@@ -666,7 +673,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             new StartWithWindowsHandler().HandleStartWithWindows(settings.Local.StartWithWindows);
 
             foreach (var i in _initializers.OfType<IInitializeAfterUI>())
-              await i.InitializeAfterUI().ConfigureAwait(false);
+                await i.InitializeAfterUI().ConfigureAwait(false);
         }
 
         protected virtual void BackgroundActions() {

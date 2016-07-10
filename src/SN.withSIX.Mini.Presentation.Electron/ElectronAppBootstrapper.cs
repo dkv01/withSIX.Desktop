@@ -9,7 +9,6 @@ using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using SimpleInjector;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation;
@@ -36,8 +35,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
             => base.GetPresentationAssemblies().Concat(new[] {typeof (NodeApi).Assembly});
 
         protected override void RegisterServices() {
-            Container.RegisterSingleton(() => Entrypoint.Api);
             base.RegisterServices();
+            Container.RegisterSingleton(() => Entrypoint.Api);
             Container.RegisterSingleton<IDialogManager, NodeDialogManager>();
             Container.RegisterSingleton<IShutdownHandler, ShutdownHandler>(); // TODO: better shutdown for node handler
         }

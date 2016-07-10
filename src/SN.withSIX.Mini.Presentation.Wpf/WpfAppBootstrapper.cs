@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="WpfAppBootstrapper.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +25,6 @@ using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.MVVM.Usecases;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels;
@@ -31,6 +34,7 @@ using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
 using DefaultViewLocator = SN.withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;
+using IScreen = Caliburn.Micro.IScreen;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace SN.withSIX.Mini.Presentation.Wpf
@@ -46,6 +50,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
     class WpfAppBootstrapper : AppBootstrapper
     {
+        IMiniMainWindowViewModel _mainVm;
+
         internal WpfAppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver)
             : base(container, dependencyResolver) {
             SetupRx();
@@ -59,7 +65,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             var viewLocator = new DefaultViewLocator();
             // If we use the withSIX.Core.Presentation.Wpf.Services. one then we get Reactivecommands as text etc..
             //var jsonSerializerSettings = new JsonSerializerSettings() { DateTimeZoneHandling = DateTimeZoneHandling.Utc };
-            DependencyResolver.Register(() => viewLocator, typeof(IViewLocator));
+            DependencyResolver.Register(() => viewLocator, typeof (IViewLocator));
             //_dependencyResolver.Register(() => jsonSerializerSettings, typeof (JsonSerializerSettings));
         }
 
@@ -74,7 +80,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void RegisterServices() {
             base.RegisterServices();
-                Container.RegisterSingleton<IDialogManager, WpfDialogManager>();
+            Container.RegisterSingleton<IDialogManager, WpfDialogManager>();
             Container.RegisterSingleton<IWindowManager, CustomWindowManager>();
             Container.RegisterSingleton<IShutdownHandler, WpfShutdownHandler>();
 
@@ -94,7 +100,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 var v = original(o, dependencyObject, arg3);
                 // TODO: Lacks CM's Context/target support
                 if (v == null || v is TextBlock) {
-                    var rxv = (UIElement)ReactiveUI.ViewLocator.Current.ResolveView(o);
+                    var rxv = (UIElement) ReactiveUI.ViewLocator.Current.ResolveView(o);
                     if (rxv != null)
                         v = rxv;
                 }
@@ -125,11 +131,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     .InvokeCommand(command);
             };
             RxApp.SupportsRangeNotifications = false; // WPF doesnt :/
-            SimpleInjectorContainerExtensions.RegisterReserved(typeof(IHandle), typeof(Caliburn.Micro.IScreen));
+            SimpleInjectorContainerExtensions.RegisterReserved(typeof (IHandle), typeof (IScreen));
             SimpleInjectorContainerExtensions.RegisterReservedRoot(typeof (IHandle));
         }
-
-        IMiniMainWindowViewModel _mainVm;
 
         async Task HandlemainVm() => _mainVm = await new GetMiniMain().ExecuteWrapped().ConfigureAwait(false);
 
@@ -140,6 +144,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         protected override void BackgroundActions() {
+            base.BackgroundActions();
             HandleUpdateStateInBackground();
         }
 
@@ -149,10 +154,14 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     TaskCreationOptions.LongRunning);
 
         protected override IEnumerable<Assembly> GetApplicationAssemblies()
-            => base.GetApplicationAssemblies().Concat(new[] { typeof(IWpfStartupManager).Assembly, typeof(GetMiniMain).Assembly});
+            =>
+                base.GetApplicationAssemblies()
+                    .Concat(new[] {typeof (IWpfStartupManager).Assembly, typeof (GetMiniMain).Assembly});
 
         protected override IEnumerable<Assembly> GetPresentationAssemblies()
-            => new[] { typeof(App).Assembly }.Concat(base.GetPresentationAssemblies().Concat(new[] {typeof (SingleInstanceApp).Assembly}));
+            =>
+                new[] {typeof (App).Assembly}.Concat(
+                    base.GetPresentationAssemblies().Concat(new[] {typeof (SingleInstanceApp).Assembly}));
 
         protected override void ConfigureInstances() {
             base.ConfigureInstances();
@@ -164,9 +173,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         protected override void EndOv() => End().WaitSpecial();
 
         private void TryInstallFlashInBackground() => Task.Factory.StartNew(InstallFlash,
-    TaskCreationOptions.LongRunning).Unwrap();
-        private static Task InstallFlash() => new FlashHandler(CommonUrls.FlashUri).InstallFlash();
+            TaskCreationOptions.LongRunning).Unwrap();
 
+        private static Task InstallFlash() => new FlashHandler(CommonUrls.FlashUri).InstallFlash();
     }
 
     class SelfUpdateHandler : IDisposable
@@ -206,5 +215,4 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             return true;
         }
     }
-
 }
