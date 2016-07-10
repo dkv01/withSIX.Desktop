@@ -47,7 +47,7 @@
 
         <file src="..\..\..\bin\logentriescore.dll" target="lib\net45\logentriescore.dll" />
         <file src="..\..\..\bin\logentriesnlog.dll" target="lib\net45\logentriesnlog.dll" />
-        <file src="..\..\..\bin\Microsoft.WindowsAzure.ConfigurationManager.dll" target="lib\net45\Microsoft.WindowsAzure.ConfigurationManager.dll" />
+        <file src="..\..\..\bin\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
 
         <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
         <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
