@@ -5,6 +5,7 @@
 using System;
 using System.Reactive;
 using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core.Logging;
@@ -14,7 +15,15 @@ namespace SN.withSIX.Core.Applications.Services
     public static class UiTaskHandler
     {
         public static IScheduler Scheduler = TaskPoolScheduler.Default;
-        public static Action<IReactiveCommand, string> RegisterCommand;
+        public static Action<IReactiveCommand, string> RegisterCommand = (command, action) => {
+            // ThrownExceptions does not listen to Subscribe errors, but only in async task errors!
+            command.ThrownExceptions
+                .Select(x => ErrorHandlerr.HandleException(x, action))
+                .SelectMany(UserError.Throw)
+                .Where(x => x == RecoveryOptionResult.RetryOperation)
+                .InvokeCommand(command);
+        };
+
         public static ReactiveCommand<Unit> CreateAsyncVoidTask(Func<Task> task)
             => ReactiveCommand.CreateAsyncTask(async x => await task().ConfigureAwait(false));
 
