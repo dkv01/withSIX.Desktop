@@ -45,8 +45,8 @@
         <file src="..\..\..\bin\RageLib.GTA5.dll" target="lib\net45\RageLib.GTA5.dll" />
         <file src="..\..\..\bin\RpfGeneratorTool.exe" target="lib\net45\RpfGeneratorTool.exe" />
 
-        <file src="..\..\..\bin\logentries.core.dll" target="lib\net45\logentries.core.dll" />
-        <file src="..\..\..\bin\logentries.nlog.dll" target="lib\net45\logentries.nlog.dll" />
+        <file src="..\..\..\bin\logentriescore.dll" target="lib\net45\logentriescore.dll" />
+        <file src="..\..\..\bin\logentriesnlog.dll" target="lib\net45\logentriesnlog.dll" />
         <file src="..\..\..\bin\Microsoft.WindowsAzure.ConfigurationManager.dll" target="lib\net45\Microsoft.WindowsAzure.ConfigurationManager.dll" />
 
         <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
