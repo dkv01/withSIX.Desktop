@@ -9,6 +9,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Assemblies;
+using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Sync.Presentation.Console

@@ -9,6 +9,7 @@ using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
+using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 
 namespace SN.withSIX.Updater.Presentation.Wpf

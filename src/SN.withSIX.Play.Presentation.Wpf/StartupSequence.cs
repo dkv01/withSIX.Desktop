@@ -14,6 +14,7 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
+using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Play.Applications;
 

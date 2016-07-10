@@ -7,12 +7,15 @@ using System.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation.Services;
 
-namespace SN.withSIX.Core.Logging
+namespace SN.withSIX.Core.Presentation.Logging
 {
     public class SetupNlog
     {
         public static void Initialize(string appName) {
+            MainLog.logManager = new Lazy<ILogManager>(() => new DefaultLogManager());
             // TODO: This can cause StackOverFlow when having electron.config copied from sync.config
             var loggingConfiguration = LogManager.Configuration;
             if (loggingConfiguration == null)

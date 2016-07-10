@@ -5,8 +5,9 @@
 using System;
 using NLog;
 using SN.withSIX.Core.Extensions;
+using ILogger = SN.withSIX.Core.Logging.ILogger;
 
-namespace SN.withSIX.Core.Logging
+namespace SN.withSIX.Core.Presentation.Services
 {
     public class LoggerBase : ILogger
     {

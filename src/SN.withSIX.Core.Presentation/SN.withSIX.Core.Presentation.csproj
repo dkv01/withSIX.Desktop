@@ -169,12 +169,28 @@
       <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="LogentriesCore, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\logentries.nlog.2.6.0\lib\net40\LogentriesCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LogentriesNLog, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\logentries.nlog.2.6.0\lib\net40\LogentriesNLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\NDepend.Path.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.5\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -250,16 +266,19 @@
     <Compile Include="Decorators\ValidatingRequestDecorator.cs" />
     <Compile Include="Extensions\SimpleInjectorContainerExtensions.cs" />
     <Compile Include="IPresentationService.cs" />
+    <Compile Include="Logging\SetupNlog.cs" />
     <Compile Include="RuntimeCheck.cs" />
     <Compile Include="ConsoleFirstTimeLicense.cs" />
     <Compile Include="ExitHandler.cs" />
     <Compile Include="IFirstTimeLicense.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DefaultLogManager.cs" />
     <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
     <Compile Include="Services\DepResolver.cs" />
     <Compile Include="Services\ErrorHandler.cs" />
     <Compile Include="Services\IExitHandler.cs" />
     <Compile Include="Services\IUpdaterWCF.cs" />
+    <Compile Include="Services\LoggerBase.cs" />
     <Compile Include="Services\SimpleInjectorMutableDependencyResolver.cs" />
     <Compile Include="Services\WCFClient.cs" />
     <Compile Include="ShutdownHandler.cs" />

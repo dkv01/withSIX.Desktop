@@ -6,8 +6,10 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using NLog;
+using SN.withSIX.Core.Logging;
+using ILogger = SN.withSIX.Core.Logging.ILogger;
 
-namespace SN.withSIX.Core.Logging
+namespace SN.withSIX.Core.Presentation.Services
 {
     public class DefaultLogManager : ILogManager
     {
