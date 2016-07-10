@@ -52,7 +52,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 throw createException(e.Message, e);
             } // TODO: A better way to handle this actually from within frontends...
             catch (Exception ex) {
-                var handleException = UiTaskHandler.HandleException(ex, "Action: " + command.GetType().Name);
+                var handleException = ErrorHandlerr.HandleException(ex, "Action: " + command.GetType().Name);
                 var result =
                     await UserError.Throw(handleException);
                 if (result == RecoveryOptionResult.RetryOperation)

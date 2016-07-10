@@ -14,6 +14,7 @@ using ShortBus;
 using SimpleInjector;
 using SmartAssembly.ReportUsage;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.Services;
@@ -22,6 +23,7 @@ using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Wpf;
+using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Applications.Services;
@@ -220,7 +222,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         }
 
         async Task OnlineInit() {
-            await UiTaskHandler.TryAction(() => _versionRegistry.Init(),
+            await ErrorHandlerr.TryAction(() => _versionRegistry.Init(),
                 "Processing of Version info").ConfigureAwait(false);
 
             await _prerequisitesInstaller.InstallPreRequisites().ConfigureAwait(false);
@@ -231,7 +233,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
 
             if (_systemInfo.IsInternetAvailable) {
                 await
-                    UiTaskHandler.TryAction(() => CheckDeprecatedVersion(), "Deprecated version check")
+                    ErrorHandlerr.TryAction(() => CheckDeprecatedVersion(), "Deprecated version check")
                         .ConfigureAwait(false);
             }
 
@@ -261,7 +263,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             if (!_firstCheck)
                 return CheckForNewVersionHandleException();
             _firstCheck = false;
-            return UiTaskHandler.TryAction(() => CheckForNewVersion(), ExMessage);
+            return ErrorHandlerr.TryAction(() => CheckForNewVersion(), ExMessage);
         }
 
         static async Task CheckForNewVersionHandleException() {

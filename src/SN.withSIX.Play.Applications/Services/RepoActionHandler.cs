@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Core.Games.Legacy;

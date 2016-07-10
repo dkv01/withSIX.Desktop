@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Caliburn.Micro;
 using ReactiveUI.Legacy;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.ViewModels.Games;

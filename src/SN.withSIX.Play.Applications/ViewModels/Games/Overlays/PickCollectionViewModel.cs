@@ -15,6 +15,7 @@ using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Applications.Extensions;
@@ -22,6 +23,7 @@ using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.ViewModels.Overlays;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using CollectionExtensions = SN.withSIX.Core.Extensions.CollectionExtensions;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
@@ -99,7 +101,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
         [DoNotObfuscate]
         public void SelectionChanged(SelectionChangedEventArgs args) {
             lock (SelectedItems) {
-                SelectedItems.RemoveRange(args.RemovedItems.Cast<PickCollectionDataModel>().ToArray());
+                CollectionExtensions.RemoveAll(SelectedItems, args.RemovedItems.Cast<PickCollectionDataModel>().ToArray());
                 SelectedItems.AddRange(args.AddedItems.Cast<PickCollectionDataModel>());
             }
         }

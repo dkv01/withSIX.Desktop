@@ -45,7 +45,7 @@ namespace SN.withSIX.Play.Tests.Core.Support
             Cheat.SetServices(new CheatImpl(ea, new Mediator(null)));
             DomainEvilGlobal.Settings = new UserSettings();
             Tools.RegisterServices(new ToolsServices(new ProcessManager(),
-                new Lazy<IWCFClient>(() => new WCFClient(ea)),
+                new Lazy<IWCFClient>(() => new WCFClient()),
                 new Lazy<IGeoIpService>(() => new GeoIpService(new ResourceService()))));
             ReSetupTools();
 

@@ -265,40 +265,14 @@ namespace SN.withSIX.Core
                 return FileVersionInfo.GetVersionInfo(file);
             }
 
-            static string MakeValidShortcutFileName(string fileName) => MakeValidFileName(fileName, ".lnk");
+            string MakeValidBatFileName(string fileName) => MakeValidFileName(fileName, ".bat");
 
-            static string MakeValidBatFileName(string fileName) => MakeValidFileName(fileName, ".bat");
-
-            static string MakeValidFileName(string fileName, string ext)
+            public string MakeValidFileName(string fileName, string ext)
                 => string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()).Take(255 - ext.Length)) + ext;
-
-            public Task CreateShortcutAsync(ShortcutInfo info) => Task.Run(() => CreateShortcut(info));
 
             public Task CreateBatFile(IAbsoluteDirectoryPath path, string name, string content) => Ops.CreateTextAsync(
                 path.GetChildFileWithName(MakeValidBatFileName(name)), content);
 
-            public void CreateShortcut(ShortcutInfo info) {
-                var sanitizedLinkFile = info.DestinationPath.GetChildFileWithName(MakeValidShortcutFileName(info.Name));
-                var shortcut = new ShellLink {
-                    Target = info.Target.ToString(),
-                    Arguments = info.Arguments,
-                    WorkingDirectory = info.WorkingDirectory == null ? null : info.WorkingDirectory.ToString(),
-                    Description = info.Description,
-                    IconPath = info.Icon == null ? null : info.Icon.ToString()
-                };
-                shortcut.Save(sanitizedLinkFile.ToString());
-            }
-
-            public Icon AddIconOverlay(Icon originalIcon, Icon overlay) {
-                Image a = originalIcon.ToBitmap();
-                Image b = overlay.ToBitmap();
-                var bitmap = new Bitmap(a.Width, a.Height);
-                var canvas = Graphics.FromImage(bitmap);
-                canvas.DrawImage(a, new Point(0, 0));
-                canvas.DrawImage(b, new Point(16, 16));
-                canvas.Save();
-                return Icon.FromHandle(bitmap.GetHicon());
-            }
 
             public void SelectInExplorer(string path) {
                 Contract.Requires<ArgumentNullException>(path != null);

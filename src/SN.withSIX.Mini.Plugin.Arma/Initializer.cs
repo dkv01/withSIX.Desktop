@@ -15,7 +15,7 @@ namespace SN.withSIX.Mini.Plugin.Arma
 
         public async Task Initialize() {
             // TODO: Register auto through container??
-            UiTaskHandler.RegisterHandler(new ArmaExceptionHandler());
+            ErrorHandlerr.RegisterHandler(new ArmaExceptionHandler());
         }
 
         public async Task Deinitialize() {}

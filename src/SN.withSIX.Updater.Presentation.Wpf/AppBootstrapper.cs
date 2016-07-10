@@ -24,6 +24,7 @@ using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf;
+using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
@@ -68,7 +69,7 @@ namespace SN.withSIX.Updater.Presentation.Wpf
         protected override void ConfigureContainer() {
             base.ConfigureContainer();
             Container.Register<IWpfStartupManager, WpfStartupManager>();
-            Container.Register<IExceptionHandler, DefaultWpfExceptionhandler>();
+            Container.Register<IExceptionHandler, DefaultExceptionHandler>();
             Container.RegisterPlugins<BaseCommand>(AssemblySource.Instance); // TODO
             Container.RegisterSingleton<SixElevatedService>();
 

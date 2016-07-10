@@ -21,12 +21,14 @@ using SmartAssembly.ReportUsage;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Play.Applications.NotificationHandlers;
+using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.UseCases.Profiles;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
@@ -502,7 +504,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         }
 
         //Contract.Requires<ArgumentNullException>(@params != null);
-        Task TryProcessParams(IEnumerable<string> @params) => UiTaskHandler.TryAction(() => ProcessParams(@params),
+        Task TryProcessParams(IEnumerable<string> @params) => ErrorHandlerr.TryAction(() => ProcessParams(@params),
             "Processing of startup parameters");
 
         async Task ProcessParams(IEnumerable<string> @params) {

@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using ReactiveUI;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;

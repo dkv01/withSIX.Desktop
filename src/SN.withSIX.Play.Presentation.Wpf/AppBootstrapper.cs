@@ -33,6 +33,7 @@ using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf;
+using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -197,7 +198,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
 
             Container.RegisterSingleton(() => {
                 var appOptions = Container.GetInstance<UserSettings>().AppOptions;
-                return new SelfUpdater(() => appOptions.EnableBetaUpdates,
+                return new Play.Applications.Services.SelfUpdater(() => appOptions.EnableBetaUpdates,
                     Container.GetInstance<IEventAggregator>(), Container.GetInstance<IProcessManager>(),
                     Container.GetInstance<IFileDownloader>(),
                     Container.GetInstance<IMediator>(),

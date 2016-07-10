@@ -13,6 +13,7 @@ using System.Xml;
 using Hardcodet.Wpf.TaskbarNotification;
 using ReactiveUI;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Events;
 using SN.withSIX.Core.Applications.MVVM;
 using XamlParseException = System.Windows.Markup.XamlParseException;

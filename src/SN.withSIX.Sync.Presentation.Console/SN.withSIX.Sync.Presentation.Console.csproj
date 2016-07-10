@@ -322,8 +322,8 @@
       <HintPath>..\packages\akavache.sqlite3.4.1.2\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -468,6 +468,10 @@
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>SN.withSIX.Core.Applications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
+      <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
+      <Name>SN.withSIX.Core.Presentation.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Applications\SN.withSIX.Play.Applications.csproj">
       <Project>{1240801B-EFCA-4236-B3B1-E710A8694F0A}</Project>
       <Name>SN.withSIX.Play.Applications</Name>
@@ -501,7 +505,7 @@
   <Import Project="..\..\build\SmartAssembly.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

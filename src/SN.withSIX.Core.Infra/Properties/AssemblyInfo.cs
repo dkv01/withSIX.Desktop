@@ -43,7 +43,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("SN.withSIX.Core.Presentation")]
-//[assembly: InternalsVisibleTo("SN.withSIX.Utility.Presentation.Wpf")]
+[assembly: InternalsVisibleTo("SN.withSIX.Core.Presentation.Wpf")]
 
 [assembly: InternalsVisibleTo("withSIX-Play")]
 [assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Core")]

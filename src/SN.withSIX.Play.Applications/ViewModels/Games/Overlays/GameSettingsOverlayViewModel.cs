@@ -8,6 +8,7 @@ using ReactiveUI;
 using ShortBus;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Games;
 using SN.withSIX.Play.Applications.UseCases.Games;

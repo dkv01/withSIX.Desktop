@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Web;
 using System.Windows;
 using System.Windows.Threading;
 using SimpleInjector;
@@ -19,10 +18,7 @@ using SN.withSIX.Core.Presentation.SA.Views;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Applications.Usecases.Main.Games;
-using SN.withSIX.Mini.Core.Games;
+using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Electron;
 using Splat;
 
@@ -33,8 +29,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     /// </summary>
     public partial class App : SingleInstanceApp
     {
-        AppBootstrapper _bootstrapper;
         private readonly SIHandler _siHandler;
+        WpfAppBootstrapper _bootstrapper;
+        private CMBootstrapper _cmBs;
 
         public App() {
             AppEvent += OnAppEvent;
@@ -82,6 +79,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
             _bootstrapper = new WpfAppBootstrapper(new Container(), Locator.CurrentMutable);
+            _cmBs = new CMBootstrapper(_bootstrapper);
             Task.Factory.StartNew(StartupInternal, TaskCreationOptions.LongRunning).Unwrap().WaitSpecial();
         }
 
@@ -90,21 +88,17 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             if (Entrypoint.CommandMode)
                 RunCommands();
             else
-                await Boot().ConfigureAwait(false);
+                await _bootstrapper.Startup(async () => {
+                    await CreateMainWindow();
+                }).ConfigureAwait(false);
         }
-
-        private Task Boot() => _bootstrapper.Startup(async () => {
-            if (!Cheat.IsNode)
-                await CreateMainWindow();
-        });
 
         [DllImport("Kernel32.dll")]
         public static extern bool AttachConsole(int processId);
 
         void RunCommands() {
             AttachConsole(-1);
-            Environment.Exit(
-                _bootstrapper.GetCommandMode().RunCommandsAndLog(Environment.GetCommandLineArgs().Skip(1).ToArray()));
+            _bootstrapper.RunCommands(Environment.GetCommandLineArgs().Skip(1).ToArray());
         }
 
         DispatcherOperation CreateMainWindow() {

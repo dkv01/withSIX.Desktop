@@ -8,6 +8,7 @@ using System.Reactive;
 using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;

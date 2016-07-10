@@ -65,7 +65,6 @@ namespace SN.withSIX.Mini.Applications
         public static IDbContextFactory DbContextFactory => _cheat.DbContextFactory;
         public static IMessageBus MessageBus => _cheat.MessageBus;
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
-        public static bool IsNode { get; set; }
         public static bool Initialized { get; private set; }
         private static readonly TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
         public static Task IsInitializedTask => tcs.Task;
@@ -74,6 +73,8 @@ namespace SN.withSIX.Mini.Applications
             Initialized = true;
             tcs.SetResult(null);
         }
+
+        public static void SetErrorred(Exception ex) => tcs.SetException(ex);
         public static ArgsO Args { get; set; } = new ArgsO();
 
         public static void SetServices(ICheatImpl cheat) {
@@ -182,7 +183,7 @@ namespace SN.withSIX.Mini.Applications
             Mediator = mediator;
             MessageBus = messageBus;
             DbContextFactory = dbContextFactory;
-            UiTaskHandler.SetExceptionHandler(exceptionHandler);
+            ErrorHandlerr.SetExceptionHandler(exceptionHandler);
         }
 
         public IActionDispatcher Mediator { get; }

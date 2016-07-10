@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Threading.Tasks;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 
@@ -27,6 +28,8 @@ namespace SN.withSIX.Core
         public static readonly string DefaultSizeReturn = string.Empty;
         public static IProcessManager ProcessManager { get; private set; }
         public static Lazy<IGeoIpService> Geo { get; private set; }
+
+        public static Func<string, string, Exception, Task> InformUserError;
 
         public static void RegisterServices(ToolsServices services) {
             ProcessManager = services.ProcessManager;

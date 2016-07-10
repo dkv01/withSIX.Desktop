@@ -5,12 +5,11 @@
 using System.ComponentModel;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.Extensions;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
 using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Glue.Helpers;
 using SN.withSIX.Play.Core.Options.Filters;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library

@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SmartAssembly.Attributes;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 

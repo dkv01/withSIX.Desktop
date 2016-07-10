@@ -244,7 +244,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
                     tw.WriteLine();
                 }
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "Failed to write userconfig", null));
+                Tools.InformUserError("Failed to write userconfig", null, e);
             }
         }
 
@@ -275,7 +275,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
                 }
                 return true;
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "Failed to write userconfig", null));
+                Tools.InformUserError("Failed to write userconfig", null, e);
                 return false;
             }
         }
@@ -284,7 +284,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
             try {
                 acePath.MakeSurePathExists();
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "Failed to create userconfig directory", null));
+                Tools.InformUserError("Failed to create userconfig directory", null, e);
                 return false;
             }
             return true;

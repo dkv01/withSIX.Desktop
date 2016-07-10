@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core.Applications.Services;
@@ -30,22 +29,23 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
     public class PerformUpdate : IAsyncVoidCommand {}
 
+    public interface IUpdateHandler
+    {
+        Task SelfUpdate();
+    }
+
     public class PerformUpdateHandler : IAsyncVoidCommandHandler<PerformUpdate>,
         IAsyncVoidCommandHandler<UpdateAvailable>
     {
-        private readonly INodeApi _nodeApi;
-        readonly IRestarter _restarter;
-        readonly ISquirrelUpdater _squirrel;
-        private readonly IStateHandler _stateHandler;
         private readonly IContentInstallationService _contentInstallation;
+        private readonly IStateHandler _stateHandler;
+        private readonly IUpdateHandler _updateHandler;
 
-        public PerformUpdateHandler(ISquirrelUpdater squirrel, IRestarter restarter, INodeApi nodeApi,
-            IStateHandler stateHandler, IContentInstallationService contentInstallation) {
-            _squirrel = squirrel;
-            _restarter = restarter;
-            _nodeApi = nodeApi;
+        public PerformUpdateHandler(IStateHandler stateHandler,
+            IContentInstallationService contentInstallation, IUpdateHandler updateHandler) {
             _stateHandler = stateHandler;
             _contentInstallation = contentInstallation;
+            _updateHandler = updateHandler;
         }
 
         public async Task<UnitType> HandleAsync(PerformUpdate request) {
@@ -53,11 +53,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
             // TODO: Progress reporting etc
             await _stateHandler.StartUpdating().ConfigureAwait(false);
-
-            if (Cheat.IsNode)
-                await NodeSelfUpdate().ConfigureAwait(false);
-            else
-                await LegacySelfUpdate().ConfigureAwait(false);
+            await _updateHandler.SelfUpdate().ConfigureAwait(false);
             return UnitType.Default;
         }
 
@@ -68,13 +64,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                         ? AppUpdateState.UpdateDownloading
                         : AppUpdateState.UpdateAvailable).ConfigureAwait(false);
             return UnitType.Default;
-        }
-
-        private Task NodeSelfUpdate() => _nodeApi.InstallSelfUpdate();
-
-        private async Task LegacySelfUpdate() {
-            var updateApp = await _squirrel.UpdateApp(p => { }).ConfigureAwait(false);
-            _restarter.RestartInclEnvironmentCommandLine();
         }
     }
 }

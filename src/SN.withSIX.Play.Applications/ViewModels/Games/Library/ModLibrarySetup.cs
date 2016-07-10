@@ -13,9 +13,7 @@ using MoreLinq;
 using ReactiveUI;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
@@ -23,6 +21,7 @@ using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Glue.Helpers;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Core.Options.Entries;
 
@@ -153,7 +152,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                     reset => {
                         lock (dst) {
                             lock (CollectionsGroup.Children)
-                                dst.RemoveRange(GetCollections().ToArray());
+                                CollectionExtensions.RemoveAll(dst, GetCollections().ToArray());
                             dst.AddRange(reset.Select(CreateCustomModSet));
                         }
                     }, predicate));
@@ -248,7 +247,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             var add = repositories.Where(x => x.GameMatch() && !repos.Select(y => y.Model).Contains(x))
                 .Select(x => CreateCustomRepo(x, OnlineGroup)).ToArray();
             lock (OnlineGroup.Children) {
-                OnlineGroup.Children.RemoveRange(remove);
+                CollectionExtensions.RemoveAll(OnlineGroup.Children, remove);
                 OnlineGroup.Children.AddRange(add);
             }
         }

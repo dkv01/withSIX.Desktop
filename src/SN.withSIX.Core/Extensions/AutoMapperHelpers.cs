@@ -44,64 +44,64 @@ namespace SN.withSIX.Core.Extensions
 
         class GuidToShortGuidConverter : ITypeConverter<Guid, ShortGuid>
         {
-            public ShortGuid Convert(Guid source, ResolutionContext context) => new ShortGuid(source);
+            public ShortGuid Convert(Guid source, ShortGuid destination, ResolutionContext context) => new ShortGuid(source);
         }
 
         class ShortGuidToGuidConverter : ITypeConverter<ShortGuid, Guid>
         {
-            public Guid Convert(ShortGuid source, ResolutionContext context) => source?.ToGuid() ?? Guid.Empty;
+            public Guid Convert(ShortGuid source, Guid destination, ResolutionContext context) => source?.ToGuid() ?? Guid.Empty;
         }
 
         class AbsoluteDirToStringConverter : ITypeConverter<IAbsoluteDirectoryPath, string>
         {
-            public string Convert(IAbsoluteDirectoryPath source, ResolutionContext context) => source?.ToString();
+            public string Convert(IAbsoluteDirectoryPath source, string destination, ResolutionContext context) => source?.ToString();
         }
 
         class AbsoluteFileToStringConverter : ITypeConverter<IAbsoluteFilePath, string>
         {
-            public string Convert(IAbsoluteFilePath source, ResolutionContext context) => source?.ToString();
+            public string Convert(IAbsoluteFilePath source, string destination, ResolutionContext context) => source?.ToString();
 
         }
 
         class StringToAbsoluteDirConverter : ITypeConverter<string, IAbsoluteDirectoryPath>
         {
-            public IAbsoluteDirectoryPath Convert(string source, ResolutionContext context) => source?.ToAbsoluteDirectoryPath();
+            public IAbsoluteDirectoryPath Convert(string source, IAbsoluteDirectoryPath destination, ResolutionContext context) => source?.ToAbsoluteDirectoryPath();
         }
 
         class StringToAbsoluteFileConverter : ITypeConverter<string, IAbsoluteFilePath>
         {
-            public IAbsoluteFilePath Convert(string source, ResolutionContext context) => source?.ToAbsoluteFilePath();
+            public IAbsoluteFilePath Convert(string source, IAbsoluteFilePath destination, ResolutionContext context) => source?.ToAbsoluteFilePath();
         }
 
         class StringToUriConverter : ITypeConverter<string, Uri>
         {
-            public Uri Convert(string source, ResolutionContext context) => source == null ? null : new Uri(source);
+            public Uri Convert(string source, Uri destination, ResolutionContext context) => source == null ? null : new Uri(source);
         }
 
         class StringToServerAddressConverter : ITypeConverter<string, ServerAddress>
         {
 
-            public ServerAddress Convert(string source, ResolutionContext context) => source == null ? null : new ServerAddress(source);
+            public ServerAddress Convert(string source, ServerAddress destination, ResolutionContext context) => source == null ? null : new ServerAddress(source);
         }
 
         class StringToVersionConverter : ITypeConverter<string, Version>
         {
-            public Version Convert(string source, ResolutionContext context) => source == null ? null : Version.Parse(source);
+            public Version Convert(string source, Version destination, ResolutionContext context) => source == null ? null : Version.Parse(source);
         }
 
         class UriToStringConverter : ITypeConverter<Uri, string>
         {
-            public string Convert(Uri source, ResolutionContext context) => source?.AbsoluteUri;
+            public string Convert(Uri source, string destination, ResolutionContext context) => source?.AbsoluteUri;
         }
 
         class ServerAddressToStringConverter : ITypeConverter<ServerAddress, string>
         {
-            public string Convert(ServerAddress source, ResolutionContext context) => source?.ToString();
+            public string Convert(ServerAddress source, string destination, ResolutionContext context) => source?.ToString();
         }
 
         class VersionToStringConverter : ITypeConverter<Version, string>
         {
-            public string Convert(Version source, ResolutionContext context) => source?.ToString();
+            public string Convert(Version source, string destination, ResolutionContext context) => source?.ToString();
         }
     }
 }

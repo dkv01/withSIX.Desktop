@@ -5,6 +5,7 @@
 using System.Linq;
 using ReactiveUI;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Glue.Helpers;
 using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Play.Core.Games.Legacy

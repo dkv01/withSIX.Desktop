@@ -3,6 +3,7 @@
 // </copyright>
 
 using ReactiveUI;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 

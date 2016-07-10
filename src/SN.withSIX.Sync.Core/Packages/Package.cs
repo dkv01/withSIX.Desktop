@@ -341,7 +341,7 @@ namespace SN.withSIX.Sync.Core.Packages
             foreach (var o in objects)
                 ProcessObject(skipWhenFileMatches, o, validObjects);
 
-            objects.RemoveRange(validObjects);
+            objects.RemoveAll(validObjects);
 
             var newObjects = objects.Select(x => new ObjectMap(x)).ToArray();
 

@@ -20,6 +20,7 @@ using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Applications.Usecases.Settings;
+using SN.withSIX.Mini.Presentation.Core;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {

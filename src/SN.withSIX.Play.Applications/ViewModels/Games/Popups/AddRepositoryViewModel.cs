@@ -13,6 +13,7 @@ using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -86,7 +87,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Popups
         public static UserError HandleException(Exception ex) {
             if (ex is DownloadException)
                 return new RepositoryDownloadUserError(null, ex);
-            return UiTaskHandler.HandleException(ex);
+            return ErrorHandlerr.HandleException(ex);
         }
 
         async Task AddRepo() {

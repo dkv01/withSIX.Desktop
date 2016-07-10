@@ -4,25 +4,17 @@
 
 using System;
 using System.Reactive;
-using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Core.Applications.Services
 {
     public static class UiTaskHandler
     {
-        static IExceptionHandler _exceptionHandler;
-
-        public static Task<bool> TryAction(Func<Task> act, string action = null)
-            => _exceptionHandler.TryExecuteAction(act, action);
-
-        public static void SetExceptionHandler(IExceptionHandler handler) {
-            _exceptionHandler = handler;
-        }
-
+        public static IScheduler Scheduler = TaskPoolScheduler.Default;
+        public static Action<IReactiveCommand, string> RegisterCommand;
         public static ReactiveCommand<Unit> CreateAsyncVoidTask(Func<Task> task)
             => ReactiveCommand.CreateAsyncTask(async x => await task().ConfigureAwait(false));
 
@@ -35,17 +27,8 @@ namespace SN.withSIX.Core.Applications.Services
 
         static void SetupDefaultThrownExceptionsHandler<TCommand>(TCommand command, string action)
             where TCommand : IReactiveCommand {
-            // ThrownExceptions does not listen to Subscribe errors, but only in async task errors!
-            command.ThrownExceptions
-                .Select(x => HandleException(x, action))
-                .SelectMany(UserError.Throw)
-                .Where(x => x == RecoveryOptionResult.RetryOperation)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .InvokeCommand(command);
+            RegisterCommand(command, action);
         }
-
-        public static UserError HandleException(Exception ex, string action = "Action")
-            => _exceptionHandler.HandleException(ex, action);
 
         static TCommand Setup<TCommand>(this TCommand command, string name) where TCommand : IReactiveCommand {
             if (Common.Flags.Verbose)
@@ -66,10 +49,6 @@ namespace SN.withSIX.Core.Applications.Services
                 bencher?.Dispose();
                 subscription?.Dispose();
             }
-        }
-
-        public static void RegisterHandler(IExceptionHandlerHandle exceptionHandlerHandle) {
-            _exceptionHandler.RegisterHandler(exceptionHandlerHandle);
         }
     }
 }

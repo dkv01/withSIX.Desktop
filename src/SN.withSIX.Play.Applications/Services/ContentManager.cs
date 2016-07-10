@@ -28,6 +28,7 @@ using SN.withSIX.Api.Models.Content;
 using SN.withSIX.Api.Models.Content.Arma3;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
@@ -35,6 +36,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Applications.Helpers;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Applications.UseCases.Games;
 using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
@@ -853,10 +855,23 @@ namespace SN.withSIX.Play.Applications.Services
                 var iconOverlay = new Icon(inputStream);
                 using (var stream = File.OpenWrite(icon)) {
                     var bitmap = (Bitmap) Image.FromFile(png.ToString());
-                    Tools.FileUtil.AddIconOverlay(Icon.FromHandle(bitmap.GetHicon()), iconOverlay).Save(stream);
+                    AddIconOverlay(Icon.FromHandle(bitmap.GetHicon()), iconOverlay).Save(stream);
                 }
             }
         }
+
+
+        public Icon AddIconOverlay(Icon originalIcon, Icon overlay) {
+            Image a = originalIcon.ToBitmap();
+            Image b = overlay.ToBitmap();
+            var bitmap = new Bitmap(a.Width, a.Height);
+            var canvas = Graphics.FromImage(bitmap);
+            canvas.DrawImage(a, new Point(0, 0));
+            canvas.DrawImage(b, new Point(16, 16));
+            canvas.Save();
+            return Icon.FromHandle(bitmap.GetHicon());
+        }
+
 
         async Task RefreshContentInfo() {
             var game = Game;

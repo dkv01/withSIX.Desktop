@@ -7,6 +7,7 @@ using System.Windows;
 using ReactiveUI.Legacy;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs

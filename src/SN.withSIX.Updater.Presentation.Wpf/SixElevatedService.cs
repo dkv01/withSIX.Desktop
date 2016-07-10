@@ -16,6 +16,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Services;
+using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Updater.Presentation.Wpf.Commands;
 
 namespace SN.withSIX.Updater.Presentation.Wpf

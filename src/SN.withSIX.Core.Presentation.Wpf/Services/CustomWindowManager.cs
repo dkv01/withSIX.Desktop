@@ -11,6 +11,7 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using MahApps.Metro.Controls;
 using ReactiveUI;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation.Wpf.Behaviors;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;

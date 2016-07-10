@@ -8,6 +8,7 @@ using System.Linq;
 using ReactiveUI;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;

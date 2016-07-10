@@ -21,6 +21,7 @@ using SimpleInjector;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Popups;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;

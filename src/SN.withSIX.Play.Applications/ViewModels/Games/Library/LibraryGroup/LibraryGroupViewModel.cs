@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.Extensions;

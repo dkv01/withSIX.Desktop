@@ -57,8 +57,8 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
         public async Task SaveLogs() {
             var path =
                 Common.Paths.TempPath.GetChildFileWithName("Play withSIX diagnostics " + DateTime.UtcNow.ToFileTimeUtc() +
-                                                           ".7z");
-            await Common.GenerateDiagnosticZip(path).ConfigureAwait(false);
+                                                           ".zip");
+            await ErrorHandlerr.GenerateDiagnosticZip(path).ConfigureAwait(false);
             Tools.FileUtil.SelectInExplorer(path.ToString());
         }
     }

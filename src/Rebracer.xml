@@ -23,14 +23,18 @@
         </ToolsOptionsCategory>
         <ToolsOptionsCategory name="TextEditor">
             <ToolsOptionsSubCategory name="CSharp-Specific">
+                <PropertyValue name="AddImport_SuggestForTypesInNuGetPackages">0</PropertyValue>
+                <PropertyValue name="AddImport_SuggestForTypesInReferenceAssemblies">0</PropertyValue>
                 <PropertyValue name="AutoComment">1</PropertyValue>
+                <PropertyValue name="AutoInsertAsteriskForNewLinesOfBlockComments">1</PropertyValue>
                 <PropertyValue name="BraceMatchingRectangle">1</PropertyValue>
                 <PropertyValue name="BringUpOnEventHookup">1</PropertyValue>
                 <PropertyValue name="BringUpOnIdentifier">1</PropertyValue>
                 <PropertyValue name="BringUpOnOverride">1</PropertyValue>
                 <PropertyValue name="BringUpOnPartial">1</PropertyValue>
                 <PropertyValue name="BringUpOnSpace">1</PropertyValue>
-                <PropertyValue name="ClosedFileDiagnostics">1</PropertyValue>
+                <PropertyValue name="CSharpClosedFileDiagnostics">-1</PropertyValue>
+                <PropertyValue name="ClosedFileDiagnostics">-1</PropertyValue>
                 <PropertyValue name="CodeDefinitionWindow_DocumentationComment_IndentBase">1</PropertyValue>
                 <PropertyValue name="CodeDefinitionWindow_DocumentationComment_IndentOffset">2</PropertyValue>
                 <PropertyValue name="CodeDefinitionWindow_DocumentationComment_WrapLength">80</PropertyValue>
@@ -142,7 +146,7 @@
                 <PropertyValue name="TrackMostRecentlyUsed">1</PropertyValue>
                 <PropertyValue name="UnboundItemSmartTagEnabled">1</PropertyValue>
                 <PropertyValue name="UnboundItem_ExactMatches">5</PropertyValue>
-                <PropertyValue name="WarnOnBuildErrors">1</PropertyValue>
+                <PropertyValue name="WarnOnBuildErrors">0</PropertyValue>
                 <PropertyValue name="WarnWhenMembersCauseCompilerGeneratedReferences">1</PropertyValue>
                 <PropertyValue name="Watson_DeferSendingUntilLater">0</PropertyValue>
                 <PropertyValue name="Watson_MaxExceptionsToReport">1</PropertyValue>

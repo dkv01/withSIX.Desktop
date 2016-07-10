@@ -14,16 +14,13 @@
 #endif
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using NDepend.Path;
-using SevenZip;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using Action = System.Action;
@@ -75,20 +72,6 @@ namespace SN.withSIX.Core
 #else
         false;
 #endif
-
-        public static Task GenerateDiagnosticZip(IAbsoluteFilePath path) {
-            var archiveManager = new SevenZipCompressor();
-            return
-                Task.Run(
-                    () =>
-                        archiveManager.CompressFileDictionary(
-                            GetLogFilesDictionary(Paths.LocalDataRootPath),
-                            path.ToString()));
-        }
-
-        static Dictionary<string, string> GetLogFilesDictionary(IAbsoluteDirectoryPath path)
-            => path.DirectoryInfo.GetFiles("*.log", SearchOption.AllDirectories)
-                .ToDictionary(x => x.FullName.Replace(path + "\\", ""), x => x.FullName);
 
         public class AppCommon : IEnableLogging
         {

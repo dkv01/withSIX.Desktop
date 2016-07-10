@@ -161,8 +161,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
                 // If Overwrite is true, THhen the exception could be warranted.
                 this.Logger().FormattedWarnException(e);
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, null,
-                    "Failure during processing of mod userconfig for " + Mod.Name));
+                Tools.InformUserError(null,
+                    "Failure during processing of mod userconfig for " + Mod.Name, e);
             }
         }
 
@@ -170,11 +170,10 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             try {
                 //if (_script == null)
                 TryGetModScript();
-                if (_script != null)
-                    _script.processMod();
+                _script?.processMod();
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, null,
-                    "Failure during processing of mod apps for " + Mod.Name));
+                Tools.InformUserError(null,
+                    "Failure during processing of mod apps for " + Mod.Name, e);
             }
         }
     }

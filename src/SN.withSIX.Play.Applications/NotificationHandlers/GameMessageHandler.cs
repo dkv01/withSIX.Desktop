@@ -92,7 +92,7 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
             var todo = await ModPathChangedDialog(oldModsPath, newModPath);
             if (todo) {
                 await
-                    UiTaskHandler.TryAction(
+                    ErrorHandlerr.TryAction(
                         () => PerformMoveModAndSynq(oldModsPath, newModPath, oldSynqPath, newSynqPath, game))
                         .ConfigureAwait(false);
             }
@@ -118,7 +118,7 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
             if (todo) {
                 game.Controller.BundleManager.Repo.Dispose(); // Unlock
                 await
-                    UiTaskHandler.TryAction(
+                    ErrorHandlerr.TryAction(
                         () => _updateManager.MovePathIfValidAndExists(oldSynqPath, newSynqPath))
                         .ConfigureAwait(false);
             }

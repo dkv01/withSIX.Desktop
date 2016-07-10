@@ -82,7 +82,7 @@ namespace SN.withSIX.Core
             ProgramDataPath = GetProgramDataPath();
             SharedFilesPath = AppPath;
 
-            ServiceExePath = SharedFilesPath.GetChildFileWithName(Common.IsMini ? "Sync.exe" : ServiceExe);
+            ServiceExePath = Common.IsMini ? EntryLocation : SharedFilesPath.GetChildFileWithName(ServiceExe);
             SelfUpdaterExePath = SharedFilesPath.GetChildFileWithName(SelfUpdaterExe);
             SteamPath = GetSteamPath();
 

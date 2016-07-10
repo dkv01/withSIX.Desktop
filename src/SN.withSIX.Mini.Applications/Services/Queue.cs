@@ -192,7 +192,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private async Task<bool> HandleError(QueueItem item, Exception ex) {
             var result =
-                await UserError.Throw(UiTaskHandler.HandleException(ex, "Queue action: " + item.Title));
+                await UserError.Throw(ErrorHandlerr.HandleException(ex, "Queue action: " + item.Title));
             switch (result) {
             case RecoveryOptionResult.RetryOperation:
                 item.Retry(() => _messenger.Update(item));

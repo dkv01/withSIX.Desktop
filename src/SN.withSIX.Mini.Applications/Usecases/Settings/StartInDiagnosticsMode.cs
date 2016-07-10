@@ -24,9 +24,9 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
         public async Task<UnitType> HandleAsync(SaveLogs request) {
             var path =
                 Common.Paths.TempPath.GetChildFileWithName("Sync diagnostics " + DateTime.UtcNow.ToFileTimeUtc() +
-                                                           ".7z");
+                                                           ".zip");
             Common.Paths.TempPath.MakeSurePathExists();
-            await Common.GenerateDiagnosticZip(path).ConfigureAwait(false);
+            await ErrorHandlerr.GenerateDiagnosticZip(path).ConfigureAwait(false);
             Tools.FileUtil.SelectInExplorer(path.ToString());
             return UnitType.Default;
         }

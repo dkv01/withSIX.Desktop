@@ -363,8 +363,8 @@
     <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -403,6 +403,10 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Windows7APICodePack.1.0.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.dll</HintPath>
       <Private>True</Private>
@@ -468,6 +472,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Reactive.Core">
@@ -540,6 +545,9 @@
     <Compile Include="DataModels\Games\GameDataModel.cs" />
     <Compile Include="Extensions\DialogExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
+    <Compile Include="Helpers\FileIcon.cs" />
+    <Compile Include="Helpers\ShellLink.cs" />
+    <Compile Include="Helpers\ShortcutCreator.cs" />
     <Compile Include="IPlayStartupManager.cs" />
     <Compile Include="MediatorApiSessionDecorator.cs" />
     <Compile Include="NotificationHandlers\GameInfoHandler.cs" />
@@ -557,13 +565,17 @@
     <Compile Include="Services\InstalledGames.cs" />
     <Compile Include="Services\IRepoActionHandler.cs" />
     <Compile Include="Services\IronFrontService.cs" />
+    <Compile Include="Services\ISelfUpdater.cs" />
+    <Compile Include="Services\ISoftwareUpdate.cs" />
     <Compile Include="Services\LaunchManager.cs" />
     <Compile Include="Services\PlaySquirrel.cs" />
     <Compile Include="Services\RepoActionHandler.cs" />
+    <Compile Include="Services\SelfUpdater.cs" />
     <Compile Include="Services\ServerList.cs" />
     <Compile Include="Services\ServerModsMigrator.cs" />
     <Compile Include="Services\SoftwareUpdate.cs" />
     <Compile Include="Services\SquirrelUpdater.cs" />
+    <Compile Include="Services\SystemInfo.cs" />
     <Compile Include="Services\UpdateManager.cs" />
     <Compile Include="UseCases\AddContentToCollectionsCommand.cs" />
     <Compile Include="UseCases\ChatMessageRecievedCommand.cs" />
@@ -777,10 +789,21 @@
   <ItemGroup>
     <Folder Include="Views\Connect\Dialogs\" />
   </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="NetFwTypeLib">
+      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

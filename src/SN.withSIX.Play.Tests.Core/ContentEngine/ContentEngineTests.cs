@@ -18,6 +18,7 @@ using SN.withSIX.Core.Presentation;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.ContentEngine.Infra;
 using SN.withSIX.ContentEngine.Infra.UseCases;
+using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Play.Tests.Core.Support;
 
 namespace SN.withSIX.Play.Tests.Core.ContentEngine

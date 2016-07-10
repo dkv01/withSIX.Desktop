@@ -10,11 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -163,7 +161,7 @@ namespace SN.withSIX.Sync.Core.Legacy
                 this.Logger().Warn("Failed transfer of {0} from {1}: {2}", spec.File, spec.CurrentHost, e.Message);
                 this.Logger().Warn(e.Output);
                 if (AddExceptionType(e.GetType()))
-                    await UserError.Throw(new InformationalUserError(e, "Error occurred during download", null));
+                    await Tools.InformUserError("Error occurred during download", null, e).ConfigureAwait(false);
             } catch (TimeoutException e) {
                 spec.LastException = e;
                 this.Logger().FormattedWarnException(e);
@@ -179,14 +177,15 @@ namespace SN.withSIX.Sync.Core.Legacy
                 spec.LastException = e;
                 this.Logger()
                     .Warn("Failed transfer of {0} from {1}: {2} (Status: {3}, Type: {4}, Length: {5})", spec.File,
-                        spec.CurrentHost, e.Message, e.Status, e.Response == null ? null : e.Response.ContentType,
-                        e.Response == null ? 0 : e.Response.ContentLength);
+                        spec.CurrentHost, e.Message, e.Status, e.Response?.ContentType,
+                        e.Response?.ContentLength ?? 0);
                 this.Logger().FormattedWarnException(e);
             } catch (Exception e) {
                 spec.LastException = e;
                 this.Logger().FormattedWarnException(e);
                 if (AddExceptionType(e.GetType()))
-                    await UserError.Throw(new InformationalUserError(e, "Error occurred during download", null));
+
+                    await Tools.InformUserError("Error occurred during download", null, e).ConfigureAwait(false);
             }
             return done;
         }

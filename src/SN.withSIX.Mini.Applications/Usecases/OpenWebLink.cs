@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {

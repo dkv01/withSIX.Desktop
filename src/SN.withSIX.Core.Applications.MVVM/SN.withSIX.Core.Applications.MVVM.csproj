@@ -172,8 +172,8 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -188,6 +188,10 @@
       <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -196,6 +200,10 @@
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="ShortBus.Markers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
     </Reference>
     <Reference Include="SmartAssembly.Attributes, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -240,11 +248,13 @@
     <Compile Include="Helpers\HaveReactiveItems.cs" />
     <Compile Include="Helpers\IHaveReactiveItems.cs" />
     <Compile Include="Helpers\IHaveSelectedItem.cs" />
+    <Compile Include="Helpers\IHaveShutdownTask.cs" />
     <Compile Include="Helpers\ISelectionList.cs" />
     <Compile Include="Helpers\SelectionList.cs" />
     <Compile Include="Helpers\SixReactiveList.cs" />
     <Compile Include="IWpfStartupManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UiTaskHandlerLegacy.cs" />
     <Compile Include="UiHelper.cs" />
     <Compile Include="ViewModels\DataModel.cs" />
     <Compile Include="ViewModels\Dialogs\DialogViewModel.cs" />
@@ -269,6 +279,7 @@
     <Compile Include="ViewModels\LicensesViewModel.cs" />
     <Compile Include="ViewModels\MenuBase.cs" />
     <Compile Include="ViewModels\MenuItem.cs" />
+    <Compile Include="ViewModels\ObservablePropertyChangedBase.cs" />
     <Compile Include="ViewModels\Popups\RequirementsPopupViewModel.cs" />
     <Compile Include="ViewModels\ReactiveConductor.cs" />
     <Compile Include="ViewModels\ReactiveConductorBase.cs" />

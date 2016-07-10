@@ -7,11 +7,13 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SevenZip;
 using SharpCompress.Archive;
 using SharpCompress.Archive.GZip;
+using SharpCompress.Archive.Zip;
 using SharpCompress.Common;
+using SharpCompress.Compressor.Deflate;
 using SharpCompress.Writer;
+using SharpCompress.Writer.Zip;
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Core
@@ -45,6 +47,14 @@ namespace SN.withSIX.Core
                         af.Write(f.FullName.Replace(directory.ParentDirectoryPath + @"\", ""), f.FullName);
                     // This ommits the root folder ('userconfig')
                     //af.WriteAll(directory.ToString(), "*", SearchOption.AllDirectories);
+                }
+            }
+
+            public void PackZip(IAbsoluteDirectoryPath directory, IAbsoluteFilePath outputFile) {
+                using (var arc = ZipArchive.Create()) {
+                    foreach (var f in directory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))
+                        arc.AddEntry(f.FullName.Replace(directory.ParentDirectoryPath + @"\", ""), f.FullName);
+                    arc.SaveTo(outputFile.ToString(), new CompressionInfo { DeflateCompressionLevel = CompressionLevel.BestCompression, Type = CompressionType.Deflate});
                 }
             }
 
@@ -116,25 +126,6 @@ namespace SN.withSIX.Core
                 Generic.RunUpdater(UpdaterCommands.Unpack, sourceFile.ToString(), outputFolder.ToString(),
                     overwrite ? "--overwrite" : null,
                     fullPath.ToString());
-            }
-
-            public virtual void PackSevenZipNative(IAbsoluteFilePath file, IAbsoluteFilePath dest = null) {
-                Contract.Requires<ArgumentNullException>(file != null);
-                Contract.Requires<ArgumentException>(file.Exists);
-
-                if (dest == null)
-                    dest = (file + ".7z").ToAbsoluteFilePath();
-
-                var compressor = new SevenZipCompressor {
-                    CompressionLevel = CompressionLevel.Ultra,
-                    CompressionMethod = CompressionMethod.Lzma2,
-                    CompressionMode = CompressionMode.Create
-                };
-
-                var dir = dest.ParentDirectoryPath;
-                dir.MakeSurePathExists();
-
-                compressor.CompressFiles(dest.ToString(), file.ToString());
             }
         }
 

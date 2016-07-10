@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using ReactiveUI;
 using SmartAssembly.Attributes;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;

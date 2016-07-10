@@ -6,14 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Reactive.Linq;
 using System.Runtime.ExceptionServices;
 using System.Security;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
@@ -533,12 +531,10 @@ namespace SN.withSIX.Core
                         return false;
 
                     this.Logger().FormattedDebugException(e);
-                    var result =
-                        await UserError.Throw(new UserError("Disk operation failed. Retry?",
-                            string.Join(", ", filePath) + ": " + e.Message
-                            + "\n\n" + GetIoRetryMessage(e), RecoveryCommandsImmediate.YesNoCommands, null, e));
-                    return result == RecoveryOptionResult.RetryOperation;
+                    return await ShouldRetry("Disk operation failed. Retry?", string.Join(", ", filePath) + ": " + e.Message + "\n\n" + GetIoRetryMessage(e), e).ConfigureAwait(false);
                 }
+
+                public static Func<string, string, Exception, Task<bool>> ShouldRetry;
 
                 static string GetIoRetryMessage(Exception exception) {
                     if (exception is SecurityException || exception is UnauthorizedAccessException)

@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using SN.withSIX.Core.Applications.MVVM.Helpers;
-using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {

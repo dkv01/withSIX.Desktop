@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MoreLinq;
-using ReactiveUI;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Helpers;
 
@@ -152,7 +151,7 @@ namespace SN.withSIX.Core.Extensions
                 source = source.Where(filter);
 
             var srcAr = source.ToArray();
-            destination.RemoveRange(destination.Except(srcAr).ToArray());
+            destination.RemoveAll(destination.Except(srcAr).ToArray());
             destination.AddRange(srcAr.Except(destination).ToArray());
         }
 
@@ -175,7 +174,7 @@ namespace SN.withSIX.Core.Extensions
                 source = source.Where(filter);
 
             var srcAr = source.ToArray();
-            destination.RemoveRange(destination.Except(srcAr.Cast<T2>()).ToArray());
+            destination.RemoveAll(destination.Except(srcAr.Cast<T2>()).ToArray());
             destination.AddRange(srcAr.Cast<T2>().Except(destination).ToArray());
         }
 
@@ -189,7 +188,7 @@ namespace SN.withSIX.Core.Extensions
 
             var srcAr = source.ToArray();
             lock (destination) {
-                destination.RemoveRange(destination.Except(srcAr.Cast<T2>()).ToArray());
+                destination.RemoveAll(destination.Except(srcAr.Cast<T2>()).ToArray());
                 destination.AddRange(srcAr.Cast<T2>().Except(destination).ToArray());
             }
         }
@@ -206,7 +205,7 @@ namespace SN.withSIX.Core.Extensions
                 src = src.Where(filter);
 
             var srcAr = src.Cast<T2>().ToArray();
-            destination.RemoveRange(destination.Where(x => x is T).Except(srcAr).ToArray());
+            destination.RemoveAll(destination.Where(x => x is T).Except(srcAr).ToArray());
             destination.AddRange(srcAr.Except(destination).ToArray());
         }
 
@@ -222,7 +221,7 @@ namespace SN.withSIX.Core.Extensions
 
             var srcAr = src.Cast<T2>().ToArray();
             lock (destination) {
-                destination.RemoveRange(destination.Where(x => x is T).Except(srcAr).ToArray());
+                destination.RemoveAll(destination.Where(x => x is T).Except(srcAr).ToArray());
                 destination.AddRange(srcAr.Except(destination).ToArray());
             }
         }
@@ -237,7 +236,7 @@ namespace SN.withSIX.Core.Extensions
                 src = src.Where(filter);
 
             var srcAr = src.Cast<T2>().ToArray();
-            destination.RemoveRange(destination.Where(x => x is T).Except(srcAr).ToArray());
+            destination.RemoveAll(destination.Where(x => x is T).Except(srcAr).ToArray());
             destination.AddRange(srcAr.Except(destination).ToArray());
         }
 
@@ -252,7 +251,7 @@ namespace SN.withSIX.Core.Extensions
 
             var srcAr = src.Cast<T2>().ToArray();
             lock (destination) {
-                destination.RemoveRange(destination.Where(x => x is T).Except(srcAr).ToArray());
+                destination.RemoveAll(destination.Where(x => x is T).Except(srcAr).ToArray());
                 destination.AddRange(srcAr.Except(destination).ToArray());
             }
         }
@@ -266,7 +265,7 @@ namespace SN.withSIX.Core.Extensions
                 source = source.Where(filter);
 
             var srcAr = source.ToArray();
-            destination.RemoveRange(destination.Where(x => srcAr.None(x.ComparePK)).ToArray());
+            destination.RemoveAll(destination.Where(x => srcAr.None(x.ComparePK)).ToArray());
             destination.UpdateOrAdd(srcAr);
         }
 
@@ -326,7 +325,7 @@ namespace SN.withSIX.Core.Extensions
             Contract.Requires<ArgumentNullException>(destination != null);
 
             var srcAr = source.ToArray();
-            destination.RemoveRange(destination.Where(x => filter(x) && srcAr.None(y => x.Model.ComparePK(y))).ToArray());
+            destination.RemoveAll(destination.Where(x => filter(x) && srcAr.None(y => x.Model.ComparePK(y))).ToArray());
             destination.AddRange(srcAr.Except(destination.Select(x => x.Model)).Select(func).ToArray());
         }
 
@@ -346,7 +345,7 @@ namespace SN.withSIX.Core.Extensions
             Contract.Requires<ArgumentNullException>(destination != null);
 
             var srcAr = source.ToArray();
-            destination.RemoveRange(destination.Where(x => filter(x) && srcAr.None(y => x.Model.Equals(y))).ToArray());
+            destination.RemoveAll(destination.Where(x => filter(x) && srcAr.None(y => x.Model.Equals(y))).ToArray());
             destination.AddRange(srcAr.Except(destination.Select(x => x.Model)).Select(func).ToArray());
         }
 
@@ -486,7 +485,7 @@ namespace SN.withSIX.Core.Extensions
                 return list.ToArray();
         }
 
-        public static void RemoveRange<T>(this IList<T> list, ICollection<T> items) {
+        public static void RemoveAll<T>(this IList<T> list, ICollection<T> items) {
             Contract.Requires<ArgumentNullException>(list != null);
             Contract.Requires<ArgumentNullException>(items != null);
             var l = list as List<T>;
@@ -494,19 +493,15 @@ namespace SN.withSIX.Core.Extensions
                 // This is the reason why we take items as ICollection - otherwise it would re-iterate the items all the time.
                 l.RemoveAll(items.Contains);
             else {
-                var l2 = list as ReactiveList<T>;
-                if (l2 != null)
-                    l2.RemoveAll(items);
-                else
-                    items.ForEach(x => list.Remove(x));
+                items.ForEach(x => list.Remove(x));
             }
         }
 
-        public static void RemoveRangeLocked<T>(this IList<T> list, ICollection<T> items) {
+        public static void RemoveAllLocked<T>(this IList<T> list, ICollection<T> items) {
             Contract.Requires<ArgumentNullException>(list != null);
             Contract.Requires<ArgumentNullException>(items != null);
             lock (list) {
-                list.RemoveRange(items);
+                list.RemoveAll(items);
             }
         }
 
@@ -524,17 +519,12 @@ namespace SN.withSIX.Core.Extensions
             if (list3 != null)
                 list3.AddRange(items);
             else {
-                var list2 = list as IReactiveList<T>;
-                if (list2 != null)
-                    list2.AddRange(items);
-                else {
                     foreach (var i in items) {
                         if (reverse)
                             list.Insert(0, i);
                         else
                             list.Add(i);
                     }
-                }
             }
         }
 
@@ -545,13 +535,8 @@ namespace SN.withSIX.Core.Extensions
             if (list3 != null)
                 list3.AddRange(items);
             else {
-                var list2 = list as IReactiveList<T>;
-                if (list2 != null)
-                    list2.AddRange(items);
-                else {
-                    foreach (var i in items)
-                        list.Add(i);
-                }
+                foreach (var i in items)
+                    list.Add(i);
             }
         }
 
@@ -562,13 +547,8 @@ namespace SN.withSIX.Core.Extensions
             if (list3 != null)
                 list3.RemoveAll(items.Contains);
             else {
-                var list2 = list as IReactiveList<T>;
-                if (list2 != null)
-                    list2.RemoveAll(items);
-                else {
-                    foreach (var i in items)
-                        list.Remove(i);
-                }
+                foreach (var i in items)
+                    list.Remove(i);
             }
         }
 

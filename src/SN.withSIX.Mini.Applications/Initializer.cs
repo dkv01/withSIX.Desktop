@@ -13,7 +13,7 @@ namespace SN.withSIX.Mini.Applications
         public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperAppConfig.Setup(cfg);
 
         public async Task Initialize() {
-            UiTaskHandler.RegisterHandler(new GameExceptionHandler());
+            ErrorHandlerr.RegisterHandler(new GameExceptionHandler());
         }
 
         public async Task Deinitialize() {}

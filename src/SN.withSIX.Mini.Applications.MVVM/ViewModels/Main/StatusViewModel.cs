@@ -6,6 +6,7 @@ using System;
 using System.Windows.Input;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;

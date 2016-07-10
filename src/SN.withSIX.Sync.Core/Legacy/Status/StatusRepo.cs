@@ -4,10 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using NDepend.Path;
-using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -157,7 +158,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
             }
         }
 
-        public ReactiveList<IStatus> Items { get; } = new ReactiveList<IStatus>();
+        public ObservableCollection<IStatus> Items { get; } = new ObservableCollection<IStatus>();
 
         public int Total
         {
@@ -315,8 +316,31 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         public static IDisposable Monitor(this StatusRepo This, ProgressLeaf leaf, bool inclProgress = false) {
             var c = new AverageContainer2(20);
             var isZero = true;
-            return This.WhenAnyValue(x => x.Info)
-                .Subscribe(x => leaf.Update(c.UpdateSpecial(x.Speed), inclProgress ? x.Progress : leaf.Progress));
+            return new RepoWatcher(This, current => Call(leaf, inclProgress, c, current.Speed, current.Progress));
+        }
+
+        private class RepoWatcher : IDisposable
+        {
+            private readonly StatusRepo _repo;
+            private readonly Action<StatusInfo> _action;
+
+            public RepoWatcher(StatusRepo repo, Action<StatusInfo> action) {
+                _repo = repo;
+                _action = action;
+                _repo.PropertyChanged += RepoOnPropertyChanged;
+                _action(repo.Info);
+            }
+
+            private void RepoOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) {
+                if (propertyChangedEventArgs.PropertyName == "" || propertyChangedEventArgs.PropertyName == "Info")
+                    _action(_repo.Info);
+            }
+
+            public void Dispose() => _repo.PropertyChanged -= RepoOnPropertyChanged;
+        }
+
+        private static void Call(ProgressLeaf leaf, bool inclProgress, AverageContainer2 c, long? speed, double progress) {
+            leaf.Update(c.UpdateSpecial(speed), inclProgress ? progress : leaf.Progress);
         }
     }
 }

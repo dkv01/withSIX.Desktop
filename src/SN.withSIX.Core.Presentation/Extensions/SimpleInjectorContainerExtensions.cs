@@ -9,13 +9,13 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Caliburn.Micro;
 using ShortBus;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation.Decorators;
 using Action = System.Action;
 using Container = SimpleInjector.Container;
 
@@ -43,13 +43,21 @@ namespace SN.withSIX.Core.Presentation.Extensions
 
     public static class SimpleInjectorContainerExtensions
     {
-        static readonly Type[] reserved = {
+        static readonly List<Type> reserved = new List<Type> {
             typeof (INotifyPropertyChanged), typeof (INotifyPropertyChanging),
-            typeof (IScreen), typeof (IEnableLogging), typeof (IHandle), typeof (IDisposable)
+            typeof (IEnableLogging), typeof (IDisposable)
         };
-        static readonly Type[] reservedRoot = {
-            typeof (IHandle)
-        };
+        static readonly List<Type> reservedRoot = new List<Type>();
+
+        public static void RegisterMediatorDecorators(Container container) {
+            container.RegisterDecorator<IMediator, MediatorValidationDecorator>(Lifestyle.Singleton);
+            if (Common.AppCommon.Type < ReleaseType.Beta)
+                container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
+        }
+
+
+        public static void RegisterReserved(params Type[] ts) => reserved.AddRange(ts);
+        public static void RegisterReservedRoot(params Type[] ts) => reservedRoot.AddRange(ts);
 
         public static void RegisterPlugins<T>(this Container container, IEnumerable<Assembly> assemblies,
             Lifestyle lifestyle = null) where T : class {

@@ -11,6 +11,7 @@ using SmartAssembly.Attributes;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Core.Glue.Helpers;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {

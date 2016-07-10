@@ -35,35 +35,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         //static AppBootstrapper _bs;
         public static bool CommandMode { get; private set; }
 
-        public static INodeApi Api { get; private set; }
-
-        public static void MainForNode(INodeApi api) {
-            Api = api;
-            Main();
-        }
-
-        private static void LaunchAppThread() {
-            var newWindowThread = new Thread(() => {
-                // Start the Dispatcher Processing
-                //System.Windows.Threading.Dispatcher.Run();
-                Api.Exit(StartApp()).WaitAndUnwrapException();
-            });
-            // Set the apartment state
-            newWindowThread.SetApartmentState(ApartmentState.STA);
-            // Make the thread a background thread
-            newWindowThread.IsBackground = true;
-            // Start the thread
-            newWindowThread.Start();
-        }
-
         private static void SetupVersion() {
             Consts.InternalVersion = CommonBase.AssemblyLoader.GetEntryVersion().ToString();
             Consts.ProductVersion = CommonBase.AssemblyLoader.GetInformationalVersion();
-        }
-
-        public static void ExitForNode() {
-            //_bs.Dispose();
-            Application.Current.Dispatcher.Invoke(() => Application.Current.Shutdown());
         }
 
         static void SetupAssemblyLoader(IAbsoluteFilePath locationOverride = null) {
@@ -73,36 +47,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         static void SetupRegistry() {
             var registry = new AssemblyRegistry();
             AppDomain.CurrentDomain.AssemblyResolve += registry.CurrentDomain_AssemblyResolve;
-        }
-
-        static void LaunchWithNode() {
-            new RuntimeCheckWpf().Check();
-
-            SetupRegistry();
-            var exe = Environment.GetCommandLineArgs().First();
-            SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
-                ? exe.ToAbsoluteFilePath()
-                : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));
-            VisualExtensions.Waiter = TaskExt.WaitAndUnwrapException;
-            SetupLogging();
-            new AssemblyHandler().Register();
-            Cheat.IsNode = true;
-            SetupVersion();
-            Consts.InternalVersion += $" (runtime: {Api.Version}, engine: {Consts.ProductVersion})";
-            Consts.ProductVersion = Api.Version;
-            var arguments = Environment.GetCommandLineArgs().Skip(1).ToArray();
-            Init(arguments.CombineParameters());
-            if (Api.Args != null)
-                Cheat.Args = Api.Args;
-
-            //HandleSquirrel(arguments);
-            ErrorHandler.Handler = new NodeErrorHandler(Api);
-            LaunchAppThread();
-            /*
-            _bs = new AppBootstrapper(new Container(), Locator.CurrentMutable);
-            _bs.Startup();
-            _bs.AfterWindow();
-            */
         }
 
         private static void Init(string arguments) {
@@ -116,16 +60,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         [STAThread]
-        public static void Main() {
-            if (Api != null)
-                LaunchWithNode();
-            else
-                LaunchWithoutNode();
-        }
+        public static void Main() => LaunchWithoutNode();
 
         private static void LaunchWithoutNode() {
+            SetupRegistry();
             new RuntimeCheckWpf().Check();
-            Api = new NullNodeApi();
             SetupAssemblyLoader();
             SetupLogging();
             new AssemblyHandler().Register();

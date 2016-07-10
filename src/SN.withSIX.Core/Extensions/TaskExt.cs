@@ -6,6 +6,7 @@ using System;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
+using ShortBus;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -14,6 +15,16 @@ namespace SN.withSIX.Core.Extensions
     {
         public static readonly Task Default = Empty<int>.Task;
         public static readonly Action NullAction = () => { };
+
+        public static async Task<UnitType> Void<T>(this Task<T> task) {
+            await task.ConfigureAwait(false);
+            return UnitType.Default;
+        }
+
+        public static async Task<UnitType> Void(this Task task) {
+            await task.ConfigureAwait(false);
+            return UnitType.Default;
+        }
 
         [Obsolete("Use actual async/await!")]
         public static void WaitAndUnwrapException(this Task task) {

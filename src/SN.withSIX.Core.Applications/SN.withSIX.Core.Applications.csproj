@@ -232,18 +232,7 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\NDepend.Path.dll</HintPath>
@@ -252,9 +241,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PresentationFramework" />
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.11.6.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
+      <HintPath>..\packages\sharpcompress.0.11.6\lib\net40\SharpCompress.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ShortBus">
@@ -302,13 +294,11 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ToolsVersionAttribute.cs" />
     <Compile Include="Errors\IExceptionHandler.cs" />
+    <Compile Include="Errors\InformationalUserError.cs" />
     <Compile Include="Errors\UserErrorBase.cs" />
     <Compile Include="Events\TrayNotificationEvents.cs" />
     <Compile Include="Exceptions.cs" />
@@ -334,19 +324,17 @@
     <Compile Include="Services\About.cs" />
     <Compile Include="Services\DialogManagerTaskExtensions.cs" />
     <Compile Include="Services\DialogManagerUiExtensions.cs" />
+    <Compile Include="Services\ErrorHandlerr.cs" />
     <Compile Include="Services\FilesInstaller.cs" />
     <Compile Include="Services\IApplicationService.cs" />
     <Compile Include="Services\ICompositeCommand.cs" />
     <Compile Include="Services\IDialogManager.cs" />
     <Compile Include="Services\IGameMapperConfig.cs" />
-    <Compile Include="Services\IHaveShutdownTask.cs" />
     <Compile Include="Services\IInitializer.cs" />
     <Compile Include="Services\IAMapper.cs" />
     <Compile Include="Services\IMetroDialog.cs" />
     <Compile Include="Services\INotificationProvider.cs" />
-    <Compile Include="Services\ISelfUpdater.cs" />
     <Compile Include="Services\IShutdownHandler.cs" />
-    <Compile Include="Services\ISoftwareUpdate.cs" />
     <Compile Include="Services\IStartupManager.cs" />
     <Compile Include="Services\IToolsInstaller.cs" />
     <Compile Include="Services\ITransient.cs" />
@@ -354,15 +342,12 @@
     <Compile Include="Services\MessageBoxDialogParams.cs" />
     <Compile Include="Services\Request.cs" />
     <Compile Include="Services\Restarter.cs" />
-    <Compile Include="Services\SelfUpdater.cs" />
     <Compile Include="Services\SharedFilesInstaller.cs" />
     <Compile Include="Services\SixElevatedServiceMisc.cs" />
     <Compile Include="Services\SixMessageBoxButton.cs" />
     <Compile Include="Services\SixMessageBoxResult.cs" />
-    <Compile Include="Services\SystemInfo.cs" />
     <Compile Include="Services\ToolsInstaller.cs" />
     <Compile Include="Services\UiTaskHandler.cs" />
-    <Compile Include="Services\UiTaskHandlerLegacy.cs" />
     <Compile Include="Services\VersionInfoData.cs" />
     <Compile Include="Services\VersionRegistry.cs" />
     <Compile Include="SixColors.cs" />
@@ -382,22 +367,11 @@
       <Name>SN.withSIX.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="NetFwTypeLib">
-      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

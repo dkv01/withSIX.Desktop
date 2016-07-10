@@ -5,6 +5,7 @@
 using System;
 using ReactiveUI;
 using SmartAssembly.Attributes;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using IScreen = Caliburn.Micro.IScreen;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;

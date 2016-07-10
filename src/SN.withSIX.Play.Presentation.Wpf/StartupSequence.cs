@@ -9,6 +9,7 @@ using System.Windows;
 using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;

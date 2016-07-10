@@ -419,8 +419,8 @@
       <HintPath>..\packages\akavache.sqlite3.4.1.2\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AWSSDK, Version=2.3.55.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.2.3.55.0\lib\net45\AWSSDK.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -431,10 +431,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\dll\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
@@ -443,10 +439,6 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\NDepend.Path.dll</HintPath>
@@ -481,6 +473,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
     </Reference>
+    <Reference Include="ShortBus.SimpleInjector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\ShortBus.SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleInjector, Version=3.2.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.2.0\lib\net45\SimpleInjector.dll</HintPath>
       <Private>True</Private>
@@ -506,6 +502,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.Composition.Registration" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -558,6 +555,7 @@
     <Compile Include="Converters\TabSizeConverter.cs" />
     <Compile Include="Extensions\ActivationHelper.cs" />
     <Compile Include="Extensions\Converters.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UserControlExtensions.cs" />
     <Compile Include="Behaviors\MoveableWindowBehavior.cs" />
@@ -570,16 +568,19 @@
     <Compile Include="Converters\ProgressStateConverter.cs" />
     <Compile Include="Converters\UriToStringConverter.cs" />
     <Compile Include="Helpers\SplashScreenHandler.cs" />
+    <Compile Include="Legacy\AppBootstrapperBase.cs" />
+    <Compile Include="Legacy\ConsoleAppBootstrapper.cs" />
+    <Compile Include="Legacy\StartupManager.cs" />
+    <Compile Include="Legacy\WpfAppBootstrapper.cs" />
+    <Compile Include="Legacy\WpfStartupManager.cs" />
     <Compile Include="Services\BasicUserErrorHandler.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\CustomThemeManager.cs" />
     <Compile Include="Services\CustomWindowManager.cs" />
     <Compile Include="Services\DefaultViewLocator.cs" />
-    <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
     <Compile Include="Services\FlashHandler.cs" />
     <Compile Include="Services\NlogLogger.cs" />
     <Compile Include="Services\RuntimeCheckWpf.cs" />
-    <Compile Include="Services\SimpleInjectorMutableDependencyResolver.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\WpfDialogManager.cs" />
     <Compile Include="Services\WpfFirstTimeLicense.cs" />
@@ -694,9 +695,7 @@
     <Compile Include="Views\SortView.xaml.cs">
       <DependentUpon>SortView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfAppBootstrapper.cs" />
     <Compile Include="WpfErrorHandler.cs" />
-    <Compile Include="WpfStartupManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">

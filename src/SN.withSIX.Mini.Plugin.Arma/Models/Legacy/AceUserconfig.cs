@@ -14,6 +14,7 @@ using System.Text;
 using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 

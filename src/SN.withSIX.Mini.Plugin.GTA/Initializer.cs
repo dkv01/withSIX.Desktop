@@ -17,7 +17,7 @@ namespace SN.withSIX.Mini.Plugin.GTA
 
         public Task Initialize() {
             // TODO: Register auto through container??
-            UiTaskHandler.RegisterHandler(new GTAExceptionHandler());
+            ErrorHandlerr.RegisterHandler(new GTAExceptionHandler());
             var p = new Package();
 
             return TaskExt.Default;

@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using ReactiveUI;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Plugin.Arma.Models;

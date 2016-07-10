@@ -108,7 +108,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         void ResetLocalMissionContainers(IEnumerable<LocalMissionsContainer> reset) {
             lock (LocalGroup.Children) {
-                LocalGroup.Children.RemoveRange(GetLocalMissions().ToArray());
+                CollectionExtensions.RemoveAll(LocalGroup.Children, GetLocalMissions().ToArray());
                 LocalGroup.Children.AddRange(_gameFolders.Concat(reset.Select(x => CreateLocalItem(x))));
             }
         }
@@ -254,7 +254,7 @@ string path) => CreateLocalItem(new LocalMissionsContainer(name, path, _game), i
                 var items = LocalGroup.Children.OfType<ContentLibraryItemViewModel<LocalMissionsContainer>>().ToArray();
                 foreach (var contentLibraryItem in items)
                     contentLibraryItem.Model.Dispose();
-                LocalGroup.Children.RemoveRange(items);
+                CollectionExtensions.RemoveAll(LocalGroup.Children, items);
             }
 
             // free native resources

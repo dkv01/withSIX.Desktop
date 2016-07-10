@@ -6,6 +6,7 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using ReactiveUI;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Core;

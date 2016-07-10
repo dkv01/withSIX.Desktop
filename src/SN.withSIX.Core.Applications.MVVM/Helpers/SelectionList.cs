@@ -2,6 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Runtime.Serialization;
+
 namespace SN.withSIX.Core.Applications.MVVM.Helpers
 {
     [DataContract]

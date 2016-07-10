@@ -139,8 +139,8 @@
       <HintPath>..\packages\akavache.sqlite3.4.1.2\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -329,8 +329,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />
-    <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Commands\LaunchGameCommand.cs" />
     <Compile Include="Controls\MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>
     </Compile>
@@ -345,9 +343,8 @@
     <Compile Include="MiniMainWindow.xaml.cs">
       <DependentUpon>MiniMainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Node\Startup.cs" />
-    <Compile Include="Node\Teardown.cs" />
     <Compile Include="Resources\FontFamily.cs" />
+    <Compile Include="Services\ISquirrelApp.cs" />
     <Compile Include="Services\NullNodeApi.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\SquirrelUpdater.cs" />
@@ -355,11 +352,12 @@
     <Compile Include="Services\WpfNotificationProvider.cs" />
     <Compile Include="Services\WpfPlatformProvider.cs" />
     <Compile Include="UiConstants.cs" />
-    <Compile Include="UnhandledExceptionHandler.cs" />
+    <Compile Include="UpdateHandler.cs" />
     <Compile Include="Views\TrayNotification.xaml.cs">
       <DependentUpon>TrayNotification.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\WpfScreenOpener.cs" />
+    <Compile Include="WpfAppBootstrapper.cs" />
     <Page Include="Controls\MenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -461,10 +459,6 @@
       <Project>{dd2a6dad-ef37-4542-89af-aec0845e71e9}</Project>
       <Name>SN.withSIX.Core.Presentation.SA</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.WinRT\SN.withSIX.Core.Presentation.WinRT.csproj">
-      <Project>{bed2bc1d-ca2e-4a3a-a711-027e1c4d9053}</Project>
-      <Name>SN.withSIX.Core.Presentation.WinRT</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
       <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
       <Name>SN.withSIX.Core.Presentation.Wpf</Name>
@@ -534,7 +528,9 @@
       <Name>SN.withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Node\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="app.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
