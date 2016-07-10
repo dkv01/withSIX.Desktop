@@ -5,7 +5,7 @@
 using System;
 using NLog;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation.Services;
 using ILogger = Splat.ILogger;
 using LogLevel = Splat.LogLevel;
 
