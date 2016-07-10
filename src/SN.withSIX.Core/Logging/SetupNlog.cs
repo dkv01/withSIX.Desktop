@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -24,19 +25,36 @@ namespace SN.withSIX.Core.Logging
             var target = CreateDefaultFileTarget(appName);
             config.AddTarget("logfile", target);
             config.LoggingRules.Add(CreateDefaultLoggingRule(target));
+
+            if (ConfigurationManager.AppSettings["Logentries.Token"] != null)
+                SetupLogEntries(appName, config);
             return config;
         }
 
-        static LoggingRule CreateDefaultLoggingRule(Target target)
-            => new LoggingRule("SN.withSIX.*", GetLogLevel(), target) {Final = true};
-
-        private static LogLevel GetLogLevel() {
-#if DEBUG
-            return LogLevel.Trace;
-#else
-            return LogLevel.Info;
-#endif
+        private static void SetupLogEntries(string appName, LoggingConfiguration config) {
+            var target2 = CreateLogEntriesTarget(appName);
+            config.AddTarget("logentries", target2);
+            config.LoggingRules.Add(CreateDefaultLoggingRule(target2, LogLevel.Error, true));
         }
+
+        static LoggingRule CreateDefaultLoggingRule(Target target, LogLevel level = null, bool final = false)
+            => new LoggingRule("SN.withSIX.*", level ?? Default, target) {Final = final};
+
+        private static readonly LogLevel Default =
+#if DEBUG
+            LogLevel.Trace;
+#else
+            LogLevel.Info;
+#endif
+
+        static Target CreateLogEntriesTarget(string appName) => new LogentriesTarget() {
+            Name = "logentries",
+            Debug = true,
+            HttpPut = false,
+            Ssl = false,
+            Layout =
+                "${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} : ${LEVEL}, ${message}"
+        };
 
         static FileTarget CreateDefaultFileTarget(string appName) => new FileTarget {
             Name = "logfile",

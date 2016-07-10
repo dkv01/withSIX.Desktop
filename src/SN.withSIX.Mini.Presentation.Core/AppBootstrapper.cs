@@ -21,7 +21,6 @@ using ReactiveUI;
 using ShortBus;
 using ShortBus.SimpleInjector;
 using SimpleInjector;
-using SmartAssembly.ReportException;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.Core;
@@ -45,7 +44,6 @@ using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services;
@@ -109,8 +107,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             _paths = new Paths();
 
             Common.Paths.SetPaths(null, _paths.RoamingDataPath, _paths.LocalDataPath, toolPath: _paths.ToolPath);
-            if (!Common.IsDebugEnabled)
-                ErrorHandler.Report = Report;
 
             SetupPaths();
             SetupContainer();
@@ -128,11 +124,6 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         protected virtual void EndOv() => End().WaitAndUnwrapException();
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void Report(Exception ex) {
-            ExceptionReporting.Report(ex);
-        }
 
         protected virtual void ConfigureInstances() {
             CoreCheat.SetServices(Container.GetInstance<ICoreCheatImpl>());

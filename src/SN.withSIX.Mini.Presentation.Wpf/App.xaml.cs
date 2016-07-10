@@ -142,24 +142,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     "Unrecoverable error occurred");
 
                 Environment.Exit(1);
-                //ShowMessageboxEx(ex);
-            }
-
-            static void ShowMessageboxEx(Exception ex) {
-                var exInfo = KnownExceptions.FormatException(ex);
-                ShowDialog(ex, exInfo);
-                ShowDialog(ex, exInfo);
-            }
-
-            static void ShowDialog(Exception ex, string exInfo) {
-                new ExceptionDialogView {
-                    DataContext =
-                        new ExceptionDialogViewModel(exInfo) {
-                            Exception = ex,
-                            Message = ex.Message,
-                            Title = "An unhandled exception occurred"
-                        }
-                }.ShowDialog();
             }
         }
     }

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -100,6 +101,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));
+            if (ConfigurationManager.AppSettings["Logentries.Token"] == null)
+                ConfigurationManager.AppSettings["Logentries.Token"] = "e0dbaa42-f633-4df4-a6d2-a415c5e49fd0";
             SetupLogging();
             new AssemblyHandler().Register();
             SetupVersion();
@@ -125,9 +128,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }
 
-        public static void Main() {
-            LaunchWithNode();
-        }
+        public static void Main() => LaunchWithNode();
 
         static void HandleCommandMode(string[] arguments) {
             if (arguments.Any()) {
