@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
@@ -192,10 +193,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
 
                 mapConfig.CreateMap<ModSetDto, Collection>()
                     .ConstructUsing(input => _modSetRepository.GetOrCreate(input.Id))
-                    .ForMember(x => x.GameId, opt => {
-                        opt.MapFrom(x => x.GameUuid);
-                        opt.NullSubstitute(Collection.DefaultGameUuid);
-                    })
+                    .ForMember(x => x.GameId, opt => opt.ResolveUsing(x => x.GameUuid == Guid.Empty ? Collection.DefaultGameUuid : x.GameUuid))
                     .AfterMap((src, dst) => dst.IsFavorite = _settings.ModOptions.IsFavorite(dst));
 
                 /*            mapConfig.CreateMap<NetworkDto, Network>()
