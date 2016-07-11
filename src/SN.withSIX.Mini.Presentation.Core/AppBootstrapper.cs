@@ -94,7 +94,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected readonly Container Container;
         protected readonly IMutableDependencyResolver DependencyResolver;
         TaskPoolScheduler _cacheScheduler;
-        IInitializer[] _initializers;
+        IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
         private readonly Assembly[] _presentationAssemblies;
 
@@ -134,7 +134,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             RegisterToolServices();
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
-            _initializers = Container.GetAllInstances<IInitializer>().ToArray();
+            _initializers = Container.GetAllInstances<IInitializer>();
         }
 
         private void RegisterToolServices() {

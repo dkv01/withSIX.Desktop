@@ -70,9 +70,8 @@ namespace SN.withSIX.Core.Presentation.Extensions
             where T : class {
             if (lifestyle == null || lifestyle == Lifestyle.Transient)
                 return;
-            var serviceType = typeof (T);
             foreach (var t in pluginTypes)
-                container.Register(serviceType, t, lifestyle);
+                container.Register(t, t, lifestyle);
         }
 
         public static void RegisterPlugins<TImplements, TExport>(this Container container,
