@@ -180,9 +180,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             if (!_args.Any())
                 return false;
             var firstArgument = _args.First();
-            if (!firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://"))
-                return true;
-            return false;
+            return !firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://");
         }
 
         public async Task Startup(Func<Task> act) {
