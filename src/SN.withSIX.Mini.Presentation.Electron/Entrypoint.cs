@@ -87,6 +87,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
             SetupRegistry();
             var exe = Environment.GetCommandLineArgs().First();
+            if (!exe.EndsWith(".exe"))
+                exe = exe + ".exe";
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));

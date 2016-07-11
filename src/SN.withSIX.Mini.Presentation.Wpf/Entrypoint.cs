@@ -34,9 +34,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             Consts.ProductVersion = CommonBase.AssemblyLoader.GetInformationalVersion();
         }
 
-        static void SetupAssemblyLoader(IAbsoluteFilePath locationOverride = null) {
-            CommonBase.AssemblyLoader = new AssemblyLoader(typeof (Entrypoint).Assembly, locationOverride);
-        }
+        static void SetupAssemblyLoader() => CommonBase.AssemblyLoader = new AssemblyLoader(typeof (Entrypoint).Assembly);
 
         static void SetupRegistry() {
             var registry = new AssemblyRegistry();
