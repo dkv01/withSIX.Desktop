@@ -94,7 +94,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected readonly Container Container;
         protected readonly IMutableDependencyResolver DependencyResolver;
         TaskPoolScheduler _cacheScheduler;
-        IEnumerable<IInitializer> _initializers;
+        IInitializer[] _initializers;
         private Func<bool> _isPremium;
         private readonly Assembly[] _presentationAssemblies;
 
@@ -134,7 +134,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             RegisterToolServices();
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
-            _initializers = Container.GetAllInstances<IInitializer>();
+            _initializers = Container.GetAllInstances<IInitializer>().ToArray();
         }
 
         private void RegisterToolServices() {
@@ -422,7 +422,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             //AppDomain.CurrentDomain.GetAssemblies()
             //  .Where(x => !x.FullName.Contains("edge") && x.FullName.Contains("SN.withSIX"))
             //.Concat(new[] {typeof (App).Assembly}).Distinct();
-            Container.RegisterPlugins<IInitializer>(assemblies);
+            Container.RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(
                 () =>
