@@ -162,6 +162,8 @@ WebPluginInfo info) => true;
         void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser) {}
         public bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response) => false;
 
+        IResponseFilter IRequestHandler.GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response) => null;
+
         public void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
             IResponse response, UrlRequestStatus status, long receivedContentLength) {
         }

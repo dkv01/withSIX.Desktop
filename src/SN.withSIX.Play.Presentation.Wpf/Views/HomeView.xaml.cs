@@ -232,11 +232,9 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
 
     public class LifeSpanHandler : ILifeSpanHandler
     {
-        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl,
-            string targetFrameName,
-            WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo,
-            ref bool noJavascriptAccess,
-            out IWebBrowser newBrowser) {
+        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName,
+            WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo,
+            IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser) {
             windowInfo.X = 640;
             windowInfo.Y = 640;
 
