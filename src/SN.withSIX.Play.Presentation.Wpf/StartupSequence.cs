@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,6 +36,9 @@ namespace SN.withSIX.Play.Presentation.Wpf
         }
 
         static void InitializeEnvironment(string appName) {
+            if (ConfigurationManager.AppSettings["Logentries.Token"] == null)
+                ConfigurationManager.AppSettings["Logentries.Token"] = "35fdcd29-36a5-4f66-a19f-fe9094d86f72";
+
             SetupNlog.Initialize(appName);
             new SplashScreen(@"app.png").Show(true);
             new AssemblyHandler().Register();
