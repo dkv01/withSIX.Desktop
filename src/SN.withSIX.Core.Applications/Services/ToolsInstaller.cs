@@ -38,6 +38,9 @@ namespace SN.withSIX.Core.Applications.Services
             "cyglber-2-4-2.dll",
             "cygldap-2-4-2.dll",
             "cygncursesw-10.dll",
+            "cygnghttp2-14.dll",
+            "cygpopt-0.dll",
+            "cygpsl-5.dll",
             "cygreadline7.dll",
             "cygsasl2-3.dll",
             //"cygsqlite3-0.dll", // srsly?
@@ -45,11 +48,8 @@ namespace SN.withSIX.Core.Applications.Services
             "cygssl-1.0.0.dll",
             "cygssp-0.dll",
             "cygstdc++-6.dll",
-            "cygwin1.dll",
-            "cygnghttp2-14.dll",
-            "cygpsl-5.dll",
             "cygunistring-2.dll",
-            "cygpopt-0.dll",
+            "cygwin1.dll",
             "cygz.dll",
             "lftp.exe",
             "rsync.exe",
@@ -65,6 +65,7 @@ namespace SN.withSIX.Core.Applications.Services
             "msys-intl-8.dll",
             "msys-minires.dll",
             "msys-popt-0.dll",
+            "msys-regex-1.dll",
             "msys-ssl-1.0.0.dll",
             "msys-termcap-0.dll",
             "msys-z.dll",
@@ -77,11 +78,12 @@ namespace SN.withSIX.Core.Applications.Services
             "tar.exe"
         };
         static readonly string[] pbodll = {
-            "DePbo64.dll",
             "deOgg64.dll",
+            "DePbo64.dll",
             "DeRapify.exe",
             "ExtractPbo.exe",
             "MakePbo.exe",
+            "mfc110.dll",
             "Rapify.exe"
         };
         static readonly string[] tools = {
