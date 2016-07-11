@@ -110,7 +110,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 Cheat.Args = Api.Args;
 
             ErrorHandler.Handler = new NodeErrorHandler(Api);
-            HandleCommandMode(_args);
+            AppBootstrapper.HandleCommandMode(_args);
             LaunchAppThread();
         }
 
@@ -124,14 +124,6 @@ namespace SN.withSIX.Mini.Presentation.Electron
         }
 
         public static void Main() => LaunchWithNode();
-
-        static void HandleCommandMode(string[] arguments) {
-            if (arguments.Any()) {
-                var firstArgument = arguments.First();
-                if (!firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://"))
-                    AppBootstrapper.CommandMode = true;
-            }
-        }
 
         static void SetupLogging() {
             SetupNlog.Initialize(Consts.ProductTitle);

@@ -27,8 +27,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     public static class Entrypoint
     {
         //static AppBootstrapper _bs;
-        public static bool CommandMode { get; private set; }
-
         private static void SetupVersion() {
             Consts.InternalVersion = CommonBase.AssemblyLoader.GetEntryVersion().ToString();
             Consts.ProductVersion = CommonBase.AssemblyLoader.GetInformationalVersion();
@@ -65,24 +63,16 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             var arguments = Environment.GetCommandLineArgs().Skip(1).ToArray();
             Init(arguments.CombineParameters());
             //Cheat.Args = new ArgsO { Port =, WorkingDirectory = Directory.GetCurrentDirectory() } // todo;
-            HandleCommandMode(arguments);
+            AppBootstrapper.HandleCommandMode(arguments);
             try {
                 HandleSquirrel(arguments);
             } catch (Exception ex) {
                 MainLog.Logger.FormattedErrorException(ex, "An error occurred during processing startup");
                 throw;
             }
-            if (!CommandMode)
+            if (!AppBootstrapper.CommandMode)
                 HandleSingleInstance();
             StartApp();
-        }
-
-        static void HandleCommandMode(string[] arguments) {
-            if (arguments.Any()) {
-                var firstArgument = arguments.First();
-                if (!firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://"))
-                    CommandMode = true;
-            }
         }
 
         static void SetupLogging() {

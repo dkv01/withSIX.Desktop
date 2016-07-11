@@ -60,11 +60,10 @@ using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using Splat;
 using IDependencyResolver = ShortBus.IDependencyResolver;
-using Initializer = SN.withSIX.Mini.Infra.Api.Initializer;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
-    public class AppBootstrapper : IDisposable
+    public abstract class AppBootstrapper : IDisposable
     {
         static readonly IAbsoluteDirectoryPath assemblyPath =
             CommonBase.AssemblyLoader.GetNetEntryPath();
@@ -112,7 +111,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             SetupContainer();
         }
 
-        public static bool CommandMode { get; set; }
+        public static bool CommandMode { get; private set; }
 
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 
@@ -172,6 +171,14 @@ namespace SN.withSIX.Mini.Presentation.Core
         void SetupPaths() {
             Directory.CreateDirectory(_paths.LocalDataPath.ToString());
             Directory.CreateDirectory(_paths.RoamingDataPath.ToString());
+        }
+
+        public static void HandleCommandMode(string[] arguments) {
+            if (arguments.Any()) {
+                var firstArgument = arguments.First();
+                if (!firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://"))
+                    CommandMode = true;
+            }
         }
 
         public async Task Startup(Func<Task> act) {
