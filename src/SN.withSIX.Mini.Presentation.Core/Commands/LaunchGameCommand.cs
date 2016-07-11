@@ -26,7 +26,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Commands
         public LaunchGameCommand(IRestarter restarter) {
             _restarter = restarter;
             IsCommand(UpdaterCommands.LaunchGame, "Launch a selected game.");
-            HasRequiredOption("gamePath=", "Path the the Game Executable", a => _spec.GamePath = a);
+            HasRequiredOption("gamePath=", "Path to the Game Executable", a => _spec.GamePath = a);
             HasOption("workingDirectory=", "The directory you wish to launch Game in.",
                 a => _spec.WorkingDirectory = a);
             HasOption("steamPath=", "Path to Steam", a => _spec.SteamPath = a?.ToAbsoluteDirectoryPath());
