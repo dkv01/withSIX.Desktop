@@ -54,7 +54,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             => new ProcessStartInfoBuilder(Common.Paths.ServiceExePath,
                 args.CombineParameters()) {
                     AsAdministrator = spec.LaunchAsAdministrator,
-                    WorkingDirectory = spec.WorkingDirectory
+                    WorkingDirectory = Common.Paths.ServiceExePath.ParentDirectoryPath
                 }.Build();
 
         async Task<Process> LaunchUpdaterProcess(LaunchGameInfoBase spec, ProcessStartInfo startInfo) {
