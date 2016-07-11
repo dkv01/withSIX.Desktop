@@ -576,16 +576,6 @@
     <Reference Include="SimpleInjector.AutoRegistration">
       <HintPath>..\packages\SimpleInjector.AutoRegistration.1.0.5\lib\net45\SimpleInjector.AutoRegistration.dll</HintPath>
     </Reference>
-    <Reference Include="SmartAssembly.Attributes, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\SmartAssembly.Attributes.dll</HintPath>
-    </Reference>
-    <Reference Include="SmartAssembly.ReportException, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\SmartAssembly.ReportException.dll</HintPath>
-    </Reference>
-    <Reference Include="SmartAssembly.ReportUsage, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL" />
-    <Reference Include="SmartExceptionsCore, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL" />
     <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -1498,9 +1488,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\build\SmartAssembly.targets" />
   <Target Name="AfterBuild" Condition="$(Configuration.Contains('Release'))">
-    <CallTarget Condition=" '$(RunSmartAssembly)' != '' " Targets="SAAfterBuild" />
     <PropertyGroup>
       <ReferenceLib>obf\squirrel-$(AssemblyName).exe</ReferenceLib>
       <BaseDir>$(MSBuildProjectDirectory)</BaseDir>
