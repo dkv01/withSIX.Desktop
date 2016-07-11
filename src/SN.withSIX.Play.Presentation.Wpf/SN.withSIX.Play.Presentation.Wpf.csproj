@@ -1486,7 +1486,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="AfterBuild" Condition="$(Configuration.Contains('Release'))">
     <PropertyGroup>
-      <ReferenceLib>obf\squirrel-$(AssemblyName).exe</ReferenceLib>
+      <ReferenceLib>$(AssemblyName).exe</ReferenceLib>
       <BaseDir>$(MSBuildProjectDirectory)</BaseDir>
       <NuGetApp>$(SolutionDir).nuGet\NuGet.exe</NuGetApp>
       <SquirrelApp>$(SolutionDir)packages\squirrel.windows.1.4.0\tools\squirrel.com</SquirrelApp>
