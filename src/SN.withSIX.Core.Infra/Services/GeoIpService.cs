@@ -13,8 +13,8 @@ namespace SN.withSIX.Core.Infra.Services
         readonly LookupService _lookupService;
         readonly ResourceService _resources;
 
-        public GeoIpService(ResourceService resources) {
-            _resources = resources;
+        public GeoIpService() {
+            _resources = new ResourceService();
             _lookupService = new LookupService(GeoIpDb(), LookupService.GEOIP_MEMORY_CACHE);
         }
 
