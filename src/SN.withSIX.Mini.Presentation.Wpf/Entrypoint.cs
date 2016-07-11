@@ -26,6 +26,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 {
     public static class Entrypoint
     {
+        private static string[] _args;
         //static AppBootstrapper _bs;
         private static void SetupVersion() {
             Consts.InternalVersion = CommonBase.AssemblyLoader.GetEntryVersion().ToString();
@@ -41,11 +42,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             AppDomain.CurrentDomain.AssemblyResolve += registry.CurrentDomain_AssemblyResolve;
         }
 
-        private static void Init(string arguments) {
+        private static void Init() {
             Common.AppCommon.ApplicationName = Consts.InternalTitle; // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +
-                arguments);
+                _args.CombineParameters());
             Common.IsMini = true;
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }
@@ -60,12 +61,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             SetupLogging();
             new AssemblyHandler().Register();
             SetupVersion();
-            var arguments = Environment.GetCommandLineArgs().Skip(1).ToArray();
-            Init(arguments.CombineParameters());
+            _args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            Init();
             //Cheat.Args = new ArgsO { Port =, WorkingDirectory = Directory.GetCurrentDirectory() } // todo;
-            AppBootstrapper.HandleCommandMode(arguments);
             try {
-                HandleSquirrel(arguments);
+                HandleSquirrel();
             } catch (Exception ex) {
                 MainLog.Logger.FormattedErrorException(ex, "An error occurred during processing startup");
                 throw;
@@ -86,8 +86,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 #endif
         }
 
-        static void HandleSquirrel(IReadOnlyCollection<string> arguments)
-            => new SquirrelUpdater().HandleStartup(arguments);
+        static void HandleSquirrel() => new SquirrelUpdater().HandleStartup(_args);
 
         static void HandleSingleInstance() {
             if (

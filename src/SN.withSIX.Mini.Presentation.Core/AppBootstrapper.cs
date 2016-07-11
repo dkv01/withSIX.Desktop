@@ -92,17 +92,20 @@ namespace SN.withSIX.Mini.Presentation.Core
         readonly Paths _paths;
         protected readonly Container Container;
         protected readonly IMutableDependencyResolver DependencyResolver;
+        private readonly string[] _args;
         TaskPoolScheduler _cacheScheduler;
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
         private readonly Assembly[] _presentationAssemblies;
 
-        protected AppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver) {
-            _applicationAssemblies = GetApplicationAssemblies().ToArray();
-            _presentationAssemblies = GetPresentationAssemblies().ToArray();
-
+        protected AppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver, string[] args) {
             Container = container;
             DependencyResolver = dependencyResolver;
+            _args = args;
+            CommandMode = DetermineCommandMode();
+
+            _applicationAssemblies = GetApplicationAssemblies().ToArray();
+            _presentationAssemblies = GetPresentationAssemblies().ToArray();
             _paths = new Paths();
 
             Common.Paths.SetPaths(null, _paths.RoamingDataPath, _paths.LocalDataPath, toolPath: _paths.ToolPath);
@@ -173,15 +176,23 @@ namespace SN.withSIX.Mini.Presentation.Core
             Directory.CreateDirectory(_paths.RoamingDataPath.ToString());
         }
 
-        public static void HandleCommandMode(string[] arguments) {
-            if (arguments.Any()) {
-                var firstArgument = arguments.First();
-                if (!firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://"))
-                    CommandMode = true;
-            }
+        bool DetermineCommandMode() {
+            if (!_args.Any())
+                return false;
+            var firstArgument = _args.First();
+            if (!firstArgument.StartsWith("-") && !firstArgument.StartsWith("syncws://"))
+                return true;
+            return false;
         }
 
         public async Task Startup(Func<Task> act) {
+            if (CommandMode)
+                RunCommands();
+            else
+                await StartupUiMode(act).ConfigureAwait(false);
+        }
+
+        private async Task StartupUiMode(Func<Task> act) {
             try {
                 var dbContextFactory = Container.GetInstance<IDbContextFactory>();
                 using (var scope = dbContextFactory.Create()) {
@@ -409,7 +420,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 */
         }
 
-        public void RunCommands(string[] args) => Environment.Exit(GetCommandMode().RunCommandsAndLog(args));
+        void RunCommands() => Environment.Exit(GetCommandMode().RunCommandsAndLog(_args));
 
         protected virtual IEnumerable<Assembly> GetPresentationAssemblies()
             => pluginAssemblies.Concat(platformAssemblies).Concat(globalPresentationAssemblies);

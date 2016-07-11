@@ -52,8 +52,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     {
         IMiniMainWindowViewModel _mainVm;
 
-        internal WpfAppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver)
-            : base(container, dependencyResolver) {
+        internal WpfAppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver, string[] args)
+            : base(container, dependencyResolver, args) {
             SetupRx();
             SetupCM();
         }

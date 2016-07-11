@@ -16,7 +16,6 @@ using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
 using ILogger = Splat.ILogger;
@@ -40,7 +39,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             try {
                 await Task.Factory.StartNew(async () => {
                     // todo; ex handling
-                    _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable);
+                    _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable, _args);
                     await StartupInternal().ConfigureAwait(false);
                 }, TaskCreationOptions.LongRunning).Unwrap().ConfigureAwait(false);
             } catch (Exception ex) {
@@ -64,13 +63,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
                  */
         }
 
-        private static async Task StartupInternal() {
-            // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
-            if (AppBootstrapper.CommandMode)
-                _bootstrapper.RunCommands(_args);
-            else
-                await _bootstrapper.Startup(() => TaskExt.Default).ConfigureAwait(false);
-        }
+        private static Task StartupInternal() => _bootstrapper.Startup(() => TaskExt.Default);
 
         private static void SetupVersion() {
             Consts.InternalVersion = CommonBase.AssemblyLoader.GetEntryVersion().ToString();
@@ -105,20 +98,19 @@ namespace SN.withSIX.Mini.Presentation.Electron
             Consts.InternalVersion += $" (runtime: {Api.Version}, engine: {Consts.ProductVersion})";
             Consts.ProductVersion = Api.Version;
             _args = Environment.GetCommandLineArgs().Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray();
-            Init(_args.CombineParameters());
+            Init();
             if (Api.Args != null)
                 Cheat.Args = Api.Args;
 
             ErrorHandler.Handler = new NodeErrorHandler(Api);
-            AppBootstrapper.HandleCommandMode(_args);
             LaunchAppThread();
         }
 
-        private static void Init(string arguments) {
+        private static void Init() {
             Common.AppCommon.ApplicationName = Consts.InternalTitle; // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +
-                arguments);
+                _args.CombineParameters());
             Common.IsMini = true;
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }

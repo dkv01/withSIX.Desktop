@@ -74,28 +74,22 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
-            _bootstrapper = new WpfAppBootstrapper(new Container(), Locator.CurrentMutable);
+            _bootstrapper = new WpfAppBootstrapper(new Container(), Locator.CurrentMutable,
+                Environment.GetCommandLineArgs().Skip(1).ToArray());
             _cmBs = new CMBootstrapper(_bootstrapper);
             Task.Factory.StartNew(StartupInternal, TaskCreationOptions.LongRunning).Unwrap().WaitSpecial();
         }
 
         private async Task StartupInternal() {
+            AttachConsole(-1);
             // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
-            if (Entrypoint.CommandMode)
-                RunCommands();
-            else
-                await _bootstrapper.Startup(async () => {
-                    await CreateMainWindow();
-                }).ConfigureAwait(false);
+            await _bootstrapper.Startup(async () => {
+                await CreateMainWindow();
+            }).ConfigureAwait(false);
         }
 
         [DllImport("Kernel32.dll")]
         public static extern bool AttachConsole(int processId);
-
-        void RunCommands() {
-            AttachConsole(-1);
-            _bootstrapper.RunCommands(Environment.GetCommandLineArgs().Skip(1).ToArray());
-        }
 
         DispatcherOperation CreateMainWindow() {
             var miniVm = _bootstrapper.GetMainWindowViewModel();
