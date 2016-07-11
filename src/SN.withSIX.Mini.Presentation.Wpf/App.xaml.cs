@@ -81,13 +81,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private Task StartupInternal() {
-            AttachConsole(-1);
             // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
             return _bootstrapper.Startup(async () => { await CreateMainWindow(); });
         }
-
-        [DllImport("Kernel32.dll")]
-        public static extern bool AttachConsole(int processId);
 
         DispatcherOperation CreateMainWindow() {
             var miniVm = _bootstrapper.GetMainWindowViewModel();

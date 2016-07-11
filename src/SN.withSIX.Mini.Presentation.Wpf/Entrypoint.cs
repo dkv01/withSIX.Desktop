@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -52,9 +53,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         [STAThread]
-        public static void Main() => LaunchWithoutNode();
+        public static void Main() {
+            AttachConsole(-1);
 
-        private static void LaunchWithoutNode() {
             SetupRegistry();
             new RuntimeCheckWpf().Check();
             SetupAssemblyLoader();
@@ -74,6 +75,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 HandleSingleInstance();
             StartApp();
         }
+
+        [DllImport("Kernel32.dll")]
+        public static extern bool AttachConsole(int processId);
 
         static void SetupLogging() {
             SetupNlog.Initialize(Consts.ProductTitle);
