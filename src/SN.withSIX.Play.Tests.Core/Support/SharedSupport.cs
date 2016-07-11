@@ -47,7 +47,7 @@ namespace SN.withSIX.Play.Tests.Core.Support
             DomainEvilGlobal.Settings = new UserSettings();
             Tools.RegisterServices(new ToolsServices(new ProcessManager(),
                 new Lazy<IWCFClient>(() => new WCFClient()),
-                new Lazy<IGeoIpService>(() => new GeoIpService(new ResourceService())), new CompressionUtil()));
+                new Lazy<IGeoIpService>(() => new GeoIpService()), new CompressionUtil()));
             ReSetupTools();
 
             if (!SingleSetup) {
