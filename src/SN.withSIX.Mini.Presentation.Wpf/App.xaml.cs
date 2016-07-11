@@ -80,12 +80,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             Task.Factory.StartNew(StartupInternal, TaskCreationOptions.LongRunning).Unwrap().WaitSpecial();
         }
 
-        private async Task StartupInternal() {
+        private Task StartupInternal() {
             AttachConsole(-1);
             // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
-            await _bootstrapper.Startup(async () => {
-                await CreateMainWindow();
-            }).ConfigureAwait(false);
+            return _bootstrapper.Startup(async () => { await CreateMainWindow(); });
         }
 
         [DllImport("Kernel32.dll")]
