@@ -5,7 +5,7 @@
 using System;
 using System.ComponentModel.Composition;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Games;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
@@ -25,7 +25,7 @@ namespace SN.withSIX.Play.Applications.UseCases
         public Guid ID { get; }
     }
 
-    [StayPublic]
+    
     public class ShowGameSettingsQueryHandler : IRequestHandler<ShowGameSettingsQuery, GameSettingsOverlayViewModel>
     {
         readonly IGameContext _context;
@@ -52,28 +52,28 @@ namespace SN.withSIX.Play.Applications.UseCases
         }
 
         // TODO: Generate these methods more dynamically...
-        [DoNotObfuscate]
+        
         GameSettingsDataModel MapSettings(GameSettings settings) => _mapper.Map<GameSettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         RealVirtualityGameSettingsDataModel MapSettings(RealVirtualitySettings settings) => _mapper.Map<RealVirtualityGameSettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         ArmaSettingsDataModel MapSettings(ArmaSettings settings) => _mapper.Map<ArmaSettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         Arma2OaSettingsDataModel MapSettings(Arma2OaSettings settings) => _mapper.Map<Arma2OaSettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         Arma2CoSettingsDataModel MapSettings(Arma2CoSettings settings) => _mapper.Map<Arma2CoSettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         Arma3SettingsDataModel MapSettings(Arma3Settings settings) => _mapper.Map<Arma3SettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         HomeWorld2SettingsDataModel MapSettings(Homeworld2Settings settings) => _mapper.Map<HomeWorld2SettingsDataModel>(settings);
 
-        [DoNotObfuscate]
+        
         GTAVSettingsDataModel MapSettings(GTAVSettings settings) => _mapper.Map<GTAVSettingsDataModel>(settings);
     }
 }

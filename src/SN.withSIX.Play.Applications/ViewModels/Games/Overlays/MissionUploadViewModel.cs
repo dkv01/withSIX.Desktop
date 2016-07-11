@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -18,7 +18,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class MissionUploadViewModel : OverlayViewModelBase
     {
         const string AllowedNameCharacters = "abcdefghijklmnopqrstuvwxyz0123456789_ ";

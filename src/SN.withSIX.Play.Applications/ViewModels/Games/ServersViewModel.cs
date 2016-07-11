@@ -12,8 +12,8 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -37,7 +37,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
-    [DoNotObfuscate]
+    
     public class ServersViewModel : LibraryModuleViewModel,
         IHandle<ServersAdded>, IHandle<ServersUpdated>,
         IHandle<GameContentAfterSynced>, IHandle<GameLaunchedEvent>,
@@ -271,10 +271,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                 .Skip(1)
                 .Subscribe(x => onActivate.Execute(null));
 
-            this.WhenAnyValue(x => x.IsActive)
-                .Skip(1)
-                .Subscribe(value => UsageCounter.ReportUsage("Tab Servers"));
-
             this.WhenAnyValue(x => x.ServerList.ServerQueryQueue.State)
                 .Subscribe(x => ProgressState = x);
 
@@ -345,12 +341,11 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             return ServerFilter.FilterChanged.Subscribe(x => RefreshFilterCommand.Execute(null));
         }
 
-        [DoNotObfuscate, SmartAssembly.Attributes.ReportUsage]
         public void SelectNoServer() {
             LibraryVM.ActiveItem = null;
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void SwitchQuickPlayAction(object x) {
             QuickPlayEnabled = !QuickPlayEnabled;
         }
@@ -385,19 +380,18 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             ServersCount = list.Length;
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public void ServerInfo(Server server) {
             ShowOverlay(ServerInfoOverlay);
         }
 
-        [SmartAssembly.Attributes.ReportUsage, DoNotObfuscate]
         public async void Abort() {
             await AbortInternal().ConfigureAwait(false);
         }
 
         Task AbortInternal() => Task.Run(() => ServerList.AbortSync());
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         async Task QAction() {
             var servers = _settings.ServerOptions.QuickPlayApplyServerFilters
                 ? GetFilteredServers()
@@ -436,17 +430,14 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             return vs == null ? new Server[0] : vs.ToArray<Server>();
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         void ShowAddServer() {
             IsAddServerVisible = !IsAddServerVisible;
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         async Task AddServerOK() {
             var str = AddServerInput;
 
             if (String.IsNullOrWhiteSpace(str)) {
-                UsageCounter.ReportUsage("Dialog - Specify a valid address");
                 await _dialogManager.MessageBox(
                     new MessageBoxDialogParams(
                         "Please specify a valid ip address or hostname, specify the port separately down below"));
@@ -457,7 +448,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             try {
                 ip = SAStuff.GetValidIp(str);
             } catch (SocketException e) {
-                UsageCounter.ReportUsage("Dialog - Specify a valid address");
                 await
                     _dialogManager.MessageBox(
                         new MessageBoxDialogParams(
@@ -468,7 +458,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
             var port = AddServerPort;
             if (port < 1 || port > IPEndPoint.MaxPort) {
-                UsageCounter.ReportUsage("Dialog - Specify a valid port");
                 await _dialogManager.MessageBox(new MessageBoxDialogParams("Please specify a valid port"));
                 return;
             }
@@ -497,7 +486,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             return null;
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void CancelAddServer() {
             AddServerInput = null;
             IsAddServerVisible = false;

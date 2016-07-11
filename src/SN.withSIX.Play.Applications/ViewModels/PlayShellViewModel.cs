@@ -16,8 +16,8 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -52,7 +52,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels
 {
-    [DoNotObfuscate]
+    
     public class PlayShellViewModel : WindowBase, IPlayShellViewModel,
         IHandle<NewVersionDownloaded>,
         IHandle<GameContentInitialSynced>,
@@ -328,12 +328,11 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
         bool IsOverlayEnabled() => SubOverlay != null || Overlay.ActiveItem != null;
 
-        [DoNotObfuscate, SmartAssembly.Attributes.ReportUsage]
         public void ToggleUpdater() {
             StatusFlyout.IsOpen = !StatusFlyout.IsOpen;
         }
 
-        [DoNotObfuscate]
+        
         public void GoLatestNews() {
             _eventBus.PublishOnCurrentThread(new RequestOpenBrowser(Home.GetLatestNewsLink()));
         }
@@ -519,7 +518,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
                 if (p.Contains("lockdown=")) {
                     if (Common.AppCommon.IsBusy) {
-                        UsageCounter.ReportUsage("Dialog - Cannot restart in lockdown mode");
                         await _dialogManager.MessageBox(
                             new MessageBoxDialogParams("Cannot restart in lockdown mode, currently busy!\n" + p));
                         return;
@@ -563,7 +561,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         static bool IsWebUrl(string p) => new[] { "http://", "https://" }
     .Any(x => p.StartsWith(x, StringComparison.OrdinalIgnoreCase));
 
-        [DoNotObfuscate]
+        
         public void LaunchApp(ExternalApp app) {
             app.Launch(_processManager);
         }

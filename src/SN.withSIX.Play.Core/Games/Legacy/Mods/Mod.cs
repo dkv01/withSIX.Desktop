@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -25,7 +25,7 @@ using SN.withSIX.Sync.Core.Legacy.SixSync;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
-    [DoNotObfuscate]
+    
     public class Mod : HostedContent, IMod, IComparePK<Mod>, IEnableLogging
     {
         static readonly Uri modUrl2 = Tools.Transfer.JoinUri(CommonUrls.SuUrl, "api/v1/mods");
@@ -383,7 +383,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             set { SetProperty(ref _mirrors, value); }
         }
 
-        [SmartAssembly.ReportUsage.ReportUsage]
         public virtual void OpenChangelog() {
             BrowserHelper.TryOpenUrlIntegrated(GetUrl());
         }

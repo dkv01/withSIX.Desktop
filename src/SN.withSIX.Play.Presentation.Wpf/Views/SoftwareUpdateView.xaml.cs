@@ -5,11 +5,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using CefSharp;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
-    [DoNotObfuscate]
+    
     public partial class SoftwareUpdateView : UserControl
     {
         bool _first = true;

@@ -3,13 +3,13 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Overlays;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class GameInfoOverlayViewModel : OverlayViewModelBase, ISingleton
     {
         readonly Lazy<GamesViewModel> _gvm;
@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 
         public GamesViewModel GVM => _gvm.Value;
 
-        [DoNotObfuscate]
+        
         public void Purchase() {
             GVM.PurchaseGame(GVM.SelectedItem);
         }

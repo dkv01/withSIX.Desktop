@@ -4,7 +4,7 @@
 
 using System;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Overlays;
@@ -12,7 +12,7 @@ using SN.withSIX.Play.Core;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class NotesViewModel : OverlayViewModelBase
     {
         IHaveNotes _item;
@@ -30,7 +30,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
             set { SetProperty(ref _item, value); }
         }
 
-        [ReportUsage]
+
         void CloseNote(object x) {
             TryClose(true);
         }

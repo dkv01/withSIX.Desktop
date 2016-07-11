@@ -3,13 +3,13 @@
 // </copyright>
 
 using System.Linq;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Keys;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class KeyCommand : BaseCommand
     {
         readonly SshKeyFactory _keyFactory;

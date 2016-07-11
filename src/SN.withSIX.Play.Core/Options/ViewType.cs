@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.ComponentModel;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Core.Options
 {
-    [DoNotObfuscateType]
+
     public enum ViewType
     {
         [Description("Card view")] List,

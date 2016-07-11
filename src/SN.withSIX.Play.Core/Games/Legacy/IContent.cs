@@ -6,7 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Entities;
@@ -37,7 +37,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         IHierarchicalLibraryItem SelectedItem { get; set; }
     }
 
-    [DoNotObfuscateType, Obsolete("Can be removed once ToggleableModProxy/IMod is changed")]
+    [Obsolete("Can be removed once ToggleableModProxy/IMod is changed")]
     public interface IContent : IHaveNotes, IFavorite, IHaveTimestamps, IComparePK<SyncBase>, INotifyPropertyChanged,
         ISearchScore, IToggleFavorite, IHierarchicalLibraryItem, IHaveId<Guid>
     {

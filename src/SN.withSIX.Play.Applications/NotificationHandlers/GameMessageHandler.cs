@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.Services;
@@ -15,7 +15,7 @@ using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Play.Applications.NotificationHandlers
 {
-    [StayPublic]
+    
     public class GameMessageHandler : INotificationHandler<ModPathChangedEvent>,
         INotificationHandler<ModAndSynqPathsChangedEvent>, INotificationHandler<SynqPathChangedEvent>
     {

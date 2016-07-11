@@ -12,7 +12,7 @@ using Caliburn.Micro;
 using Microsoft.Win32;
 using NDepend.Path;
 using ShortBus;
-using SmartAssembly.ReportUsage;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -283,7 +283,6 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        [ReportUsage("ApplySelfUpdate")]
         bool ApplyMSI() {
             using (var p = new Process {
                 StartInfo = {
@@ -345,7 +344,6 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        [ReportUsage("ApplySelfUpdateSingle")]
         bool ApplySingleExeMode(IAbsoluteFilePath exePath) {
             Tools.FileUtil.Ops.Move(Destination, exePath);
             CleanupInfo();

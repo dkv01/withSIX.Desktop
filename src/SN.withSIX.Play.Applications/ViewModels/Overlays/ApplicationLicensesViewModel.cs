@@ -4,12 +4,12 @@
 
 using System;
 using System.IO;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
-    [DoNotObfuscate]
+    
     public class ApplicationLicensesViewModel : OverlayViewModelBase
     {
         public ApplicationLicensesViewModel(IResourceService resources) {

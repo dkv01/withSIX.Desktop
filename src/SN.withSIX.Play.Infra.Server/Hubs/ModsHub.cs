@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Infra.Server.UseCases;
 
 namespace SN.withSIX.Play.Infra.Server.Hubs
 {
-    [DoNotObfuscateType]
+
     public class ModsHub : BaseHub
     {
         public ModsHub(IMediator mediator) : base(mediator) {}

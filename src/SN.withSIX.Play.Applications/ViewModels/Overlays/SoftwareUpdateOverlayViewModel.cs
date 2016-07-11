@@ -5,7 +5,7 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.Services;
@@ -13,7 +13,7 @@ using SN.withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
-    [DoNotObfuscate]
+    
     public abstract class SoftwareUpdateOverlayViewModelBase : OverlayViewModelBase
     {
         bool _canCheckForUpdates;
@@ -31,14 +31,14 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
             set { SetProperty(ref _canCheckForUpdates, value); }
         }
 
-        [DoNotObfuscate]
+        
         public void ViewChangelog() {
             TryClose();
             BrowserHelper.TryOpenUrlIntegrated(CommonUrls.SuclUrl);
         }
     }
 
-    [DoNotObfuscate]
+    
     public class SoftwareUpdateOverlayViewModel : SoftwareUpdateOverlayViewModelBase
     {
         public SoftwareUpdateOverlayViewModel(SettingsViewModel settingsViewModel, ISoftwareUpdate softwareUpdate)
@@ -52,7 +52,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 
         public ISoftwareUpdate SoftwareUpdate { get; }
 
-        [DoNotObfuscate]
+        
         public async void CheckForUpdates() {
             CanCheckForUpdates = false;
             try {
@@ -62,14 +62,14 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
             }
         }
 
-        [ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void Restart() {
             SoftwareUpdate.UpdateAndExitIfNotBusy(true);
         }
 
-        [ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void InstallSingleExe() {
             SoftwareUpdate.InstallAndExitIfNotBusy();
         }

@@ -4,18 +4,18 @@
 
 using System;
 using System.Runtime.Serialization;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     public abstract class RelationDtoBase
     {
         [DataMember]
         public string Uuid { get; set; }
     }
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     public abstract class NewRelationDtoBase
     {
         [DataMember]

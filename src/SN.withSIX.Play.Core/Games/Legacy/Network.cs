@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {
-    [DoNotObfuscate]
+    
     public class Network : SyncBase
     {
         List<Mirror> _mirrors = new List<Mirror>();

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Windows.Controls;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public partial class MissionUploadView : UserControl
     {
         public MissionUploadView() {

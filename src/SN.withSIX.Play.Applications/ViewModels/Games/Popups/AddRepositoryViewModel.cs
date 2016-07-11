@@ -10,7 +10,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -28,7 +28,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Popups
         ReactiveCommand<Unit> AddRepoCommand { get; }
     }
 
-    [DoNotObfuscate]
+    
     public class AddRepositoryViewModel : PopupBase, IAddRepositoryViewModel
     {
         readonly IContentManager _contentManager;

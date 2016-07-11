@@ -7,13 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Presentation.Console.UseCases;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class CleanCommand : BaseCommandAsync
     {
         readonly IMediator _mediator;

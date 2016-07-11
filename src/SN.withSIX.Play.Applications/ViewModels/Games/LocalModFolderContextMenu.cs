@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
@@ -20,17 +20,17 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Contract.Requires<ArgumentNullException>(library != null);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder)]
         public void ShowInExplorer(ContentLibraryItemViewModel<LocalModsContainer> contentItem) {
             Tools.FileUtil.OpenFolderInExplorer(contentItem.Model.Path);
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void EditLocation(ContentLibraryItemViewModel<LocalModsContainer> contentItem) {
             Library.MoveLocalModDirectory(contentItem);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public Task RemoveLocation(ContentLibraryItemViewModel contentItem) => contentItem.Remove();
 
         protected override void UpdateItemsFor(ContentLibraryItemViewModel<LocalModsContainer> lm) {

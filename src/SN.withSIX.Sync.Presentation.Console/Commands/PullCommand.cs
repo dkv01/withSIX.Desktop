@@ -2,14 +2,14 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class PullCommand : BaseCommand
     {
         readonly IRsyncLauncher _rsyncLauncher;

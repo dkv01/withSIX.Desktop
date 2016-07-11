@@ -3,14 +3,14 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Presentation.Console.Services;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class ToolsCommand : BaseCommandAsync
     {
         readonly IToolsInstaller _toolsInstaller;

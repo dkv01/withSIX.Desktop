@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -18,7 +18,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
-    [DoNotObfuscate]
+    
     public class AppOverlayViewModel : OverlayViewModelBase
     {
         readonly IDialogManager _dialogManager;

@@ -7,20 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using AutoMapper;
-using AutoMapper.Mappers;
 using ManyConsole;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportException;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Sync.Presentation.Console.Commands;
 
 namespace SN.withSIX.Sync.Presentation.Console
 {
-    [DoNotObfuscateType]
     class Program : IConsoleLauncher
     {
         const string AppName = "Synq";
@@ -49,8 +44,6 @@ namespace SN.withSIX.Sync.Presentation.Console
 
             if (!Common.Flags.Merged)
                 return;
-
-            ExceptionReporting.Report(e);
         }
 
         [STAThread]

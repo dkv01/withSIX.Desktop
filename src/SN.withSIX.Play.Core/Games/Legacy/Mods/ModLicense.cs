@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
@@ -27,13 +27,13 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         }
     }
 
-    [DoNotObfuscate]
+    
     public class UserDeclinedLicenseException : Exception
     {
         public UserDeclinedLicenseException(string message) : base(message) {}
     }
 
-    [DoNotObfuscate]
+    
     public class LicenseRetrievalException : Exception
     {
         public LicenseRetrievalException(string message) : base(message) {}

@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -24,20 +24,20 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             _gamesViewModel.ShowInfo(game);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon)]
         public void UseGame(GameDataModel entity) {
             _gamesViewModel.UseGame(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick)]
         public Task LaunchGame(GameDataModel entity) => _gamesViewModel.LaunchNow(entity);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Settings), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Settings)]
         public void GameSettings(GameDataModel entity) {
             _gamesViewModel.ShowSettings(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder)]
         public void OpenGameFolder(GameDataModel entity) {
             _gamesViewModel.OpenGameFolder(entity);
         }

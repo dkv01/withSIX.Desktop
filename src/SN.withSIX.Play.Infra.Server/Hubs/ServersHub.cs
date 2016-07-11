@@ -5,12 +5,12 @@
 using System.Net;
 using System.Threading.Tasks;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Infra.Services;
 
 namespace SN.withSIX.Play.Infra.Server.Hubs
 {
-    [DoNotObfuscateType]
+
     public class ServersHub : BaseHub
     {
         public ServersHub(IMediator mediator) : base(mediator) {}

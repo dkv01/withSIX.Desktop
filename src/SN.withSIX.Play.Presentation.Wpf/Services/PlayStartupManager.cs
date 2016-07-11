@@ -12,7 +12,6 @@ using Microsoft.Win32;
 using ReactiveUI;
 using ShortBus;
 using SimpleInjector;
-using SmartAssembly.ReportUsage;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
@@ -22,7 +21,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Play.Applications;
@@ -182,13 +180,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             Cache.ImageFiles = _imageFileCache;
         }
 
-/*
-        public void 3() {
-            if (!string.IsNullOrWhiteSpace(_settings.AccountOptions.AccessToken))
-                UsageCounter.ReportUsage("Play: Registered");
-        }
-*/
-
         public void RegisterUrlHandlers() {
             foreach (var protocol in SixRepo.URLSchemes)
                 RegisterProtocol(protocol);
@@ -305,8 +296,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
                             GreenContent = "go there now",
                             RedContent = "cancel"
                         });
-
-            UsageCounter.ReportUsage("Dialog - Upgrade outdated version PwS: {0}".FormatWith(r));
 
             if (r.IsYes())
                 Tools.Generic.TryOpenUrl(downloadURL);

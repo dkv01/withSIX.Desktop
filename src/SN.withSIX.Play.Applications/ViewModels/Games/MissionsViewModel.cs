@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
@@ -21,7 +21,7 @@ using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
-    [DoNotObfuscate]
+    
     public class MissionsViewModel : LibraryModuleViewModel,
         IHandle<GameContentInitialSynced>, IHandle<RequestPublishMission>,
         IHandle<ActiveGameChangedForReal>
@@ -64,7 +64,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             CreateLibrary(DomainEvilGlobal.SelectedGame.ActiveGame);
         }
 
-        [ReportUsage]
+
         public async Task ShowUploadOverlay(MissionBase content) {
             var missions =
                 await MissionList.GetMyMissions(DomainEvilGlobal.SelectedGame.ActiveGame);
@@ -77,12 +77,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             ShowOverlay(MissionUploadViewModel);
         }
 
-        [DoNotObfuscate, ReportUsage]
+
         public void SelectNoMission() {
             LibraryVM.ActiveItem = null;
         }
 
-        [ReportUsage]
+
         public void SwitchMissionListAct(object x) {
             if (!IsActive)
                 Open();
@@ -100,7 +100,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                 LibraryVM = null;
         }
 
-        [ReportUsage]
+
         public void MissionVersion() {
             ShowOverlay(MissionInfoOverlayViewModel);
         }

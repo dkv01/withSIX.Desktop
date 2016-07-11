@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
-    [DoNotObfuscate]
+    
     public class Category : Content
     {
         public Category(Guid id) : base(id) {}

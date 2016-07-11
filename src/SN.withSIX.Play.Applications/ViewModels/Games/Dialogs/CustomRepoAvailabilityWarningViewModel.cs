@@ -3,7 +3,7 @@
 // </copyright>
 
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -15,7 +15,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICustomRepoAvailabilityWarningViewModel : IDialog {} // IMetroDialog
 
-    [DoNotObfuscate]
+    
     public class CustomRepoAvailabilityWarningViewModel : DialogBase, ICustomRepoAvailabilityWarningViewModel
     {
         readonly CustomCollection _customCollection;

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class ModVersionOverlayViewModel : ModInfoOverlayViewModel
     {
         public ModVersionOverlayViewModel(Lazy<ModsViewModel> mvm) : base(mvm) {}

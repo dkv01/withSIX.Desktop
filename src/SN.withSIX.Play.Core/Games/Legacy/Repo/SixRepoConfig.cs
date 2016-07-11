@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Legacy;
@@ -189,7 +189,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         }
     }
 
-    [DoNotObfuscate]
+    
     public class InvalidHostFoundException : Exception
     {
         public InvalidHostFoundException(string message) : base(message) {}

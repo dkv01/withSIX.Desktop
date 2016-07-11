@@ -4,13 +4,13 @@
 
 using System.Linq;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class ImportCommand : BaseCommand
     {
         public string RepoDir;

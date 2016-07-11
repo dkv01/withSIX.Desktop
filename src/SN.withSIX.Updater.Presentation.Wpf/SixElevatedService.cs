@@ -9,7 +9,7 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using ManyConsole;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -21,7 +21,7 @@ using SN.withSIX.Updater.Presentation.Wpf.Commands;
 
 namespace SN.withSIX.Updater.Presentation.Wpf
 {
-    [DoNotObfuscateType]
+
     [ServiceBehavior(IncludeExceptionDetailInFaults = true, InstanceContextMode = InstanceContextMode.Single)]
     public class SixElevatedService : ServiceBase, IUpdaterWCF, IConsoleLauncher
     {

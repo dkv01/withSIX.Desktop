@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using SmartAssembly.ReportUsage;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Services;
@@ -36,9 +36,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy
                 if (_activeGame == value)
                     return;
                 _activeGame = value;
-
-                if (!Execute.InDesignMode && value != null)
-                    UsageCounter.ReportUsage("Active game: {0}".FormatWith(value.MetaData.Name));
 
                 if (_first)
                     HandleGameSetChanged(value);

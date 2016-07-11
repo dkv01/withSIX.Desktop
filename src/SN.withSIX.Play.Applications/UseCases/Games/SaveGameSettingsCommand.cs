@@ -3,7 +3,7 @@
 // </copyright>
 
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Games;
@@ -17,7 +17,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         public GameSettingsDataModel Settings { get; set; }
     }
 
-    [StayPublic]
+    
     public class SaveGameSettingsCommandHandler : IRequestHandler<SaveGameSettingsCommand, UnitType>
     {
         readonly IGameContext _context;

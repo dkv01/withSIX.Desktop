@@ -217,10 +217,6 @@
     <Reference Include="SignalRNetClientProxyMapper">
       <HintPath>..\packages\SignalRNetClientProxyMapper.1.1.0\lib\SignalRNetClientProxyMapper.dll</HintPath>
     </Reference>
-    <Reference Include="SmartAssembly.Attributes, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\SmartAssembly.Attributes.dll</HintPath>
-    </Reference>
     <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>

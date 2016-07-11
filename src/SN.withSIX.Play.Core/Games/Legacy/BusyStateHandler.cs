@@ -5,7 +5,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
@@ -79,7 +79,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             }
         }
 
-        [DoNotObfuscate]
+        
         public class BusyException : UserException
         {
             public BusyException() : base("The application is in a busy state, please try again later") {}

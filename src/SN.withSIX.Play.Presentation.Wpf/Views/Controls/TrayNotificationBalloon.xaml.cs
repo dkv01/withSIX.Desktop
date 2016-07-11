@@ -9,11 +9,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
 {
-    [DoNotObfuscateType]
+
     public enum TrayNotificationButtons
     {
         tnbNone,

@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Linq;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -18,7 +18,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class GameSettingsOverlayViewModel : OverlayViewModelBase
     {
         const string BikiUrl = "https://community.bistudio.com/wiki/Arma2:_Startup_Parameters";
@@ -62,12 +62,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
             _mediator.Request(new SaveGameSettingsCommand {Settings = x});
         }
 
-        [ReportUsage]
+
         void GoBikGameStartupParametersInfo(object x) {
             Tools.Generic.TryOpenUrl(BikiUrl);
         }
 
-        [ReportUsage]
+
         void ShowAdvancedStartupParams(object x) {
             AreAdvancedStartupParamsVisible = !AreAdvancedStartupParamsVisible;
         }

@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using ManyConsole;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class HandleUserconfigCommand : BaseCommand
     {
         public HandleUserconfigCommand() {

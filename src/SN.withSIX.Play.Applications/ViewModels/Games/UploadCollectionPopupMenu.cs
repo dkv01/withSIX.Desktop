@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -20,13 +20,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Header = "Upload Collection";
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Private(CustomCollectionLibraryItemViewModel item) => _uploadCollection.Publish(item, CollectionScope.Private);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Unlisted(CustomCollectionLibraryItemViewModel item) => _uploadCollection.Publish(item, CollectionScope.Unlisted);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Public(CustomCollectionLibraryItemViewModel item) => _uploadCollection.Publish(item, CollectionScope.Public);
     }
 }

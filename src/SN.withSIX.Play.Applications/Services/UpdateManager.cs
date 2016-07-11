@@ -16,8 +16,8 @@ using Caliburn.Micro;
 using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Api.Models.Content;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
@@ -271,13 +271,13 @@ namespace SN.withSIX.Play.Applications.Services
             return _launchManager.StartGame();
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public async Task HandleConvertOrInstallOrUpdate(bool force = false) {
             using (_busyStateHandler.StartSession())
                 await DoIt(force).ConfigureAwait(false);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public Task HandleUninstall() => _repoActionHandler.PerformUpdaterActionSuspendedAsync("Uninstall", OnHandleUninstall);
 
         public void Terminate() {
@@ -285,7 +285,7 @@ namespace SN.withSIX.Play.Applications.Services
             Abort();
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public Task DownloadMission(Mission mission) => _repoActionHandler.PerformUpdaterActionSuspendedAsync("Install mission",
     () => HandleMissionDownloadAndInstall(mission));
 
@@ -357,8 +357,6 @@ namespace SN.withSIX.Play.Applications.Services
             if (apps == null || !apps.Any())
                 return;
 
-            UsageCounter.ReportUsage(
-                $"Dialog - Auto process server apps: {_settings.ServerOptions.AutoProcessServerApps}");
             if (_settings.ServerOptions.AutoProcessServerApps
                 ||
                 (await _dialogManager.MessageBox(new MessageBoxDialogParams(
@@ -409,8 +407,7 @@ namespace SN.withSIX.Play.Applications.Services
             //TryKillTransferProcesses();
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+       
         public void AbortUpdate() {
             if (!_settings.AppOptions.RememberWarnOnAbortUpdate) {
                 var r =
@@ -420,12 +417,10 @@ namespace SN.withSIX.Play.Applications.Services
 
                 switch (r) {
                 case SixMessageBoxResult.YesRemember:
-                    UsageCounter.ReportUsage("Dialog - Remember Warn On Abort Update");
                     _settings.AppOptions.RememberWarnOnAbortUpdate = true;
                     _settings.AppOptions.WarnOnAbortUpdate = true;
                     break;
                 case SixMessageBoxResult.NoRemember:
-                    UsageCounter.ReportUsage("Dialog - Don't remember Warn On Abort Update");
                     _settings.AppOptions.RememberWarnOnAbortUpdate = true;
                     _settings.AppOptions.WarnOnAbortUpdate = false;
                     break;
@@ -494,8 +489,8 @@ namespace SN.withSIX.Play.Applications.Services
                 mod.TryProcessModAppsAndUserconfig(_currentGame, states.Userconfigs.Contains(mod));
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void MainAction() {
             IsActionEnabled = false;
             if (State == OverallUpdateState.NoGameFound)
@@ -639,7 +634,6 @@ namespace SN.withSIX.Play.Applications.Services
             await PerformConvertOrInstallOrUpdate().ConfigureAwait(false);
 
             if (_busyStateHandler.IsAborted && !_isTerminated) {
-                UsageCounter.ReportUsage("Dialog - Update process aborted by user");
                 await _dialogManager.MessageBox(new MessageBoxDialogParams("Update process aborted by user"));
             }
         }
@@ -1320,7 +1314,6 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
 
             if (drive.AvailableFreeSpace >= size + wdsize)
                 return false;
-            UsageCounter.ReportUsage("Dialog - Not enough free space to install mods");
             if (!_dialogManager.MessageBox(new MessageBoxDialogParams(
                 "There is not enough free space on the drive to install your mods, are you sure you want to continue?",
                 "Not enough free space", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsNo())
@@ -1342,7 +1335,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
             (!(x is CustomRepoMod)) && x.HasLicense &&
             !_settings.ModOptions.AcceptedLicenseUUIDs.Contains(x.Id));
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void HandlePlay(bool mp = false) {
             TryHandlePlay(mp ? UpdateStates.JoinServerState : UpdateStates.LaunchGameState);
         }
@@ -1375,7 +1368,6 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
                 await HandleActionState().ConfigureAwait(false);
                 // TODO: This should not be allowed here - this isn't the app/VM layer!
             } catch (BusyStateHandler.BusyException) {
-                UsageCounter.ReportUsage("Dialog - Cannot perform action; already busy");
                 await
                     _dialogManager.MessageBox(
                         new MessageBoxDialogParams(

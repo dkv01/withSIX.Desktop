@@ -5,7 +5,7 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Overlays;
 using SN.withSIX.Play.Core.Connect;
@@ -13,13 +13,13 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class ModInfoOverlayViewModel : OverlayViewModelBase, ISingleton
     {
         readonly Lazy<ModsViewModel> _mvm;
         bool _isEditingGlobalVersion;
-        [DoNotObfuscate] ObservableAsPropertyHelper<bool> _isInCollection;
-        [DoNotObfuscate] ObservableAsPropertyHelper<IMod> _selectedItem;
+         ObservableAsPropertyHelper<bool> _isInCollection;
+         ObservableAsPropertyHelper<IMod> _selectedItem;
 
         public ModInfoOverlayViewModel(Lazy<ModsViewModel> mvm) {
             DisplayName = "Mod Info";
@@ -45,17 +45,17 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
                 .ToProperty(this, x => x.IsInCollection);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowInfo() {
             BrowserHelper.TryOpenUrlIntegrated(SelectedItem.ProfileUrl());
         }
 
-        [DoNotObfuscate]
+        
         public void ShowHomepage() {
             _mvm.Value.ViewHomepageAction(SelectedItem);
         }
 
-        [DoNotObfuscate]
+        
         public void EditGlobalVersion() {
             IsEditingGlobalVersion = true;
             //var mod = SelectedItem;
@@ -63,12 +63,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
             //GVM.LibraryVM.SelectedItem.SelectedItem = mod.ToMod();
         }
 
-        [DoNotObfuscate]
+        
         public void CloseEditGlobalVersion() {
             IsEditingGlobalVersion = false;
         }
 
-        [DoNotObfuscate]
+        
         public void ShowChangelog() {
             _mvm.Value.ViewChangelogAction(SelectedItem);
         }

@@ -3,13 +3,13 @@
 // </copyright>
 
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Infra.Api.Hubs;
 
 namespace SN.withSIX.Play.Infra.Api
 {
-    [DoNotObfuscateType]
+
     interface IConnectionManager : IConnectionScoper
     {
         IMessageBus MessageBus { get; }

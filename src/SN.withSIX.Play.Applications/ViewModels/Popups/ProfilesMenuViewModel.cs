@@ -7,7 +7,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -20,7 +20,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Popups
 {
-    [DoNotObfuscate]
+    
     public class ProfilesMenuViewModel : PopupBase, IDisposable
     {
         readonly IDialogManager _dialogManager;
@@ -58,7 +58,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
             Dispose(true);
         }
 
-        [DoNotObfuscate]
+        
         public void DeleteProfile(ProfileDataModel profile) {
             ShowProfilesMenu = false;
             var result = _dialogManager.MessageBox(new MessageBoxDialogParams(
@@ -69,7 +69,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
                 _mediator.Request(new DeleteProfileCommand(profile.Id));
         }
 
-        [DoNotObfuscate]
+        
         public void SwitchProfile(ProfileDataModel profile) {
             ShowProfilesMenu = false;
             _mediator.Request(new SwitchProfileCommand(profile.Id));

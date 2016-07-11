@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Windows;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
@@ -19,10 +19,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Contract.Requires<ArgumentNullException>(library != null);
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task RemoveRepository(ContentLibraryItemViewModel<SixRepo> content) => content.Remove();
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void CopyRepositoryLinkToClipboard(ContentLibraryItemViewModel<SixRepo> repoItem) {
             Clipboard.SetText(repoItem.Model.GetUrl("config"));
         }

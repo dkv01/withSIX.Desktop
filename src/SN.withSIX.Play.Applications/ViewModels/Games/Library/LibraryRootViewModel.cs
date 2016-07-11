@@ -16,7 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM;
@@ -42,10 +42,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
     public abstract class LibraryRootViewModel : ReactiveScreen
     {
-        [DoNotObfuscate]
+        
         public virtual void DoubleClickedDG(RoutedEventArgs args) {}
 
-        [DoNotObfuscate]
+        
         public virtual void DoubleClicked(RoutedEventArgs args) {}
 
         public abstract Task RemoveLibraryItem(ContentLibraryItemViewModel contentLibraryItemViewModel);
@@ -55,7 +55,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
     public interface IHaveSelectedItemsView<T> : IHaveSelectedItemsView, IHaveSelectedItem<T>, ISelectionList<T>
         where T : class {}
 
-    [DoNotObfuscate]
+    
     public abstract class LibraryRootViewModel<T, T2, T3> : LibraryRootViewModel,
         IHaveSelectedItem<IHierarchicalLibraryItem>,
         ILibraryViewModel, IHaveSelectedItems
@@ -242,7 +242,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             }
         }
 
-        [DoNotObfuscate]
+        
         public void Edit() {
             var item = SelectedItem.FindItem<T>();
             var show = !item.IsEditing;
@@ -263,7 +263,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         protected abstract bool ApplySearchFilter(object obj);
 
-        [DoNotObfuscate]
+        
         public override void DoubleClicked(RoutedEventArgs eventArgs) {
             if (eventArgs.FilterControlFromDoubleClick())
                 return;
@@ -278,7 +278,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             }
         }
 
-        [DoNotObfuscate]
+        
         public override void DoubleClickedDG(RoutedEventArgs eventArgs) {
             if (eventArgs.FilterControlFromDoubleClick())
                 return;
@@ -293,7 +293,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             }
         }
 
-        [DoNotObfuscate]
+        
         public virtual void DoubleClickedTV(RoutedEventArgs eventArgs) {
             if (eventArgs.FilterControlFromDoubleClick())
                 return;
@@ -308,7 +308,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             ActiveItem = (T2) (object) item2.Model;
         }
 
-        [DoNotObfuscate]
+        
         public virtual void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e) {
             SelectedItem = e.NewValue as IHierarchicalLibraryItem; // TODO
             //IsSelected = true; // Activate the ModSet when Mod selection changes
@@ -317,7 +317,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         public abstract void Setup();
 
-        [DoNotObfuscate]
+        
         public void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e) {
             var treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
             if (treeViewItem == null)

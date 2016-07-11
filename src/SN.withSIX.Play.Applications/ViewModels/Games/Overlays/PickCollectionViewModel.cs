@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM;
@@ -28,7 +28,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
-    [DoNotObfuscate]
+    
     public class PickCollectionViewModel : OverlayViewModelBase
     {
         readonly object _itemsLock = new object();
@@ -98,7 +98,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
                     item.Name.NullSafeContainsIgnoreCase(FilterText));
         }
 
-        [DoNotObfuscate]
+        
         public void SelectionChanged(SelectionChangedEventArgs args) {
             lock (SelectedItems) {
                 CollectionExtensions.RemoveAll(SelectedItems, args.RemovedItems.Cast<PickCollectionDataModel>().ToArray());
@@ -128,7 +128,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
             items.SyncCollection(Items);
         }
 
-        [DoNotObfuscate]
+        
         public void Cancel() {
             TryClose();
         }

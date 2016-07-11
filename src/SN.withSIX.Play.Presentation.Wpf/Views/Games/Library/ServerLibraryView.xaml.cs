@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Windows;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Presentation.Wpf.Views.Controls;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
@@ -11,7 +11,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
     /// <summary>
     ///     Interaction logic for ServerLibraryView.xaml
     /// </summary>
-    [DoNotObfuscate]
+    
     public partial class ServerLibraryView : LibraryControl
     {
         public static readonly DependencyProperty ShowPingAsNumberProperty =

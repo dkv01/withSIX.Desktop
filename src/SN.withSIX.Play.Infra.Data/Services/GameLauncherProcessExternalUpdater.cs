@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
@@ -41,7 +41,6 @@ namespace SN.withSIX.Play.Infra.Data.Services
     new SULaunchGameSteamArgumentsBuilder(info, GetAndValidateSteamPath(info.SteamDRM, false))
         .Build());
 
-        [ReportUsage("Legacy Steam Launch")]
         public Task<Process> LaunchInternal(LaunchGameWithSteamLegacyInfo info) => PerformUpdaterAction(info,
     new SULaunchGameSteamLegacyArgumentsBuilder(info, GetAndValidateSteamPath(info.SteamDRM))
         .Build());

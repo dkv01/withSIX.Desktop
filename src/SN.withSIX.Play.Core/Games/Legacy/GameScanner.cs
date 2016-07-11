@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
@@ -15,7 +15,7 @@ using SN.withSIX.Play.Core.Glue.Helpers;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {
-    [DoNotObfuscate]
+    
     public class GameScanner : SelectionList<FoundGame>, IDomainService
     {
         readonly object _busyLock = new Object();

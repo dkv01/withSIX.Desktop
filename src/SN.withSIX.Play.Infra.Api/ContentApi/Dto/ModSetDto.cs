@@ -6,15 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
-    [DoNotObfuscateType]
+
     class MissionDto : MissionClientApiJson, ISyncBaseDto {}
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class ModSetDto : ContentBaseDto
     {
         [DataMember]

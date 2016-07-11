@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Api.Models.Exceptions;
@@ -34,7 +34,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "CustomModSet",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
-    [DoNotObfuscate]
+    
     public class CustomCollection : AdvancedCollection, IComparePK<CustomCollection>, IHaveCustomRepo
     {
         static readonly Version defaultVersion = new Version("0.0.1");

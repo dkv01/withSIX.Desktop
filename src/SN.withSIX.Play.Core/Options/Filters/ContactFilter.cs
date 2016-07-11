@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
-using SmartAssembly.ReportUsage;
+
 using SN.withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Core.Options.Filters
@@ -51,11 +51,6 @@ namespace SN.withSIX.Play.Core.Options.Filters
             this.WhenAnyValue(x => x.ShowOnlyOnline)
                 .Where(x => x)
                 .Subscribe(x => ShowOnlyIngame = false);
-        }
-
-        [ReportUsage("ContactFilter: PublishFilter")]
-        public override void PublishFilter() {
-            base.PublishFilter();
         }
 
         public override void DefaultFilters() {

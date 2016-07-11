@@ -5,12 +5,12 @@
 using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class NewSyncBaseDto : ISyncBaseDto
     {
         [DataMember]
@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
         public DateTime UpdatedAt { get; set; }
     }
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class NewContentBaseDto : NewSyncBaseDto
     {
         [DataMember]
@@ -36,7 +36,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
         public string Version { get; set; }
     }
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class ContentBaseDto : SyncBaseDto
     {
         [DataMember]

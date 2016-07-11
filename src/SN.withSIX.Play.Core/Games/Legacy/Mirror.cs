@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {
-    [DoNotObfuscate]
+    
     public class Mirror : SyncBase
     {
         Network _network;

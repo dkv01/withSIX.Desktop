@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 
@@ -32,7 +32,6 @@ namespace SN.withSIX.Sync.Presentation.Console.UseCases
         public bool All { get; set; }
     }
 
-    [StayPublic]
     public class CleanPackageCommandHandler : IAsyncRequestHandler<CleanPackageCommand, IReadOnlyCollection<string>>
     {
         public async Task<IReadOnlyCollection<string>> HandleAsync(CleanPackageCommand request) {

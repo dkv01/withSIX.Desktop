@@ -10,8 +10,8 @@ using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
 using ReactiveUI;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -26,7 +26,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Connect
 {
-    [DoNotObfuscate]
+    
     public class ConnectViewModel : ScreenBase<IPlayShellViewModel>, IHandle<ApiKeyUpdated>, IDropTarget
     {
         readonly IDialogManager _dialogManager;
@@ -129,20 +129,20 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
                 IsEnabled = _wasEnabled;
         }
 
-        [DoNotObfuscate]
+        
         public void SwitchProfileShown() {
             IsProfileShown = !IsProfileShown;
         }
 
         public void ExecuteJS(string function, params object[] pars) => ApiBrowser.InvokeScript(function, pars);
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void Login() => ContactList.RetrieveApiKey();
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void Register() => _eventBus.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.RegisterUrl));
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void ShowEditProfile() {
             BrowserHelper.TryOpenUrlIntegrated(CommonUrls.AccountSettingsUrl);
             IsProfileShown = false;

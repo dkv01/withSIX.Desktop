@@ -11,7 +11,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using SmartAssembly.ReportException;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -20,12 +19,9 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core;
@@ -46,17 +42,11 @@ namespace SN.withSIX.Updater.Presentation.Wpf
         }
 
         protected override void PreStart() {
-            if (!Common.IsDebugEnabled)
-                ErrorHandler.Report = Report;
             _startupManager = IoC.Get<IWpfStartupManager>();
             StartupSequence.Start(_startupManager);
             Environment.Exit(IoC.Get<SixElevatedService>().Run(Common.Flags.FullStartupParameters));
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void Report(Exception ex) {
-            ExceptionReporting.Report(ex);
-        }
 
         protected override async Task ExitAsync(object sender, EventArgs eventArgs) {
             await base.ExitAsync(sender, eventArgs).ConfigureAwait(false);

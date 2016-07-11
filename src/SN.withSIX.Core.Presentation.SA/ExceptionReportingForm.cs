@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using SmartAssembly.SmartExceptionsCore;
+
 using SmartAssembly.SmartExceptionsCore.UI;
 
 namespace SN.withSIX.Core.Presentation.SA

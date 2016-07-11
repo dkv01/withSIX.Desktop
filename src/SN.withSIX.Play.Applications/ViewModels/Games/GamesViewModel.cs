@@ -14,8 +14,8 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -37,7 +37,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
-    [DoNotObfuscate]
+    
     public class GamesViewModel : ModuleViewModelBase, IHandle<RequestGameSettingsOverlay>,
         ISelectionList<GameDataModel>, IHaveSelectedItems
     {
@@ -151,12 +151,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                     BarMenu.ShowForItem(x);
                 });
 
-            if (!Execute.InDesignMode) {
-                this.WhenAnyValue(x => x.IsActive)
-                    .Skip(1)
-                    .Subscribe(x => UsageCounter.ReportUsage("Tab Games"));
-            }
-
             UserSettings.WhenAnyValue(x => x.Ready)
                 .Subscribe(x => ProgressState.Active = !x);
 
@@ -184,11 +178,11 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
         }
 
         // TODO: Integrated once we have a real buy page; atm it opens Play page and that means in client Stream without menu bar (with buy)
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+
+        
         public bool ShopForMore() => Tools.Generic.TryOpenUrl(CommonUrls.PlayUrl);
 
-        [DoNotObfuscate]
+        
         public void ActivateItem(GameDataModel game) {
             ActivateGame(game);
         }
@@ -201,39 +195,39 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             DomainEvilGlobal.SelectedGame.ActiveGame = _gameContext.Games.Find(game.Id);
         }
 
-        [DoNotObfuscate]
+        
         public Task LaunchNow(GameDataModel game) {
             ActivateGame(game);
             return _launchManager.Value.StartGame();
         }
 
-        [DoNotObfuscate]
+        
         public void UseGame(GameDataModel game) {
             ActivateGame(game);
         }
 
-        [DoNotObfuscate]
+        
         public void OpenGameFolder(GameDataModel game) {
             Tools.FileUtil.OpenFolderInExplorer(game.Directory);
         }
 
-        [DoNotObfuscate]
+        
         public void PurchaseGame(GameDataModel game) {
             var url = game.StoreUrl;
             if (url != null)
                 Tools.Generic.TryOpenUrl(url);
         }
 
-        /*        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+        /*
+        
         public void OpenNote(GameDataModel notes) {
             ShowNotes(_gameContext.Games.First(x => x.Id == notes.Id));
         }*/
 
         bool Filter(object item) => true;
 
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void ShowSettings(GameDataModel game) {
             Contract.Requires<ArgumentNullException>(game != null);
             SelectedItem = game;
@@ -245,15 +239,15 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             ShowOverlay(_gso);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void ShowInfo(GameDataModel game) {
             Contract.Requires<ArgumentNullException>(game != null);
             SelectedItem = game;
             ShowOverlay(_gameInfoOverlay);
         }
 
-        [DoNotObfuscate]
+        
         public void DoubleClicked(RoutedEventArgs Args) {
             if (Args.FilterControlFromDoubleClick())
                 return;
@@ -264,8 +258,8 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Args.Handled = true;
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void ShowSupport(GameDataModel game) {
             Tools.Generic.TryOpenUrl(game.SupportUrl);
         }

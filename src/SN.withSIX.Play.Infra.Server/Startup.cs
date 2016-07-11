@@ -13,7 +13,7 @@ using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Owin;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -77,7 +77,7 @@ namespace SN.withSIX.Play.Infra.Server
 
         static JsonSerializer CreateJsonSerializer() => JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
 
-        [DoNotObfuscate]
+        
         public void Configuration(IAppBuilder app) {
             GlobalHost.DependencyResolver.Register(typeof (IHubActivator), () => HubActivator);
             GlobalHost.DependencyResolver.Register(typeof (JsonSerializer), CreateJsonSerializer);

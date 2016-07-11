@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
@@ -23,7 +23,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
         DateTime UpdatedAt { get; set; }
     }
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class SyncBaseDto : ISyncBaseDto
     {
         [Obsolete, DataMember]

@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Microsoft.AspNet.SignalR.Client;
 using SignalRNetClientProxyMapper;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Core.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api
 {
-    [DoNotObfuscateType]
+
     public static class HubExtensions
     {
         const string ProblemOccurred = "A problem occurred while trying to observe the task";
@@ -34,7 +34,7 @@ namespace SN.withSIX.Play.Infra.Api
             return (THub) generator.CreateInterfaceProxyWithTarget(typeof (THub), hub, hubExceptionInterceptor);
         }
 
-        [DoNotObfuscate]
+        
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task,
             Func<AggregateException, Exception> exceptionTransformer, Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
@@ -52,7 +52,7 @@ namespace SN.withSIX.Play.Infra.Api
             return tcs.Task;
         }
 
-        [DoNotObfuscate]
+        
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task,
             Func<AggregateException, Exception> exceptionTransformer) {
             Contract.Requires<ArgumentNullException>(task != null);
@@ -78,14 +78,14 @@ namespace SN.withSIX.Play.Infra.Api
             }
         }
 
-        [DoNotObfuscate]
+        
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task, Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
             Contract.Requires<ArgumentNullException>(final != null);
             return SetContinuation(task, defaultExceptionTransformer, final);
         }
 
-        [DoNotObfuscate]
+        
         public static Task SetContinuation(this Task task, Func<AggregateException, Exception> exceptionTransformer,
             Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
@@ -103,7 +103,7 @@ namespace SN.withSIX.Play.Infra.Api
             return tcs.Task;
         }
 
-        [DoNotObfuscate]
+        
         public static Task SetContinuation(this Task task, Func<AggregateException, Exception> exceptionTransformer) {
             Contract.Requires<ArgumentNullException>(task != null);
             Contract.Requires<ArgumentNullException>(exceptionTransformer != null);
@@ -128,7 +128,7 @@ namespace SN.withSIX.Play.Infra.Api
             }
         }
 
-        [DoNotObfuscate]
+        
         public static Task SetContinuation(this Task task, Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
             Contract.Requires<ArgumentNullException>(final != null);

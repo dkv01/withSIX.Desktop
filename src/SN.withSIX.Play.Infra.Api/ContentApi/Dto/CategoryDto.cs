@@ -3,17 +3,17 @@
 // </copyright>
 
 using System.Runtime.Serialization;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class CategoryDto : NewSyncBaseDto
     {
         [DataMember]
         public string Name { get; set; }
     }
 
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class CategoryRelationDto : NewRelationDtoBase {}
 }

@@ -3,13 +3,13 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class UtilsCommand : BaseCommandAsync
     {
         public string RepoDir;

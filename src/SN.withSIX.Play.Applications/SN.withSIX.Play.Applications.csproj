@@ -451,11 +451,6 @@
     <Reference Include="ShortBus.Markers">
       <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
     </Reference>
-    <Reference Include="SmartAssembly.Attributes, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL" />
-    <Reference Include="SmartAssembly.ReportUsage, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\SmartAssembly.ReportUsage.dll</HintPath>
-    </Reference>
     <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -803,7 +798,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

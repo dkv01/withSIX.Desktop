@@ -4,7 +4,7 @@
 
 using System.Windows;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
 using SN.withSIX.Play.Applications.Views.Games.Dialogs;
@@ -14,7 +14,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Dialogs
     /// <summary>
     ///     Interaction logic for CollectionCreatedDialog.xaml
     /// </summary>
-    [DoNotObfuscate]
+    
     public partial class AddCustomRepoConfirmationView : StandardDialog, IAddCustomRepoConfirmationView
     {
         public static readonly DependencyProperty ViewModelProperty =

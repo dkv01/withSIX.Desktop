@@ -8,7 +8,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -157,7 +157,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             CalculatedGameSettings.RaiseEvent(new MyActiveServerAddressChanged(_hostIP));
         }
 
-        [DoNotObfuscate]
+        
         public async Task CloseGame() {
             if (CommandAPI.IsConnected && CommandAPI.IsReady) {
                 if (await CommandAPI.TryQueueSend(new ShutdownCommand()).ConfigureAwait(false) != null)
@@ -178,7 +178,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             }
         }
 
-        [DoNotObfuscate]
+        
         public void Minimize() {
             TryMinimize();
         }
@@ -194,7 +194,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             }
         }
 
-        [DoNotObfuscate]
+        
         public void SwitchTo() {
             TrySwitchTo();
         }

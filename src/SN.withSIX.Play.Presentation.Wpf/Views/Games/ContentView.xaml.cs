@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Applications.ViewModels.Games;
 using SN.withSIX.Play.Applications.Views.Games;
 
@@ -14,7 +14,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Games
     /// <summary>
     ///     Interaction logic for ContentView.xaml
     /// </summary>
-    [DoNotObfuscate]
+    
     public partial class ContentView : UserControl, IContentView
     {
         public static readonly DependencyProperty ViewModelProperty =

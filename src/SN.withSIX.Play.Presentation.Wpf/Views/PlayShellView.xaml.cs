@@ -18,7 +18,7 @@ using Hardcodet.Wpf.TaskbarNotification;
 using MahApps.Metro.Controls;
 using ReactiveUI;
 using SimpleInjector;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -26,7 +26,6 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels.Popups;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.SA;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Helpers;
 using SN.withSIX.Core.Presentation.Wpf.Services;
@@ -37,7 +36,6 @@ using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using SN.withSIX.Play.Applications.Views;
 using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Presentation.Wpf.Views.Controls;
 using Telerik.Windows.Controls;
@@ -46,7 +44,7 @@ using XamlParseException = System.Windows.Markup.XamlParseException;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
-    [DoNotObfuscate]
+    
     public partial class PlayShellView : MetroWindow, IPlayShellView
     {
         public static readonly DependencyProperty ViewModelProperty =
@@ -99,7 +97,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
 
         private void OnRoutedEventHandler(object sender, RoutedEventArgs args) {
             DialogHelper.MainWindowLoaded = true;
-            KnownExceptions.MainWindowShown = true;
+            //KnownExceptions.MainWindowShown = true;
         }
 
         internal TaskbarIcon TBI { get; private set; }

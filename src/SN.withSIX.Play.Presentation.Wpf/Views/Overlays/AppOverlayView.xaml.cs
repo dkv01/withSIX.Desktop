@@ -3,14 +3,14 @@
 // </copyright>
 
 using System.Windows.Controls;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {
     /// <summary>
     ///     Interaction logic for AppOverlayView.xaml
     /// </summary>
-    [DoNotObfuscate]
+    
     public partial class AppOverlayView : UserControl
     {
         public AppOverlayView() {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ManyConsole;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
@@ -15,7 +15,7 @@ using SN.withSIX.Sync.Core.Services;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class YankCommand : BaseCommandAsync
     {
         readonly IPublishingApi _publishingApi;

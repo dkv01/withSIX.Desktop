@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
 using ReactiveUI;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -33,14 +33,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
     public static class BusyDialogExtensions
     {
         public static void BusyDialog(this IDialogManager dialogManager) {
-            UsageCounter.ReportUsage("Dialog - Cannot perform action; already busy");
             dialogManager.MessageBox(new MessageBoxDialogParams(
                 "Cannot perform action; already busy.\nPlease wait until current action has completed",
                 "Warning, cannot perform action while already busy")).WaitAndUnwrapException();
         }
     }
 
-    [DoNotObfuscate]
+    
     public class MissionLibraryViewModel : ContentLibraryRootViewModel, IDropTarget, ITransient
     {
         static readonly string[] missionSubFolders = {MissionFolders.SpMissions, MissionFolders.MpMissions};
@@ -204,33 +203,33 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             //localMissions.Dispose();
         }
 
-        [DoNotObfuscate]
+        
         public void ActivateItem(IContent mission) {
             SelectedItem.SelectedItem = mission;
             ActiveItem = mission;
         }
 
-        [DoNotObfuscate]
+        
         public void RemoveLibraryItem() {
             var item = SelectedItem.FindItem<ContentLibraryItemViewModel>();
             if (item != null)
                 RemoveLibraryItem(item);
         }
 
-        [DoNotObfuscate]
+        
         public override async Task RemoveLibraryItem(ContentLibraryItemViewModel content) {
             var localMissions = content as ContentLibraryItemViewModel<LocalMissionsContainer>;
             if (localMissions != null)
                 await RemoveLocalMissions(localMissions.Model).ConfigureAwait(false);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowInfo(IContent content) {
             SelectedItem.SelectedItem = content;
             BrowserHelper.TryOpenUrlIntegrated(content.ProfileUrl());
         }
 
-        [DoNotObfuscate]
+        
         public void ShowDependency(KeyValuePair<string, string> dependency) {
             BrowserHelper.TryOpenUrlIntegrated(Tools.Transfer.JoinUri(CommonUrls.PlayUrl, Game.MetaData.Slug,
                 "mods",
@@ -290,13 +289,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             await _launchManager.Value.StartGame().ConfigureAwait(false);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowVersion(IContent mod) {
             SelectedItem.SelectedItem = mod;
             _missionsViewModel.MissionVersion();
         }
 
-        [DoNotObfuscate]
+        
         public void AddOwnMission() {
             BrowserHelper.TryOpenUrlIntegrated("http://withsix.com/getting-started-publishing");
         }

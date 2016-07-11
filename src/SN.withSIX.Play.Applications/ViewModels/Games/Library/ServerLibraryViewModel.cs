@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -29,7 +29,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
-    [DoNotObfuscate]
+    
     public class ServerLibraryViewModel :
         LibraryRootViewModel<ServerLibraryItemViewModel, Server, SearchServerLibraryItemViewModel>,
         IEnableLogging, ITransient
@@ -155,17 +155,17 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             Settings.ServerOptions.RemoveRecent(model);
         }
 
-        [ReportUsage]
+
         public void CopyIpPortAction(object x) {
             Clipboard.SetText(((Server) x).ServerAddress.ToString());
         }
 
-        [ReportUsage]
+
         public void CopyDetailsAction(object x) {
             Clipboard.SetText(((Server) x).Details());
         }
 
-        [ReportUsage]
+
         public Task<bool> ChangePassword(Server server) => OpenPasswordDialog(server);
 
         async Task<bool> OpenPasswordDialog(Server server) {
@@ -261,7 +261,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             SelectedItem = SetUp.Items.FirstOrDefault();
         }
 
-        [DoNotObfuscate]
+        
         public void ActivateItem(Server server) {
             SelectedItem.SelectedItem = server;
             ActiveItem = server;

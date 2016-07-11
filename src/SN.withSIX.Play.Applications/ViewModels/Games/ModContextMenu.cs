@@ -8,7 +8,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
@@ -37,78 +37,78 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                 });
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info)]
         public void ShowInfo(IMod content) {
             Library.ShowInfo(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon)]
         public void UseMod(IMod content) {
             Library.ActiveItem = content;
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info)]
         public void SelectVersion(IMod content) {
             Library.ShowVersion(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Add), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Add)]
         public Task CreateCollectionWithMod(IMod content) => Library.AddCollection(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick)]
         public Task LaunchMod(IMod content) => Library.Launch(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder)]
         public void OpenInExplorer(IMod content) {
             Tools.FileUtil.OpenFolderInExplorer(content.Controller.Path);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Tools), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Tools)]
         public Task Diagnose(IMod content) => Library.Diagnose(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public Task UninstallFromDisk(IMod content) => Library.Uninstall(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Notes), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Notes)]
         public void ShowNotes(IMod content) {
             Library.ShowNotes(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Add), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Add)]
         public void AddToActiveCollection(IMod content) {
             Library.AddToCollection(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public void RemoveFromActiveCollection(IMod content) {
             Library.RemoveFromCollection(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public void RemoveFromCollection(IMod content) {
             Library.RemoveFromSelectedCollection(content);
         }
 
-        [MenuItem("Add to..."), DoNotObfuscate]
+        [MenuItem("Add to...")]
         public Task AddTo(IMod content) => Library.OpenAddToCollectionsView(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void MakeRequired(IMod content) {
             SetRequired(content, true);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void MakeOptional(IMod content) {
             SetRequired(content, false);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void LockVersion(IMod content) {
             var tm = (ToggleableModProxy) content;
             tm.Lock();
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void UnlockVersion(IMod content) {
             var tm = (ToggleableModProxy) content;
             tm.Unlock();

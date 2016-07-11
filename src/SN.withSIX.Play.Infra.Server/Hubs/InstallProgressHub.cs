@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Infra.Server.Hubs
 {
-    [DoNotObfuscateType]
+
     public class InstallProgressHub : BaseHub
     {
         public InstallProgressHub(IMediator mediator) : base(mediator) {}

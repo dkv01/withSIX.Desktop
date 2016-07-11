@@ -7,7 +7,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Events;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -20,7 +20,7 @@ using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.NotificationHandlers
 {
-    [StayPublic]
+    
     public class NotificationCenterMessageHandler :
         INotificationHandler<MinimizedEvent>,
         INotificationHandler<NewVersionAvailable>, INotificationHandler<NewVersionDownloaded>,

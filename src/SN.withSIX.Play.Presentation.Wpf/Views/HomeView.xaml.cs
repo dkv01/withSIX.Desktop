@@ -11,7 +11,7 @@ using Caliburn.Micro;
 using CefSharp;
 using CefSharp.Wpf;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
@@ -26,7 +26,7 @@ using SN.withSIX.Play.Infra.Api;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
-    [DoNotObfuscate]
+    
     public partial class HomeView : UserControl, IEnableLogging, IHandle<DoLogout>, IHandle<DoLogin>, IHomeView, IHandle<RequestOpenBrowser>
     {
         public static readonly DependencyProperty ViewModelProperty =

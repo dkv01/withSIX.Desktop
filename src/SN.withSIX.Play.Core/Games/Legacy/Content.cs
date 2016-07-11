@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -54,7 +54,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             set { SetProperty(ref _searchScore, value); }
         }
 
-        [DoNotObfuscate]
+        
         public void ToggleFavorite() {
             IsFavorite = !IsFavorite;
         }

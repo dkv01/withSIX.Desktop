@@ -8,7 +8,7 @@ using Microsoft.Win32;
 using NDepend.Path;
 using ReactiveUI.Legacy;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionImageViewModel {}
 
-    [DoNotObfuscate]
+    
     public class CollectionImageViewModel : DialogBase, ICollectionImageViewModel
     {
         readonly IDialogManager _dialogManager;

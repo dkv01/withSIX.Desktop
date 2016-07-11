@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Profiles;
@@ -19,7 +19,7 @@ namespace SN.withSIX.Play.Applications.UseCases
 {
     public class ShowNewProfileDialogQuery : IRequest<NewProfileViewModel> {}
 
-    [StayPublic]
+    
     public class ShowNewProfileDialogCommandHandler : IRequestHandler<ShowNewProfileDialogQuery, NewProfileViewModel>
     {
         readonly Func<NewProfileViewModel> _createVm;

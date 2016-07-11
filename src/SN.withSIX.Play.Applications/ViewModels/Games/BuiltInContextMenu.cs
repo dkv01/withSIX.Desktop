@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using SN.withSIX.Play.Core;
@@ -13,7 +13,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
     {
         public BuiltInContextMenu(ModLibraryViewModel library) : base(library) {}
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void Clear(ContentLibraryItemViewModel<BuiltInContentContainer> item) {
             DomainEvilGlobal.Settings.ModOptions.RecentCollections.Clear();
         }

@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
-using SmartAssembly.ReportUsage;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Entities;
@@ -393,11 +393,6 @@ namespace SN.withSIX.Play.Core.Options.Filters
                 Countries = new ReactiveList<string>();
 
             Countries.CollectionChanged += Countries_CollectionChanged;
-        }
-
-        [ReportUsage("ServerFilter: PublishFilter")]
-        public override void PublishFilter() {
-            base.PublishFilter();
         }
 
         public override bool AnyFilterEnabled() {

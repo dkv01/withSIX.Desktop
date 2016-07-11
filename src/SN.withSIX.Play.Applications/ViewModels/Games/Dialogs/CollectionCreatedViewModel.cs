@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Reactive;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -18,7 +18,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionCreatedViewModel {}
 
-    [DoNotObfuscate]
+    
     public class CollectionCreatedViewModel : DialogBase, ICollectionCreatedViewModel
     {
         readonly Lazy<ModsViewModel> _mods;

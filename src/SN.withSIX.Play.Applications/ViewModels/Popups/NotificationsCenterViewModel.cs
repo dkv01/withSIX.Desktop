@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using NDepend.Helpers;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
@@ -20,7 +20,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Popups
 {
-    [DoNotObfuscate]
+    
     public class NotificationsCenterViewModel : PopupBase
     {
         readonly IMediator _mediator;

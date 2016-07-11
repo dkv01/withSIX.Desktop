@@ -12,7 +12,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MoreLinq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
@@ -28,7 +28,7 @@ using SN.withSIX.Play.Core.Options.Entries;
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "ModSet", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
-    [DoNotObfuscate]
+    
     public class Collection : HostedContent, IComparePK<Collection>, ICopyProperties, ISelectionList<IContent>,
         IEnableLogging,
         IHaveId<Guid>

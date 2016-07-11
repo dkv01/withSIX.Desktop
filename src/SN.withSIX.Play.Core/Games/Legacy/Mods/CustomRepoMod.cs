@@ -3,12 +3,12 @@
 // </copyright>
 
 using System;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
-    [DoNotObfuscate]
+    
     public class CustomRepoMod : Mod
     {
         public CustomRepoMod(Guid id) : base(id) {}

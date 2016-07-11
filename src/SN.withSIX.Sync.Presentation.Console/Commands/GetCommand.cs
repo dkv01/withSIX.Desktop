@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ManyConsole;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
@@ -16,7 +16,7 @@ using SN.withSIX.Sync.Presentation.Console.Services;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class GetCommand : BaseCommandAsync
     {
         public string Additional;

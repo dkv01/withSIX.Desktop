@@ -4,12 +4,10 @@
 
 using System;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
 using SN.withSIX.Sync.Core.Services;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
     public class SignalCommand : BaseCommandAsync
     {
         readonly IPublishingApi _publishingApi;

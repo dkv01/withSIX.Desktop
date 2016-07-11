@@ -4,12 +4,12 @@
 
 using Microsoft.AspNet.SignalR;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Infra.Services;
 
 namespace SN.withSIX.Play.Infra.Server.Hubs
 {
-    [DoNotObfuscateType]
+
     public abstract class BaseHub : Hub, IInfrastructureService
     {
         protected readonly IMediator _mediator;

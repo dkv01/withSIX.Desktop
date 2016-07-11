@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
@@ -18,7 +18,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "CollectionServer",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
-    [DoNotObfuscate]
+    
     public class CollectionServer
     {
         [DataMember]
@@ -29,7 +29,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
     [DataContract(Name = "SubscribedModSet",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
-    [DoNotObfuscate]
+    
     public class SubscribedCollection : AdvancedCollection
     {
         [DataMember] Uri _authorAvatarUrl;

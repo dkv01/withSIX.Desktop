@@ -16,7 +16,7 @@ using Caliburn.Micro;
 using MahApps.Metro;
 using NDepend.Path;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -67,7 +67,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         }
     }
 
-    [DoNotObfuscate]
+    
     public class SettingsViewModel : OverlayViewModelBase, ISingleton
     {
         const string _name = "Game Settings";
@@ -951,7 +951,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
             RefreshPropertyGrid();
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         void Logout() => Cheat.PublishEvent(new DoLogout());
     }
 

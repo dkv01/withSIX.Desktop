@@ -1430,10 +1430,6 @@
       <Project>{461A57EC-0A19-4DBD-BF3C-0BB09D97031B}</Project>
       <Name>SN.withSIX.Play.Infra.Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.SA\SN.withSIX.Core.Presentation.SA.csproj">
-      <Project>{DD2A6DAD-EF37-4542-89AF-AEC0845E71E9}</Project>
-      <Name>SN.withSIX.Core.Presentation.SA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Infra.Api\SN.withSIX.Play.Infra.Api.csproj">
       <Project>{6C0A6245-F9C3-4528-805D-413DFD5CFDD5}</Project>
       <Name>SN.withSIX.Play.Infra.Api</Name>
@@ -1480,7 +1476,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

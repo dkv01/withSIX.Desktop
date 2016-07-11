@@ -4,15 +4,12 @@
 
 using System.Runtime.InteropServices;
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
 using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Connect.Events;
 
 namespace SN.withSIX.Play.Core.Connect
 {
     [ComVisible(true)]
-    [DoNotSealType]
-    [DoNotObfuscateType]
+
     public class BrowserInterop : IDomainService
     {
         const int ApiVersion = 1;

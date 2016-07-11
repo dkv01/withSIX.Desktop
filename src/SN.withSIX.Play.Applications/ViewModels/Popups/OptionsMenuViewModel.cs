@@ -4,7 +4,7 @@
 
 using System;
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
@@ -13,7 +13,7 @@ using SN.withSIX.Play.Applications.ViewModels.Overlays;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Popups
 {
-    [DoNotObfuscate]
+    
     public class OptionsMenuViewModel : ViewModelBase
     {
         readonly IViewModelFactory _factory;

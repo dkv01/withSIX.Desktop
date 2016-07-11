@@ -5,7 +5,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -60,7 +60,6 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
 
         protected Task<Process> LaunchInternal(LaunchGameWithSteamInfo info) => _gameLauncherInfra.LaunchInternal(info);
 
-        [ReportUsage("Legacy Steam Launch")]
         protected Task<Process> LaunchInternal(LaunchGameWithSteamLegacyInfo info) => _gameLauncherInfra.LaunchInternal(info);
     }
 

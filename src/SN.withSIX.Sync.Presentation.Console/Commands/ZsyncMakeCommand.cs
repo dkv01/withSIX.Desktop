@@ -6,13 +6,12 @@ using System.IO;
 using System.Linq;
 using ManyConsole;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
     public class ZsyncMakeCommand : BaseCommand
     {
         readonly IZsyncMake _zsyncMake;

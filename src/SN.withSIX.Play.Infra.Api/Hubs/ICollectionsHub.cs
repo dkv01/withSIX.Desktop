@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SignalRNetClientProxyMapper;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Api.Models.Shared;
 
 namespace SN.withSIX.Play.Infra.Api.Hubs
 {
-    [DoNotObfuscateType]
+
     interface ICollectionsHub : IClientHubProxyBase
     {
         Task<List<CollectionModel>> GetSubscribedCollections();

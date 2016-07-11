@@ -5,13 +5,11 @@
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
-using SmartAssembly.Attributes;
 using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Updater.Presentation.Wpf
 {
     [RunInstaller(true)]
-    [DoNotObfuscateType]
     public class SixElevatedServiceInstaller : Installer
     {
         public SixElevatedServiceInstaller() {

@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using SignalRNetClientProxyMapper;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Content;
 using SN.withSIX.Api.Models.Content.Arma3;
@@ -13,7 +13,7 @@ using SN.withSIX.Api.Models.Shared;
 
 namespace SN.withSIX.Play.Infra.Api.Hubs
 {
-    [DoNotObfuscateType]
+
     interface IMissionsHub : IClientHubProxyBase
     {
         Task<AWSUploadPolicy> RequestMissionUpload(RequestMissionUploadModel model);

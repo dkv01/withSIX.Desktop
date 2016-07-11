@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.UseCases.Profiles
@@ -32,7 +32,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
     }
 
 
-    [StayPublic]
+    
     public class SwitchProfileCommandHandler : IRequestHandler<SwitchProfileCommand, UnitType>,
         IRequestHandler<SwitchProfileByNameCommand, UnitType>
     {

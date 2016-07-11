@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Repositories;
@@ -94,17 +94,17 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             return collection;
         }
 
-        [DoNotObfuscate]
+        
         public void OpenInExplorer() {
             Tools.FileUtil.OpenFolderInExplorer(Handler.BundleManager.WorkDir.ToString());
         }
 
-        [DoNotObfuscate]
+        
         public void OpenSynqInExplorer() {
             Tools.FileUtil.OpenFolderInExplorer(Handler.Repository.RootPath.ToString());
         }
 
-        [DoNotObfuscate]
+        
         public void OpenInCommandPrompt() {
             Tools.FileUtil.OpenCommandPrompt(Handler.BundleManager.WorkDir);
         }

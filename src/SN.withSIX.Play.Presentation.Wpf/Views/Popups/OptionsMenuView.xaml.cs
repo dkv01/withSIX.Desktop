@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Windows.Controls;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Popups
 {
-    [DoNotObfuscate]
+    
     public partial class OptionsMenuView : UserControl
     {
         public OptionsMenuView() {

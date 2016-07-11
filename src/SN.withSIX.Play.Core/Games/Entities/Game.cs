@@ -11,7 +11,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
@@ -500,7 +500,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
         }
     }
 
-    [DoNotObfuscate]
+    
     public class GameNotDetectedException : UserException
     {
         public GameNotDetectedException(string message) : base(message) {}

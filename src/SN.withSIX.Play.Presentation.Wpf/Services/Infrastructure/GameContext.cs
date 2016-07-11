@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
@@ -27,7 +27,7 @@ using SN.withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services.Infrastructure
 {
-    [DoNotObfuscate]
+    
     public class GameContext : IGameContext, IInfrastructureService
     {
         readonly Lazy<InMemoryDbSet<Collection, Guid>> _collections;

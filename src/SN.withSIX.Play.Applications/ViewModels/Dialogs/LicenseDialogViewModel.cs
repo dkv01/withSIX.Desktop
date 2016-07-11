@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
@@ -14,7 +14,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Dialogs
 {
     public interface ILicenseDialogViewModel {}
 
-    [DoNotObfuscate]
+    
     public class LicenseDialogViewModel : DialogBase, ILicenseDialogViewModel, IDontIC
     {
         protected LicenseDialogViewModel() {}

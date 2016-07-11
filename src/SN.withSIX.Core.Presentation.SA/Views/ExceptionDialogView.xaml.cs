@@ -6,7 +6,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows;
-using SmartAssembly.ReportException;
+
 using SN.withSIX.Core.Presentation.SA.ViewModels;
 
 namespace SN.withSIX.Core.Presentation.SA.Views

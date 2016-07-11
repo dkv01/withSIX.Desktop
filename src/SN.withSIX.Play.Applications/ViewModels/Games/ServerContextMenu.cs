@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -21,46 +21,46 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             _library = library;
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon)]
         public void ActivateServer(Server entity) {
             _library.ActiveItem = entity;
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Add), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Add)]
         public void CreateCollectionWithServerMods(Server entity) {
             _library.CreateCollectionFromServer(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick)]
         public Task JoinServer(Server entity) => _library.JoinServer(entity);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon)]
         public void CopyIpPortToClipboard(Server entity) {
             _library.CopyIpPortAction(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon)]
         public void CopyDetailsToClipboard(Server entity) {
             _library.CopyDetailsAction(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public Task ChangeServerPassword(Server entity) => _library.ChangePassword(entity);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Reload), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Reload)]
         public Task RefreshServerInfo(Server entity) => _library.UpdateServer(entity);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info)]
         public void ShowServerInfo(Server entity) {
             _library.ServerInfo(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public void ClearServerHistory(Server entity) {
             _library.ClearHistory(entity);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Notes), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Notes)]
         public void ShowNotes(Server entity) {
             _library.ShowNotes(entity);
         }

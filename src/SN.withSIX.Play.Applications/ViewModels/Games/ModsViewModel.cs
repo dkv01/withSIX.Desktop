@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using NDepend.Path;
 using ReactiveUI;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM;
@@ -31,7 +31,7 @@ using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
-    [DoNotObfuscate]
+    
     public class ModsViewModel : LibraryModuleViewModel, IHandle<SubGamesChanged>,
         IHandle<GameContentInitialSynced>, IHandle<ActiveGameChangedForReal>
     {
@@ -76,10 +76,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
         protected override void OnInitialize() {
             base.OnInitialize();
-            if (!Execute.InDesignMode) {
-                this.WhenAnyValue(x => x.IsActive)
-                    .Skip(1).Subscribe(value => UsageCounter.ReportUsage("Tab Mods"));
-            }
 
             this.WhenAnyValue(x => x.ModSetSettingsOverlay.IsActive)
                 .Where(x => x).Subscribe(x => ModSetInfoOverlay.TryClose());
@@ -138,27 +134,26 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
         public Task ShowCreateCollection() => _specialDialogManager.ShowPopup(new CreateCollectionViewModel(_contentManager.Value));
 
-        [DoNotObfuscate, SmartAssembly.Attributes.ReportUsage]
         public void SelectNoModSet() {
             LibraryVM.ActiveItem = null;
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public void ModSetConfigure(object x) {
             ShowOverlay(ModSetSettingsOverlay);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public void ModSetInfo() {
             ShowOverlay(ModSetInfoOverlay);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public void ModVersion() {
             ShowOverlay(ModSetVersionOverlay);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public async Task ModUninstall(IMod mod) {
             Contract.Requires<ArgumentNullException>(mod != null);
 
@@ -172,8 +167,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                             RedContent = "keep"
                         })).IsYes();
 
-            UsageCounter.ReportUsage("Dialog - Uninstall Mod: {0}".FormatWith(report));
-
             if (report)
                 return;
 
@@ -184,7 +177,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             }
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         public async Task UninstallModSet(Collection collection) {
             if (collection == null)
                 return;
@@ -201,8 +193,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                             GreenContent = "delete",
                             RedContent = "keep"
                         })).IsYes();
-
-            UsageCounter.ReportUsage("Dialog - Uninstall ModSet: {0}".FormatWith(report));
 
             if (report)
                 return;
@@ -222,23 +212,20 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             }
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         public void ViewSupportAction(Collection x) {
             Tools.Generic.TryOpenUrl(x.SupportUrl);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         public void ViewHomepageAction(IContent x) {
             Tools.Generic.TryOpenUrl(x.HomepageUrl);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         public void ViewChangelogAction(IContent x) {
             Tools.Generic.TryOpenUrl(x.GetChangelogUrl());
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
-        [DoNotObfuscate]
+
+        
         public void OpenNote(IHaveNotes x) {
             ShowNotes(x);
         }

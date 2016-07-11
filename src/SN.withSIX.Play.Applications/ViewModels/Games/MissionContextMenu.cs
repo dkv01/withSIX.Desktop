@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -32,15 +32,15 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
         volatile IContent _target;
         public MissionContextMenu(MissionLibraryViewModel library) : base(library) {}
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info)]
         public void ShowInfo(IContent mission) {
             Library.ShowInfo(mission);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Download), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Download)]
         public Task Install(IContent mission) => Library.DownloadMission((Mission)mission);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick)]
         public async Task Launch(IContent content) {
             var mission = (Mission) content;
             if (!mission.IsLocal) {
@@ -51,10 +51,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             await Library.LaunchMission(mission).ConfigureAwait(false);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Upload), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Upload)]
         public Task Publish(IContent mission) => Library.PublishMission((Mission)mission);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder)]
         public void OpenInExplorer(IContent mission) {
             ((MissionBase) mission).OpenInExplorer();
         }
@@ -93,18 +93,18 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
     {
         public MissionFolderContextMenu(MissionLibraryViewModel library) : base(library) {}
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon_Info)]
         public void ShowInfo(IContent mission) {
             Library.ShowInfo(mission);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Rocket), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Rocket)]
         public Task LaunchGameEditor(IContent mission) => Library.OpenMissionInGameEditor((MissionFolder)mission);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Upload), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Upload)]
         public Task Publish(IContent mission) => Library.PublishMission((MissionFolder)mission);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Folder)]
         public void OpenInExplorer(IContent mission) {
             ((MissionBase) mission).OpenInExplorer();
         }

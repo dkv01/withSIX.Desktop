@@ -4,14 +4,14 @@
 
 using System.Windows;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 using SN.withSIX.Play.Applications.ViewModels.Dialogs;
 using SN.withSIX.Play.Applications.Views.Dialogs;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Dialogs
 {
-    [DoNotObfuscate]
+    
     public partial class NewProfileView : StandardDialog, INewProfileView
     {
         public static readonly DependencyProperty ViewModelProperty =

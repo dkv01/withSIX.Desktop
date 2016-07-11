@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -48,20 +48,20 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             }
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task RemoveSelected(IReadOnlyCollection<IHierarchicalLibraryItem> items) => _modLibraryViewModel.RemoveLibraryItem(items.OfType<CollectionLibraryItemViewModel>());
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void ClearCollection(IReadOnlyCollection<IHierarchicalLibraryItem> content) {
             _modLibraryViewModel.ClearCollections(content.OfType<CollectionLibraryItemViewModel>());
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void ClearCustomizations(IReadOnlyCollection<IHierarchicalLibraryItem> content) {
             _modLibraryViewModel.ClearCustomizations(content.OfType<CollectionLibraryItemViewModel>());
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Unsubscribe(IReadOnlyCollection<IHierarchicalLibraryItem> content) => Task.WhenAll(
         content.OfType<SubscribedCollectionLibraryItemViewModel>()
             .Select(x => _modLibraryViewModel.Unsubscribe(x)));

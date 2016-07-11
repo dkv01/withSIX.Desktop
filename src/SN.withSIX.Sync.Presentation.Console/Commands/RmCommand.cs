@@ -4,13 +4,13 @@
 
 using System.Linq;
 using ManyConsole;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class RmCommand : BaseCommand
     {
         public bool IsBundle;

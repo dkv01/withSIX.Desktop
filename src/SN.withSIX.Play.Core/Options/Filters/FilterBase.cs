@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.Serialization;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -56,7 +56,7 @@ namespace SN.withSIX.Play.Core.Options.Filters
 
         public bool Handler(object item) => Handler((T)item);
 
-        [DoNotObfuscate]
+        
         public void ResetFilter() {
             ClearFilters();
             PublishFilter();

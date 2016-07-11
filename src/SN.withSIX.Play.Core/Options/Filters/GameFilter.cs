@@ -4,7 +4,7 @@
 
 using System;
 using System.Runtime.Serialization;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Entities;
 
@@ -40,11 +40,6 @@ namespace SN.withSIX.Play.Core.Options.Filters
             _supressPublish = false;
 
             base.DefaultFilters();
-        }
-
-        [ReportUsage("GameFilter: PublishFilter")]
-        public override void PublishFilter() {
-            base.PublishFilter();
         }
 
         protected override void ExecutePublish() {

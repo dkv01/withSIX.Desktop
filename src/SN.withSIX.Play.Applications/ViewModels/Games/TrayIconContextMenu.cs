@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics;
 using MoreLinq;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
@@ -72,12 +72,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             });
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void Open() {
             _psvm.TrayIconDoubleclicked.Execute(null);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public void Exit() {
             _psvm.Exit.Execute(null);
         }

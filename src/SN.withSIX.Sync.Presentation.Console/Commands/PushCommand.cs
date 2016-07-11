@@ -3,14 +3,14 @@
 // </copyright>
 
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class PushCommand : BaseCommand
     {
         readonly IRsyncLauncher _rsyncLauncher;

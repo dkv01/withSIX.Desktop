@@ -4,7 +4,7 @@
 
 using System;
 using System.Runtime.Serialization;
-using SmartAssembly.ReportUsage;
+
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
@@ -45,11 +45,6 @@ namespace SN.withSIX.Play.Core.Options.Filters
             _supressPublish = false;
 
             base.DefaultFilters();
-        }
-
-        [ReportUsage("MissionFilter: PublishFilter")]
-        public override void PublishFilter() {
-            base.PublishFilter();
         }
 
         public override bool Handler(IContent content) {

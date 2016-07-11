@@ -5,12 +5,12 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {
-    [DoNotObfuscate]
+    
     public partial class AboutView : UserControl
     {
         public AboutView() {

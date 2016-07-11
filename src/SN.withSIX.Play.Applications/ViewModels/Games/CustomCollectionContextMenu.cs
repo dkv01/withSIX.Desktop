@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -35,63 +35,63 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
         internal ModLibraryViewModel Library { get; }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Hexagon)]
         public void ActivateCollection(CollectionLibraryItemViewModel content) {
             Library.ActiveItem = content.Model;
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick)]
         public Task LaunchCollection(CollectionLibraryItemViewModel content) => Library.LaunchCollection(content);
 
-        [MenuItem(type: typeof (ModShortcutMenu)), DoNotObfuscate]
+        [MenuItem(type: typeof (ModShortcutMenu))]
         public void CreateDesktopShortcut(CollectionLibraryItemViewModel content) {}
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Publish(CollectionLibraryItemViewModel content) => _uploadCollection.Upload(content as CustomCollectionLibraryItemViewModel);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void UninstallModsFromDisk(CollectionLibraryItemViewModel content) {
             Library.UninstallCollection(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Notes), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Notes)]
         public void ShowNotes(CollectionLibraryItemViewModel content) {
             Library.ShowCollectionNotes(content);
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Diagnose(CollectionLibraryItemViewModel content) => Library.Diagnose(content.Model);
 
-        [MenuItem("Copy (fork) collection"), DoNotObfuscate]
+        [MenuItem("Copy (fork) collection")]
         public void ForkCollection(CollectionLibraryItemViewModel content) {
             Library.CloneCollection(content);
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void RenameCollection(CollectionLibraryItemViewModel content) {
             content.IsEditing = true;
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void ClearCollection(CollectionLibraryItemViewModel content) {
             Library.ClearCollection(content);
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void ClearCustomizations(CollectionLibraryItemViewModel content) {
             Library.ClearCustomizations(content);
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task RemoveCollection(CollectionLibraryItemViewModel content) => content.Remove();
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Unsubscribe(CollectionLibraryItemViewModel item) => Library.Unsubscribe((SubscribedCollectionLibraryItemViewModel)item);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task RefreshCustomRepoInfo(CollectionLibraryItemViewModel content) => Library.RefreshCustomRepoInfo(content);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void ShowInfo(CollectionLibraryItemViewModel obj) {
             obj.ViewOnline();
         }

@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
@@ -22,16 +22,16 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
         public CustomCollectionContextMenu Parent { get; set; }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task CreateDesktopShortcut(CollectionLibraryItemViewModel content) => Parent.Library.CreateShortcutGame(content.Model);
 
-        [MenuItem("Create desktop shortcut through PwS; Update and Launch"), DoNotObfuscate]
+        [MenuItem("Create desktop shortcut through PwS; Update and Launch")]
         public Task CreateDesktopShortcutThroughPws(CollectionLibraryItemViewModel content) => Parent.Library.CreateShortcutPws(content.Model);
 
-        [MenuItem("Create desktop shortcut through PwS; Update and Join"), DoNotObfuscate]
+        [MenuItem("Create desktop shortcut through PwS; Update and Join")]
         public Task CreateDesktopShortcutThroughPwsJoin(CollectionLibraryItemViewModel content) => Parent.Library.CreateShortcutPwsJoin(content.Model);
 
-        [MenuItem("Create desktop shortcut through PwS in lockdown"), DoNotObfuscate]
+        [MenuItem("Create desktop shortcut through PwS in lockdown")]
         public Task CreateDesktopShortcutThroughPwsLockdown(CollectionLibraryItemViewModel content) => Parent.Library.CreateShortcutPwsLockdown(content.Model);
 
         protected override void UpdateItemsFor(CollectionLibraryItemViewModel item) {

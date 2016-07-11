@@ -12,7 +12,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -74,7 +74,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
     public abstract class LibraryItemViewModel : LibraryBase, ISelectable, IHaveSelectedItem
     {
         readonly object _childrenLock = new object();
-        [DoNotObfuscate] readonly ObservableAsPropertyHelper<bool> _hasChildren;
+         readonly ObservableAsPropertyHelper<bool> _hasChildren;
         IContextMenu _barMenu;
         protected ICollectionView _childrenView;
         IContextMenu _contextMenu;

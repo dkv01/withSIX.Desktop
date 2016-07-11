@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -26,47 +26,47 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
         public ModLibraryViewModel Library { get; }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public void RemoveFromActiveCollection(IReadOnlyCollection<IContent> content) {
             Library.RemoveFromCollection(content);
         }
 
-        [MenuItem("Add selected to..."), DoNotObfuscate]
+        [MenuItem("Add selected to...")]
         public Task AddTo(IReadOnlyCollection<IContent> content) => Library.OpenAddToCollectionsView(content.OfType<IMod>().ToArray());
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Add), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Add)]
         public void AddToActiveCollection(IReadOnlyCollection<IContent> content) {
             Library.AddToCollection(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick)]
         public Task LaunchSelected(IReadOnlyCollection<IContent> content) => Library.Launch(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Tools), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Tools)]
         public Task DiagnoseSelected(IReadOnlyCollection<IContent> content) => Library.Diagnose(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_X), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_X)]
         public Task UninstallSelectedFromDisk(IReadOnlyCollection<IContent> content) => Library.Uninstall(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Add), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Add)]
         public Task CreateCollectionWithSelected(IReadOnlyCollection<IContent> content) => Library.AddCollection(content);
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void MakeRequired(IReadOnlyCollection<IContent> content) {
             SetRequired(content, true);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void MakeOptional(IReadOnlyCollection<IContent> content) {
             SetRequired(content, false);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void LockVersion(IReadOnlyCollection<IContent> content) {
             content.OfType<ToggleableModProxy>().ForEach(x => x.Lock());
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock), DoNotObfuscate]
+        [MenuItem(Icon = SixIconFont.withSIX_icon_Lock)]
         public void UnlockVersion(IReadOnlyCollection<IContent> content) {
             content.OfType<ToggleableModProxy>().ForEach(x => x.Unlock());
         }

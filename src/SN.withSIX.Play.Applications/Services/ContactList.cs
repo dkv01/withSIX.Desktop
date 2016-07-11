@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Context;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
@@ -30,7 +30,7 @@ using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Applications.Services
 {
-    [DoNotObfuscate]
+    
     public class ContactList : PropertyChangedBase, IHandle<GameLaunchedEvent>, IHandle<GameTerminated>,
         IHandle<ApiKeyUpdated>,
         IHandle<RefreshLoginRequest>,
@@ -157,7 +157,6 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        [SmartAssembly.ReportUsage.ReportUsage]
         public void RetrieveApiKey() {
             //Tools.OpenUrl(API_KEY_URL);
             _eventBus.PublishOnCurrentThread(new RequestOpenLogin());

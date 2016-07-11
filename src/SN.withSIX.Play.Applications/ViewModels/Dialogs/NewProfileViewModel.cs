@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -24,7 +24,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Dialogs
 {
     public interface INewProfileViewModel : ISupportsActivation {}
 
-    [DoNotObfuscate]
+    
     public class NewProfileViewModel : DialogBase, IDisposable, INewProfileViewModel
     {
         readonly IDialogManager _dialogManager;

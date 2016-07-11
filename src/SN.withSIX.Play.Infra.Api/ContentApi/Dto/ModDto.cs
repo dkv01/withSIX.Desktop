@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
-    [DataContract, DoNotObfuscateType]
+    [DataContract]
     class ModDto : NewContentBaseDto
     {
         [DataMember]

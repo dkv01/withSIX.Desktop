@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Steam
 {
-    [DoNotObfuscate]
+    
     public class ParseException : Exception
     {
         public ParseException() {}

@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -258,13 +258,13 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         public bool GameMatch() => CollectionItems.Any() || Items.Any();
     }
 
-    [DoNotObfuscate]
+    
     public class TransferError : Exception
     {
         public TransferError(string format, WebException webException) : base(format, webException) {}
     }
 
-    [DoNotObfuscate]
+    
     public class ValidationErrors
     {
         public string Message { get; set; }

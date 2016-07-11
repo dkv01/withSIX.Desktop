@@ -14,8 +14,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using Caliburn.Micro;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
@@ -115,7 +115,6 @@ namespace SN.withSIX.Play.Applications.Services
         public async Task JoinServer() {
             var server = GetCurrentGame().CalculatedSettings.Server;
             if (server == null) {
-                UsageCounter.ReportUsage("Dialog - No active server to join");
                 await _dialogManager.MessageBox(new MessageBoxDialogParams("No active server to join"));
                 return;
             }
@@ -243,8 +242,6 @@ namespace SN.withSIX.Play.Applications.Services
             Contract.Requires<ArgumentNullException>(server != null);
             if ((server.Protection != ProtectionLevel.Low) && (server.Protection != ProtectionLevel.None))
                 return false;
-            UsageCounter.ReportUsage(
-                $"Dialog - Connecting to unprotected server: {_settings.AppOptions.RememberWarnOnUnprotectedServer}");
 
             if (!_settings.AppOptions.RememberWarnOnUnprotectedServer) {
                 var r =
@@ -363,14 +360,14 @@ namespace SN.withSIX.Play.Applications.Services
         #endregion
     }
 
-    [DoNotObfuscate]
+    
     public class GameLaunchException : Exception
     {
         public GameLaunchException(string message) : base(message) {}
         public GameLaunchException(string message, Exception exception) : base(message, exception) {}
     }
 
-    [DoNotObfuscate]
+    
     public class JoinServerException : Exception
     {
         public JoinServerException(string fileName, string arguments, string workingDirectory, Exception exception)

@@ -4,7 +4,7 @@
 
 using System;
 using System.IO;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -37,7 +37,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Missions
         public const string MpMission = "mission_mp";
     }
 
-    [DoNotObfuscate]
+    
     public class Mission : MissionBase, IComparePK<Mission>, IHavePackageName
     {
         public static readonly string ApiPath = "missions";

@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -14,7 +14,7 @@ using SN.withSIX.Sync.Core.Services;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class CommitCommand : BaseCommandAsync
     {
         readonly IPublishingApi _publishingApi;

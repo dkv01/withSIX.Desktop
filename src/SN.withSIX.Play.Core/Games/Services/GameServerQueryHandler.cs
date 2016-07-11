@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 using SN.withSIX.Sync.Core.Transfer;
@@ -58,10 +58,10 @@ namespace SN.withSIX.Play.Core.Games.Services
 
         //var gamespyQuery = new SixMasterQuery(query.Tag, _downloader);
         //return gamespyQuery.GetParsedServers();
-        [DoNotObfuscate]
+        
         public Task<IEnumerable<ServerQueryResult>> Query(GamespyServersQuery query) => Task.FromResult(Enumerable.Empty<ServerQueryResult>());
 
-        [DoNotObfuscate]
+        
         public Task<IEnumerable<ServerQueryResult>> Query(SourceServersQuery query) {
             var gamespyQuery = new SourceMasterQuery(query.Tag);
             return gamespyQuery.GetParsedServers();

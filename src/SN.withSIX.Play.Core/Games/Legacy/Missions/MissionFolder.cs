@@ -4,11 +4,11 @@
 
 using System;
 using System.IO;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Missions
 {
-    [DoNotObfuscate]
+    
     public class MissionFolder : MissionBase
     {
         public MissionFolder(Guid id) : base(id) {}

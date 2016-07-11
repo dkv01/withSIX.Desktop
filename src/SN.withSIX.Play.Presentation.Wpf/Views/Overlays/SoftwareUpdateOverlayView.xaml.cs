@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Windows.Controls;
-using SmartAssembly.Attributes;
+
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {
-    [DoNotObfuscate]
+    
     public partial class SoftwareUpdateOverlayView : UserControl
     {
         public SoftwareUpdateOverlayView() {

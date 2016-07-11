@@ -217,9 +217,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SmartAssembly.ReportException">
-      <HintPath>..\dll\SmartAssembly.ReportException.dll</HintPath>
-    </Reference>
     <Reference Include="SmartExceptionsCore, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\SmartExceptionsCore.dll</HintPath>
@@ -274,7 +271,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

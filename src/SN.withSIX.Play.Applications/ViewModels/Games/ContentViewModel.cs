@@ -8,7 +8,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
@@ -24,12 +24,12 @@ using IScreen = ReactiveUI.IScreen;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
-    [DoNotObfuscate]
+    
     public class ContentViewModel : ReactiveConductor<ModuleViewModelBase>.Collection.OneActive, IContentViewModel,
         IHandle<RequestShowMissionLibrary>, IHaveOverlay
     {
         readonly IDialogManager _dialogManager;
-        [DoNotObfuscate] readonly ObservableAsPropertyHelper<OverlayViewModelBase> _overlay;
+         readonly ObservableAsPropertyHelper<OverlayViewModelBase> _overlay;
         GameViewModel _activeGame;
         ExportLifetimeContext<GameViewModel> _activeGameContext;
         bool _isMenuOpen = true;
@@ -230,7 +230,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             ((IDeactivate) module).Deactivate(false);
         }
 
-        [ReportUsage]
+
         void GameBrowserDoubleClicked(object g) {
             var mods = ActiveGame.Mods;
             if (mods != null)

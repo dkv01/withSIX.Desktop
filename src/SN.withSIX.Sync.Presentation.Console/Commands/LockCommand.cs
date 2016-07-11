@@ -6,12 +6,12 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class LockCommand : BaseCommand
     {
         public string RepoDir;

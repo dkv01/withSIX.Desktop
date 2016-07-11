@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Profiles;
 using SN.withSIX.Play.Applications.Extensions;
@@ -18,7 +18,7 @@ namespace SN.withSIX.Play.Applications.UseCases
 {
     public class GetProfilesMenuViewModelQuery : IRequest<ProfilesMenuViewModel> {}
 
-    [StayPublic]
+    
     public class GetProfilesMenuViewModelQueryHandler :
         IRequestHandler<GetProfilesMenuViewModelQuery, ProfilesMenuViewModel>
     {

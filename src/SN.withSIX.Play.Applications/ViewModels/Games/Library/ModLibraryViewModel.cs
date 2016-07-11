@@ -17,8 +17,8 @@ using GongSolutions.Wpf.DragDrop;
 using MoreLinq;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
+
+
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
@@ -52,7 +52,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
-    [DoNotObfuscate]
+    
     public class ModLibraryViewModel : ContentLibraryRootViewModel, IDropTarget, ITransient
     {
         readonly IContentManager _contentList;
@@ -307,10 +307,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 .Where(x => x != null)
                 .Subscribe(x => SelectedItem = x);
 
-            ai.Subscribe(
-                modSet =>
-                    UsageCounter.ReportUsage("Active ModSet: {0}".FormatWith(modSet == null ? "None" : modSet.Name)));
-
             ai
                 .Skip(1)
                 .Subscribe(OnActiveItemChanged);
@@ -371,7 +367,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         public Task Unsubscribe(SubscribedCollectionLibraryItemViewModel collection) => _mediator.RequestAsyncWrapped(new UnsubscribeFromCollectionCommand(collection.Model.Id));
 
-        [DoNotObfuscate]
+        
         public void ViewOnline() {
             var item = SelectedItem as CollectionLibraryItemViewModel;
             if (item == null || !item.IsHosted)
@@ -379,7 +375,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             item.ViewOnline();
         }
 
-        [DoNotObfuscate]
+        
         public void VisitAuthorProfile() {
             var item = SelectedItem as CollectionLibraryItemViewModel;
             if (item == null || !item.IsHosted)
@@ -387,7 +383,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             item.VisitAuthorProfile();
         }
 
-        [DoNotObfuscate]
+        
         public override void DoubleClicked(RoutedEventArgs eventArgs) {
             if (eventArgs.FilterControlFromDoubleClick())
                 return;
@@ -411,7 +407,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 ActiveItem = item;
         }
 
-        [DoNotObfuscate]
+        
         public override void DoubleClickedDG(RoutedEventArgs eventArgs) {
             if (eventArgs.FilterControlFromDoubleClick())
                 return;
@@ -517,17 +513,17 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             }).ConfigureAwait(false);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowSettings() {
             ShowSettings(SelectedItem.FindItem<IContent>());
         }
 
-        [DoNotObfuscate]
+        
         public void ShowSettings(IContent mod) {
             _modSetsViewModel.ModSetConfigure(null);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowInfo() {
             ShowInfo(SelectedItem.FindItem<IContent>());
         }
@@ -541,7 +537,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         static bool AllowInfoOverlay(IMod mod) => mod is CustomRepoMod || mod is LocalMod;
 
-        [DoNotObfuscate]
+        
         public void ShowInfo(IContent mod) {
             SelectedItem.SelectedItem = mod;
             var m = mod.ToMod();
@@ -551,7 +547,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 ShowInfoOverlay(mod);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowVersion(IContent mod) {
             SelectedItem.SelectedItem = mod;
             _modSetsViewModel.ModVersion();
@@ -561,7 +557,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             _modSetsViewModel.ModSetInfo();
         }
 
-        [DoNotObfuscate]
+        
         public void AddToCollection(IContent mod) {
             var ms = ActiveItem as Collection;
             if (ms == null)
@@ -589,7 +585,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 AddToModSet(ms, item);
         }
 
-        [DoNotObfuscate]
+        
         public void RemoveFromCollection(IContent mod) {
             var ms = ActiveItem as Collection;
             if (ms == null)
@@ -598,7 +594,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             RemoveFromCollection(mod, ms);
         }
 
-        [DoNotObfuscate]
+        
         public void RemoveFromCollection(IReadOnlyCollection<IContent> content) {
             var ms = ActiveItem as Collection;
             if (ms == null)
@@ -677,14 +673,14 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 : "The mod(s) are not part of the collection (e.g dependency or server required mod)";
         }
 
-        [DoNotObfuscate]
+        
         public async void RemoveLibraryItem() {
             var item = SelectedItem.FindItem<ContentLibraryItemViewModel>();
             if (item != null)
                 await RemoveLibraryItem(item).ConfigureAwait(false);
         }
 
-        [DoNotObfuscate]
+        
         public override async Task RemoveLibraryItem(ContentLibraryItemViewModel content) {
             var repo = content as ContentLibraryItemViewModel<SixRepo>;
             if (repo != null) {
@@ -750,7 +746,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             throw new NotSupportedException("This collection type is not supported");
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         public async Task RemoveCollection(CustomCollection collection) {
             Contract.Requires<ArgumentNullException>(collection != null);
             if (collection.PublishedId != null)
@@ -760,8 +755,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                     (await _dialogManager.MessageBox(
                         new MessageBoxDialogParams("Do you want to remove:\n" + collection.Name,
                             "Are you sure about removing the modset?", SixMessageBoxButton.YesNo))).IsYes();
-
-                UsageCounter.ReportUsage("Dialog - Remove ModSet {0}".FormatWith(report));
 
                 if (report) {
                     _contentManager.Value.RemoveCollection(collection);
@@ -780,13 +773,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 await _mediator.RequestAsyncWrapped(new DeleteCollectionCommand(item.Id));
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         public async Task RemoveCollection(SubscribedCollection collection) {
             _dialogManager.MessageBox(
                 new MessageBoxDialogParams("To remove a Subscribed Collection please Unsubscribe from it"));
         }
 
-        [DoNotObfuscate]
+        
         public async Task Verify(IContent mod) {
             CanVerify = false;
             try {
@@ -825,7 +818,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 await Uninstall(content1).ConfigureAwait(false);
         }
 
-        [DoNotObfuscate]
+        
         public void ShowNotes(IHaveNotes content) {
             _modSetsViewModel.OpenNote(content);
         }
@@ -955,7 +948,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             return -1;
         }
 
-        [DoNotObfuscate]
+        
         public void ActivateSelectedItem() {
             ActiveItem = ((CollectionLibraryItemViewModel) SelectedItem).Model;
         }
@@ -1007,8 +1000,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 modSet.Name = mod.Name;
             }
             Game.CalculatedSettings.Collection = modSet;
-            UsageCounter.ReportUsage("Changed active modset");
-
             if (modSet == null) {
                 foreach (var i in _contentList.Mods.ToArrayLocked())
                     i.IsInCurrentCollection = false;
@@ -1020,7 +1011,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 i.IsInCurrentCollection = mods.Contains(i);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
         public Task ModVerify(IMod mod) {
             // Workaround for no custom repo traveling with the mod into the new blank collection :)
             var collectionLibraryItem = SelectedItem as CustomCollectionLibraryItemViewModel;
@@ -1037,7 +1027,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             return ModSetVerify(DomainEvilGlobal.SelectedGame.ActiveGame.CalculatedSettings.Collection);
         }
 
-        [SmartAssembly.Attributes.ReportUsage]
+
         async Task ModSetVerify(Collection collection) {
             ActiveItem = collection;
             try {
@@ -1199,13 +1189,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 items.ForEach(x => x.Model.ClearCustomizations(_contentList));
         }
 
-        [DoNotObfuscate]
+        
         public Task CreateShortcutPwsJoin(Collection collection) => ShortcutCreator.CreateDesktopPwsIcon(
             $@"Play {Game.MetaData.Name}_{collection.Name} withSIX",
             $"ModSet: {collection.Name}\nCreated:{DateTime.Now}",
             $"pws://?mod_set={collection.Id}&action=update,join");
 
-        [DoNotObfuscate]
+        
         public void ShowDependency(string dependency) {
             BrowserHelper.TryOpenUrlIntegrated(Tools.Transfer.JoinUri(CommonUrls.PlayUrl, Game.MetaData.Slug,
                 "mods",

@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using ManyConsole;
 using NDepend.Path;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Sync.Core.ExternalTools;
 using SN.withSIX.Sync.Core.Packages;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {
-    [DoNotObfuscateType]
+
     public class SignCommand : BaseCommand
     {
         readonly IAddonSigner _signer;

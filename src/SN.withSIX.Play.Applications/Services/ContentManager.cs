@@ -15,14 +15,13 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
 using ShortBus;
-using SmartAssembly.ReportUsage;
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Content;
 using SN.withSIX.Api.Models.Content.Arma3;
@@ -701,9 +700,6 @@ namespace SN.withSIX.Play.Applications.Services
                                 "About to execute, are you sure?",
                                 SixMessageBoxButton.YesNo))).IsYes();
 
-                            UsageCounter.ReportUsage(
-                                "Dialog - Execute actions on the active collection: {0}".FormatWith(report));
-
                             if (report)
                                 continue;
                         }
@@ -804,7 +800,6 @@ namespace SN.withSIX.Play.Applications.Services
         async Task HandleInstallUpdateAction() {
             var modSet = Game.CalculatedSettings.Collection;
             if (modSet == null) {
-                UsageCounter.ReportUsage("Dialog - No active modset to update");
                 await _dialogManager.MessageBox(new MessageBoxDialogParams("No active modset to update"));
                 return;
             }
@@ -832,7 +827,6 @@ namespace SN.withSIX.Play.Applications.Services
                 Game.Missions().PublishMission(fn);
                 return;
             } catch (DirectoryNotFoundException) {}
-            UsageCounter.ReportUsage("Dialog - Could not find the mission");
             await _dialogManager.MessageBox(new MessageBoxDialogParams("Tried to publish " + fn +
                                                                             ". But could not find the mission"));
         }
@@ -1107,8 +1101,6 @@ namespace SN.withSIX.Play.Applications.Services
                 "Do you want to create a shortcut on your desktop for this custom repo for easy access?",
                 "Create Shortcut", SixMessageBoxButton.YesNo))).IsYes();
 
-            UsageCounter.ReportUsage("Dialog - create shortcut custom repo: {0}".FormatWith(report));
-
             if (report) {
                 ShortcutCreator.CreateDesktopPwsIconCustomRepo(
                     "Play on CustomRepo server",
@@ -1118,7 +1110,6 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         async Task<Uri> GetNewUri(Uri uri) {
-            UsageCounter.ReportUsage("Dialog - Please enter username and password");
             var ev = await _specialDialogManager.UserNamePasswordDialog("Please enter username and password",
                 uri.AuthlessUri().ToString());
             if (!ev.Item3.GetValueOrDefault(false))
@@ -1239,7 +1230,6 @@ namespace SN.withSIX.Play.Applications.Services
             if (fi.Length < AttachmentCeil)
                 return true;
 
-            UsageCounter.ReportUsage("Dialog - File size is too large");
             _dialogManager.MessageBox(new MessageBoxDialogParams(
                 $"The file size is too large, max: {Tools.FileUtil.GetFileSize(AttachmentCeil)}, current: {Tools.FileUtil.GetFileSize(fi.Length)}"));
 

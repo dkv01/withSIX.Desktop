@@ -17,8 +17,8 @@ using Caliburn.Micro;
 using ReactiveUI;
 using ShortBus;
 using SimpleInjector;
-using SmartAssembly.ReportException;
-using SmartAssembly.SmartExceptionsCore;
+
+
 using SN.withSIX.Api.Models;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -76,7 +76,6 @@ namespace SN.withSIX.Play.Presentation.Wpf
             typeof (UserSettingsStorage).Assembly
         };
         IPlayStartupManager _startupManager;
-        public static ReportSender SADummy = null;
 
         protected override void SetupViewNamespaces() {
             base.SetupViewNamespaces();
@@ -141,19 +140,11 @@ namespace SN.withSIX.Play.Presentation.Wpf
             });
 
             MappingExtensions.Mapper = c.CreateMapper();
-
-            if (!Common.IsDebugEnabled)
-                ErrorHandler.Report = Report;
             _startupManager = Container.GetInstance<IPlayStartupManager>();
             StartupSequence.Start(_startupManager);
             //SetupCookies(Container.GetInstance<IInstalledGamesService>());
             SetupThemes();
             // WARNING - DO NOT SHOW NON-FATAL DIALOGS HERE
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void Report(Exception ex) {
-            ExceptionReporting.Report(ex);
         }
 
         void SetupThemes() {

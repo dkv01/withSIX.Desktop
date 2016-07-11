@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
@@ -66,17 +66,17 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                 .IsVisible = allowChanges && cc.AllModsRequired;
         }
 
-        [MenuItem("Refresh"), DoNotObfuscate]
+        [MenuItem("Refresh")]
         public Task RefreshCollection(CollectionLibraryItemViewModel item) => _mediator.RequestAsyncWrapped(new RefreshCollectionCommand(item.Model.Id));
 
         // workaround for menu not disappearing..
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task ChangeState(CollectionLibraryItemViewModel item) => Task.Run(() => {
             StateChangeMenu.SetNextItem((CustomCollectionLibraryItemViewModel)item);
             StateChangeMenu.IsOpen = true;
         });
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public async Task Unpublish(CollectionLibraryItemViewModel item) {
             if (
                 (await _dialogManager.MessageBox(
@@ -86,7 +86,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                 await _mediator.RequestAsyncWrapped(new UnpublishCollectionCommand(item.Model.Id));
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public async Task Remove(CollectionLibraryItemViewModel item) {
             if (
                 (await _dialogManager.MessageBox(
@@ -96,36 +96,36 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                 await _mediator.RequestAsyncWrapped(new DeleteCollectionCommand(item.Model.Id));
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void ViewWebPage(CollectionLibraryItemViewModel item) {
             item.ViewOnline();
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void LockAllVersions(CollectionLibraryItemViewModel item) {
             var model = item.Model as CustomCollection;
             model.Lock();
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void UnlockAllVersions(CollectionLibraryItemViewModel item) {
             var model = item.Model as CustomCollection;
             model.Unlock();
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void UpdateAllLockedVersions(CollectionLibraryItemViewModel item) {
             var model = item.Model as CustomCollection;
             model.UpdateAllLocked();
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void MakeAllModsRequired(CollectionLibraryItemViewModel item) {
             var model = item.Model as CustomCollection;
             model.Require();
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public void MakeAllModsOptional(CollectionLibraryItemViewModel item) {
             var model = item.Model as CustomCollection;
             model.Unrequire();
@@ -141,13 +141,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Header = "Change state";
         }
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Private(CustomCollectionLibraryItemViewModel item) => ChangeState(item, CollectionScope.Private);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Unlisted(CustomCollectionLibraryItemViewModel item) => ChangeState(item, CollectionScope.Unlisted);
 
-        [MenuItem, DoNotObfuscate]
+        [MenuItem]
         public Task Public(CustomCollectionLibraryItemViewModel item) => ChangeState(item, CollectionScope.Public);
 
         Task ChangeState(CustomCollectionLibraryItemViewModel collection, CollectionScope scope) => _uploadCollection.ChangeScope(collection, scope);

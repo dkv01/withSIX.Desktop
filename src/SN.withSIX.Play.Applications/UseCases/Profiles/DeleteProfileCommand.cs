@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using ShortBus;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.UseCases.Profiles
@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
         public Guid Guid { get; }
     }
 
-    [StayPublic]
+    
     public class DeleteProfileCommandHandler : IRequestHandler<DeleteProfileCommand, UnitType>
     {
         readonly UserSettings _settings;

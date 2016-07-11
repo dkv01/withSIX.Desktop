@@ -3,7 +3,7 @@
 // </copyright>
 
 using ReactiveUI.Legacy;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -14,7 +14,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionVisibilityViewModel {}
 
-    [DoNotObfuscate]
+    
     public class CollectionVisibilityViewModel : DialogBase, ICollectionVisibilityViewModel
     {
         CollectionScope _visibility = CollectionScope.Private;

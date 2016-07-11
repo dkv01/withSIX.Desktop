@@ -13,7 +13,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -276,13 +276,13 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
             }
         }
 
-        [DoNotObfuscate]
+        
         public class InvalidCommandException : Exception
         {
             public InvalidCommandException(string message) : base(message) {}
         }
 
-        [DoNotObfuscate]
+        
         public class InvalidCommandNoSpaceException : InvalidCommandException
         {
             public InvalidCommandNoSpaceException(string message) : base(message) {}

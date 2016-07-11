@@ -4,7 +4,7 @@
 
 using System;
 using ReactiveUI;
-using SmartAssembly.Attributes;
+
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.Services;
@@ -14,7 +14,7 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels
 {
-    [DoNotObfuscate]
+    
     public interface IPlayShellViewModel : IShellViewModel, IShellViewModelTrayIcon, IScreen, IHaveOverlayConductor,
         ISupportsActivation
         //, IConductor
