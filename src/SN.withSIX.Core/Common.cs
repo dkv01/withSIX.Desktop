@@ -42,8 +42,8 @@ namespace SN.withSIX.Core
         public const string ClientHeader = "X-Six-Client";
         public const string ClientHeaderV = ClientHeader + "-V";
         public static AppCommon App;
-        public static readonly StartupFlags Flags = new StartupFlags();
-        public static readonly DateTime StartTime = Process.GetCurrentProcess().StartTime.ToUniversalTime();
+        public static StartupFlags Flags { get; } = new StartupFlags();
+        public static DateTime StartTime { get; } = Process.GetCurrentProcess().StartTime.ToUniversalTime();
         public static readonly string[] DefaultHosts = {
             "c1-de.sixmirror.com",
             "c1-us.sixmirror.com"

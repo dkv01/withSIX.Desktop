@@ -270,12 +270,12 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         private void HandleSystem() {
             var pm = Container.GetInstance<IProcessManager>();
-            var si = Initializer.BuildSi(pm);
+            var si = Infra.Api.Initializer.BuildSi(pm);
             if ((Consts.HttpAddress == null || si.IsHttpPortRegistered) &&
                 (Consts.HttpsAddress == null || si.IsSslRegistered()))
                 return;
             ApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm);
-            si = Initializer.BuildSi(pm); // to output
+            si = Infra.Api.Initializer.BuildSi(pm); // to output
         }
 
         async Task RunInitializers() {

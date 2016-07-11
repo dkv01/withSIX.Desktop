@@ -321,7 +321,6 @@
     <Compile Include="Entrypoint.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\ScreenExtensions.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="MiniMainWindow.xaml.cs">
       <DependentUpon>MiniMainWindow.xaml</DependentUpon>
     </Compile>

@@ -10,7 +10,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace SN.withSIX.Mini.Presentation.Core
 {
     public class Initializer : IInitializer
     {

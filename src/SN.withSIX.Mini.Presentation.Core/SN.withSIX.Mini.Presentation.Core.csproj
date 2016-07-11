@@ -230,6 +230,7 @@
     <Compile Include="Commands\UninstallCommand.cs" />
     <Compile Include="Commands\UnpackCommand.cs" />
     <Compile Include="Commands\UnpackSingleGZipCommand.cs" />
+    <Compile Include="Initializer.cs" />
     <Compile Include="NLogSplatLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApiPortHandler.cs" />
