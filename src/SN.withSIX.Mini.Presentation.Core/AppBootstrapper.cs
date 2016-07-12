@@ -89,20 +89,22 @@ namespace SN.withSIX.Mini.Presentation.Core
         static readonly Assembly[] pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
         private static readonly Assembly[] platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
         private readonly Assembly[] _applicationAssemblies;
+        private readonly string[] _args;
+
+        private readonly bool _commandMode;
         readonly Paths _paths;
+        private readonly Assembly[] _presentationAssemblies;
         protected readonly Container Container;
         protected readonly IMutableDependencyResolver DependencyResolver;
-        private readonly string[] _args;
         TaskPoolScheduler _cacheScheduler;
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
-        private readonly Assembly[] _presentationAssemblies;
 
         protected AppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver, string[] args) {
             Container = container;
             DependencyResolver = dependencyResolver;
             _args = args;
-            CommandMode = DetermineCommandMode();
+            _commandMode = DetermineCommandMode();
 
             _applicationAssemblies = GetApplicationAssemblies().ToArray();
             _presentationAssemblies = GetPresentationAssemblies().ToArray();
@@ -114,8 +116,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             SetupContainer();
         }
 
-        public static bool CommandMode { get; private set; }
-
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 
         public void Dispose() {
@@ -125,7 +125,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => globalApplicationAssemblies;
 
         protected virtual void Dispose(bool d) {
-            if (!CommandMode)
+            if (!_commandMode)
                 EndOv();
         }
 
@@ -184,7 +184,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         public async Task Startup(Func<Task> act) {
-            if (CommandMode)
+            if (_commandMode)
                 RunCommands();
             else
                 await StartupUiMode(act).ConfigureAwait(false);
@@ -326,7 +326,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterServices();
             RegisterViews();
 
-            if (CommandMode)
+            if (_commandMode)
                 Container.RegisterPlugins<BaseCommand>(_presentationAssemblies);
             // Fix JsonSerializer..
             //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));
@@ -418,7 +418,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 */
         }
 
-        void RunCommands() => Environment.Exit(GetCommandMode().RunCommandsAndLog(_args));
+        void RunCommands() => Environment.Exit(Container.GetInstance<CommandRunner>().RunCommandsAndLog(_args));
 
         protected virtual IEnumerable<Assembly> GetPresentationAssemblies()
             => pluginAssemblies.Concat(platformAssemblies).Concat(globalPresentationAssemblies);
@@ -432,7 +432,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             //_container.Register<IDepResolver, DepResolver>();
             var assemblies =
                 new[] {
-                    pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies, coreAssemblies
+                    pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies,
+                    coreAssemblies
                 }
                     .SelectMany(x => x);
             //AppDomain.CurrentDomain.GetAssemblies()
@@ -673,8 +674,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             foreach (var i in _initializers)
                 await i.Deinitialize().ConfigureAwait(false);
         }
-
-        public CommandRunner GetCommandMode() => Container.GetInstance<CommandRunner>();
 
         private async Task AfterUi() {
             if (ErrorHandler.Handler != null)
