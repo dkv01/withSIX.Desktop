@@ -69,8 +69,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 MainLog.Logger.FormattedErrorException(ex, "An error occurred during processing startup");
                 throw;
             }
-            if (!AppBootstrapper.CommandMode)
-                HandleSingleInstance();
             StartApp();
         }
 
@@ -89,15 +87,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         static void HandleSquirrel() => new SquirrelUpdater().HandleStartup(_args);
-
-        static void HandleSingleInstance() {
-            if (
-                !SingleInstance<App>.TryInitializeAsFirstInstance<App>("withSIX-Sync",
-                    new[] {"-NewVersion=" + Consts.ProductVersion},
-                    Path.GetFileName(Assembly.GetEntryAssembly().Location)))
-                // TODO; Deal with 'another version'
-                Environment.Exit(0);
-        }
 
         static int StartApp() {
             var app = new App();

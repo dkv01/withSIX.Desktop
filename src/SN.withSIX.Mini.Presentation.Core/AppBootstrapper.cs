@@ -91,7 +91,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         private readonly Assembly[] _applicationAssemblies;
         private readonly string[] _args;
 
-        private readonly bool _commandMode;
+        public bool CommandMode { get; }
         readonly Paths _paths;
         private readonly Assembly[] _presentationAssemblies;
         protected readonly Container Container;
@@ -104,7 +104,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container = container;
             DependencyResolver = dependencyResolver;
             _args = args;
-            _commandMode = DetermineCommandMode();
+            CommandMode = DetermineCommandMode();
 
             _applicationAssemblies = GetApplicationAssemblies().ToArray();
             _presentationAssemblies = GetPresentationAssemblies().ToArray();
@@ -125,7 +125,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => globalApplicationAssemblies;
 
         protected virtual void Dispose(bool d) {
-            if (!_commandMode)
+            if (!CommandMode)
                 EndOv();
         }
 
@@ -184,7 +184,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         public async Task Startup(Func<Task> act) {
-            if (_commandMode)
+            if (CommandMode)
                 RunCommands();
             else
                 await StartupUiMode(act).ConfigureAwait(false);
@@ -326,7 +326,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterServices();
             RegisterViews();
 
-            if (_commandMode)
+            if (CommandMode)
                 Container.RegisterPlugins<BaseCommand>(_presentationAssemblies);
             // Fix JsonSerializer..
             //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));

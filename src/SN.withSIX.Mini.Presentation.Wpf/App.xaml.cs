@@ -4,7 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,9 +78,21 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             base.OnStartup(e);
             _bootstrapper = new WpfAppBootstrapper(new Container(), Locator.CurrentMutable,
                 Environment.GetCommandLineArgs().Skip(1).ToArray());
+            if (_bootstrapper.CommandMode)
+                HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);
             Task.Factory.StartNew(StartupInternal, TaskCreationOptions.LongRunning).Unwrap().WaitSpecial();
         }
+
+        static void HandleSingleInstance() {
+            if (
+                !SingleInstance<App>.TryInitializeAsFirstInstance<App>("withSIX-Sync",
+                    new[] { "-NewVersion=" + Consts.ProductVersion },
+                    Path.GetFileName(Assembly.GetEntryAssembly().Location)))
+                // TODO; Deal with 'another version'
+                Environment.Exit(0);
+        }
+
 
         private Task StartupInternal() {
             // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
