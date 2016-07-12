@@ -12,12 +12,13 @@ namespace SN.withSIX.Play.Applications.Extensions
     {
         public static IMapper Mapper { get; set; }
 
-        public static IMappingExpression<TSource, TDestination> IgnoreAllMembers<TSource, TDestination>(
+        public static void IgnoreAllMembers<TSource, TDestination>(
             this IMappingExpression<TSource, TDestination> expression
-            ) {
-            expression.ForAllMembers(opt => opt.Ignore());
-            return expression;
-        }
+            ) => expression.ForAllMembers(opt => opt.Ignore());
+
+        public static void IgnoreAllOtherMembers<TSource, TDestination>(
+            this IMappingExpression<TSource, TDestination> expression
+            ) => expression.ForAllOtherMembers(opt => opt.Ignore());
 
         public static TDesired MapTo<TDesired>(this object input) => Mapper.Map<TDesired>(input);
 
