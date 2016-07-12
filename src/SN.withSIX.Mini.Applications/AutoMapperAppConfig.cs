@@ -300,7 +300,6 @@ namespace SN.withSIX.Mini.Applications
 
         static void SetupSettingsTabs(IProfileExpression cfg) {
             cfg.CreateMap<Settings, GeneralSettings>()
-                .IgnoreAllMembers()
                 .ForMember(x => x.ApiPort, opt => opt.MapFrom(src => src.Local.ApiPort))
                 .ForMember(x => x.OptOutErrorReports, opt => opt.MapFrom(src => src.Local.OptOutReporting))
                 .ForMember(x => x.EnableDesktopNotifications,
@@ -310,12 +309,12 @@ namespace SN.withSIX.Mini.Applications
                 .ForMember(x => x.EnableDiagnosticsMode,
                     opt => opt.MapFrom(src => src.Local.EnableDiagnosticsMode))
                 .ForMember(x => x.LaunchWithWindows, opt => opt.MapFrom(src => src.Local.StartWithWindows))
-                .ForMember(x => x.Version, opt => opt.UseValue(Consts.ProductVersion));
+                .ForMember(x => x.Version, opt => opt.UseValue(Consts.ProductVersion))
+                .IgnoreAllOtherMembers();
             cfg.CreateMap<GeneralSettings, Settings>()
-                .IgnoreAllMembers()
-                .AfterMap((src, dest) => src.MapTo(dest.Local));
+                .AfterMap((src, dest) => src.MapTo(dest.Local))
+                .IgnoreAllMembers();
             cfg.CreateMap<GeneralSettings, LocalSettings>()
-                .IgnoreAllMembers()
                 .ForMember(x => x.OptOutReporting, opt => opt.MapFrom(src => src.OptOutErrorReports))
                 .ForMember(x => x.ShowDesktopNotifications,
                     opt => opt.MapFrom(src => src.EnableDesktopNotifications))
@@ -323,7 +322,8 @@ namespace SN.withSIX.Mini.Applications
                     opt => opt.MapFrom(src => src.UseSystemBrowser))
                 .ForMember(x => x.EnableDiagnosticsMode,
                     opt => opt.MapFrom(src => src.EnableDiagnosticsMode))
-                .ForMember(x => x.StartWithWindows, opt => opt.MapFrom(src => src.LaunchWithWindows));
+                .ForMember(x => x.StartWithWindows, opt => opt.MapFrom(src => src.LaunchWithWindows))
+                .IgnoreAllOtherMembers();
         }
     }
 }
