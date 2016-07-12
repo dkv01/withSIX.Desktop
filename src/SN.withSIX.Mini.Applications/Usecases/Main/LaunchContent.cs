@@ -19,7 +19,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     [ApiUserAction("Launch")]
     public class LaunchContent : SingleCntentBase, INeedCancellationTokenSource, INotifyAction, IUseContent
     {
-        public LaunchContent(Guid gameId, ContentGuidSpec content) : base(gameId, content) {}
+        public LaunchContent(Guid gameId, ContentGuidSpec content, LaunchType launchType = LaunchType.Default,
+            LaunchAction action = LaunchAction.Default) : base(gameId, content) {
+            LaunchType = launchType;
+            Action = action;
+        }
+
+        public LaunchAction Action { get; }
+        public LaunchType LaunchType { get; }
         public DoneCancellationTokenSource CTS { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
@@ -27,8 +34,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var content = game.Contents.FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
-            return new LaunchContentAction(cancelToken: CTS.Token,
-                content: new ContentSpec(content, Content.Constraint)) {Name = content.Name, Href = href};
+            return new LaunchContentAction(LaunchType, CTS.Token,
+                new ContentSpec(content, Content.Constraint)) {Name = content.Name, Href = href, Action = Action};
         }
     }
 

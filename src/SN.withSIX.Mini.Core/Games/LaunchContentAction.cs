@@ -15,8 +15,6 @@ namespace SN.withSIX.Mini.Core.Games
             LaunchType = launchType;
         }
 
-
-
         public LaunchType LaunchType { get; }
         public LaunchAction Action { get; set; }
     }
