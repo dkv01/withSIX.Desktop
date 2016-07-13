@@ -41,6 +41,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 
         protected override void Configure() {
             base.Configure();
+            RxApp.SupportsRangeNotifications = false; // WPF doesnt :/
             SimpleInjectorContainerExtensions.RegisterReserved(typeof(IHandle), typeof(IScreen));
             SimpleInjectorContainerExtensions.RegisterReservedRoot(typeof(IHandle));
             UiTaskHandler.RegisterCommand = (command, action) => {
