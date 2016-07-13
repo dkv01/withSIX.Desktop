@@ -117,8 +117,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             Action.SetTargetWithoutContext(view, rootModel);
 
             var activatable = rootModel as IActivate;
-            if (activatable != null)
-                activatable.Activate();
+            activatable?.Activate();
 
             var deactivator = rootModel as IDeactivate;
             if (deactivator != null)
