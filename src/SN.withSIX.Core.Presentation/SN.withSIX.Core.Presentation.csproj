@@ -197,8 +197,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpCompress, Version=0.11.6.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
-      <HintPath>..\packages\sharpcompress.0.11.6\lib\net40\SharpCompress.dll</HintPath>
+    <Reference Include="SharpCompress, Version=0.12.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.12.1\lib\net45\SharpCompress.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ShortBus">

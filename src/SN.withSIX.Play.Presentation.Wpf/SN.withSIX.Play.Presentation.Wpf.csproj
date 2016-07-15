@@ -560,6 +560,10 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SharpCompress, Version=0.12.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.12.1\lib\net45\SharpCompress.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ShortBus">
       <HintPath>..\dll\ShortBus.dll</HintPath>
     </Reference>
@@ -1476,7 +1480,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
