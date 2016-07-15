@@ -18,7 +18,6 @@ namespace SN.withSIX.Core.Presentation.Logging
             MainLog.logManager = new Lazy<ILogManager>(() => new DefaultLogManager());
             // TODO: This can cause StackOverFlow when having electron.config copied from sync.config
             var loggingConfiguration = LogManager.Configuration;
-            Console.WriteLine("$$$ LogConfig: " + loggingConfiguration);
             if (loggingConfiguration == null)
                 LogManager.Configuration = CreateDefaultConfig(appName);
             AppDomain.CurrentDomain.UnhandledException += MainLog.CurrentDomainOnUnhandledException;
