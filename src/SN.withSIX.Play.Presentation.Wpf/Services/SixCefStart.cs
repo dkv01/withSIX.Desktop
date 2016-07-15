@@ -54,7 +54,7 @@ body {
                 RemoteDebuggingPort = 6666
 #endif
             };
-            cefSettings.SetOffScreenRenderingBestPerformanceArgs();
+            cefSettings.CefCommandLineArgs.Add("disable-gpu", "1");
             Cef.Initialize(cefSettings);
         }
 
