@@ -104,6 +104,7 @@ namespace SN.withSIX.Sync.Core.Packages
             bool createWhenNotExisting = false,
             string remote = null) {
             var pm = new PackageManager(repo, workDir, createWhenNotExisting, remote);
+            pm.LegacyMode = true;
             await repo.RefreshRemotes().ConfigureAwait(false);
             return pm;
         }
@@ -228,13 +229,18 @@ namespace SN.withSIX.Sync.Core.Packages
                     p.SetWorkingPath(s);
             }
 
-            await ProcessModern(noCheckout, packages).ConfigureAwait(false);
-            //await ProcessLegacy(noCheckout, skipWhenFileMatches, packages);
+            if (LegacyMode) {
+                await ProcessLegacy(noCheckout, skipWhenFileMatches, packages).ConfigureAwait(false);
+            } else {
+                await ProcessModern(noCheckout, packages).ConfigureAwait(false);
+            }
 
             await Repo.SaveAsync().ConfigureAwait(false);
 
             return packages.ToArray();
         }
+
+        public bool LegacyMode { get; set; }
 
         private async Task ProcessModern(bool noCheckout, Package[] packages) {
             if (noCheckout)
