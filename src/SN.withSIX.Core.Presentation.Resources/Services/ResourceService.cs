@@ -27,6 +27,4 @@ namespace SN.withSIX.Core.Presentation.Resources.Services
         static string GetResourcePath(string path) => SourceAssemblyName + "." +
                                                       path.Replace("/", ".").Replace("\\", ".");
     }
-
-    public interface IPresentationService {}
 }

@@ -196,8 +196,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             void Register() {
                 RegisterEventAggregator(_container);
 
-                _container.RegisterSingleton<IResourceService>(() => new ResourceService());
-
                 _container.RegisterInitializer<IProcessManager>(ConfigureProcessManager);
 
                 _container.RegisterSingleton<Func<HostCheckerType>>(() => HostCheckerType.WithPing);
