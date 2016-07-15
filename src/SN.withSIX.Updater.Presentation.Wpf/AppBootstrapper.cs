@@ -23,6 +23,7 @@ using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
+using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Options;
@@ -110,6 +111,7 @@ namespace SN.withSIX.Updater.Presentation.Wpf
                 typeof (EnterConfirmView).Assembly,
                 typeof (StartupManager).Assembly,
                 typeof (UserSettingsStorage).Assembly,
+                typeof (SystemInfo).Assembly,
                 typeof (ScreenBase).Assembly,
                 typeof (ToolsInstaller).Assembly,
                 typeof (Repository).Assembly,
