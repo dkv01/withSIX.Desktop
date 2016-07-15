@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
@@ -24,7 +25,11 @@ namespace SN.withSIX.Updater.Presentation.Wpf
             }
         }
 
+        [DllImport("Kernel32.dll")]
+        public static extern bool AttachConsole(int processId);
+
         static void Initialize() {
+            AttachConsole(-1);
             CommonBase.AssemblyLoader = new AssemblyLoader(Assembly.GetEntryAssembly());
             StartupSequence.PreInit(AppName);
             UpdaterApp.Launch();
