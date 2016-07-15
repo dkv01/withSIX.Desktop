@@ -1266,6 +1266,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
 
         static async Task ProcessPackage(GameController gm, Func<Task> act, StatusRepo statusRepo) {
             gm.PackageManager.StatusRepo = statusRepo;
+            gm.PackageManager.Progress = PackageManager.SetupSynqProgress();
             try {
                 await act().ConfigureAwait(false);
             } catch (AllZsyncFailException e) {
