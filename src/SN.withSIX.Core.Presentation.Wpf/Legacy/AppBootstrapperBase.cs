@@ -26,6 +26,7 @@ using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
 using SN.withSIX.Core.Presentation.Extensions;
+using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core;
@@ -62,6 +63,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
         // TODO: Add all assemblies that implement concrete types defined in setups here
         protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
             typeof (AppBootstrapperBase).Assembly,
+            typeof (CompressionUtil).Assembly,
             typeof (FileWriter).Assembly,
             typeof (Restarter).Assembly,
             typeof (Common).Assembly,

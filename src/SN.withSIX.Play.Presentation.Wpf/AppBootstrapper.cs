@@ -73,6 +73,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
         static readonly Assembly[] presentationAssemblies = {
             Assembly.GetExecutingAssembly(),
             typeof (EnterConfirmView).Assembly,
+            typeof (CompressionUtil).Assembly,
             typeof (UserSettingsStorage).Assembly
         };
         IPlayStartupManager _startupManager;
