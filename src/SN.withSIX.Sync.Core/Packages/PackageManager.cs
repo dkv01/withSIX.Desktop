@@ -45,15 +45,6 @@ namespace SN.withSIX.Sync.Core.Packages
         public ProgressLeaf Cleanup { get; set; }
     }
 
-    public class PackageProgressLegacy
-    {
-        public ProgressLeaf Downloading { get; set; }
-        public ProgressComponent Checkout { get; set; }
-        public ProgressLeaf PackageFetching { get; set; }
-        public ProgressLeaf CalculatingChanges { get; set; }
-    }
-
-
     public class PackageManager : IEnableLogging
     {
         readonly string _remote;
@@ -90,8 +81,19 @@ namespace SN.withSIX.Sync.Core.Packages
             _remote = remote;
         }
 
-        public PackageProgress Progress { get; set; }
-        public PackageProgressLegacy ProgressLegacy { get; set; }
+        public static PackageProgress SetupSynqProgress(string title = "Network mods") {
+            var packageFetching = new ProgressLeaf("Preparing");
+            var networkModsProcessing = new ProgressContainer("Downloading", 9);
+            var cleanup = new ProgressLeaf("Cleaning");
+
+            return new PackageProgress {
+                PackageFetching = packageFetching,
+                Processing = networkModsProcessing,
+                Cleanup = cleanup
+            };
+        }
+
+        public PackageProgress Progress { get; set; } = SetupSynqProgress();
 
         public PackageManagerSettings Settings { get; }
         public StatusRepo StatusRepo { get; set; }
@@ -378,10 +380,7 @@ namespace SN.withSIX.Sync.Core.Packages
                 allRemotes.AddRange(remotes);
                 Repository.Log("Processing package: {0}", name);
                 objects.AddRange(package.GetNeededObjects(skipWhenFileMatches));
-                ProgressLegacy?.CalculatingChanges.Update(null, j++.ToProgress(packages.Count));
             }
-
-            ProgressLegacy?.CalculatingChanges.Finished();
 
             return objects.DistinctBy(x => x.FO.Checksum).ToArray();
         }
@@ -392,7 +391,6 @@ namespace SN.withSIX.Sync.Core.Packages
             var i = 0;
             syncedPackages.AddRange(packages);
             var components = packages.Select(x => new ProgressLeaf(x.MetaData.Name)).ToArray();
-            ProgressLegacy?.Checkout.AddComponents(components);
             if (!noCheckout) {
                 foreach (var package in packages) {
                     var p = components[i++];
@@ -444,15 +442,11 @@ namespace SN.withSIX.Sync.Core.Packages
             StatusRepo.ProcessSize(GetExistingObjects(objects.Select(x => x.FO), packages), Repo.ObjectsPath,
                 GetPackedSize(packages));
             try {
-                using (Progress == null ? null : StatusRepo.Monitor(ProgressLegacy.Downloading, true)) {
-                    await
-                        Package.DownloadObjects(remotes, StatusRepo, relObjects, Repo.ObjectsPath).ConfigureAwait(false);
-                }
+                await
+                    Package.DownloadObjects(remotes, StatusRepo, relObjects, Repo.ObjectsPath).ConfigureAwait(false);
             } finally {
                 Repo.ReAddObject(doneObjects.Select(x => x.Checksum).ToArray());
             }
-
-            ProgressLegacy?.Downloading.Finished(); // TODO: Individual progress
 
             return relObjects.Select(x => x.FilePath).ToArray();
         }

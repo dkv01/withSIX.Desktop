@@ -244,18 +244,13 @@ namespace SN.withSIX.Mini.Applications.Services
             if (!progressContent.Any())
                 return null;
 
+            var bla = PackageManager.SetupSynqProgress(title);
+
             var modComponents = new ProgressComponent(title, progressContent.Count);
-            var packageFetching = new ProgressLeaf("Preparing");
-            var networkModsProcessing = new ProgressContainer("Downloading", 9);
-            var cleanup = new ProgressLeaf("Cleaning");
-            modComponents.AddComponents(packageFetching, networkModsProcessing, cleanup);
+            modComponents.AddComponents(bla.PackageFetching, bla.Processing, bla.Cleanup);
             _progress.AddComponents(modComponents);
 
-            return new PackageProgress {
-                PackageFetching = packageFetching,
-                Processing = networkModsProcessing,
-                Cleanup = cleanup
-            };
+            return bla;
         }
 
         async Task PublishIndividualItemStates(double progress = 0, long? speed = null) {
