@@ -139,14 +139,14 @@ Are you authorized to publish the custom repository?",
             _dialogManager.MessageBox(
                 new MessageBoxDialogParams(
                     "You need to add some items to your collection before you can Publish it!",
-                    "No mods in the collection")).WaitAndUnwrapException();
+                    "No mods in the collection")).WaitSpecial();
         }
 
         void EditDescription(CollectionLibraryItemViewModel collection) {
             _dialogManager.MessageBox(
                 new MessageBoxDialogParams(
                     "You need to add a description to your collection before you can Publish it!",
-                    "Collection description missing")).WaitAndUnwrapException();
+                    "Collection description missing")).WaitSpecial();
             collection.IsEditingDescription = true;
         }
 
@@ -154,7 +154,7 @@ Are you authorized to publish the custom repository?",
             _dialogManager.MessageBox(
                 new MessageBoxDialogParams(
                     "You need to name your collection before you can Publish it!",
-                    "Collection name missing")).WaitAndUnwrapException();
+                    "Collection name missing")).WaitSpecial();
             collection.IsEditing = true;
         }
     }

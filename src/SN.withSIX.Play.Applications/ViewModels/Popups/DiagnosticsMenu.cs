@@ -12,6 +12,7 @@ using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Presentation.Wpf.Extensions;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Popups
 {
@@ -46,7 +47,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
             if (
                 _dialogManager.MessageBox(
                     new MessageBoxDialogParams("Restarting the client in diagnostic logging mode, are you sure?",
-                        "Restart to enable diagnostics?", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsYes()) {
+                        "Restart to enable diagnostics?", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes()) {
                 _restarter.RestartWithoutElevation(
                     Tools.Generic.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
             }

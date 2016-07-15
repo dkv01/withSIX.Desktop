@@ -12,6 +12,7 @@ using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Play.Core.Options;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
@@ -82,7 +83,7 @@ namespace SN.withSIX.Play.Applications.Services
                     "A software update has been downloaded (v" + (SU.RemoteVersion ?? String.Empty) +
                     ") but the application appears to be busy.\nIf you would like to install the update after finished, please restart the application.\n" +
                     SU.Destination,
-                    "Software Update available")).WaitAndUnwrapException();
+                    "Software Update available")).WaitSpecial();
                 return false;
             }
 
@@ -211,7 +212,7 @@ namespace SN.withSIX.Play.Applications.Services
                             IgnoreContent = false,
                             GreenContent = "install",
                             RedContent = "abort and don't ask again"
-                        }).WaitAndUnwrapException();
+                        }).WaitSpecial();
             if (r.IsYes())
                 return TryRunInstallerIfValid(Common.Flags.FullStartupParameters);
             if (r.IsNo())
@@ -225,7 +226,7 @@ namespace SN.withSIX.Play.Applications.Services
             _dialogManager.MessageBox(new MessageBoxDialogParams(
                 "Cannot install currently, application appears busy." +
                 SU.Destination,
-                "Software Update available")).WaitAndUnwrapException();
+                "Software Update available")).WaitSpecial();
             return false;
         }
 
@@ -241,7 +242,7 @@ namespace SN.withSIX.Play.Applications.Services
                             IgnoreContent = false,
                             GreenContent = "restart and install",
                             RedContent = "cancel"
-                        }).WaitAndUnwrapException();
+                        }).WaitSpecial();
             return r.IsYes() && TryRunInstallerIfValid(Common.Flags.FullStartupParameters);
         }
 

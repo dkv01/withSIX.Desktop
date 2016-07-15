@@ -12,6 +12,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
 using MoreLinq;
@@ -52,7 +53,33 @@ using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
-    
+
+    public static class VisualExtensions
+    {
+        public static Action<Task> Waiter = WaitWithPumping;
+
+        public static void WaitSpecial(this Task task) => Waiter(task);
+        public static T WaitSpecial<T>(this Task<T> task) => WaitWithPumping(task);
+
+        public static void WaitWithPumping(this Task task) {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            var nestedFrame = new DispatcherFrame();
+            task.ContinueWith(_ => nestedFrame.Continue = false);
+            Dispatcher.PushFrame(nestedFrame);
+            task.WaitAndUnwrapException();
+        }
+
+        public static T WaitWithPumping<T>(this Task<T> task) {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            var nestedFrame = new DispatcherFrame();
+            task.ContinueWith(_ => nestedFrame.Continue = false);
+            Dispatcher.PushFrame(nestedFrame);
+            return task.WaitAndUnwrapException();
+        }
+    }
+
     public class ModLibraryViewModel : ContentLibraryRootViewModel, IDropTarget, ITransient
     {
         readonly IContentManager _contentList;
@@ -457,7 +484,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 !_dialogManager.MessageBox(
                     new MessageBoxDialogParams(
                         $"You are about to add {mods.Length} mods to {targetCollection.Name} from {sourceCollection.Name} are you sure?",
-                        "Adding mods from one collection to another", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsYes())
+                        "Adding mods from one collection to another", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes())
                 return;
             if (!targetCollection.AddModAndUpdateStateIfPersistent(mods, _contentList))
                 CannotAddToModSetDialog(targetCollection);
@@ -467,7 +494,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         void CannotAddToModSetDialog(Collection targetCollection) {
             _dialogManager.MessageBox(new MessageBoxDialogParams(GetAddMessage(targetCollection),
-                "Cannot add to collection")).WaitAndUnwrapException();
+                "Cannot add to collection")).WaitSpecial();
         }
 
         static string GetAddMessage(Collection targetCollection) {
@@ -663,7 +690,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
         void CannotRemoveFromModSetDialog(Collection targetCollection) {
             _dialogManager.MessageBox(new MessageBoxDialogParams(GetRemoveMessage(targetCollection),
-                "Cannot remove from collection")).WaitAndUnwrapException();
+                "Cannot remove from collection")).WaitSpecial();
         }
 
         static string GetRemoveMessage(Collection targetCollection) {
@@ -774,12 +801,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         }
 
 
-        public async Task RemoveCollection(SubscribedCollection collection) {
-            _dialogManager.MessageBox(
-                new MessageBoxDialogParams("To remove a Subscribed Collection please Unsubscribe from it"));
-        }
+        public Task RemoveCollection(SubscribedCollection collection) => _dialogManager.MessageBox(
+            new MessageBoxDialogParams("To remove a Subscribed Collection please Unsubscribe from it"));
 
-        
+
         public async Task Verify(IContent mod) {
             CanVerify = false;
             try {
@@ -1158,7 +1183,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             if (
                 _dialogManager.MessageBox(
                     new MessageBoxDialogParams("You are about to clear the collection of all mods, are you sure?",
-                        "Clear collection?", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsYes())
+                        "Clear collection?", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes())
                 getLibraryItem.Model.Clear(_contentList);
         }
 
@@ -1167,7 +1192,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 _dialogManager.MessageBox(
                     new MessageBoxDialogParams(
                         "You are about to clear the selected collections of all mods, are you sure?",
-                        "Clear selected collections?", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsYes())
+                        "Clear selected collections?", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes())
                 items.ForEach(x => x.Model.Clear(_contentList));
         }
 
@@ -1176,7 +1201,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 _dialogManager.MessageBox(
                     new MessageBoxDialogParams(
                         "You are about to clear the collection of customizations, are you sure?",
-                        "Clear collection of customizations?", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsYes())
+                        "Clear collection of customizations?", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes())
                 getLibraryItem.Model.ClearCustomizations(_contentList);
         }
 
@@ -1185,7 +1210,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 _dialogManager.MessageBox(
                     new MessageBoxDialogParams(
                         "You are about to clear the selected collections of customizations, are you sure?",
-                        "Clear selected collections of customizations?", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsYes())
+                        "Clear selected collections of customizations?", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes())
                 items.ForEach(x => x.Model.ClearCustomizations(_contentList));
         }
 

@@ -21,6 +21,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         public static Action<Task> Waiter = WaitWithPumping;
 
         public static void WaitSpecial(this Task task) => Waiter(task);
+        public static T WaitSpecial<T>(this Task<T> task) => WaitWithPumping(task);
 
         public static void WaitWithPumping(this Task task) {
             if (task == null)
@@ -29,6 +30,15 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
             task.ContinueWith(_ => nestedFrame.Continue = false);
             Dispatcher.PushFrame(nestedFrame);
             task.WaitAndUnwrapException();
+        }
+
+        public static T WaitWithPumping<T>(this Task<T> task) {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            var nestedFrame = new DispatcherFrame();
+            task.ContinueWith(_ => nestedFrame.Continue = false);
+            Dispatcher.PushFrame(nestedFrame);
+            return task.WaitAndUnwrapException();
         }
 
         public static T GetDescendantByType<T>(this Visual element) where T : class {

@@ -13,6 +13,7 @@ using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Play.Applications.DataModels.Profiles;
 using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.UseCases.Profiles;
@@ -63,7 +64,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
             ShowProfilesMenu = false;
             var result = _dialogManager.MessageBox(new MessageBoxDialogParams(
                 $"Are you sure you want to delete the profile '{profile.Name}'?",
-                "Confirm delete profile", SixMessageBoxButton.YesNo)).WaitAndUnwrapException();
+                "Confirm delete profile", SixMessageBoxButton.YesNo)).WaitSpecial();
 
             if (result.IsYes())
                 _mediator.Request(new DeleteProfileCommand(profile.Id));

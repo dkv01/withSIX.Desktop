@@ -355,7 +355,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
                     new MessageBoxDialogParams("An overlay is open, do you still want to close the application?",
                         "Overlay open. Are you sure you wish to close?", SixMessageBoxButton.YesNo) {
                             RememberedState = false
-                        }).WaitAndUnwrapException();
+                        }).WaitSpecial();
 
             if (r == SixMessageBoxResult.YesRemember) {
                 Settings.RememberWarnOnOverlayOpen = true;
@@ -433,7 +433,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
                         "It appears mods are being installed/updated currently, are you sure you wish to quit?",
                         "Processes running. Are you sure you wish to exit?", SixMessageBoxButton.YesNo) {
                             RememberedState = false
-                        }).WaitAndUnwrapException();
+                        }).WaitSpecial();
 
             if (r == SixMessageBoxResult.YesRemember) {
                 Settings.RememberWarnOnBusyShutdown = true;

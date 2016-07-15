@@ -769,6 +769,10 @@
       <Project>{c932f21f-0324-43ee-bbd2-ca7f0e9526c0}</Project>
       <Name>SN.withSIX.Core.Applications.MVVM</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
+      <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
+      <Name>SN.withSIX.Core.Presentation.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Core\SN.withSIX.Play.Core.csproj">
       <Project>{c3db67f4-51ad-401d-910d-a63a2a2bab6e}</Project>
       <Name>SN.withSIX.Play.Core</Name>
@@ -799,7 +803,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

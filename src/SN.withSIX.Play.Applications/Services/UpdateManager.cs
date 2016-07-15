@@ -28,6 +28,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Applications.ViewModels.Dialogs;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -408,12 +409,13 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
        
-        public void AbortUpdate() {
+        public async void AbortUpdate() {
             if (!_settings.AppOptions.RememberWarnOnAbortUpdate) {
-                var r =
-                    _dialogManager.MessageBox(new MessageBoxDialogParams(
-                        "Would you like to abort the download/update process?",
-                        "About to abort", SixMessageBoxButton.YesNo) {RememberedState = false}).WaitAndUnwrapException();
+                var r = await
+                    _dialogManager.MessageBox(
+                        new MessageBoxDialogParams("Would you like to abort the download/update process?",
+                            "About to abort", SixMessageBoxButton.YesNo) {RememberedState = false})
+                        .ConfigureAwait(false);
 
                 switch (r) {
                 case SixMessageBoxResult.YesRemember:
@@ -677,8 +679,7 @@ namespace SN.withSIX.Play.Applications.Services
                 return true;
 
             _dialogManager.MessageBox(new MessageBoxDialogParams(
-                $"The following path appears to be invalid: {invalidPath.Item2}\nValue: {invalidPath.Item1}\nPlease configure in the Game Settings.\n\nTo use this software you must own and have fully installed a supported game."))
-                .WaitAndUnwrapException();
+                $"The following path appears to be invalid: {invalidPath.Item2}\nValue: {invalidPath.Item1}\nPlease configure in the Game Settings.\n\nTo use this software you must own and have fully installed a supported game."));
             return false;
         }
 
@@ -1169,7 +1170,7 @@ namespace SN.withSIX.Play.Applications.Services
                         GreenContent = "copy",
                         BlueContent = "cancel",
                         RedContent = "move"
-                    }).WaitAndUnwrapException();
+                    }).WaitSpecial();
             switch (result) {
             case SixMessageBoxResult.YesRemember: {
                 CopyMods(existInGame, gamePath, modPath);
@@ -1317,11 +1318,11 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
                 return false;
             if (!_dialogManager.MessageBox(new MessageBoxDialogParams(
                 "There is not enough free space on the drive to install your mods, are you sure you want to continue?",
-                "Not enough free space", SixMessageBoxButton.YesNo)).WaitAndUnwrapException().IsNo())
+                "Not enough free space", SixMessageBoxButton.YesNo)).WaitSpecial().IsNo())
                 return false;
             _dialogManager.MessageBox(new MessageBoxDialogParams("Not enough free space.",
                 "User Aborted Operation",
-                SixMessageBoxButton.OK)).WaitAndUnwrapException();
+                SixMessageBoxButton.OK)).WaitSpecial();
             return true;
         }
 
