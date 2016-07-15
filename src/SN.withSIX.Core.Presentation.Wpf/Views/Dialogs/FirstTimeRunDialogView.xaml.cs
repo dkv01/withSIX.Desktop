@@ -14,9 +14,9 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
     
     public partial class FirstTimeRunDialogView
     {
-        readonly IResourceService _resources;
+        readonly IPresentationResourceService _resources;
 
-        public FirstTimeRunDialogView(IResourceService resources) {
+        public FirstTimeRunDialogView(IPresentationResourceService resources) {
             _resources = resources;
             InitializeComponent();
         }

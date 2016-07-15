@@ -9,10 +9,9 @@ using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Core.Applications.Services
 {
-    
     public class Licenses : IApplicationService
     {
-        public Licenses(IResourceService resourceService) {
+        public Licenses(IPresentationResourceService resourceService) {
             string[] licenses;
             using (var stream = resourceService.GetResource("applicenses.applicenses.lst")
                 )

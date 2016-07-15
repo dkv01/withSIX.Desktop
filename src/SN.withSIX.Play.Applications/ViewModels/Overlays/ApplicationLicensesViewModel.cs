@@ -12,7 +12,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
     
     public class ApplicationLicensesViewModel : OverlayViewModelBase
     {
-        public ApplicationLicensesViewModel(IResourceService resources) {
+        public ApplicationLicensesViewModel(IPresentationResourceService resources) {
             DisplayName = "Application Licenses";
 
             string[] licenses;

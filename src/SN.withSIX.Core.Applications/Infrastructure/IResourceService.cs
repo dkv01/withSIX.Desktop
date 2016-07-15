@@ -10,4 +10,9 @@ namespace SN.withSIX.Core.Applications.Infrastructure
     {
         Stream GetResource(string path);
     }
+
+    public interface IPresentationResourceService
+    {
+        Stream GetResource(string path);
+    }
 }

@@ -93,7 +93,7 @@ namespace SN.withSIX.Play.Applications.Services
         readonly Timer _listTimer;
         readonly IMediator _mediator;
         readonly PboTools _pboTools;
-        readonly IResourceService _resources;
+        readonly IPresentationResourceService _resources;
         private readonly ISpecialDialogManager _specialDialogManager;
         readonly UserSettings _settings;
         readonly IShutdownHandler _shutdownHandler;
@@ -116,7 +116,7 @@ namespace SN.withSIX.Play.Applications.Services
             IShutdownHandler shutdownHandler, PboTools pboTools, IConnectApiHandler connectApi,
             Lazy<IUpdateManager> updateManager, Lazy<LaunchManager> launchManager, IDialogManager dialogManager,
             IEventAggregator ea, IContentApiHandler apiHandler, IGameContext context, IContentEngine contentEngine,
-            IResourceService resources, ISpecialDialogManager specialDialogManager) {
+            IPresentationResourceService resources, ISpecialDialogManager specialDialogManager) {
             ContentEngine = contentEngine;
             _resources = resources;
             _specialDialogManager = specialDialogManager;

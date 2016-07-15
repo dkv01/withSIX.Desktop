@@ -9,7 +9,7 @@ using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Core.Presentation.Resources.Services
 {
-    public class ResourceService : IResourceService, IPresentationService
+    public class ResourceService : IPresentationResourceService, IPresentationService
     {
         const string SourceAssemblyName = "SN.withSIX.Core.Presentation.Resources";
         readonly Assembly _sourceAssembly = typeof (DummyClass).Assembly;
