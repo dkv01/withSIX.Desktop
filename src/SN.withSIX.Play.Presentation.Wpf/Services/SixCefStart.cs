@@ -43,7 +43,7 @@ body {
             cachePath.MakeSurePathExists();
 
             Cef.OnContextInitialized += WebCoreOnStarted;
-            Cef.Initialize(new CefSettings {
+            var cefSettings = new CefSettings {
                 LogFile = Common.Paths.LogPath.GetChildFileWithName("cef.log").ToString(),
                 UserDataPath = dataPath.ToString(),
                 CachePath = cachePath.ToString() //,
@@ -53,7 +53,9 @@ body {
                 //RemoteDebuggingHost = "127.0.0.1",
                 RemoteDebuggingPort = 6666
 #endif
-            });
+            };
+            cefSettings.SetOffScreenRenderingBestPerformanceArgs();
+            Cef.Initialize(cefSettings);
         }
 
         static void WebCoreOnStarted() {
