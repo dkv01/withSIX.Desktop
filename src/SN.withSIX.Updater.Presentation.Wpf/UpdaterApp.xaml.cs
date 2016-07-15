@@ -3,11 +3,18 @@
 // </copyright>
 
 using System.Windows;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 
 namespace SN.withSIX.Updater.Presentation.Wpf
 {
     public partial class UpdaterApp : Application
     {
+        public UpdaterApp() {
+#if !DEBUG
+            ExDialog.SetupExceptionHandler(this);
+#endif
+        }
+
         public static void Launch() {
             var application = new UpdaterApp {ShutdownMode = ShutdownMode.OnMainWindowClose};
             application.InitializeComponent();

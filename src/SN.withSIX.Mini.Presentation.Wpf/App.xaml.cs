@@ -12,10 +12,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using SimpleInjector;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
@@ -35,7 +34,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             AppEvent += OnAppEvent;
             _siHandler = new SIHandler();
 #if !DEBUG
-            SetupExceptionHandler();
+            ExDialog.SetupExceptionHandler(this);
 #endif
         }
 
@@ -69,11 +68,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             }
         }
 
-        void SetupExceptionHandler() {
-            DispatcherUnhandledException += ExDialog.OnDispatcherUnhandledException;
-            //AppDomain.CurrentDomain.UnhandledException += ExDialog.CurrentDomainOnUnhandledException;
-        }
-
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
             _bootstrapper = new WpfAppBootstrapper(new Container(), Locator.CurrentMutable,
@@ -94,10 +88,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
 
-        private Task StartupInternal() {
-            // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
-            return _bootstrapper.Startup(async () => { await CreateMainWindow(); });
-        }
+        // TODO: In command mode perhaps we shouldnt even run a WpfApp instance or ??
+        private Task StartupInternal() => _bootstrapper.Startup(async () => { await CreateMainWindow(); });
 
         DispatcherOperation CreateMainWindow() {
             var miniVm = _bootstrapper.GetMainWindowViewModel();
@@ -116,30 +108,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 _bootstrapper?.Dispose();
             } finally {
                 SingleInstance<App>.Cleanup();
-            }
-        }
-
-        class ExDialog
-        {
-            public static void CurrentDomainOnUnhandledException(object sender,
-                UnhandledExceptionEventArgs unhandledExceptionEventArgs) {
-                HandleEx((Exception) unhandledExceptionEventArgs.ExceptionObject);
-            }
-
-            public static void OnDispatcherUnhandledException(object sender,
-                DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs) {
-                HandleEx(dispatcherUnhandledExceptionEventArgs.Exception);
-            }
-
-            static void HandleEx(Exception ex) {
-                MainLog.Logger.Error(ex.Format(), LogLevel.Fatal);
-                MessageBox.Show(
-                    "Info: " + ex.Message + "\n\n"
-                    +
-                    "The application will exit now. We've been notified about the problem. Sorry for the inconvenience\n\nIf the problem persists, please contact Support: http://community.withsix.com",
-                    "Unrecoverable error occurred");
-
-                Environment.Exit(1);
             }
         }
     }

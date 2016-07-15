@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation.Wpf;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 
 namespace SN.withSIX.Play.Presentation.Wpf
 {
@@ -14,6 +15,12 @@ namespace SN.withSIX.Play.Presentation.Wpf
         static PlayApp() {
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof (UIElement),
                 new FrameworkPropertyMetadata(30.Seconds()));
+        }
+
+        public PlayApp() {
+#if !DEBUG
+            ExDialog.SetupExceptionHandler(this);
+#endif
         }
 
         public static void Launch() {
