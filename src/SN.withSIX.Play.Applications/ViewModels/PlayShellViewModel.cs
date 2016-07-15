@@ -70,7 +70,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         readonly IMediator _mediator;
         readonly IProcessManager _processManager;
         readonly IRestarter _restarter;
-        readonly IShutdownHandler _shutdownHandler;
         readonly IPlayStartupManager _startupManager;
         readonly ISystemInfo _systemInfo;
         bool _canGoBack;
@@ -103,7 +102,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
             Lazy<ContentViewModel> contentLazy,
             IUpdateManager updateManager, IViewModelFactory factory,
             ISoftwareUpdate softwareUpdate, ConnectViewModel connect, LocalMachineInfo machineInfo,
-            UserSettings userSettings, IShutdownHandler shutdownHandler, IMediator mediator, IRestarter restarter) {
+            UserSettings userSettings, IMediator mediator, IRestarter restarter) {
             _contentLazy = contentLazy;
             _restarter = restarter;
             using (this.Bench()) {
@@ -116,7 +115,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
                 UpdateManager = updateManager;
                 SoftwareUpdate = softwareUpdate;
                 UserSettings = userSettings;
-                _shutdownHandler = shutdownHandler;
                 _mediator = mediator;
                 _machineInfo = machineInfo;
 
@@ -151,7 +149,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
                 this.SetCommand(x => x.Exit).Subscribe(x => {
                     if (!IsBusy())
-                        _shutdownHandler.Shutdown();
+                        _mediator.Request(new Shutdown());
                 });
 
                 this.SetCommand(x => x.GoPremiumCommand)
@@ -706,7 +704,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         public void Handle(GameLaunchedEvent message) {
             if (UserSettings.GameOptions.CloseOnLaunch) {
                 Thread.Sleep(1000);
-                _shutdownHandler.Shutdown();
+                _mediator.Request(new Shutdown());
             }
 
             if (UserSettings.GameOptions.MinimizeOnLaunch)

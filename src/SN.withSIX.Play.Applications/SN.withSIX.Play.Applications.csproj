@@ -601,6 +601,7 @@
     <Compile Include="UseCases\ShowCollectionVisibilityQuery.cs" />
     <Compile Include="UseCases\ShowGameSettingsQuery.cs" />
     <Compile Include="UseCases\ShowNewProfileDialogQuery.cs" />
+    <Compile Include="UseCases\Shutdown.cs" />
     <Compile Include="UseCases\UpdateAvailableCommand.cs" />
     <Compile Include="UseCases\UpdateInstalledCommand.cs" />
     <Compile Include="UseCases\UploadNewCollectionImageCommand.cs" />
@@ -798,7 +799,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

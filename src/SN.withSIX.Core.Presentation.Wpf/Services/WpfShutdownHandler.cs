@@ -2,8 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Threading;
 using System.Windows;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation.Services;
