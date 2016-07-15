@@ -11,6 +11,7 @@ using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Presentation.Services;
@@ -82,8 +83,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         }
 
         static void LaunchWithNode() {
-            // TODO: Node version
-            //new RuntimeCheckWpf().Check();
+            new RuntimeCheckNode().Check();
 
             SetupRegistry();
             var exe = Environment.GetCommandLineArgs().First();
@@ -128,6 +128,12 @@ namespace SN.withSIX.Mini.Presentation.Electron
 #if DEBUG
             LogHost.Default.Level = LogLevel.Debug;
 #endif
+        }
+
+        public class RuntimeCheckNode : RuntimeCheck
+        {
+            protected override bool FatalErrorMessage(string message, string caption)
+                => Api.ShowMessageBox(caption, message, new[] {"Yes", "No"}).WaitAndUnwrapException() == "Yes";
         }
     }
 }

@@ -23,9 +23,9 @@ namespace SN.withSIX.Core.Presentation
             if (IsNet46OrNewer())
                 return;
 
-            if (!IsVistaOrNewer()) {
-                FatalErrorMessage("Windows Vista or later is required due to .NET framework 4.6 support.",
-                    "Windows Vista or later required");
+            if (!IsSevenOrNewer()) {
+                FatalErrorMessage("Windows 7 or later is required due to .NET framework 4.6 support and/or browser components.",
+                    "Windows 7 or later required");
                 Environment.Exit(1);
             }
 
@@ -48,25 +48,25 @@ namespace SN.withSIX.Core.Presentation
             } catch (Exception) {}
         }
 
-        static bool IsVistaOrNewer() => Environment.OSVersion.Version.Major >= 6;
+        static readonly Version seven = new Version("6.1");
 
-        static bool IsNet46OrNewer() => Get45or451FromRegistry();
+        static bool IsSevenOrNewer() => Environment.OSVersion.Version >= seven;
 
-        static bool Get45or451FromRegistry() {
+        static bool IsNet46OrNewer() => Get46FromRegistry();
+
+        static bool Get46FromRegistry() {
             using (
                 var ndpKey =
                     RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                         .OpenSubKey("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\")) {
-                if (ndpKey != null && ndpKey.GetValue("Release") != null)
-                    return CheckFor45DotVersion((int) ndpKey.GetValue("Release"));
-                return false;
+                return ndpKey?.GetValue("Release") != null && CheckFor46DotVersion((int) ndpKey.GetValue("Release"));
             }
         }
 
         // Checking the version using >= will enable forward compatibility, 
         // however you should always compile your code on newer versions of
         // the framework to ensure your app works the same.
-        private static bool CheckFor45DotVersion(int releaseKey) {
+        private static bool CheckFor46DotVersion(int releaseKey) {
             // 4.6 or later
             if (releaseKey >= 393295)
                 return true;
