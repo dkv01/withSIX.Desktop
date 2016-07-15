@@ -31,9 +31,10 @@ using SN.withSIX.Core.Presentation.Wpf.Helpers;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 using SN.withSIX.Play.Applications;
+using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+
 using SN.withSIX.Play.Applications.Views;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Options;

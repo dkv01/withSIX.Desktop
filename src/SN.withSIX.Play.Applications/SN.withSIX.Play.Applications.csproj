@@ -552,6 +552,7 @@
     <Compile Include="NotificationHandlers\NotificationCenterMessageHandler.cs" />
     <Compile Include="NotificationHandlers\PremiumEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BusyDialogExtensions.cs" />
     <Compile Include="Services\ContactList.cs" />
     <Compile Include="Services\ContentManager.cs" />
     <Compile Include="Services\Infrastructure\IGameContext.cs" />
