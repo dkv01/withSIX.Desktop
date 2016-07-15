@@ -15,6 +15,24 @@
         <file src="..\..\..\bin\withSIX-Play.exe.config" target="lib\net45\Play.exe.config" />
         <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
 
+        <file src="..\..\..\bin\GeoIP.dll" target="lib\net45\GeoIP.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Core.dll" target="lib\net45\SN.withSIX.Core.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Core.Applications.dll" target="lib\net45\SN.withSIX.Core.Applications.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Core.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Core.Applications.MVVM.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Core.Presentation.dll" target="lib\net45\SN.withSIX.Core.Presentation.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Wpf.dll" target="lib\net45\SN.withSIX.Core.Presentation.Wpf.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Core.Infra.dll" target="lib\net45\SN.withSIX.Core.Infra.dll" />
+        <file src="..\..\..\bin\SN.withSIX.ContentEngine.Core.dll" target="lib\net45\SN.withSIX.ContentEngine.Core.dll" />
+        <file src="..\..\..\bin\SN.withSIX.ContentEngine.Infra.dll" target="lib\net45\SN.withSIX.ContentEngine.Infra.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Api.Models.dll" target="lib\net45\SN.withSIX.Api.Models.dll" />
+
+        <file src="..\..\..\bin\SN.withSIX.Play.Core.dll" target="lib\net45\SN.withSIX.Play.Core.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Play.Applications.dll" target="lib\net45\SN.withSIX.Play.Applications.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Play.Infra.Api.dll" target="lib\net45\SN.withSIX.Play.Infra.Api.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Play.Infra.Data.dll" target="lib\net45\SN.withSIX.Play.Infra.Data.dll" />
+        <file src="..\..\..\bin\SN.withSIX.Play.Infra.Server.dll" target="lib\net45\SN.withSIX.Play.Infra.Server.dll" />
+
         <file src="..\..\..\bin\Squirrel.dll" target="lib\net45\Squirrel.dll" />
         <file src="..\..\..\bin\ICSharpCode.SharpZipLib.dll" target="lib\net45\ICSharpCode.SharpZipLib.dll" />
         <file src="..\..\..\bin\DeltaCompressionDotNet.dll" target="lib\net45\DeltaCompressionDotNet.dll" />
@@ -49,6 +67,7 @@
         <file src="..\..\..\bin\ShortBus.SimpleInjector.dll" target="lib\net45\ShortBus.SimpleInjector.dll" />
         <file src="..\..\..\bin\SignalRNetClientProxyMapper.dll" target="lib\net45\SignalRNetClientProxyMapper.dll" />
 
+        <file src="..\..\..\bin\Telerik.Windows.Controls.dll" target="lib\net45\Telerik.Windows.Controls.dll" />
         <file src="..\..\..\bin\Thinktecture.IdentityModel.Client.Net45.dll" target="lib\net45\Thinktecture.IdentityModel.Client.Net45.dll" />
         <file src="..\..\..\bin\Akavache.dll" target="lib\net45\Akavache.dll" />
         <file src="..\..\..\bin\Akavache.Sqlite3.dll" target="lib\net45\Akavache.Sqlite3.dll" />
