@@ -24,19 +24,9 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             Common.Flags.ShuttingDown = true;
 
             if (app != null)
-                ShutdownAppWithFallback(exitCode, app);
+                app.Dispatcher.Invoke(() => app.Shutdown(exitCode));
             else
                 _exitHandler.Exit(exitCode);
-        }
-
-        void ShutdownAppWithFallback(int exitCode, Application app) {
-            try {
-                app.Dispatcher.Invoke(() => app.Shutdown(exitCode));
-                while (!app.Dispatcher.HasShutdownFinished)
-                    Thread.Sleep(50);
-            } catch (Exception) {
-                _exitHandler.Exit(exitCode);
-            }
         }
     }
 }
