@@ -25,7 +25,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
         }
 
         static void HandleEx(Exception ex) {
-            MainLog.Logger.Error(ex.Format(), LogLevel.Fatal);
+            MainLog.Logger.Fatal(ex.Format(), LogLevel.Fatal);
             MessageBox.Show(
                 "Info: " + ex.Message + "\n\n"
                 +

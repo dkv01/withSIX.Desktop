@@ -36,8 +36,6 @@ namespace SN.withSIX.Core.Presentation.Services
 
         public void Error(string message) => _logger.Error(message);
 
-        public void Vital(string message) => _logger.Info(message);
-
         public void Info(string message, params object[] args) => _logger.Info(message, args);
 
         public void Debug(string message, params object[] args) {
@@ -53,8 +51,6 @@ namespace SN.withSIX.Core.Presentation.Services
         public void Warn(string message, params object[] args) => _logger.Warn(message, args);
 
         public void Error(string message, params object[] args) => _logger.Error(message, args);
-
-        public void Vital(string message, params object[] args) => _logger.Info(message, args);
 
         public void FormattedDebugException(Exception e, string message = null)
             => _logger.Debug(e, FormatMessage(e, message));

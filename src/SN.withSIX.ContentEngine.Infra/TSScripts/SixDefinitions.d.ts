@@ -34,7 +34,7 @@ interface Logger {
     Trace(message: string, ...args: any[]): void;
     Warn(message: string, ...args: any[]): void;
     Error(message: string, ...args: any[]): void;
-    Vital(message: string, ...args: any[]): void;
+    Fatal(message: string, ...args: any[]): void;
 }
 
 declare var Logger: Logger;
