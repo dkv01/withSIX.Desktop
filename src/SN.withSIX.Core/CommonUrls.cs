@@ -289,6 +289,7 @@ namespace SN.withSIX.Core
     public static class Environments
     {
         public const string Production = "production";
+        public const string Preview = "preview";
         public const string Staging = "staging";
         public const string Local = "local";
         public const string Local2 = "local2";
@@ -304,6 +305,10 @@ namespace SN.withSIX.Core
         static readonly string[] stagingHosts = {
             "staging.withsix.com", "www.staging.withsix.com", "connect.staging.withsix.com", "play.staging.withsix.com",
             "admin.staging.withsix.com", "auth.staging.withsix.com"
+        };
+        static readonly string[] previewHosts = {
+            "preview.withsix.com", "www.preview.withsix.com", "connect.preview.withsix.com", "play.preview.withsix.com",
+            "admin.preview.withsix.com", "auth.preview.withsix.com"
         };
         static readonly string[] localCloudHosts;
         public static string[] Origins { get; }
@@ -321,7 +326,7 @@ namespace SN.withSIX.Core
             IsLocal = Environment == Local || Environment == Local2;
             localCloudHosts = GetLocalHosts();
             Host = GetHost();
-            Origins = GetOrigins(Production).Concat(GetOrigins(Staging)).Concat(GetOrigins(Local)).ToArray();
+            Origins = GetOrigins().ToArray();
             CdnUrl = GetCdnUrl();
             if (Common.Flags.Staging)
                 Bla.IgnoreBadCertificates();
@@ -383,27 +388,15 @@ namespace SN.withSIX.Core
             }
         }
 
-        static IEnumerable<string> GetOrigins(string env) {
-            switch (env) {
-            case Local:
-                return Enumerable.Repeat("http://localhost:9000", 1)
-                    .Concat(
-                        localCloudHosts.Select(x => "http://" + x + ":9000")
-                            .Concat(localCloudHosts.Select(x => "https://" + x + ":9001")));
-            case Local2:
-                return localCloudHosts.Select(x => "http://" + x).Concat(localCloudHosts.Select(x => "https://" + x))
-                    .Concat(
-                        localCloudHosts.Select(x => "http://" + x + ":9000")
-                            .Concat(localCloudHosts.Select(x => "https://" + x + ":9001")))
-                    .Concat(Enumerable.Repeat("http://localhost:9000", 1));
-            case Staging:
-                return stagingHosts.Select(x => "http://" + x).Concat(stagingHosts.Select(x => "https://" + x));
-            case Production:
-                return productionHosts.Select(x => "http://" + x).Concat(productionHosts.Select(x => "https://" + x));
-            default: {
-                throw new NotSupportedException("Unsupported Origins environment: " + Environment);
-            }
-            }
-        }
+        static IEnumerable<string> GetOrigins() => GetProtocolUrls(productionHosts)
+            .Concat(GetProtocolUrls(stagingHosts))
+            .Concat(GetProtocolUrls(previewHosts)).Concat(GetLHosts());
+
+        private static IEnumerable<string> GetLHosts() => Enumerable.Repeat("http://localhost:9000", 1)
+            .Concat(
+                localCloudHosts.Select(x => "http://" + x + ":9000")
+                    .Concat(localCloudHosts.Select(x => "https://" + x + ":9001")));
+
+        private static IEnumerable<string> GetProtocolUrls(string[] hosts) => hosts.Select(x => "http://" + x).Concat(hosts.Select(x => "https://" + x));
     }
 }
