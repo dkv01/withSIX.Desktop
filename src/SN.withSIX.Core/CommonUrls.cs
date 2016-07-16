@@ -302,12 +302,12 @@ namespace SN.withSIX.Core
             "auth.withsix.com"
         };
         static readonly string[] stagingHosts = {
-            "staging.withsix.net", "www.staging.withsix.net", "connect.staging.withsix.net", "play.staging.withsix.net",
-            "admin.staging.withsix.net", "auth.staging.withsix.net"
+            "staging.withsix.com", "www.staging.withsix.com", "connect.staging.withsix.com", "play.staging.withsix.com",
+            "admin.staging.withsix.com", "auth.staging.withsix.com"
         };
         static readonly string[] localCloudHosts;
-        public static readonly string[] Origins;
-        public static readonly string RootPath;
+        public static string[] Origins { get; }
+        public static string RootPath { get; }
         static readonly string[] localHosts = {
             "local.withsix.net", "www.local.withsix.net", "connect.local.withsix.net", "play.local.withsix.net",
             "admin.local.withsix.net", "auth.local.withsix.net"
@@ -334,7 +334,7 @@ namespace SN.withSIX.Core
         static string GetHost() {
             switch (Environment) {
             case "staging":
-                return "staging.withsix.net";
+                return "staging.withsix.com";
             case "production":
                 return "withsix.com";
             case "local2":
