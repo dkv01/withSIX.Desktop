@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
@@ -25,6 +26,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected LocalContent() {}
 
         protected LocalContent(string name, string packageName, Guid gameId, string version) : base(name, gameId) {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
             PackageName = packageName;
             Version = version;
         }
