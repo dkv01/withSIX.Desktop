@@ -16,6 +16,38 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace SN.withSIX.Mini.Core.Games
 {
+    [ContractClassFor(typeof(IContent))]
+    public abstract class IContentContract : IContent {
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
+                _name = value;
+            }
+        }
+        public abstract Guid GameId { get; }
+        public abstract Guid Id { get; }
+        public abstract bool IsFavorite { get; set; }
+        public abstract string Version { get; }
+        public abstract InstallInfo InstallInfo { get; }
+        public abstract RecentInfo RecentInfo { get; }
+        public abstract ItemState GetState();
+        public abstract ItemState GetState(string constraint);
+        public abstract void Installed(string version, bool completed);
+        public abstract IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
+        public abstract Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
+        public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
+        public abstract void Use(IContentAction<IContent> action);
+        public abstract void Use(ILaunchContentAction<IContent> action);
+    }
+
+    [ContractClass(typeof(IContentContract))]
     public interface IContent : IHaveGameId, IHaveId<Guid>
     {
         string Name { get; set; }
@@ -33,9 +65,27 @@ namespace SN.withSIX.Mini.Core.Games
         void Use(ILaunchContentAction<IContent> action);
     }
 
+    [ContractClass(typeof(IHavePackageNameContract))]
     public interface IHavePackageName
     {
         string PackageName { get; set; }
+    }
+
+    [ContractClassFor(typeof(IHavePackageName))]
+    public abstract class IHavePackageNameContract : IHavePackageName {
+        private string _packageName;
+        public string PackageName
+        {
+            get
+            {
+                return _packageName;
+            }
+            set
+            {
+                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
+                _packageName = value;
+            }
+        }
     }
 
     public interface IContentWithPackageName : IHavePackageName, IContent { }
