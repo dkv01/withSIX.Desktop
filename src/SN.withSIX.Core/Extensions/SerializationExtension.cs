@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text;
 using NDepend.Path;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -22,6 +23,12 @@ namespace SN.withSIX.Core.Extensions
             new JsonSerializerSettings().SetDefaultSettings();
 
         public static string ToJson(this object @this, bool pretty = false) => @this.ToJson(DefaultSettings, pretty);
+        public static T FromJson<T>(this string @this) => @this.FromJson<T>(DefaultSettings);
+
+        public static T FromJson<T>(this string @this, JsonSerializerSettings settings) {
+            Contract.Requires<ArgumentNullException>(@this != null);
+            return Tools.Serialization.Json.LoadJson<T>(@this, settings);
+        }
 
         public static string ToJson(this object @this, JsonSerializerSettings settings, bool pretty = false) {
             Contract.Requires<ArgumentNullException>(@this != null);

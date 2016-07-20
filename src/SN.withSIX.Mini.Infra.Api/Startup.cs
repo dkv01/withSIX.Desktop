@@ -21,6 +21,7 @@ using Owin;
 using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
@@ -60,6 +61,9 @@ namespace SN.withSIX.Mini.Infra.Api
             app.UseCors(new MyCorsOptions());
 
             app.Map("/api", api => {
+                api.Map("/version", builder => {
+                    builder.Run(context => RespondJson(context, new { Version = Consts.ApiVersion}));
+                });
                 api.Map("/content", content => {
                     content.Map("/install-content", builder => builder.Run(ExcecuteVoidCommand<InstallContent>));
                     content.Map("/install-contents", builder => builder.Run(ExcecuteVoidCommand<InstallContents>));
@@ -121,15 +125,17 @@ namespace SN.withSIX.Mini.Infra.Api
         });
 
         static async Task ProcessRequest<T, TOut>(IOwinContext context, Func<T, Task<TOut>> handler) {
-            context.Response.ContentType = "application/json";
             using (var memoryStream = new MemoryStream()) {
                 await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                var requestData = Tools.Serialization.Json.LoadJson<T>(Encoding.UTF8.GetString(memoryStream.ToArray()));
+                var requestData = Encoding.UTF8.GetString(memoryStream.ToArray()).FromJson<T>();
                 var returnValue = await handler(requestData).ConfigureAwait(false);
-                await
-                    context.Response.WriteAsync(JsonConvert.SerializeObject(returnValue,
-                        SerializationExtension.DefaultSettings)).ConfigureAwait(false);
+                await RespondJson(context, returnValue).ConfigureAwait(false);
             }
+        }
+
+        private static async Task RespondJson(IOwinContext context, object returnValue) {
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(returnValue.ToJson()).ConfigureAwait(false);
         }
 
         class Resolver : DefaultParameterResolver
