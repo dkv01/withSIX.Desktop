@@ -45,12 +45,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 mainWindow.Activate();
             }
             HandleNewVersion(list);
-            Task.Run(() => HandleCall(list));
-        }
-
-        private async Task HandleCall(IList<string> list) {
-            await Cheat.IsInitializedTask;
-            await _siHandler.HandleSingleInstanceCall(list.ToList()).ConfigureAwait(false);
+            Task.Run(() => _siHandler.HandleSingleInstanceCall(list.ToList()));
         }
 
         void HandleNewVersion(IEnumerable<string> list) {
