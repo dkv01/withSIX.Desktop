@@ -33,15 +33,15 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         public static void MainForNode(INodeApi api) {
             Api = api;
-            Main();
+            LaunchAppThread();
         }
 
         private static async void LaunchAppThread() {
             try {
                 await Task.Factory.StartNew(async () => {
+                    Main();
                     // todo; ex handling
-                    _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable, _args);
-                    await StartupInternal().ConfigureAwait(false);
+                    await BootStrap().ConfigureAwait(false);
                 }, TaskCreationOptions.LongRunning).Unwrap().ConfigureAwait(false);
             } catch (Exception ex) {
                 Cheat.SetErrorred(ex);
@@ -62,6 +62,11 @@ namespace SN.withSIX.Mini.Presentation.Electron
             newWindowThread.Start();
 
                  */
+        }
+
+        private static async Task BootStrap() {
+            _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable, _args);
+            await StartupInternal().ConfigureAwait(false);
         }
 
         private static Task StartupInternal() => _bootstrapper.Startup(() => TaskExt.Default);
