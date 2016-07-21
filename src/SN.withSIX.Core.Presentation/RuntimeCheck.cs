@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace SN.withSIX.Core.Presentation
@@ -14,29 +15,26 @@ namespace SN.withSIX.Core.Presentation
     {
         static readonly Uri net461 = new Uri("https://www.microsoft.com/en-us/download/details.aspx?id=49981");
 
-        public void Check() {
-            CheckNet46();
+        public async Task Check() {
+            await CheckNet46().ConfigureAwait(false);
             var legacyCheck = RuntimePolicyHelper.LegacyV2RuntimeEnabledSuccessfully;
         }
 
-        void CheckNet46() {
+        async Task CheckNet46() {
             if (IsNet46OrNewer())
                 return;
 
             if (!IsSevenOrNewer()) {
-                FatalErrorMessage("Windows 7 or later is required due to .NET framework 4.6 support and/or browser components.",
-                    "Windows 7 or later required");
+                await FatalErrorMessage("Windows 7 or later is required due to .NET framework 4.6 support and/or browser components.", "Windows 7 or later required").ConfigureAwait(false);
                 Environment.Exit(1);
             }
 
-            if (FatalErrorMessage(
-                ".NET framework 4.6 or later is required, but was not found.\n\nDo you want to install it now?",
-                ".NET framework 4.6 or later required"))
+            if (await FatalErrorMessage(".NET framework 4.6 or later is required, but was not found.\n\nDo you want to install it now?", ".NET framework 4.6 or later required").ConfigureAwait(false))
                 TryOpenNet46Url();
             Environment.Exit(1);
         }
 
-        protected virtual bool FatalErrorMessage(string message, string caption) {
+        protected virtual async Task<bool> FatalErrorMessage(string message, string caption) {
             Console.WriteLine(caption + ": " + message + "\nY/N");
             var key = Console.ReadKey();
             return key.Key.ToString().ToLower() == "y";

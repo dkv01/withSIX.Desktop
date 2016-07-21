@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         }
 
         private static Task LaunchAppThread() => Task.Factory.StartNew(async () => {
-            Main();
+            await LaunchWithNode().ConfigureAwait(false);
             _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable, _args);
             await StartupInternal().ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning).Unwrap();
@@ -60,8 +60,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
             AppDomain.CurrentDomain.AssemblyResolve += registry.CurrentDomain_AssemblyResolve;
         }
 
-        static void LaunchWithNode() {
-            new RuntimeCheckNode().Check();
+        static async Task LaunchWithNode() {
+            await new RuntimeCheckNode().Check().ConfigureAwait(false);
 
             SetupRegistry();
             var exe = Environment.GetCommandLineArgs().First();
@@ -94,8 +94,6 @@ namespace SN.withSIX.Mini.Presentation.Electron
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }
 
-        public static void Main() => LaunchWithNode();
-
         static void SetupLogging() {
             SetupNlog.Initialize(Consts.ProductTitle);
             if (Common.Flags.Verbose) {
@@ -109,8 +107,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         public class RuntimeCheckNode : RuntimeCheck
         {
-            protected override bool FatalErrorMessage(string message, string caption)
-                => Api.ShowMessageBox(caption, message, new[] {"Yes", "No"}).WaitAndUnwrapException() == "Yes";
+            protected override async Task<bool> FatalErrorMessage(string message, string caption)
+                => (await Api.ShowMessageBox(caption, message, new[] {"Yes", "No"}).ConfigureAwait(false)) == "Yes";
         }
     }
 }

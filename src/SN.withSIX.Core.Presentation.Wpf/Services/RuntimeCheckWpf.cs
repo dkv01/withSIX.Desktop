@@ -2,13 +2,14 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Services
 {
     public class RuntimeCheckWpf : RuntimeCheck
     {
-        protected override bool FatalErrorMessage(string message, string caption)
+        protected override async Task<bool> FatalErrorMessage(string message, string caption)
             => MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Exclamation,
                 MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly) == MessageBoxResult.Yes;
     }
