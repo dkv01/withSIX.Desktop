@@ -203,12 +203,10 @@ namespace SN.withSIX.Mini.Presentation.Core
                 }
                 BackgroundActions();
                 await HandleWaitForBackgroundTasks().ConfigureAwait(false);
-                Cheat.SetInitialized();
-                await
-                    Task.Factory.StartNew(
-                        () =>
-                            new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()))
-                        .ConfigureAwait(false);
+                // TODO: call from node?
+                var task = Task.Factory.StartNew(
+                    () =>
+                        new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()));
             } catch (SQLiteException ex) {
                 var message =
                     $"There appears to be a problem with your database. If the problem persists, you can delete the databases from:\n{Common.Paths.LocalDataPath} and {Common.Paths.DataPath}" +

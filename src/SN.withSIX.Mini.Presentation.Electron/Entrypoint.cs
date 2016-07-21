@@ -31,43 +31,16 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         public static INodeApi Api { get; private set; }
 
-        public static void MainForNode(INodeApi api) {
+        public static async Task MainForNode(INodeApi api) {
             Api = api;
-            LaunchAppThread();
+            await LaunchAppThread().ConfigureAwait(false);
         }
 
-        private static async void LaunchAppThread() {
-            try {
-                await Task.Factory.StartNew(async () => {
-                    Main();
-                    // todo; ex handling
-                    await BootStrap().ConfigureAwait(false);
-                }, TaskCreationOptions.LongRunning).Unwrap().ConfigureAwait(false);
-            } catch (Exception ex) {
-                Cheat.SetErrorred(ex);
-                throw;
-            }
-
-            /*
-            var newWindowThread = new Thread(() => {
-                // Start the Dispatcher Processing
-                //System.Windows.Threading.Dispatcher.Run();
-                Api.Exit(StartApp()).WaitAndUnwrapException();
-            });
-            // Set the apartment state
-            newWindowThread.SetApartmentState(ApartmentState.STA);
-            // Make the thread a background thread
-            newWindowThread.IsBackground = true;
-            // Start the thread
-            newWindowThread.Start();
-
-                 */
-        }
-
-        private static async Task BootStrap() {
+        private static Task LaunchAppThread() => Task.Factory.StartNew(async () => {
+            Main();
             _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable, _args);
             await StartupInternal().ConfigureAwait(false);
-        }
+        }, TaskCreationOptions.LongRunning).Unwrap();
 
         private static Task StartupInternal() => _bootstrapper.Startup(() => TaskExt.Default);
 

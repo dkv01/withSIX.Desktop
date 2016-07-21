@@ -65,16 +65,6 @@ namespace SN.withSIX.Mini.Applications
         public static IDbContextFactory DbContextFactory => _cheat.DbContextFactory;
         public static IMessageBus MessageBus => _cheat.MessageBus;
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
-        public static bool Initialized { get; private set; }
-        private static readonly TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-        public static Task IsInitializedTask => tcs.Task;
-
-        public static void SetInitialized() {
-            Initialized = true;
-            tcs.SetResult(null);
-        }
-
-        public static void SetErrorred(Exception ex) => tcs.SetException(ex);
         public static ArgsO Args { get; set; } = new ArgsO();
 
         public static void SetServices(ICheatImpl cheat) {
