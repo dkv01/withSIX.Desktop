@@ -24,7 +24,7 @@ namespace SN.withSIX.Core.Applications.Services
                 Task.Run(
                     () => {
                         using (var arc = ZipArchive.Create()) {
-                            foreach (var f in d)
+                            foreach (var f in d.Where(x => !x.Value.EndsWith("cef.log", StringComparison.CurrentCultureIgnoreCase)))
                                 arc.AddEntry(f.Key, f.Value);
                             arc.SaveTo(path.ToString(),
                                 new CompressionInfo {
