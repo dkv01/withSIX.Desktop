@@ -83,7 +83,6 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 Cheat.Args = Api.Args;
 
             ErrorHandler.Handler = new NodeErrorHandler(Api);
-            LaunchAppThread();
         }
 
         private static void Init() {
