@@ -39,7 +39,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
             try {
                 apps = KeyValues.GetKeyValue(new[] {"InstallConfigStore", "Software", "Valve", "Steam", "apps"});
             } catch (KeyNotFoundException ex) {
-                MainLog.Logger.FormattedErrorException(ex, "Config Store Invalid");
+                MainLog.Logger.FormattedWarnException(ex, "Config Store Invalid");
                 return null;
             }
             try {
@@ -62,7 +62,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
                     app = _appCache[appId];
                 return app;
             } catch (Exception e) {
-                MainLog.Logger.FormattedErrorException(e, "Unknown Exception Attempting to get Steam App");
+                MainLog.Logger.FormattedWarnException(e, "Unknown Exception Attempting to get Steam App");
                 return new SteamApp(appId, null, null);
             }
         }
@@ -87,7 +87,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
                     iFolder++;
                 }
             } catch (KeyNotFoundException ex) {
-                MainLog.Logger.FormattedErrorException(ex, "Config Store Invalid");
+                MainLog.Logger.FormattedWarnException(ex, "Config Store Invalid");
             }
             return list.AsReadOnly();
         }
@@ -123,7 +123,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
                         InstallBase.GetChildDirectoryWithName(@"SteamApps\Common\" +
                                                               AppManifest.GetString(new[] {"AppState", "installdir"}));
                 } catch (KeyNotFoundException ex) {
-                    MainLog.Logger.FormattedErrorException(ex, "AppManifest Invalid ({0})".FormatWith(AppId));
+                    MainLog.Logger.FormattedWarnException(ex, "AppManifest Invalid ({0})".FormatWith(AppId));
                 }
             }
         }
