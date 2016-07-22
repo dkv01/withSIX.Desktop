@@ -61,9 +61,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             foreach (var c in contents) {
                 var col = collections.FindOrThrow(c.Id);
                 c.MapTo(col);
-                await
-                    HandleContent(content, col, c, await GetRepositories(col).ConfigureAwait(false),
-                        await GetGroupContent(col).ConfigureAwait(false)).ConfigureAwait(false);
+                await HandleContent(content, col, c).ConfigureAwait(false);
                 col.UpdateState();
             }
         }
@@ -79,16 +77,14 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var collections = new List<SubscribedCollection>();
             foreach (var c in contents) {
                 var col = c.MapTo<SubscribedCollection>();
-                await
-                    HandleContent(content, col, c, await GetRepositories(col).ConfigureAwait(false),
-                        await GetGroupContent(col).ConfigureAwait(false)).ConfigureAwait(false);
+                await HandleContent(content, col, c).ConfigureAwait(false);
                 col.UpdateState();
                 collections.Add(col);
             }
             return collections;
         }
 
-        private async Task<IReadOnlyCollection<GroupContent>> GetGroupContent(SubscribedCollection col) {
+        private async Task<IReadOnlyCollection<GroupContent>> GetGroupContent(Content col) {
             if (!col.GroupId.HasValue)
                 return new GroupContent[0];
             var group = new Group(col.GroupId.Value, "UNKNOWN");
@@ -231,17 +227,18 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             }
         }
 
-        async Task HandleContent(IReadOnlyCollection<NetworkContent> content, Collection col,
-            CollectionModelWithLatestVersion c, IReadOnlyCollection<CustomRepo> customRepos,
-            IEnumerable<GroupContent> groupContent) {
+        async Task HandleContent(IReadOnlyCollection<NetworkContent> content, NetworkCollection col,
+            CollectionModelWithLatestVersion c) {
             var collectionSpecs = await ProcessEmbeddedCollections(content, c).ConfigureAwait(false);
-            var modSpecs = ProcessMods(content, col, c, customRepos, groupContent);
+            var modSpecs = await ProcessMods(content, col, c).ConfigureAwait(false);
             col.ReplaceContent(modSpecs.Concat(collectionSpecs));
         }
 
-        private static IEnumerable<ContentSpec> ProcessMods(IReadOnlyCollection<NetworkContent> content, Collection col,
-            CollectionModelWithLatestVersion c, IReadOnlyCollection<CustomRepo> customRepos,
-            IEnumerable<GroupContent> groupContent) => c.LatestVersion
+        private async Task<IReadOnlyCollection<ContentSpec>> ProcessMods(IReadOnlyCollection<NetworkContent> content, NetworkCollection col,
+            CollectionModelWithLatestVersion c) {
+            var customRepos = await GetRepositories(col).ConfigureAwait(false);
+            var groupContent = await GetGroupContent(col).ConfigureAwait(false);
+            return c.LatestVersion
                 .Dependencies
                 .Where(x => x.DependencyType == DependencyType.Package)
                 .Select(
@@ -252,7 +249,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                             x.Constraint
                         })
                 .Where(x => x.Content != null)
-                .Select(x => new ContentSpec(x.Content, x.Constraint));
+                .Select(x => new ContentSpec(x.Content, x.Constraint))
+                .ToArray();
+        }
 
         private async Task<List<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content,
             CollectionModelWithLatestVersion c) {
@@ -273,9 +272,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var rc = cols.First(c2 => c2.Id == ec.CollectionDependencyId.Value);
             var conv = rc.MapTo<SubscribedCollection>();
             // TODO: Allow parent repos to be used for children etc? :-)
-            await
-                HandleContent(content, conv, rc, await GetRepositories(conv).ConfigureAwait(false),
-                    await GetGroupContent(conv).ConfigureAwait(false)).ConfigureAwait(false);
+            await HandleContent(content, conv, rc).ConfigureAwait(false);
+            conv.UpdateState();
             return new ContentSpec(conv, ec.Constraint);
         }
 
