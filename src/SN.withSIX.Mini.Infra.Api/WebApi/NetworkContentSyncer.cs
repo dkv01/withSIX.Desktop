@@ -253,10 +253,13 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 .ToArray();
         }
 
-        private async Task<List<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content,
+        private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content,
             CollectionModelWithLatestVersion c) {
             var embeddedCollections =
                 c.LatestVersion.Dependencies.Where(x => x.DependencyType == DependencyType.Collection).ToArray();
+            if (!embeddedCollections.Any())
+                return Enumerable.Empty<ContentSpec>();
+
             var cols = await
                 RetrieveCollections(c.GameId, embeddedCollections.Select(x => x.CollectionDependencyId.Value))
                     .ConfigureAwait(false);
