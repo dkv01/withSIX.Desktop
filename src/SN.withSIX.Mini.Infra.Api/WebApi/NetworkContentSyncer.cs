@@ -61,8 +61,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             foreach (var c in contents) {
                 var col = collections.FindOrThrow(c.Id);
                 c.MapTo(col);
-                HandleContent(content, col, c, await GetRepositories(col).ConfigureAwait(false),
-                    await GetGroupContent(col).ConfigureAwait(false));
+                await
+                    HandleContent(content, col, c, await GetRepositories(col).ConfigureAwait(false),
+                        await GetGroupContent(col).ConfigureAwait(false)).ConfigureAwait(false);
                 col.UpdateState();
             }
         }
@@ -78,8 +79,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var collections = new List<SubscribedCollection>();
             foreach (var c in contents) {
                 var col = c.MapTo<SubscribedCollection>();
-                HandleContent(content, col, c, await GetRepositories(col).ConfigureAwait(false),
-                    await GetGroupContent(col).ConfigureAwait(false));
+                await
+                    HandleContent(content, col, c, await GetRepositories(col).ConfigureAwait(false),
+                        await GetGroupContent(col).ConfigureAwait(false)).ConfigureAwait(false);
                 col.UpdateState();
                 collections.Add(col);
             }
@@ -143,7 +145,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var emptyTags = new List<string>();
             foreach (
                 var c in
-                    contents.Select(x => new {DTO = x, Existing = game.NetworkContent.OfType<ModNetworkContent>().Find(x.Id)})
+                    contents.Select(
+                        x => new {DTO = x, Existing = game.NetworkContent.OfType<ModNetworkContent>().Find(x.Id)})
                         .OrderByDescending(x => x.DTO.GameId == game.Id)) {
                 var theDto = c.DTO;
                 var theGame = SetupGameStuff.GameSpecs.Select(x => x.Value).FindOrThrow(c.DTO.GameId);
@@ -228,21 +231,52 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             }
         }
 
-        static void HandleContent(IReadOnlyCollection<NetworkContent> content, Collection col,
+        async Task HandleContent(IReadOnlyCollection<NetworkContent> content, Collection col,
             CollectionModelWithLatestVersion c, IReadOnlyCollection<CustomRepo> customRepos,
             IEnumerable<GroupContent> groupContent) {
-            col.ReplaceContent(
-                c.LatestVersion
-                    .Dependencies
-                    .Select(
-                        x =>
-                            new {
-                                Content = ConvertToGroupOrRepoContent(x, col, customRepos, groupContent, content) ??
-                                          ConvertToContentOrLocal(x, col, content), // temporary
-                                x.Constraint
-                            })
-                    .Where(x => x.Content != null)
-                    .Select(x => new ContentSpec(x.Content, x.Constraint)));
+            var collectionSpecs = await ProcessEmbeddedCollections(content, c).ConfigureAwait(false);
+            var modSpecs = ProcessMods(content, col, c, customRepos, groupContent);
+            col.ReplaceContent(modSpecs.Concat(collectionSpecs));
+        }
+
+        private static IEnumerable<ContentSpec> ProcessMods(IReadOnlyCollection<NetworkContent> content, Collection col,
+            CollectionModelWithLatestVersion c, IReadOnlyCollection<CustomRepo> customRepos,
+            IEnumerable<GroupContent> groupContent) => c.LatestVersion
+                .Dependencies
+                .Where(x => x.DependencyType == DependencyType.Package)
+                .Select(
+                    x =>
+                        new {
+                            Content = ConvertToGroupOrRepoContent(x, col, customRepos, groupContent, content) ??
+                                      ConvertToContentOrLocal(x, col, content), // temporary
+                            x.Constraint
+                        })
+                .Where(x => x.Content != null)
+                .Select(x => new ContentSpec(x.Content, x.Constraint));
+
+        private async Task<List<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content,
+            CollectionModelWithLatestVersion c) {
+            var embeddedCollections =
+                c.LatestVersion.Dependencies.Where(x => x.DependencyType == DependencyType.Collection).ToArray();
+            var cols = await
+                RetrieveCollections(c.GameId, embeddedCollections.Select(x => x.CollectionDependencyId.Value))
+                    .ConfigureAwait(false);
+
+            var buildCollections = new List<ContentSpec>();
+            foreach (var ec in embeddedCollections)
+                buildCollections.Add(await ProcessEmbeddedCollection(content, cols, ec).ConfigureAwait(false));
+            return buildCollections;
+        }
+
+        private async Task<ContentSpec> ProcessEmbeddedCollection(IReadOnlyCollection<NetworkContent> content,
+            IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec) {
+            var rc = cols.First(c2 => c2.Id == ec.CollectionDependencyId.Value);
+            var conv = rc.MapTo<SubscribedCollection>();
+            // TODO: Allow parent repos to be used for children etc? :-)
+            await
+                HandleContent(content, conv, rc, await GetRepositories(conv).ConfigureAwait(false),
+                    await GetGroupContent(conv).ConfigureAwait(false)).ConfigureAwait(false);
+            return new ContentSpec(conv, ec.Constraint);
         }
 
         static Content ConvertToGroupOrRepoContent(CollectionVersionDependencyModel x, Collection col,
@@ -327,21 +361,26 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
         async Task<List<CollectionModelWithLatestVersion>> DownloadCollections(
             IEnumerable<Tuple<Guid, List<Guid>>> gamesWithCollections) {
+            var list = new List<CollectionModelWithLatestVersion>();
+            foreach (var g in gamesWithCollections)
+                list.AddRange(await RetrieveCollections(g.Item1, g.Item2).ConfigureAwait(false));
+            return list;
+        }
+
+        private async Task<List<CollectionModelWithLatestVersion>> RetrieveCollections(Guid gameId,
+            IEnumerable<Guid> colIds) {
             var apiHost =
                 //#if DEBUG
                 //"https://auth.local.withsix.net";
                 //#else
                 "https://auth.withsix.com";
             //#endif
-            var list = new List<CollectionModelWithLatestVersion>();
-            foreach (var g in gamesWithCollections) {
-                list.AddRange(await
+            var token = await GetToken().ConfigureAwait(false);
+            return
+                await
                     Tools.Transfer.GetJson<List<CollectionModelWithLatestVersion>>(
-                        new Uri(apiHost + "/api/collections?gameId=" + g.Item1 +
-                                string.Join("", g.Item2.Select(x => "&ids=" + x))), await GetToken())
-                        .ConfigureAwait(false));
-            }
-            return list;
+                        new Uri(apiHost + "/api/collections?gameId=" + gameId +
+                                string.Join("", colIds.Select(x => "&ids=" + x))), token).ConfigureAwait(false);
         }
 
         async Task<string> GetToken() {
@@ -350,8 +389,20 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         }
     }
 
+    public class CollectionVersionDependencyModel : withSIX.Api.Models.Collections.CollectionVersionDependencyModel
+    {
+        public Guid? ModDependencyId { get; set; }
+        public Guid? CollectionDependencyId { get; set; }
+    }
+
+    public class CollectionVersionModel : withSIX.Api.Models.Collections.CollectionVersionModel
+    {
+        public new List<CollectionVersionDependencyModel> Dependencies { get; set; }
+    }
+
     public class CollectionModelWithLatestVersion : withSIX.Api.Models.Collections.CollectionModelWithLatestVersion
     {
+        public new CollectionVersionModel LatestVersion { get; set; }
         public Guid? GroupId { get; set; }
         public long Size { get; set; }
         public long SizePacked { get; set; }

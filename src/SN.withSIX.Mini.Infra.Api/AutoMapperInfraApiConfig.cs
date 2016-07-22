@@ -11,6 +11,7 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.WebApi;
 using CollectionModelWithLatestVersion = SN.withSIX.Mini.Infra.Api.WebApi.CollectionModelWithLatestVersion;
+using CollectionVersionModel = SN.withSIX.Mini.Infra.Api.WebApi.CollectionVersionModel;
 
 namespace SN.withSIX.Mini.Infra.Api
 {
