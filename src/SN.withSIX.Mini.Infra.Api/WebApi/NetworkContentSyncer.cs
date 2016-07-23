@@ -58,11 +58,10 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             if (countCheck && contents.Count < collections.Count)
                 throw new NotFoundException("Could not find all requested collections");
 
-            foreach (var c in contents) {
-                var col = collections.FindOrThrow(c.Id);
-                c.MapTo(col);
-                await HandleContent(content, col, c).ConfigureAwait(false);
-                col.UpdateState();
+            foreach (var c in contents.Select(x => new {x, Col = collections.FindOrThrow(x.Id)})) {
+                c.x.MapTo(c.Col);
+                await HandleContent(content, c.Col, c.x).ConfigureAwait(false);
+                c.Col.UpdateState();
             }
         }
 
@@ -228,8 +227,10 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         }
 
         async Task HandleContent(IReadOnlyCollection<NetworkContent> content, NetworkCollection col,
-            CollectionModelWithLatestVersion c) {
-            var collectionSpecs = await ProcessEmbeddedCollections(content, c).ConfigureAwait(false);
+            CollectionModelWithLatestVersion c, List<NetworkCollection> collections = null) {
+            if (collections == null)
+                collections = new List<NetworkCollection> {col};
+            var collectionSpecs = await ProcessEmbeddedCollections(content, c, collections).ConfigureAwait(false);
             var modSpecs = await ProcessMods(content, col, c).ConfigureAwait(false);
             col.ReplaceContent(modSpecs.Concat(collectionSpecs));
         }
@@ -253,29 +254,36 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 .ToArray();
         }
 
-        private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content,
-            CollectionModelWithLatestVersion c) {
+        private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content, CollectionModelWithLatestVersion c, List<NetworkCollection> collections) {
             var embeddedCollections =
                 c.LatestVersion.Dependencies.Where(x => x.DependencyType == DependencyType.Collection).ToArray();
             if (!embeddedCollections.Any())
                 return Enumerable.Empty<ContentSpec>();
 
+            var todoCols = embeddedCollections.Where(x => collections.All(co => co.Id != x.CollectionDependencyId.Value)).ToArray();
             var cols = await
-                RetrieveCollections(c.GameId, embeddedCollections.Select(x => x.CollectionDependencyId.Value))
+                RetrieveCollections(c.GameId, todoCols.Select(x => x.CollectionDependencyId.Value))
                     .ConfigureAwait(false);
 
             var buildCollections = new List<ContentSpec>();
-            foreach (var ec in embeddedCollections)
-                buildCollections.Add(await ProcessEmbeddedCollection(content, cols, ec).ConfigureAwait(false));
+            foreach (var ec in embeddedCollections) {
+                if (todoCols.Contains(ec)) {
+                    buildCollections.Add(
+                        await ProcessEmbeddedCollection(content, cols, ec, collections).ConfigureAwait(false));
+                } else {
+                    buildCollections.Add(
+                        new ContentSpec(collections.First(co => co.Id == ec.CollectionDependencyId.Value),
+                            ec.Constraint));
+                }
+            }
             return buildCollections;
         }
 
-        private async Task<ContentSpec> ProcessEmbeddedCollection(IReadOnlyCollection<NetworkContent> content,
-            IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec) {
+        private async Task<ContentSpec> ProcessEmbeddedCollection(IReadOnlyCollection<NetworkContent> content, IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec, List<NetworkCollection> collections) {
             var rc = cols.First(c2 => c2.Id == ec.CollectionDependencyId.Value);
             var conv = rc.MapTo<SubscribedCollection>();
             // TODO: Allow parent repos to be used for children etc? :-)
-            await HandleContent(content, conv, rc).ConfigureAwait(false);
+            await HandleContent(content, conv, rc, collections).ConfigureAwait(false);
             conv.UpdateState();
             return new ContentSpec(conv, ec.Constraint);
         }
