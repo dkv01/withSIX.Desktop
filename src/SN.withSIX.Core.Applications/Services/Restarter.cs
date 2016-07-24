@@ -124,15 +124,15 @@ namespace SN.withSIX.Core.Applications.Services
         static ProcessStartInfo GetSquirrelRestart(IEnumerable<string> args) => new ProcessStartInfo {
             FileName = Common.Paths.AppPath.ParentDirectoryPath.GetChildFileWithName("Update.exe").ToString(),
             Arguments =
-                BuildUpdateExeArguments(Environment.GetCommandLineArgs()[0], args).CombineParameters()
+                BuildUpdateExeArguments(args, Environment.GetCommandLineArgs()[0]).CombineParameters()
         };
 
-        public static string[] BuildUpdateExeArguments(string executable, IEnumerable<string> args) => new[] {
+        public static string[] BuildUpdateExeArguments(IEnumerable<string> args, string executable) => new[] {
             "--processStart=" + executable,
             "--process-start-args=" + args.CombineParameters()
         };
 
         public static string[] BuildUpdateExeArguments(string executable, params string[] args)
-            => BuildUpdateExeArguments(executable, (IEnumerable<string>) args);
+            => BuildUpdateExeArguments(args, executable);
     }
 }

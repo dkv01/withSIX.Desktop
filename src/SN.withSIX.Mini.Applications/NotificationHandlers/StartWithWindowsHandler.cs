@@ -27,15 +27,20 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             }
         }
 
-        private static IEnumerable<string> GenerateCommandLineExecution(IAbsoluteFilePath location, string executable,
+        public static IEnumerable<string> GenerateCommandLineExecution(IAbsoluteFilePath location, string executable,
             params string[] desiredParams) {
+            var updateExe = GetUpdateExe(location);
+            return updateExe != null && updateExe.Exists
+                ? new[] {updateExe.ToString()}.Concat(Restarter.BuildUpdateExeArguments(executable, desiredParams))
+                : new[] {location.ToString()}.Concat(desiredParams);
+        }
+
+        public static IAbsoluteFilePath GetUpdateExe(IAbsoluteFilePath location) {
             var parent = location.ParentDirectoryPath;
             var updateExe = parent.HasParentDirectory
                 ? parent.ParentDirectoryPath.GetChildFileWithName("Update.exe")
                 : null;
-            return updateExe != null && updateExe.Exists
-                ? new[] {updateExe.ToString()}.Concat(Restarter.BuildUpdateExeArguments(executable, desiredParams))
-                : new[] {location.ToString()}.Concat(desiredParams);
+            return updateExe;
         }
     }
 }

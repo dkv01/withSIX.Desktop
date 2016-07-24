@@ -5,10 +5,12 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using System.Linq;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Mini.Applications.NotificationHandlers;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
@@ -47,16 +49,19 @@ namespace SN.withSIX.Mini.Presentation.Core
                 RegisterProtocol(protocol);
         }
 
+
         static void RegisterProtocol(string protocol) {
             var key = Registry.CurrentUser.CreateSubKey(Path.Combine(Common.AppCommon.Classes, protocol));
             key.SetValue(string.Empty, "URL:Sync withSIX " + protocol + " Protocol");
             key.SetValue("URL Protocol", string.Empty);
 
             var iconKey = key.CreateSubKey("DefaultIcon");
-            iconKey.SetValue(string.Empty, Common.Paths.EntryLocation + ",1");
+            var updateExe = StartWithWindowsHandler.GetUpdateExe(Common.Paths.EntryLocation);
+            iconKey.SetValue(string.Empty, (updateExe ?? Common.Paths.EntryLocation) + ",1");
 
             key = key.CreateSubKey(@"shell\open\command");
-            key.SetValue(string.Empty, Common.Paths.EntryLocation.EscapePath() + " \"%1\"");
+            key.SetValue(string.Empty,
+                StartWithWindowsHandler.GenerateCommandLineExecution(Common.Paths.EntryLocation, "Sync.exe", "\"%1\""));
         }
 
         public void UnregisterUrlHandlers() {
