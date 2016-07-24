@@ -85,7 +85,7 @@ namespace SN.withSIX.Sync.Core.Repositories
         static Repository Open(IAbsoluteDirectoryPath synqPath) {
             // Make sure ACL's are ok
             Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(synqPath);
-            return new Repository(synqPath);
+            return new Repository(synqPath, true);
         }
     }
 }
