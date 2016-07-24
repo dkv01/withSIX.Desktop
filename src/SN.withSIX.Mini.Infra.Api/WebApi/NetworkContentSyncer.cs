@@ -235,7 +235,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             col.ReplaceContent(modSpecs.Concat(collectionSpecs));
         }
 
-        private async Task<IReadOnlyCollection<ContentSpec>> ProcessMods(IReadOnlyCollection<NetworkContent> content, NetworkCollection col,
+        private async Task<IReadOnlyCollection<ContentSpec>> ProcessMods(IReadOnlyCollection<NetworkContent> content,
+            NetworkCollection col,
             CollectionModelWithLatestVersion c) {
             var customRepos = await GetRepositories(col).ConfigureAwait(false);
             var groupContent = await GetGroupContent(col).ConfigureAwait(false);
@@ -254,34 +255,45 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 .ToArray();
         }
 
-        private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(IReadOnlyCollection<NetworkContent> content, CollectionModelWithLatestVersion c, List<NetworkCollection> collections) {
+        private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(
+            IReadOnlyCollection<NetworkContent> content, CollectionModelWithLatestVersion c,
+            List<NetworkCollection> collections) {
             var embeddedCollections =
                 c.LatestVersion.Dependencies.Where(x => x.DependencyType == DependencyType.Collection).ToArray();
             if (!embeddedCollections.Any())
                 return Enumerable.Empty<ContentSpec>();
 
-            var todoCols = embeddedCollections.Where(x => collections.All(co => co.Id != x.CollectionDependencyId.Value)).ToArray();
+            var todoCols =
+                embeddedCollections.Where(x => collections.All(co => co.Id != x.CollectionDependencyId.Value)).ToArray();
             var cols = await
                 RetrieveCollections(c.GameId, todoCols.Select(x => x.CollectionDependencyId.Value))
                     .ConfigureAwait(false);
 
             var buildCollections = new List<ContentSpec>();
             foreach (var ec in embeddedCollections) {
-                if (todoCols.Contains(ec)) {
-                    buildCollections.Add(
-                        await ProcessEmbeddedCollection(content, cols, ec, collections).ConfigureAwait(false));
-                } else {
-                    buildCollections.Add(
-                        new ContentSpec(collections.First(co => co.Id == ec.CollectionDependencyId.Value),
-                            ec.Constraint));
-                }
+                var contentSpec = await GetContentSpec(content, collections, todoCols, ec, cols).ConfigureAwait(false);
+                buildCollections.Add(contentSpec);
             }
             return buildCollections;
         }
 
-        private async Task<ContentSpec> ProcessEmbeddedCollection(IReadOnlyCollection<NetworkContent> content, IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec, List<NetworkCollection> collections) {
+        private async Task<ContentSpec> GetContentSpec(IReadOnlyCollection<NetworkContent> content,
+            List<NetworkCollection> collections, CollectionVersionDependencyModel[] todoCols,
+            CollectionVersionDependencyModel ec, List<CollectionModelWithLatestVersion> cols) {
+            if (todoCols.Contains(ec)) {
+                return
+                    await ProcessEmbeddedCollection(content, cols, ec, collections).ConfigureAwait(false);
+            }
+            return new ContentSpec(collections.First(co => co.Id == ec.CollectionDependencyId.Value),
+                ec.Constraint);
+        }
+
+        private async Task<ContentSpec> ProcessEmbeddedCollection(IReadOnlyCollection<NetworkContent> content,
+            IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec,
+            List<NetworkCollection> collections) {
             var rc = cols.First(c2 => c2.Id == ec.CollectionDependencyId.Value);
             var conv = rc.MapTo<SubscribedCollection>();
+            collections.Add(conv);
             // TODO: Allow parent repos to be used for children etc? :-)
             await HandleContent(content, conv, rc, collections).ConfigureAwait(false);
             conv.UpdateState();
