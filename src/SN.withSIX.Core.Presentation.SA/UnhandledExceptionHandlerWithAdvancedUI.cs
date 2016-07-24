@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Security;
 using System.Windows.Forms;
 using NLog;
-
+using SmartAssembly.SmartExceptionsCore;
 
 
 namespace SN.withSIX.Core.Presentation.SA

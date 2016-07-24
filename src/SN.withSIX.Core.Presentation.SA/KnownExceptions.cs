@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Markup;
-
+using SmartAssembly.SmartExceptionsCore;
 using SN.withSIX.Core.Presentation.SA.ViewModels;
 using SN.withSIX.Core.Presentation.SA.Views;
 using Application = System.Windows.Application;

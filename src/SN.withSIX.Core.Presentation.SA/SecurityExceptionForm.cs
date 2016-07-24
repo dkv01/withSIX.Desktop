@@ -6,7 +6,7 @@ using System;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
+using SmartAssembly.SmartExceptionsCore;
 using SmartAssembly.SmartExceptionsCore.UI;
 
 namespace SN.withSIX.Core.Presentation.SA
