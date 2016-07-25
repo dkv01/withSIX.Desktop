@@ -400,7 +400,7 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Optimize
         private IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetRunningInstances()
             => Metadata.Executables.SelectMany(x => Tools.Processes.GetExecuteablePaths(x))
-                .Where(x => x != null && ExecutablePath.Equals(x.Item2.ParentDirectoryPath));
+                .Where(x => x != null && (x.Item2 == null || ExecutablePath.Equals(x.Item2.ParentDirectoryPath)));
 
         public async Task UpdateSettings(GameSettings settings) {
             Settings = settings;
