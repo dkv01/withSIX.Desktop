@@ -81,7 +81,7 @@ namespace SN.withSIX.Core
         public static readonly Uri ContentApiUrl = new Uri(@"https://" + ApiHost);
         public static readonly Uri ContentUrl = new Uri(@"http://" + ApiHost);
         public static Uri CdnUrl2 { get; } = new Uri("http://cdn2.withsix.com");
-        public static readonly string RemoteSoftwarePath = "software/withSIX";
+        public static readonly string RemoteSoftwarePath = "software/withSIX/";
         public static readonly Uri ConnectUrl = new Uri(UrlBuilder.GetUri("https"), "me/");
         public static readonly Uri MainUrl = new Uri(UrlBuilder.GetUrl("http", ""));
         public static readonly Uri SocialApiUrl =

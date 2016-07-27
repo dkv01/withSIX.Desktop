@@ -42,7 +42,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             // TODO: Read beta from the executable informationalversion... ?
             var releaseInfo = GetReleaseInfo();
             Info = new SquirrelInfo {
-                Uri = new Uri(CommonUrls.SoftwareUpdateUri, "/drop/sync" + releaseInfo.Folder),
+                Uri = new Uri(CommonUrls.SoftwareUpdateUri, "drop/sync" + releaseInfo.Folder),
                 Package = "sync" + releaseInfo.Txt
             };
         }

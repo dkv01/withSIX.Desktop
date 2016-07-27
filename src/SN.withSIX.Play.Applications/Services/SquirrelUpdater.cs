@@ -19,7 +19,7 @@ namespace SN.withSIX.Play.Applications.Services
             // TODO: Read beta from the executable informationalversion... ?
             var releaseInfo = GetReleaseInfo();
             Info = new SquirrelInfo {
-                Uri = new Uri(CommonUrls.SoftwareUpdateUri, "/drop/rel" + releaseInfo.Folder),
+                Uri = new Uri(CommonUrls.SoftwareUpdateUri, "drop/rel" + releaseInfo.Folder),
                 Package = "PlaywithSIX" + releaseInfo.Txt
             };
         }
