@@ -80,7 +80,7 @@ namespace SN.withSIX.Core
         static readonly string ApiHost = "api.withsix.com";
         public static readonly Uri ContentApiUrl = new Uri(@"https://" + ApiHost);
         public static readonly Uri ContentUrl = new Uri(@"http://" + ApiHost);
-        public static readonly Uri CdnUrl2 = new Uri("http://cdn2.withsix.com");
+        public static Uri CdnUrl2 { get; } = new Uri("http://cdn2.withsix.com");
         public static readonly string RemoteSoftwarePath = "software/withSIX";
         public static readonly Uri ConnectUrl = new Uri(UrlBuilder.GetUri("https"), "me/");
         public static readonly Uri MainUrl = new Uri(UrlBuilder.GetUrl("http", ""));
@@ -95,7 +95,7 @@ namespace SN.withSIX.Core
         public static readonly Uri SuAboutUrl = SuUrl;
         public static readonly Uri SuSupportUrl = new Uri(SuUrl, "support");
         public static readonly Uri SuclUrl = new Uri(SuUrl, "changelog");
-        public static readonly Uri SoftwareUpdateUri = new Uri(CdnUrl2, RemoteSoftwarePath);
+        public static Uri SoftwareUpdateUri { get; } = new Uri(CdnUrl2, RemoteSoftwarePath);
         public static readonly Uri Ws1Url = new Uri(UrlBuilder.GetUrl("https", "ws1"));
         public static readonly Uri SignalrApi = Environments.Environment == Environments.Production
             ? Ws1Url
