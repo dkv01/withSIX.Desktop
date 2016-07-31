@@ -248,11 +248,10 @@ namespace SN.withSIX.Core
         public class StartupFlags
         {
             public StartupFlags() {
-                Merged = CommonBase.IsMerged();
-
                 var staging = false;
-                var verbose = false;
-                var autoUpdateEnabled = Merged;
+                var verbose = true;
+                var selfUpdateSupported = true;
+                var autoUpdateEnabled = true;
                 var lockDown = false;
                 var pars = Tools.Generic.GetStartupParameters().ToArray();
                 FullStartupParameters = pars;
@@ -300,8 +299,6 @@ namespace SN.withSIX.Core
                     lockDown = true;
                     lockDownModSet = dic["mod_set"];
                 }
-
-                var selfUpdateSupported = Merged;
 
                 StartupParameters = pars;
 
@@ -356,7 +353,6 @@ namespace SN.withSIX.Core
             ///     All startup parameters, unfiltered.
             /// </summary>
             public string[] FullStartupParameters { get; }
-            public bool Merged { get; }
             public string LockDownModSet { get; }
             public bool AutoUpdateEnabled { get; }
             public bool LockDown { get; }
