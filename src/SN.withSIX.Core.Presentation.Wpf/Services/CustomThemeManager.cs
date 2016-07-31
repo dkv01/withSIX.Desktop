@@ -15,9 +15,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
 
         static CustomThemeManager() {
             baseP = "pack://application:,,," +
-                    (Common.Flags.Merged
-                        ? "/" + CommonBase.AssemblyLoader.GetEntryAssemblyName() + ";component"
-                        : "/SN.withSIX.Core.Presentation.Wpf;component");
+                    "/SN.withSIX.Core.Presentation.Wpf;component";
         }
 
         public static void ThemeManagerOnIsThemeChanged(object sender, OnThemeChangedEventArgs onThemeChangedEventArgs) {
