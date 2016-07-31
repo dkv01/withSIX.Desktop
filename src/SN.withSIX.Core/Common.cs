@@ -330,7 +330,7 @@ namespace SN.withSIX.Core
                 verbose = true;
 #endif
                 Staging = UseProduction ? false : staging;
-                Verbose = verbose;
+                OriginalVerbose = Verbose = verbose;
                 AutoUpdateEnabled = autoUpdateEnabled;
                 LockDown = lockDown;
                 LockDownModSet = lockDownModSet;
@@ -357,6 +357,7 @@ namespace SN.withSIX.Core
             public bool AutoUpdateEnabled { get; }
             public bool LockDown { get; }
             public bool Verbose { get; set; }
+            public bool OriginalVerbose { get; }
             public bool Staging { get; }
             public bool UseLocalServer { get; set; }
             public bool ShuttingDown { get; set; }

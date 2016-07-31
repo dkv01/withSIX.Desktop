@@ -21,6 +21,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public async Task<UnitType> HandleAsync(SaveGeneralSettings request) {
             request.Settings.MapTo(await SettingsContext.GetSettings().ConfigureAwait(false));
+
             return UnitType.Default;
         }
     }

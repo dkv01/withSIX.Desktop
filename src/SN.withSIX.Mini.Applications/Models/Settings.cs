@@ -50,6 +50,10 @@ namespace SN.withSIX.Mini.Applications.Models
         }
 
         public int ApiPort => Local.ApiPort.GetValueOrDefault(Consts.DefaultHttpsPort);
+
+        public void Mapped() {
+            Common.Flags.Verbose = Local.EnableDiagnosticsMode || Common.Flags.OriginalVerbose;
+        }
     }
 
     public class ExtensionStateChanged : IDomainEvent

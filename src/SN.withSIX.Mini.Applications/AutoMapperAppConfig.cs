@@ -312,7 +312,10 @@ namespace SN.withSIX.Mini.Applications
                 .ForMember(x => x.Version, opt => opt.UseValue(Consts.ProductVersion))
                 .IgnoreAllOtherMembers();
             cfg.CreateMap<GeneralSettings, Settings>()
-                .AfterMap((src, dest) => src.MapTo(dest.Local))
+                .AfterMap((src, dest) => {
+                    src.MapTo(dest.Local);
+                    dest.Mapped();
+                })
                 .IgnoreAllMembers();
             cfg.CreateMap<GeneralSettings, LocalSettings>()
                 .ForMember(x => x.OptOutReporting, opt => opt.MapFrom(src => src.OptOutErrorReports))
