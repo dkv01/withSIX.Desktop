@@ -7,6 +7,7 @@ using System.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Services;
 
@@ -21,6 +22,7 @@ namespace SN.withSIX.Core.Presentation.Logging
             if (loggingConfiguration == null)
                 LogManager.Configuration = CreateDefaultConfig(appName);
             AppDomain.CurrentDomain.UnhandledException += MainLog.CurrentDomainOnUnhandledException;
+            DefaultLogManager.Factory = new LogFactory(LogManager.Configuration);
         }
 
         static LoggingConfiguration CreateDefaultConfig(string appName) {
@@ -49,6 +51,7 @@ namespace SN.withSIX.Core.Presentation.Logging
 #else
             LogLevel.Info;
 #endif
+
 
         static Target CreateLogEntriesTarget(string appName) => new LogentriesTarget() {
             Name = "logentries",

@@ -43,6 +43,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
         }
 
         public async Task<UnitType> HandleAsync(StartInDiagnosticsMode request) {
+            Common.Flags.Verbose = true;
             _restarter.RestartWithoutElevation(
                 Tools.Generic.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
             return UnitType.Default;

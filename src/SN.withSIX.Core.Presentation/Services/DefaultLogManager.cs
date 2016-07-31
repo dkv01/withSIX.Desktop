@@ -13,8 +13,7 @@ namespace SN.withSIX.Core.Presentation.Services
 {
     public class DefaultLogManager : ILogManager
     {
-        const string SixMerged = "SN.withSIX.Merged";
-        public static LogFactory Factory = new LogFactory(LogManager.Configuration);
+        public static LogFactory Factory { get; set; }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public virtual ILogger GetLogger(string type) => new LoggerBase(type);
@@ -36,21 +35,20 @@ namespace SN.withSIX.Core.Presentation.Services
             var frame = new StackFrame(1, false);
             return
                 new LoggerBase(
-                    Factory.GetLogger(Common.Flags.Merged ? SixMerged : frame.GetMethod().DeclaringType.FullName));
+                    Factory.GetLogger(frame.GetMethod().DeclaringType.FullName));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public virtual ILogger GetCurrentClassLoggerOrMerged(Type loggerType) {
             var frame = new StackFrame(1, false);
             return
-                new LoggerBase(Factory.GetLogger(
-                    Common.Flags.Merged ? SixMerged : frame.GetMethod().DeclaringType.FullName, loggerType));
+                new LoggerBase(Factory.GetLogger(frame.GetMethod().DeclaringType.FullName, loggerType));
         }
 
         public virtual ILogger GetLoggerOrMerged(Type type)
-            => new LoggerBase(Factory.GetLogger(Common.Flags.Merged ? SixMerged : type.FullName));
+            => new LoggerBase(Factory.GetLogger(type.FullName));
 
         public virtual ILogger GetLoggerOrMerged(Type type, Type loggerType)
-            => new LoggerBase(Factory.GetLogger(Common.Flags.Merged ? SixMerged : type.FullName, loggerType));
+            => new LoggerBase(Factory.GetLogger(type.FullName, loggerType));
     }
 }
