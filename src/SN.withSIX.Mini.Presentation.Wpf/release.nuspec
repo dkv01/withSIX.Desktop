@@ -33,10 +33,18 @@
         <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.GTA.dll" target="lib\net45\SN.withSIX.Mini.Plugin.GTA.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Homeworld.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Homeworld.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Kerbal.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Kerbal.dll" />
+		<!-- 
+		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Stellaris.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Stellaris.dll" />
+		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Starbound.dll" />
+		-->
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Core.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Core.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Electron.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Shell.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Shell.dll" />
+		<file src="..\..\..\bin\SN.withSIX.Steam.Core.dll" target="lib\net45\SN.withSIX.Steam.Core.dll" />
         <file src="..\..\..\bin\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
+		
+		<file src="..\..\..\bin\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
+		<file src="..\..\..\bin\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 
         <file src="..\..\..\bin\SharpShell.dll" target="lib\net45\SharpShell.dll" />
         <file src="..\..\..\bin\srm.exe" target="lib\net45\srm.exe" />
