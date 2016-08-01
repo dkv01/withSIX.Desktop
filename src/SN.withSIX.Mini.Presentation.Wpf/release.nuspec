@@ -14,7 +14,7 @@
         <file src="..\..\..\bin\Sync.exe" target="lib\net45\sync.exe" />
         <file src="..\..\..\bin\Sync.exe.config" target="lib\net45\sync.exe.config" />
 
-        <file src="..\..\..\bin\SN.withSIX.Api.Models.dll" target="lib\net45\SN.withSIX.Api.Models.dll" />
+        <file src="..\..\..\bin\withSIX.Api.Models.dll" target="lib\net45\withSIX.Api.Models.dll" />
         <file src="..\..\..\bin\SN.withSIX.ContentEngine.Core.dll" target="lib\net45\SN.withSIX.ContentEngine.Core.dll" />
         <file src="..\..\..\bin\SN.withSIX.ContentEngine.Infra.dll" target="lib\net45\SN.withSIX.ContentEngine.Infra.dll" />
         <file src="..\..\..\bin\SN.withSIX.Core.dll" target="lib\net45\SN.withSIX.Core.dll" />

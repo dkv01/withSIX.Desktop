@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;

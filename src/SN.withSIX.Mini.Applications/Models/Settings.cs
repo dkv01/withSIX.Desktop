@@ -4,13 +4,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-using SN.withSIX.Api.Models.Premium;
+using withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core;
+using SN.withSIX.Sync.Core.Legacy.Status;
+using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Mini.Applications.Models
 {
@@ -39,6 +42,10 @@ namespace SN.withSIX.Mini.Applications.Models
         public void UpdateLogin(LoginInfo login) {
             Secure.Login = login;
             PrepareEvent(new LoginChanged(Secure.Login));
+        }
+
+        public void UpdateSteamCredentials(Credentials creds) {
+            Secure.SteamCredentials = creds;
         }
 
         public void ExtensionInstalled() => UpdateInstalledState(true);
@@ -121,7 +128,29 @@ namespace SN.withSIX.Mini.Applications.Models
         public LoginInfo Login { get; protected internal set; }
         [DataMember]
         public Guid ClientId { get; protected set; } = Guid.NewGuid();
+        [DataMember]
+        public Credentials SteamCredentials { get; protected internal set; }
     }
+
+    [DataContract]
+    public class Credentials : IAuthInfo
+    {
+        public Credentials(string username, string password, string domain = null) {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(username));
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(password));
+            Username = username;
+            Password = password;
+            Domain = domain;
+        }
+
+        [DataMember]
+        public string Username { get;}
+        [DataMember]
+        public string Password { get;}
+        [DataMember]
+        public string Domain { get;}
+    }
+
 
     [DataContract]
     public class RoamingSettings {}

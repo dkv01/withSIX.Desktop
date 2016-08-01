@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Api.Models.Collections;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Connect;
@@ -176,7 +176,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         /*
     Type: System.ArgumentException
     Message:
-        Expression of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.ImportCollectionCommand,ShortBus.UnitType]' cannot be used for constructor parameter of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.FetchCollectionCommand,SN.withSIX.Api.Models.Collections.CollectionModel]'
+        Expression of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.ImportCollectionCommand,ShortBus.UnitType]' cannot be used for constructor parameter of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.FetchCollectionCommand,withSIX.Api.Models.Collections.CollectionModel]'
          */
 
         public Task<CollectionModel> HandleAsync(FetchCollectionQuery request) => FetchCollection(request.CollectionId);

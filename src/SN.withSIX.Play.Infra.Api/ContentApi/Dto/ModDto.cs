@@ -33,6 +33,8 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
         [DataMember]
         public string MinBuild { get; set; }
         [DataMember]
+        public List<string> Tags { get; set; }
+        [DataMember]
         public string MaxBuild { get; set; }
         [DataMember]
         public Guid GameId { get; set; }

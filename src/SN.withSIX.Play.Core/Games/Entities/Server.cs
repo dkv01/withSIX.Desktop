@@ -26,6 +26,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Repo;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 using SN.withSIX.Play.Core.Games.Legacy.Servers;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Entities
 {

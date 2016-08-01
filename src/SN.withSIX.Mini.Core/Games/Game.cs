@@ -20,6 +20,7 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Content.v2;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -100,8 +101,6 @@ namespace SN.withSIX.Mini.Core.Games
         public GameInstalledState InstalledState => _installedState.Value;
         [IgnoreDataMember]
         public ContentPaths ContentPaths => _contentPaths.Value;
-        [IgnoreDataMember]
-        public IEnumerable<Content> FavoriteItems => Contents.Where(x => x.IsFavorite);
         [DataMember]
         public LaunchType LastUsedLaunchType { get; set; }
         [IgnoreDataMember]
@@ -220,17 +219,11 @@ namespace SN.withSIX.Mini.Core.Games
             var name = isNotUpdateAll
                 ? $"{action.Name ?? "Playlist"} {DateTime.UtcNow.ToString(Tools.GenericTools.DefaultDateFormat)}"
                 : action.Name;
-            var localCollection = new LocalCollection(Id, name, contents) {Image = GetActionImage(action)};
+            var localCollection = new LocalCollection(Id, name, contents);
             if (isNotUpdateAll)
                 Contents.Add(localCollection);
             return localCollection;
         }
-
-        //if (action.Image != null)
-        //  return action.Image;
-        static Uri GetActionImage(IContentAction<IContent> action) => action.Content.Count == 1
-            ? action.Content.Select(x => x.Content).OfType<IHaveImage>().FirstOrDefault()?.Image
-            : null;
 
         protected void AddInstalledContent(params Content[] installedContent) {
             Contract.Requires<ArgumentNullException>(installedContent != null);
@@ -425,14 +418,6 @@ namespace SN.withSIX.Mini.Core.Games
                 c.Uninstalled();
         }
 
-        public void MakeFavorite(Content c) {
-            c.MakeFavorite();
-        }
-
-        public void Unfavorite(Content c) {
-            c.Unfavorite();
-        }
-
         public string GetContentPath(IHavePath content) => Metadata.Slug + "/" + content.GetPath();
 
         public void RemoveCollection(Collection collection) {
@@ -459,12 +444,16 @@ namespace SN.withSIX.Mini.Core.Games
         }
     }
 
-    public class ApiHashes : Api.Models.Content.ApiHashes {}
+    public class ApiHashes : global::withSIX.Api.Models.Content.v3.ApiHashes {}
 
+    [DataContract]
     public class SyncInfo
     {
+        [DataMember]
         public DateTime LastSync { get; set; }
+        [DataMember]
         public int LastSyncVersion { get; set; }
+        [DataMember]
         public ApiHashes ApiHashes { get; set; }
     }
 

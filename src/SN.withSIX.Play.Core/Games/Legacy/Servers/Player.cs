@@ -4,6 +4,7 @@
 
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Servers
 {

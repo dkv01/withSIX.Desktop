@@ -37,12 +37,13 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             var packageName = dir.Name;
             var nc = networkContents.FirstOrDefault(
                 x => x.PackageName.Equals(packageName, StringComparison.CurrentCultureIgnoreCase));
-                // ?? networkContents.FirstOrDefault(x => x.Aliases.ContainsIgnoreCase(packageName))
+            // ?? networkContents.FirstOrDefault(x => x.Aliases.ContainsIgnoreCase(packageName))
 
             var path = dir.FullName.ToAbsoluteDirectoryPath();
             var version = GetVersion(path);
             // TODO: Hidden state change!
-            if (nc != null) {
+            // TODO: Steam vs withSIX check!
+            if (nc != null && !nc.IsSteam()) {
                 if (nc.InstallInfo == null || nc.InstallInfo.Version != version ||
                     (version != null && !nc.InstallInfo.Completed))
                     nc.Installed(version, true);

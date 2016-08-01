@@ -8,9 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
+using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
@@ -77,6 +79,54 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 };
     }
 
+    [ApiUserAction("Install")]
+    public class InstallSteamContents : ContentsIntBase, INeedCancellationTokenSource,
+    IOverrideNotificationTitle, INotifyAction, IHaveNexAction, IUseContent, ICancelable
+    {
+        public InstallSteamContents(Guid gameId, List<ContentIntSpec> contents) : base(gameId, contents) { }
+
+        public bool HideLaunchAction { get; set; }
+        public bool Force { get; set; }
+
+        public IAsyncVoidCommandBase GetNextAction()
+            =>
+                new LaunchContents(GameId,
+                    Contents.Select(
+                        x =>
+                            new ContentGuidSpec(
+                                global::withSIX.Api.Models.Extensions.GameExtensions.CreateSteamContentIdGuid(x.Id),
+                                x.Constraint)).ToList()) {
+                                    Name = Name
+                                };
+
+        public DoneCancellationTokenSource CTS { get; set; }
+        IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
+        public string ActionTitleOverride => Force ? "Diagnose" : null;
+        public string PauseTitleOverride => Force ? "Cancel" : null;
+
+        public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CTS.Token,
+            Contents.Select(x => new { Content = GetOrCreateContent(game, x), x.Constraint })
+                .Select(x => new { Content = x.Content as IInstallableContent, x.Constraint })
+                .Where(x => x.Content != null)
+                .Select(x => new InstallContentSpec(x.Content, x.Constraint))
+                .ToArray()) {
+            Name = Name,
+            HideLaunchAction = HideLaunchAction,
+            Force = Force,
+            Href = GetHref(game)
+        };
+
+        private static Content GetOrCreateContent(Game game, ContentIntSpec x) {
+            var guid = global::withSIX.Api.Models.Extensions.GameExtensions.CreateSteamContentIdGuid(x.Id);
+            var content = game.Contents.Find(guid);
+            if (content != null)
+                return content;
+            content = ModNetworkContent.FromSteamId(x.Id, game.Id);
+            game.Contents.Add(content);
+            return content;
+        }
+    }
+
     public class InstallCollection : InstallContent, INeedSynchronization
     {
         public InstallCollection(Guid gameId, ContentGuidSpec content) : base(gameId, content) {}
@@ -91,7 +141,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     }
 
     public class InstallContentHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<InstallContent>,
-        IAsyncVoidCommandHandler<InstallCollection>, IAsyncVoidCommandHandler<InstallContents>
+        IAsyncVoidCommandHandler<InstallCollection>, IAsyncVoidCommandHandler<InstallContents>, IAsyncVoidCommandHandler<InstallSteamContents>
     {
         readonly IContentInstallationService _contentInstallation;
 
@@ -121,5 +171,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         private Task InstallContent(InstallContent request, Game game)
             => game.Install(_contentInstallation, request.GetAction(game));
+
+        public async Task<UnitType> HandleAsync(InstallSteamContents request) {
+            var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
+            await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
+            return UnitType.Default;
+        }
     }
 }

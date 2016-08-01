@@ -25,7 +25,7 @@
         <file src="..\..\..\bin\SN.withSIX.ContentEngine.Core.dll" target="lib\net45\SN.withSIX.ContentEngine.Core.dll" />
         <file src="..\..\..\bin\SN.withSIX.ContentEngine.Infra.dll" target="lib\net45\SN.withSIX.ContentEngine.Infra.dll" />
         <file src="..\..\..\bin\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Api.Models.dll" target="lib\net45\SN.withSIX.Api.Models.dll" />
+        <file src="..\..\..\bin\withSIX.Api.Models.dll" target="lib\net45\withSIX.Api.Models.dll" />
 
         <file src="..\..\..\bin\SN.withSIX.Play.Core.dll" target="lib\net45\SN.withSIX.Play.Core.dll" />
         <file src="..\..\..\bin\SN.withSIX.Play.Applications.dll" target="lib\net45\SN.withSIX.Play.Applications.dll" />

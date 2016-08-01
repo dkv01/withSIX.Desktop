@@ -147,4 +147,12 @@ public static class RecoveryCommands
             Dictionary<string, object> contextInfo = null)
             : base(innerException, errorMessage, errorCauseOrResolution, contextInfo) {}
     }
+
+    public class InputUserError : RecoverableUserError
+    {
+        public InputUserError(Exception innerException, string errorMessage,
+            string errorCauseOrResolution = null,
+            Dictionary<string, object> contextInfo = null)
+            : base(innerException, errorMessage, errorCauseOrResolution, contextInfo) { }
+    }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ShortBus;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Infra.Services;

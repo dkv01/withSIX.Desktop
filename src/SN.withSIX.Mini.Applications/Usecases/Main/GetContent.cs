@@ -34,7 +34,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
     public class ClientContentInfo2
     {
-        public List<FavoriteContentModel> FavoriteContent { get; set; }
         public List<RecentContentModel> RecentContent { get; set; }
         public List<InstalledContentModel> InstalledContent { get; set; }
         public List<LocalCollectionModel> LocalCollections { get; set; }

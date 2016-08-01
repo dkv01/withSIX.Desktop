@@ -14,6 +14,7 @@ using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Presentation.Console.Services;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {

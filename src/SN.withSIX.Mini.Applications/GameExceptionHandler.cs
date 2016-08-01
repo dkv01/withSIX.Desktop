@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using ReactiveUI;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Mini.Applications.Services.Infra;

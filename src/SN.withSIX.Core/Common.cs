@@ -82,8 +82,13 @@ namespace SN.withSIX.Core
             public const string DefaultModResourceFileLarge = "ModsPlaceholder-full232x112.png";
             public const string DefaultModResourceFileHuge = "ModsPlaceholder-huge300x144.png";
             const string OnlineResourcePath = "https://d2l9k1uqfxdpqe.cloudfront.net/assets/mods/";
-            public static string ApplicationName = "Play withSIX";
-            public static string ApplicationRegKey = "Software\\SIX Networks\\" + ApplicationName; // TODO
+            public static string ApplicationName { get; private set; } = "Play withSIX";
+
+            public static void SetAppName(string appName) {
+                ApplicationName = appName;
+                ApplicationRegKey = "Software\\SIX Networks\\" + ApplicationName;
+            }
+            public static string ApplicationRegKey { get; private set; } = "Software\\SIX Networks\\" + ApplicationName;
             static readonly bool debug;
             static readonly bool trace;
             public static readonly TimeSpan DefaultFilterDelay = TimeSpan.FromMilliseconds(250);
@@ -116,8 +121,6 @@ namespace SN.withSIX.Core
             public Version ApplicationVersion { get; private set; }
             public string ProductVersion { get; private set; }
             public string AppTitle { get; private set; }
-            [Obsolete("Workaround for need to check for Wpf Application availability in Core")]
-            public bool IsWpfApp { get; set; }
 
             public void Init(string appName) {
                 if (Flags.Staging || Flags.Portable)
@@ -395,6 +398,9 @@ namespace SN.withSIX.Core
         public const string GTAV = "BE87E190-6FA4-4C96-B604-0D9B08165CC5";
         public const string GTAIV = "8BA4D622-2A91-4149-9E06-EF40DF4E2DCB";
         public const string Witcher3 = "5137A2FB-1A8D-4DA8-97F6-65F88042E4D6";
+        public const string Stellaris = "54218fae-042d-5368-bbb4-275e36d78da5";
+        public const string Starbound = "c56ca8b0-8095-5191-b942-141f75fe001c";
+        public const string Skyrim = "90abc214-0abd-53c7-a1c7-046114af5253";
     }
 
     public static class GameUuids

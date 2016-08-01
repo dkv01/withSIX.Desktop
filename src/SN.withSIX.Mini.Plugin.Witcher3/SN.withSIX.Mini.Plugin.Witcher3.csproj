@@ -88,7 +88,7 @@
     <Compile Include="Models\Witcher3GameSettings.cs" />
     <Compile Include="Models\Witcher3StartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApiModels\Witcher3GameSettingsViewModel.cs" />
+    <Compile Include="ApiModels\Witcher3GameSettingsApiModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">

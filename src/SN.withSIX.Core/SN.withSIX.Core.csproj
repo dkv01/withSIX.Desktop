@@ -225,15 +225,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\NDepend.Path.dll</HintPath>
+      <HintPath>..\packages\NDepend.Path.1.0.0\lib\net35\NDepend.Path.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -251,6 +247,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="withSIX.Api.Models, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.5.0\lib\net46\withSIX.Api.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="YamlDotNet, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.3.9.0\lib\net35\YamlDotNet.dll</HintPath>
       <Private>True</Private>
@@ -264,6 +264,7 @@
     <Compile Include="Extensions\DirectoryExtensions.cs" />
     <Compile Include="Extensions\EncryptionExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Extensions\FileExt.cs" />
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Extensions\HashExtensions.cs" />
     <Compile Include="Extensions\NDependPathHelpers.cs" />
@@ -273,8 +274,6 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\SizeExtensions.cs" />
     <Compile Include="Helpers\AsyncLock.cs" />
-    <Compile Include="Helpers\BaseVersion.cs" />
-    <Compile Include="Helpers\IComparePK.cs" />
     <Compile Include="Helpers\ICopyProperties.cs" />
     <Compile Include="Helpers\IHaveItems.cs" />
     <Compile Include="Helpers\IHaveModel.cs" />
@@ -303,20 +302,6 @@
     <Compile Include="Extensions\DeepCloneExtension.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\ICharacterStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\CloseBracketStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\CloseSquareBracketStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\ColonCharacterStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\CommaCharacterStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\DefaultCharacterStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\DoubleQuoteStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\OpenBracketStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\OpenSquareBracketStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\SingleQuoteStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategies\SkipWhileNotInStringStrategy.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\JsonPPStrategyContext.cs" />
-    <Compile Include="Extensions\JsonPrettyPrinterInternals\PPScopeState.cs" />
-    <Compile Include="Extensions\PrettyPrinterExtensions.cs" />
     <Compile Include="Extensions\SerializationExtension.cs" />
     <Compile Include="Extensions\SimpleQueueExtension.cs" />
     <Compile Include="Extensions\SocketExtensions.cs" />
@@ -345,7 +330,6 @@
     <Compile Include="Services\Infrastructure\IWCFClient.cs" />
     <Compile Include="Services\IPathConfiguration.cs" />
     <Compile Include="Services\JsonDictionary.cs" />
-    <Compile Include="Services\JsonPrettyPrinter.cs" />
     <Compile Include="TimestampedDomainEvent.cs" />
     <Compile Include="Tools\Compression\CompressionUtil.cs" />
     <Compile Include="Tools\Compression\GzipTools.cs" />
@@ -381,7 +365,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

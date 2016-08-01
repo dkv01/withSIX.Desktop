@@ -42,7 +42,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private static void Init() {
-            Common.AppCommon.ApplicationName = Consts.InternalTitle; // Used in temp path too.
+            Common.AppCommon.SetAppName(Consts.InternalTitle); // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +
                 _args.CombineParameters());

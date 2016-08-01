@@ -41,9 +41,6 @@ namespace SN.withSIX.Sync.Presentation.Console
             //System.Console.WriteLine(message + "\n" + e);
             MainLog.Logger.FormattedErrorException(e, message);
             System.Console.WriteLine(e.Format());
-
-            if (!Common.Flags.Merged)
-                return;
         }
 
         [STAThread]

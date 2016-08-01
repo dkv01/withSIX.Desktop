@@ -15,7 +15,7 @@ using MoreLinq;
 using Newtonsoft.Json;
 using ReactiveUI;
 using ShortBus;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Extensions;
@@ -30,6 +30,8 @@ using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SN.withSIX.Sync.Core.Legacy.Status;
+using Status = SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Status;
 
 namespace SN.withSIX.Mini.Applications.Services
 {

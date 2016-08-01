@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 
 namespace SN.withSIX.Play.Core.Connect.Infrastructure.Components
 {

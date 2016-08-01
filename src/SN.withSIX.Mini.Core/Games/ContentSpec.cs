@@ -6,8 +6,8 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SN.withSIX.Sync.Core.Legacy.Status;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -43,7 +43,12 @@ namespace SN.withSIX.Mini.Core.Games
 
         public override bool Equals(object other) => Equals(other as ContentSpec<T>);
 
-        public ItemState GetState() => Content.GetState(Constraint);
+        //public ItemState GetState() => Content.GetState(Constraint);
+    }
+
+    public static class ContentSpecExtensions
+    {
+        public static ItemState GetState<T>(this IContentSpec<T> spec) where T : IContent => spec.Content.GetState(spec.Constraint);
     }
 
     [DataContract]
@@ -166,5 +171,11 @@ namespace SN.withSIX.Mini.Core.Games
     public class ContentGuidSpec : ContentIdSpec<Guid>
     {
         public ContentGuidSpec(Guid id, string constraint = null) : base(id, constraint) {}
+    }
+
+    [DataContract]
+    public class ContentIntSpec : ContentIdSpec<ulong>
+    {
+        public ContentIntSpec(ulong id, string constraint = null) : base(id, constraint) { }
     }
 }

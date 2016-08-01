@@ -32,8 +32,10 @@ namespace SN.withSIX.Core.Extensions
 
         public static string ToJson(this object @this, JsonSerializerSettings settings, bool pretty = false) {
             Contract.Requires<ArgumentNullException>(@this != null);
-            var json = JsonConvert.SerializeObject(@this, settings);
-            return pretty ? json.PrettyPrintJson() : json;
+            var json = pretty
+                ? JsonConvert.SerializeObject(@this, Formatting.Indented, settings)
+                : JsonConvert.SerializeObject(@this, settings);
+            return json;
         }
 
         public static JsonSerializerSettings SetDefaultSettings(this JsonSerializerSettings settings) {

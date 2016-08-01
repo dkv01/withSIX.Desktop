@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Sync.Core.Legacy.Status;
 
 namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 {

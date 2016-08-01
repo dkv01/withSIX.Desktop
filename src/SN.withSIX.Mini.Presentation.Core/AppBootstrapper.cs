@@ -241,6 +241,8 @@ namespace SN.withSIX.Mini.Presentation.Core
                 Common.Flags.Verbose = true;
             MappingExtensions.Mapper = new MapperConfiguration(cfg => {
                 cfg.SetupConverters();
+                foreach (var p in Container.GetAllInstances<Profile>())
+                    cfg.AddProfile(p);
                 foreach (var i in _initializers.OfType<IAMInitializer>())
                     i.ConfigureAutoMapper(cfg);
             }).CreateMapper();
@@ -433,11 +435,12 @@ namespace SN.withSIX.Mini.Presentation.Core
                     pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies,
                     coreAssemblies
                 }
-                    .SelectMany(x => x);
+                    .SelectMany(x => x).ToArray();
             //AppDomain.CurrentDomain.GetAssemblies()
             //  .Where(x => !x.FullName.Contains("edge") && x.FullName.Contains("SN.withSIX"))
             //.Concat(new[] {typeof (App).Assembly}).Distinct();
             Container.RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
+            Container.RegisterPlugins<Profile>(assemblies);
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(
                 () =>
@@ -449,7 +452,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton<IINstallerSessionFactory>(
                 () =>
                     new InstallerSessionFactory(() => _isPremium(), Container.GetInstance<IToolsCheat>(),
-                        Container.GetInstance<IContentEngine>(), Container.GetInstance<IAuthProvider>()));
+                        Container.GetInstance<IContentEngine>(), Container.GetInstance<IAuthProvider>(),
+                        Container.GetInstance<ISteamDownloader>(), Container.GetInstance<IDbContextLocator>()));
             Container.RegisterSingleton<IContentInstallationService>(
                 () =>
                     new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),

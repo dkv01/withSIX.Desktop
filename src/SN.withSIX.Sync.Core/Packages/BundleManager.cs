@@ -8,11 +8,12 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Core.Packages
 {

@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Api.Models.Publishing;
+using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;

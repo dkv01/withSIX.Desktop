@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Games.Legacy;

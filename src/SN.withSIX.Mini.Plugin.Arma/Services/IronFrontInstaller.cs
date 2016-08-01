@@ -242,7 +242,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
             foreach (var f in files) {
                 ProcessPbo(f, tempPath, destination);
                 i++;
-                status.Update(null, (double)i / files.Length * 100);
+                status.Update(null, (double) i/files.Length*100);
             }
         }
 

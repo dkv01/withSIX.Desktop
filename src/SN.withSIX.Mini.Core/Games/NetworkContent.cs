@@ -10,9 +10,10 @@ using SN.withSIX.Mini.Core.Extensions;
 
 namespace SN.withSIX.Mini.Core.Games
 {
-    public interface INetworkContent : IPackagedContent, IInstallableContent, IHaveImage, IHavePath
+    public interface INetworkContent : IPackagedContent, IInstallableContent, IHavePath
     {
         ICollection<NetworkContentSpec> Dependencies { get; }
+        List<ContentPublisher> Publishers { get; }
     }
 
     public interface IHavePath
@@ -34,12 +35,15 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         // Only here because of wrong dependency references... // TODO: Try to externalize this to the DTO instead..
         public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } = new List<ContentGuidSpec>();
-        [DataMember]
-        public List<string> Aliases { get; protected set; } = new List<string>();
+        //[DataMember]
+        //public List<string> Aliases { get; protected set; } = new List<string>();
         [DataMember]
         public DateTime UpdatedVersion { get; set; }
 
         public override bool IsNetworkContent { get; } = true;
+
+        [DataMember]
+        public List<ContentPublisher> Publishers { get; protected set; } = new List<ContentPublisher>();
 
         [DataMember]
         public Guid? OriginalGameId { get; set; }
@@ -63,7 +67,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (list.Select(x => x.Content).Contains(this))
                 return list;
 
-            var spec = new NetworkContentSpec(this, constraint);
+            var spec = new NetworkContentSpec(this, constraint ?? Version);
             list.Add(spec);
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(list, d.Constraint);

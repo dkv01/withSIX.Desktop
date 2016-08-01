@@ -6,9 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SignalRNetClientProxyMapper;
-
-using SN.withSIX.Api.Models.Collections;
-using SN.withSIX.Api.Models.Shared;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Collections;
 
 namespace SN.withSIX.Play.Infra.Api.Hubs
 {

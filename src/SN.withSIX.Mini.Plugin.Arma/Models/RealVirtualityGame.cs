@@ -15,10 +15,11 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Mini.Applications.Services.Dtos;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -26,6 +27,8 @@ using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Services;
 using SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI;
+using CollectionServer = SN.withSIX.Mini.Core.Games.CollectionServer;
+using ServerAddress = withSIX.Api.Models.ServerAddress;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
@@ -36,11 +39,11 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         public const string BohemiaRegistry = @"SOFTWARE\Bohemia Interactive";
 
         readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
-        readonly Lazy<IAbsoluteDirectoryPath> _userconfigPath;
         readonly RvContentScanner _rvContentScanner;
         readonly RealVirtualityGameSettings _settings;
 
         private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
+        readonly Lazy<IAbsoluteDirectoryPath> _userconfigPath;
 
         protected RealVirtualityGame(Guid id, RealVirtualityGameSettings settings) : base(id, settings) {
             _settings = settings;
@@ -63,6 +66,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         private IAbsoluteDirectoryPath KeysPath => _keysPath.Value;
 
         protected bool ShouldLaunchAsDedicatedServer => _shouldLaunchAsDedicatedServer.Value;
+
+        private IAbsoluteDirectoryPath UserconfigPath => _userconfigPath.Value;
 
         void SetupDefaultDirectories() {
             if (Settings.GameDirectory == null)
@@ -170,20 +175,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return startupParameters;
         }
 
-        protected override async Task InstallImpl(IContentInstallationService installationService,
+        protected override Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> content) {
-            var installAction = GetInstallAction(content);
             if (ShouldLaunchAsDedicatedServer)
                 Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
             foreach (var m in GetPackagedContent(content.Content).Select(x => new RvMod(this, x)))
                 m.Register();
-            await installationService.Install(installAction).ConfigureAwait(false);
+            return base.InstallImpl(installationService, content);
         }
-
-        private static IEnumerable<IContentWithPackageName> GetPackagedContent(
-            IEnumerable<IContentSpec<IInstallableContent>> content)
-            => content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
-                .Select(x => x.Content).Distinct().OfType<IContentWithPackageName>();
 
         StartupBuilderSpec GetStartupSpec(ILaunchContentAction<IContent> action) {
             var content = GetLaunchables(action);
@@ -224,13 +223,11 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return UserconfigPath;
         }
 
-        private IAbsoluteDirectoryPath UserconfigPath => _userconfigPath.Value;
-
         public override IAbsoluteDirectoryPath GetConfigPath(IPackagedContent content) {
             ConfirmInstalled();
             return UserconfigPath.GetChildDirectoryWithName(content.PackageName.StartsWith("@")
-                    ? content.PackageName.Substring(1)
-                    : content.PackageName);
+                ? content.PackageName.Substring(1)
+                : content.PackageName);
         }
 
         class RvMod

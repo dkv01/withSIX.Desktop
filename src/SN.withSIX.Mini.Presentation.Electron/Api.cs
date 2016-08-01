@@ -141,6 +141,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
                     return VoidCommand<InstallContent>(requestData);
                 case "installContents":
                     return VoidCommand<InstallContents>(requestData);
+                case "installSteamContents":
+                    return VoidCommand<InstallSteamContents>(requestData);
                 case "uninstallContent":
                     return VoidCommand<UninstallContent>(requestData);
                 case "uninstallContents":

@@ -298,7 +298,31 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         public override bool Equals(object obj) => Equals(obj as StatusInfo);
     }
 
-    public static class StatusInfoExtensions
+    public struct HashCode
+    {
+        private readonly int _hashCode;
+
+        public HashCode(int hashCode) {
+            _hashCode = hashCode;
+        }
+
+        public static HashCode Start => new HashCode(17);
+
+        public static implicit operator int(HashCode hashCode) => hashCode.GetHashCode();
+
+        public HashCode Hash<T>(T obj) {
+            var c = EqualityComparer<T>.Default;
+            var h = c.Equals(obj, default(T)) ? 0 : obj.GetHashCode();
+            unchecked {
+                h += _hashCode * 31;
+            }
+            return new HashCode(h);
+        }
+
+        public override int GetHashCode() => _hashCode;
+    }
+
+public static class StatusInfoExtensions
     {
         public static StatusInfo IncrementDone(this StatusInfo statusInfo)
             => new StatusInfo(statusInfo.Action, statusInfo.Progress, statusInfo.Speed, statusInfo.Active,

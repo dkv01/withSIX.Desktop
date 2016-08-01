@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Applications
 {
@@ -15,9 +15,7 @@ namespace SN.withSIX.Core.Applications
         public NotEnoughFreeDiskSpaceException(string message, Exception innerException) : base(message, innerException) {}
         public NotEnoughFreeDiskSpaceException(string message) : base(message) {}
 
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        protected NotEnoughFreeDiskSpaceException(SerializationInfo info, StreamingContext context)
-            : base(info, context) {}
+        //[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)] protected NotEnoughFreeDiskSpaceException(SerializationInfo info, StreamingContext context) //  : base(info, context) {}
     }
 
     [Serializable]
@@ -32,8 +30,7 @@ namespace SN.withSIX.Core.Applications
         public CanceledException(string message, Exception inner) : base(message, inner) {}
         public CanceledException(Exception inner) : base(TheUserCancelledTheOperation, inner) {}
 
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        protected CanceledException(SerializationInfo info, StreamingContext context)
-            : base(info, context) {}
+        //[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        //protected CanceledException(SerializationInfo info, StreamingContext context) : base(info, context) {}
     }
 }

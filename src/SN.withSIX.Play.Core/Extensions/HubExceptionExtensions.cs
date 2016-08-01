@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.AspNet.SignalR.Client;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Play.Core.Extensions
 {

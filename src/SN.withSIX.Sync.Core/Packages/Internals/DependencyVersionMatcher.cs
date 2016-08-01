@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Core.Packages.Internals
 {

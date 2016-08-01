@@ -6,10 +6,9 @@ using System;
 using System.Threading.Tasks;
 using SignalRNetClientProxyMapper;
 
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Content;
-using SN.withSIX.Api.Models.Content.Arma3;
-using SN.withSIX.Api.Models.Shared;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content.Arma3;
 
 namespace SN.withSIX.Play.Infra.Api.Hubs
 {
@@ -20,4 +19,5 @@ namespace SN.withSIX.Play.Infra.Api.Hubs
         Task<MissionModel> MissionUploadCompleted(MissionUploadedModel model);
         Task<PageModel<MissionModel>> GetMyMissions(string type, int page);
     }
+
 }

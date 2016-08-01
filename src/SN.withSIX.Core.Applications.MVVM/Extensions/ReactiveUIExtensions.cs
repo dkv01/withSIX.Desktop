@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Core.Applications.MVVM.Extensions
 {

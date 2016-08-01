@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
 
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;

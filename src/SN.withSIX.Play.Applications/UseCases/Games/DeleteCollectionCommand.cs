@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Connect.Infrastructure;

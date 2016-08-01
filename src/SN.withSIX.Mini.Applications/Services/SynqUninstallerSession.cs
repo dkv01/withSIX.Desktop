@@ -12,6 +12,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Mini.Applications.Services
 {

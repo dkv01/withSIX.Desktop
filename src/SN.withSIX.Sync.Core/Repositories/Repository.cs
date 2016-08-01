@@ -23,6 +23,7 @@ using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Services;
+using withSIX.Api.Models;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
 namespace SN.withSIX.Sync.Core.Repositories

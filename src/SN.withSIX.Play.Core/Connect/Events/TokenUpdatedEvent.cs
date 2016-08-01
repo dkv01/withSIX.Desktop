@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Api.Models.Premium;
+using withSIX.Api.Models.Premium;
 
 namespace SN.withSIX.Play.Core.Connect.Events
 {

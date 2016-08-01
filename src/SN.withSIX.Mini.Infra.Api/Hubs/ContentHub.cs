@@ -44,6 +44,8 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 
         public Task InstallContents(InstallContents command) => RequestAsync(command);
 
+        public Task InstallSteamContents(InstallSteamContents command) => RequestAsync(command);
+
         public Task Next(Guid actionId) => DispatchNextAction(actionId);
 
         public Task Abort(Pause command) => RequestAsync(command);
@@ -61,8 +63,6 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 
     public interface IContentClientHub
     {
-        Task ContentFavorited(Guid gameId, FavoriteContentModel favoriteContent);
-        Task ContentUnfavorited(Guid gameId, Guid contentId);
         Task RecentItemAdded(Guid gameId, RecentContentModel recentItem);
         Task RecentItemUsed(Guid gameId, Guid recentItemId, DateTime playedAt);
         Task ContentInstalled(Guid gameId, InstalledContentModel installedContent);

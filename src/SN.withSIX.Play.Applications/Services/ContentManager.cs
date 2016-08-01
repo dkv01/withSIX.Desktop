@@ -22,9 +22,9 @@ using NDepend.Path;
 using ReactiveUI;
 using ShortBus;
 
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Content;
-using SN.withSIX.Api.Models.Content.Arma3;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content.Arma3;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
@@ -60,6 +60,7 @@ using SN.withSIX.Sync.Core.Legacy.SixSync;
 using SN.withSIX.Sync.Core.Legacy.Yoma;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Api.Models.Content.v2;
 using Timer = System.Timers.Timer;
 
 namespace SN.withSIX.Play.Applications.Services

@@ -14,6 +14,7 @@ using Caliburn.Micro;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Wpf.Services;
+using SN.withSIX.Sync.Core.Legacy.Status;
 using WpfAnimatedGif;
 using Action = System.Action;
 using Timer = System.Timers.Timer;

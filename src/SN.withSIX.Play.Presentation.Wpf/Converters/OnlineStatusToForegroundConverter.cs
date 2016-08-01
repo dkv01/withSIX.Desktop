@@ -5,7 +5,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Api.Models.Context;
+using withSIX.Api.Models.Context;
 using SN.withSIX.Core.Applications;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Converters

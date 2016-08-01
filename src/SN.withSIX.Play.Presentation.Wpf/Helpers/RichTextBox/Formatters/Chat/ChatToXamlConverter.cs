@@ -14,9 +14,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
     public class ChatToXamlConverter
     {
         static readonly string xamlNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
-        static readonly string cachedImageNS = Common.Flags.Merged
-            ? "clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX-Play"
-            : "clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf";
+        static readonly string cachedImageNS = "clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf";
         static readonly string xamlHyperlink = "Hyperlink";
         static readonly string xamlHyperlinkNavigateUri = "NavigateUri";
         static readonly string xamlHyperlinkTargetName = "TargetName";

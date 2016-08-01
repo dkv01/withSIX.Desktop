@@ -4,7 +4,7 @@
 
 using System;
 using ShortBus;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {

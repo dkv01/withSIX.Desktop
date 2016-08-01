@@ -10,6 +10,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {

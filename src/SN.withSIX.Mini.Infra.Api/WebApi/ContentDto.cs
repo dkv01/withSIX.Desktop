@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace SN.withSIX.Mini.Infra.Api.WebApi
 {
-    public abstract class ContentDto
+    public abstract class ContentDtoV2
     {
         public Guid Id { get; set; }
         public Guid GameId { get; set; }

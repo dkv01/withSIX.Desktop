@@ -128,13 +128,17 @@
       <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\NDepend.Path.dll</HintPath>
+      <HintPath>..\packages\NDepend.Path.1.0.0\lib\net35\NDepend.Path.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -148,10 +152,6 @@
     </Reference>
     <Reference Include="ShortBus.Markers">
       <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
-    </Reference>
-    <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
@@ -180,6 +180,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="withSIX.Api.Models, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.5.0\lib\net46\withSIX.Api.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionNotifierDecorator.cs" />
@@ -224,6 +228,7 @@
     <Compile Include="Services\Infra\ISettingsStorage.cs" />
     <Compile Include="Services\Infra\ITokenRefresher.cs" />
     <Compile Include="Services\IQueueManager.cs" />
+    <Compile Include="Services\ISteamDownloader.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />
     <Compile Include="Services\Queue.cs" />
     <Compile Include="Services\StateHandler.cs" />
@@ -278,9 +283,7 @@
     <Compile Include="Usecases\GameContentBase.cs" />
     <Compile Include="Usecases\DbCommandBase.cs" />
     <Compile Include="Usecases\IdBased.cs" />
-    <Compile Include="Usecases\Main\Games\UnfavoriteContent.cs" />
     <Compile Include="Usecases\Main\Games\GetGame.cs" />
-    <Compile Include="Usecases\Main\Games\MakeContentFavorite.cs" />
     <Compile Include="Usecases\Main\Games\UninstallContent.cs" />
     <Compile Include="Usecases\Main\Games\LaunchGame.cs" />
     <Compile Include="Usecases\Main\Games\ScanLocalContent.cs" />
@@ -316,6 +319,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>SN.withSIX.Mini.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
+      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
+      <Name>SN.withSIX.Steam.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>

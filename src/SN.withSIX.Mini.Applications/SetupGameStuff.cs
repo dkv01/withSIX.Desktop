@@ -117,49 +117,20 @@ namespace SN.withSIX.Mini.Applications
                 await gc.SaveChanges().ConfigureAwait(false);
         }
 
-        private HashStats GetHashStats(Game game, ApiHashes hashes) {
-            var syncInfo = game.SyncInfo;
-            var localHashes = syncInfo.ApiHashes;
-
-            var hashStats = new HashStats {
-                Hashes = hashes,
-                ShouldSyncBecauseHashes = localHashes == null || localHashes.Mods != hashes.Mods,
-                ShouldSyncBecauseTime = syncInfo.LastSync.ToLocalTime() <
-                                        Tools.Generic.GetCurrentUtcDateTime.ToLocalTime()
-                                            .Subtract(TimeSpan.FromMinutes(10)),
-                ShouldSyncBecauseVersion = syncInfo.LastSyncVersion != Consts.SyncVersion
-            };
-            return hashStats;
-        }
-
         async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, bool shouldEmitEvents = true) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Handling game contents for {string.Join(", ", gameIds)}");
-            var hashes = await _networkContentSyncer.GetHashes().ConfigureAwait(false);
 
             var gc = _locator.GetGameContext();
             await gc.Load(gameIds).ConfigureAwait(false);
 
             var games = gc.Games.Where(x => gameIds.Contains(x.Id) && x.InstalledState.IsInstalled).ToArray();
-            var gameStats = games.ToDictionary(x => x, x => GetHashStats(x, hashes));
             await
-                _networkContentSyncer.SyncContent(gameStats.Where(x => x.Value.ShouldSyncBecauseHashes || x.Value.ShouldSyncBecauseVersion)
-                    .Select(x => x.Key)
-                    .ToArray(), hashes).ConfigureAwait(false);
+                _networkContentSyncer.SyncContent(games).ConfigureAwait(false);
             //if (shouldEmitEvents) await new StatusChanged(Status.Preparing, new ProgressInfo(progress: 50)).Raise().ConfigureAwait(false);
             await SynchronizeCollections(games).ConfigureAwait(false);
-            UpdateSyncInfo(games, hashes);
             foreach (var g in games)
                 await g.RefreshState().ConfigureAwait(false);
-        }
-
-        private static void UpdateSyncInfo(IEnumerable<Game> games, ApiHashes hashes) {
-            var dt = Tools.Generic.GetCurrentUtcDateTime;
-            foreach (var g in games) {
-                g.SyncInfo.ApiHashes = hashes;
-                g.SyncInfo.LastSync = dt;
-                g.SyncInfo.LastSyncVersion = Consts.SyncVersion;
-            }
         }
 
         Task SynchronizeCollections(IReadOnlyCollection<Game> games) {
@@ -174,14 +145,6 @@ namespace SN.withSIX.Mini.Applications
         private void Dispose(bool isDisposing) {
             if (isDisposing)
                 _timer.Dispose();
-        }
-
-        private class HashStats
-        {
-            public ApiHashes Hashes { get; set; }
-            public bool ShouldSyncBecauseHashes { get; set; }
-            public bool ShouldSyncBecauseTime { get; set; }
-            public bool ShouldSyncBecauseVersion { get; set; }
         }
 
         static class GameFactory

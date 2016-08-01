@@ -10,10 +10,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReactiveUI;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Sync.Core.Legacy.Status;
 
 namespace SN.withSIX.Mini.Applications.Services
 {

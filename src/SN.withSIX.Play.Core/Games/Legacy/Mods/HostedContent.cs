@@ -4,7 +4,7 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 

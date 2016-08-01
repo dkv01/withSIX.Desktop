@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Api.Models.Premium;
+using withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;

@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using NDepend.Path;
 
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages;

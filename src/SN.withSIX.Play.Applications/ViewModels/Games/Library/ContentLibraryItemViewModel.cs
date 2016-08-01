@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using ReactiveUI;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Applications.MVVM.Extensions;

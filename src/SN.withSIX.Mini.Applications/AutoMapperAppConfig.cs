@@ -28,7 +28,6 @@ namespace SN.withSIX.Mini.Applications
 
         static void SetupApi(IProfileExpression cfg) {
             cfg.CreateMap<Game, ClientContentInfo2>()
-                .ForMember(x => x.FavoriteContent, opt => opt.MapFrom(src => src.FavoriteItems))
                 .ForMember(x => x.RecentContent,
                     opt => opt.MapFrom(src => src.RecentItems.OrderByDescending(x => x.RecentInfo.LastUsed).Take(10)));
 
@@ -205,9 +204,6 @@ namespace SN.withSIX.Mini.Applications
                     opt => opt.MapFrom(src => src.SelectMany(x => x.RecentItems.Select(c => new {x, c}))
                         .OrderByDescending(x => x.c.RecentInfo.LastUsed)
                         .Take(10).Select(x => Convert(x.x, x.c)).OrderByDescending(x => x.LastUsed)))
-                .ForMember(x => x.Favorites,
-                    opt => opt.MapFrom(src => src.SelectMany(x => x.FavoriteItems.Select(c => new {x, c}))
-                        .Take(10).Select(x => Convert(x.x, x.c))))
                 .ForMember(x => x.NewContent,
                     opt => opt.MapFrom(src => src.SelectMany(x => x.InstalledContent.Select(c => new {x, c}))
                         .OrderByDescending(x => x.c.InstallInfo.LastInstalled)
@@ -230,8 +226,6 @@ namespace SN.withSIX.Mini.Applications
                     .OrderByDescending(x => x.RecentInfo.LastUsed)
                     .Take(10).Select(x => Convert(src, x))
                     .OrderByDescending(x => x.LastUsed)))
-                .ForMember(x => x.Favorites, opt => opt.MapFrom(src => src.FavoriteItems
-                    .Select(x => Convert(src, x))))
                 .ForMember(x => x.NewContent, opt => opt.MapFrom(src => src.InstalledContent
                     .OrderByDescending(x => x.InstallInfo.LastInstalled)
                     .Take(10).Select(x => Convert(src, x))

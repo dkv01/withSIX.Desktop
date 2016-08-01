@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -24,6 +24,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Services.Dtos;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
+using SN.withSIX.Sync.Core.Legacy.Status;
 using SubscribedCollection = SN.withSIX.Mini.Applications.Services.Dtos.SubscribedCollection;
 
 namespace SN.withSIX.Mini.Applications.Services
@@ -177,7 +178,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
 namespace SN.withSIX.Mini.Applications.Services.Dtos
 {
-    [Obsolete("BWC for datacontract madness")]
+    [Obsolete("BWC for datacontract madness, and use IPEndpoint or so")]
     // This is IPEndPoint really?
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class ServerAddress : IEquatable<ServerAddress>

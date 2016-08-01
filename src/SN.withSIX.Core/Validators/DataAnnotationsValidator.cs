@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using Newtonsoft.Json.Linq;
-using ValidationException = SN.withSIX.Api.Models.Exceptions.ValidationException;
+using ValidationException = withSIX.Api.Models.Exceptions.ValidationException;
 
 namespace DataAnnotationsValidator
 {
@@ -55,6 +55,7 @@ namespace DataAnnotationsValidator
 
         bool IsSystemType(Type propertyType) => propertyType.IsValueType
                                                 || propertyType == typeof (string)
+                                                || propertyType == typeof (Uri)
                                                 || IsTypeOfType(propertyType)
                                                 || IsTypeOfAssembly(propertyType)
                                                 || IsTypeOfModule(propertyType);

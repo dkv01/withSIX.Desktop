@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
-using SN.withSIX.Api.Models.Publishing;
+using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -25,6 +25,7 @@ using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Services;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models;
 using Repository = SN.withSIX.Sync.Core.Repositories.Repository;
 
 namespace SN.withSIX.Sync.Core.Packages

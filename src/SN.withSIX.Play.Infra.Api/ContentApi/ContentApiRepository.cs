@@ -22,6 +22,9 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
     public static class RepoHelper
     {
         public static string GetFullApiPath(string apiPath) => String.Join("/", "api", "v" + CommonUrls.ContentApiVersion, apiPath);
+        public static string GetShortHash(string data) => GetShortHash(Encoding.UTF8.GetBytes(data));
+
+        public static string GetShortHash(byte[] content) => Convert.ToBase64String(content.Sha1()).TrimEnd('=');
     }
 
     class ContentApiRepository<T, T2> : IContentApiRepository
@@ -71,10 +74,6 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
 
         public string Hash { get; private set; }
 
-        static string GetShortHash(string data) => GetShortHash(Encoding.UTF8.GetBytes(data));
-
-        static string GetShortHash(byte[] content) => Convert.ToBase64String(content.Sha1()).TrimEnd('=');
-
         async Task<IReadOnlyCollection<T2>> LoadAndMapFromDisk() => Map(await LoadFromDisk().ConfigureAwait(false));
 
         async Task<List<T>> LoadFromDisk() {
@@ -83,7 +82,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
             // the other way around is that we can have bad json data in the cache...
             try {
                 var data = await _cacheManager.GetObject<string>(_fullApiPath);
-                Hash = GetShortHash(data);
+                Hash = RepoHelper.GetShortHash(data);
                 return JsonConvert.DeserializeObject<List<T>>(data, ContentRestApi.JsonSettings);
             } catch (KeyNotFoundException) {
                 return null;
@@ -93,7 +92,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
         async Task<List<T>> LoadFromApiAndSaveToDisk(string hash) {
             var data = await _rest.GetDataAsync<List<T>>(_apiPath + ".gz?v=" + hash).ConfigureAwait(false);
             await SaveDataToDisk(data.Item2).ConfigureAwait(false);
-            Hash = GetShortHash(data.Item2);
+            Hash = RepoHelper.GetShortHash(data.Item2);
             return data.Item1;
         }
 

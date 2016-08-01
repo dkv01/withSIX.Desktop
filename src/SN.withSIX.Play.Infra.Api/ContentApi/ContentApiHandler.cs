@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Mappers;
 using Newtonsoft.Json;
-using SN.withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Extensions;
@@ -20,6 +20,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Services.Infrastructure;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.ContentApi.Dto;
+using withSIX.Api.Models.Content.v2;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi
 {
@@ -27,21 +28,15 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
     {
         // TODO: Horrible implementation, need to remain in sync with _repositoreis of Api!!
         public static List<string> ToList(this ApiHashes hashes) => new List<string> {
-                hashes.Categories,
                 hashes.Mods,
                 hashes.ModSets,
-                hashes.Missions,
-                // unused
-                hashes.Families,
-                hashes.Mirrors,
-                hashes.Networks
+                hashes.Missions
             };
 
         public static ApiHashes ToApiHashes(this List<string> hashes) => new ApiHashes {
-            Categories = hashes[0],
-            Mods = hashes[1],
-            ModSets = hashes[2],
-            Missions = hashes[3]
+            Mods = hashes[0],
+            ModSets = hashes[1],
+            Missions = hashes[2]
             // xx
         };
     }
@@ -50,7 +45,6 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
     {
         const string HashesJson = "hashes.json";
         readonly IApiLocalObjectCacheManager _cacheManager;
-        readonly ContentApiRepository<CategoryDto, Category> _categoryRepository;
         readonly ContentApiRepository<MissionDto, Mission> _missionRepository;
         readonly ContentApiRepository<ModDto, Mod> _modRepository;
         readonly ContentApiRepository<ModSetDto, Collection> _modSetRepository;
@@ -69,23 +63,11 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
             _remoteHashes = new ApiHashes();
             _localHashes = new ApiHashes();
             _modRepository = new ContentApiRepository<ModDto, Mod>(_rest, mappingEngine, cacheManager);
-            _categoryRepository = new ContentApiRepository<CategoryDto, Category>(_rest, mappingEngine, cacheManager);
             _missionRepository = new ContentApiRepository<MissionDto, Mission>("mission", _rest, mappingEngine,
                 cacheManager);
-
-            /*
-            _familyRepository = new ContentApiRepository<GameFamilyDto, GameFamily>("families", _rest, mappingEngine,
-                cacheManager);
-*/
             _modSetRepository = new ContentApiRepository<ModSetDto, Collection>("mod_set", _rest, mappingEngine,
                 cacheManager);
-            /*
-            _mirrorRepository = new ContentApiRepository<MirrorDto, Mirror>(_rest, mappingEngine, cacheManager);
-            _networkRepository = new ContentApiRepository<NetworkDto, Network>(_rest, mappingEngine, cacheManager);
-*/
-            // _familyRepository, _mirrorRepository, _networkRepository, 
-            _repositories = new IContentApiRepository[]
-            {_categoryRepository, _modRepository, _modSetRepository, _missionRepository};
+            _repositories = new IContentApiRepository[] {_modRepository, _modSetRepository, _missionRepository};
         }
 
         public bool Loaded { get; private set; }
@@ -105,8 +87,8 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
             _localHashes = newHashes.ToApiHashes(); //await GetHashes().ConfigureAwait(false);
         }
 
-        public List<T> GetList<T>() => _repositories.First(x => x.GetType().GenericTypeArguments[1] == typeof(T))
-    .GetValues().Cast<T>().ToList();
+        public List<T> GetList<T>() => _repositories.First(x => x.GetType().GenericTypeArguments[1] == typeof (T))
+            .GetValues().Cast<T>().ToList();
 
         public async Task<bool> LoadFromApi() {
             var data = (await _rest.GetDataAsync<ApiHashes>(HashesJson + ".gz").ConfigureAwait(false));
@@ -122,7 +104,6 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
 
             var changed = false;
 
-            //return Task.WhenAll(_repositories.Select(x => x.LoadFromApi()));
             // Temporary doing in foreach loop because we load and map at the same time currently, while we intend for items to rely on eachother..
             var i = 0;
             foreach (var repo in _repositories) {
@@ -160,9 +141,6 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
 
                 mapConfig.SetupConverters();
 
-                mapConfig.CreateMap<CategoryDto, Category>()
-                    .ConstructUsing(input => _categoryRepository.GetOrCreate(input.Id));
-
                 mapConfig.CreateMap<MissionDto, Mission>()
                     .ConstructUsing(input => _missionRepository.GetOrCreate(input.Id))
                     .ForMember(x => x.Name, opt => opt.MapFrom(src => src.PackageName))
@@ -186,7 +164,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
                                     n => _networkRepository.Get(n.Uuid))
                                     .Where(n => n != null)))
 */
-                    .ForMember(x => x.Categories, opt => opt.ResolveUsing(GetModCategoriesOrDefault))
+                    .ForMember(x => x.Categories, opt => opt.ResolveUsing(GetModTagsOrDefault))
                     .ForMember(x => x.Aliases,
                         opt => opt.ResolveUsing(src => src.Aliases?.Split(';') ?? new string[0]))
                     .AfterMap(AfterMapping);
@@ -195,23 +173,6 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
                     .ConstructUsing(input => _modSetRepository.GetOrCreate(input.Id))
                     .ForMember(x => x.GameId, opt => opt.ResolveUsing(x => x.GameUuid == Guid.Empty ? Collection.DefaultGameUuid : x.GameUuid))
                     .AfterMap((src, dst) => dst.IsFavorite = _settings.ModOptions.IsFavorite(dst));
-
-                /*            mapConfig.CreateMap<NetworkDto, Network>()
-                .ConstructUsing(input => _networkRepository.GetOrCreate(input.Uuid))
-                .ForMember(x => x.Mirrors,
-                    opt =>
-                        opt.ResolveUsing(
-                            src =>
-                                _mirrorRepository.Items.Select(x => x.Value)
-                                    .Where(mirror => mirror.NetworkId == src.Uuid)))
-                .AfterMap((src, dst) => dst.Mirrors.ForEach(mirror => mirror.Network = dst));
-
-            mapConfig.CreateMap<MirrorDto, Mirror>()
-                .ConstructUsing(input => _mirrorRepository.GetOrCreate(input.Uuid));
-
-            mapConfig.CreateMap<GameFamilyDto, GameFamily>()
-                .ConstructUsing(input => _familyRepository.GetOrCreate(input.Uuid));*/
-
             });
             return c.CreateMapper();
         }
@@ -243,12 +204,11 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
             }
         }
 
-        string[] GetModCategoriesOrDefault(ModDto src) {
-            var categories = GetModCategories(src).ToArray();
-            return categories.Any() ? categories.Select(x => x.ToString()).ToArray() : new[] {Common.DefaultCategory};
+        string[] GetModTagsOrDefault(ModDto src) {
+            var tags = GetModTags(src).ToArray();
+            return tags.Any() ? tags.Select(x => x.ToString()).ToArray() : new[] {Common.DefaultCategory};
         }
 
-        IEnumerable<Category> GetModCategories(ModDto src) => src.Categories.Select(n => _categoryRepository.Get(n.Id))
-        .Where(n => n != null);
+        IEnumerable<string> GetModTags(ModDto src) => src.Tags ?? new List<string>();
     }
 }

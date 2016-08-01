@@ -5,6 +5,7 @@
 using System;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Connect
 {

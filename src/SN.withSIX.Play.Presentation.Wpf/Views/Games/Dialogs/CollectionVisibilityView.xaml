@@ -3,7 +3,7 @@
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                         xmlns:collections="clr-namespace:SN.withSIX.Api.Models.Collections;assembly=SN.withSIX.Api.Models"
+                         xmlns:collections="clr-namespace:withSIX.Api.Models.Collections;assembly=withSIX.Api.Models"
                          xmlns:dialogs="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Dialogs;assembly=SN.withSIX.Play.Applications"
                          xmlns:dialogs1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;assembly=SN.withSIX.Play.Applications"
                          xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"

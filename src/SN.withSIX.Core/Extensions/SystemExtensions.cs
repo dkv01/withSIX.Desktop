@@ -16,7 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MoreLinq;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Core.Extensions

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Api.Models.Premium;
+using withSIX.Api.Models.Premium;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Play.Core.Options

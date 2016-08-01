@@ -4,8 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Api.Models.Publishing;
+using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Core.Services
 {

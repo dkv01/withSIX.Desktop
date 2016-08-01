@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using MoreLinq;
 using ShortBus;
 
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;

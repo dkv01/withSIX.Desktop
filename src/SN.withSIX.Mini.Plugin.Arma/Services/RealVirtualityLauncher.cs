@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;

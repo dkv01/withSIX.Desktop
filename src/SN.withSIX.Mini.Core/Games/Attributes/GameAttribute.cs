@@ -9,8 +9,10 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
 {
     public class GameAttribute : Attribute, IHaveId<Guid>
     {
-        public GameAttribute(string id) {
-            Id = new Guid(id);
+        public GameAttribute(string id) : this(new Guid(id)) {}
+
+        public GameAttribute(Guid id) {
+            Id = id;
             Image = Tools.Transfer.JoinUri(CommonUrls.ImageCdn, "games", Id + "-" + "40x40" + ".png");
             BackgroundImage = Tools.Transfer.JoinUri(CommonUrls.ImageCdn, "games", Id + "-" + "full" + ".png");
             Dlcs = new string[0];

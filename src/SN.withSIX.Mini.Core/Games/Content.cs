@@ -9,7 +9,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -51,7 +50,6 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IContent : IHaveGameId, IHaveId<Guid>
     {
         string Name { get; set; }
-        bool IsFavorite { get; set; }
         string Version { get; }
         InstallInfo InstallInfo { get; }
         RecentInfo RecentInfo { get; }
@@ -69,6 +67,7 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IHavePackageName
     {
         string PackageName { get; set; }
+        string GetFQN(string constraint = null);
     }
 
     [ContractClassFor(typeof(IHavePackageName))]
@@ -86,6 +85,7 @@ namespace SN.withSIX.Mini.Core.Games
                 _packageName = value;
             }
         }
+        public abstract string GetFQN(string constraint = null);
     }
 
     public interface IContentWithPackageName : IHavePackageName, IContent { }
@@ -124,10 +124,6 @@ namespace SN.withSIX.Mini.Core.Games
             GameId = gameId;
         }
 
-        [DataMember]
-        public Uri Image { get; set; }
-        [DataMember]
-        public string Author { get; set; }
         [IgnoreDataMember]
         List<Func<bool, Task>> AdditionalPostInstallActions { get; } = new List<Func<bool, Task>>();
 
@@ -161,8 +157,6 @@ namespace SN.withSIX.Mini.Core.Games
         public Guid GameId { get; set; }
         [DataMember]
         public string Name { get; set; }
-        [DataMember]
-        public bool IsFavorite { get; set; }
         [DataMember]
         public string Version { get; protected set; }
 
@@ -275,22 +269,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         private bool IsLatestVersion(string desiredVersion) => InstallInfo.Version == desiredVersion;
 
-        public virtual IEnumerable<string> GetContentNames() {
-            yield return Name;
-        }
-
         public abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
             string constraint = null);
-
-        public void MakeFavorite() {
-            IsFavorite = true;
-            PrepareEvent(new ContentFavorited(this));
-        }
-
-        public void Unfavorite() {
-            IsFavorite = false;
-            PrepareEvent(new ContentUnFavorited(this));
-        }
 
         public void RemoveRecentInfo() {
             RemoveRecentInfoInternal();
@@ -318,24 +298,6 @@ namespace SN.withSIX.Mini.Core.Games
     public class RecentItemRemoved : IDomainEvent
     {
         public RecentItemRemoved(Content content) {
-            Content = content;
-        }
-
-        public Content Content { get; }
-    }
-
-    public class ContentFavorited : IDomainEvent
-    {
-        public ContentFavorited(Content content) {
-            Content = content;
-        }
-
-        public Content Content { get; }
-    }
-
-    public class ContentUnFavorited : IDomainEvent
-    {
-        public ContentUnFavorited(Content content) {
             Content = content;
         }
 

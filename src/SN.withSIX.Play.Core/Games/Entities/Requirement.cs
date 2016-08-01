@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Play.Core.Games.Entities
 {

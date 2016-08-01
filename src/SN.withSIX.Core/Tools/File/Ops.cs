@@ -306,16 +306,6 @@ namespace SN.withSIX.Core
                     => AddIORetryDialog(() => ReadBinFileFromDisk(path), path);
 
                 public void AddIORetryDialog(Action code, params string[] filePath) {
-                    if (!Common.App.IsWpfApp) {
-                        try {
-                            code();
-                        } catch (Exception e) {
-                            LogIOException(e, filePath);
-                            throw;
-                        }
-                        return;
-                    }
-
                     while (true) {
                         try {
                             code();
@@ -328,15 +318,6 @@ namespace SN.withSIX.Core
                 }
 
                 public T AddIORetryDialog<T>(Func<T> code, params string[] filePath) {
-                    if (!Common.App.IsWpfApp) {
-                        try {
-                            return code();
-                        } catch (Exception e) {
-                            LogIOException(e, filePath);
-                            throw;
-                        }
-                    }
-
                     while (true) {
                         try {
                             return code();
@@ -348,15 +329,6 @@ namespace SN.withSIX.Core
                 }
 
                 public async Task<T> AddIORetryDialogAsync<T>(Func<Task<T>> code, params string[] filePath) {
-                    if (!Common.App.IsWpfApp) {
-                        try {
-                            return await code().ConfigureAwait(false);
-                        } catch (Exception e) {
-                            LogIOException(e, filePath);
-                            throw;
-                        }
-                    }
-
                     while (true) {
                         ExceptionDispatchInfo ex;
                         try {
@@ -370,16 +342,6 @@ namespace SN.withSIX.Core
                 }
 
                 public async Task AddIORetryDialogAsync(Func<Task> code, params string[] filePath) {
-                    if (!Common.App.IsWpfApp) {
-                        try {
-                            await code().ConfigureAwait(false);
-                        } catch (Exception e) {
-                            LogIOException(e, filePath);
-                            throw;
-                        }
-                        return;
-                    }
-
                     while (true) {
                         ExceptionDispatchInfo ex;
                         try {

@@ -18,7 +18,7 @@ using NDepend.Path;
 using ReactiveUI;
 
 
-using SN.withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
@@ -44,6 +44,7 @@ using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Api.Models;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Applications.Services

@@ -4,7 +4,7 @@
 
 using System.Linq;
 using ReactiveUI;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Applications.Infrastructure
 {

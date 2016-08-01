@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 

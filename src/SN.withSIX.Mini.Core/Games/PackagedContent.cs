@@ -26,6 +26,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         [DataMember]
         public string PackageName { get; set; }
+        public string GetFQN(string constraint = null) => PackageName.ToLower() + "-" + (constraint ?? Version);
 
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
@@ -38,7 +39,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (list.Select(x => x.Content).Contains(this))
                 return list;
 
-            var spec = new PackagedContentSpec(this, constraint);
+            var spec = new PackagedContentSpec(this, constraint ?? Version);
             list.Add(spec);
             return list;
         }

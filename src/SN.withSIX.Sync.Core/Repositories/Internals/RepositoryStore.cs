@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages.Internals;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Core.Repositories.Internals
 {

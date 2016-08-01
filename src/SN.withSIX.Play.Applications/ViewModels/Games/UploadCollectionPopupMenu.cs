@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;

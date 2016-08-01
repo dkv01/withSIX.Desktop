@@ -29,8 +29,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
 
         public WpfCustomDialogManager(IWindowManager windowManager) {
             _windowManager = windowManager;
-            if (Application.Current != null)
-                Common.App.IsWpfApp = true;
         }
 
         public async Task<SixMessageBoxResult> MessageBox(MessageBoxDialogParams dialogParams) {
@@ -215,8 +213,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
 
         public WpfDialogManager(ISpecialDialogManager wm) {
             _wm = wm;
-            if (Application.Current != null)
-                Common.App.IsWpfApp = true;
         }
 
         public Task<string> BrowseForFolder(string selectedPath = null,

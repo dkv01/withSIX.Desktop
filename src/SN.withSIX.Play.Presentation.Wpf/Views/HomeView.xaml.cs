@@ -12,7 +12,7 @@ using CefSharp;
 using CefSharp.Wpf;
 using ReactiveUI;
 
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Logging;

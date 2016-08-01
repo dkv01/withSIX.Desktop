@@ -12,8 +12,8 @@ using Caliburn.Micro;
 using ReactiveUI;
 using ShortBus;
 
-using SN.withSIX.Api.Models.Context;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Context;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;

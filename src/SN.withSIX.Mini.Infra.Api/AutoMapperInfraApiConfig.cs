@@ -5,63 +5,67 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.WebApi;
-using CollectionModelWithLatestVersion = SN.withSIX.Mini.Infra.Api.WebApi.CollectionModelWithLatestVersion;
-using CollectionVersionModel = SN.withSIX.Mini.Infra.Api.WebApi.CollectionVersionModel;
+using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Mini.Infra.Api
 {
     public class AutoMapperInfraApiConfig
     {
         public static void Setup(IProfileExpression cfg) {
-            cfg.CreateMap<ContentDto, NetworkContent>()
+            cfg.CreateMap<ModClientApiJson, ModNetworkContent>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
-                .ForMember(x => x.Image,
-                    opt =>
-                        opt.MapFrom(
-                            src =>
-                                src.ImagePath == null
-                                    ? null
-                                    : new Uri(CommonUrls.UsercontentCdnProduction, src.ImagePath)))
-                .ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
+                .ForMember(x => x.RecentInfo, opt => opt.Ignore());
+
+            cfg.CreateMap<ModClientApiJson, ModClientApiJsonV3WithGameId>();
+
+            cfg.CreateMap<ModClientApiJson, ModDtoV2WithPubs>()
+                .ForMember(x => x.Dependencies, opt => opt.ResolveUsing(_ => new List<string>()));
+
+            cfg.CreateMap<ContentPublisherApiJson, ContentPublisher>()
+                .ConstructUsing(src => new ContentPublisher(src.Type, src.Id))
+                .ForMember(x => x.Publisher, opt => opt.MapFrom(src => src.Type))
+                .ForMember(x => x.PublisherId, opt => opt.MapFrom(src => src.Id));
+
+            cfg.CreateMap<ContentDtoV2, NetworkContent>()
+                .ForMember(x => x.Dependencies, opt => opt.Ignore())
+                //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
-                .ForMember(x => x.IsFavorite, opt => opt.Ignore())
                 .ForMember(x => x.Size, opt => opt.MapFrom(src => src.SizeWd))
                 .ForMember(x => x.SizePacked, opt => opt.MapFrom(src => src.Size))
-                .Include<ModDto, ModNetworkContent>()
-                .Include<MissionDto, MissionNetworkContent>();
+                .Include<ModDtoV2, ModNetworkContent>()
+                .Include<MissionDtoV2, MissionNetworkContent>();
 
             // TODO: Why do the above includes not work??
-            cfg.CreateMap<ModDto, ModNetworkContent>()
+            cfg.CreateMap<ModDtoV2, ModNetworkContent>()
+                .Include<ModDtoV2WithPubs, ModNetworkContent>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
-                .ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
+                //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
-                .ForMember(x => x.IsFavorite, opt => opt.Ignore())
                 .ForMember(x => x.Version, opt => opt.MapFrom(src => src.GetVersion()));
-            cfg.CreateMap<MissionDto, MissionNetworkContent>()
-                .ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
+            cfg.CreateMap<ModDtoV2WithPubs, ModNetworkContent>();
+            cfg.CreateMap<MissionDtoV2, MissionNetworkContent>()
+                //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
-                .ForMember(x => x.RecentInfo, opt => opt.Ignore())
-                .ForMember(x => x.IsFavorite, opt => opt.Ignore());
+                .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
             cfg.CreateMap<CollectionVersionModel, SubscribedCollection>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.Id, opt => opt.Ignore());
             cfg.CreateMap<CollectionModelWithLatestVersion, SubscribedCollection>()
-                .ForMember(x => x.Image,
-                    opt => opt.MapFrom(src => src.AvatarUrl == null ? null : "https:" + src.AvatarUrl))
                 .AfterMap((src, dst) => src.LatestVersion.MapTo(dst));
 
             cfg.CreateMap<CollectionServer, CollectionVersionServerModel>();
             cfg.CreateMap<CollectionVersionServerModel, CollectionServer>();
 
-            cfg.CreateMap<ModDto, ModDto>();
+            cfg.CreateMap<ModDtoV2, ModDtoV2>();
         }
-
+        /*
         static IEnumerable<string> ResolveAliases(ModDto arg) {
             if (arg.Aliases != null) {
                 foreach (var e in arg.Aliases.Split(';'))
@@ -77,5 +81,6 @@ namespace SN.withSIX.Mini.Infra.Api
             foreach (var e in arg.Aliases.Split(';'))
                 yield return e;
         }
+        */
     }
 }

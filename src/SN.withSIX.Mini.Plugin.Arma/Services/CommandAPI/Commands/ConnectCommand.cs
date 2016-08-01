@@ -4,8 +4,10 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Mini.Applications.Services.Dtos;
+using ServerAddress = withSIX.Api.Models.ServerAddress;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
 {

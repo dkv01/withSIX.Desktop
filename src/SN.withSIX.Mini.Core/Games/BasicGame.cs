@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -65,5 +66,10 @@ namespace SN.withSIX.Mini.Core.Games
         IEnumerable<string> GetStartupParameters() => Settings.StartupParameters.Get();
         // TODO
         protected override async Task ScanForLocalContentImpl() {}
+
+        protected static IEnumerable<IContentWithPackageName> GetPackagedContent(
+            IEnumerable<IContentSpec<IInstallableContent>> content)
+            => content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
+                .Select(x => x.Content).Distinct().OfType<IContentWithPackageName>();
     }
 }

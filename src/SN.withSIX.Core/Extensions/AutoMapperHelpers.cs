@@ -5,7 +5,7 @@
 using System;
 using AutoMapper;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -24,8 +24,8 @@ namespace SN.withSIX.Core.Extensions
         }
 
         static void SetupServerAddressConverter(this IProfileExpression config) {
-            config.CreateMap<ServerAddress, string>().ConvertUsing<ServerAddressToStringConverter>();
-            config.CreateMap<string, ServerAddress>().ConvertUsing<StringToServerAddressConverter>();
+            //config.CreateMap<ServerAddress, string>().ConvertUsing<ServerAddressToStringConverter>();
+            //config.CreateMap<string, ServerAddress>().ConvertUsing<StringToServerAddressConverter>();
         }
 
         static void SetupVersionConverter(this IProfileExpression config) {
@@ -77,13 +77,13 @@ namespace SN.withSIX.Core.Extensions
         {
             public Uri Convert(string source, Uri destination, ResolutionContext context) => source == null ? null : new Uri(source);
         }
-
+/*
         class StringToServerAddressConverter : ITypeConverter<string, ServerAddress>
         {
 
             public ServerAddress Convert(string source, ServerAddress destination, ResolutionContext context) => source == null ? null : new ServerAddress(source);
         }
-
+        */
         class StringToVersionConverter : ITypeConverter<string, Version>
         {
             public Version Convert(string source, Version destination, ResolutionContext context) => source == null ? null : Version.Parse(source);
@@ -94,10 +94,12 @@ namespace SN.withSIX.Core.Extensions
             public string Convert(Uri source, string destination, ResolutionContext context) => source?.AbsoluteUri;
         }
 
+        /*
         class ServerAddressToStringConverter : ITypeConverter<ServerAddress, string>
         {
             public string Convert(ServerAddress source, string destination, ResolutionContext context) => source?.ToString();
         }
+        */
 
         class VersionToStringConverter : ITypeConverter<Version, string>
         {

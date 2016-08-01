@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Core.Games
     }
 
     [DataContract]
-    public abstract class LocalContent : Content, IHaveImage, IUninstallableContent, IContentWithPackageName
+    public abstract class LocalContent : Content, IUninstallableContent, IContentWithPackageName
     {
         protected LocalContent() {}
 
@@ -42,6 +42,12 @@ namespace SN.withSIX.Mini.Core.Games
         public string ContentSlug { get; protected set; }
         [DataMember]
         public string PackageName { get; set; }
+        public string GetFQN(string constraint = null) {
+            var v = constraint ?? Version;
+            if (v == null)
+                return PackageName.ToLower();
+            return PackageName.ToLower() + "-" + v;
+        }
 
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
@@ -57,7 +63,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (list.Select(x => x.Content).Contains(this))
                 return list;
 
-            var spec = new LocalContentSpec(this, constraint);
+            var spec = new LocalContentSpec(this, constraint ?? Version);
             list.Add(spec);
 
             return list;
@@ -98,7 +104,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (list.Select(x => x.Content).Contains(this))
                 return list;
 
-            var spec = new ModRepoContentSpec(this, constraint);
+            var spec = new ModRepoContentSpec(this, constraint ?? Version);
             list.Add(spec);
             // TODO: Dependencies of dependencies
             list.AddRange(

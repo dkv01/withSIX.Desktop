@@ -89,7 +89,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (list.Select(x => x.Content).Contains(this))
                 return list;
 
-            var spec = new CollectionContentSpec(this, constraint);
+            var spec = new CollectionContentSpec(this, constraint ?? Version);
             list.Add(spec);
 
             foreach (var d in Dependencies)
@@ -110,8 +110,6 @@ namespace SN.withSIX.Mini.Core.Games
 
             return list;
         }
-
-        public override IEnumerable<string> GetContentNames() => Contents.Select(x => x.Content.Name);
     }
 
     [DataContract]

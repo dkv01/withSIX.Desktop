@@ -9,8 +9,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MoreLinq;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Core.Extensions
 {

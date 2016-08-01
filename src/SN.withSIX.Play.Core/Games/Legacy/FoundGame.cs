@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {

@@ -5,8 +5,9 @@
 using System;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content;
 using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Api.Models.Content.v2;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {

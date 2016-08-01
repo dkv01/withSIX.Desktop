@@ -16,7 +16,7 @@ using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SignalRNetClientProxyMapper;
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Infra.Services;

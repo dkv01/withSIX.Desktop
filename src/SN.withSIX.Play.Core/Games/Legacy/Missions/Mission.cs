@@ -10,6 +10,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Validators;
 using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Missions
 {

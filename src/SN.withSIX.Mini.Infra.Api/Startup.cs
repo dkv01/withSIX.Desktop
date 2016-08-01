@@ -67,6 +67,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 api.Map("/content", content => {
                     content.Map("/install-content", builder => builder.Run(ExcecuteVoidCommand<InstallContent>));
                     content.Map("/install-contents", builder => builder.Run(ExcecuteVoidCommand<InstallContents>));
+                    content.Map("/install-steam-contents", builder => builder.Run(ExcecuteVoidCommand<InstallSteamContents>));
                     content.Map("/uninstall-content", builder => builder.Run(ExcecuteVoidCommand<UninstallContent>));
                     content.Map("/uninstall-contents", builder => builder.Run(ExcecuteVoidCommand<UninstallContents>));
                     content.Map("/launch-content", builder => builder.Run(ExcecuteVoidCommand<LaunchContent>));

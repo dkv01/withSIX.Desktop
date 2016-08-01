@@ -4,9 +4,9 @@
 
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Content;
-using SN.withSIX.Api.Models.Content.Arma3;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content.Arma3;
 
 namespace SN.withSIX.Play.Core.Connect.Infrastructure.Components
 {

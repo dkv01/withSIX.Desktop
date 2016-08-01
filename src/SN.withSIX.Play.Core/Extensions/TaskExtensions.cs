@@ -3,8 +3,8 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Entities;
 

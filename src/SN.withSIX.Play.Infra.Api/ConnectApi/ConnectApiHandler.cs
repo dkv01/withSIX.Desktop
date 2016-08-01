@@ -18,13 +18,12 @@ using Microsoft.AspNet.SignalR.Client;
 using NDepend.Path;
 using ReactiveUI;
 using ShortBus;
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Collections;
-using SN.withSIX.Api.Models.Content;
-using SN.withSIX.Api.Models.Content.Arma3;
-using SN.withSIX.Api.Models.Exceptions;
-using SN.withSIX.Api.Models.Shared;
-using SN.withSIX.Api.Models.Social;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Content.Arma3;
+using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Social;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
@@ -35,6 +34,8 @@ using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Infra.Api.Hubs;
+using withSIX.Api.Models.Content.v2;
 
 namespace SN.withSIX.Play.Infra.Api.ConnectApi
 {

@@ -4,7 +4,7 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Api.Models.Premium;
+using withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Core.Options

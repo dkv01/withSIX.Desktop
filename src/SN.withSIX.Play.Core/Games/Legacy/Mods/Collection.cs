@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 using MoreLinq;
 using ReactiveUI;
 
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Collections;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;

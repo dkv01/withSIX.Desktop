@@ -10,6 +10,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Services;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Presentation.Console.Commands
 {

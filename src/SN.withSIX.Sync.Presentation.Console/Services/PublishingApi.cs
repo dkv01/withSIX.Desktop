@@ -5,11 +5,12 @@
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SN.withSIX.Api.Models.Publishing;
+using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Sync.Core.Services;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Presentation.Console.Services
 {

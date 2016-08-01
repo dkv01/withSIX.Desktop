@@ -9,7 +9,6 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Sync.Core.Transfer;
 

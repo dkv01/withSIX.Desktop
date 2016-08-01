@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using ShortBus;
 
-using SN.withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;

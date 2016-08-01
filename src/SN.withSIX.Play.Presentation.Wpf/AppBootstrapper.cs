@@ -19,7 +19,7 @@ using ShortBus;
 using SimpleInjector;
 
 
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.Core;

@@ -11,6 +11,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {

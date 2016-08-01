@@ -17,6 +17,15 @@ namespace SN.withSIX.Mini.Applications.Usecases
         public List<ContentGuidSpec> Contents { get; }
     }
 
+    public abstract class ContentsIntBase : GameContentBaseWithInfo
+    {
+        protected ContentsIntBase(Guid gameId, List<ContentIntSpec> contents) : base(gameId) {
+            Contents = contents;
+        }
+
+        public List<ContentIntSpec> Contents { get; }
+    }
+
     public interface IHaveRequestName
     {
         string Name { get; }

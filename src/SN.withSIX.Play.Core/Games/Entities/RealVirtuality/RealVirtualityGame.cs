@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using MoreLinq;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
+using withSIX.Api.Models;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;

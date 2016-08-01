@@ -4,5 +4,5 @@
 
 namespace SN.withSIX.Mini.Infra.Api.WebApi
 {
-    public class MissionDto : ContentDto {}
+    public class MissionDtoV2 : ContentDtoV2 {}
 }

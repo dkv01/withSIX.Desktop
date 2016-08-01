@@ -7,7 +7,8 @@ using Newtonsoft.Json;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
-    public interface ILaunchAsDedicatedServer {
+    public interface ILaunchAsDedicatedServer
+    {
         bool? LaunchAsDedicatedServer { get; set; }
     }
 

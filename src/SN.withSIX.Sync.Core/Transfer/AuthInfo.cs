@@ -7,8 +7,14 @@ using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
+    public interface IAuthInfo {
+        string Username { get; }
+        string Password { get; }
+        string Domain { get; }
+    }
+
     [DataContract(Name = "AuthInfo", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
-    public class AuthInfo
+    public class AuthInfo : IAuthInfo
     {
         string _domain;
         [DataMember] string _domainEncoded;

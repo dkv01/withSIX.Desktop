@@ -5,8 +5,8 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Extensions;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api
 {
