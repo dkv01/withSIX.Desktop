@@ -10,7 +10,8 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 
 namespace SN.withSIX.Mini.Plugin.CE.Models
 {
-    [Game(GameUUids.Skyrim, Executables = new[] {@"Skyrim.exe"}, Name = "Skyrim",
+    // SkyrimLauncher.exe
+    [Game(GameUUids.Skyrim, Executables = new[] { @"SKSE.exe", @"TESV.exe" }, Name = "Skyrim",
         IsPublic = false,
         Slug = "Skyrim")]
     [SteamInfo(72850)]
