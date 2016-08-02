@@ -383,6 +383,8 @@ namespace SN.withSIX.Mini.Applications.Services
             foreach (var cInfo in _groupContentToInstall)
                 await InstallGroupC(cInfo.Value, cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
             _installedContent.AddRange(_groupContentToInstall.Values);
+            foreach (var c in _groupContentToInstall)
+                HandleInstallStats(c.Key);
         }
 
         private async Task InstallGroupC(SpecificVersion dep, IPackagedContent c, ProgressLeaf progressComponent) {
@@ -407,6 +409,8 @@ namespace SN.withSIX.Mini.Applications.Services
             foreach (var cInfo in _steamContentToInstall)
                 await InstallSteam(cInfo.Value, (INetworkContent)cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
+            foreach (var c in _steamContentToInstall)
+                HandleInstallStats(c.Key);
         }
 
         private async Task InstallSteam(SpecificVersion value, INetworkContent key, ITProgress progress) {
