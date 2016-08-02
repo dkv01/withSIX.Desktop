@@ -73,7 +73,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             foreach (
                 var m in
                     launchContentAction.Content.Select(x => x.Content).OfType<IModContent>().Select(CreateStellarisMod))
-                settings.AppendLine($"\"{m.GetRelModName()}\"");
+                settings.AppendLine($"\t\"{m.GetRelModName()}.mod\"");
             settings.AppendLine(ModEnd);
         }
 
@@ -114,10 +114,9 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 
                 var desc = destinationDir.GetChildFileWithName("descriptor.mod");
                 var modFile = installDirectory.GetChildFileWithName($"{modName}.mod");
-                var relModPath = GetRelModName();
                 modFile.WriteText(
                     desc.ReadAllText()
-                        .Replace($"archive=\"{modName}.zip\"", $"path=\"{relModPath}\""));
+                        .Replace($"archive=\"{modName}.zip\"", $"path=\"{GetRelModName()}\""));
             }
 
             public string GetRelModName() => $"mod/{GetModName()}";
