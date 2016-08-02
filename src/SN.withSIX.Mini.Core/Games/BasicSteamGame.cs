@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -33,6 +35,14 @@ namespace SN.withSIX.Mini.Core.Games
             return base.InstallImpl(installationService, content);
         }
 
-        protected virtual async Task InstallMod(IModContent mod) {}
+        protected abstract Task InstallMod(IModContent mod);
+
+        protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
+            ILaunchContentAction<IContent> launchContentAction) {
+            await EnableMods(launchContentAction).ConfigureAwait(false);
+            return await base.LaunchImpl(factory, launchContentAction).ConfigureAwait(false);
+        }
+
+        protected abstract Task EnableMods(ILaunchContentAction<IContent> launchContentAction);
     }
 }

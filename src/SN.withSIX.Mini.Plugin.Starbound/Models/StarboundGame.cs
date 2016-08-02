@@ -33,13 +33,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     : Metadata.Executables.Skip(1).ToArray());
         }
 
-        protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> launchContentAction) {
-            await EnableMods(launchContentAction).ConfigureAwait(false);
-            return await base.LaunchImpl(factory, launchContentAction).ConfigureAwait(false);
-        }
-
-        private async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+        protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             var packages =
                 launchContentAction.Content.Select(x => x.Content)
                     .OfType<IHavePackageName>()

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -13,7 +12,6 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 {
@@ -35,13 +33,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
                 .ToAbsoluteDirectoryPath()
                 .GetChildDirectoryWithName(@"Paradox Interactive\Stellaris");
 
-        protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> launchContentAction) {
-            await EnableMods(launchContentAction).ConfigureAwait(false);
-            return await base.LaunchImpl(factory, launchContentAction).ConfigureAwait(false);
-        }
-
-        private async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+        protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             var sf = GetDocumentsDirectory().GetChildFileWithName("settings.txt");
             var settings = GetSettingsWithoutMods(sf);
             WriteNewModsSection(launchContentAction, settings);
@@ -67,7 +59,6 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             return settings;
         }
 
-
         private void WriteNewModsSection(ILaunchContentAction<IContent> launchContentAction, StringBuilder settings) {
             settings.AppendLine(ModStart);
             foreach (
@@ -76,7 +67,6 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
                 settings.AppendLine($"\t\"{m.GetRelModName()}.mod\"");
             settings.AppendLine(ModEnd);
         }
-
 
         protected override Task InstallMod(IModContent mod) {
             var m = CreateStellarisMod(mod);
