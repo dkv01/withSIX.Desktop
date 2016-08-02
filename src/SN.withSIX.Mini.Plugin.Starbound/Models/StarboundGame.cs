@@ -4,9 +4,11 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
@@ -43,35 +45,66 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     .OfType<IHavePackageName>()
                     .Select(x => x.PackageName)
                     .ToArray();
-            foreach (var d in ContentPaths.Path.DirectoryInfo.EnumerateDirectories()) {
-                var pak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.pak");
-                var pakBak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.bak");
-                if (packages.Contains(d.Name)) {
-                    if (!pak.Exists && pakBak.Exists)
-                        pakBak.Move(pak);
-                } else {
-                    if (!pak.Exists)
-                        continue;
-                    if (pakBak.Exists)
-                        pakBak.Delete();
-                    pak.Move(pakBak);
-                }
+
+            HandleModDirectory(packages);
+            //HandleSteamDirectory(packages);
+        }
+
+        private void HandleModDirectory(string[] packages) {
+            var md = GetModInstallationDirectory();
+            foreach (var f in md.DirectoryInfo.EnumerateFiles("*.pak"))
+                HandleFileBasedMod(f, packages);
+        }
+
+        private static void HandleFileBasedMod(FileInfo f, string[] packages) {
+            var pak = f.ToAbsoluteFilePath();
+            var pakBak = pak.GetBrotherFileWithName(pak.FileNameWithoutExtension + ".bak");
+            if (packages.Contains(pak.FileNameWithoutExtension)) {
+                if (!pak.Exists && pakBak.Exists)
+                    pakBak.Move(pak);
+            } else {
+                if (!pak.Exists)
+                    return;
+                if (pakBak.Exists)
+                    pakBak.Delete();
+                pak.Move(pakBak);
+            }
+        }
+
+        private void HandleSteamDirectory(string[] packages) {
+            foreach (var d in ContentPaths.Path.DirectoryInfo.EnumerateDirectories())
+                HandleDirectoryBasedMod(d, packages);
+        }
+
+        private static void HandleDirectoryBasedMod(DirectoryInfo d, string[] packages) {
+            var pak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.pak");
+            var pakBak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.bak");
+            if (packages.Contains(d.Name)) {
+                if (!pak.Exists && pakBak.Exists)
+                    pakBak.Move(pak);
+            } else {
+                if (!pak.Exists)
+                    return;
+                if (pakBak.Exists)
+                    pakBak.Delete();
+                pak.Move(pakBak);
             }
         }
 
         protected override string[] GetExecutables() => _executables.Value;
-        /*
-                IAbsoluteDirectoryPath GetModInstallationDirectory() => InstalledState.Directory.GetChildDirectoryWithName("mods");
-                protected override async Task InstallMod(IModContent mod) {
-                    var sourceDir = ContentPaths.Path.GetChildDirectoryWithName(mod.PackageName);
-                    var sourcePak = sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
 
-                    var installDirectory = GetModInstallationDirectory();
-                    installDirectory.MakeSurePathExists();
+        IAbsoluteDirectoryPath GetModInstallationDirectory()
+            => InstalledState.Directory.GetChildDirectoryWithName("mods");
 
-                    var pakFile = installDirectory.GetChildFileWithName($"{mod.PackageName}.pak");
-                    await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
-                }
-            */
+        protected override async Task InstallMod(IModContent mod) {
+            var sourceDir = ContentPaths.Path.GetChildDirectoryWithName(mod.PackageName);
+            var sourcePak = sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
+
+            var installDirectory = GetModInstallationDirectory();
+            installDirectory.MakeSurePathExists();
+
+            var pakFile = installDirectory.GetChildFileWithName($"{mod.PackageName}.pak");
+            await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
+        }
     }
 }
