@@ -116,12 +116,14 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class Content : BaseEntityGuidId, IContent
     {
+        private Guid _gameId;
         protected Content() {}
 
         protected Content(string name, Guid gameId) : this() {
             Contract.Requires<ArgumentNullException>(name != null);
+            //Contract.Requires<ArgumentException>(gameId != Guid.Empty);
             Name = name;
-            GameId = gameId;
+            _gameId = gameId; // circumvent the setter protection
         }
 
         [IgnoreDataMember]
@@ -154,7 +156,15 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public InstallInfo InstallInfo { get; protected set; }
         [DataMember]
-        public Guid GameId { get; set; }
+        public Guid GameId
+        {
+            get { return _gameId; }
+            protected set
+            {
+                if (value == Guid.Empty) throw new ArgumentException(nameof(value));
+                _gameId = value;
+            }
+        }
         [DataMember]
         public string Name { get; set; }
         [DataMember]
@@ -292,6 +302,10 @@ namespace SN.withSIX.Mini.Core.Games
                 RemoveRecentInfoInternal();
             if (previousRecentInfo != null || previousInstallInfo != null)
                 UpdateState();
+        }
+
+        public void FixGameId(Guid id) {
+            GameId = id;
         }
     }
 

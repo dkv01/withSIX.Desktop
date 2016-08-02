@@ -37,6 +37,13 @@ namespace SN.withSIX.Mini.Core.Games
 
         public bool IsSteam() => Publishers.Count == 1 &&
                                  Publishers.Any(x => x.Publisher == Publisher.Steam);
+
+        public void HandleOriginalGame(Guid originalGameId, string originalGameSlug, Guid gameId) {
+            OriginalGameId = originalGameId;
+            OriginalGameSlug = originalGameSlug;
+            GameId = gameId;
+
+        }
     }
 
     [DataContract]

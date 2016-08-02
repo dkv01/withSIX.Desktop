@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -68,6 +69,10 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 new Uri(apiHost, $"/api/v3/mods-{gameId}.json.gz?v=" + hashes.Mods));
 
         async Task ProcessGame(Game game) {
+            var invalidContent = game.Contents.Where(x => x.GameId == Guid.Empty).ToArray();
+            if (invalidContent.Any())
+                invalidContent.ForEach(x => x.FixGameId(game.Id));
+
             var stats = await GetHashStats(game).ConfigureAwait(false);
             if (!stats.ShouldSyncBecauseHashes && !stats.ShouldSyncBecauseVersion)
                 return;
@@ -173,9 +178,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     content[theDto] = c.Existing;
                 }
                 if (c.DTO.GameId != game.Id) {
-                    content[theDto].OriginalGameId = c.DTO.GameId;
-                    content[theDto].OriginalGameSlug = theGame.Slug;
-                    content[theDto].GameId = game.Id;
+                    content[theDto].HandleOriginalGame(c.DTO.GameId, theGame.Slug, game.Id);
                 }
             }
             game.Contents.AddRange(newContent);

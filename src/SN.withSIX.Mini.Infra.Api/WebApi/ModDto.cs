@@ -24,7 +24,16 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
     public class ModClientApiJsonV3WithGameId : ModClientApiJson
     {
-        public Guid GameId { get; set; }
+        private Guid _gameId;
+        public Guid GameId
+        {
+            get { return _gameId; }
+            set
+            {
+                if (value == Guid.Empty) throw new ArgumentException(nameof(value));
+                _gameId = value;
+            }
+        }
         // Only used for BWC
         public List<string> Tags { get; set; }
     }
