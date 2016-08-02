@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -42,6 +43,7 @@ namespace SN.withSIX.Core.Extensions
             => src.DirectoryInfo.Delete(recursive);
 
         public static string ReadAllText(this IAbsoluteFilePath src) => File.ReadAllText(src.ToString());
+        public static IEnumerable<string> ReadLines(this IAbsoluteFilePath src) => File.ReadLines(src.ToString());
 
         public static void Unpack(this IAbsoluteFilePath src, IAbsoluteDirectoryPath outputFolder,
             bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true, ITProgress progress = null)
