@@ -3,11 +3,15 @@
 // </copyright>
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
 {
@@ -25,6 +29,34 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 new Lazy<string[]>(() => Environment.Is64BitOperatingSystem
                     ? Metadata.Executables
                     : Metadata.Executables.Skip(1).ToArray());
+        }
+
+        protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
+            ILaunchContentAction<IContent> launchContentAction) {
+            await EnableMods(launchContentAction).ConfigureAwait(false);
+            return await base.LaunchImpl(factory, launchContentAction).ConfigureAwait(false);
+        }
+
+        private async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+            var packages =
+                launchContentAction.Content.Select(x => x.Content)
+                    .OfType<IHavePackageName>()
+                    .Select(x => x.PackageName)
+                    .ToArray();
+            foreach (var d in ContentPaths.Path.DirectoryInfo.EnumerateDirectories()) {
+                var pak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.pak");
+                var pakBak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.bak");
+                if (packages.Contains(d.Name)) {
+                    if (!pak.Exists && pakBak.Exists)
+                        pakBak.Move(pak);
+                } else {
+                    if (!pak.Exists)
+                        continue;
+                    if (pakBak.Exists)
+                        pakBak.Delete();
+                    pak.Move(pakBak);
+                }
+            }
         }
 
         protected override string[] GetExecutables() => _executables.Value;
