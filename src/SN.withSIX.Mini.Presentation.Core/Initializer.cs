@@ -64,7 +64,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private static string GenerateCommandLine()
-            => StartWithWindowsHandler.GenerateCommandLineExecution(Common.Paths.EntryLocation, "Sync.exe", "\"%1\"")
+            => StartWithWindowsHandler.GenerateCommandLineExecution(Common.Paths.EntryLocation, "Sync.exe", "%1")
                 .CombineParameters();
 
         public void UnregisterUrlHandlers() {
