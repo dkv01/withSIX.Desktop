@@ -60,9 +60,12 @@ namespace SN.withSIX.Mini.Presentation.Core
             iconKey.SetValue(string.Empty, (updateExe ?? Common.Paths.EntryLocation) + ",1");
 
             key = key.CreateSubKey(@"shell\open\command");
-            key.SetValue(string.Empty,
-                StartWithWindowsHandler.GenerateCommandLineExecution(Common.Paths.EntryLocation, "Sync.exe", "\"%1\""));
+            key.SetValue(string.Empty, GenerateCommandLine());
         }
+
+        private static string GenerateCommandLine()
+            => StartWithWindowsHandler.GenerateCommandLineExecution(Common.Paths.EntryLocation, "Sync.exe", "\"%1\"")
+                .CombineParameters();
 
         public void UnregisterUrlHandlers() {
             foreach (var protocol in _schemes)
