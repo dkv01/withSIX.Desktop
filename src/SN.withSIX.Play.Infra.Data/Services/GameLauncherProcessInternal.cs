@@ -9,6 +9,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Data.Services
 {

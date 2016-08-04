@@ -13,6 +13,7 @@ using SignalRNetClientProxyMapper;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api
 {

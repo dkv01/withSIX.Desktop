@@ -17,6 +17,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Entities.Other
 {

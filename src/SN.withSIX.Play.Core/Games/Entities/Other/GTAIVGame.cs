@@ -13,6 +13,7 @@ using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Extensions;
 using _Game = SN.withSIX.Play.Core.Games.Entities.Other.GTAIVGame;
 using _Settings = SN.withSIX.Play.Core.Games.Entities.Other.GTAIVSettings;
 using _StartupParameters = SN.withSIX.Play.Core.Games.Entities.Other.GTAIVStartupParameters;

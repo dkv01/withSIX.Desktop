@@ -21,6 +21,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Play.Applications.Helpers;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Applications.Services
 {

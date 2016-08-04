@@ -27,6 +27,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Options;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {

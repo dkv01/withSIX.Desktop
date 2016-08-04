@@ -134,13 +134,6 @@ namespace SN.withSIX.Core.Extensions
             return new Uri(string.Join("/", parts.Take(parts.Length - 1)));
         }
 
-        public static long GetStamp(this DateTime dateTime) => Convert.ToInt64(dateTime.GetUnixEpoch());
-
-        public static double GetUnixEpoch(this DateTime dateTime) {
-            var unixTime = dateTime.ToUniversalTime() - unixBase;
-            return unixTime.TotalSeconds;
-        }
-
         public static string ToBase64(this string inputString)
             => Convert.ToBase64String(Encoding.UTF8.GetBytes(inputString));
 

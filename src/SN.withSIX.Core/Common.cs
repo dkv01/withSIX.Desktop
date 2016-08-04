@@ -23,6 +23,7 @@ using System.Text;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 using Action = System.Action;
 
 namespace SN.withSIX.Core

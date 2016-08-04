@@ -18,6 +18,7 @@ using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Data.Services
 {

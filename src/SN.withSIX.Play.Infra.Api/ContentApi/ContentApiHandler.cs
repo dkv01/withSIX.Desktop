@@ -21,6 +21,7 @@ using SN.withSIX.Play.Core.Games.Services.Infrastructure;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.ContentApi.Dto;
 using withSIX.Api.Models.Content.v2;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi
 {

@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core
 {

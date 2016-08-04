@@ -12,6 +12,7 @@ using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {

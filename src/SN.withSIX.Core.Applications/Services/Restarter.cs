@@ -14,6 +14,7 @@ using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Applications.Services
 {

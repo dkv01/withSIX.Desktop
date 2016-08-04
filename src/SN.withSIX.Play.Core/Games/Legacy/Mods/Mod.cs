@@ -23,6 +23,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Legacy.Helpers;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
