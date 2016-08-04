@@ -11,6 +11,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {

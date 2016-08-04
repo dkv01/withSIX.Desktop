@@ -21,6 +21,7 @@ using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
+using withSIX.Api.Models.Extensions;
 using ILogger = Splat.ILogger;
 
 namespace SN.withSIX.Mini.Presentation.Wpf

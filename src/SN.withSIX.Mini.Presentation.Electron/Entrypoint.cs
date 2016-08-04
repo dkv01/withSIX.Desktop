@@ -22,7 +22,6 @@ using SN.withSIX.Mini.Presentation.Core;
 using Splat;
 using withSIX.Api.Models.Extensions;
 using ILogger = Splat.ILogger;
-using ParameterExtensions = SN.withSIX.Core.Extensions.ParameterExtensions;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
