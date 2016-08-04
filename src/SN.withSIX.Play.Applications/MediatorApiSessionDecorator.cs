@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Applications
 {

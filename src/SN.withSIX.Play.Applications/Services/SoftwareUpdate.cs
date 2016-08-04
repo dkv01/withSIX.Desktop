@@ -14,6 +14,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Play.Core.Options;
+using withSIX.Api.Models.Extensions;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Applications.Services

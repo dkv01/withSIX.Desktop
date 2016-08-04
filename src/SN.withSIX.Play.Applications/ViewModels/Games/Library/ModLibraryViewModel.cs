@@ -22,6 +22,7 @@ using ShortBus;
 
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Extensions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Extensions;

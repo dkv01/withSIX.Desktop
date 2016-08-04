@@ -24,6 +24,7 @@ using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 using SN.withSIX.Play.Core.Games.Legacy.Servers;
 using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Options;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Applications.Services
 {

@@ -13,6 +13,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Entities.Other;
 using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
 {

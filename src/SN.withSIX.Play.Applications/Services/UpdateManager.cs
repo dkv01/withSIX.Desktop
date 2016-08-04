@@ -45,6 +45,7 @@ using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Applications.Services

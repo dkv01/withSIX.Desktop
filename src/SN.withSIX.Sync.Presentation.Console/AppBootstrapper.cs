@@ -23,6 +23,7 @@ using SN.withSIX.Play.Infra.Data.Services;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Presentation.Console.Commands;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Presentation.Console
 {

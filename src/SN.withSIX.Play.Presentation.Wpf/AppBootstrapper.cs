@@ -63,6 +63,7 @@ using SN.withSIX.Play.Presentation.Wpf.Services;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using Splat;
+using withSIX.Api.Models.Extensions;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace SN.withSIX.Play.Presentation.Wpf

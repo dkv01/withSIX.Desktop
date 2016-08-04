@@ -14,6 +14,7 @@ using SN.withSIX.Play.Applications.ViewModels.Overlays;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Options;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Applications.ViewModels
 {
