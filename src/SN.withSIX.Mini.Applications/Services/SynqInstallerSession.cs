@@ -223,14 +223,21 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private void PrepareSteamContent() {
             _steamContent =
-                _installableContent.Select(x => new {Content = x.Key as INetworkContent, x.Value})
-                    .Where(x => x.Content != null && x.Content.Publishers.Any(p => p.Publisher == Publisher.Steam))
+                _installableContent
+                    .Except(_groupContent)
+                    .Except(_repoContent)
+                    .Select(x => new {Content = x.Key as INetworkContent, x.Value})
+                    .Where(x => ShouldInstallFromSteam(x.Content))
                     .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
             _steamContentToInstall = _steamContent; // TODO
             _steamProgress = new ProgressComponent("Steam mods");
             _steamProgress.AddComponents(_steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
             _progress.AddComponents(_steamProgress);
         }
+
+        private static bool ShouldInstallFromSteam(INetworkContent content)
+            => content.Publishers.Any(p => p.Publisher == Publisher.Steam) &&
+               content.Publishers.All(x => x.Publisher != Publisher.withSIX);
 
         private void PrepareGroupContent() {
             _groupContent = _installableContent.Where(x => _groups.Any(r => r.HasMod(x.Value.Name)))
@@ -248,8 +255,10 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private void PreparePackageContent() {
-            _packageContent = _installableContent.Except(_groupContent)
-                .Except(_repoContent).Except(_steamContent)
+            _packageContent = _installableContent
+                .Except(_groupContent)
+                .Except(_repoContent)
+                .Except(_steamContent)
                 .ToDictionary(x => x.Key, x => x.Value);
             if (_action.RemoteInfo == null) {
                 if (_packageContent.Any()) throw new NotSupportedException("This game currently does not support SynqPackages");
