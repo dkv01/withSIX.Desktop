@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {

@@ -19,6 +19,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Entities.Other;
 using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Options.Entries
 {
