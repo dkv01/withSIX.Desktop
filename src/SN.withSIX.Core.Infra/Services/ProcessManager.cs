@@ -18,6 +18,7 @@ using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Api.Models.Extensions;
 using Timer = System.Timers.Timer;
 
 namespace SN.withSIX.Core.Infra.Services

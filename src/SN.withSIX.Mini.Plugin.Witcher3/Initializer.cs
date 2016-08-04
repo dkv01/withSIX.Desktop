@@ -7,6 +7,7 @@ using AutoMapper;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Witcher3
 {

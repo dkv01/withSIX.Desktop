@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.ContentEngine.Infra
 {

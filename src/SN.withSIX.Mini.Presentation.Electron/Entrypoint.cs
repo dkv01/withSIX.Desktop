@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,9 @@ using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
+using withSIX.Api.Models.Extensions;
 using ILogger = Splat.ILogger;
+using ParameterExtensions = SN.withSIX.Core.Extensions.ParameterExtensions;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -89,7 +92,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             Common.AppCommon.SetAppName(Consts.InternalTitle); // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +
-                _args.CombineParameters());
+                ParameterExtensions.CombineParameters((IEnumerable<string>) _args));
             Common.IsMini = true;
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }

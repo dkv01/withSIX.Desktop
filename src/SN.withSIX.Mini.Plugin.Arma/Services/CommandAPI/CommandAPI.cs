@@ -17,6 +17,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI
 {

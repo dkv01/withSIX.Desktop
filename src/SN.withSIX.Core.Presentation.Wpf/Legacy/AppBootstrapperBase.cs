@@ -35,6 +35,7 @@ using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Api.Models.Extensions;
 using Action = System.Action;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Legacy

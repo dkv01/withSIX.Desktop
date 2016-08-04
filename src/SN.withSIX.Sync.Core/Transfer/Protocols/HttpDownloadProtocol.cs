@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
 {

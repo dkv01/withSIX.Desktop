@@ -16,6 +16,7 @@ using SimpleInjector.Advanced;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
+using withSIX.Api.Models.Extensions;
 using Action = System.Action;
 using Container = SimpleInjector.Container;
 

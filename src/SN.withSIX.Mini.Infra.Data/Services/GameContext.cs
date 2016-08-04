@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
 {

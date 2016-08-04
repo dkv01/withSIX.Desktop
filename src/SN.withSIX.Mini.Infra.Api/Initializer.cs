@@ -21,6 +21,7 @@ using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Infra.Api.Messengers;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
 {
