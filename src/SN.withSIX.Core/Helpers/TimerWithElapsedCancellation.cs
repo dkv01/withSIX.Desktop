@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Helpers
 {

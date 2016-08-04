@@ -13,7 +13,6 @@ using AutoMapper;
 using MoreLinq;
 using NDepend.Path;
 using Newtonsoft.Json;
-
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -24,6 +23,7 @@ using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Services;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
 namespace SN.withSIX.Sync.Core.Repositories

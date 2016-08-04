@@ -12,6 +12,7 @@ using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Tests
 {

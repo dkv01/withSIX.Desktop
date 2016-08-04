@@ -259,12 +259,10 @@
   <ItemGroup>
     <Compile Include="CommonBase.cs" />
     <Compile Include="CountryFlags.cs" />
-    <Compile Include="Extensions\AutoMapperHelpers.cs" />
     <Compile Include="Extensions\CountExtensions.cs" />
     <Compile Include="Extensions\DirectoryExtensions.cs" />
     <Compile Include="Extensions\EncryptionExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
-    <Compile Include="Extensions\FileExt.cs" />
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Extensions\HashExtensions.cs" />
     <Compile Include="Extensions\NDependPathHelpers.cs" />
@@ -306,7 +304,6 @@
     <Compile Include="Extensions\SimpleQueueExtension.cs" />
     <Compile Include="Extensions\SocketExtensions.cs" />
     <Compile Include="Extensions\SystemExtensions.cs" />
-    <Compile Include="Extensions\TaskExt.cs" />
     <Compile Include="Helpers\TimeAgo.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\IEnableLogging.cs" />
