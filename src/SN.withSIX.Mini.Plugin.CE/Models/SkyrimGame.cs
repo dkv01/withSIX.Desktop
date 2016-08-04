@@ -18,6 +18,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
     [Game(GameUUids.Skyrim, Executables = new[] {@"SKSE.exe", @"TESV.exe"}, Name = "Skyrim",
         IsPublic = false,
         Slug = "Skyrim")]
+    [SynqRemoteInfo(GameUUids.Skyrim)]
     [SteamInfo(72850)]
     [DataContract]
     public class SkyrimGame : BasicSteamGame

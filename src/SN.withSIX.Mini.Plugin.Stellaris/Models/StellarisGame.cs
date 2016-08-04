@@ -17,6 +17,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 {
     [Game(GameUUids.Stellaris, Executables = new[] {@"stellaris.exe"}, Name = "Stellaris", IsPublic = false,
         Slug = "Stellaris")]
+    [SynqRemoteInfo(GameUUids.Stellaris)]
     [SteamInfo(281990)]
     [DataContract]
     public class StellarisGame : BasicSteamGame
