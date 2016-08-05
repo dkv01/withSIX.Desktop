@@ -11,6 +11,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.CE.Models
 {
