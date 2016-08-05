@@ -15,6 +15,7 @@ using withSIX.Api.Models.Content;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Services;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 {
