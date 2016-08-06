@@ -15,24 +15,17 @@ namespace SN.withSIX.Core
     {
         public class JsonTools
         {
-            public T LoadJsonFromFile<T>(IAbsoluteFilePath file) => LoadJson<T>(LoadTextFromFile(file));
+            public T LoadJsonFromFile<T>(IAbsoluteFilePath file) => LoadTextFromFile(file).FromJson<T>();
 
             public T LoadJsonFromFile<T>(IAbsoluteFilePath file, JsonSerializerSettings settings)
-                => LoadJson<T>(LoadTextFromFile(file), settings);
+                => LoadTextFromFile(file).FromJson<T>(settings);
 
             public async Task<T> LoadJsonFromFileAsync<T>(IAbsoluteFilePath file)
-                => LoadJson<T>(await LoadTextFromFileAsync(file).ConfigureAwait(false));
+                => (await LoadTextFromFileAsync(file).ConfigureAwait(false)).FromJson<T>();
 
             public async Task<T> LoadJsonFromFileAsync<T>(IAbsoluteFilePath file, JsonSerializerSettings settings)
-                => LoadJson<T>(await LoadTextFromFileAsync(file).ConfigureAwait(false), settings);
+                => (await LoadTextFromFileAsync(file).ConfigureAwait(false)).FromJson<T>(settings);
 
-            public T LoadJson<T>(string json) => LoadJson<T>(json, SerializationExtension.DefaultSettings);
-
-            public T LoadJson<T>(string json, JsonSerializerSettings settings) {
-                Contract.Requires<ArgumentNullException>(json != null);
-
-                return JsonConvert.DeserializeObject<T>(json, settings);
-            }
 
             public string LoadTextFromFile(IAbsoluteFilePath path) {
                 Contract.Requires<ArgumentNullException>(path != null);

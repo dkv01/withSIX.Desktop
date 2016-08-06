@@ -27,7 +27,9 @@ namespace SN.withSIX.Core.Extensions
 
         public static T FromJson<T>(this string @this, JsonSerializerSettings settings) {
             Contract.Requires<ArgumentNullException>(@this != null);
-            return Tools.Serialization.Json.LoadJson<T>(@this, settings);
+            Contract.Requires<ArgumentNullException>(@this != null);
+
+            return JsonConvert.DeserializeObject<T>(@this, settings);
         }
 
         public static string ToJson(this object @this, JsonSerializerSettings settings, bool pretty = false) {
