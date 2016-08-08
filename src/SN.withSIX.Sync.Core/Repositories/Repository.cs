@@ -816,9 +816,9 @@ namespace SN.withSIX.Sync.Core.Repositories
             return FromDto<T>(Load<TIn>(path));
         }
 
-        public static TIn DeserializeJson<TIn>(string path) where TIn : class {
-            Contract.Requires<ArgumentNullException>(path != null);
-            return Tools.Serialization.Json.LoadJson<TIn>(path, JsonSettings);
+        public static TIn DeserializeJson<TIn>(string json) where TIn : class {
+            Contract.Requires<ArgumentNullException>(json != null);
+            return json.FromJson<TIn>(JsonSettings);
         }
 
         static T HandleLoadExceptions<T>(Func<IAbsoluteFilePath, T> func, IAbsoluteFilePath path) where T : class, new() {

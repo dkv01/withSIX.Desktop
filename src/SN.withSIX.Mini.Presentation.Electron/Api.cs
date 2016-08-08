@@ -136,7 +136,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 case "handleParameters":
                     return
                         HandleSingleInstanceCall(
-                            Tools.Serialization.Json.LoadJson<SICall>(SerializationExtension.ToJson(requestData)));
+                            SerializationExtension.ToJson(requestData).FromJson<SICall>());
                 case "installContent":
                     return VoidCommand<InstallContent>(requestData);
                 case "installContents":
@@ -175,7 +175,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         async Task<object> Request<T, T2>(dynamic requestData) where T : IAsyncRequest<T2> {
             var data = SerializationExtension.ToJson(requestData);
-            T request = Tools.Serialization.Json.LoadJson<T>(data);
+            T request = data.FromJson<T>();
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
             return await _executor.ApiAction(() => this.RequestAsync(request),request, CreateException).ConfigureAwait(false);
         }

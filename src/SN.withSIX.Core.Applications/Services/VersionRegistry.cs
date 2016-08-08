@@ -64,7 +64,7 @@ namespace SN.withSIX.Core.Applications.Services
             VersionInfoDto versionInfo;
             try {
                 var dl = await _cacheManager.Download(_versionInfoUrl, TimeSpan.FromSeconds(30));
-                versionInfo = Tools.Serialization.Json.LoadJson<VersionInfoDto>(Encoding.UTF8.GetString(dl));
+                versionInfo = Encoding.UTF8.GetString(dl).FromJson<VersionInfoDto>();
             } catch (Exception) {
                 versionInfo = new VersionInfoDto();
             }
@@ -82,7 +82,7 @@ namespace SN.withSIX.Core.Applications.Services
 
         async Task<VersionInfoDto> GetToolsInfo(string versionInfoFile) {
             var json = await _cacheManager.GetObject<string>(versionInfoFile);
-            return Tools.Serialization.Json.LoadJson<VersionInfoDto>(json);
+            return json.FromJson<VersionInfoDto>();
         }
     }
 }

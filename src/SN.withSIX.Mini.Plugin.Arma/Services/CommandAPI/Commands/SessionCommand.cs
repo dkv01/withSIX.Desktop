@@ -20,7 +20,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
         public string ToGameCommand() => Command;
 
         public void ParseInput(string substring) {
-            var data = Tools.Serialization.Json.LoadJson<SessionCommand>(substring);
+            var data = substring.FromJson<SessionCommand>();
             data.CopyProperties(this);
         }
     }

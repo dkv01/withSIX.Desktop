@@ -86,7 +86,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             if (info.ExitCode != 0)
                 throw new Exception("Launching failed with error code " + info.ExitCode);
             var results = info.StandardOutput.Split(new[] {Environment.NewLine, "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
-            return Tools.Serialization.Json.LoadJson<LaunchResult>(results.Last());
+            return results.Last().FromJson<LaunchResult>();
         }
 
         private async Task LaunchAsAdmin(ProcessStartInfo startInfo) {
