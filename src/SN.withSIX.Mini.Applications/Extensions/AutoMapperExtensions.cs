@@ -31,7 +31,7 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static PageModel<T> ToPageModel<T>(this IEnumerable<T> items, int page, int perPage) {
             var count = items.Count();
-            var i = items.Skip((page - 1)*perPage);
+            var i = items.Skip((page - 1)*perPage).Take(perPage);
             return i.ToPageModel(new PagingInfo(page, count, perPage));
         }
 

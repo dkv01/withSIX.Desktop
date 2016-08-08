@@ -21,11 +21,11 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 
         public Task<GameHomeApiModel> GetGameHome(Guid id) => RequestAsync(new GetGameHome(id));
 
-        public Task<CollectionsApiModel> GetGameCollections(Guid id, int page = 1) => RequestAsync(new GetGameCollections(id, page));
+        public Task<CollectionsApiModel> GetGameCollections(GetGameCollections request) => RequestAsync(request);
 
-        public Task<ModsApiModel> GetGameMods(Guid id, int page = 1) => RequestAsync(new GetGameMods(id, page));
+        public Task<ModsApiModel> GetGameMods(GetGameMods request) => RequestAsync(request);
 
-        public Task<MissionsApiModel> GetGameMissions(Guid id, int page = 1) => RequestAsync(new GetGameMissions(id, page));
+        public Task<MissionsApiModel> GetGameMissions(GetGameMissions request) => RequestAsync(request);
     }
 
     public class ContentStateChange
