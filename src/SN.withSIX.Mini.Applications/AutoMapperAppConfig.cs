@@ -12,6 +12,8 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -234,18 +236,27 @@ namespace SN.withSIX.Mini.Applications
                     .Select(x => Convert(src, x))
                     .OrderByDescending(x => x.UpdatedVersion)));
 
-            cfg.CreateMap<Game, GameMissionsApiModel>()
-                .ForMember(x => x.Missions,
-                    opt =>
-                        opt.MapFrom(src => src.InstalledContent.OfType<IMissionContent>().Select(x => Convert(src, x))));
-            cfg.CreateMap<Game, GameModsApiModel>()
-                .ForMember(x => x.Mods,
-                    opt => opt.MapFrom(src => src.InstalledContent.OfType<IModContent>().Select(x => Convert(src, x))));
-            cfg.CreateMap<Game, GameCollectionsApiModel>()
-                .ForMember(x => x.Collections,
-                    opt =>
-                        opt.MapFrom(
-                            src => src.InstalledContent.OfType<ICollectionContent>().Select(x => Convert(src, x))));
+            cfg.CreateMap<Game, MissionsApiModel>()
+                .ForMember(x => x.Items,
+                    opt => opt.ResolveUsing(
+                        (src, _, __, ctx) =>
+                            src.InstalledContent.OfType<IMissionContent>()
+                                .Select(x => Convert(src, x))
+                                .ToPageModelFromCtx(ctx)));
+            cfg.CreateMap<Game, ModsApiModel>()
+                .ForMember(x => x.Items,
+                    opt => opt.ResolveUsing(
+                        (src, _, __, ctx) =>
+                            src.InstalledContent.OfType<IModContent>()
+                                .Select(x => Convert(src, x))
+                                .ToPageModelFromCtx(ctx)));
+            cfg.CreateMap<Game, CollectionsApiModel>()
+                .ForMember(x => x.Items,
+                    opt => opt.ResolveUsing(
+                        (src, _, __, ctx) =>
+                            src.InstalledContent.OfType<ICollectionContent>()
+                                .Select(x => Convert(src, x))
+                                .ToPageModelFromCtx(ctx)));
 
             cfg.CreateMap<ActionNotification, ActionTabState>()
                 .ForMember(x => x.Text, opt => opt.MapFrom(src => src.Title + " " + src.Text));

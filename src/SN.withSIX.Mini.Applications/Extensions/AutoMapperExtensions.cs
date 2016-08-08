@@ -3,8 +3,13 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using AutoMapper;
+using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Extensions
 {
@@ -21,6 +26,19 @@ namespace SN.withSIX.Mini.Applications.Extensions
             ) => expression.ForAllOtherMembers(opt => opt.Ignore());
 
         public static TDesired MapTo<TDesired>(this object input) => Mapper.Map<TDesired>(input);
+
+        public static TDesired MapTo<TDesired>(this object input, Action<IMappingOperationOptions> opts) => Mapper.Map<TDesired>(input, opts);
+
+        public static PageModel<T> ToPageModel<T>(this IEnumerable<T> items, int page, int perPage) {
+            var count = items.Count();
+            var i = items.Skip((page - 1)*perPage);
+            return i.ToPageModel(new PagingInfo(page, count, perPage));
+        }
+
+        public static PageModel<T> ToPageModelFromCtx<T>(this IEnumerable<T> e, ResolutionContext ctx2) {
+            var c = (PagingContext)ctx2.Items["ctx"];
+            return e.ToPageModel(c.Page, c.PageSize);
+        }
 
         public static object MapTo(this object input, Type sourceType, Type destinationType) {
             Contract.Requires<ArgumentNullException>(input != null);

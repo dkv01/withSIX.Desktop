@@ -241,6 +241,7 @@
     <Compile Include="Usecases\Main\BrowseFolder.cs" />
     <Compile Include="Usecases\Main\CancelQueueItem.cs" />
     <Compile Include="Usecases\Main\CloseGame.cs" />
+    <Compile Include="Usecases\Main\ContentsApiModel.cs" />
     <Compile Include="Usecases\Main\DeleteCollection.cs" />
     <Compile Include="Usecases\Main\GetClientInfo.cs" />
     <Compile Include="Usecases\Main\GetContent.cs" />

@@ -3,38 +3,31 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
-    public class GetGameMissions : IAsyncQuery<GameMissionsApiModel>, IHaveId<Guid>
+    public class GetGameMissions : GetContentBase, IAsyncQuery<MissionsApiModel>
     {
-        public GetGameMissions(Guid id) {
-            Id = id;
-        }
-
-        public Guid Id { get; }
+        public GetGameMissions(Guid id, int page = 1) : base(id, page) { }
     }
 
 
-    public class GetGameMissionsHandler : DbQueryBase, IAsyncRequestHandler<GetGameMissions, GameMissionsApiModel>
+    public class GetGameMissionsHandler : DbQueryBase, IAsyncRequestHandler<GetGameMissions, MissionsApiModel>
     {
         public GetGameMissionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GameMissionsApiModel> HandleAsync(GetGameMissions request) {
+        public async Task<MissionsApiModel> HandleAsync(GetGameMissions request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
-            return game.MapTo<GameMissionsApiModel>();
+            return game.MapTo<MissionsApiModel>(opt => opt.Items["ctx"] = new PagingContext {Page = request.Page});
         }
     }
 
-    public class GameMissionsApiModel
-    {
-        public List<ContentApiModel> Missions { get; set; }
-    }
+    [DataContract]
+    public class MissionsApiModel : ContentsApiModel {}
 }

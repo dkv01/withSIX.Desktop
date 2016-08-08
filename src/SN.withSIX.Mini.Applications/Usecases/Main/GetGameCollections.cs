@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core;
@@ -13,28 +13,34 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
-    public class GetGameCollections : IAsyncQuery<GameCollectionsApiModel>, IHaveId<Guid>
+    public abstract class GetContentBase : IHaveId<Guid>
     {
-        public GetGameCollections(Guid id) {
+        protected GetContentBase(Guid id, int page) {
             Id = id;
+            Page = page;
         }
+
+        public int Page { get; }
 
         public Guid Id { get; }
     }
 
+    public class GetGameCollections : GetContentBase, IAsyncQuery<CollectionsApiModel>
+    {
+        public GetGameCollections(Guid id, int page = 1) : base(id, page) {}
+    }
+
     public class GetGameCollectionsHandler : DbQueryBase,
-        IAsyncRequestHandler<GetGameCollections, GameCollectionsApiModel>
+        IAsyncRequestHandler<GetGameCollections, CollectionsApiModel>
     {
         public GetGameCollectionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GameCollectionsApiModel> HandleAsync(GetGameCollections request) {
+        public async Task<CollectionsApiModel> HandleAsync(GetGameCollections request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
-            return game.MapTo<GameCollectionsApiModel>();
+            return game.MapTo<CollectionsApiModel>(opt => opt.Items["ctx"] = new PagingContext {Page = request.Page});
         }
     }
 
-    public class GameCollectionsApiModel
-    {
-        public List<ContentApiModel> Collections { get; set; }
-    }
+    [DataContract]
+    public class CollectionsApiModel : ContentsApiModel { }
 }
