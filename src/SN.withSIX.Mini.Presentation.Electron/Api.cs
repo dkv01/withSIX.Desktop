@@ -11,6 +11,7 @@ using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
@@ -115,50 +116,53 @@ namespace SN.withSIX.Mini.Presentation.Electron
     public class Api : IUsecaseExecutor
     {
         private readonly Excecutor _executor = new Excecutor();
-        public Task<object> Invoke(dynamic input) {
+        public async Task<object> Invoke(dynamic input) {
             try {
-                var request = (string) input.request;
-                var requestData = input.data ?? new Dictionary<string, object>();
-
-                switch (request) {
-                case "getSettings":
-                    return Request<GetGeneralSettings, GeneralSettings>(requestData);
-                case "saveSettings":
-                    return Request<SaveGeneralSettings, UnitType>(requestData);
-                case "saveLogs":
-                    return VoidCommand<SaveLogs>(requestData);
-                case "enableDiagnostics":
-                    return VoidCommand<StartInDiagnosticsMode>(requestData);
-                case "installExplorerExtension":
-                    return VoidCommand<InstallExtension>(requestData);
-                case "uninstallExplorerExtension":
-                    return VoidCommand<RemoveExtension>(requestData);
-                case "handleParameters":
-                    return
-                        HandleSingleInstanceCall(
-                            SerializationExtension.ToJson(requestData).FromJson<SICall>());
-                case "installContent":
-                    return VoidCommand<InstallContent>(requestData);
-                case "installContents":
-                    return VoidCommand<InstallContents>(requestData);
-                case "installSteamContents":
-                    return VoidCommand<InstallSteamContents>(requestData);
-                case "uninstallContent":
-                    return VoidCommand<UninstallContent>(requestData);
-                case "uninstallContents":
-                    return VoidCommand<UninstallContents>(requestData);
-                case "launchContent":
-                    return VoidCommand<LaunchContent>(requestData);
-                case "launchContents":
-                    return VoidCommand<LaunchContents>(requestData);
-                case "closeGame":
-                    return VoidCommand<CloseGame>(requestData);
-                default:
-                    throw new Exception("Unknown command");
-                }
+                return await TryInvoke(input).ConfigureAwait(false);
             } catch (Exception ex) {
                 Console.WriteLine(ex);
+                MainLog.Logger.FormattedErrorException(ex);
                 throw;
+            }
+        }
+
+        private Task<object> TryInvoke(dynamic input) {
+            var request = (string) input.request;
+            var requestData = (object)input.data ?? new Dictionary<string, object>();
+
+            switch (request) {
+            case "getSettings":
+                return Request<GetGeneralSettings, GeneralSettings>(requestData);
+            case "saveSettings":
+                return Request<SaveGeneralSettings, UnitType>(requestData);
+            case "saveLogs":
+                return VoidCommand<SaveLogs>(requestData);
+            case "enableDiagnostics":
+                return VoidCommand<StartInDiagnosticsMode>(requestData);
+            case "installExplorerExtension":
+                return VoidCommand<InstallExtension>(requestData);
+            case "uninstallExplorerExtension":
+                return VoidCommand<RemoveExtension>(requestData);
+            case "handleParameters":
+                return HandleSingleInstanceCall(Unpack<SICall>(requestData));
+            case "installContent":
+                return VoidCommand<InstallContent>(requestData);
+            case "installContents":
+                return VoidCommand<InstallContents>(requestData);
+            case "installSteamContents":
+                return VoidCommand<InstallSteamContents>(requestData);
+            case "uninstallContent":
+                return VoidCommand<UninstallContent>(requestData);
+            case "uninstallContents":
+                return VoidCommand<UninstallContents>(requestData);
+            case "launchContent":
+                return VoidCommand<LaunchContent>(requestData);
+            case "launchContents":
+                return VoidCommand<LaunchContents>(requestData);
+            case "closeGame":
+                return VoidCommand<CloseGame>(requestData);
+            default:
+                throw new Exception("Unknown command");
             }
         }
 
@@ -170,14 +174,18 @@ namespace SN.withSIX.Mini.Presentation.Electron
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
-        Task<object> VoidCommand<T>(dynamic requestData) where T : IAsyncRequest<UnitType>
+        Task<object> VoidCommand<T>(object requestData) where T : IAsyncRequest<UnitType>
             => Request<T, UnitType>(requestData);
 
-        async Task<object> Request<T, T2>(dynamic requestData) where T : IAsyncRequest<T2> {
-            var data = SerializationExtension.ToJson(requestData);
-            T request = data.FromJson<T>();
+        async Task<object> Request<T, T2>(object requestData) where T : IAsyncRequest<T2> {
+            var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
             return await _executor.ApiAction(() => this.RequestAsync(request),request, CreateException).ConfigureAwait(false);
+        }
+
+        private static T Unpack<T>(object requestData) {
+            var data = requestData.ToJson();
+            return data.FromJson<T>();
         }
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
