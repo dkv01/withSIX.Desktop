@@ -9,6 +9,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     public class PagingContext
     {
         public int Page { get; set; }
-        public int PageSize { get; set; } = 20;
+        public int PageSize { get; set; } = 24;
     }
 }
