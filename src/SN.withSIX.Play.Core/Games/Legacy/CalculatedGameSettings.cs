@@ -21,6 +21,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Options.Entries;
+using AsyncLock = SN.withSIX.Core.Helpers.AsyncLock;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
@@ -28,16 +29,18 @@ namespace SN.withSIX.Play.Core.Games.Legacy
     [Obsolete("In process of removal")]
     public class CalculatedGameSettings : PropertyChangedBase, IEnableLogging
     {
+        public static Action<object> RaiseEvent;
         readonly string[] _arma2CompatibilityPacks = {
             "@AllInArmaStandalone", "@AllInArmaStandaloneLite",
             "@PWS_EnableA2OAContentInA3"
         };
-        public static Action<object> RaiseEvent;
         readonly Game _game;
         readonly ISupportModding _modding;
         readonly bool _supportsMissions;
         readonly bool _supportsModding;
         readonly bool _supportsServers;
+
+        private readonly AsyncLock subgLock = new AsyncLock();
         Collection _collection;
         IList<Mod> _currentMods = new List<Mod>();
         //IList<Mod> _allCurrentMods = new List<Mod>();
@@ -151,15 +154,24 @@ namespace SN.withSIX.Play.Core.Games.Legacy
                 CurrentMods = currentMods;
             }
 
-            if (!raiseEvent)
-                return modsChanged;
-
             if (!modsChanged)
                 return false;
+
+            HandleSubG();
+
+            if (!raiseEvent)
+                return modsChanged;
 
             RaiseEvent(new CalculatedGameSettingsUpdated(true, modsChanged));
 
             return true;
+        }
+
+        async void HandleSubG() {
+            await Task.Factory.StartNew(async () => {
+                using (await subgLock.LockAsync().ConfigureAwait(false))
+                    await HandleSubGames().ConfigureAwait(false);
+            }, TaskCreationOptions.LongRunning).ConfigureAwait(false);
         }
 
         IEnumerable<Mod> GetMods() => HandleMods(CollectionCompatibleEnabledMods().ToArray());
@@ -178,8 +190,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
                 .DistinctBy(x => x.Name?.ToLower()).ToArray());
         }
 
-        [Obsolete("Legacy to support a3mp")]
-        public async Task HandleSubGames() {
+        async Task HandleSubGames() {
             var a3Tp = HasArma2TerrainPacks;
             var aia = HasAllInArmaLegacy;
             var aiaLite = HasArma2CompatibilityPack;

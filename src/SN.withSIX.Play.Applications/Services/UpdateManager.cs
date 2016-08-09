@@ -66,7 +66,8 @@ namespace SN.withSIX.Play.Applications.Services
     public class UpdateManager : PropertyChangedBase, IUpdateManager,
         IHandle<CalculatedGameSettingsUpdated>,
         IHandle<GameContentInitialSynced>, IHandle<PackageList.CurrentPackageChanged>,
-        IHandle<LocalMachineInfoChanged>, IEnableLogging, IDomainService
+        IHandle<LocalMachineInfoChanged>, IEnableLogging, IDomainService,
+        IHandle<SubGamesChanged>
     {
         static readonly string[] ts3Processes = {"ts3client_win32", "ts3client_win64"};
         readonly IBusyStateHandler _busyStateHandler;
@@ -785,7 +786,7 @@ namespace SN.withSIX.Play.Applications.Services
                 ActionStatus.NoGameFound,
                 "(click to locate game)");
             State = OverallUpdateState.NoGameFound;
-            await HandleGameInfoChecked(false).ConfigureAwait(false);
+            HandleGameInfoChecked(false);
             ModUpdates = new List<UpdateState>();
         }
 
@@ -801,7 +802,7 @@ namespace SN.withSIX.Play.Applications.Services
             var switchedMode = mp ? !_mp : _mp;
             _mp = mp;
 
-            await HandleGameInfoChecked(switchedMode).ConfigureAwait(false);
+            HandleGameInfoChecked(switchedMode);
 
             if (_busyStateHandler.IsSuspended)
                 HandleSuspended();
@@ -819,11 +820,15 @@ namespace SN.withSIX.Play.Applications.Services
             _currentServer = server;
         }
 
-        async Task HandleGameInfoChecked(bool switchedMode) {
-            var @checked = _checked;
-            if (@checked == null || switchedMode || _refreshInfo ||
-                Tools.Generic.LongerAgoThan(@checked.Value, _checkTimeSpan))
-                await RefreshGameInfo().ConfigureAwait(false);
+        private object l = new Object();
+
+        void HandleGameInfoChecked(bool switchedMode) {
+            lock (l) {
+                var @checked = _checked;
+                if (@checked == null || switchedMode || _refreshInfo ||
+                    Tools.Generic.LongerAgoThan(@checked.Value, _checkTimeSpan))
+                    RefreshGameInfo();
+            }
         }
 
         async Task HandleUnsuspended(bool switchedMode) {
@@ -878,13 +883,12 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        async Task RefreshGameInfo() {
+        void RefreshGameInfo() {
             if (GameOrModSetChanged())
                 return;
 
             CheckGameInstalled();
 
-            await _currentGame.CalculatedSettings.HandleSubGames().ConfigureAwait(false);
             _updateState = UpdatesNeeded();
             _currentGame.UpdateStartupLine();
 
@@ -1581,6 +1585,11 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
         }
 
         #endregion
+
+        public void Handle(SubGamesChanged message) {
+            lock (l)
+                _refreshInfo = true;
+        }
     }
 
     public class QueuedServerReadyEvent : IDomainEvent
