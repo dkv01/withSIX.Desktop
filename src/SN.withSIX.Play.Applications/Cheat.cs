@@ -16,12 +16,10 @@ namespace SN.withSIX.Play.Applications
         public static void PublishEvent(object evt) => _cheat.EventBus.PublishOnCurrentThread(evt);
         public static Task PublishEventUi(object evt) => _cheat.EventBus.PublishOnUIThreadAsync(evt);
 
-        public static async Task PublishDomainEvent<T>(T evt) {
-            _cheat.Mediator.Notify(evt);
-            await _cheat.Mediator.NotifyAsync(evt).ConfigureAwait(false);
+        public static async Task PublishDomainEvent<T>(T evt) where T : IAsyncNotification, INotification {
+            _cheat.Mediator.Publish(evt);
+            await _cheat.Mediator.PublishAsync(evt).ConfigureAwait(false);
         }
-
-        public static Task PublishDomainEvent(object evt) => PublishDomainEvent((dynamic) evt);
 
         public static void SetServices(ICheatImpl cheatImpl) => _cheat = cheatImpl;
     }

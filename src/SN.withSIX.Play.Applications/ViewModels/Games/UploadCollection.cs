@@ -37,7 +37,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             bool? result = null;
             if (!await WrapAsync(collection, async () => {
                 var collectionVisibilityViewModel =
-                    _mediator.Request(new ShowCollectionVisibilityQuery(collection.Model.Id));
+                    _mediator.Send(new ShowCollectionVisibilityQuery(collection.Model.Id));
                 result = (await _specialDialogManager.ShowDialog(collectionVisibilityViewModel)).GetValueOrDefault();
                 scope = collectionVisibilityViewModel.Visibility;
             }))

@@ -131,7 +131,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         public bool HasAllInArmaLegacy { get; private set; }
         [Obsolete("Legacy to support allinarma standalone")]
         public bool HasArma2CompatibilityPack { get; private set; }
-        public static Func<object, Task> NotifyEnMass { get; set; }
+        public static Func<IDomainEvent, Task> NotifyEnMass { get; set; }
 
         public void UpdateSignatures() {
             var ms = Collection;

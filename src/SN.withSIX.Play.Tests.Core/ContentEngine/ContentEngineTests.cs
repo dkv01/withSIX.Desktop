@@ -13,13 +13,15 @@ using NUnit.Framework;
 using MediatR;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.ContentEngine.Infra;
 using SN.withSIX.ContentEngine.Infra.UseCases;
+using SN.withSIX.Core.Applications.Factories;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Play.Tests.Core.Support;
+using Splat;
+using ILogger = SN.withSIX.Core.Logging.ILogger;
 
 namespace SN.withSIX.Play.Tests.Core.ContentEngine
 {
@@ -29,7 +31,7 @@ namespace SN.withSIX.Play.Tests.Core.ContentEngine
         const string ACRE2_GUID = "efa97a10-29ef-11e4-864e-001517bd964c";
         Guid ACRE2_Guid = Guid.Parse(ACRE2_GUID);
         TestAppBootstrapper _bootstrapper;
-        IDependencyResolver _depResolver;
+        IDepResolver _depResolver;
         IContentEngine _contentEngine;
         IServiceRegistry _serviceRegistry;
         IModScriptRegistry _scriptRegistry;
@@ -42,7 +44,7 @@ namespace SN.withSIX.Play.Tests.Core.ContentEngine
         [SetUp]
         public void Setup() {
             SharedSupport.Init();
-            _depResolver = A.Fake<IDependencyResolver>();
+            _depResolver = A.Fake<IDepResolver>();
             _serviceRegistry = A.Fake<IServiceRegistry>();
             _scriptRegistry = A.Fake<IModScriptRegistry>();
             _resourceService = A.Fake<ICEResourceService>();

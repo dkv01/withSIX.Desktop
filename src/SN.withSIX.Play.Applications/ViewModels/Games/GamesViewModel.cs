@@ -122,7 +122,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
         protected override void OnInitialize() {
             base.OnInitialize();
 
-            var items = _mediator.Request(new ListGamesQuery());
+            var items = _mediator.Send(new ListGamesQuery());
             items.EnableCollectionSynchronization(_itemsLock);
             Items = items;
 
@@ -231,11 +231,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
         public void ShowSettings(GameDataModel game) {
             Contract.Requires<ArgumentNullException>(game != null);
             SelectedItem = game;
-            if (_gso != null)
-                _gso.TryClose();
+            _gso?.TryClose();
 
             if (_gso == null || _gso.GameSettings.GameId != game.Id)
-                _gso = _mediator.Request(new ShowGameSettingsQuery(game.Id));
+                _gso = _mediator.Send(new ShowGameSettingsQuery(game.Id));
             ShowOverlay(_gso);
         }
 

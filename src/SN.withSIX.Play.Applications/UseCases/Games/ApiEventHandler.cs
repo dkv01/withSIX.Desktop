@@ -5,13 +5,22 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Api.Models.Content;
+using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Legacy;
 using withSIX.Api.Models.Content.v2;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class ApiEventHandler : IAsyncNotificationHandler<ApiHashes>
+    public class ApiHashesEvent : IDomainEvent
+    {
+        public ApiHashesEvent(ApiHashes hashes) {
+            Hashes = hashes;
+        }
+
+        public ApiHashes Hashes { get; }
+    }
+
+    public class ApiEventHandler : IAsyncNotificationHandler<ApiHashesEvent>
     {
         readonly Random _random;
         readonly IContentManager _syncManager;
@@ -21,9 +30,9 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _random = new Random();
         }
 
-        public async Task Handle(ApiHashes notification) {
+        public async Task Handle(ApiHashesEvent notification) {
             await Task.Delay(TimeSpan.FromSeconds(_random.Next(3, 15))).ConfigureAwait(false);
-            await _syncManager.Sync(notification, true).ConfigureAwait(false);
+            await _syncManager.Sync(notification.Hashes, true).ConfigureAwait(false);
         }
     }
 }

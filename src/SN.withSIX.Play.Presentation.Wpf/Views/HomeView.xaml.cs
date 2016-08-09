@@ -11,11 +11,10 @@ using Caliburn.Micro;
 using CefSharp;
 using CefSharp.Wpf;
 using ReactiveUI;
-
-using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Applications.UseCases.Games;
 using SN.withSIX.Play.Applications.ViewModels;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.Views;
@@ -26,7 +25,6 @@ using SN.withSIX.Play.Infra.Api;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
-    
     public partial class HomeView : UserControl, IEnableLogging, IHandle<DoLogout>, IHandle<DoLogin>, IHomeView, IHandle<RequestOpenBrowser>
     {
         public static readonly DependencyProperty ViewModelProperty =

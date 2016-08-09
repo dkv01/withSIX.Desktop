@@ -128,7 +128,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
                 NotificationsCenter = notificationsCenter();
                 // TODO: Normally we would do this only on a user action, like when we would open the menu. It would require the Shell button to be separate from the menu though.
-                ProfilesMenu = _mediator.Request(new GetProfilesMenuViewModelQuery());
+                ProfilesMenu = _mediator.Send(new GetProfilesMenuViewModelQuery());
 
                 DisplayName = GetTitle();
 
@@ -149,7 +149,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
                 this.SetCommand(x => x.Exit).Subscribe(x => {
                     if (!IsBusy())
-                        _mediator.Request(new Shutdown());
+                        _mediator.Send(new Shutdown());
                 });
 
                 this.SetCommand(x => x.GoPremiumCommand)
@@ -510,7 +510,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
                 if (p.StartsWith("--profile=")) {
                     var desiredProfile = p.Replace("--profile=", "");
-                    _mediator.Request(new SwitchProfileByNameCommand(desiredProfile));
+                    _mediator.Send(new SwitchProfileByNameCommand(desiredProfile));
                     await Task.Delay(3.Seconds()).ConfigureAwait(false);
                 }
 
@@ -704,7 +704,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         public void Handle(GameLaunchedEvent message) {
             if (UserSettings.GameOptions.CloseOnLaunch) {
                 Thread.Sleep(1000);
-                _mediator.Request(new Shutdown());
+                _mediator.Send(new Shutdown());
             }
 
             if (UserSettings.GameOptions.MinimizeOnLaunch)

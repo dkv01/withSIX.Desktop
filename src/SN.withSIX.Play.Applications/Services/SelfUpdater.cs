@@ -248,7 +248,8 @@ namespace SN.withSIX.Play.Applications.Services
 
         void PublishDomainEvent<TEvent>(TEvent evt) where TEvent : IDomainEvent {
             _eventBus.PublishOnCurrentThread(evt);
-            _mediator.Notify(evt);
+            _mediator.Publish(evt);
+            _mediator.PublishAsync(evt); // pff
         }
 
         static void RegisterLocalAppKeys(IAbsoluteFilePath exePath) {

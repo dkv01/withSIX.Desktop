@@ -30,6 +30,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Play.Applications;
+using SN.withSIX.Play.Applications.UseCases.Games;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
@@ -37,6 +38,8 @@ using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
+using SubscribedToCollection = SN.withSIX.Play.Applications.UseCases.Games.SubscribedToCollection;
+using UnsubscribedFromCollection = SN.withSIX.Play.Applications.UseCases.Games.UnsubscribedFromCollection;
 
 namespace SN.withSIX.Play.Infra.Api.ConnectApi
 {
@@ -230,17 +233,13 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             Listen<ApiHashes>(ApiHashesReceived);
             Listen<SubscribedToCollection>(SubscribedToCollection);
             Listen<UnsubscribedFromCollection>(UnsubscribeFromCollection);
-            Listen<CollectionUpdated>(CollectionUpdated);
-            Listen<CollectionVersionAdded>(CollectionVersionAdded);
+            //Listen<CollectionUpdated>(CollectionUpdated);
+            //Listen<CollectionVersionAdded>(CollectionVersionAdded);
         }
 
-        async Task ApiHashesReceived(ApiHashes obj) {
-            await Cheat.PublishDomainEvent(obj).ConfigureAwait(false);
-        }
+        async Task ApiHashesReceived(ApiHashes obj) => await Cheat.PublishDomainEvent(new ApiHashesEvent(obj)).ConfigureAwait(false);
 
-        void Listen<TEvt>(Func<TEvt, Task> action) {
-            _connectionManager.MessageBus.Listen<TEvt>().Subscribe(x => HandleAction(action, x));
-        }
+        void Listen<TEvt>(Func<TEvt, Task> action) => _connectionManager.MessageBus.Listen<TEvt>().Subscribe(x => HandleAction(action, x));
 
         async void HandleAction<TEvt>(Func<TEvt, Task> action, TEvt x) {
             retry:
@@ -255,6 +254,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             }
         }
 
+        /*
         async Task CollectionUpdated(CollectionUpdated evt) {
             await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);
         }
@@ -262,6 +262,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         async Task CollectionVersionAdded(CollectionVersionAdded evt) {
             await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);
         }
+        */
 
         async Task UnsubscribeFromCollection(UnsubscribedFromCollection evt) {
             await Cheat.PublishDomainEvent(evt).ConfigureAwait(false);

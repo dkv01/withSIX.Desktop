@@ -59,7 +59,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
         void SaveSettings(GameSettingsDataModel x) {
             if (!x.IsValid)
                 return;
-            _mediator.Request(new SaveGameSettingsCommand {Settings = x});
+            _mediator.Send(new SaveGameSettingsCommand {Settings = x});
         }
 
 

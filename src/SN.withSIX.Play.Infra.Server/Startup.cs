@@ -56,9 +56,9 @@ namespace SN.withSIX.Play.Infra.Server
             _container = container;
         }
 
-        public IHub Create(HubDescriptor descriptor) => typeof(BaseHub).IsAssignableFrom(descriptor.HubType)
-    ? (IHub)_container.GetInstance(descriptor.HubType)
-    : (IHub)Activator.CreateInstance(descriptor.HubType);
+        public IHub Create(HubDescriptor descriptor) => typeof (BaseHub).IsAssignableFrom(descriptor.HubType)
+            ? (IHub) _container.GetInstance(descriptor.HubType)
+            : (IHub) Activator.CreateInstance(descriptor.HubType);
     }
 
     public class Startup
@@ -96,7 +96,7 @@ namespace SN.withSIX.Play.Infra.Server
 
         Task InvokeGames(IOwinContext context) {
             context.Response.ContentType = "application/json";
-            return context.Response.WriteAsync(JsonConvert.SerializeObject(Mediator.Request(new GetGameInfoQuery()), SerializationExtension.DefaultSettings));
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(Mediator.Send(new GetGameInfoQuery()), SerializationExtension.DefaultSettings));
         }
 
         public class MyCorsOptions : CorsOptions

@@ -65,7 +65,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
                 Exception e;
                 try {
                     await
-                        _mediator.RequestAsync(new UploadNewCollectionImageCommand(Content.Id,
+                        _mediator.SendAsync(new UploadNewCollectionImageCommand(Content.Id,
                             _localFile)).ConfigureAwait(false);
                     TryClose(true);
                     return;
@@ -91,7 +91,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 
         Task GenerateImage() {
             _localFile = null;
-            return _mediator.RequestAsync(new GenerateNewCollectionImageCommand(Content.Id));
+            return _mediator.SendAsync(new GenerateNewCollectionImageCommand(Content.Id));
         }
 
         void SelectImage() {

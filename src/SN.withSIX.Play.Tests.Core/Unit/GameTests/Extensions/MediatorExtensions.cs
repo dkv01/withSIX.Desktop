@@ -20,7 +20,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions
     {
         public static T RequestFaked<T, T2>(this IMediator mediator, Action act) where T : class, IRequest<T2> {
             T r = null;
-            A.CallTo(() => mediator.Request(A<IRequest<T2>>._))
+            A.CallTo(() => mediator.Send(A<IRequest<T2>>._))
                 .Invokes((IRequest<T2> x) => r = (T) x);
             act();
             return r;
@@ -29,7 +29,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions
         public static async Task<T> RequestAsyncFaked<T, T2>(this IMediator mediator, Func<Task> act)
             where T : class, IAsyncRequest<T2> {
             T r = null;
-            A.CallTo(() => mediator.RequestAsync(A<IAsyncRequest<T2>>._))
+            A.CallTo(() => mediator.SendAsync(A<IAsyncRequest<T2>>._))
                 .Invokes((IAsyncRequest<T2> x) => r = (T) x)
                 .ReturnsLazily(() => Task.FromResult(default(T2)));
             await act().ConfigureAwait(false);

@@ -731,7 +731,7 @@ namespace SN.withSIX.Play.Applications.Services
             if (!hasAny) {
                 var c =
                     await
-                        _mediator.RequestAsync(new FetchCollectionQuery(collectionId.ToGuid())).ConfigureAwait(false);
+                        _mediator.SendAsync(new FetchCollectionQuery(collectionId.ToGuid())).ConfigureAwait(false);
                 Cheat.PublishEvent(
                     new RequestOpenBrowser(c.ProfileUrl(_evilGlobalSelectedGame.ActiveGame)));
             } else {
@@ -742,7 +742,7 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        Task FetchCollection(Guid collectionId) => _mediator.RequestAsync(new ImportCollectionCommand(collectionId));
+        Task FetchCollection(Guid collectionId) => _mediator.SendAsync(new ImportCollectionCommand(collectionId));
 
         async Task<bool> PerformActions(IEnumerable<string> actions) {
             foreach (var action in actions) {

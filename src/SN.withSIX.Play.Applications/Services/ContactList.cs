@@ -212,7 +212,7 @@ namespace SN.withSIX.Play.Applications.Services
             SynchronizedAt = Tools.Generic.GetCurrentUtcDateTime;
             //await SetServerAddress(ActiveServerAddress).ConfigureAwait(false);
 
-            await _mediator.NotifyAsync(new LoggedInEvent()).ConfigureAwait(false);
+            await _mediator.PublishAsync(new LoggedInEvent()).ConfigureAwait(false);
         }
 
         void SetupHandlers() {

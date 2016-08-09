@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using SN.withSIX.Core;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -19,11 +20,21 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
+    public class SubscribedToCollection : global::withSIX.Api.Models.Collections.SubscribedToCollection, IDomainEvent
+    {
+        public SubscribedToCollection(Guid collectionId) : base(collectionId) { }
+    }
+
+    public class UnsubscribedFromCollection : global::withSIX.Api.Models.Collections.UnsubscribedFromCollection, IDomainEvent
+    {
+        public UnsubscribedFromCollection(Guid collectionId) : base(collectionId) { }
+    }
+
     // TODO: Wrap a repository around the contentlist Lists, so that we can perform the locking directly there instead of spread out over our codebase?!
     public class CollectionNotificationHandler : CollectionSynchronizationBase, IAsyncNotificationHandler<LoggedInEvent>,
-        IAsyncNotificationHandler<SubscribedToCollection>, IAsyncNotificationHandler<UnsubscribedFromCollection>,
-        IAsyncNotificationHandler<CollectionUpdated>, IAsyncNotificationHandler<CollectionVersionAdded>,
-        IAsyncNotificationHandler<PublishedCollection>
+        IAsyncNotificationHandler<SubscribedToCollection>, IAsyncNotificationHandler<UnsubscribedFromCollection>
+        //IAsyncNotificationHandler<CollectionUpdated>, IAsyncNotificationHandler<CollectionVersionAdded>,
+        //IAsyncNotificationHandler<PublishedCollection>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -130,7 +141,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         }
     }
 
-    public class LoggedInEvent {}
+    public class LoggedInEvent : IDomainEvent {}
 
     public class CollectionSynchronizer : CollectionSynchronizationBase,
         IAsyncRequestHandler<ImportCollectionCommand, Unit>,

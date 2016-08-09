@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using SimpleInjector;
 using SN.withSIX.Core.Applications.Factories;
@@ -17,6 +18,7 @@ namespace SN.withSIX.Core.Presentation.Services
         }
 
         public T GetInstance<T>() where T : class => _container.GetInstance<T>();
+        public object GetInstance(Type t) => _container.GetInstance(t);
 
         public IEnumerable<T> GetInstances<T>() where T : class => _container.GetAllInstances<T>();
     }

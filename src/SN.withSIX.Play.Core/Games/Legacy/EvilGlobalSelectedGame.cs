@@ -66,7 +66,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         }
     }
 
-    public class ActiveGameChangedForReal
+    public class ActiveGameChangedForReal : IDomainEvent
     {
         public ActiveGameChangedForReal(Game game) {
             Game = game;

@@ -43,7 +43,7 @@ namespace SN.withSIX.Play.Tests.Core.Support
             // Also keep the test configuration and temp data separate from production
             Common.App.InitLocalWithCleanup("Test Runner");
             var ea = new EventAggregator();
-            Cheat.SetServices(new CheatImpl(ea, new Mediator(null)));
+            Cheat.SetServices(new CheatImpl(ea, new Mediator(null, null)));
             DomainEvilGlobal.Settings = new UserSettings();
             Tools.RegisterServices(new ToolsServices(new ProcessManager(),
                 new Lazy<IWCFClient>(() => new WCFClient()),

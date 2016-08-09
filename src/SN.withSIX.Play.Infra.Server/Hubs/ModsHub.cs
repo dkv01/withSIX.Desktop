@@ -18,10 +18,10 @@ namespace SN.withSIX.Play.Infra.Server.Hubs
         public ModsHub(IMediator mediator) : base(mediator) {}
 
         public async Task<IModInfo> GetModInfoQuery(Guid modId, Guid? gameId) => await
-        _mediator.RequestAsync(gameId != null
+        _mediator.SendAsync(gameId != null
             ? new RequestModInformation(modId, gameId.Value)
             : new RequestModInformation(modId, gameId.Value)).ConfigureAwait(false);
 
-        public async Task<Dictionary<Guid, IModInfo>> GetInstalledModInfosQueryByGame(Guid gameId) => await _mediator.RequestAsync(new RequestModInformationByGame(gameId, true)).ConfigureAwait(false);
+        public async Task<Dictionary<Guid, IModInfo>> GetInstalledModInfosQueryByGame(Guid gameId) => await _mediator.SendAsync(new RequestModInformationByGame(gameId, true)).ConfigureAwait(false);
     }
 }
