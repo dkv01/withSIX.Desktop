@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Applications.Extensions;
 using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
 using SN.withSIX.Play.Core.Games.Legacy;

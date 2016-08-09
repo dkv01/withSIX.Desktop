@@ -10,11 +10,12 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Factories;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -167,7 +168,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         public Task LaunchSignalr() => Task.Run(() => {
             try {
                 var server = new StartThisServer().Start(_container.GetInstance<IMediator>(),
-                    _container.GetInstance<IDependencyResolver>());
+                    _container.GetInstance<IDepResolver>());
             } catch (Exception ex) {
                 // TODO: Use IExceptionHandler etc
                 MainLog.Logger.FormattedErrorException(ex, "Error during start of local server");

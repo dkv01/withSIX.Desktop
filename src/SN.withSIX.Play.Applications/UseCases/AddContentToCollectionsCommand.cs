@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    class AddContentToCollectionsCommand : IAsyncRequest<UnitType>
+    class AddContentToCollectionsCommand : IAsyncRequest<Unit>
     {
         public AddContentToCollectionsCommand(Guid contentId, IReadOnlyCollection<Guid> collectionIds) {
             ContentId = contentId;
@@ -23,7 +23,7 @@ namespace SN.withSIX.Play.Applications.UseCases
         public IReadOnlyCollection<Guid> CollectionIds { get; }
     }
 
-    class AddContentToCollectionsCommandHandler : IAsyncRequestHandler<AddContentToCollectionsCommand, UnitType>
+    class AddContentToCollectionsCommandHandler : IAsyncRequestHandler<AddContentToCollectionsCommand, Unit>
     {
         readonly IContentManager _contentList;
 
@@ -31,14 +31,14 @@ namespace SN.withSIX.Play.Applications.UseCases
             _contentList = contentList;
         }
 
-        public async Task<UnitType> HandleAsync(AddContentToCollectionsCommand request) {
+        public async Task<Unit> Handle(AddContentToCollectionsCommand request) {
             var mod = _contentList.Mods.First(x => x.Id == request.ContentId);
             foreach (var c in request.CollectionIds.Select(
                 x =>
                     _contentList.CustomCollections.Cast<Collection>().First(i => i.Id == x)))
                 c.AddModAndUpdateState(mod, _contentList);
 
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

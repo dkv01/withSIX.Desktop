@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
@@ -14,7 +14,7 @@ using SN.withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class UploadNewCollectionImageCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class UploadNewCollectionImageCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public UploadNewCollectionImageCommand(Guid id, IAbsoluteFilePath filePath) {
             Id = id;
@@ -26,7 +26,7 @@ namespace SN.withSIX.Play.Applications.UseCases
     }
 
     public class UploadNewCollectionImageCommandHandler :
-        IAsyncRequestHandler<UploadNewCollectionImageCommand, UnitType>
+        IAsyncRequestHandler<UploadNewCollectionImageCommand, Unit>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -36,7 +36,7 @@ namespace SN.withSIX.Play.Applications.UseCases
             _contentList = contentList;
         }
 
-        public Task<UnitType> HandleAsync(UploadNewCollectionImageCommand request) {
+        public Task<Unit> Handle(UploadNewCollectionImageCommand request) {
             var size = request.FilePath.FileInfo.Length;
             SizeExtensions.DefaultContentLengthRange.VerifySize(size);
             var collection = _contentList.CustomCollections

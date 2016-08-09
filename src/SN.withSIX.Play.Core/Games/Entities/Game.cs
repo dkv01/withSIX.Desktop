@@ -450,7 +450,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
         }
     }
 
-    public class PreGameLaunchEvent
+    public class PreGameLaunchEvent : IDomainEvent
     {
         public PreGameLaunchEvent(Game game) {
             Game = game;

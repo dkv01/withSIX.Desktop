@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
@@ -34,7 +34,7 @@ namespace SN.withSIX.Sync.Presentation.Console.UseCases
 
     public class CleanPackageCommandHandler : IAsyncRequestHandler<CleanPackageCommand, IReadOnlyCollection<string>>
     {
-        public async Task<IReadOnlyCollection<string>> HandleAsync(CleanPackageCommand request) {
+        public async Task<IReadOnlyCollection<string>> Handle(CleanPackageCommand request) {
             using (
                 var repo =
                     Repository.Factory.OpenRepositoryWithRetry(

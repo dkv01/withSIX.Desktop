@@ -17,7 +17,7 @@ using AutoMapper.Mappers;
 using Microsoft.AspNet.SignalR.Client;
 using NDepend.Path;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Content;

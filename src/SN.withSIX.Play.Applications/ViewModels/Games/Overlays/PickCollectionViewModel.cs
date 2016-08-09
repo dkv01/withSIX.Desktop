@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;

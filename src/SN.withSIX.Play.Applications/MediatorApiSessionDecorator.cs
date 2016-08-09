@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using withSIX.Api.Models.Extensions;
@@ -21,33 +22,44 @@ namespace SN.withSIX.Play.Applications
             _scopeFactory = scopeFactory;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) {
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             if (request is IRequireApiSession) {
                 using (var scope = _scopeFactory.StartSession().Result) {
-                    var response = _mediator.Request(request);
+                    var response = _mediator.Send(request);
                     scope.Close().WaitAndUnwrapException();
                     return response;
                 }
             }
-            return _mediator.Request(request);
+            return _mediator.Send(request);
         }
 
-        public async Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             if (request is IRequireApiSession) {
                 using (var scope = await _scopeFactory.StartSession().ConfigureAwait(false)) {
-                    var response = await _mediator.RequestAsync(request).ConfigureAwait(false);
+                    var response = await _mediator.SendAsync(request).ConfigureAwait(false);
                     await scope.Close().ConfigureAwait(false);
                     return response;
                 }
             }
-            return await _mediator.RequestAsync(request).ConfigureAwait(false);
+            return await _mediator.SendAsync(request).ConfigureAwait(false);
         }
 
-        public void Notify<TNotification>(TNotification notification) {
-            _mediator.Notify(notification);
-        }
+        public void Publish(INotification notification) => _mediator.Publish(notification);
 
-        public Task NotifyAsync<TNotification>(TNotification notification) => _mediator.NotifyAsync(notification);
+        public Task PublishAsync(IAsyncNotification notification) => _mediator.PublishAsync(notification);
+
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken) => _mediator.PublishAsync(notification, cancellationToken);
+
+        public async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
+            if (request is IRequireApiSession) {
+                using (var scope = await _scopeFactory.StartSession().ConfigureAwait(false)) {
+                    var response = await _mediator.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                    await scope.Close().ConfigureAwait(false);
+                    return response;
+                }
+            }
+            return await _mediator.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
     }
 
     public interface IRequireApiSession {}

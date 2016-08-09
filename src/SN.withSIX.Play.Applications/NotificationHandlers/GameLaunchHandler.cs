@@ -4,7 +4,7 @@
 
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -27,12 +27,12 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
         }
 
         // TODO: Async
-        public async Task HandleAsync(PreGameLaunchCancelleableEvent notification) {
+        public async Task Handle(PreGameLaunchCancelleableEvent notification) {
             using (var handler = _pregameLaunchFactory.CreateExport())
                 await handler.Value.Process(notification);
         }
 
-        public async Task HandleAsync(PreGameLaunchEvent notification) {
+        public async Task Handle(PreGameLaunchEvent notification) {
             _launchManager.LaunchExternalApps();
             await _updateManager.PreGameLaunch().ConfigureAwait(false);
         }

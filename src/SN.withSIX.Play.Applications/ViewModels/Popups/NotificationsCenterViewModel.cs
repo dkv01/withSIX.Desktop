@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Helpers;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;

@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Play.Applications

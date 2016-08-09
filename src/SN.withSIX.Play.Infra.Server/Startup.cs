@@ -12,16 +12,16 @@ using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Owin;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Factories;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Infra.Server.Hubs;
 using SN.withSIX.Play.Infra.Server.UseCases;
-using IDependencyResolver = ShortBus.IDependencyResolver;
 
 namespace SN.withSIX.Play.Infra.Server
 {
@@ -34,11 +34,11 @@ namespace SN.withSIX.Play.Infra.Server
         public int Port { get; }
     }
 
-    public class StopInternalSignalRServer : IRequest<UnitType> {}
+    public class StopInternalSignalRServer : IRequest<Unit> {}
 
     public class StartThisServer
     {
-        public IDisposable Start(IMediator mediator, IDependencyResolver depResolver, int port = 56666) {
+        public IDisposable Start(IMediator mediator, IDepResolver depResolver, int port = 56666) {
             Startup.HubActivator = new SIHubActivator(depResolver);
             Startup.Mediator = mediator;
             // TODO: Allow anywhere
@@ -50,9 +50,9 @@ namespace SN.withSIX.Play.Infra.Server
 
     public class SIHubActivator : IHubActivator
     {
-        readonly IDependencyResolver _container;
+        readonly IDepResolver _container;
 
-        public SIHubActivator(IDependencyResolver container) {
+        public SIHubActivator(IDepResolver container) {
             _container = container;
         }
 

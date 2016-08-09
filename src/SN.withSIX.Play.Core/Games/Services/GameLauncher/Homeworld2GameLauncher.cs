@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Entities.Other;
 

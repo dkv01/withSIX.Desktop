@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Play.Applications.UseCases
@@ -17,9 +17,9 @@ namespace SN.withSIX.Play.Applications.UseCases
             _shutdownHandler = shutdownHandler;
         }
 
-        public UnitType Handle(Shutdown request) {
+        public Unit Handle(Shutdown request) {
             _shutdownHandler.Shutdown();
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

@@ -4,13 +4,13 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.UseCases.Profiles
 {
-    public class SwitchProfileCommand : IRequest<UnitType>
+    public class SwitchProfileCommand : IRequest<Unit>
     {
         public SwitchProfileCommand(Guid guid) {
             Contract.Requires<ArgumentNullException>(guid != Guid.Empty);
@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
         public Guid Guid { get; }
     }
 
-    public class SwitchProfileByNameCommand : IRequest<UnitType>
+    public class SwitchProfileByNameCommand : IRequest<Unit>
     {
         public SwitchProfileByNameCommand(string name) {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
@@ -33,8 +33,8 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
 
 
     
-    public class SwitchProfileCommandHandler : IRequestHandler<SwitchProfileCommand, UnitType>,
-        IRequestHandler<SwitchProfileByNameCommand, UnitType>
+    public class SwitchProfileCommandHandler : IRequestHandler<SwitchProfileCommand, Unit>,
+        IRequestHandler<SwitchProfileByNameCommand, Unit>
     {
         readonly UserSettings _settings;
 
@@ -42,14 +42,14 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
             _settings = settings;
         }
 
-        public UnitType Handle(SwitchProfileByNameCommand request) {
+        public Unit Handle(SwitchProfileByNameCommand request) {
             _settings.GameOptions.GameSettingsController.ActivateProfile(request.Name);
-            return default(UnitType);
+            return default(Unit);
         }
 
-        public UnitType Handle(SwitchProfileCommand request) {
+        public Unit Handle(SwitchProfileCommand request) {
             _settings.GameOptions.GameSettingsController.ActivateProfile(request.Guid);
-            return default(UnitType);
+            return default(Unit);
         }
     }
 }

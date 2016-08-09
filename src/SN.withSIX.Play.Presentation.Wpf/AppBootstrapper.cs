@@ -15,7 +15,7 @@ using System.Windows.Media;
 using AutoMapper;
 using Caliburn.Micro;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SimpleInjector;
 
 

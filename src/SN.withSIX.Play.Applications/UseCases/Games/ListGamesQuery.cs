@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Applications.Services;

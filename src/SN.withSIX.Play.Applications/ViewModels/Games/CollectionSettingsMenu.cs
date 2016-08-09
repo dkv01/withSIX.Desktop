@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
-using ShortBus;
+using MediatR;
 
 using withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.Extensions;

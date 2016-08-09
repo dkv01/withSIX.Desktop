@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
 {

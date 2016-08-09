@@ -4,7 +4,7 @@
 
 using System;
 using System.ComponentModel.Composition;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Games;

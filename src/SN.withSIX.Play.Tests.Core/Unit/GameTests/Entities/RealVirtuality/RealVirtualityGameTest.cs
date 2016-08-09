@@ -11,7 +11,7 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
 using SN.withSIX.Play.Core.Games.Services;

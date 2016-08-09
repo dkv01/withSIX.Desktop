@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Data;
 using Caliburn.Micro;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 
 using SN.withSIX.Core;

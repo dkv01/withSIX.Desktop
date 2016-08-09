@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -56,7 +56,7 @@ namespace SN.withSIX.Play.Infra.Server.UseCases
     {
         public RequestModInformationByGameHandler(IGameContext gameContext) : base(gameContext) {}
 
-        public Task<Dictionary<Guid, IModInfo>> HandleAsync(RequestModInformationByGame request) {
+        public Task<Dictionary<Guid, IModInfo>> Handle(RequestModInformationByGame request) {
             var mods = GetMods(request);
             return Task.FromResult(request.OnlyInstalled
                 ? mods.Where(x => x.State != ContentState.NotInstalled)
@@ -72,7 +72,7 @@ namespace SN.withSIX.Play.Infra.Server.UseCases
     {
         public RequestModInformationHandler(IGameContext gameContext) : base(gameContext) {}
 
-        public async Task<IModInfo> HandleAsync(RequestModInformation request) {
+        public async Task<IModInfo> Handle(RequestModInformation request) {
             var mods = GetMods(request);
             var mod = mods.First(x => x.Guid == request.ModID.ToString());
 

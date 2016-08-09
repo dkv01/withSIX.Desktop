@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -36,21 +36,21 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _contentList = contentList;
         }
 
-        public async Task HandleAsync(CollectionUpdated notification) {
+        public async Task Handle(CollectionUpdated notification) {
             using (var session = await _api.StartSession().ConfigureAwait(false)) {
                 await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
                 await session.Close().ConfigureAwait(false);
             }
         }
 
-        public async Task HandleAsync(CollectionVersionAdded notification) {
+        public async Task Handle(CollectionVersionAdded notification) {
             using (var session = await _api.StartSession().ConfigureAwait(false)) {
                 await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
                 await session.Close().ConfigureAwait(false);
             }
         }
 
-        public async Task HandleAsync(LoggedInEvent notification) {
+        public async Task Handle(LoggedInEvent notification) {
             //Will Crash the application on Failure.
             using (var session = await _api.StartSession().ConfigureAwait(false)) {
                 await SynchronizeSubscribedCollections().ConfigureAwait(false);
@@ -59,21 +59,21 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             }
         }
 
-        public async Task HandleAsync(PublishedCollection notification) {
+        public async Task Handle(PublishedCollection notification) {
             using (var session = await _api.StartSession().ConfigureAwait(false)) {
                 await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
                 await session.Close().ConfigureAwait(false);
             }
         }
 
-        public async Task HandleAsync(SubscribedToCollection notification) {
+        public async Task Handle(SubscribedToCollection notification) {
             using (var session = await _api.StartSession().ConfigureAwait(false)) {
                 await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
                 await session.Close().ConfigureAwait(false);
             }
         }
 
-        public Task HandleAsync(UnsubscribedFromCollection notification) {
+        public Task Handle(UnsubscribedFromCollection notification) {
             lock (_contentList.SubscribedCollections) {
                 var modSet =
                     _contentList.SubscribedCollections.FirstOrDefault(x => x.CollectionID == notification.CollectionId);
@@ -133,8 +133,8 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
     public class LoggedInEvent {}
 
     public class CollectionSynchronizer : CollectionSynchronizationBase,
-        IAsyncRequestHandler<ImportCollectionCommand, UnitType>,
-        IAsyncRequestHandler<RefreshCollectionCommand, UnitType>
+        IAsyncRequestHandler<ImportCollectionCommand, Unit>,
+        IAsyncRequestHandler<RefreshCollectionCommand, Unit>
     {
         readonly IContentManager _contentList;
 
@@ -143,12 +143,12 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _contentList = contentList;
         }
 
-        public async Task<UnitType> HandleAsync(ImportCollectionCommand command) {
+        public async Task<Unit> Handle(ImportCollectionCommand command) {
             await FetchCollectionAndConvert(command.CollectionId).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(RefreshCollectionCommand command) {
+        public async Task<Unit> Handle(RefreshCollectionCommand command) {
             SubscribedCollection collection;
             lock (_contentList.SubscribedCollections)
                 collection = _contentList.SubscribedCollections.First(x => x.Id == command.CollectionId);
@@ -159,7 +159,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
                 lock (_contentList.SubscribedCollections)
                     _contentList.SubscribedCollections.Remove(collection);
             }
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 
@@ -176,10 +176,10 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         /*
     Type: System.ArgumentException
     Message:
-        Expression of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.ImportCollectionCommand,ShortBus.UnitType]' cannot be used for constructor parameter of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.FetchCollectionCommand,withSIX.Api.Models.Collections.CollectionModel]'
+        Expression of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.ImportCollectionCommand,ShortBus.Unit]' cannot be used for constructor parameter of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.FetchCollectionCommand,withSIX.Api.Models.Collections.CollectionModel]'
          */
 
-        public Task<CollectionModel> HandleAsync(FetchCollectionQuery request) => FetchCollection(request.CollectionId);
+        public Task<CollectionModel> Handle(FetchCollectionQuery request) => FetchCollection(request.CollectionId);
     }
 
     public abstract class CollectionSynchronizationBase

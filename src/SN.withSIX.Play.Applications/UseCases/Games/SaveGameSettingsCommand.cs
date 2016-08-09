@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
@@ -12,13 +12,13 @@ using SN.withSIX.Play.Core.Games.Entities;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class SaveGameSettingsCommand : IRequest<UnitType>
+    public class SaveGameSettingsCommand : IRequest<Unit>
     {
         public GameSettingsDataModel Settings { get; set; }
     }
 
     
-    public class SaveGameSettingsCommandHandler : IRequestHandler<SaveGameSettingsCommand, UnitType>
+    public class SaveGameSettingsCommandHandler : IRequestHandler<SaveGameSettingsCommand, Unit>
     {
         readonly IGameContext _context;
         readonly IGameMapperConfig _gameMapper;
@@ -28,7 +28,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _gameMapper = gameMapper;
         }
 
-        public UnitType Handle(SaveGameSettingsCommand message) {
+        public Unit Handle(SaveGameSettingsCommand message) {
             var game = _context.Games.Find(message.Settings.GameId);
 
             ContentPaths modPaths = null;
@@ -42,7 +42,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             if (modding != null)
                 HandleNewModPaths(modding, modding.ModPaths, modPaths);
 
-            return UnitType.Default;
+            return Unit.Value;
         }
 
         // TODO: Domain events should be raised by the domain, not by the application layer,

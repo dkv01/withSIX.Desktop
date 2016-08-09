@@ -5,7 +5,7 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Services;

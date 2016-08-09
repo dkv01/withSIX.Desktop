@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using NDepend.Path;
 using ReactiveUI.Legacy;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;

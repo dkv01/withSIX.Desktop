@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
@@ -14,7 +14,7 @@ using SN.withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class DeleteCollectionCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class DeleteCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public DeleteCollectionCommand(Guid id) {
             Id = id;
@@ -23,7 +23,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         public Guid Id { get; }
     }
 
-    public class DeleteCollectionCommandHandler : IAsyncRequestHandler<DeleteCollectionCommand, UnitType>
+    public class DeleteCollectionCommandHandler : IAsyncRequestHandler<DeleteCollectionCommand, Unit>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -36,7 +36,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _storage = storage;
         }
 
-        public async Task<UnitType> HandleAsync(DeleteCollectionCommand request) {
+        public async Task<Unit> Handle(DeleteCollectionCommand request) {
             var collection = _contentList.CustomCollections.First(x => x.Id == request.Id);
 
             if (collection.PublishedId.HasValue) {
@@ -48,7 +48,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _contentList.CustomCollections.RemoveLocked(collection);
 
             await _storage.SaveNow().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

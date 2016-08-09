@@ -6,8 +6,8 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using ShortBus;
-
+using MediatR;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Events;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -92,5 +92,5 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
         }
     }
 
-    public class MinimizedEvent {}
+    public class MinimizedEvent : IDomainEvent { }
 }

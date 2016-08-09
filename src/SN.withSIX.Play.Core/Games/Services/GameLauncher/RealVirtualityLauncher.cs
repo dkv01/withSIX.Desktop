@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;

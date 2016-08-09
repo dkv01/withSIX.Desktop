@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 
@@ -18,8 +18,8 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
             _contentManager = contentManager;
         }
 
-        public Task HandleAsync(ActiveGameChanged notification) => _contentManager.Handle(notification);
+        public Task Handle(ActiveGameChanged notification) => _contentManager.Handle(notification);
 
-        public Task HandleAsync(SubGamesChanged notification) => _contentManager.Handle(notification);
+        public Task Handle(SubGamesChanged notification) => _contentManager.Handle(notification);
     }
 }

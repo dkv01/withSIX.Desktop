@@ -4,7 +4,7 @@
 
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Infra.Server.Hubs;
 using SN.withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers;
 

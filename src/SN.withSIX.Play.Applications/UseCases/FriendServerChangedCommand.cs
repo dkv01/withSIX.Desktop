@@ -4,15 +4,15 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class FriendServerChangedCommand : IAsyncRequest<UnitType> {}
+    public class FriendServerChangedCommand : IAsyncRequest<Unit> {}
 
-    public class FriendServerChangedCommandHandler : IAsyncRequestHandler<FriendServerChangedCommand, UnitType>
+    public class FriendServerChangedCommandHandler : IAsyncRequestHandler<FriendServerChangedCommand, Unit>
     {
-        public async Task<UnitType> HandleAsync(FriendServerChangedCommand request) {
+        public async Task<Unit> Handle(FriendServerChangedCommand request) {
             throw new NotImplementedException();
         }
     }

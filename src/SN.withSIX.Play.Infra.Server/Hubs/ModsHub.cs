@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Infra.Server.UseCases;

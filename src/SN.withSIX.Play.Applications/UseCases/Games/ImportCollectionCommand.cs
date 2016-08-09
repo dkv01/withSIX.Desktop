@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class ImportCollectionCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class ImportCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public ImportCollectionCommand(Guid collectionId) {
             CollectionId = collectionId;

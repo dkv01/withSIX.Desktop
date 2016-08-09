@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -13,7 +13,7 @@ using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class UnpublishCollectionCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class UnpublishCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public UnpublishCollectionCommand(Guid id) {
             Id = id;
@@ -22,7 +22,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         public Guid Id { get; }
     }
 
-    public class UnpublishCollectionCommandHandler : IAsyncRequestHandler<UnpublishCollectionCommand, UnitType>
+    public class UnpublishCollectionCommandHandler : IAsyncRequestHandler<UnpublishCollectionCommand, Unit>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -37,13 +37,13 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _storage = storage;
         }
 
-        public async Task<UnitType> HandleAsync(UnpublishCollectionCommand request) {
+        public async Task<Unit> Handle(UnpublishCollectionCommand request) {
             var collection = _contentList.CustomCollections.First(x => x.Id == request.Id);
 
             await collection.DeleteOnline(_api, _contentList).ConfigureAwait(false);
 
             await _storage.SaveNow().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

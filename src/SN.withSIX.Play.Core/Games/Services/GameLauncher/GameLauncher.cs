@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;

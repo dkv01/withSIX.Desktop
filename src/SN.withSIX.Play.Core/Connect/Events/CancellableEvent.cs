@@ -3,10 +3,11 @@
 // </copyright>
 
 using System;
+using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Core.Connect.Events
 {
-    public abstract class CancellableEvent : EventArgs
+    public abstract class CancellableEvent : EventArgs, IDomainEvent
     {
         public bool Cancel { get; set; }
     }

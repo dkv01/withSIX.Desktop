@@ -4,7 +4,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
@@ -15,7 +15,7 @@ using SN.withSIX.Play.Core.Options;
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
     public class UnsubscribeFromCollectionCommandHandler :
-        IAsyncRequestHandler<UnsubscribeFromCollectionCommand, UnitType>
+        IAsyncRequestHandler<UnsubscribeFromCollectionCommand, Unit>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -28,7 +28,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _storage = storage;
         }
 
-        public async Task<UnitType> HandleAsync(UnsubscribeFromCollectionCommand request) {
+        public async Task<Unit> Handle(UnsubscribeFromCollectionCommand request) {
             var collection = _contentList.SubscribedCollections.First(x => x.Id == request.Id);
 
             try {
@@ -37,7 +37,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
 
             _contentList.SubscribedCollections.RemoveLocked(collection);
             await _storage.SaveNow().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

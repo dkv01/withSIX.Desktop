@@ -9,7 +9,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Legacy;

@@ -5,14 +5,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class GenerateNewCollectionImageCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class GenerateNewCollectionImageCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public GenerateNewCollectionImageCommand(Guid id) {
             Id = id;
@@ -22,7 +22,7 @@ namespace SN.withSIX.Play.Applications.UseCases
     }
 
     public class GenerateNewCollectionImageCommandHandler :
-        IAsyncRequestHandler<GenerateNewCollectionImageCommand, UnitType>
+        IAsyncRequestHandler<GenerateNewCollectionImageCommand, Unit>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -32,7 +32,7 @@ namespace SN.withSIX.Play.Applications.UseCases
             _contentList = contentList;
         }
 
-        public Task<UnitType> HandleAsync(GenerateNewCollectionImageCommand request) {
+        public Task<Unit> Handle(GenerateNewCollectionImageCommand request) {
             var collection = _contentList.CustomCollections.First(x => x.Id == request.Id);
             return collection.GenerateNewAvatar(_api).Void();
         }

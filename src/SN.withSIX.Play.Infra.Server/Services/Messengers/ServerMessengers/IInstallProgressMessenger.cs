@@ -3,22 +3,24 @@
 // </copyright>
 
 using System;
+using MediatR;
+using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers
 {
-    public class StatusUpdated
+    public class StatusUpdated : IDomainEvent
     {
         public Guid StatusID { get; set; }
         public string FieldName { get; set; }
         public dynamic Value { get; set; }
     }
 
-    public class StatusRemoved
+    public class StatusRemoved : IDomainEvent
     {
         public Guid StatusID { get; set; }
     }
 
-    public class StatusAdded
+    public class StatusAdded : IDomainEvent
     {
         public string StatusType { get; set; }
         public dynamic StatusModel { get; set; }

@@ -17,7 +17,7 @@ using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
 using MoreLinq;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 
 using withSIX.Api.Models.Collections;
@@ -51,6 +51,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Repo;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using SN.withSIX.Play.Core.Options;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
+using Unit = System.Reactive.Unit;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
@@ -265,7 +266,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         static bool IsDroppable(object data) => data is IContent || data is ContentLibraryItemViewModel<Collection> || HasAny<IContent>(data) ||
        HasAny<ContentLibraryItemViewModel<Collection>>(data);
 
-        Task ShowCollectionImageDialog(CustomCollectionLibraryItemViewModel x) => _specialDialogManager.ShowDialog(_mediator.Request(new GetCollectionImageViewModelQuery(x.Model.Id)));
+        Task ShowCollectionImageDialog(CustomCollectionLibraryItemViewModel x) => _specialDialogManager.ShowDialog(_mediator.Send(new GetCollectionImageViewModelQuery(x.Model.Id)));
 
         static bool HasAny<T>(object data) {
             var items = data as IEnumerable;
@@ -319,7 +320,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         internal async Task OpenAddToCollectionsView(IMod mod) {
             var vm =
                 await
-                    _mediator.RequestAsync(new GetPickCollectionViewModelQuery(mod.Id, Game.Id));
+                    _mediator.SendAsync(new GetPickCollectionViewModelQuery(mod.Id, Game.Id));
             _modSetsViewModel.ShowOverlay(vm);
         }
 

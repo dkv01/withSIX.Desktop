@@ -38,7 +38,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
             ColumnSpanProperty = DependencyProperty.RegisterAttached("ColumnSpan", typeof (int), typeof (GutterGrid),
                 new PropertyMetadata(1, ChildElementColumnSpanChanged));
 
-            DefaultGutter = new GridLength(10, GridUnitType.Pixel);
+            DefaultGutter = new GridLength(10, GridUnit.Pixel);
         }
 
         public int NumberOfRows
@@ -120,7 +120,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
             if (grid == null)
                 return;
 
-            var oneStarGridLength = new GridLength(1, GridUnitType.Star);
+            var oneStarGridLength = new GridLength(1, GridUnit.Star);
 
             grid.ColumnDefinitions.Clear();
             grid.ColumnDefinitions.Add(new ColumnDefinition {Width = grid.ColumnGutterWidth});

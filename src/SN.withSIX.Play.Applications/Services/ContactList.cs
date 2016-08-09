@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using withSIX.Api.Models.Context;
 using withSIX.Api.Models.Exceptions;

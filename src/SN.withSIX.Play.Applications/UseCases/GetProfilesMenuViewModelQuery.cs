@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Profiles;

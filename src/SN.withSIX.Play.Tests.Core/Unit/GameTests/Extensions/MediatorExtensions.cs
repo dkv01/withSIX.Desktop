@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FakeItEasy;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;

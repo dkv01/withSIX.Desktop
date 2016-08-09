@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Microsoft.Win32;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;

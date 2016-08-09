@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class UnsubscribeFromCollectionCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class UnsubscribeFromCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public UnsubscribeFromCollectionCommand(Guid id) {
             Id = id;

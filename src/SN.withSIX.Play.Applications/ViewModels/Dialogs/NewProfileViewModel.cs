@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -19,6 +19,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.DataModels.Profiles;
 using SN.withSIX.Play.Applications.UseCases.Profiles;
 using SN.withSIX.Play.Core.Options.Entries;
+using Unit = System.Reactive.Unit;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Dialogs
 {

@@ -4,7 +4,7 @@
 
 using System;
 using Caliburn.Micro;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.Services.Infrastructure;

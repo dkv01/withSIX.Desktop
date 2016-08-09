@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Options;
@@ -41,7 +41,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
             _storage = storage;
         }
 
-        public async Task<Guid> HandleAsync(CreateProfileCommand request) {
+        public async Task<Guid> Handle(CreateProfileCommand request) {
             var newProfile = _settings.GameOptions.GameSettingsController.CreateProfile(request.Name, request.Color,
                 request.Guid);
 

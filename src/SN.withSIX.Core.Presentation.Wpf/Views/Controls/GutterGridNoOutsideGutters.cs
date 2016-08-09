@@ -121,7 +121,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
             if (grid == null)
                 return;
 
-            var oneStarGridLength = new GridLength(1, GridUnitType.Star);
+            var oneStarGridLength = new GridLength(1, GridUnit.Star);
 
             grid.ColumnDefinitions.Clear();
             grid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(0)});

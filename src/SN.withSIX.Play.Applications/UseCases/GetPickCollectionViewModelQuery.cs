@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
 using SN.withSIX.Play.Core.Games.Legacy;
 
@@ -34,7 +34,7 @@ namespace SN.withSIX.Play.Applications.UseCases
             _contentList = contentList;
         }
 
-        public async Task<PickCollectionViewModel> HandleAsync(GetPickCollectionViewModelQuery request) {
+        public async Task<PickCollectionViewModel> Handle(GetPickCollectionViewModelQuery request) {
             var vm = _factory();
             vm.SetContent(_contentList.Mods.FirstOrDefault(x => x.Id == request.ModId));
             vm.LoadItems(

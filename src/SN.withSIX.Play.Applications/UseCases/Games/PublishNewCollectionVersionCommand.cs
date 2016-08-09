@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
@@ -14,7 +14,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class PublishNewCollectionVersionCommand : IAsyncRequest<UnitType>, IRequireApiSession
+    public class PublishNewCollectionVersionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {
         public PublishNewCollectionVersionCommand(Guid id) {
             Id = id;
@@ -24,7 +24,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
     }
 
     public class PublishNewCollectionVersionCommandHandler :
-        IAsyncRequestHandler<PublishNewCollectionVersionCommand, UnitType>
+        IAsyncRequestHandler<PublishNewCollectionVersionCommand, Unit>
     {
         readonly IConnectApiHandler _api;
         readonly IContentManager _contentList;
@@ -37,7 +37,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _storage = storage;
         }
 
-        public async Task<UnitType> HandleAsync(PublishNewCollectionVersionCommand request) {
+        public async Task<Unit> Handle(PublishNewCollectionVersionCommand request) {
             var collection = _contentList.CustomCollections.First(x => x.Id == request.Id);
 
             try {
@@ -47,7 +47,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             }
 
             await _storage.SaveNow().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Play.Applications.UseCases

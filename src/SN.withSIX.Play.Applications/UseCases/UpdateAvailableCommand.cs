@@ -3,16 +3,16 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.Services;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class UpdateAvailableCommand : IAsyncRequest<UnitType> {}
+    public class UpdateAvailableCommand : IAsyncRequest<Unit> {}
 
     public class UpdateAvailableCommandHandler :
-        IAsyncRequestHandler<UpdateAvailableCommand, UnitType>
+        IAsyncRequestHandler<UpdateAvailableCommand, Unit>
     {
         readonly ISoftwareUpdate _softwareUpdate;
 
@@ -20,9 +20,9 @@ namespace SN.withSIX.Play.Applications.UseCases
             _softwareUpdate = softwareUpdate;
         }
 
-        public async Task<UnitType> HandleAsync(UpdateAvailableCommand request) {
+        public async Task<Unit> Handle(UpdateAvailableCommand request) {
             _softwareUpdate.UpdateAndExitIfNotBusy(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

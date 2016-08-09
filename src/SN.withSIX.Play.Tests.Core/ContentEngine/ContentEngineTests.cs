@@ -10,7 +10,7 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using ShortBus;
+using MediatR;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core.Logging;

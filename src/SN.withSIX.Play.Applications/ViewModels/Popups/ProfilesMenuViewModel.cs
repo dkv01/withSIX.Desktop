@@ -6,7 +6,7 @@ using System;
 using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
@@ -18,6 +18,7 @@ using SN.withSIX.Play.Applications.DataModels.Profiles;
 using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.UseCases.Profiles;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
+using Unit = System.Reactive.Unit;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Popups
 {
@@ -67,18 +68,18 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
                 "Confirm delete profile", SixMessageBoxButton.YesNo)).WaitSpecial();
 
             if (result.IsYes())
-                _mediator.Request(new DeleteProfileCommand(profile.Id));
+                _mediator.Send(new DeleteProfileCommand(profile.Id));
         }
 
         
         public void SwitchProfile(ProfileDataModel profile) {
             ShowProfilesMenu = false;
-            _mediator.Request(new SwitchProfileCommand(profile.Id));
+            _mediator.Send(new SwitchProfileCommand(profile.Id));
         }
 
         async Task OpenNewProfileDialog() {
             ShowProfilesMenu = false;
-            using (var vm = _mediator.Request(new ShowNewProfileDialogQuery()))
+            using (var vm = _mediator.Send(new ShowNewProfileDialogQuery()))
                 await _specialDialogManager.ShowDialog(vm).ConfigureAwait(false);
         }
 

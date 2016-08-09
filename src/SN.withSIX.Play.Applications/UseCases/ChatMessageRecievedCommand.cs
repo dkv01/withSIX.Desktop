@@ -4,15 +4,15 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class ChatMessageRecievedCommand : IAsyncRequest<UnitType> {}
+    public class ChatMessageRecievedCommand : IAsyncRequest<Unit> {}
 
-    public class ChatMessageRecievedCommandHandler : IAsyncRequestHandler<ChatMessageRecievedCommand, UnitType>
+    public class ChatMessageRecievedCommandHandler : IAsyncRequestHandler<ChatMessageRecievedCommand, Unit>
     {
-        public async Task<UnitType> HandleAsync(ChatMessageRecievedCommand request) {
+        public async Task<Unit> Handle(ChatMessageRecievedCommand request) {
             throw new NotImplementedException();
         }
     }

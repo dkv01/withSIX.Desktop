@@ -4,13 +4,13 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.UseCases.Profiles
 {
-    public class DeleteProfileCommand : IRequest<UnitType>
+    public class DeleteProfileCommand : IRequest<Unit>
     {
         public DeleteProfileCommand(Guid guid) {
             Contract.Requires<ArgumentNullException>(guid != Guid.Empty);
@@ -22,7 +22,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
     }
 
     
-    public class DeleteProfileCommandHandler : IRequestHandler<DeleteProfileCommand, UnitType>
+    public class DeleteProfileCommandHandler : IRequestHandler<DeleteProfileCommand, Unit>
     {
         readonly UserSettings _settings;
 
@@ -30,9 +30,9 @@ namespace SN.withSIX.Play.Applications.UseCases.Profiles
             _settings = settings;
         }
 
-        public UnitType Handle(DeleteProfileCommand request) {
+        public Unit Handle(DeleteProfileCommand request) {
             _settings.GameOptions.GameSettingsController.DeleteProfile(request.Guid);
-            return default(UnitType);
+            return default(Unit);
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Presentation.Console.UseCases;
@@ -41,7 +41,7 @@ namespace SN.withSIX.Sync.Presentation.Console.Commands
             if (!All)
                 packages = remainingArguments.Any() ? remainingArguments : new[] {workDir.DirectoryName};
 
-            var cleanedPackages = (await _mediator.RequestAsync(
+            var cleanedPackages = (await _mediator.SendAsync(
                 new CleanPackageCommand(workDir,
                     packages) {
                         RepoDir = RepoDir,

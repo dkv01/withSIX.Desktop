@@ -3,7 +3,7 @@
 // </copyright>
 
 using Microsoft.AspNet.SignalR;
-using ShortBus;
+using MediatR;
 
 using SN.withSIX.Core.Infra.Services;
 

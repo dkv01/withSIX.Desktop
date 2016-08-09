@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Collections;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games

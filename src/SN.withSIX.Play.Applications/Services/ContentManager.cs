@@ -20,7 +20,7 @@ using Caliburn.Micro;
 using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;

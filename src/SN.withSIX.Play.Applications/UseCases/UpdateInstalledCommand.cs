@@ -4,15 +4,15 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class UpdateInstalledCommand : IAsyncRequest<UnitType> {}
+    public class UpdateInstalledCommand : IAsyncRequest<Unit> {}
 
-    public class UpdateInstalledCommandHandler : IAsyncRequestHandler<UpdateInstalledCommand, UnitType>
+    public class UpdateInstalledCommandHandler : IAsyncRequestHandler<UpdateInstalledCommand, Unit>
     {
-        public async Task<UnitType> HandleAsync(UpdateInstalledCommand request) {
+        public async Task<Unit> Handle(UpdateInstalledCommand request) {
             throw new NotImplementedException();
         }
     }

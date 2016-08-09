@@ -4,7 +4,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -28,7 +28,7 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
             _authProvider = authProvider;
         }
 
-        public Task HandleAsync(TokenUpdatedEvent notification) {
+        public Task Handle(TokenUpdatedEvent notification) {
 #if DEBUG
             if (notification.PremiumToken != null) {
                 MainLog.Logger.Debug("Premium UN: " + notification.PremiumToken.AccessToken);

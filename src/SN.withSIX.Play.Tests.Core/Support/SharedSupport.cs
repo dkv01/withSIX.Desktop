@@ -11,7 +11,7 @@ using FakeItEasy;
 using NDepend.Path;
 using NLog;
 using NLog.Config;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Infra.Services;

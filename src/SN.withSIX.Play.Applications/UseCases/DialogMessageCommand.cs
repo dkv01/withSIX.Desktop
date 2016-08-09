@@ -3,18 +3,18 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Play.Applications.UseCases
 {
-    public class DialogMessageCommand : IAsyncRequest<UnitType>
+    public class DialogMessageCommand : IAsyncRequest<Unit>
     {
         public string Message { get; set; }
         public string Title { get; set; }
     }
 
-    public class DialogMessageCommandHandler : IAsyncRequestHandler<DialogMessageCommand, UnitType>
+    public class DialogMessageCommandHandler : IAsyncRequestHandler<DialogMessageCommand, Unit>
     {
         readonly IDialogManager _dialogManager;
 
@@ -22,9 +22,9 @@ namespace SN.withSIX.Play.Applications.UseCases
             _dialogManager = dialogManager;
         }
 
-        public async Task<UnitType> HandleAsync(DialogMessageCommand request) {
+        public async Task<Unit> Handle(DialogMessageCommand request) {
             await _dialogManager.MessageBox(new MessageBoxDialogParams(request.Message, request.Title)).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }
