@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.ContentEngine.Infra.UseCases
 {

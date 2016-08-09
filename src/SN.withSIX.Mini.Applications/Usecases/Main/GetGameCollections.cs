@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -35,7 +35,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetGameCollectionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<CollectionsApiModel> HandleAsync(GetGameCollections request) {
+        public async Task<CollectionsApiModel> Handle(GetGameCollections request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             return game.MapTo<CollectionsApiModel>(opt => opt.Items["ctx"] = new PagingContext {Page = request.Page});
         }

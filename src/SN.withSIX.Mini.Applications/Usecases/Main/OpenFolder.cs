@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -40,13 +40,13 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public OpenFolderHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<UnitType> HandleAsync(OpenFolder request) {
+        public async Task<Unit> Handle(OpenFolder request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var path = GetPath(game, request.Id, request.FolderType);
 
             Tools.FileUtil.OpenFolderInExplorer(path.GetNearestExisting());
 
-            return UnitType.Default;
+            return Unit.Value;
         }
 
         private static IAbsoluteDirectoryPath GetPath(Game game, Guid? id, FolderType type) {

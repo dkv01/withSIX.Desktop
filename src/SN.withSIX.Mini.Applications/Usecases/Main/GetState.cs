@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Models;
@@ -39,7 +39,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _stateHandler = stateHandler;
         }
 
-        public Task<ClientContentInfo> HandleAsync(GetState request) => BuildClientContentInfo(request);
+        public Task<ClientContentInfo> Handle(GetState request) => BuildClientContentInfo(request);
 
         private async Task<ClientContentInfo> BuildClientContentInfo(GetState request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);

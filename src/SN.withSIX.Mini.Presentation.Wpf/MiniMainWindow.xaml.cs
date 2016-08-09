@@ -85,7 +85,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         Task ShowAndActivate() {
             //Show();
             //Activate();
-            return this.RequestAsync(new OpenWebLink(ViewType.ClientLanding));
+            return this.SendAsync(new OpenWebLink(ViewType.ClientLanding));
         }
 
         static TaskbarItemProgressState ToProgressState(ActionTabState b) {

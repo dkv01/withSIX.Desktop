@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
@@ -67,7 +67,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private Task<TResponse> RequestAsyncExecutor<TResponse>(IAsyncRequest<TResponse> request)
-            => _executor.ApiAction<TResponse>(() => this.RequestAsync(request), request, CreateException);
+            => _executor.ApiAction<TResponse>(() => this.SendAsync(request), request, CreateException);
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
 

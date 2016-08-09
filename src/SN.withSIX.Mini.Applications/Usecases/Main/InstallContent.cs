@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
@@ -151,31 +151,31 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<UnitType> HandleAsync(InstallCollection request) {
+        public async Task<Unit> Handle(InstallCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await InstallContent(request, game).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(InstallContent request) {
+        public async Task<Unit> Handle(InstallContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await InstallContent(request, game).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(InstallContents request) {
+        public async Task<Unit> Handle(InstallContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
         private Task InstallContent(InstallContent request, Game game)
             => game.Install(_contentInstallation, request.GetAction(game));
 
-        public async Task<UnitType> HandleAsync(InstallSteamContents request) {
+        public async Task<Unit> Handle(InstallSteamContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -62,16 +62,16 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<UnitType> HandleAsync(PlayContent request) {
+        public async Task<Unit> Handle(PlayContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Play(_factory, _contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(PlayContents request) {
+        public async Task<Unit> Handle(PlayContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Play(_factory, _contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

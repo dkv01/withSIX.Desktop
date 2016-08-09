@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using ShortBus;
+using MediatR;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 

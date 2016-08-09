@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
@@ -70,7 +70,7 @@ client.prepareFolder()
             _rsyncLauncher = rsyncLauncher;
         }
 
-        public async Task<Guid> HandleAsync(UploadFolder request) {
+        public async Task<Guid> Handle(UploadFolder request) {
             var path = request.Folder.ToAbsoluteDirectoryPath();
             if (!await _folderHandler.IsFolderWhitelisted(path).ConfigureAwait(false))
                 throw new ValidationException("This folder was not yet whitelisted!");

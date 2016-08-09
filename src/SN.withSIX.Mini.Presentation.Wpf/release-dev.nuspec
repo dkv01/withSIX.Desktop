@@ -76,9 +76,7 @@
        <file src="bin\release\NDesk.Options.dll" target="lib\net45\NDesk.Options.dll" />
 
         <file src="bin\release\FluentValidation.dll" target="lib\net45\FluentValidation.dll" />
-        <file src="bin\release\ShortBus.dll" target="lib\net45\ShortBus.dll" />
-        <file src="bin\release\ShortBus.Markers.dll" target="lib\net45\ShortBus.Markers.dll" />
-        <file src="bin\release\ShortBus.SimpleInjector.dll" target="lib\net45\ShortBus.SimpleInjector.dll" />
+        <file src="bin\release\MediatR.dll" target="lib\net45\MediatR.dll" />
         <!-- <file src="bin\release\SignalRNetClientProxyMapper.dll" target="lib\net45\SignalRNetClientProxyMapper.dll" /> -->
 
         <file src="bin\release\Thinktecture.IdentityModel.Client.Net45.dll" target="lib\net45\Thinktecture.IdentityModel.Client.Net45.dll" />

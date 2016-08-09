@@ -10,7 +10,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var state = (UpdateState)(int)input.state;
             var version = input.version as string;
             await
-                this.RequestAsync(new Applications.Usecases.Main.UpdateAvailable(state, version))
+                this.SendAsync(new Applications.Usecases.Main.UpdateAvailable(state, version))
                     .ConfigureAwait(false);
             return true;
         }

@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
@@ -65,14 +65,14 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task Cancel() {
-            IObservable<UnitType> t;
+            IObservable<Unit> t;
             using (await _lock.LockAsync().ConfigureAwait(false))
                 t = CancelInternal();
             await t;
         }
 
         public async Task Cancel(Guid gameId) {
-            IObservable<UnitType> t;
+            IObservable<Unit> t;
             using (await _lock.LockAsync().ConfigureAwait(false))
                 t = CancelInternal(gameId);
             await t;
@@ -109,13 +109,13 @@ namespace SN.withSIX.Mini.Applications.Services
             return reg;
         }
 
-        private IObservable<UnitType> CancelInternal(Guid gameId) {
+        private IObservable<Unit> CancelInternal(Guid gameId) {
             var cts = GetCts(gameId);
             if (cts.IsCancellationRequested)
-                return GenerateObservable(gameId).Select(x => UnitType.Default);
+                return GenerateObservable(gameId).Select(x => Unit.Value);
             cts.Cancel();
             _messageBus.SendMessage(new GameLockChanged(gameId, true, false));
-            return GenerateObservable(gameId).Select(x => UnitType.Default);
+            return GenerateObservable(gameId).Select(x => Unit.Value);
         }
 
         private IObservable<GameLockChanged> GenerateObservable(Guid gameId)
@@ -130,14 +130,14 @@ namespace SN.withSIX.Mini.Applications.Services
             _messageBus.SendMessage(new GameLockChanged(gameId, true, canAbort));
         }
 
-        private IObservable<UnitType> CancelInternal() {
+        private IObservable<Unit> CancelInternal() {
             var list = new List<IObservable<GameLockChanged>>();
             foreach (var l in _list) {
                 l.Value.Cancel();
                 _messageBus.SendMessage(new GameLockChanged(l.Key, true, false));
                 list.Add(GenerateObservable(l.Key));
             }
-            return list.Any() ? list.Merge().Select(x => UnitType.Default) : Observable.Return(UnitType.Default);
+            return list.Any() ? list.Merge().Select(x => Unit.Value) : Observable.Return(Unit.Value);
         }
 
         private CancellationTokenSource GetCts(Guid gameId) {

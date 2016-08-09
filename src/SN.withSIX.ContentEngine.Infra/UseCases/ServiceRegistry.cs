@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-using ShortBus;
+using MediatR;
 using SN.withSIX.ContentEngine.Infra.Attributes;
 using SN.withSIX.ContentEngine.Infra.Services;
+using SN.withSIX.Core.Applications.Factories;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -35,13 +36,13 @@ namespace SN.withSIX.ContentEngine.Infra.UseCases
 
     public class ServiceRegistry : IServiceRegistry
     {
-        readonly IDependencyResolver _depResolver;
+        readonly IDepResolver _depResolver;
         readonly ILogger _logger;
         readonly Dictionary<string, Type> _registeredServices = new Dictionary<string, Type>();
         readonly Dictionary<RegisteredMod, List<object>> _registrations = new Dictionary<RegisteredMod, List<object>>();
         readonly IModScriptRegistry _scriptRegistry;
 
-        public ServiceRegistry(IModScriptRegistry scriptRegistry, IDependencyResolver depResolver) {
+        public ServiceRegistry(IModScriptRegistry scriptRegistry, IDepResolver depResolver) {
             _scriptRegistry = scriptRegistry;
             _depResolver = depResolver;
             _logger = MainLog.Logger;
@@ -126,7 +127,7 @@ namespace SN.withSIX.ContentEngine.Infra.UseCases
         ITeamspeakService GetService(GetTeamspeakServiceQuery instance)
             => ResolveService<IGetTeamSpeakServiceFactory>().Handle(instance);
 
-        T ResolveService<T>() => (T) _depResolver.GetInstance(typeof (T));
+        T ResolveService<T>() where T : class => _depResolver.GetInstance<T>();
 
         static object GetServiceFromRegistration<TService>(List<object> registrations)
             where TService : IContentEngineService => registrations.OfType<TService>().SingleOrDefault();

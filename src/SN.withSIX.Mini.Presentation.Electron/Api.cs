@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
@@ -134,7 +134,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             case "getSettings":
                 return Request<GetGeneralSettings, GeneralSettings>(requestData);
             case "saveSettings":
-                return Request<SaveGeneralSettings, UnitType>(requestData);
+                return Request<SaveGeneralSettings, Unit>(requestData);
             case "saveLogs":
                 return VoidCommand<SaveLogs>(requestData);
             case "enableDiagnostics":
@@ -174,13 +174,13 @@ namespace SN.withSIX.Mini.Presentation.Electron
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
-        Task<object> VoidCommand<T>(object requestData) where T : IAsyncRequest<UnitType>
-            => Request<T, UnitType>(requestData);
+        Task<object> VoidCommand<T>(object requestData) where T : IAsyncRequest<Unit>
+            => Request<T, Unit>(requestData);
 
         async Task<object> Request<T, T2>(object requestData) where T : IAsyncRequest<T2> {
             var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
-            return await _executor.ApiAction(() => this.RequestAsync(request),request, CreateException).ConfigureAwait(false);
+            return await _executor.ApiAction(() => this.SendAsync(request),request, CreateException).ConfigureAwait(false);
         }
 
         private static T Unpack<T>(object requestData) {

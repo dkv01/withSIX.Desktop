@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -30,11 +30,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public DeleteCollectionHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<UnitType> HandleAsync(DeleteCollection request) {
+        public async Task<Unit> Handle(DeleteCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var findCollection = game.Collections.FindOrThrowFromRequest(request);
             game.RemoveCollection(findCollection);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

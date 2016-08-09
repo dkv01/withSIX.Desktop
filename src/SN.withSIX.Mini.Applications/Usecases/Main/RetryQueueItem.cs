@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -31,6 +31,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _queueManager = queueManager;
         }
 
-        public Task<UnitType> HandleAsync(RetryQueueItem request) => _queueManager.Retry(request.Id).Void();
+        public Task<Unit> Handle(RetryQueueItem request) => _queueManager.Retry(request.Id).Void();
     }
 }

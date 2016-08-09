@@ -3,7 +3,7 @@
 // </copyright>
 
 using Microsoft.AspNet.SignalR;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;

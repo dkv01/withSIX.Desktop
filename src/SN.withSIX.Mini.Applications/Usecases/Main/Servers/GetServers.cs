@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
     {
         public GetServersHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<ServersList> HandleAsync(GetServers request) {
+        public async Task<ServersList> Handle(GetServers request) {
             var game = await GameContext.FindGameOrThrowAsync(request.Info).ConfigureAwait(false);
             var sGame = game as IQueryServers;
             if (sGame == null)

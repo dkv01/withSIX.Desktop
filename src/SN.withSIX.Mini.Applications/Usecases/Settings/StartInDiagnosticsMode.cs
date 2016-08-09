@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 
@@ -21,14 +21,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
             _restarter = restarter;
         }
 
-        public async Task<UnitType> HandleAsync(SaveLogs request) {
+        public async Task<Unit> Handle(SaveLogs request) {
             var path =
                 Common.Paths.TempPath.GetChildFileWithName("Sync diagnostics " + DateTime.UtcNow.ToFileTimeUtc() +
                                                            ".zip");
             Common.Paths.TempPath.MakeSurePathExists();
             await ErrorHandlerr.GenerateDiagnosticZip(path).ConfigureAwait(false);
             Tools.FileUtil.SelectInExplorer(path.ToString());
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 
@@ -42,11 +42,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
             _restarter = restarter;
         }
 
-        public async Task<UnitType> HandleAsync(StartInDiagnosticsMode request) {
+        public async Task<Unit> Handle(StartInDiagnosticsMode request) {
             Common.Flags.Verbose = true;
             _restarter.RestartWithoutElevation(
                 Tools.Generic.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

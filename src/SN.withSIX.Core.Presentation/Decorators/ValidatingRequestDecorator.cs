@@ -5,8 +5,9 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Core.Presentation.Decorators
 {
@@ -32,22 +33,27 @@ namespace SN.withSIX.Core.Presentation.Decorators
             _mediator = mediator;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) {
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             Validate(request);
-            return _mediator.Request(request);
+            return _mediator.Send(request);
         }
 
-        public Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             Validate(request);
-            return _mediator.RequestAsync(request);
+            return _mediator.SendAsync(request);
         }
 
-        public void Notify<TNotification>(TNotification notification) {
-            //Validate(notification);
-            _mediator.Notify(notification);
-        }
+        public void Publish(INotification notification) => _mediator.Publish(notification);
 
-        //Validate(notification);
-        public Task NotifyAsync<TNotification>(TNotification notification) => _mediator.NotifyAsync(notification);
+        public Task PublishAsync(IAsyncNotification notification) => _mediator.PublishAsync(notification);
+
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
+            => _mediator.PublishAsync(notification, cancellationToken);
+
+        public Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) {
+            Validate(request);
+            return _mediator.SendAsync(request, cancellationToken);
+        }
     }
 }

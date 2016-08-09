@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -26,7 +26,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetGameHomeHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GameHomeApiModel> HandleAsync(GetGameHome request) {
+        public async Task<GameHomeApiModel> Handle(GetGameHome request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             return game.MapTo<GameHomeApiModel>();
         }

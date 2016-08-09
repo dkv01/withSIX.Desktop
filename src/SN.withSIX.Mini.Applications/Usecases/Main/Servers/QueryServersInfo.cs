@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
     {
         public QueryServersInfoHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public Task<ServersInfo> HandleAsync(QueryServersInfo request) {
+        public Task<ServersInfo> Handle(QueryServersInfo request) {
             throw new NotImplementedException();
         }
     }

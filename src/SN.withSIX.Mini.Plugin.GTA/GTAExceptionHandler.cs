@@ -40,7 +40,7 @@ Please install it from: http://openiv.com then press 'Retry'";
         DependencyMissingUserError Handle(OpenIvMissingException ex, string action) {
             var webBrowserCommand = new NonRecoveryCommand("Get OpenIV");
             webBrowserCommand.MergeTask(
-                () => this.RequestAsync(new OpenArbWebLink(new Uri("http://openiv.com")))).Subscribe();
+                () => this.SendAsync(new OpenArbWebLink(new Uri("http://openiv.com")))).Subscribe();
             return new DependencyMissingUserError("Please install OpenIV",
                 OpenIv,
                 RecoveryCommandsImmediate.RetryCommands.Concat(new[] {webBrowserCommand}),
@@ -50,7 +50,7 @@ Please install it from: http://openiv.com then press 'Retry'";
         DependencyMissingUserError Handle(ScriptHookMissingException ex, string action) {
             var webBrowserCommand = new NonRecoveryCommand("Get ScriptHookV");
             webBrowserCommand.MergeTask(
-                () => this.RequestAsync(new OpenArbWebLink(new Uri("http://www.dev-c.com/gtav/scripthookv"))))
+                () => this.SendAsync(new OpenArbWebLink(new Uri("http://www.dev-c.com/gtav/scripthookv"))))
                 .Subscribe();
             return new DependencyMissingUserError("Please install the latest version of ScriptHook", ScriptHook,
                 RecoveryCommandsImmediate.RetryCommands.Concat(new[] {webBrowserCommand}), innerException: ex);
@@ -66,19 +66,19 @@ Please install it from: http://openiv.com then press 'Retry'";
                 if (ex is OpenIvMissingException) {
                     var webBrowserCommand = new NonRecoveryCommand("Get the latest OpenIV");
                     webBrowserCommand
-                        .MergeTask(() => this.RequestAsync(new OpenArbWebLink(new Uri("http://openiv.com"))))
+                        .MergeTask(() => this.SendAsync(new OpenArbWebLink(new Uri("http://openiv.com"))))
                         .Subscribe();
                     yield return webBrowserCommand;
                 } else if (ex is ScriptHookMissingException) {
                     var scriptHookCommand = new NonRecoveryCommand("Get the latest ScriptHookV");
                     scriptHookCommand
                         .MergeTask(() =>
-                            this.RequestAsync(
+                            this.SendAsync(
                                 new OpenArbWebLink(new Uri("http://www.dev-c.com/gtav/scripthookv")))).Subscribe();
                     scriptHookCommand
                         .MergeTask(
                             () =>
-                                this.RequestAsync(new OpenArbWebLink(new Uri("http://www.dev-c.com/gtav/scripthookv"))))
+                                this.SendAsync(new OpenArbWebLink(new Uri("http://www.dev-c.com/gtav/scripthookv"))))
                         .Subscribe();
                     yield return scriptHookCommand;
                 }

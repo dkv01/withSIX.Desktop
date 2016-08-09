@@ -13,23 +13,23 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
     public class ClientHub : HubBase<IClientClientHub>
     {
-        public Task<ClientInfo> GetInfo() => RequestAsync(new GetClientInfo());
+        public Task<ClientInfo> GetInfo() => SendAsync(new GetClientInfo());
 
-        public Task SetLogin(string apiKey) => RequestAsync(new SetLogin(apiKey));
+        public Task SetLogin(string apiKey) => SendAsync(new SetLogin(apiKey));
 
-        public Task<string> BrowseFolderDialog(FolderDialogOptions options) => RequestAsync(new BrowseFolder(options));
+        public Task<string> BrowseFolderDialog(FolderDialogOptions options) => SendAsync(new BrowseFolder(options));
 
         [Obsolete]
         public async Task ConfirmPremium() {}
 
-        public Task ResolveUserError(ResolveUserError command) => RequestAsync(command);
+        public Task ResolveUserError(ResolveUserError command) => SendAsync(command);
 
-        public Task Login(AccessInfo info) => RequestAsync(new Applications.Usecases.Main.Login(info));
+        public Task Login(AccessInfo info) => SendAsync(new Applications.Usecases.Main.Login(info));
 
-        public Task PerformUpdate() => RequestAsync(new PerformUpdate());
+        public Task PerformUpdate() => SendAsync(new PerformUpdate());
 
-        public Task InstallExplorerExtension() => RequestAsync(new InstallExtension());
-        public Task UninstallExplorerExtension() => RequestAsync(new RemoveExtension());
+        public Task InstallExplorerExtension() => SendAsync(new InstallExtension());
+        public Task UninstallExplorerExtension() => SendAsync(new RemoveExtension());
     }
 
     public interface IClientClientHub

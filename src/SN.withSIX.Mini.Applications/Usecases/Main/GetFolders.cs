@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetFoldersHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<List<FolderInfo>> HandleAsync(GetFolders request)
+        public async Task<List<FolderInfo>> Handle(GetFolders request)
             =>
                 (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.Where(
                     x => request.Folders.Contains(x.Path.ToString())).ToList();

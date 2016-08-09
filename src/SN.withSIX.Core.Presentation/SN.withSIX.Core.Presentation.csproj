@@ -181,6 +181,10 @@
       <HintPath>..\packages\logentries.nlog.2.6.0\lib\net40\LogentriesNLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
@@ -204,16 +208,6 @@
     <Reference Include="SharpCompress, Version=0.12.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.12.3\lib\net45\SharpCompress.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="ShortBus">
-      <HintPath>..\dll\ShortBus.dll</HintPath>
-    </Reference>
-    <Reference Include="ShortBus.Markers">
-      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
-    </Reference>
-    <Reference Include="ShortBus.SimpleInjector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\ShortBus.SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector, Version=3.2.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.2.0\lib\net45\SimpleInjector.dll</HintPath>

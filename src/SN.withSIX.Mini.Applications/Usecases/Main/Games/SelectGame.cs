@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
@@ -33,10 +33,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
             _gameSwitcher = gameSwitcher;
         }
 
-        public async Task<UnitType> HandleAsync(SelectGame request) {
+        public async Task<Unit> Handle(SelectGame request) {
             await _gameSwitcher.SwitchGame(request.Id).ConfigureAwait(false);
 
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

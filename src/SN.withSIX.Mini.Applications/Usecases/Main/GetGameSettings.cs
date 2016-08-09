@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Factories;
@@ -30,7 +30,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _factory = factory;
         }
 
-        public async Task<GameSettings> HandleAsync(GetGameSettings request) => new GameSettings {
+        public async Task<GameSettings> Handle(GetGameSettings request) => new GameSettings {
             Settings = _factory.CreateApiModel(
                 await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false))
         };

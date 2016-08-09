@@ -136,6 +136,10 @@
       <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
       <HintPath>..\packages\NDepend.Path.1.0.0\lib\net35\NDepend.Path.dll</HintPath>
       <Private>True</Private>

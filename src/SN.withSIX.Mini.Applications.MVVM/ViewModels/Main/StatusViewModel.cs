@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
 
         public StatusViewModel(IObservable<ActionTabState> statusObservable) {
             Abort = ReactiveCommand.CreateAsyncTask(
-                async x => await this.RequestAsync(new CancelAll()).ConfigureAwait(false))
+                async x => await this.SendAsync(new CancelAll()).ConfigureAwait(false))
                 .DefaultSetup("Cancel");
 
             // We won't get activated because we no longer have a window ;-)

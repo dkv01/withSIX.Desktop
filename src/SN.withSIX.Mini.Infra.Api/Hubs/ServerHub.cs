@@ -9,11 +9,11 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
     public class ServerHub : HubBase<IServerHubClient>
     {
-        public Task<ServersList> GetServers(GetServersQuery info) => RequestAsync(new GetServers(info));
+        public Task<ServersList> GetServers(GetServersQuery info) => SendAsync(new GetServers(info));
 
-        public Task<ServersInfo> GetServersInfo(GetServerQuery info) => RequestAsync(new GetServersInfo(info));
+        public Task<ServersInfo> GetServersInfo(GetServerQuery info) => SendAsync(new GetServersInfo(info));
 
-        public Task<ServersInfo> QueryServers(GetServersInfoQuery info) => RequestAsync(new QueryServersInfo(info));
+        public Task<ServersInfo> QueryServers(GetServersInfoQuery info) => SendAsync(new QueryServersInfo(info));
     }
 
     public interface IServerHubClient {}

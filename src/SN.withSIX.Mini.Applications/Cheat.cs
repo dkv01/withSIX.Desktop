@@ -6,9 +6,10 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
@@ -28,22 +29,26 @@ namespace SN.withSIX.Mini.Applications
             _stateHandler = stateHandler;
         }
 
-        public Task<UnitType> DispatchNextAction(Func<IAsyncVoidCommand, Task<UnitType>> dispatcher, Guid requestId)
+        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId)
             => _stateHandler.DispatchNextAction(dispatcher, requestId);
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) => _mediator.Request(request);
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) => _mediator.Send(request);
 
-        public Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request)
-            => _mediator.RequestAsync(request);
+        public Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
+            => _mediator.SendAsync(request);
 
-        public void Notify<TNotification>(TNotification notification) => _mediator.Notify(notification);
+        public Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) => _mediator.SendAsync(request, cancellationToken);
 
-        public Task NotifyAsync<TNotification>(TNotification notification) => _mediator.NotifyAsync(notification);
+        public void Publish(INotification notification) => _mediator.Publish(notification);
+
+        public Task PublishAsync(IAsyncNotification notification) => _mediator.PublishAsync(notification);
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken) => _mediator.PublishAsync(notification, cancellationToken);
     }
 
     public interface IActionDispatcher : IMediator
     {
-        Task<UnitType> DispatchNextAction(Func<IAsyncVoidCommand, Task<UnitType>> dispatcher, Guid requestId);
+        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId);
     }
 
     public class ArgsO

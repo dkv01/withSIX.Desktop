@@ -4,8 +4,9 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Usecases;
@@ -43,32 +44,44 @@ namespace SN.withSIX.Mini.Applications
             _gameLocker = gameLocker;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) {
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             using (CTSHandler.Build(request as INeedCancellationTokenSource)) {
                 if (!ShouldLock(request))
-                    return _target.Request(request);
+                    return _target.Send(request);
                 var gameId = (request as IHaveGameId).GameId;
                 return Handle(request, gameId).WaitAndUnwrapException();
             }
         }
 
-        public async Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             using (CTSHandler.Build(request as INeedCancellationTokenSource)) {
                 if (!ShouldLock(request))
-                    return await _target.RequestAsync(request).ConfigureAwait(false);
+                    return await _target.SendAsync(request).ConfigureAwait(false);
                 var gameId = ((IHaveGameId) request).GameId;
                 using (await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
-                    return await _target.RequestAsync(request).ConfigureAwait(false);
+                    return await _target.SendAsync(request).ConfigureAwait(false);
             }
         }
 
-        public void Notify<TNotification>(TNotification notification) => _target.Notify(notification);
+        public void Publish(INotification notification) => _target.Publish(notification);
 
-        public Task NotifyAsync<TNotification>(TNotification notification) => _target.NotifyAsync(notification);
+        public Task PublishAsync(IAsyncNotification notification) => _target.PublishAsync(notification);
+
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken) => _target.PublishAsync(notification, cancellationToken);
+
+        public async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
+            using (CTSHandler.Build(request as INeedCancellationTokenSource)) {
+                if (!ShouldLock(request))
+                    return await _target.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                var gameId = ((IHaveGameId)request).GameId;
+                using (await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
+                    return await _target.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+        }
 
         private async Task<TResponseData> Handle<TResponseData>(IRequest<TResponseData> request, Guid gameId) {
             using (await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
-                return _target.Request(request);
+                return _target.Send(request);
         }
 
         private static bool ShouldLock(object request)

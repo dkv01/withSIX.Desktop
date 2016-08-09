@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -48,22 +48,22 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _updateHandler = updateHandler;
         }
 
-        public async Task<UnitType> HandleAsync(PerformUpdate request) {
+        public async Task<Unit> Handle(PerformUpdate request) {
             await _contentInstallation.Abort().ConfigureAwait(false);
 
             // TODO: Progress reporting etc
             await _stateHandler.StartUpdating().ConfigureAwait(false);
             await _updateHandler.SelfUpdate().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(UpdateAvailable request) {
+        public async Task<Unit> Handle(UpdateAvailable request) {
             await
                 _stateHandler.UpdateAvailable(request.Version ?? "6.6.6",
                     request.State == UpdateState.UpdateDownloading
                         ? AppUpdateState.UpdateDownloading
                         : AppUpdateState.UpdateAvailable).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

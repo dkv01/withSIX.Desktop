@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -36,7 +36,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _dialogManager = dialogManager;
         }
 
-        public async Task<string> HandleAsync(BrowseFolder request) {
+        public async Task<string> Handle(BrowseFolder request) {
             // open dialog, ask for folder
             var folder =
                 await

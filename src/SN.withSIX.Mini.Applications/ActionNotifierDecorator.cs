@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
-using ShortBus;
-using SN.withSIX.Core.Extensions;
+using MediatR;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
@@ -30,15 +30,23 @@ namespace SN.withSIX.Mini.Applications
             _networkSyncer = networkSyncer;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request)
-            => Perform(request, () => Task.Run(() => _target.Request(request))).WaitAndUnwrapException();
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request)
+            =>
+                Perform(request,
+                    () => Task.Factory.StartNew(() => _target.Send(request), TaskCreationOptions.LongRunning))
+                    .WaitAndUnwrapException();
 
-        public Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request)
-            => Perform(request, () => _target.RequestAsync(request));
+        public Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
+            => Perform(request, () => _target.SendAsync(request));
 
-        public void Notify<TNotification>(TNotification notification) => _target.Notify(notification);
+        public Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken)
+            => Perform(request, () => _target.SendAsync(request, cancellationToken));
 
-        public Task NotifyAsync<TNotification>(TNotification notification) => _target.NotifyAsync(notification);
+        public void Publish(INotification notification) => _target.Publish(notification);
+
+        public Task PublishAsync(IAsyncNotification notification) => _target.PublishAsync(notification);
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken) => _target.PublishAsync(notification, cancellationToken);
 
         private Task<TResponseData> Perform<TResponseData>(object request, Func<Task<TResponseData>> exec) {
             var act = request as INotifyAction;

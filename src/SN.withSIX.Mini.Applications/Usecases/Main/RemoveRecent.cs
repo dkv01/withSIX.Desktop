@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -43,17 +43,17 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public RemoveRecentHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<UnitType> HandleAsync(ClearRecent request) {
+        public async Task<Unit> Handle(ClearRecent request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             game.ClearRecent();
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(RemoveRecent request) {
+        public async Task<Unit> Handle(RemoveRecent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var content = await game.Contents.FindOrThrowFromRequestAsync(request).ConfigureAwait(false);
             content.RemoveRecentInfo();
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

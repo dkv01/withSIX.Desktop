@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
@@ -16,7 +16,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
 
         public SettingsChangedHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task HandleAsync(SettingsUpdated notification) {
+        public async Task Handle(SettingsUpdated notification) {
             _startWithWindowsHandler.HandleStartWithWindows(notification.Subject.Local.StartWithWindows);
         }
     }

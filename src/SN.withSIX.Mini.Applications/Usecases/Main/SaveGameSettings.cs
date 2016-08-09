@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public SaveGameSettingsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<UnitType> HandleAsync(SaveGameSettings request) {
+        public async Task<Unit> Handle(SaveGameSettings request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             // TODO: Specific game settings types..
             JsonConvert.PopulateObject(request.Settings.ToString(), game.Settings,
@@ -34,7 +34,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             game.Settings.StartupParameters.StartupLine = startupLine;
             await game.UpdateSettings(game.Settings).ConfigureAwait(false);
 
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

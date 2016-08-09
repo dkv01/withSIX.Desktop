@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
@@ -22,13 +22,13 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
             _importer = importer;
         }
 
-        public async Task<UnitType> HandleAsync(ImportPwsSettings request) {
+        public async Task<Unit> Handle(ImportPwsSettings request) {
             var path = _importer.DetectPwSSettings();
             if (path == null)
                 throw new ValidationException("PwS is not detected");
             await _importer.ImportPwsSettings(path).ConfigureAwait(false);
 
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetUploadFolderHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<IAbsoluteDirectoryPath> HandleAsync(GetUploadFolder request)
+        public async Task<IAbsoluteDirectoryPath> Handle(GetUploadFolder request)
             =>
                 (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.FirstOrDefault(
                     x => x.ContentInfo.ContentId == request.ContentId)?

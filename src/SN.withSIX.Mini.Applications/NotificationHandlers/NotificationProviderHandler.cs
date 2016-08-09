@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
@@ -36,7 +36,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             _stateHandler = stateHandler;
         }
 
-        public async Task HandleAsync(ActionNotification notification) {
+        public async Task Handle(ActionNotification notification) {
             if (notification.Type == ActionType.Start)
                 return;
             await
@@ -52,7 +52,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
                     Command =
                         ReactiveCommand.CreateAsyncTask(
                             _ =>
-                                this.RequestAsync(new OpenArbWebLink(notification.Href))).DefaultSetup("Open Web Link")
+                                this.SendAsync(new OpenArbWebLink(notification.Href))).DefaultSetup("Open Web Link")
                 });
             }
             if (notification.NextAction != null) {
@@ -61,18 +61,18 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
                     Command =
                         ReactiveCommand.CreateAsyncTask(
                             _ =>
-                                _stateHandler.DispatchNextAction(this.RequestAsync, notification.NextAction.RequestId))
+                                _stateHandler.DispatchNextAction(this.SendAsync, notification.NextAction.RequestId))
                             .DefaultSetup("Process Next Action")
                 });
             }
             return actions;
         }
 
-        //public async Task HandleAsync(ApiActionFinished notification) {
+        //public async Task Handle(ApiActionFinished notification) {
         //  Notify("Action", "action finished");
         //}
 
-        //public async Task HandleAsync(ApiException notification) {
+        //public async Task Handle(ApiException notification) {
         //  Notify("Error", notification.Exception.Message);
         //}
 
@@ -129,10 +129,10 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             }
         }
 
-        IReactiveCommand<UnitType> CreateCommand(InstallActionCompleted notification, PlayAction playAction)
+        IReactiveCommand<Unit> CreateCommand(InstallActionCompleted notification, PlayAction playAction)
             => ReactiveCommand.CreateAsyncTask(
                 async x =>
-                    await this.RequestAsync(
+                    await this.SendAsync(
                         new LaunchContents(notification.Game.Id,
                             notification.Action.Content.Select(c => new ContentGuidSpec(c.Content.Id)).ToList(),
                             action: playAction.ToLaunchAction()))

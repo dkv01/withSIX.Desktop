@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -16,7 +16,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetGeneralSettingsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GeneralSettings> HandleAsync(GetGeneralSettings request)
+        public async Task<GeneralSettings> Handle(GetGeneralSettings request)
             => (await SettingsContext.GetSettings().ConfigureAwait(false)).MapTo<GeneralSettings>();
     }
 

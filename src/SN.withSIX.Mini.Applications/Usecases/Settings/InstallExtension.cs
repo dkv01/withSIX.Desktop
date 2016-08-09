@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
@@ -32,20 +32,20 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
             _installer = installer;
         }
 
-        public async Task<UnitType> HandleAsync(InstallExtension request) {
+        public async Task<Unit> Handle(InstallExtension request) {
             var ctx = DbContextLocator.GetSettingsContext();
             await
                 _installer.UpgradeOrInstall(_destination, await ctx.GetSettings().ConfigureAwait(false), _filePaths)
                     .ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(RemoveExtension request) {
+        public async Task<Unit> Handle(RemoveExtension request) {
             var ctx = DbContextLocator.GetSettingsContext();
             await
                 _installer.Uninstall(_destination, await ctx.GetSettings().ConfigureAwait(false), _filePaths)
                     .ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

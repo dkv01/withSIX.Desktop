@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
@@ -76,19 +76,19 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
             }
 
             // TODO: LocalContent doesnt need a spec??
-            public async Task<UnitType> HandleAsync(UninstallContent request) {
+            public async Task<Unit> Handle(UninstallContent request) {
                 var game =
                     await
                         GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
                 await game.Uninstall(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-                return UnitType.Default;
+                return Unit.Value;
             }
 
             // TODO: LocalContent doesnt need a spec??
-            public async Task<UnitType> HandleAsync(UninstallContents request) {
+            public async Task<Unit> Handle(UninstallContents request) {
                 var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
                 await game.Uninstall(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-                return UnitType.Default;
+                return Unit.Value;
             }
         }
     }

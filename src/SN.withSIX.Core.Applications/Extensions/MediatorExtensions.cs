@@ -3,24 +3,24 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Core.Applications.Extensions
 {
     public static class MediatorExtensions
     {
-        public static void Notify(this IMediator m, object evt) => m.Notify((dynamic)evt);
-        public static Task NotifyAsync(this IMediator m, object evt) => m.NotifyAsync((dynamic)evt);
+        public static void Notify(this IMediator m, INotification evt) => m.Publish(evt);
+        public static Task NotifyAsync(this IMediator m, IAsyncNotification evt) => m.PublishAsync(evt);
 
-        public static async Task<UnitType> Void<T>(this Task<T> task) {
+        public static async Task<Unit> Void<T>(this Task<T> task) {
             await task.ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public static async Task<UnitType> Void(this Task task) {
+        public static async Task<Unit> Void(this Task task) {
             await task.ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
         /// <summary>
@@ -31,12 +31,12 @@ namespace SN.withSIX.Core.Applications.Extensions
         /// <param name="request"></param>
         /// <returns></returns>
         public static Task<TResponseData> RequestAsyncWrapped<TResponseData>(this IMediator mediator,
-            IAsyncRequest<TResponseData> request) => Task.Run(() => mediator.RequestAsync(request));
+            IAsyncRequest<TResponseData> request) => Task.Run(() => mediator.SendAsync(request));
 
         public static Task<TResponseData> RequestAsync<TResponseData>(this IMediator mediator,
             ICompositeCommand<TResponseData> message) => message.Execute(mediator);
 
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message,
-            IMediator mediator) => mediator.RequestAsync(message);
+            IMediator mediator) => mediator.SendAsync(message);
     }
 }

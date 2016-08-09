@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -21,12 +21,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         public Guid Id { get; }
     }
 
-    public class GetGameHandler : DbQueryBase, IAsyncRequestHandler<GetGame, UnitType>
+    public class GetGameHandler : DbQueryBase, IAsyncRequestHandler<GetGame, Unit>
     {
         public GetGameHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<UnitType> HandleAsync(GetGame request) {
-            return UnitType.Default;
+        public async Task<Unit> Handle(GetGame request) {
+            return Unit.Value;
         }
     }
 }

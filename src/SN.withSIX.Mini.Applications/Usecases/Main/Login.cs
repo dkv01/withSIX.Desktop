@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -28,12 +28,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _tokenRefresher = tokenRefresher;
         }
 
-        public async Task<UnitType> HandleAsync(Login request) {
+        public async Task<Unit> Handle(Login request) {
             await
                 _tokenRefresher.HandleLogin(request.Info, await SettingsContext.GetSettings().ConfigureAwait(false))
                     .Void()
                     .ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

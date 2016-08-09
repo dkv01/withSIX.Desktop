@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services;
@@ -35,9 +35,9 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _handler = handler;
         }
 
-        public async Task<UnitType> HandleAsync(ResolveUserError request) {
+        public async Task<Unit> Handle(ResolveUserError request) {
             await _handler.ResolveError(request.Id, request.Result, request.Data).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

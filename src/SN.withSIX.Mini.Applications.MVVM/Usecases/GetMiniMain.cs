@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels;
@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.Usecases
             _stateHandler = stateHandler;
         }
 
-        public async Task<IMiniMainWindowViewModel> HandleAsync(GetMiniMain request)
+        public async Task<IMiniMainWindowViewModel> Handle(GetMiniMain request)
             =>
                 new MiniMainWindowViewModel(new StatusViewModel(_stateHandler.StatusObservable),
                     new TrayMainWindowMenu((await SettingsContext.GetSettings().ConfigureAwait(false)).Secure.Login ??

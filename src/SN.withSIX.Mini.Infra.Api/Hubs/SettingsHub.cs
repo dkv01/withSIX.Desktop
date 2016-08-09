@@ -10,15 +10,15 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
     public class SettingsHub : HubBase<ISettingsClientHub>
     {
-        public Task<GeneralSettings> GetGeneral() => RequestAsync(new GetGeneralSettings());
+        public Task<GeneralSettings> GetGeneral() => SendAsync(new GetGeneralSettings());
 
-        public Task<GamesSettings> GetGames() => RequestAsync(new GetGamesSettings());
+        public Task<GamesSettings> GetGames() => SendAsync(new GetGamesSettings());
 
-        public Task<GameSettings> GetGame(Guid id) => RequestAsync(new GetGameSettings(id));
+        public Task<GameSettings> GetGame(Guid id) => SendAsync(new GetGameSettings(id));
 
-        public Task SaveGeneralSettings(SaveGeneralSettings command) => RequestAsync(command);
+        public Task SaveGeneralSettings(SaveGeneralSettings command) => SendAsync(command);
 
-        public Task SaveGameSettings(SaveGameSettings command) => RequestAsync(command);
+        public Task SaveGameSettings(SaveGameSettings command) => SendAsync(command);
     }
 
     public interface ISettingsClientHub {}

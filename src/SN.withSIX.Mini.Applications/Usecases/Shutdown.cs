@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
@@ -21,11 +21,11 @@ namespace SN.withSIX.Mini.Applications.Usecases
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<UnitType> HandleAsync(Shutdown request) {
+        public async Task<Unit> Handle(Shutdown request) {
             await _contentInstallation.Abort().ConfigureAwait(false);
             _shutdownHandler.Shutdown();
 
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

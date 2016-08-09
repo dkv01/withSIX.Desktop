@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNet.SignalR;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;

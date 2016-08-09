@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
@@ -42,10 +42,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
             _launcherFactory = launcherFactory;
         }
 
-        public async Task<UnitType> HandleAsync(LaunchGame request) {
+        public async Task<Unit> Handle(LaunchGame request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             await game.Launch(_launcherFactory, request.GetAction(game)).ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

@@ -14,8 +14,7 @@ using Akavache;
 using Caliburn.Micro;
 using Newtonsoft.Json;
 using ReactiveUI;
-using ShortBus;
-using ShortBus.SimpleInjector;
+using MediatR;
 using SimpleInjector;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -68,7 +67,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             typeof (FileWriter).Assembly,
             typeof (Restarter).Assembly,
             typeof (Common).Assembly,
-            typeof (SimpleInjectorDependencyResolver).Assembly,
             typeof (Mediator).Assembly
         }.Concat(base.SelectAssemblies()).Distinct();
 
@@ -261,8 +259,9 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             }
 
             void RegisterMediator() {
+                _container.RegisterSingleton(new SingleInstanceFactory(_container.GetInstance));
+                _container.RegisterSingleton(new MultiInstanceFactory(_container.GetAllInstances));
                 _container.RegisterSingleton<IMediator, Mediator>();
-                _container.RegisterSingleton<IDependencyResolver, SimpleInjectorDependencyResolver>();
 
                 RegisterRequestHandlers();
                 RegisterNotificationHandlers();

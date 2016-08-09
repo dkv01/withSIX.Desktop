@@ -18,7 +18,7 @@ using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Owin;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications;
@@ -80,13 +80,13 @@ namespace SN.withSIX.Mini.Infra.Api
                         builder.Run(
                             context =>
                                 ProcessRequest<List<string>, List<FolderInfo>>(context,
-                                    folders => this.RequestAsync(new GetFolders(folders)))));
+                                    folders => this.SendAsync(new GetFolders(folders)))));
 
                 api.Map("/whitelist-upload-folders",
                     builder =>
                         builder.Run(
                             context =>
-                                ProcessRequest<List<string>>(context, folders => this.RequestAsync(new WhiteListFolders(folders)))));
+                                ProcessRequest<List<string>>(context, folders => this.SendAsync(new WhiteListFolders(folders)))));
             });
 
             app.Map("/signalr", map => {
@@ -110,12 +110,12 @@ namespace SN.withSIX.Mini.Infra.Api
             app.Map("", builder => builder.Run(async ctx => ctx.Response.Redirect("https://withsix.com")));
         }
 
-        Task ExcecuteVoidCommand<T>(IOwinContext context) where T : IAsyncRequest<UnitType>
-            => ExecuteRequest<T, UnitType>(context);
+        Task ExcecuteVoidCommand<T>(IOwinContext context) where T : IAsyncRequest<Unit>
+            => ExecuteRequest<T, Unit>(context);
 
-        Task ExecuteRequest<T, TOut>(IOwinContext context) where T : IAsyncRequest<TOut> where TOut : class
+        Task ExecuteRequest<T, TOut>(IOwinContext context) where T : IAsyncRequest<TOut>
             => ProcessRequest<T, TOut>(context,
-                request => _executor.ApiAction(() => this.RequestAsync(request), request,
+                request => _executor.ApiAction(() => this.SendAsync(request), request,
                     CreateException));
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);

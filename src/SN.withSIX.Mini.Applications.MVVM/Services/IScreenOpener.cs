@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.Services
 
         public static async Task<T> OpenAsyncQuery<T>(this IScreenOpener opener, IAsyncQuery<T> query)
             where T : class, IScreenViewModel {
-            var viewModel = await opener.RequestAsync(query).ConfigureAwait(false);
+            var viewModel = await opener.SendAsync(query).ConfigureAwait(false);
             await opener.OpenAsync(viewModel).ConfigureAwait(false);
             return viewModel;
         }
@@ -40,7 +40,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.Services
                     return (T) vm;
                 }
             }
-            var viewModel = await opener.RequestAsync(query).ConfigureAwait(false);
+            var viewModel = await opener.SendAsync(query).ConfigureAwait(false);
             cached.Add(t, viewModel);
             await opener.OpenAsync(viewModel).ConfigureAwait(false);
             HandleClosing(viewModel, t);

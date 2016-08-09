@@ -4,9 +4,10 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Newtonsoft.Json;
-using ShortBus;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -33,34 +34,42 @@ namespace SN.withSIX.Core.Presentation.Decorators
             _mediator = mediator;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) {
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             using (
                 _mediator.Bench(
                     startMessage:
                         "Writes: " + (request is IWrite) + ", Data: " +
                         JsonConvert.SerializeObject(request, JsonSerializerSettings),
                     caller: "Request" + ": " + request.GetType()))
-                return _mediator.Request(request);
+                return _mediator.Send(request);
         }
 
-        public async Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             using (_mediator.Bench(
                 startMessage:
                     "Writes: " + (request is IWrite) + ", Data: " +
                     JsonConvert.SerializeObject(request, JsonSerializerSettings),
                 caller: "RequestAsync" + ": " + request.GetType()))
-                return await _mediator.RequestAsync(request).ConfigureAwait(false);
+                return await _mediator.SendAsync(request).ConfigureAwait(false);
+        }
+
+        public void Publish(INotification notification) => _mediator.Publish(notification);
+
+        public Task PublishAsync(IAsyncNotification notification) => _mediator.PublishAsync(notification);
+
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
+            => _mediator.PublishAsync(notification, cancellationToken);
+
+        public async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) {
+            using (_mediator.Bench(
+                startMessage:
+                    "Writes: " + (request is IWrite) + ", Data: " +
+                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                caller: "RequestAsync" + ": " + request.GetType()))
+                return await _mediator.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
         // We don't log the notification object because notifications can contain complex objects and huge hierarchies..
-        public void Notify<TNotification>(TNotification notification) {
-            //using (_mediator.Bench(caller: "Notify" + ": " + notification.GetType()))
-            _mediator.Notify(notification);
-        }
-
-        public async Task NotifyAsync<TNotification>(TNotification notification) {
-            //using (_mediator.Bench(caller: "NotifyAsync" + ": " + notification.GetType()))
-            await _mediator.NotifyAsync(notification).ConfigureAwait(false);
-        }
     }
 }

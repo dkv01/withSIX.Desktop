@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 
@@ -18,7 +18,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetGamesSettingsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GamesSettings> HandleAsync(GetGamesSettings request) {
+        public async Task<GamesSettings> Handle(GetGamesSettings request) {
             await GameContext.LoadAll().ConfigureAwait(false);
             return new GamesSettings {
                 Games =

@@ -139,6 +139,10 @@
       <HintPath>..\packages\ManyConsole.0.4.2.20\lib\ManyConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
       <HintPath>..\packages\NDepend.Path.1.0.0\lib\net35\NDepend.Path.dll</HintPath>
       <Private>True</Private>
@@ -158,17 +162,6 @@
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="ShortBus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\ShortBus.dll</HintPath>
-    </Reference>
-    <Reference Include="ShortBus.Markers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
-    </Reference>
-    <Reference Include="ShortBus.SimpleInjector">
-      <HintPath>..\dll\ShortBus.SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector, Version=3.2.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.2.0\lib\net45\SimpleInjector.dll</HintPath>

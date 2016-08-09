@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using MoreLinq;
 using Newtonsoft.Json;
 using ReactiveUI;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
@@ -55,7 +55,7 @@ namespace SN.withSIX.Mini.Applications.Services
         ClientInfo ClientInfo { get; }
         Guid SelectedGameId { get; set; }
         Task Initialize();
-        Task<UnitType> DispatchNextAction(Func<IAsyncVoidCommand, Task<UnitType>> dispatcher, Guid requestId);
+        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId);
         Task ResolveError(Guid id, string result, Dictionary<string, object> data);
         Task AddUserError(UserErrorModel error);
         Task StartUpdating();
@@ -138,7 +138,7 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        public Task<UnitType> DispatchNextAction(Func<IAsyncVoidCommand, Task<UnitType>> dispatcher, Guid actionId) {
+        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid actionId) {
             var action = Current?.NextAction;
             if (action == null)
                 throw new ValidationException("There was no next action available");

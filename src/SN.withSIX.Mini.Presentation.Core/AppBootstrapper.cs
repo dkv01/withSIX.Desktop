@@ -17,8 +17,7 @@ using Akavache.Sqlite3.Internal;
 using AutoMapper;
 using NDepend.Path;
 using ReactiveUI;
-using ShortBus;
-using ShortBus.SimpleInjector;
+using MediatR;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -26,7 +25,6 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -60,7 +58,6 @@ using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using Splat;
 using withSIX.Api.Models.Extensions;
-using IDependencyResolver = ShortBus.IDependencyResolver;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
@@ -486,7 +483,8 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         void RegisterMediator() {
-            Container.RegisterSingleton<IDependencyResolver, SimpleInjectorDependencyResolver>();
+            Container.RegisterSingleton(new SingleInstanceFactory(Container.GetInstance));
+            Container.RegisterSingleton(new MultiInstanceFactory(Container.GetAllInstances));
             Container.RegisterSingleton<IMediator, Mediator>();
 
             RegisterRequestHandlers(typeof (IAsyncRequestHandler<,>),

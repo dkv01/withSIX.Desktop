@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -32,11 +32,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _folderHandler = folderHandler;
         }
 
-        public Task<UnitType> HandleAsync(WhiteListFolders request) {
+        public Task<Unit> Handle(WhiteListFolders request) {
             foreach (var f in request.Folders.Select(x => x.ToAbsoluteDirectoryPath()))
                 _folderHandler.WhiteListFolder(f);
             //await Store(request);
-            return Task.FromResult(UnitType.Default);
+            return Task.FromResult(Unit.Value);
         }
 
         /*        private async Task Store(WhiteListFolders request) {

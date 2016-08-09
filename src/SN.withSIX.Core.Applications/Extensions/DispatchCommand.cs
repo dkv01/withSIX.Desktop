@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Core.Applications.Extensions
 {
@@ -13,7 +13,7 @@ namespace SN.withSIX.Core.Applications.Extensions
     }
 
     public class DispatchCommand<T> : IDispatchCommand
-        where T : IAsyncRequest<UnitType>
+        where T : IAsyncRequest<Unit>
     {
         readonly T _command;
 
@@ -21,6 +21,6 @@ namespace SN.withSIX.Core.Applications.Extensions
             _command = command;
         }
 
-        public Task Dispatch(IMediator mediator) => mediator.RequestAsync(_command);
+        public Task Dispatch(IMediator mediator) => mediator.SendAsync(_command);
     }
 }

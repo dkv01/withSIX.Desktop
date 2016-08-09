@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -17,18 +17,18 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
     {
         private readonly Excecutor _excecutor = new Excecutor();
 
-        protected Task<TResponseData> RequestAsync<TResponseData>(ICompositeCommand<TResponseData> command) =>
-            _excecutor.ApiAction(() => UsecaseExecutorExtensions.RequestAsync(this, command), command,
+        protected Task<TResponseData> SendAsync<TResponseData>(ICompositeCommand<TResponseData> command) =>
+            _excecutor.ApiAction(() => UsecaseExecutorExtensions.SendAsync(this, command), command,
                 CreateException);
 
         private Exception CreateException(string msg, Exception inner) => new HubException(msg, inner);
 
-        protected Task<TResponse> RequestAsync<TResponse>(IAsyncRequest<TResponse> command)
+        protected Task<TResponse> SendAsync<TResponse>(IAsyncRequest<TResponse> command)
             =>
-                _excecutor.ApiAction(() => UsecaseExecutorExtensions.RequestAsync(this, command), command,
+                _excecutor.ApiAction(() => UsecaseExecutorExtensions.SendAsync(this, command), command,
                     CreateException);
 
-        protected Task<UnitType> DispatchNextAction(Guid requestId)
-            => Cheat.Mediator.DispatchNextAction(RequestAsync, requestId);
+        protected Task<Unit> DispatchNextAction(Guid requestId)
+            => Cheat.Mediator.DispatchNextAction(SendAsync, requestId);
     }
 }

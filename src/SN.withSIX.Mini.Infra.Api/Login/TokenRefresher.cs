@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
@@ -188,7 +188,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             _authProvider = authProvider;
         }
 
-        public Task HandleAsync(PremiumTokenUpdatedEvent notification) {
+        public Task Handle(PremiumTokenUpdatedEvent notification) {
 #if DEBUG
             if (notification.NewToken != null) {
                 MainLog.Logger.Debug("Premium UN: " + notification.NewToken.AccessToken);

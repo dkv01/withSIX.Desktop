@@ -12,53 +12,53 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
     public class ContentHub : HubBase<IContentClientHub>
     {
-        public Task<ClientContentInfo2> GetContent(Guid gameId) => RequestAsync(new GetContent(gameId));
+        public Task<ClientContentInfo2> GetContent(Guid gameId) => SendAsync(new GetContent(gameId));
 
-        public Task SelectGame(SelectGame command) => RequestAsync(command);
+        public Task SelectGame(SelectGame command) => SendAsync(command);
 
-        public Task CloseGame(CloseGame command) => RequestAsync(command);
+        public Task CloseGame(CloseGame command) => SendAsync(command);
 
-        public Task PlayContent(PlayContent command) => RequestAsync(command);
+        public Task PlayContent(PlayContent command) => SendAsync(command);
 
-        public Task PlayContents(PlayContents command) => RequestAsync(command);
+        public Task PlayContents(PlayContents command) => SendAsync(command);
 
-        public Task SyncCollections(SyncCollections command) => RequestAsync(command);
+        public Task SyncCollections(SyncCollections command) => SendAsync(command);
 
-        public Task LaunchGame(LaunchGame command) => RequestAsync(command);
+        public Task LaunchGame(LaunchGame command) => SendAsync(command);
 
-        public Task LaunchContent(LaunchContent command) => RequestAsync(command);
+        public Task LaunchContent(LaunchContent command) => SendAsync(command);
 
-        public Task LaunchContents(LaunchContents command) => RequestAsync(command);
+        public Task LaunchContents(LaunchContents command) => SendAsync(command);
 
-        public Task InstallContent(InstallContent command) => RequestAsync(command);
+        public Task InstallContent(InstallContent command) => SendAsync(command);
 
-        public Task UninstallContent(UninstallContent command) => RequestAsync(command);
+        public Task UninstallContent(UninstallContent command) => SendAsync(command);
 
-        public Task InstallCollection(InstallCollection command) => RequestAsync(command);
+        public Task InstallCollection(InstallCollection command) => SendAsync(command);
 
-        public Task DeleteCollection(DeleteCollection command) => RequestAsync(command);
+        public Task DeleteCollection(DeleteCollection command) => SendAsync(command);
 
-        public Task RemoveRecent(RemoveRecent command) => RequestAsync(command);
+        public Task RemoveRecent(RemoveRecent command) => SendAsync(command);
 
-        public Task ClearRecent(ClearRecent command) => RequestAsync(command);
+        public Task ClearRecent(ClearRecent command) => SendAsync(command);
 
-        public Task InstallContents(InstallContents command) => RequestAsync(command);
+        public Task InstallContents(InstallContents command) => SendAsync(command);
 
-        public Task InstallSteamContents(InstallSteamContents command) => RequestAsync(command);
+        public Task InstallSteamContents(InstallSteamContents command) => SendAsync(command);
 
         public Task Next(Guid actionId) => DispatchNextAction(actionId);
 
-        public Task Abort(Pause command) => RequestAsync(command);
+        public Task Abort(Pause command) => SendAsync(command);
 
-        public Task AbortAll() => RequestAsync(new CancelAll());
+        public Task AbortAll() => SendAsync(new CancelAll());
 
-        public Task<string> PrepareFolder() => RequestAsync(new PrepareFolder());
+        public Task<string> PrepareFolder() => SendAsync(new PrepareFolder());
 
-        public Task<IAbsoluteDirectoryPath> GetUploadFolder(GetUploadFolder query) => RequestAsync(query);
+        public Task<IAbsoluteDirectoryPath> GetUploadFolder(GetUploadFolder query) => SendAsync(query);
 
-        public Task<Guid> UploadFolder(UploadFolder command) => RequestAsync(command);
+        public Task<Guid> UploadFolder(UploadFolder command) => SendAsync(command);
 
-        public Task OpenFolder(OpenFolder command) => RequestAsync(command);
+        public Task OpenFolder(OpenFolder command) => SendAsync(command);
     }
 
     public interface IContentClientHub

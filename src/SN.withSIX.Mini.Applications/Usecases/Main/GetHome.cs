@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public GetHomeHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<HomeApiModel> HandleAsync(GetHome request) {
+        public async Task<HomeApiModel> Handle(GetHome request) {
             await GameContext.LoadAll().ConfigureAwait(false);
             var games =
                 await GameContext.Games.Where(x => x.InstalledState.IsInstalled).ToListAsync().ConfigureAwait(false);

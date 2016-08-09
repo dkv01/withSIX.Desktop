@@ -20,6 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MediatR;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -370,7 +371,7 @@ namespace SN.withSIX.Core
         }
     }
 
-    public interface IDomainEvent {}
+    public interface IDomainEvent : INotification, IAsyncNotification { }
 
     public abstract class DomainEvent<T> : IDomainEvent
     {

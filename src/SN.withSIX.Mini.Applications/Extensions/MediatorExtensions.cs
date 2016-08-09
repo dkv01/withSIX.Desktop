@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -24,13 +24,13 @@ namespace SN.withSIX.Mini.Applications.Extensions
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message)
             => message.Execute(Cheat.Mediator);
 
-        public static Task Notify<TMessage>(this TMessage message) where TMessage : class {
+        public static Task Publish<T>(this T message) where T : IAsyncNotification, INotification {
             Cheat.Mediator.Notify(message);
             return Cheat.Mediator.NotifyAsync(message);
         }
 
         public static async Task Raise<TMessage>(this TMessage message) where TMessage : class, IDomainEvent {
-            await message.Notify().ConfigureAwait(false);
+            await message.Publish().ConfigureAwait(false);
             Cheat.MessageBus.SendMessage(message);
         }
 

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Core.Applications.Services
 {
@@ -13,7 +13,7 @@ namespace SN.withSIX.Core.Applications.Services
         Task<TResponseData> Execute(IMediator mediator);
     }
 
-    public interface ICompositeVoidCommand : ICompositeCommand<UnitType> {}
+    public interface ICompositeVoidCommand : ICompositeCommand<Unit> {}
 
     public abstract class CompositeCommand<TResponseData> : ICompositeCommand<TResponseData>
     {
@@ -34,14 +34,14 @@ namespace SN.withSIX.Core.Applications.Services
         // if you need more control, e.g handle exceptions at each stage, use the CompositeCommand<TResponseData> instead and implement Execute
         public override async Task<TResponseData> Execute(IMediator mediator) {
             foreach (var c in _commands)
-                await mediator.RequestAsync(c).ConfigureAwait(false);
-            return await mediator.RequestAsync(_request).ConfigureAwait(false);
+                await mediator.SendAsync(c).ConfigureAwait(false);
+            return await mediator.SendAsync(_request).ConfigureAwait(false);
         }
     }
 
-    public abstract class CompositeCommandBasicVoid : CompositeCommandBasic<UnitType>
+    public abstract class CompositeCommandBasicVoid : CompositeCommandBasic<Unit>
     {
-        protected CompositeCommandBasicVoid(IAsyncRequest<UnitType> request, params IAsyncVoidCommand[] commands)
+        protected CompositeCommandBasicVoid(IAsyncRequest<Unit> request, params IAsyncVoidCommand[] commands)
             : base(request, commands) {}
     }
 }

@@ -3,8 +3,9 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -16,30 +17,36 @@ namespace SN.withSIX.Mini.Applications
             _target = target;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) {
+        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             try {
-                return _target.Request(request);
+                return _target.Send(request);
             } finally {
                 Collect();
             }
         }
 
-        public async Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             try {
-                return await _target.RequestAsync(request).ConfigureAwait(false);
+                return await _target.SendAsync(request).ConfigureAwait(false);
             } finally {
                 Collect();
             }
         }
 
-        public void Notify<TNotification>(TNotification notification) {
-            _target.Notify(notification);
-            Collect();
-        }
+        public void Publish(INotification notification) => _target.Publish(notification);
 
-        public async Task NotifyAsync<TNotification>(TNotification notification) {
-            await _target.NotifyAsync(notification).ConfigureAwait(false);
-            Collect();
+        public Task PublishAsync(IAsyncNotification notification) => _target.PublishAsync(notification);
+
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
+            => _target.PublishAsync(notification, cancellationToken);
+
+        public async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) {
+            try {
+                return await _target.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            } finally {
+                Collect();
+            }
         }
 
         static void Collect() {

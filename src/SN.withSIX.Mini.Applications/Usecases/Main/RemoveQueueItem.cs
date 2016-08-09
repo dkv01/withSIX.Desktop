@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -31,6 +31,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _queueManager = queueManager;
         }
 
-        public Task<UnitType> HandleAsync(RemoveQueueItem request) => _queueManager.RemoveFromQueue(request.Id).Void();
+        public Task<Unit> Handle(RemoveQueueItem request) => _queueManager.RemoveFromQueue(request.Id).Void();
     }
 }

@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 
@@ -14,14 +14,14 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
     public static class UsecaseExecutorExtensions
     {
-        public static Task<TResponseData> RequestAsync<TResponseData>(this IUsecaseExecutor _,
+        public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
             ICompositeCommand<TResponseData> message) => message.ExecuteWrapped();
 
-        public static Task<TResponseData> RequestAsync<TResponseData>(this IUsecaseExecutor _,
+        public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
             IAsyncRequest<TResponseData> message) => message.ExecuteWrapped();
 
-        public static Task<UnitType> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId)
-            => Cheat.Mediator.DispatchNextAction(message => RequestAsync(executor, message), requestId);
+        public static Task<Unit> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId)
+            => Cheat.Mediator.DispatchNextAction(message => SendAsync(executor, message), requestId);
 
         public static IObservable<T> Listen<T>(this IUsecaseExecutor _) => Cheat.MessageBus.Listen<T>();
 
@@ -37,6 +37,6 @@ namespace SN.withSIX.Mini.Applications.Extensions
             */
 
         public static Task OpenWebLink(this IUsecaseExecutor executor, ViewType type, string additional = null)
-            => executor.RequestAsync(new OpenWebLink(type, additional));
+            => executor.SendAsync(new OpenWebLink(type, additional));
     }
 }

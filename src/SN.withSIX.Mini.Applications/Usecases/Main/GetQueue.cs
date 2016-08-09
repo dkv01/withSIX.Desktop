@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -20,6 +20,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _queueManager = queueManager;
         }
 
-        public Task<QueueInfo> HandleAsync(GetQueue request) => Task.FromResult(_queueManager.Queue);
+        public Task<QueueInfo> Handle(GetQueue request) => Task.FromResult(_queueManager.Queue);
     }
 }

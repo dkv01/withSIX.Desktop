@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
@@ -35,14 +35,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<UnitType> HandleAsync(CancelAll request) {
+        public async Task<Unit> Handle(CancelAll request) {
             //await new ActionNotification(Guid.Empty, "Aborting", "", request.ClientId, request.RequestId).Raise() .ConfigureAwait(false);
             await _contentInstallation.Abort().ConfigureAwait(false);
             //            await new ActionNotification(Guid.Empty, "Aborted", "", request.ClientId, request.RequestId).Raise().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
 
-        public async Task<UnitType> HandleAsync(Pause request) {
+        public async Task<Unit> Handle(Pause request) {
             //await new ActionNotification(request.Id, "Aborting", "", request.ClientId, request.RequestId).Raise().ConfigureAwait(false);
             try {
                 await _contentInstallation.Abort(request.Id).ConfigureAwait(false);
@@ -50,7 +50,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 MainLog.Logger.Info($"The game with ID {request.Id} does not appear to be locked. (Already done?)");
             }
             //await new ActionNotification(request.Id, "Aborted", "", request.ClientId, request.RequestId).Raise().ConfigureAwait(false);
-            return UnitType.Default;
+            return Unit.Value;
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -35,12 +35,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _contentSyncer = contentSyncer;
         }
 
-        public async Task<UnitType> HandleAsync(SyncCollections request) {
+        public async Task<Unit> Handle(SyncCollections request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
 
             await DealWithCollections(game, request.Contents).ConfigureAwait(false);
 
-            return UnitType.Default;
+            return Unit.Value;
         }
 
         Task DealWithCollections(Game game, IEnumerable<ContentGuidSpec> contents)

@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using ShortBus;
+using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 
@@ -19,7 +19,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _stateHandler = stateHandler;
         }
 
-        public async Task<ClientInfo> HandleAsync(GetClientInfo request) => _stateHandler.ClientInfo;
+        public async Task<ClientInfo> Handle(GetClientInfo request) => _stateHandler.ClientInfo;
     }
 
     public class ClientInfo
