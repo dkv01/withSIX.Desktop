@@ -35,7 +35,7 @@ using Status = SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Status;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
-    public class StatusModelChanged : IDomainEvent
+    public class StatusModelChanged : ISyncDomainEvent
     {
         public StatusModelChanged(StatusModel model) {
             Status = model;
@@ -364,7 +364,7 @@ namespace SN.withSIX.Mini.Applications.Services
         public ChildActionState ChildAction { get; set; }
     }
 
-    public class ActionTabStateUpdate : IDomainEvent
+    public class ActionTabStateUpdate : ISyncDomainEvent
     {
         public Guid GameId { get; set; }
         public double? Progress { get; set; }
@@ -381,7 +381,7 @@ namespace SN.withSIX.Mini.Applications.Services
         public long? Speed { get; set; }
     }
 
-    class GameTerminated : IDomainEvent
+    class GameTerminated : ISyncDomainEvent
     {
         public GameTerminated(Game game, int processId) {
             Game = game;
@@ -471,7 +471,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
     }
 
-    public class UserErrorResolved : IDomainEvent
+    public class UserErrorResolved : ISyncDomainEvent
     {
         public UserErrorResolved(Guid id, string result) {
             Id = id;
@@ -482,7 +482,7 @@ namespace SN.withSIX.Mini.Applications.Services
         public string Result { get; }
     }
 
-    public class UserErrorAdded : IDomainEvent
+    public class UserErrorAdded : ISyncDomainEvent
     {
         public UserErrorAdded(UserErrorModel userError) {
             UserError = userError;
@@ -491,7 +491,7 @@ namespace SN.withSIX.Mini.Applications.Services
         public UserErrorModel UserError { get; }
     }
 
-    public class ClientInfoUpdated : IDomainEvent
+    public class ClientInfoUpdated : ISyncDomainEvent
     {
         public ClientInfoUpdated(ClientInfo info) {
             Info = info;

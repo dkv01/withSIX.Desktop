@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Applications.Models
         public SecureSettings Secure { get; protected set; }
         public LocalSettings Local { get; protected set; }
 
-        protected void PrepareEvent(IDomainEvent evt) => _domainEventHandler.PrepareEvent(this, evt);
+        protected void PrepareEvent(ISyncDomainEvent evt) => _domainEventHandler.PrepareEvent(this, evt);
 
         public void UpdateLogin(LoginInfo login) {
             Secure.Login = login;
@@ -63,7 +63,7 @@ namespace SN.withSIX.Mini.Applications.Models
         }
     }
 
-    public class ExtensionStateChanged : IDomainEvent
+    public class ExtensionStateChanged : ISyncDomainEvent
     {
         public ExtensionStateChanged(bool state) {
             State = state;

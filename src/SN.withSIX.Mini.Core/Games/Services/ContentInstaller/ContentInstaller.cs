@@ -226,7 +226,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         Task Uninstall(IUninstallContentAction2<IUninstallableContent> action);
     }
 
-    public class StatusChanged : IDomainEvent
+    public class StatusChanged : ISyncDomainEvent
     {
         public StatusChanged(Status status, ProgressInfo info) {
             Contract.Requires<ArgumentNullException>(info != null);
@@ -239,7 +239,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         public Status Status { get; }
     }
 
-    public class ContentStatusChanged : IDomainEvent
+    public class ContentStatusChanged : ISyncDomainEvent
     {
         public ContentStatusChanged(IContent content, ItemState state, double progress = 0, long? speed = null) {
             if (progress.Equals(double.NaN))

@@ -6,7 +6,7 @@ using System;
 
 namespace SN.withSIX.Core
 {
-    public abstract class TimestampedDomainEvent : IDomainEvent, IHaveTimestamp
+    public abstract class TimestampedDomainEvent : ISyncDomainEvent, IHaveTimestamp
     {
         protected TimestampedDomainEvent() {
             // TODO: Or should this rather be set upon the actual saving? hmm

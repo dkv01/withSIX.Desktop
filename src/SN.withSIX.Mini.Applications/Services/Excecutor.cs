@@ -90,7 +90,7 @@ namespace SN.withSIX.Mini.Applications.Services
         private static NotEnoughFreeDiskSpaceException GetException(int error, Exception ex)
             => new NotEnoughFreeDiskSpaceException(WindowsAPIErrorCodes.ToString(error), ex);
     }
-    public class GlobalLocked : IDomainEvent { }
+    public class GlobalLocked : ISyncDomainEvent { }
 
-    public class GlobalUnlocked : IDomainEvent { }
+    public class GlobalUnlocked : ISyncDomainEvent { }
 }

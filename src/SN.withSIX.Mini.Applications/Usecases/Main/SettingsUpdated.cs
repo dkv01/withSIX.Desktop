@@ -6,7 +6,7 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
-    public class SettingsUpdated : DomainEvent<Models.Settings>
+    public class SettingsUpdated : AsyncDomainEvent<Models.Settings>
     {
         public SettingsUpdated(Models.Settings subject) : base(subject) {}
     }

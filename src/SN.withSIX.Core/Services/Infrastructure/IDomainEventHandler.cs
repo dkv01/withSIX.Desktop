@@ -8,7 +8,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
 {
     public interface IDomainEventHandler
     {
-        void PrepareEvent(object obj, IDomainEvent evt);
+        void PrepareEvent(object obj, ISyncDomainEvent evt);
         Task RaiseEvents();
     }
 }

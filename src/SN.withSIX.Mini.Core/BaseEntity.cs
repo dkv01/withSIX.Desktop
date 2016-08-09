@@ -14,7 +14,7 @@ namespace SN.withSIX.Mini.Core
     {
         [IgnoreDataMember] readonly IDomainEventHandler _domainEventHandler = CoreCheat.EventGrabber.Get();
 
-        protected void PrepareEvent(IDomainEvent evt) => _domainEventHandler.PrepareEvent(this, evt);
+        protected void PrepareEvent(ISyncDomainEvent evt) => _domainEventHandler.PrepareEvent(this, evt);
     }
 
     [DataContract]

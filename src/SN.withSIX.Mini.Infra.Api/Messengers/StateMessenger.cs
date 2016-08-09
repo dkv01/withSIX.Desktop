@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using ReactiveUI;
 using MediatR;
@@ -45,12 +46,12 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<UninstallActionCompleted>, INotificationHandler<GameLaunched>,
         INotificationHandler<GameTerminated>,
         INotificationHandler<GlobalLocked>, INotificationHandler<GlobalUnlocked>,
-        INotificationHandler<ActionNotification>
+        IAsyncNotificationHandler<ActionNotification>
     {
         readonly IHubContext<IStatusClientHub> _hubContext =
             GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
 
-        public void Handle(ActionNotification notification) =>
+        public Task Handle(ActionNotification notification) =>
             _hubContext.Clients.All.ActionNotification(notification);
 
         public void Handle(ActionTabStateUpdate notification)

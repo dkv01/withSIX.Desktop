@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
     }
 
 
-    public class LoginChanged : IDomainEvent
+    public class LoginChanged : ISyncDomainEvent
     {
         public LoginChanged(LoginInfo login) {
             LoginInfo = login;
@@ -30,7 +30,7 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
         public LoginInfo LoginInfo { get; }
     }
 
-    public class PremiumTokenUpdatedEvent : IDomainEvent
+    public class PremiumTokenUpdatedEvent : IAsyncDomainEvent
     {
         public PremiumTokenUpdatedEvent(PremiumAccessToken newToken) {
             NewToken = newToken;

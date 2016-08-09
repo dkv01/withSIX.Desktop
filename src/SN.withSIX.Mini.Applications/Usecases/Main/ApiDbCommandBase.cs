@@ -124,7 +124,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         string PauseTitleOverride { get; }
     }
 
-    public class ActionNotification : IDomainEvent
+    public class ActionNotification : IAsyncDomainEvent
     {
         public ActionNotification(Guid gameId, string title, string text, Guid clientId, Guid requestId) {
             GameId = gameId;

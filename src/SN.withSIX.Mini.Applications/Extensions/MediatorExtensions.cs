@@ -24,12 +24,13 @@ namespace SN.withSIX.Mini.Applications.Extensions
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message)
             => message.Execute(Cheat.Mediator);
 
-        public static Task Publish<T>(this T message) where T : IAsyncNotification, INotification {
-            Cheat.Mediator.Notify(message);
-            return Cheat.Mediator.NotifyAsync(message);
-        }
+        // We are using dynamic here because we don't want to care about Async or Sync handlers for notifications
+        public static Task Publish(this IDomainEvent message) => PublishEvent((dynamic) message);
 
-        public static async Task Raise<TMessage>(this TMessage message) where TMessage : class, IDomainEvent {
+        static Task PublishEvent(IAsyncNotification evt) => Cheat.Mediator.PublishAsync(evt);
+        static async Task PublishEvent(INotification evt) => Cheat.Mediator.Publish(evt);
+
+        public static async Task Raise(this IDomainEvent message) {
             await message.Publish().ConfigureAwait(false);
             Cheat.MessageBus.SendMessage(message);
         }

@@ -371,7 +371,9 @@ namespace SN.withSIX.Core
         }
     }
 
-    public interface IDomainEvent : INotification, IAsyncNotification { }
+    public interface IDomainEvent { }
+    public interface IAsyncDomainEvent : IDomainEvent, IAsyncNotification { }
+    public interface ISyncDomainEvent : IDomainEvent, INotification { }
 
     public abstract class DomainEvent<T> : IDomainEvent
     {
@@ -380,6 +382,16 @@ namespace SN.withSIX.Core
             Subject = subject;
         }
         public T Subject { get; }
+    }
+
+    public abstract class SyncDomainEvent<T> : DomainEvent<T>, ISyncDomainEvent
+    {
+        protected SyncDomainEvent(T subject) : base(subject) {}
+    }
+
+    public abstract class AsyncDomainEvent<T> : DomainEvent<T>, IAsyncDomainEvent
+    {
+        protected AsyncDomainEvent(T subject) : base(subject) {}
     }
 
     public static class GameUUids

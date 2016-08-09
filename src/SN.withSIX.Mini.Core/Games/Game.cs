@@ -457,7 +457,7 @@ namespace SN.withSIX.Mini.Core.Games
         public ApiHashes ApiHashes { get; set; }
     }
 
-    public class GameTerminated : IDomainEvent
+    public class GameTerminated : ISyncDomainEvent
     {
         public GameTerminated(Game game, int processId) {
             Game = game;
@@ -468,7 +468,7 @@ namespace SN.withSIX.Mini.Core.Games
         public int ProcessId { get; }
     }
 
-    public class LaunchActionCompleted : IDomainEvent
+    public class LaunchActionCompleted : ISyncDomainEvent
     {
         public LaunchActionCompleted(Game game, int pid) {
             Game = game;
@@ -487,7 +487,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
     }
 
-    public class UninstallActionCompleted : IDomainEvent
+    public class UninstallActionCompleted : ISyncDomainEvent
     {
         public UninstallActionCompleted(IUninstallContentAction<IUninstallableContent> uninstallLocalContentAction,
             Game game) {
@@ -499,7 +499,7 @@ namespace SN.withSIX.Mini.Core.Games
         public Game Game { get; }
     }
 
-    public class InstallActionCompleted : IDomainEvent
+    public class InstallActionCompleted : ISyncDomainEvent
     {
         public InstallActionCompleted(DownloadContentAction action, Game game) {
             Action = action;
@@ -510,7 +510,7 @@ namespace SN.withSIX.Mini.Core.Games
         public DownloadContentAction Action { get; }
     }
 
-    public class GameSettingsUpdated : IDomainEvent
+    public class GameSettingsUpdated : ISyncDomainEvent
     {
         public GameSettingsUpdated(Game game) {
             Game = game;
@@ -534,7 +534,7 @@ namespace SN.withSIX.Mini.Core.Games
         public GameNotInstalledException(string message) : base(message) {}
     }
 
-    public class ContentUsed : IDomainEvent
+    public class ContentUsed : ISyncDomainEvent
     {
         public ContentUsed(Content content, IContentAction<IContent> action) {
             Content = content;
@@ -545,7 +545,7 @@ namespace SN.withSIX.Mini.Core.Games
         public IContentAction<IContent> Action { get; }
     }
 
-    public class ContentInstalled : IDomainEvent
+    public class ContentInstalled : ISyncDomainEvent
     {
         public ContentInstalled(Guid gameId, params IContent[] contentInstalled) {
             GameId = gameId;

@@ -309,7 +309,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
     }
 
-    public class RecentItemRemoved : IDomainEvent
+    public class RecentItemRemoved : ISyncDomainEvent
     {
         public RecentItemRemoved(Content content) {
             Content = content;
