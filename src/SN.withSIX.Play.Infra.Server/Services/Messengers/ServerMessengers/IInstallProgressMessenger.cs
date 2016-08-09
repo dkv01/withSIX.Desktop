@@ -8,19 +8,19 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers
 {
-    public class StatusUpdated : IDomainEvent
+    public class StatusUpdated : ISyncDomainEvent
     {
         public Guid StatusID { get; set; }
         public string FieldName { get; set; }
         public dynamic Value { get; set; }
     }
 
-    public class StatusRemoved : IDomainEvent
+    public class StatusRemoved : ISyncDomainEvent
     {
         public Guid StatusID { get; set; }
     }
 
-    public class StatusAdded : IDomainEvent
+    public class StatusAdded : ISyncDomainEvent
     {
         public string StatusType { get; set; }
         public dynamic StatusModel { get; set; }

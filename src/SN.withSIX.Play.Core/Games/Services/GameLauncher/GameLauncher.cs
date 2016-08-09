@@ -4,10 +4,8 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MediatR;
 using SN.withSIX.Core;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -16,7 +14,8 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
 {
     public interface IGameLauncher
     {
-        Task Notify<T>(T message) where T : IDomainEvent;
+        Task Notify(IAsyncDomainEvent message);
+        Task Notify(ISyncDomainEvent message);
     }
 
     public interface ILaunch
@@ -52,7 +51,8 @@ namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
             _gameLauncherInfra = gameLauncherInfra;
         }
 
-        public Task Notify<T>(T message) where T : IDomainEvent => CalculatedGameSettings.NotifyEnMass(message);
+        public Task Notify(IAsyncDomainEvent message) => CalculatedGameSettings.NotifyEnMass(message);
+        public Task Notify(ISyncDomainEvent message) => CalculatedGameSettings.NotifyEnMass(message);
 
         protected Task<Process> LaunchInternal(LaunchGameInfo info) => _gameLauncherInfra.LaunchInternal(info);
 

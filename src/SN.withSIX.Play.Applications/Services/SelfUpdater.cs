@@ -246,10 +246,14 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        void PublishDomainEvent<TEvent>(TEvent evt) where TEvent : IDomainEvent {
+        void PublishDomainEvent(INotification evt) {
             _eventBus.PublishOnCurrentThread(evt);
             _mediator.Publish(evt);
-            _mediator.PublishAsync(evt); // pff
+        }
+
+        void PublishDomainEvent(IAsyncNotification evt) {
+            _eventBus.PublishOnCurrentThread(evt);
+            _mediator.PublishAsync(evt);
         }
 
         static void RegisterLocalAppKeys(IAbsoluteFilePath exePath) {
@@ -522,9 +526,9 @@ namespace SN.withSIX.Play.Applications.Services
         }
     }
 
-    public class CheckingForNewVersion : IDomainEvent {}
+    public class CheckingForNewVersion : ISyncDomainEvent {}
 
-    public class NewVersionDownloaded : IDomainEvent
+    public class NewVersionDownloaded : ISyncDomainEvent
     {
         public NewVersionDownloaded(Version version) {
             Version = version;
@@ -533,7 +537,7 @@ namespace SN.withSIX.Play.Applications.Services
         public Version Version { get; }
     }
 
-    public class NewVersionAvailable : IDomainEvent
+    public class NewVersionAvailable : ISyncDomainEvent
     {
         public NewVersionAvailable(Version version) {
             Version = version;
@@ -542,7 +546,7 @@ namespace SN.withSIX.Play.Applications.Services
         public Version Version { get; }
     }
 
-    public class NoNewVersionAvailable : IDomainEvent
+    public class NoNewVersionAvailable : ISyncDomainEvent
     {
         public NoNewVersionAvailable(Version version) {
             Version = version;

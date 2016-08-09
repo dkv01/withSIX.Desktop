@@ -7,7 +7,7 @@ using withSIX.Api.Models.Premium;
 
 namespace SN.withSIX.Play.Core.Connect.Events
 {
-    public class TokenUpdatedEvent : IDomainEvent
+    public class TokenUpdatedEvent : IAsyncDomainEvent
     {
         public TokenUpdatedEvent(PremiumAccessTokenV1 premiumToken) {
             PremiumToken = premiumToken;

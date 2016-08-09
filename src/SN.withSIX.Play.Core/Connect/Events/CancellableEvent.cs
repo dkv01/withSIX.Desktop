@@ -7,7 +7,7 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Core.Connect.Events
 {
-    public abstract class CancellableEvent : EventArgs, IDomainEvent
+    public abstract class CancellableEvent : EventArgs, IAsyncDomainEvent
     {
         public bool Cancel { get; set; }
     }

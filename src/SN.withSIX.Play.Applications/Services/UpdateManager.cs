@@ -1583,7 +1583,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
         #endregion
     }
 
-    public class QueuedServerReadyEvent : IDomainEvent
+    public class QueuedServerReadyEvent : ISyncDomainEvent
     {
         public QueuedServerReadyEvent(Server queued) {
             Queued = queued;

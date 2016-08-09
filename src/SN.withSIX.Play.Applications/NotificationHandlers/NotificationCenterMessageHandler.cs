@@ -92,5 +92,5 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
         }
     }
 
-    public class MinimizedEvent : IDomainEvent { }
+    public class MinimizedEvent : ISyncDomainEvent { }
 }

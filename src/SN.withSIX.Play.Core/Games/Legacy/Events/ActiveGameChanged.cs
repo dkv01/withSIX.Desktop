@@ -8,7 +8,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
-    public class ActiveGameChanged : EventArgs, IDomainEvent
+    public class ActiveGameChanged : EventArgs, IAsyncDomainEvent
     {
         public readonly Game Game;
 

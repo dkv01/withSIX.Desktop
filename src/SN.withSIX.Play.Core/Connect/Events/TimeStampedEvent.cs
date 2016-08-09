@@ -7,7 +7,7 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Core.Connect.Events
 {
-    public abstract class TimeStampedEvent : EventArgs, IDomainEvent
+    public abstract class TimeStampedEvent : EventArgs, IAsyncDomainEvent
     {
         public readonly DateTime TimeStamp;
 

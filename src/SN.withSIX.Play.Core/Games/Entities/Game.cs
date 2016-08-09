@@ -450,7 +450,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
         }
     }
 
-    public class PreGameLaunchEvent : IDomainEvent
+    public class PreGameLaunchEvent : IAsyncDomainEvent
     {
         public PreGameLaunchEvent(Game game) {
             Game = game;
@@ -537,7 +537,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
         }
     }
 
-    public class SynqPathChangedEvent : IDomainEvent
+    public class SynqPathChangedEvent : ISyncDomainEvent
     {
         public SynqPathChangedEvent(ISupportModding game, ContentPaths oldPaths, ContentPaths newPaths) {
             Contract.Requires<ArgumentNullException>(game != null);
@@ -551,7 +551,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
         public ContentPaths NewPaths { get; }
     }
 
-    public class ModPathChangedEvent : IDomainEvent
+    public class ModPathChangedEvent : ISyncDomainEvent
     {
         public ModPathChangedEvent(ISupportModding game, ContentPaths oldPaths, ContentPaths newPaths) {
             Contract.Requires<ArgumentNullException>(game != null);
@@ -565,7 +565,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
         public ContentPaths NewPaths { get; }
     }
 
-    public class ModAndSynqPathsChangedEvent : IDomainEvent
+    public class ModAndSynqPathsChangedEvent : ISyncDomainEvent
     {
         public ModAndSynqPathsChangedEvent(ISupportModding game, ContentPaths oldPaths, ContentPaths newPaths) {
             Contract.Requires<ArgumentNullException>(game != null);

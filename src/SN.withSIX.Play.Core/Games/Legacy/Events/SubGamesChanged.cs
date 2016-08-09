@@ -7,7 +7,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
-    public class SubGamesChanged : IDomainEvent
+    public class SubGamesChanged : IAsyncDomainEvent
     {
         public SubGamesChanged(Game gs) {
             Game = gs;

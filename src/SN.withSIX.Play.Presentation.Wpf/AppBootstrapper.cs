@@ -232,7 +232,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
             Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             CalculatedGameSettings.RaiseEvent = Cheat.PublishEvent;
             CalculatedGameSettings.NotifyEnMass = async (message) => {
-                await Cheat.PublishDomainEvent(message).ConfigureAwait(false);
+                await Cheat.PublishDomainEvent((dynamic) message).ConfigureAwait(false);
                 Cheat.PublishEvent(message);
             };
 

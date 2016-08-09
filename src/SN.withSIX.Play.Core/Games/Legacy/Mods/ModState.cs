@@ -228,7 +228,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
     }
 
     [Obsolete("Not used by Web anyway!")]
-    public class ModInfoChangedEvent : IDomainEvent
+    public class ModInfoChangedEvent : ISyncDomainEvent
     {
         public ModInfoChangedEvent(IModInfo modInfo) {
             ModInfo = modInfo;

@@ -20,12 +20,12 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class SubscribedToCollection : global::withSIX.Api.Models.Collections.SubscribedToCollection, IDomainEvent
+    public class SubscribedToCollection : global::withSIX.Api.Models.Collections.SubscribedToCollection, IAsyncDomainEvent
     {
         public SubscribedToCollection(Guid collectionId) : base(collectionId) { }
     }
 
-    public class UnsubscribedFromCollection : global::withSIX.Api.Models.Collections.UnsubscribedFromCollection, IDomainEvent
+    public class UnsubscribedFromCollection : global::withSIX.Api.Models.Collections.UnsubscribedFromCollection, IAsyncDomainEvent
     {
         public UnsubscribedFromCollection(Guid collectionId) : base(collectionId) { }
     }
@@ -141,7 +141,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         }
     }
 
-    public class LoggedInEvent : IDomainEvent {}
+    public class LoggedInEvent : IAsyncDomainEvent { }
 
     public class CollectionSynchronizer : CollectionSynchronizationBase,
         IAsyncRequestHandler<ImportCollectionCommand, Unit>,

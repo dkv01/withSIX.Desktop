@@ -14,10 +14,15 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 {
     public class DefaultDomainEventHandler : IDomainEventHandler
     {
-        readonly ConcurrentDictionary<object, List<ISyncDomainEvent>> _handlers =
-            new ConcurrentDictionary<object, List<ISyncDomainEvent>>();
+        readonly ConcurrentDictionary<object, List<IDomainEvent>> _handlers =
+            new ConcurrentDictionary<object, List<IDomainEvent>>();
 
         public void PrepareEvent(object obj, ISyncDomainEvent evt) {
+            var list = GetList(obj);
+            list.Add(evt);
+        }
+
+        public void PrepareEvent(object obj, IAsyncDomainEvent evt) {
             var list = GetList(obj);
             list.Add(evt);
         }
@@ -28,25 +33,19 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         async Task RaiseEvents(object obj) {
-            List<ISyncDomainEvent> list;
+            List<IDomainEvent> list;
             if (_handlers.TryRemove(obj, out list))
                 await list.RaiseEvents().ConfigureAwait(false);
         }
 
-        List<ISyncDomainEvent> GetList(object obj) => _handlers.GetOrAdd(obj, reference => new List<ISyncDomainEvent>());
+        List<IDomainEvent> GetList(object obj) => _handlers.GetOrAdd(obj, reference => new List<IDomainEvent>());
     }
 
     internal static class EventExtensions
     {
-        public static async Task RaiseEvents(this IEnumerable<ISyncDomainEvent> events) {
+        public static async Task RaiseEvents(this IEnumerable<IDomainEvent> events) {
             foreach (var evt in events)
-                await evt.RaiseEvent().ConfigureAwait(false);
-        }
-
-        private static Task RaiseEvent(this ISyncDomainEvent evt) {
-            // Dynamic to fix the generic type use in the mediator...
-            dynamic notification = evt;
-            return MediatorExtensions.Raise(notification);
+                await evt.Publish().ConfigureAwait(false);
         }
     }
 }

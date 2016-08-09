@@ -11,7 +11,7 @@ using withSIX.Api.Models.Content.v2;
 
 namespace SN.withSIX.Play.Applications.UseCases.Games
 {
-    public class ApiHashesEvent : IDomainEvent
+    public class ApiHashesEvent : IAsyncDomainEvent
     {
         public ApiHashesEvent(ApiHashes hashes) {
             Hashes = hashes;

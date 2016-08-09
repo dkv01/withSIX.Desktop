@@ -1783,7 +1783,7 @@ namespace SN.withSIX.Play.Applications.Services
         public IContent Content { get; set; }
     }
 
-    public class CollectionCreatedEvent : IDomainEvent
+    public class CollectionCreatedEvent : ISyncDomainEvent
     {
         public CollectionCreatedEvent(CustomCollection collection) {}
     }
