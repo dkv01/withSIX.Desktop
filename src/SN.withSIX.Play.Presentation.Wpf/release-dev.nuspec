@@ -62,9 +62,7 @@
         <file src="bin\release\ManyConsole.dll" target="lib\net45\ManyConsole.dll" />
         <file src="bin\release\NDesk.Options.dll" target="lib\net45\NDesk.Options.dll" />
         <file src="bin\release\FluentValidation.dll" target="lib\net45\FluentValidation.dll" />
-        <file src="bin\release\ShortBus.dll" target="lib\net45\ShortBus.dll" />
-        <file src="bin\release\ShortBus.Markers.dll" target="lib\net45\ShortBus.Markers.dll" />
-        <file src="bin\release\ShortBus.SimpleInjector.dll" target="lib\net45\ShortBus.SimpleInjector.dll" />
+        <file src="bin\release\MediatR.dll" target="lib\net45\MediatR.dll" />
         <file src="bin\release\SignalRNetClientProxyMapper.dll" target="lib\net45\SignalRNetClientProxyMapper.dll" />
 
         <file src="bin\release\Telerik.Windows.Controls.dll" target="lib\net45\Telerik.Windows.Controls.dll" />
