@@ -319,6 +319,9 @@ namespace SN.withSIX.Core.Helpers
         }
 
         public static double ToProgress(this int count, int total) => count/(double) total*100;
+        public static double ToProgress(this long count, long total) => count / (double)total * 100;
+        public static double ToProgress(this uint count, uint total) => count / (double)total * 100;
+        public static double ToProgress(this ulong count, ulong total) => count / (double)total * 100;
         public static double ToProgress(this double count, int total) => count/total*100;
     }
 }

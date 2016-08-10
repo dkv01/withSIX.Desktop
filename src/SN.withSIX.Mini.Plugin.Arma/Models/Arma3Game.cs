@@ -19,6 +19,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Api.Models.Games;
 using Player = SN.withSIX.Mini.Core.Games.Player;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
@@ -29,7 +30,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         ServerExecutables = new[] {"arma3server.exe"},
         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
         Dlcs = new[] {"Karts", "Helicopters", "Marksmen"})]
-    [SteamInfo(107410, "Arma 3", DRM = true)]
+    [SteamInfo(SteamGameIds.Arma3, "Arma 3", DRM = true)]
     [RegistryInfo(BohemiaRegistry + @"\ArmA 3", "main")]
     [RvProfileInfo("Arma 3", "Arma 3 - other profiles",
         "Arma3Profile")]

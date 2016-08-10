@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Infra.Api.Downloaders
         }
 
         public async Task Download(DownloadDetails info, IAbsoluteDirectoryPath location, LoginDetails login, Action<long?, double> action = null, CancellationToken ct = default(CancellationToken)) {
-            using (await _l.LockAsync().ConfigureAwait(false)) {
+            using (await _l.LockAsync(ct).ConfigureAwait(false)) {
                 var config = BuildConfig(info, location, action ?? ((l, f) => {}), ct);
                 using (var dl = new ContentDownloader(config)) {
                     dl.InitializeSteam3(login.UserName, login.Password);
