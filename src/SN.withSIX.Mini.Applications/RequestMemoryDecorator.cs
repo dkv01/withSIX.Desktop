@@ -6,44 +6,34 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using SN.withSIX.Core.Applications.Extensions;
 
 namespace SN.withSIX.Mini.Applications
 {
-    public class RequestMemoryDecorator : IMediator
+    public class RequestMemoryDecorator : MediatorDecoratorBase
     {
-        readonly IMediator _target;
+        public RequestMemoryDecorator(IMediator target) : base(target) {}
 
-        public RequestMemoryDecorator(IMediator target) {
-            _target = target;
-        }
-
-        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             try {
-                return _target.Send(request);
+                return base.Send(request);
             } finally {
                 Collect();
             }
         }
 
-        public async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             try {
-                return await _target.SendAsync(request).ConfigureAwait(false);
+                return await base.SendAsync(request).ConfigureAwait(false);
             } finally {
                 Collect();
             }
         }
 
-        public void Publish(INotification notification) => _target.Publish(notification);
-
-        public Task PublishAsync(IAsyncNotification notification) => _target.PublishAsync(notification);
-
-        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
-            => _target.PublishAsync(notification, cancellationToken);
-
-        public async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
             CancellationToken cancellationToken) {
             try {
-                return await _target.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             } finally {
                 Collect();
             }

@@ -6,26 +6,25 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 
 namespace SN.withSIX.Mini.Applications
 {
-    public class DbScopeDecorator : IMediator
+    public class DbScopeDecorator : MediatorDecoratorBase
     {
         readonly IDbContextFactory _factory;
-        readonly IMediator _target;
 
-        public DbScopeDecorator(IMediator target, IDbContextFactory factory) {
-            _target = target;
+        public DbScopeDecorator(IMediator target, IDbContextFactory factory) : base(target) {
             _factory = factory;
         }
 
-        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
             using (var scope = _factory.Create()) {
                 TResponseData v;
                 try {
-                    v = _target.Send(request);
+                    v = base.Send(request);
                 } catch (OperationCanceledException) {
                     // we still want to save on cancelling..
                     if (request is IWrite)
@@ -38,11 +37,11 @@ namespace SN.withSIX.Mini.Applications
             }
         }
 
-        public async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             using (var scope = _factory.Create()) {
                 TResponseData r;
                 try {
-                    r = await _target.SendAsync(request).ConfigureAwait(false);
+                    r = await base.SendAsync(request).ConfigureAwait(false);
                 } catch (OperationCanceledException) {
                     // we still want to save on cancelling..
                     if (request is IWrite)
@@ -55,18 +54,11 @@ namespace SN.withSIX.Mini.Applications
             }
         }
 
-        public void Publish(INotification notification) => _target.Publish(notification);
-
-        public Task PublishAsync(IAsyncNotification notification) => _target.PublishAsync(notification);
-
-        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
-            => _target.PublishAsync(notification, cancellationToken);
-
-        public async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
+        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
             using (var scope = _factory.Create()) {
                 TResponse r;
                 try {
-                    r = await _target.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                    r = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 } catch (OperationCanceledException) {
                     // we still want to save on cancelling..
                     if (request is IWrite)

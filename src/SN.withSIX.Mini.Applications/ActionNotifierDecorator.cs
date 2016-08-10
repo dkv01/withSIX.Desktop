@@ -6,6 +6,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
@@ -15,38 +17,32 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications
 {
-    public class ActionNotifierDecorator : IMediator
+    public class ActionNotifierDecorator : MediatorDecoratorBase
     {
         private readonly IGameSwitcher _gameSwitcher;
         private readonly IDbContextLocator _locator;
         private readonly INetworkContentSyncer _networkSyncer;
-        readonly IMediator _target;
 
-        public ActionNotifierDecorator(IMediator target, IDbContextLocator locator, IGameSwitcher gameSwitcher,
-            INetworkContentSyncer networkSyncer) {
-            _target = target;
+        public ActionNotifierDecorator(IMediator decorated, IDbContextLocator locator, IGameSwitcher gameSwitcher,
+            INetworkContentSyncer networkSyncer) : base(decorated) {
             _locator = locator;
             _gameSwitcher = gameSwitcher;
             _networkSyncer = networkSyncer;
         }
 
-        public TResponseData Send<TResponseData>(IRequest<TResponseData> request)
+        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request)
             =>
                 Perform(request,
-                    () => Task.Factory.StartNew(() => _target.Send(request), TaskCreationOptions.LongRunning))
+                    () => Task.Factory.StartNew(() => base.Send(request), TaskCreationOptions.LongRunning))
                     .WaitAndUnwrapException();
 
-        public Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
-            => Perform(request, () => _target.SendAsync(request));
+        public override Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
+            => Perform(request, () => base.SendAsync(request));
 
-        public Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+        public override Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
             CancellationToken cancellationToken)
-            => Perform(request, () => _target.SendAsync(request, cancellationToken));
+            => Perform(request, () => base.SendAsync(request, cancellationToken));
 
-        public void Publish(INotification notification) => _target.Publish(notification);
-
-        public Task PublishAsync(IAsyncNotification notification) => _target.PublishAsync(notification);
-        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken) => _target.PublishAsync(notification, cancellationToken);
 
         private Task<TResponseData> Perform<TResponseData>(object request, Func<Task<TResponseData>> exec) {
             var act = request as INotifyAction;
