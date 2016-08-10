@@ -23,17 +23,7 @@ namespace SN.withSIX.Steam.Api
             => Observable.Create<T>(observer =>
             {
                 var callback = Callback<T>.Create(observer.OnNext);
-                var r = cancelToken.Register(() =>
-                {
-                    try
-                    {
-                        throw new OperationCanceledException();
-                    }
-                    catch (Exception ex)
-                    {
-                        observer.OnError(ex);
-                    }
-                });
+                var r = cancelToken.Register(() => HandleCanceled(observer));
                 return () => {
                     callback.Unregister();
                     r.Dispose();
@@ -75,23 +65,26 @@ namespace SN.withSIX.Steam.Api
                 callback.Set(apiCall);
                 var r = cancelToken.Register(() =>
                 {
-                    try
-                    {
+                    try {
                         if (callback.IsActive())
                             callback.Cancel();
-                        throw new OperationCanceledException();
-                    }
-                    catch (Exception ex)
-                    {
-                        observer.OnError(ex);
+                    } finally {
+                            HandleCanceled(observer);
                     }
                 });
                 return () =>
                 {
                     if (callback.IsActive())
                         callback.Cancel();
-                    r.Dispose();
+                    if (!cancelToken.IsCancellationRequested)
+                        r.Dispose();
                 };
             });
+
+        private static void HandleCanceled<T>(IObserver<T> observer) {
+            try {
+                observer.OnError(new OperationCanceledException());
+            } catch (OperationCanceledException) {}
+        }
     }
 }
