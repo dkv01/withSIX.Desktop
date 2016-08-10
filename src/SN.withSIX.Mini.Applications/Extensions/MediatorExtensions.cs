@@ -32,7 +32,7 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static async Task Raise(this IDomainEvent message) {
             await message.Publish().ConfigureAwait(false);
-            Cheat.MessageBus.SendMessage(message);
+            Cheat.MessageBus.SendMessage((dynamic)message);
         }
 
         /*
