@@ -30,7 +30,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Commands
             HasOption("workingDirectory=", "The directory you wish to launch Game in.",
                 a => _spec.WorkingDirectory = a);
             HasOption("steamPath=", "Path to Steam", a => _spec.SteamPath = a?.ToAbsoluteDirectoryPath());
-            HasOption("steamID=", "The Steam App ID of the Game being launched", a => _spec.SteamID = a.TryInt());
+            HasOption("steamID=", "The Steam App ID of the Game being launched", a => _spec.SteamID = a.TryUint());
             HasOption("bypassUAC", "Bypass User Account Control", a => _spec.BypassUAC = a != null);
             HasOption("steamDRM", "Launch Game using the Steam DRM system. (Some games may require this)",
                 a => _spec.SteamDRM = a != null);

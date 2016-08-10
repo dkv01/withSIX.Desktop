@@ -464,8 +464,13 @@ namespace SN.withSIX.Core.Extensions
             return int.TryParse(val, out result) ? result : 0;
         }
 
+        public static uint TryUint(this string val) {
+            uint result;
+            return uint.TryParse(val, out result) ? result : 0;
+        }
+
         public static string[] TrySplit(this string settings, char splitStr)
-            => settings == null ? new string[0] : settings.Split(splitStr);
+            => settings?.Split(splitStr) ?? new string[0];
 
         public static string SplitCamelCase(this string str) => Regex.Replace(
             Regex.Replace(

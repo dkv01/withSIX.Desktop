@@ -360,7 +360,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 public string GamePath { get; set; }
                 public bool LegacyLaunch { get; set; }
                 public bool SteamDRM { get; set; }
-                public int SteamID { get; set; }
+                public uint SteamID { get; set; }
                 public IAbsoluteDirectoryPath SteamPath { get; set; }
                 public string WorkingDirectory { get; set; }
                 public ProcessPriorityClass Priority { get; set; }
