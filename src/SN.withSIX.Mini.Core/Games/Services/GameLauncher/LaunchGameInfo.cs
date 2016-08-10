@@ -60,7 +60,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
             IEnumerable<string> startupParameters)
             : base(launchExecutable, expectedExecutable, workingDirectory, startupParameters) {}
 
-        public int SteamAppId { get; set; }
+        public uint SteamAppId { get; set; }
         public bool SteamDRM { get; set; }
     }
 

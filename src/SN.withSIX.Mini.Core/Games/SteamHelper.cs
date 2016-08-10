@@ -45,14 +45,14 @@ namespace SN.withSIX.Mini.Core.Games
 
     public class SteamHelper
     {
-        readonly Dictionary<int, SteamApp> _appCache;
+        readonly Dictionary<uint, SteamApp> _appCache;
         readonly IEnumerable<IAbsoluteDirectoryPath> _baseInstallPaths;
         readonly bool _cache;
         readonly IAbsoluteDirectoryPath _steamPath;
 
         public SteamHelper(KeyValues steamConfig, IAbsoluteDirectoryPath steamPath, bool cache = true) {
             _cache = cache;
-            _appCache = new Dictionary<int, SteamApp>();
+            _appCache = new Dictionary<uint, SteamApp>();
             KeyValues = steamConfig;
             _steamPath = steamPath;
             SteamFound = KeyValues != null || (_steamPath != null && _steamPath.Exists);
@@ -62,7 +62,7 @@ namespace SN.withSIX.Mini.Core.Games
         public KeyValues KeyValues { get; }
         public bool SteamFound { get; }
 
-        KeyValues TryGetConfigByAppId(int appId) {
+        KeyValues TryGetConfigByAppId(uint appId) {
             KeyValues apps = null;
             try {
                 apps = KeyValues.GetKeyValue(new[] {"InstallConfigStore", "Software", "Valve", "Steam", "apps"});
@@ -78,7 +78,7 @@ namespace SN.withSIX.Mini.Core.Games
             }
         }
 
-        public SteamApp TryGetSteamAppById(int appId, bool noCache = false) {
+        public SteamApp TryGetSteamAppById(uint appId, bool noCache = false) {
             if (!SteamFound)
                 throw new NotFoundException("Unable to get Steam App, Steam was not found.");
             try {
@@ -90,7 +90,7 @@ namespace SN.withSIX.Mini.Core.Games
             }
         }
 
-        SteamApp GetSteamAppById(int appId, bool noCache) {
+        SteamApp GetSteamAppById(uint appId, bool noCache) {
             SteamApp app = null;
             if (noCache || !_appCache.ContainsKey(appId)) {
                 app = new SteamApp(appId, GetAppManifestLocation(appId), TryGetConfigByAppId(appId));
@@ -101,10 +101,10 @@ namespace SN.withSIX.Mini.Core.Games
             return app;
         }
 
-        IAbsoluteDirectoryPath GetAppManifestLocation(int appId)
+        IAbsoluteDirectoryPath GetAppManifestLocation(uint appId)
             => _baseInstallPaths.FirstOrDefault(installPath => CheckForAppManifest(appId, installPath));
 
-        bool CheckForAppManifest(int appId, IAbsoluteDirectoryPath installPath)
+        bool CheckForAppManifest(uint appId, IAbsoluteDirectoryPath installPath)
             => installPath.GetChildDirectoryWithName("SteamApps")
                 .GetChildFileWithName("appmanifest_" + appId + ".acf")
                 .Exists;
@@ -136,7 +136,7 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected SteamApp() {}
 
-        public SteamApp(int appId, IAbsoluteDirectoryPath installBase, KeyValues appConfig) {
+        public SteamApp(uint appId, IAbsoluteDirectoryPath installBase, KeyValues appConfig) {
             AppId = appId;
             InstallBase = installBase;
             AppConfig = appConfig;
@@ -145,7 +145,7 @@ namespace SN.withSIX.Mini.Core.Games
             SetAppPath();
         }
 
-        public int AppId { get; }
+        public uint AppId { get; }
         public IAbsoluteDirectoryPath InstallBase { get; }
         public IAbsoluteDirectoryPath AppPath { get; private set; }
         public KeyValues AppManifest { get; private set; }
