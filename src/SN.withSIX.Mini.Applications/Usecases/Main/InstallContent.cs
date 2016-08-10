@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
@@ -19,7 +20,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction("Install")]
-    public class InstallContent : SingleCntentBase, INeedCancellationTokenSource,
+    public class InstallContent : SingleCntentBase, ICancellable,
         IOverrideNotificationTitle, INotifyAction, IHaveNexAction, IUseContent, ICancelable
     {
         public InstallContent(Guid gameId, ContentGuidSpec content) : base(gameId, content) {}
@@ -29,7 +30,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public IAsyncVoidCommandBase GetNextAction()
             => new LaunchContent(GameId, Content);
 
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
         public string ActionTitleOverride => Force ? "Diagnose" : null;
@@ -39,7 +40,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var content = game.Contents.OfType<IInstallableContent>().FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
-            return new DownloadContentAction(CTS.Token,
+            return new DownloadContentAction(CancelToken,
                 new InstallContentSpec(content, Content.Constraint)) {
                     HideLaunchAction = HideLaunchAction,
                     Force = Force,
@@ -50,7 +51,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     }
 
     [ApiUserAction("Install")]
-    public class InstallContents : ContentsBase, INeedCancellationTokenSource,
+    public class InstallContents : ContentsBase, ICancellable,
         IOverrideNotificationTitle, INotifyAction, IHaveNexAction, IUseContent, ICancelable
     {
         public InstallContents(Guid gameId, List<ContentGuidSpec> contents) : base(gameId, contents) {}
@@ -61,12 +62,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public IAsyncVoidCommandBase GetNextAction()
             => new LaunchContents(GameId, Contents) {Name = Name};
 
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
         public string ActionTitleOverride => Force ? "Diagnose" : null;
         public string PauseTitleOverride => Force ? "Cancel" : null;
 
-        public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CTS.Token,
+        public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CancelToken,
             Contents.Select(x => new {Content = game.Contents.FindContentOrThrow(x.Id), x.Constraint})
                 .Select(x => new { Content = x.Content as IInstallableContent, x.Constraint})
                 .Where(x => x.Content != null)
@@ -80,7 +81,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     }
 
     [ApiUserAction("Install")]
-    public class InstallSteamContents : ContentsIntBase, INeedCancellationTokenSource,
+    public class InstallSteamContents : ContentsIntBase, ICancellable,
     IOverrideNotificationTitle, INotifyAction, IHaveNexAction, IUseContent, ICancelable
     {
         public InstallSteamContents(Guid gameId, List<ContentIntSpec> contents) : base(gameId, contents) { }
@@ -99,12 +100,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                                     Name = Name
                                 };
 
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
         public string ActionTitleOverride => Force ? "Diagnose" : null;
         public string PauseTitleOverride => Force ? "Cancel" : null;
 
-        public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CTS.Token,
+        public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CancelToken,
             Contents.Select(x => new { Content = GetOrCreateContent(game, x), x.Constraint })
                 .Select(x => new { Content = x.Content as IInstallableContent, x.Constraint })
                 .Where(x => x.Content != null)

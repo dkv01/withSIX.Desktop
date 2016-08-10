@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core;
@@ -15,7 +16,7 @@ using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
 {
     [ApiUserAction("Launch")]
-    public class LaunchGame : RequestBase, IHaveId<Guid>, INeedCancellationTokenSource, INotifyAction
+    public class LaunchGame : RequestBase, IHaveId<Guid>, ICancellable, INotifyAction
     {
         public LaunchGame(Guid id, LaunchType launchType) {
             Id = id;
@@ -24,13 +25,13 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
 
         public LaunchType LaunchType { get; }
         public Guid Id { get; }
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         public Guid GameId => Id;
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public ILaunchContentAction<Content> GetAction(Game game)
-            => new LaunchContentAction(LaunchType, CTS.Token) {Name = game.Metadata.Name};
+            => new LaunchContentAction(LaunchType, CancelToken) {Name = game.Metadata.Name};
     }
 
     public class LaunchGameHandler : DbCommandBase, IAsyncVoidCommandHandler<LaunchGame>

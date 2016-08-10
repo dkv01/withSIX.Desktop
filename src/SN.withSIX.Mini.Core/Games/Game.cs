@@ -477,16 +477,6 @@ namespace SN.withSIX.Mini.Core.Games
         public Game Game { get; }
     }
 
-    public class DoneCancellationTokenSource : CancellationTokenSource
-    {
-        public bool Disposed { get; set; }
-
-        protected override void Dispose(bool b) {
-            base.Dispose(b);
-            Disposed = true;
-        }
-    }
-
     public class UninstallActionCompleted : ISyncDomainEvent
     {
         public UninstallActionCompleted(IUninstallContentAction<IUninstallableContent> uninstallLocalContentAction,

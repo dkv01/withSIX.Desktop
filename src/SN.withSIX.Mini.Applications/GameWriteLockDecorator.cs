@@ -17,24 +17,6 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications
 {
-    class CTSHandler : IDisposable
-    {
-        private readonly INeedCancellationTokenSource _n;
-
-        public CTSHandler(INeedCancellationTokenSource n) {
-            Contract.Requires<ArgumentNullException>(n != null);
-            _n = n;
-            n.CTS = new DoneCancellationTokenSource();
-        }
-
-        public void Dispose() {
-            _n.CTS?.Dispose();
-            _n.CTS = null;
-        }
-
-        public static CTSHandler Build(INeedCancellationTokenSource n) => n == null ? null : new CTSHandler(n);
-    }
-
     public class GameWriteLockDecorator : MediatorDecoratorBase
     {
         private readonly IGameLocker _gameLocker;
@@ -44,37 +26,44 @@ namespace SN.withSIX.Mini.Applications
         }
 
         public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
-            using (CTSHandler.Build(request as INeedCancellationTokenSource)) {
-                if (!ShouldLock(request))
-                    return Decorated.Send(request);
-                var gameId = (request as IHaveGameId).GameId;
-                return Handle(request, gameId).WaitAndUnwrapException();
-            }
+            if (!ShouldLock(request))
+                return Decorated.Send(request);
+            var gameId = (request as IHaveGameId).GameId;
+            return Handle(request, gameId).WaitAndUnwrapException();
         }
 
         public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
-            using (CTSHandler.Build(request as INeedCancellationTokenSource)) {
-                if (!ShouldLock(request))
-                    return await base.SendAsync(request).ConfigureAwait(false);
-                var gameId = ((IHaveGameId) request).GameId;
-                using (await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
-                    return await base.SendAsync(request).ConfigureAwait(false);
+            if (!ShouldLock(request))
+                return await base.SendAsync(request).ConfigureAwait(false);
+            var gameId = ((IHaveGameId) request).GameId;
+            using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
+                HandleCTS(request, i.Token);
+                return await base.SendAsync(request).ConfigureAwait(false);
             }
         }
 
+        [Obsolete("Canceltoken not used")]
         public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
-            using (CTSHandler.Build(request as INeedCancellationTokenSource)) {
-                if (!ShouldLock(request))
-                    return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-                var gameId = ((IHaveGameId)request).GameId;
-                using (await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
-                    return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            if (!ShouldLock(request))
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            var gameId = ((IHaveGameId)request).GameId;
+            using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
+                HandleCTS(request, i.Token);
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
         }
 
         private async Task<TResponseData> Handle<TResponseData>(IRequest<TResponseData> request, Guid gameId) {
-            using (await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
+            using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
+                HandleCTS(request, i.Token);
                 return Decorated.Send(request);
+            }
+        }
+
+        private void HandleCTS(object request, CancellationToken token) {
+            var a = request as ICancellable;
+            if (a != null)
+                a.CancelToken = token;
         }
 
         private static bool ShouldLock(object request)

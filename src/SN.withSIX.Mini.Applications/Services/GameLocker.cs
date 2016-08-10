@@ -53,11 +53,12 @@ namespace SN.withSIX.Mini.Applications.Services
                 return RegisterCancelInternal(gameId, cancelAction);
         }
 
-        public async Task<IDisposable> ConfirmLock(Guid gameId, bool canAbort = false) {
-            using (await _lock.LockAsync().ConfigureAwait(false))
-                ConfirmLockInternal(gameId, canAbort);
-            return new Disposable(() => ReleaseLock(gameId));
+        public async Task<Info> ConfirmLock(Guid gameId, bool canAbort = false) {
+            using (await _lock.LockAsync().ConfigureAwait(false)) {
+                return new Info(new Disposable(() => ReleaseLock(gameId)), ConfirmLockInternal(gameId, canAbort));
+            }
         }
+
 
         public void ReleaseLock(Guid gameId) {
             using (_lock.Lock())
@@ -121,13 +122,15 @@ namespace SN.withSIX.Mini.Applications.Services
         private IObservable<GameLockChanged> GenerateObservable(Guid gameId)
             => _messageBus.Listen<GameLockChanged>().Where(x => x.GameId == gameId && !x.IsLocked).Take(1);
 
-        private void ConfirmLockInternal(Guid gameId, bool canAbort) {
+        private CancellationToken ConfirmLockInternal(Guid gameId, bool canAbort) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Locking {gameId}");
             if (_list.ContainsKey(gameId))
                 throw new AlreadyLockedException();
-            _list.Add(gameId, new CancellationTokenSource());
+            var cancellationTokenSource = new CancellationTokenSource();
+            _list.Add(gameId, cancellationTokenSource);
             _messageBus.SendMessage(new GameLockChanged(gameId, true, canAbort));
+            return cancellationTokenSource.Token;
         }
 
         private IObservable<Unit> CancelInternal() {

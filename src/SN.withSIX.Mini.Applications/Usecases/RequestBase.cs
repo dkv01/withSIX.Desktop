@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
@@ -48,9 +49,9 @@ namespace SN.withSIX.Mini.Applications.Usecases
 
     public interface INotifyAction : IAsyncVoidCommandBase, IHandleAction, IHaveGameId, INeedGameContents {}
 
-    public interface INeedCancellationTokenSource
+    public interface ICancellable
     {
-        DoneCancellationTokenSource CTS { get; set; }
+        CancellationToken CancelToken { get; set; }
     }
 
     public class NotifyingActionOverrideAttribute : Attribute

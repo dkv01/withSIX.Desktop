@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
@@ -18,17 +19,17 @@ using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction("Play")]
-    public class PlayContent : SingleCntentBase, INeedCancellationTokenSource, INotifyAction, IUseContent, ICancelable
+    public class PlayContent : SingleCntentBase, ICancellable, INotifyAction, IUseContent, ICancelable
     {
         public PlayContent(Guid gameId, ContentGuidSpec content) : base(gameId, content) {}
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public PlayContentAction GetAction(Game game) {
             var content = game.Contents.FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
-            return new PlayContentAction(cancelToken: CTS.Token,
+            return new PlayContentAction(cancelToken: CancelToken,
                 content: new ContentSpec(content, Content.Constraint)) {
                     Name = content.Name,
                     Href = href
@@ -37,16 +38,16 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     }
 
     [ApiUserAction("Play")]
-    public class PlayContents : ContentsBase, INotifyAction, INeedCancellationTokenSource, IUseContent, ICancelable
+    public class PlayContents : ContentsBase, INotifyAction, ICancellable, IUseContent, ICancelable
     {
         public PlayContents(Guid gameId, List<ContentGuidSpec> contents) : base(gameId, contents) {}
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public PlayContentAction GetAction(Game game)
             => new PlayContentAction(
                 Contents.Select(x => new ContentSpec(game.Contents.FindContentOrThrow(x.Id), x.Constraint))
-                    .ToArray(), cancelToken: CTS.Token) {Name = Name, Href = GetHref(game)};
+                    .ToArray(), cancelToken: CancelToken) {Name = Name, Href = GetHref(game)};
     }
 
 

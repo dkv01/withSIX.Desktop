@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Exceptions;
@@ -30,18 +31,18 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
     }
 
     [ApiUserAction("Uninstall")]
-    public class UninstallContent : SingleCntentBase, INeedCancellationTokenSource, INotifyAction, ICancelable
+    public class UninstallContent : SingleCntentBase, ICancellable, INotifyAction, ICancelable
     {
         public UninstallContent(Guid gameId, ContentGuidSpec content) : base(gameId, content) {}
 
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public UninstallLocalContentAction GetAction(Game game) {
             var content = game.Contents.OfType<IUninstallableContent>().FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
-            return new UninstallLocalContentAction(content: new UninstallContentSpec(content, Content.Constraint)) {
+            return new UninstallLocalContentAction(CancelToken, new UninstallContentSpec(content, Content.Constraint)) {
                 Name = content.Name,
                 Href = href
             };
@@ -49,20 +50,20 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
     }
 
     [ApiUserAction("Uninstall")]
-    public class UninstallContents : GameContentBaseWithInfo, INeedCancellationTokenSource, INotifyAction, ICancelable
+    public class UninstallContents : GameContentBaseWithInfo, ICancellable, INotifyAction, ICancelable
     {
         public UninstallContents(Guid gameId, List<Guid> contents) : base(gameId) {
             Ids = contents;
         }
 
         public List<Guid> Ids { get; }
-        public DoneCancellationTokenSource CTS { get; set; }
+        public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public UninstallLocalContentAction GetAction(Game game) => new UninstallLocalContentAction(
             Ids.Select(
                 x => new UninstallContentSpec(game.Contents.OfType<IUninstallableContent>().FindContentOrThrow(x)))
-                .ToArray(), CTS.Token) {Name = Name, Href = GetHref(game)};
+                .ToArray(), CancelToken) {Name = Name, Href = GetHref(game)};
 
 
         public class UninstallInstalledItemHandler : DbCommandBase, IAsyncVoidCommandHandler<UninstallContent>,
