@@ -8,7 +8,7 @@ using MediatR;
 
 namespace SN.withSIX.Core.Applications.Extensions
 {
-    public abstract class MediatorDecoratorBase : DecoratorBase<IMediator>
+    public abstract class MediatorDecoratorBase : DecoratorBase<IMediator>, IMediator
     {
         protected MediatorDecoratorBase(IMediator decorated) : base(decorated) {}
         public virtual TResponse Send<TResponse>(IRequest<TResponse> request) => Decorated.Send(request);
