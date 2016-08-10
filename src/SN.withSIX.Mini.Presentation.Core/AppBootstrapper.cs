@@ -669,6 +669,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 await RunDeinitializers().ConfigureAwait(false);
                 await scope.SaveChangesAsync().ConfigureAwait(false);
             }
+            Cheat.SteamSession?.Dispose();
         }
 
         async Task RunDeinitializers() {

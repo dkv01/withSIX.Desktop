@@ -8,13 +8,14 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using ReactiveUI;
 using MediatR;
+using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Steam.Api;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -43,7 +44,9 @@ namespace SN.withSIX.Mini.Applications
         public void Publish(INotification notification) => _mediator.Publish(notification);
 
         public Task PublishAsync(IAsyncNotification notification) => _mediator.PublishAsync(notification);
-        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken) => _mediator.PublishAsync(notification, cancellationToken);
+
+        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
+            => _mediator.PublishAsync(notification, cancellationToken);
     }
 
     public interface IActionDispatcher : IMediator
@@ -71,6 +74,9 @@ namespace SN.withSIX.Mini.Applications
         public static IMessageBus MessageBus => _cheat.MessageBus;
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
         public static ArgsO Args { get; set; } = new ArgsO();
+
+        [Obsolete("This will be removed once we externalize the Steam actions")]
+        public static SteamSession SteamSession { get; set; }
 
         public static void SetServices(ICheatImpl cheat) {
             if (_cheat != null)

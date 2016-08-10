@@ -278,6 +278,10 @@
       <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>
       <Name>SN.withSIX.Mini.Infra.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Api\SN.withSIX.Steam.Api.csproj">
+      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
+      <Name>SN.withSIX.Steam.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
       <Name>SN.withSIX.Sync.Core</Name>

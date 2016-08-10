@@ -14,6 +14,7 @@ using withSIX.Api.Models.Exceptions;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -23,6 +24,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Social;
+using SN.withSIX.Steam.Api;
 using SN.withSIX.Steam.Core.SteamKit.DepotDownloader;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
@@ -40,8 +42,6 @@ namespace SN.withSIX.Mini.Applications.Services
     {
         readonly IInstallContentAction<IInstallableContent> _action;
         private readonly IAuthProvider _authProvider;
-        private readonly ISteamDownloader _steamDownloader;
-        private readonly IDbContextLocator _contextLocator;
 
         private AverageContainer2 _averageSpeed;
         readonly IContentEngine _contentEngine;
@@ -79,6 +79,7 @@ namespace SN.withSIX.Mini.Applications.Services
         private IAbsoluteDirectoryPath _repoPath;
         IReadOnlyCollection<CustomRepo> _repositories = new List<CustomRepo>();
         Repository _repository;
+        private readonly SteamDepotDownloader _steamDepotDownloader;
 
         public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller, Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine, IAuthProvider authProvider, ISteamDownloader steamDownloader, IDbContextLocator contextLocator) {
             if (action == null)
@@ -93,11 +94,11 @@ namespace SN.withSIX.Mini.Applications.Services
             _statusChange = statusChange;
             _contentEngine = contentEngine;
             _authProvider = authProvider;
-            _steamDownloader = steamDownloader;
-            _contextLocator = contextLocator;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
+            _steamDepotDownloader = new SteamDepotDownloader(steamDownloader, contextLocator);
+
         }
 
         public async Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content) {
@@ -136,7 +137,10 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private async Task PerformInstallation() {
             using (_statusRepo)
-            using (new TimerWithElapsedCancellationAsync(TimeSpan.FromMilliseconds(500), () => TryStatusChange())) {
+            using (
+                Observable.Interval(TimeSpan.FromMilliseconds(500))
+                    .SelectMany(x => Observable.FromAsync(TryStatusChange))
+                    .Subscribe()) {
                 await PrepareGroupsAndRepositories().ConfigureAwait(false);
                 // TODO: make it unneeded to initialize Synq stuff unless we actually need it..
                 if (_action.RemoteInfo != null) {
@@ -230,9 +234,11 @@ namespace SN.withSIX.Mini.Applications.Services
                     .Where(x => ShouldInstallFromSteam(x.Content))
                     .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
             _steamContentToInstall = _steamContent; // TODO
-            _steamProgress = new ProgressComponent("Steam mods");
-            _steamProgress.AddComponents(_steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
-            _progress.AddComponents(_steamProgress);
+            if (_steamContentToInstall.Any()) {
+                _steamProgress = new ProgressComponent("Steam mods");
+                _steamProgress.AddComponents(_steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                _progress.AddComponents(_steamProgress);
+            }
         }
 
         private static bool ShouldInstallFromSteam(INetworkContent content)
@@ -421,68 +427,39 @@ namespace SN.withSIX.Mini.Applications.Services
                     .GetComponents()
                     .OfType<ProgressLeaf>()
                     .ToArray();
+            await HandleSteamSession().ConfigureAwait(false);
             foreach (var cInfo in _steamContentToInstall)
                 await InstallSteam(cInfo.Value, (INetworkContent)cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
             HandleInstallUpdateStats(_steamContentToInstall);
         }
 
-        private async Task InstallSteam(SpecificVersion value, INetworkContent key, ITProgress progress) {
+        private async Task HandleSteamSession() {
+            var appId = _action.Game.GetMetaData<SteamInfoAttribute>().AppId;
+            if (Cheat.SteamSession == null)
+                Cheat.SteamSession = await SteamSession.Start(appId).ConfigureAwait(false);
+            else if (Cheat.SteamSession.AppId != appId)
+                throw new InvalidOperationException(
+                    "Steam was already initialized for another Game, currently you will have to restart the program to continue..");
+        }
+
+        private Task InstallSteam(SpecificVersion value, INetworkContent key, IUpdateSpeedAndProgress progress)
+            => DownloadViaSteamClient(key, progress);
+
+        private Task DownloadViaSteamClient(INetworkContent key, IUpdateSpeedAndProgress progress) {
+            var appId = _action.Game.GetMetaData<SteamInfoAttribute>().AppId;
+            var publisherId = key.Publishers.First(x => x.Publisher == Publisher.Steam).PublisherId;
+            return new SteamDownloader().Download(appId, Convert.ToUInt64(publisherId), progress.Update, _action.CancelToken);
+        }
+
+        private Task DownloadViaDepot(INetworkContent key, ITProgress progress) {
             var publisherId = key.Publishers.First(x => x.Publisher == Publisher.Steam).PublisherId;
             var destination = _action.Paths.Path.GetChildDirectoryWithName(key.PackageName);
             destination.MakeSurePathExists();
-            var settings = await _contextLocator.GetReadOnlySettingsContext().GetSettings().ConfigureAwait(false);
-            var creds = settings.Secure.SteamCredentials;
-            if (creds == null)
-                settings.Secure.SteamCredentials = creds = await RequestSteamCredentials(creds).ConfigureAwait(false);
-
-            ContentDownloader.GetDetails = msg => RequestSteamGuardCode();
-            ContentDownloader.Log = msg => {
-                MainLog.Logger.Info(msg);
-                Console.WriteLine(msg);
-            };
-
-            try1:
-            try {
-                await
-                    _steamDownloader.Download(
-                        Convert.ToUInt64(publisherId),
-                        destination,
-                        new LoginDetails(creds.Username, creds.Password), progress.Update, _action.CancelToken)
-                        .ConfigureAwait(false);
-            } catch (UnauthorizedException ex) {
-                MainLog.Logger.FormattedWarnException(ex, "Steam download failed auth");
-                settings.Secure.SteamCredentials = creds = await RequestSteamCredentials(creds).ConfigureAwait(false);
-                goto try1;
-            }
-        }
-
-        private static async Task<Credentials> RequestSteamCredentials(IAuthInfo creds) {
-            var uer = new UsernamePasswordUserError(new Exception("Missing Steam credentials"),
-                "Steam credentials required", "Please provide the login credentials to download the content from Steam",
-                new Dictionary<string, object> {
-                    {"userName", creds?.Username ?? ""},
-                    {"password", ""} // , currentAuthInfo.Password ?? "" .. lets think about this ;-)
-                });
-            if (await
-                UserError.Throw(uer) !=
-                RecoveryOptionResult.RetryOperation)
-                throw new OperationCanceledException("Steam credentials not provided");
-            return new Credentials((uer.ContextInfo["userName"] as string).Trim(), (uer.ContextInfo["password"] as string).Trim());
-        }
-
-        private static async Task<string> RequestSteamGuardCode() {
-            var uer = new InputUserError(new Exception("Require SteamGuard code"),
-                "SteamGuard code required",
-                "Please provide the guard code to download the content from Steam (from your Authenticator App or sent to your email)",
-                new Dictionary<string, object> {
-                    {"input", ""}
-                });
-            if (await
-                UserError.Throw(uer) !=
-                RecoveryOptionResult.RetryOperation)
-                throw new OperationCanceledException("SteamGuard code not provided");
-            return (uer.ContextInfo["input"] as string).Trim();
+            return
+                _steamDepotDownloader.PerformSteamDepotDownloaderAction(progress, Convert.ToUInt64(publisherId),
+                    destination,
+                    _action.CancelToken);
         }
 
         async Task InstallRepoContent() {

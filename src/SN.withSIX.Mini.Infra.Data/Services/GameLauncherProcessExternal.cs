@@ -251,7 +251,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         public SULaunchGameSteamArgumentsBuilder(LaunchGameWithSteamInfo spec, IAbsoluteDirectoryPath steamPath)
             : base(spec) {
             Contract.Requires<ArgumentNullException>(steamPath != null);
-            Contract.Requires<ArgumentNullException>(spec.SteamAppId != -1);
+            Contract.Requires<ArgumentNullException>(spec.SteamAppId > 0);
             _steamPath = steamPath;
             _spec = spec;
         }

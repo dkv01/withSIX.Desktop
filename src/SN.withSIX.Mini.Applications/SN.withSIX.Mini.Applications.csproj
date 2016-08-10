@@ -230,6 +230,7 @@
     <Compile Include="Services\PlayWithSixImporter.cs" />
     <Compile Include="Services\Queue.cs" />
     <Compile Include="Services\StateHandler.cs" />
+    <Compile Include="Services\SteamDepotDownloader.cs" />
     <Compile Include="Services\SynqInstallerSession.cs" />
     <Compile Include="Services\SynqUninstallerSession.cs" />
     <Compile Include="Services\ToolsCheat.cs" />
@@ -318,6 +319,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>SN.withSIX.Mini.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Api\SN.withSIX.Steam.Api.csproj">
+      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
+      <Name>SN.withSIX.Steam.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
