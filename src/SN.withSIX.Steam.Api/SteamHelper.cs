@@ -23,7 +23,7 @@ namespace SN.withSIX.Steam.Api
             => Observable.Create<T>(observer =>
             {
                 var callback = Callback<T>.Create(observer.OnNext);
-                cancelToken.Register(() =>
+                var r = cancelToken.Register(() =>
                 {
                     try
                     {
@@ -34,7 +34,10 @@ namespace SN.withSIX.Steam.Api
                         observer.OnError(ex);
                     }
                 });
-                return callback.Unregister;
+                return () => {
+                    callback.Unregister();
+                    r.Dispose();
+                };
             });
 
         public static IObservable<T> CreateObservableFromCallback<T>()
@@ -70,7 +73,7 @@ namespace SN.withSIX.Steam.Api
                         observer.OnNext(cb);
                 });
                 callback.Set(apiCall);
-                cancelToken.Register(() =>
+                var r = cancelToken.Register(() =>
                 {
                     try
                     {
@@ -87,6 +90,7 @@ namespace SN.withSIX.Steam.Api
                 {
                     if (callback.IsActive())
                         callback.Cancel();
+                    r.Dispose();
                 };
             });
     }
