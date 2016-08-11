@@ -16,14 +16,16 @@ namespace SN.withSIX.Steam.Api
 {
     public interface ISteamDownloader
     {
-        Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null, CancellationToken cancelToken = default(CancellationToken));
+        Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null,
+            CancellationToken cancelToken = default(CancellationToken));
     }
 
     public class SteamDownloader : ISteamDownloader, IDomainService
     {
-        public async Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null, CancellationToken cancelToken = default(CancellationToken)) {
+        public async Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null,
+            CancellationToken cancelToken = default(CancellationToken)) {
             var pid = new PublishedFileId_t(publishedFileId);
-            var state = (EItemState)SteamUGC.GetItemState(pid);
+            var state = (EItemState) SteamUGC.GetItemState(pid);
             if (state.HasFlag(EItemState.k_EItemStateInstalled)) {
                 progressAction?.Invoke(null, 100);
                 return;
@@ -44,9 +46,9 @@ namespace SN.withSIX.Steam.Api
         private static Action<DownloadInfo> HandleProgress(Action<long?, double> progressAction) {
             var processor = new Progress();
             Action<DownloadInfo> pCb = x => {
-                if (x.Total > 0 && x.Downloaded == x.Total) {
+                if (x.Total > 0 && x.Downloaded == x.Total)
                     progressAction.Invoke(null, 100);
-                } else {
+                else {
                     long? speed;
                     double progress;
                     processor.Process(x.Downloaded, x.Total, out speed, out progress);
@@ -57,8 +59,7 @@ namespace SN.withSIX.Steam.Api
         }
 
         private async Task PerformDownload(AppId_t aid, PublishedFileId_t pid, Action<DownloadInfo> pCb,
-            CancellationToken cancelToken)
-        {
+            CancellationToken cancelToken) {
             var obs2 = ObserveDownloadItemResultForApp(aid, pid, cancelToken).Take(1);
             var t = obs2.ToTask(cancelToken); // in case we get a result before we would be waiting for it..
             DownloadAndConfirm(pid);
@@ -79,17 +80,22 @@ namespace SN.withSIX.Steam.Api
                 .Where(x => x.m_nPublishedFileId == pid);
 
         private static IObservable<DownloadInfo> ObserveDownloadInfo(PublishedFileId_t pid)
-            =>
-                Observable.Interval(TimeSpan.FromSeconds(1))
-                    .Select(_ => GetPublishedFileState(pid))
-                    .DistinctUntilChanged();
+            => Observable.Interval(TimeSpan.FromSeconds(1), SteamHelper._scheduler)
+                .Select(_ => GetPublishedFileState(pid))
+                .DistinctUntilChanged();
 
         private static DownloadInfo GetPublishedFileState(PublishedFileId_t pid) {
             ulong downloaded;
             ulong total;
-            if (!SteamUGC.GetItemDownloadInfo(pid, out downloaded, out total))
-                throw new InvalidOperationException("Cannot retrieve download info for " + pid);
-            return new DownloadInfo(downloaded, total);
+            try {
+                if (!SteamUGC.GetItemDownloadInfo(pid, out downloaded, out total))
+                    throw new InvalidOperationException("Cannot retrieve download info for " + pid);
+                return new DownloadInfo(downloaded, total);
+            } catch (Exception) {
+                throw;
+            } catch {
+                throw new InvalidOperationException("Received a native exception");
+            }
         }
 
         private static void DownloadAndConfirm(PublishedFileId_t pid) {
@@ -119,8 +125,11 @@ namespace SN.withSIX.Steam.Api
         private IObservable<ItemInstalled_t> ObserveInstalledForGame(AppId_t aid, CancellationToken cancelToken)
             => SteamHelper.CreateObservableFromCallback<ItemInstalled_t>(cancelToken).Where(x => x.m_unAppID == aid);
 
-        private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForGame(AppId_t aid, CancellationToken cancelToken)
-            => SteamHelper.CreateObservableFromCallback<DownloadItemResult_t>(cancelToken).Where(x => x.m_unAppID == aid);
+        private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForGame(AppId_t aid,
+            CancellationToken cancelToken)
+            =>
+                SteamHelper.CreateObservableFromCallback<DownloadItemResult_t>(cancelToken)
+                    .Where(x => x.m_unAppID == aid);
 
         private static IObservable<RemoteStorageSubscribePublishedFileResult_t> SubscribeToContent(PublishedFileId_t pid)
             =>

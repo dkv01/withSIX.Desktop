@@ -3,8 +3,8 @@
 // </copyright>
 
 using System;
+using System.Diagnostics;
 using System.IO;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,8 +59,14 @@ namespace SN.withSIX.Steam.Api
             _mSteamApiWarningMessageHook = SteamAPIDebugTextHook;
             SteamClient.SetWarningMessageHook(_mSteamApiWarningMessageHook);
 
-            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), new EventLoopScheduler())
-                .Subscribe(_ => SteamAPI.RunCallbacks());
+            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), SteamHelper._scheduler)
+                .Do(_ => {
+                    try {
+                        SteamAPI.RunCallbacks();
+                    } catch {
+                        Trace.WriteLine("Native exception ocurred while SteamAPI.RunCallbacks()");
+                    }
+                }).Subscribe();
         }
 
         private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)

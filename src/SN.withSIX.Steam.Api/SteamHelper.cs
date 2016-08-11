@@ -4,6 +4,7 @@
 
 using System;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
 using Steamworks;
@@ -12,29 +13,29 @@ namespace SN.withSIX.Steam.Api
 {
     public static class SteamHelper
     {
+        internal static readonly EventLoopScheduler _scheduler = new EventLoopScheduler();
+
         public static IObservable<Unit> FromCancellationToken(this CancellationToken cancelToken)
-            => Observable.Create<Unit>(observer => cancelToken.Register(() =>
-            {
+            => Observable.Create<Unit>(observer => cancelToken.Register(() => {
                 observer.OnNext(Unit.Default);
                 observer.OnCompleted();
-            }));
+            })).ObserveOn(_scheduler);
 
         public static IObservable<T> CreateObservableFromCallback<T>(CancellationToken cancelToken)
-            => Observable.Create<T>(observer =>
-            {
+            => Observable.Create<T>(observer => {
                 var callback = Callback<T>.Create(observer.OnNext);
                 var r = cancelToken.Register(() => HandleCanceled(observer));
                 return () => {
                     callback.Unregister();
                     r.Dispose();
                 };
-            });
+            }).ObserveOn(_scheduler);
 
         public static IObservable<T> CreateObservableFromCallback<T>()
             => Observable.Create<T>(observer => {
                 var callback = Callback<T>.Create(observer.OnNext);
                 return callback.Unregister;
-            });
+            }).ObserveOn(_scheduler);
 
         public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall)
             => Observable.Create<T>(observer => {
@@ -49,37 +50,33 @@ namespace SN.withSIX.Steam.Api
                     if (callback.IsActive())
                         callback.Cancel();
                 };
-            });
+            }).ObserveOn(_scheduler);
 
         public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall,
             CancellationToken cancelToken)
-            => Observable.Create<T>(observer =>
-            {
-                var callback = CallResult<T>.Create((cb, fail) =>
-                {
+            => Observable.Create<T>(observer => {
+                var callback = CallResult<T>.Create((cb, fail) => {
                     if (fail)
                         observer.OnError(new Exception("Failed to complete operation"));
                     else
                         observer.OnNext(cb);
                 });
                 callback.Set(apiCall);
-                var r = cancelToken.Register(() =>
-                {
+                var r = cancelToken.Register(() => {
                     try {
                         if (callback.IsActive())
                             callback.Cancel();
                     } finally {
-                            HandleCanceled(observer);
+                        HandleCanceled(observer);
                     }
                 });
-                return () =>
-                {
+                return () => {
                     if (callback.IsActive())
                         callback.Cancel();
                     if (!cancelToken.IsCancellationRequested)
                         r.Dispose();
                 };
-            });
+            }).ObserveOn(_scheduler);
 
         private static void HandleCanceled<T>(IObserver<T> observer) {
             try {
