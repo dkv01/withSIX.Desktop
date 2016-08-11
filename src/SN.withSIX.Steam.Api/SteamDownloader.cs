@@ -44,10 +44,14 @@ namespace SN.withSIX.Steam.Api
         private static Action<DownloadInfo> HandleProgress(Action<long?, double> progressAction) {
             var processor = new Progress();
             Action<DownloadInfo> pCb = x => {
-                long? speed;
-                double progress;
-                processor.Process(x.Downloaded, x.Total, out speed, out progress);
-                progressAction.Invoke(speed, progress);
+                if (x.Total > 0 && x.Downloaded == x.Total) {
+                    progressAction.Invoke(null, 100);
+                } else {
+                    long? speed;
+                    double progress;
+                    processor.Process(x.Downloaded, x.Total, out speed, out progress);
+                    progressAction.Invoke(speed, progress);
+                }
             };
             return pCb;
         }
@@ -67,7 +71,7 @@ namespace SN.withSIX.Steam.Api
         private static IDisposable ProcessDownloadInfo(PublishedFileId_t pid, Action<DownloadInfo> pCb,
             IObservable<DownloadItemResult_t> obs2) => ObserveDownloadInfo(pid)
                 .TakeUntil(obs2)
-                .Subscribe(pCb);
+                .Subscribe(pCb, () => pCb(new DownloadInfo(ulong.MaxValue, ulong.MaxValue)));
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForApp(AppId_t aid, PublishedFileId_t pid,
             CancellationToken cancelToken)
