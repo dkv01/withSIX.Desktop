@@ -80,14 +80,14 @@ namespace SN.withSIX.Steam.Api
                 .Where(x => x.m_nPublishedFileId == pid);
 
         private static IObservable<DownloadInfo> ObserveDownloadInfo(PublishedFileId_t pid)
-            => Observable.Interval(TimeSpan.FromSeconds(1), SteamHelper._scheduler)
+            => Observable.Interval(TimeSpan.FromMilliseconds(500), SteamHelper.Scheduler)
                 .Select(_ => GetPublishedFileState(pid))
                 .DistinctUntilChanged();
 
         private static DownloadInfo GetPublishedFileState(PublishedFileId_t pid) {
-            ulong downloaded;
-            ulong total;
             try {
+                ulong downloaded;
+                ulong total;
                 if (!SteamUGC.GetItemDownloadInfo(pid, out downloaded, out total))
                     throw new InvalidOperationException("Cannot retrieve download info for " + pid);
                 return new DownloadInfo(downloaded, total);
