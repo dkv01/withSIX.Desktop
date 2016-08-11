@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading;
+using Newtonsoft.Json;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
@@ -51,6 +52,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
 
     public interface ICancellable
     {
+        [JsonIgnore]
         CancellationToken CancelToken { get; set; }
     }
 
