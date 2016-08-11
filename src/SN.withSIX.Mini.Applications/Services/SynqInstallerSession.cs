@@ -80,6 +80,7 @@ namespace SN.withSIX.Mini.Applications.Services
         IReadOnlyCollection<CustomRepo> _repositories = new List<CustomRepo>();
         Repository _repository;
         private readonly SteamDepotDownloader _steamDepotDownloader;
+        private ProgressComponent _steamProcessing;
 
         public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller, Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine, IAuthProvider authProvider, ISteamDownloader steamDownloader, IDbContextLocator contextLocator) {
             if (action == null)
@@ -236,7 +237,9 @@ namespace SN.withSIX.Mini.Applications.Services
             _steamContentToInstall = _steamContent; // TODO
             if (_steamContentToInstall.Any()) {
                 _steamProgress = new ProgressComponent("Steam mods");
-                _steamProgress.AddComponents(_steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                _steamProcessing = new ProgressComponent("Processing");
+                _steamProcessing.AddComponents(_steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                _steamProgress.AddComponents(_steamProcessing);
                 _progress.AddComponents(_steamProgress);
             }
         }
@@ -422,11 +425,10 @@ namespace SN.withSIX.Mini.Applications.Services
             if (_steamContentToInstall.Count == 0)
                 return;
             var i = 0;
-            var contentProgress =
-                _steamProgress
-                    .GetComponents()
-                    .OfType<ProgressLeaf>()
-                    .ToArray();
+            var contentProgress = _steamProcessing
+                .GetComponents()
+                .OfType<ProgressLeaf>()
+                .ToArray();
             await HandleSteamSession().ConfigureAwait(false);
             foreach (var cInfo in _steamContentToInstall)
                 await InstallSteam(cInfo.Value, (INetworkContent)cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
