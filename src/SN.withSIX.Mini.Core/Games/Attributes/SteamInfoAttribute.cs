@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Core.Games.Attributes
 {
@@ -18,6 +19,8 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
             AppId = appId;
         }
 
+        public SteamInfoAttribute(SteamGameIds appId) : this((uint)appId) {}
+
         [Obsolete("We now only require the appId to get the game folder, use the appId only constructor.")]
         public SteamInfoAttribute(uint appId, string folder) {
             Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
@@ -26,6 +29,8 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
             AppId = appId;
             Folder = folder;
         }
+
+        public SteamInfoAttribute(SteamGameIds appId, string folder) : this((uint) appId, folder) {}
 
         public virtual uint AppId { get; }
         [Obsolete("We now only require the appId to get the game folder")]

@@ -206,7 +206,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 _container.RegisterSingleAllInterfaces<IInfrastructureService>(_assemblies);
                 _container.RegisterSingleAllInterfacesAndType<IPresentationService>(_assemblies);
 
-                _container.RegisterSingleton(JsonSerializer.Create(SerializationExtension.DefaultSettings));
+                _container.RegisterSingleton(JsonSerializer.Create(JsonSupport.DefaultSettings));
 
                 _container.RegisterSingleton<IPathConfiguration>(() => Common.Paths);
                 _container.RegisterSingleton<IRestarter>(

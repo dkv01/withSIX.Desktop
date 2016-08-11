@@ -11,6 +11,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Infra.Data.Services;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core.Commands
 {

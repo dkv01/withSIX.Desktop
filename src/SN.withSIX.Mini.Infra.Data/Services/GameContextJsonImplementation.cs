@@ -17,6 +17,7 @@ using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
 {

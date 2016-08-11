@@ -4,6 +4,7 @@
 
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
 {

@@ -13,13 +13,14 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 {
     [Game(GameUUids.Stellaris, Executables = new[] {@"stellaris.exe"}, Name = "Stellaris", IsPublic = false,
         Slug = "Stellaris")]
     [SynqRemoteInfo(GameUUids.Stellaris)]
-    [SteamInfo(281990)]
+    [SteamInfo(SteamGameIds.Stellaris)]
     [DataContract]
     public class StellarisGame : BasicSteamGame
     {

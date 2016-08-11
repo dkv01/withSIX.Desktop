@@ -12,6 +12,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.CE.Models
 {
@@ -20,7 +21,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
         IsPublic = false,
         Slug = "Skyrim")]
     [SynqRemoteInfo(GameUUids.Skyrim)]
-    [SteamInfo(72850)]
+    [SteamInfo(SteamGameIds.Skyrim)]
     [DataContract]
     public class SkyrimGame : BasicSteamGame
     {

@@ -22,6 +22,7 @@ using Disposable = SN.withSIX.Core.Helpers.Disposable;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
+    // TODO: Fix this retarded implementation!!!
     public class GameLocker : IDisposable, IGameLocker, IApplicationService
     {
         private readonly CompositeDisposable _dsp;

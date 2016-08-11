@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Dtos;
+using withSIX.Api.Models.Extensions;
 using ServerAddress = withSIX.Api.Models.ServerAddress;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands

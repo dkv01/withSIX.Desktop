@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using Newtonsoft.Json;
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core
 {
@@ -48,7 +49,7 @@ namespace SN.withSIX.Core
             public void SaveJsonToDiskThroughMemory(object graph, IAbsoluteFilePath filePath, bool pretty = false) {
                 Contract.Requires<ArgumentNullException>(graph != null);
                 Contract.Requires<ArgumentNullException>(filePath != null);
-                SaveJsonToDiskThroughMemory(graph, filePath, SerializationExtension.DefaultSettings, pretty);
+                SaveJsonToDiskThroughMemory(graph, filePath, JsonSupport.DefaultSettings, pretty);
             }
 
             void SaveJsonToDiskThroughMemory(object graph, IAbsoluteFilePath filePath,

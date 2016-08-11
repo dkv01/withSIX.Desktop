@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
 {
@@ -20,7 +21,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         IsPublic = false,
         Slug = "Starbound")]
     [SynqRemoteInfo(GameUUids.Starbound)]
-    [SteamInfo(211820)]
+    [SteamInfo(SteamGameIds.Starbound)]
     [DataContract]
     public class StarboundGame : BasicSteamGame
     {

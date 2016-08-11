@@ -10,13 +10,14 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
     [Game(GameUUids.GTAIV, Name = "GTA 4", Slug = "GTA-4",
         Executables = new[] {"GTAIV\\GTAIV.exe"})]
     //[GTA4ContentCleaning]
-    [SteamInfo(12210, "Grand Theft Auto 4")]
+    [SteamInfo(SteamGameIds.GTA4, "Grand Theft Auto 4")]
     [SynqRemoteInfo(GameUUids.GTAIV)]
     [RegistryInfo(@"Rockstar Games\Grand Theft Auto IV", "InstallFolder")]
     [DataContract]

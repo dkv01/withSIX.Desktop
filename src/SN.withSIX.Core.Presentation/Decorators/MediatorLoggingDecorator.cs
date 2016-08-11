@@ -10,6 +10,7 @@ using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Decorators
 {
