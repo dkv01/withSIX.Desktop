@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace SN.withSIX.Steam.Api
 
         public void Dispose() {
             _callbackRunner.Dispose();
+            SteamHelper.Scheduler?.Dispose();
             SteamAPI.Shutdown();
         }
 
@@ -59,7 +61,8 @@ namespace SN.withSIX.Steam.Api
             _mSteamApiWarningMessageHook = SteamAPIDebugTextHook;
             SteamClient.SetWarningMessageHook(_mSteamApiWarningMessageHook);
 
-            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), SteamHelper._scheduler)
+            SteamHelper.Scheduler = new EventLoopScheduler();
+            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), SteamHelper.Scheduler)
                 .Do(_ => {
                     try {
                         SteamAPI.RunCallbacks();
