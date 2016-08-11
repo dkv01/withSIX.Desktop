@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -74,7 +75,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task Cancel(Guid gameId) {
-            IObservable<Unit> t;
+            Task t;
             using (await _lock.LockAsync().ConfigureAwait(false))
                 t = CancelInternal(gameId);
             await t;
@@ -111,13 +112,15 @@ namespace SN.withSIX.Mini.Applications.Services
             return reg;
         }
 
-        private IObservable<Unit> CancelInternal(Guid gameId) {
+        private Task CancelInternal(Guid gameId) {
             var cts = GetCts(gameId);
             if (cts.IsCancellationRequested)
-                return GenerateObservable(gameId).Select(x => Unit.Value);
-            cts.Cancel();
-            _messageBus.SendMessage(new GameLockChanged(gameId, true, false));
-            return GenerateObservable(gameId).Select(x => Unit.Value);
+                return GenerateObservable(gameId).Select(x => Unit.Value).ToTask();
+            return Task.Run(async () => {
+                _messageBus.SendMessage(new GameLockChanged(gameId, true, false));
+                cts.Cancel();
+                await GenerateObservable(gameId).Select(x => Unit.Value);
+            });
         }
 
         private IObservable<GameLockChanged> GenerateObservable(Guid gameId)
