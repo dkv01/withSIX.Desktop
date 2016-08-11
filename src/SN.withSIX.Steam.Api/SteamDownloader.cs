@@ -59,7 +59,7 @@ namespace SN.withSIX.Steam.Api
         private async Task PerformDownload(AppId_t aid, PublishedFileId_t pid, Action<DownloadInfo> pCb,
             CancellationToken cancelToken)
         {
-            var obs2 = ObserveDownloadItemResultForApp(aid, pid, cancelToken);
+            var obs2 = ObserveDownloadItemResultForApp(aid, pid, cancelToken).Take(1);
             var t = obs2.ToTask(cancelToken); // in case we get a result before we would be waiting for it..
             DownloadAndConfirm(pid);
             using (pCb == null ? null : ProcessDownloadInfo(pid, pCb, obs2)) {

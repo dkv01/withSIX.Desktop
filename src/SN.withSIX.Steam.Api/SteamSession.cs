@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace SN.withSIX.Steam.Api
             _mSteamApiWarningMessageHook = SteamAPIDebugTextHook;
             SteamClient.SetWarningMessageHook(_mSteamApiWarningMessageHook);
 
-            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100))
+            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), new EventLoopScheduler())
                 .Subscribe(_ => SteamAPI.RunCallbacks());
         }
 
