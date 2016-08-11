@@ -97,9 +97,9 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         async Task<IInstallerSession> CreateSession(
             IInstallContentAction<IInstallableContent> action) {
             var session = _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
-            if (action.CancelToken != default(CancellationToken))
-                action.CancelToken.Register(session.Abort);
-            //await _gameLocker.RegisterCancel(action.Game.Id, session.Abort).ConfigureAwait(false);
+            //if (action.CancelToken != default(CancellationToken))
+              //  action.CancelToken.Register(session.Abort);
+            await _gameLocker.RegisterCancel(action.Game.Id, session.Abort).ConfigureAwait(false);
             return session;
         }
 
