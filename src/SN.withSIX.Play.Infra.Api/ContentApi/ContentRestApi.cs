@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi
 {
     // TODO: Replace RestSharp with HttpClient
     class ContentRestApi : RestBase
     {
-        public static readonly JsonSerializerSettings JsonSettings = SerializationExtension.DefaultSettings;
+        public static readonly JsonSerializerSettings JsonSettings = JsonSupport.DefaultSettings;
         //public Task<T> GetJson<T>(string path) {
         //    return Tools.Transfer.GetJson<T>(new Uri(GetApiUrl(), path));
         //}

@@ -26,6 +26,7 @@ using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api
 {
@@ -130,7 +131,7 @@ namespace SN.withSIX.Play.Infra.Api
 #endif
         }
 
-        static JsonSerializer CreateJsonSerializer() => JsonSerializer.Create(SerializationExtension.DefaultSettings);
+        static JsonSerializer CreateJsonSerializer() => JsonSerializer.Create(JsonSupport.DefaultSettings);
 
         void SetConnected(bool connected) {
             if (_isConnected == connected)

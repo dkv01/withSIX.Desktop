@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {

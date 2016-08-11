@@ -22,6 +22,7 @@ using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Infra.Server.Hubs;
 using SN.withSIX.Play.Infra.Server.UseCases;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Server
 {
@@ -96,7 +97,7 @@ namespace SN.withSIX.Play.Infra.Server
 
         Task InvokeGames(IOwinContext context) {
             context.Response.ContentType = "application/json";
-            return context.Response.WriteAsync(JsonConvert.SerializeObject(Mediator.Send(new GetGameInfoQuery()), SerializationExtension.DefaultSettings));
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(Mediator.Send(new GetGameInfoQuery()), JsonSupport.DefaultSettings));
         }
 
         public class MyCorsOptions : CorsOptions

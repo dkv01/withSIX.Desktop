@@ -18,6 +18,7 @@ using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Infra.Data.Services;
 using SN.withSIX.Play.Tests.Core.Support;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Tests.Core.Integration
 {
