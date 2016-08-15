@@ -227,13 +227,9 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private void PrepareSteamContent() {
-            _steamContent =
-                _installableContent
-                    .Except(_groupContent)
-                    .Except(_repoContent)
-                    .Select(x => new {Content = x.Key as INetworkContent, x.Value})
-                    .Where(x => ShouldInstallFromSteam(x.Content))
-                    .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
+            _steamContent = _action.Game.IsSteamGame()
+                ? GetSteamContent()
+                : new Dictionary<IPackagedContent, SpecificVersion>();
             _steamContentToInstall = _steamContent; // TODO
             if (_steamContentToInstall.Any()) {
                 _steamProgress = new ProgressComponent("Steam mods");
@@ -242,6 +238,15 @@ namespace SN.withSIX.Mini.Applications.Services
                 _steamProgress.AddComponents(_steamProcessing);
                 _progress.AddComponents(_steamProgress);
             }
+        }
+
+        private Dictionary<IPackagedContent, SpecificVersion> GetSteamContent() {
+            return _installableContent
+                .Except(_groupContent)
+                .Except(_repoContent)
+                .Select(x => new {Content = x.Key as INetworkContent, x.Value})
+                .Where(x => ShouldInstallFromSteam(x.Content))
+                .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
         }
 
         private static bool ShouldInstallFromSteam(INetworkContent content)

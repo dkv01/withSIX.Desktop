@@ -21,6 +21,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Content.v2;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -442,6 +443,9 @@ namespace SN.withSIX.Mini.Core.Games
             ConfirmInstalled();
             GetRunningInstances().ForEach(x => x.Item1.TryKill());
         }
+
+        private static readonly Guid[] SteamGames = {GameGuids.Starbound, GameGuids.Stellaris, GameGuids.Skyrim};
+        public bool IsSteamGame() => SteamGames.Contains(Id);
     }
 
     public class ApiHashes : global::withSIX.Api.Models.Content.v3.ApiHashes {}
