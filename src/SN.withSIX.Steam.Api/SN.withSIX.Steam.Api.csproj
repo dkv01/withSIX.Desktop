@@ -97,13 +97,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\withSIX.Desktop\src\SN.withSIX.Core\SN.withSIX.Core.csproj">
-      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
+    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>SN.withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\withSIX.Desktop\src\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
-      <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
