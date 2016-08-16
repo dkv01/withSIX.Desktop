@@ -650,9 +650,8 @@ namespace SN.withSIX.Mini.Applications.Services
                 r.ConfirmSuccess();
             }
 
-            private static IAbsoluteFilePath GetHelperExecutable() => Assembly.GetEntryAssembly()
-                .Location.ToAbsoluteFilePath()
-                .GetBrotherFileWithName("SteamHelper.exe");
+            private static IAbsoluteFilePath GetHelperExecutable() => Common.Paths.AppPath
+                .GetChildFileWithName("SteamHelper.exe");
 
             private IEnumerable<string> GetHelperParameters() => new[] {_appId.ToString()}.Concat(_content.Keys.Select(Selector));
 
