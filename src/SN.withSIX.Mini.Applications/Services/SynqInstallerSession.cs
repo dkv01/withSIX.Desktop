@@ -457,7 +457,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var appId = _action.Game.GetMetaData<SteamInfoAttribute>().AppId;
             var publisherId = key.Publishers.First(x => x.Publisher == Publisher.Steam).PublisherId;
             return new SteamDownloader().Download(appId, Convert.ToUInt64(publisherId), progress.Update,
-                _action.CancelToken);
+                _action.CancelToken, _action.Force || !_action.Paths.Path.GetChildDirectoryWithName(publisherId).Exists);
         }
 
         private Task DownloadViaDepot(INetworkContent key, ITProgress progress) {

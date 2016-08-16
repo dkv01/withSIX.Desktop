@@ -17,30 +17,38 @@ namespace SN.withSIX.Steam.Api
     public interface ISteamDownloader
     {
         Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null,
-            CancellationToken cancelToken = default(CancellationToken));
+            CancellationToken cancelToken = default(CancellationToken), bool force = false);
     }
 
     public class SteamDownloader : ISteamDownloader, IDomainService
     {
         public async Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null,
-            CancellationToken cancelToken = default(CancellationToken)) {
+            CancellationToken cancelToken = default(CancellationToken), bool force = false) {
             var pid = new PublishedFileId_t(publishedFileId);
             var state = (EItemState) SteamUGC.GetItemState(pid);
-            if (state.HasFlag(EItemState.k_EItemStateInstalled)) {
+            if (!force && !state.RequiresDownloading()) {
                 progressAction?.Invoke(null, 100);
                 return;
             }
 
-            var aid = new AppId_t(appId);
-            if ( /* shouldSubscribe && */ !state.HasFlag(EItemState.k_EItemStateSubscribed))
-                await SubscribeAndConfirm(pid).ConfigureAwait(false);
+            await HandleSubscription(force, state, pid).ConfigureAwait(false);
 
             if (progressAction != null)
                 HandleProgress(progressAction);
 
             await
-                PerformDownload(aid, pid, progressAction != null ? HandleProgress(progressAction) : null, cancelToken)
+                PerformDownload(appId, pid, progressAction != null ? HandleProgress(progressAction) : null, cancelToken)
                     .ConfigureAwait(false);
+        }
+
+        private static async Task HandleSubscription(bool force, EItemState state, PublishedFileId_t pid) {
+            var isSubscribed = state.HasFlag(EItemState.k_EItemStateSubscribed);
+            if (force && isSubscribed) {
+                await UnsubscribeAndConfirm(pid).ConfigureAwait(false);
+                isSubscribed = false;
+            }
+            if (!isSubscribed)
+                await SubscribeAndConfirm(pid).ConfigureAwait(false);
         }
 
         private static Action<DownloadInfo> HandleProgress(Action<long?, double> progressAction) {
@@ -58,8 +66,9 @@ namespace SN.withSIX.Steam.Api
             return pCb;
         }
 
-        private async Task PerformDownload(AppId_t aid, PublishedFileId_t pid, Action<DownloadInfo> pCb,
+        private async Task PerformDownload(uint appId, PublishedFileId_t pid, Action<DownloadInfo> pCb,
             CancellationToken cancelToken) {
+            var aid = new AppId_t(appId);
             var obs2 = ObserveDownloadItemResultForApp(aid, pid, cancelToken).Take(1);
             var t = obs2.ToTask(cancelToken); // in case we get a result before we would be waiting for it..
             DownloadAndConfirm(pid);
@@ -167,6 +176,12 @@ namespace SN.withSIX.Steam.Api
                 _lastTime = now;
             }
         }
+    }
+
+    public static class Extensions
+    {
+        public static bool RequiresDownloading(this EItemState state)
+            => !state.HasFlag(EItemState.k_EItemStateInstalled) || state.HasFlag(EItemState.k_EItemStateNeedsUpdate);
     }
 
     public struct DownloadInfo : IEquatable<DownloadInfo>
