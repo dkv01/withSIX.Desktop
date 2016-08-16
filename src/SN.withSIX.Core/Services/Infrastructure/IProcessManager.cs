@@ -78,5 +78,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
         public LaunchAndProcessInfo(ProcessStartInfo startInfo) : base(startInfo) {}
         public Action<Process, string> StandardOutputAction { get; set; }
         public Action<Process, string> StandardErrorAction { get; set; }
+        public Func<IObservable<string>, IDisposable> StandardOutputObs { get; set; }
+        public Func<IObservable<string>, IDisposable> StandardErrorObs { get; set; }
     }
 }

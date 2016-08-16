@@ -312,19 +312,26 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         static IDisposable SetupStandardError(LaunchAndProcessInfo info, ReactiveProcess process) {
-            if (info.StandardErrorAction == null)
-                return null;
             if (!info.StartInfo.RedirectStandardError)
                 throw new InvalidOperationException("Not redirected error");
-            return process.StandardErrorObservable.Subscribe(data => info.StandardErrorAction(process, data));
+
+            var dsp = new CompositeDisposable();
+            if (info.StandardErrorObs != null)
+                dsp.Add(info.StandardErrorObs(process.StandardErrorObservable));
+            if (info.StandardErrorAction != null)
+                dsp.Add(process.StandardErrorObservable.Subscribe(data => info.StandardErrorAction(process, data)));
+            return dsp;
         }
 
         static IDisposable SetupStandardOutput(LaunchAndProcessInfo info, ReactiveProcess process) {
-            if (info.StandardOutputAction == null)
-                return null;
             if (!info.StartInfo.RedirectStandardOutput)
                 throw new InvalidOperationException("Not redirected output");
-            return process.StandardOutputObservable.Subscribe(data => info.StandardOutputAction(process, data));
+            var dsp = new CompositeDisposable();
+            if (info.StandardOutputObs != null)
+                dsp.Add(info.StandardOutputObs(process.StandardOutputObservable));
+            if (info.StandardOutputAction != null)
+                dsp.Add(process.StandardOutputObservable.Subscribe(data => info.StandardOutputAction(process, data)));
+            return dsp;
         }
 
         public async Task<ProcessExitResultWithOutput> LaunchAndGrabAsync(BasicLaunchInfo info) {
