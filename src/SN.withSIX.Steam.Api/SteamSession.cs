@@ -36,7 +36,7 @@ namespace SN.withSIX.Steam.Api
         private static void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText) {
             var message = pchDebugText.ToString();
             MainLog.Logger.Debug(message);
-            Console.WriteLine(message);
+            Console.Error.WriteLine(message);
         }
 
         public static async Task<SteamSession> Start(uint appId) {

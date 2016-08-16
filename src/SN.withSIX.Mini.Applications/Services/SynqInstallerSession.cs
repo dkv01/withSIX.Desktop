@@ -635,12 +635,16 @@ namespace SN.withSIX.Mini.Applications.Services
             }
 
             public async Task Install(CancellationToken cancelToken) {
+                var helperExe = GetHelperExecutable();
                 var r =
                     await
                         Tools.ProcessManager.LaunchAndProcessAsync(
-                            new LaunchAndProcessInfo(new ProcessStartInfo(GetHelperExecutable().ToString(),
-                                GetHelperParameters().CombineParameters())) {
+                            new LaunchAndProcessInfo(new ProcessStartInfo(helperExe.ToString(),
+                                GetHelperParameters().CombineParameters()) {
+                                    WorkingDirectory = helperExe.ParentDirectoryPath.ToString()
+                                }) {
                                     StandardOutputAction = _steamHelperParser.ProcessProgress,
+                                    StandardErrorAction = (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
                                     CancellationToken = cancelToken
                                 }).ConfigureAwait(false);
                 r.ConfirmSuccess();
@@ -661,7 +665,7 @@ namespace SN.withSIX.Mini.Applications.Services
             {
                 private static readonly Regex rxStart = new Regex(@"Starting (\d+)");
                 private static readonly Regex rxEnd = new Regex(@"Finished (\d+)");
-                private static readonly Regex rxProgress = new Regex(@"(\d*)/s (\d+(\.\d+)?)%");
+                private static readonly Regex rxProgress = new Regex(@"(\d*)/s (\d+([\.,]\d+)?)%");
                 private readonly Dictionary<ulong, ProgressLeaf> _content;
                 private ProgressLeaf _current;
 
