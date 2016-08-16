@@ -43,6 +43,7 @@
 		<file src="bin\release\SN.withSIX.Steam.Api.dll" target="lib\net45\SN.withSIX.Steam.Api.dll" />
         <file src="bin\release\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
 		
+		<file src="bin\release\SteamHelper.exe" target="lib\net45\SteamHelper.exe" />
 		<file src="bin\release\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
 		<file src="bin\release\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 		<file src="bin\release\steam_api.dll" target="lib\net45\steam_api.dll" />

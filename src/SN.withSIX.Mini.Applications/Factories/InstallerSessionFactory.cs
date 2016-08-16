@@ -17,20 +17,16 @@ namespace SN.withSIX.Mini.Applications.Factories
     public class InstallerSessionFactory : IINstallerSessionFactory, IApplicationService
     {
         private readonly IAuthProvider _authProvider;
-        private readonly ISteamDownloader _steamDownloader;
-        private readonly IDbContextLocator _contextLocator;
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _isPremium;
         readonly IToolsCheat _toolsInstaller;
 
         public InstallerSessionFactory(Func<bool> isPremium, IToolsCheat toolsInstaller,
-            IContentEngine contentEngine, IAuthProvider authProvider, ISteamDownloader steamDownloader, IDbContextLocator contextLocator) {
+            IContentEngine contentEngine, IAuthProvider authProvider) {
             _isPremium = isPremium;
             _toolsInstaller = toolsInstaller;
             _contentEngine = contentEngine;
             _authProvider = authProvider;
-            _steamDownloader = steamDownloader;
-            _contextLocator = contextLocator;
         }
 
         public IInstallerSession Create(
@@ -39,7 +35,7 @@ namespace SN.withSIX.Mini.Applications.Factories
             switch (action.InstallerType) {
             case InstallerType.Synq:
                 return new SynqInstallerSession(action, _toolsInstaller, _isPremium, progress, _contentEngine,
-                    _authProvider, _steamDownloader, _contextLocator);
+                    _authProvider);
             default:
                 throw new NotSupportedException(action.InstallerType + " is not supported!");
             }

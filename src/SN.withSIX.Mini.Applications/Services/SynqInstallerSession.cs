@@ -5,27 +5,26 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Core.Social;
 using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Core.SteamKit.DepotDownloader;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
@@ -34,7 +33,9 @@ using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Extensions;
 using CheckoutType = SN.withSIX.Mini.Core.Games.CheckoutType;
+using Group = SN.withSIX.Mini.Core.Social.Group;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
@@ -42,8 +43,6 @@ namespace SN.withSIX.Mini.Applications.Services
     {
         readonly IInstallContentAction<IInstallableContent> _action;
         private readonly IAuthProvider _authProvider;
-
-        private AverageContainer2 _averageSpeed;
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _getIsPremium;
         readonly List<Tuple<IPackagedContent, string>> _installed = new List<Tuple<IPackagedContent, string>>();
@@ -55,7 +54,10 @@ namespace SN.withSIX.Mini.Applications.Services
         readonly IToolsCheat _toolsInstaller;
         private Dictionary<IPackagedContent, SpecificVersion> _allContentToInstall;
         private Dictionary<IContent, string> _allInstallableContent = new Dictionary<IContent, string>();
-        private Dictionary<IPackagedContent, SpecificVersion> _groupContent = new Dictionary<IPackagedContent, SpecificVersion>();
+
+        private AverageContainer2 _averageSpeed;
+        private Dictionary<IPackagedContent, SpecificVersion> _groupContent =
+            new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _groupContentToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private SixSyncProgress _groupProgress;
@@ -68,21 +70,24 @@ namespace SN.withSIX.Mini.Applications.Services
             new Dictionary<IPackagedContent, SpecificVersion>();
         private IAbsoluteDirectoryPath _packPath;
         PackageManager _pm;
-        private Dictionary<IPackagedContent, SpecificVersion> _steamContent = new Dictionary<IPackagedContent, SpecificVersion>();
-        private Dictionary<IPackagedContent, SpecificVersion> _steamContentToInstall =
+        private Dictionary<IPackagedContent, SpecificVersion> _repoContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
-        private ProgressComponent _steamProgress;
-        private Dictionary<IPackagedContent, SpecificVersion> _repoContent = new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _repoContentToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
-        private SixSyncProgress _repoProgress;
         private IAbsoluteDirectoryPath _repoPath;
+        private SixSyncProgress _repoProgress;
         IReadOnlyCollection<CustomRepo> _repositories = new List<CustomRepo>();
         Repository _repository;
-        private readonly SteamDepotDownloader _steamDepotDownloader;
+        private Dictionary<IPackagedContent, SpecificVersion> _steamContent =
+            new Dictionary<IPackagedContent, SpecificVersion>();
+        private Dictionary<IPackagedContent, SpecificVersion> _steamContentToInstall =
+            new Dictionary<IPackagedContent, SpecificVersion>();
         private ProgressComponent _steamProcessing;
+        private ProgressComponent _steamProgress;
 
-        public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller, Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine, IAuthProvider authProvider, ISteamDownloader steamDownloader, IDbContextLocator contextLocator) {
+        public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
+            Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
+            IAuthProvider authProvider) {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
             if (toolsInstaller == null)
@@ -98,8 +103,6 @@ namespace SN.withSIX.Mini.Applications.Services
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
-            _steamDepotDownloader = new SteamDepotDownloader(steamDownloader, contextLocator);
-
         }
 
         public async Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content) {
@@ -150,9 +153,8 @@ namespace SN.withSIX.Mini.Applications.Services
                         await UpdateSynqRemotes().ConfigureAwait(false);
                         await InstallContent().ConfigureAwait(false);
                     }
-                } else {
+                } else
                     await InstallContent().ConfigureAwait(false);
-                }
             }
         }
 
@@ -203,7 +205,8 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Consider if instead we want to Concat up the Content, for a later all-at-once execution instead...
             // but then it would be bad to have an Install command on Content class, but not actually finish installing before the method ends
             // so instead we should have a Query on content then.
-            _installableContent = content.ToDictionary(x => x.Content, x => new SpecificVersion(x.Content.GetFQN(x.Constraint)))
+            _installableContent = content.ToDictionary(x => x.Content,
+                x => new SpecificVersion(x.Content.GetFQN(x.Constraint)))
                 .Where(x => !_installedContent.Contains(x.Value))
                 .ToDictionary(x => x.Key, x => x.Value);
 
@@ -234,7 +237,8 @@ namespace SN.withSIX.Mini.Applications.Services
             if (_steamContentToInstall.Any()) {
                 _steamProgress = new ProgressComponent("Steam mods");
                 _steamProcessing = new ProgressComponent("Processing");
-                _steamProcessing.AddComponents(_steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                _steamProcessing.AddComponents(
+                    _steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
                 _steamProgress.AddComponents(_steamProcessing);
                 _progress.AddComponents(_steamProgress);
             }
@@ -275,7 +279,8 @@ namespace SN.withSIX.Mini.Applications.Services
                 .Except(_steamContent)
                 .ToDictionary(x => x.Key, x => x.Value);
             if (_action.RemoteInfo == null) {
-                if (_packageContent.Any()) throw new NotSupportedException("This game currently does not support SynqPackages");
+                if (_packageContent.Any())
+                    throw new NotSupportedException("This game currently does not support SynqPackages");
                 _packagesToInstall = _packageContent;
             } else {
                 var remotePackageIndex = _pm.GetPackagesAsVersions(true);
@@ -386,10 +391,11 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         async Task PerformPostInstallTasks(Dictionary<IPackagedContent, SpecificVersion> installableContent) {
-            foreach (var c in installableContent)
+            foreach (var c in installableContent) {
                 await
                     c.Key.PostInstall(this, _action.CancelToken, _installedContent.Contains(c.Value))
                         .ConfigureAwait(false);
+            }
         }
 
         Task InstallToolsIfNeeded() => _toolsInstaller.SingleToolsInstallTask();
@@ -410,9 +416,11 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private void HandleInstallUpdateStats(Dictionary<IPackagedContent, SpecificVersion> contentToInstall) {
-            foreach (var c in contentToInstall.Where(x => x.Key.GetState(x.Value.VersionData) == ItemState.NotInstalled))
+            foreach (var c in contentToInstall.Where(x => x.Key.GetState(x.Value.VersionData) == ItemState.NotInstalled)
+                )
                 HandleInstallStats(c.Key);
-            foreach (var c in contentToInstall.Where(x => x.Key.GetState(x.Value.VersionData) == ItemState.UpdateAvailable))
+            foreach (
+                var c in contentToInstall.Where(x => x.Key.GetState(x.Value.VersionData) == ItemState.UpdateAvailable))
                 HandleUpdateStats(c.Key);
         }
 
@@ -429,45 +437,29 @@ namespace SN.withSIX.Mini.Applications.Services
         async Task InstallSteamContent() {
             if (_steamContentToInstall.Count == 0)
                 return;
-            var i = 0;
+            await PerformInstallSteamContent().ConfigureAwait(false);
+            HandleInstallUpdateStats(_steamContentToInstall);
+        }
+
+        private async Task PerformInstallSteamContent() {
             var contentProgress = _steamProcessing
                 .GetComponents()
                 .OfType<ProgressLeaf>()
                 .ToArray();
-            await HandleSteamSession().ConfigureAwait(false);
-            foreach (var cInfo in _steamContentToInstall)
-                await InstallSteam(cInfo.Value, (INetworkContent)cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
+            var i = 0;
+            var session =
+                new SteamExternalInstallerSession(
+                    _action.Game.GetMetaData<SteamInfoAttribute>().AppId,
+                    _action.Paths.Path,
+                    // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
+                    _steamContentToInstall.ToDictionary(
+                        x =>
+                            Convert.ToUInt64(
+                                ((INetworkContent) x.Key).Publishers.First(p => p.Publisher == Publisher.Steam)
+                                    .PublisherId),
+                        x => contentProgress[i++]));
+            await session.Install(_action.CancelToken).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
-            HandleInstallUpdateStats(_steamContentToInstall);
-        }
-
-        private async Task HandleSteamSession() {
-            var appId = _action.Game.GetMetaData<SteamInfoAttribute>().AppId;
-            if (Cheat.SteamSession == null)
-                Cheat.SteamSession = await SteamSession.Start(appId).ConfigureAwait(false);
-            else if (Cheat.SteamSession.AppId != appId)
-                throw new InvalidOperationException(
-                    "Steam was already initialized for another Game, currently you will have to restart the program to continue..");
-        }
-
-        private Task InstallSteam(SpecificVersion value, INetworkContent key, IUpdateSpeedAndProgress progress)
-            => DownloadViaSteamClient(key, progress);
-
-        private Task DownloadViaSteamClient(INetworkContent key, IUpdateSpeedAndProgress progress) {
-            var appId = _action.Game.GetMetaData<SteamInfoAttribute>().AppId;
-            var publisherId = key.Publishers.First(x => x.Publisher == Publisher.Steam).PublisherId;
-            return new SteamDownloader().Download(appId, Convert.ToUInt64(publisherId), progress.Update,
-                _action.CancelToken, _action.Force || !_action.Paths.Path.GetChildDirectoryWithName(publisherId).Exists);
-        }
-
-        private Task DownloadViaDepot(INetworkContent key, ITProgress progress) {
-            var publisherId = key.Publishers.First(x => x.Publisher == Publisher.Steam).PublisherId;
-            var destination = _action.Paths.Path.GetChildDirectoryWithName(key.PackageName);
-            destination.MakeSurePathExists();
-            return
-                _steamDepotDownloader.PerformSteamDepotDownloaderAction(progress, Convert.ToUInt64(publisherId),
-                    destination,
-                    _action.CancelToken);
         }
 
         async Task InstallRepoContent() {
@@ -514,21 +506,24 @@ namespace SN.withSIX.Mini.Applications.Services
                             .FirstOrDefault(
                                 c => c.PackageName.Equals(x.MetaData.Name, StringComparison.CurrentCultureIgnoreCase)),
                         x.MetaData.GetVersionInfo()))
-                .Where(x => x.Item1 != null); // Null check because we might download additional packages defined in package dependencies :S
+                .Where(x => x.Item1 != null);
+            // Null check because we might download additional packages defined in package dependencies :S
             _installed.AddRange(installedContent);
             _installedContent.AddRange(_packageContent.Values);
         }
 
-        private Dictionary<IPackagedContent, SpecificVersion> OnlyWhenNewOrUpdateAvailable() => _packageContent.Where(x => {
+        private Dictionary<IPackagedContent, SpecificVersion> OnlyWhenNewOrUpdateAvailable()
+            => _packageContent.Where(x => {
                 var syncInfo = GetInstalledInfo(x);
                 // syncINfo = null: new download, VersionData not equal: new update
                 return syncInfo == null || !syncInfo.VersionData.Equals(x.Value.VersionData);
             }).ToDictionary(x => x.Key, x => x.Value);
 
-        private Dictionary<IPackagedContent, SpecificVersion> GetRepoContentToInstallOrUpdate() => _repoContent.Where(c => {
-            var repo = _repositories.First(x => x.HasMod(c.Value.Name));
-            return !repo.ExistsAndIsRightVersion(c.Value.Name, _action.Paths.Path);
-        }).ToDictionary(x => x.Key, x => x.Value);
+        private Dictionary<IPackagedContent, SpecificVersion> GetRepoContentToInstallOrUpdate()
+            => _repoContent.Where(c => {
+                var repo = _repositories.First(x => x.HasMod(c.Value.Name));
+                return !repo.ExistsAndIsRightVersion(c.Value.Name, _action.Paths.Path);
+            }).ToDictionary(x => x.Key, x => x.Value);
 
         private Dictionary<IPackagedContent, SpecificVersion> GetGroupContentToInstallOrUpdate()
             => _groupContent.Where(c => {
@@ -622,7 +617,74 @@ namespace SN.withSIX.Mini.Applications.Services
         IEnumerable<KeyValuePair<Guid, Uri[]>> GetRemotes(RemoteInfoAttribute synqRemoteInfo, bool isPremium)
             => isPremium ? synqRemoteInfo.PremiumRemotes : synqRemoteInfo.DefaultRemotes;
 
-        Task InstallContent(IContentSpec<IInstallableContent> c) => c.Content.Install(this, _action.CancelToken, c.Constraint);
+        Task InstallContent(IContentSpec<IInstallableContent> c)
+            => c.Content.Install(this, _action.CancelToken, c.Constraint);
+
+        class SteamExternalInstallerSession
+        {
+            private readonly uint _appId;
+            private readonly IAbsoluteDirectoryPath _workshopPath;
+            private readonly Dictionary<ulong, ProgressLeaf> _content;
+            private readonly SteamHelperParser _steamHelperParser;
+
+            public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath, Dictionary<ulong, ProgressLeaf> content) {
+                _appId = appId;
+                _workshopPath = workshopPath;
+                _content = content;
+                _steamHelperParser = new SteamHelperParser(content);
+            }
+
+            public Task Install(CancellationToken cancelToken) => Tools.ProcessManager.LaunchAndProcessAsync(
+                new LaunchAndProcessInfo(new ProcessStartInfo(GetHelperExecutable().ToString(),
+                    GetHelperParameters().CombineParameters())) {
+                        StandardOutputAction = _steamHelperParser.ProcessProgress,
+                        CancellationToken = cancelToken
+                    });
+
+            private static IAbsoluteFilePath GetHelperExecutable() => Assembly.GetEntryAssembly()
+                .Location.ToAbsoluteFilePath()
+                .GetBrotherFileWithName("SteamHelper.exe");
+
+            private IEnumerable<string> GetHelperParameters() => new[] {_appId.ToString()}.Concat(_content.Keys.Select(Selector));
+
+            private string Selector(ulong x) {
+                var xStr = x.ToString();
+                return !_workshopPath.GetChildDirectoryWithName(xStr).Exists ? $"!{xStr}" : xStr;
+            }
+
+            private class SteamHelperParser
+            {
+                private static readonly Regex rxStart = new Regex(@"Starting (\d+)");
+                private static readonly Regex rxEnd = new Regex(@"Finished (\d+)");
+                private static readonly Regex rxProgress = new Regex(@"(\d*)/s (\d+(\.\d+)?)%");
+                private readonly Dictionary<ulong, ProgressLeaf> _content;
+                private ProgressLeaf _current;
+
+                public SteamHelperParser(Dictionary<ulong, ProgressLeaf> content) {
+                    _content = content;
+                }
+
+                public void ProcessProgress(Process _, string x) {
+                    var progressMatch = rxProgress.Match(x);
+                    if (progressMatch.Success) {
+                        var value = progressMatch.Groups[1].Value;
+                        var speed = string.IsNullOrWhiteSpace(value) ? null : (long?) Convert.ToInt64(value);
+                        value = progressMatch.Groups[2].Value;
+                        var progress = string.IsNullOrWhiteSpace(value) ? 0.0 : Convert.ToDouble(value);
+                        _current.Update(speed, progress);
+                    } else {
+                        var startMatch = rxStart.Match(x);
+                        if (startMatch.Success)
+                            _current = _content[Convert.ToUInt64(startMatch.Groups[1].Value)];
+                        else {
+                            var endMatch = rxEnd.Match(x);
+                            if (endMatch.Success)
+                                _current.Update(null, 100);
+                        }
+                    }
+                }
+            }
+        }
 
         class SixSyncProgress
         {

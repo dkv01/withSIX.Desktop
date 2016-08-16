@@ -328,6 +328,10 @@
       <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
       <Name>SN.withSIX.Steam.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Presentation\SN.withSIX.Steam.Presentation.csproj">
+      <Project>{6580bd2f-3745-4c20-996e-1b12ffc7b242}</Project>
+      <Name>SN.withSIX.Steam.Presentation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
       <Name>SN.withSIX.Sync.Core</Name>
