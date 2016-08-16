@@ -634,12 +634,17 @@ namespace SN.withSIX.Mini.Applications.Services
                 _steamHelperParser = new SteamHelperParser(content);
             }
 
-            public Task Install(CancellationToken cancelToken) => Tools.ProcessManager.LaunchAndProcessAsync(
-                new LaunchAndProcessInfo(new ProcessStartInfo(GetHelperExecutable().ToString(),
-                    GetHelperParameters().CombineParameters())) {
-                        StandardOutputAction = _steamHelperParser.ProcessProgress,
-                        CancellationToken = cancelToken
-                    });
+            public async Task Install(CancellationToken cancelToken) {
+                var r =
+                    await
+                        Tools.ProcessManager.LaunchAndProcessAsync(
+                            new LaunchAndProcessInfo(new ProcessStartInfo(GetHelperExecutable().ToString(),
+                                GetHelperParameters().CombineParameters())) {
+                                    StandardOutputAction = _steamHelperParser.ProcessProgress,
+                                    CancellationToken = cancelToken
+                                }).ConfigureAwait(false);
+                r.ConfirmSuccess();
+            }
 
             private static IAbsoluteFilePath GetHelperExecutable() => Assembly.GetEntryAssembly()
                 .Location.ToAbsoluteFilePath()

@@ -69,6 +69,11 @@ namespace SN.withSIX.Core.Services.Infrastructure
             return tcs.Task;
         }
 
+        public static void ConfirmSuccess(this ProcessExitResult result) {
+            if (result.ExitCode != 0)
+                throw result.GenerateException();
+        }
+
         public static ProcessException GenerateException(this ProcessExitResult exitResult)
             => new ProcessException(GenerateMessage(exitResult));
 
