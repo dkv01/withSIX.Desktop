@@ -52,10 +52,13 @@ namespace SN.withSIX.Steam.Api
                 Directory.GetCurrentDirectory().ToAbsoluteDirectoryPath().GetChildFileWithName("steam_appid.txt");
             await WriteSteamAppId(appId, tmp).ConfigureAwait(false);
 
+            if (!SteamAPI.IsSteamRunning())
+                throw new InvalidOperationException("Steam does not appear to be running");
+
             // TODO: Start Steam
             if (!SteamAPI.Init()) {
                 throw new InvalidOperationException(
-                    "Steam initialization failed. Is Steam running, under the same priviledges?");
+                    "Steam initialization failed. Is Steam running under the same priviledges?");
             }
             //SteamAPI.RestartAppIfNecessary(new AppId_t(appId));
             _mSteamApiWarningMessageHook = SteamAPIDebugTextHook;
