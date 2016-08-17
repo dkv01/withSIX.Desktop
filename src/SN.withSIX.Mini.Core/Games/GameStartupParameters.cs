@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models.Extensions;
 

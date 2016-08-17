@@ -12,15 +12,15 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class ContentPublisher
     {
-        [DataMember]
-        public Publisher Publisher { get; }
-        [DataMember]
-        public string PublisherId { get; }
-
         public ContentPublisher(Publisher publisher, string publisherId) {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(publisherId));
             Publisher = publisher;
             PublisherId = publisherId;
         }
+
+        [DataMember]
+        public Publisher Publisher { get; }
+        [DataMember]
+        public string PublisherId { get; }
     }
 }

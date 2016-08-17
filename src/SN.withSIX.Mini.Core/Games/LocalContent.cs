@@ -26,6 +26,8 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class LocalContent : Content, IUninstallableContent, IContentWithPackageName
     {
+        private readonly Lazy<ContentPublisher> _source;
+
         protected LocalContent() {
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
@@ -44,14 +46,13 @@ namespace SN.withSIX.Mini.Core.Games
             Installed(basicInstallInfo.Version, true);
         }
 
-        private readonly Lazy<ContentPublisher> _source;
-
-        public ContentPublisher Source => _source.Value;
-
         [DataMember]
         public string ContentSlug { get; protected set; }
+
+        public ContentPublisher Source => _source.Value;
         [DataMember]
         public string PackageName { get; set; }
+
         public string GetFQN(string constraint = null) {
             var v = constraint ?? Version;
             if (v == null)
@@ -59,7 +60,8 @@ namespace SN.withSIX.Mini.Core.Games
             return PackageName.ToLower() + "-" + v;
         }
 
-        public IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game) => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
+        public IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
+            => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
 
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);

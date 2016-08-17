@@ -34,6 +34,7 @@ namespace SN.withSIX.Mini.Core.Games
     public abstract class NetworkContent : PackagedContent, INetworkContent
     {
         private readonly Lazy<ContentPublisher> _source;
+
         protected NetworkContent() {
             _source = SystemExtensions.CreateLazy(GetSource);
         }
@@ -53,24 +54,18 @@ namespace SN.withSIX.Mini.Core.Games
         public override bool IsNetworkContent { get; } = true;
 
         [DataMember]
-        public List<ContentPublisher> Publishers { get; protected set; } = new List<ContentPublisher>();
-
-        [DataMember]
         public Guid? OriginalGameId { get; set; }
         [DataMember]
         public string OriginalGameSlug { get; set; }
+
+        [DataMember]
+        public List<ContentPublisher> Publishers { get; protected set; } = new List<ContentPublisher>();
         [IgnoreDataMember]
-        public virtual ICollection<NetworkContentSpec> Dependencies { get; private set; } = new List<NetworkContentSpec>();
+        public virtual ICollection<NetworkContentSpec> Dependencies { get; private set; } =
+            new List<NetworkContentSpec>();
 
         public override IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
             => GetSourceRoot(game).GetChildDirectoryWithName(Source.PublisherId);
-
-        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => Source.Publisher == Publisher.Steam
-            ? game.SteamworkshopPaths.ContentPath
-            : game.ContentPaths.Path;
-
-        public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
-            => Dependencies = dependencies.ToList();
 
         public string GetPath() => this.GetContentPath(ContentSlug);
 
@@ -95,6 +90,13 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public override ContentPublisher Source => _source.Value;
+
+        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => Source.Publisher == Publisher.Steam
+            ? game.SteamworkshopPaths.ContentPath
+            : game.ContentPaths.Path;
+
+        public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
+            => Dependencies = dependencies.ToList();
 
         private ContentPublisher GetSource() =>
             Publishers.Any(p => p.Publisher == Publisher.Steam) &&

@@ -26,6 +26,9 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember, Obsolete("old workaround")]
         protected string GameDirectoryInternal { get; set; }
 
+        [DataMember]
+        public bool? LaunchAsAdministrator { get; set; }
+
         [OnDeserialized]
         void OnDeserialized(StreamingContext context) {
             if (RepoDirectoryInternal != null) {
@@ -37,9 +40,6 @@ namespace SN.withSIX.Mini.Core.Games
                 GameDirectoryInternal = null;
             }
         }
-
-        [DataMember]
-        public bool? LaunchAsAdministrator { get; set; }
     }
 
     public interface IHavePackageDirectory

@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using NDepend.Path;
-using withSIX.Api.Models.Content;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {

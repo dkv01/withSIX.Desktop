@@ -48,7 +48,8 @@ namespace SN.withSIX.Mini.Core.Games
 
     public static class ContentSpecExtensions
     {
-        public static ItemState GetState<T>(this IContentSpec<T> spec) where T : IContent => spec.Content.GetState(spec.Constraint);
+        public static ItemState GetState<T>(this IContentSpec<T> spec) where T : IContent
+            => spec.Content.GetState(spec.Constraint);
     }
 
     [DataContract]
@@ -176,6 +177,6 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class ContentIntSpec : ContentIdSpec<ulong>
     {
-        public ContentIntSpec(ulong id, string constraint = null) : base(id, constraint) { }
+        public ContentIntSpec(ulong id, string constraint = null) : base(id, constraint) {}
     }
 }

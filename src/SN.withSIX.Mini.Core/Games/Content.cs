@@ -16,15 +16,14 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace SN.withSIX.Mini.Core.Games
 {
-    [ContractClassFor(typeof(IContent))]
-    public abstract class IContentContract : IContent {
+    [ContractClassFor(typeof (IContent))]
+    public abstract class IContentContract : IContent
+    {
         private string _name;
+        public abstract bool IsFavorite { get; set; }
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
             set
             {
                 Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
@@ -33,7 +32,6 @@ namespace SN.withSIX.Mini.Core.Games
         }
         public abstract Guid GameId { get; }
         public abstract Guid Id { get; }
-        public abstract bool IsFavorite { get; set; }
         public abstract string Version { get; }
         public abstract InstallInfo InstallInfo { get; }
         public abstract RecentInfo RecentInfo { get; }
@@ -41,13 +39,16 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract ItemState GetState(string constraint);
         public abstract void Installed(string version, bool completed);
         public abstract IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
-        public abstract Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
+
+        public abstract Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
+            bool processed);
+
         public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         public abstract void Use(IContentAction<IContent> action);
         public abstract void Use(ILaunchContentAction<IContent> action);
     }
 
-    [ContractClass(typeof(IContentContract))]
+    [ContractClass(typeof (IContentContract))]
     public interface IContent : IHaveGameId, IHaveId<Guid>
     {
         string Name { get; set; }
@@ -64,22 +65,20 @@ namespace SN.withSIX.Mini.Core.Games
         void Use(ILaunchContentAction<IContent> action);
     }
 
-    [ContractClass(typeof(IHavePackageNameContract))]
+    [ContractClass(typeof (IHavePackageNameContract))]
     public interface IHavePackageName
     {
         string PackageName { get; set; }
         string GetFQN(string constraint = null);
     }
 
-    [ContractClassFor(typeof(IHavePackageName))]
-    public abstract class IHavePackageNameContract : IHavePackageName {
+    [ContractClassFor(typeof (IHavePackageName))]
+    public abstract class IHavePackageNameContract : IHavePackageName
+    {
         private string _packageName;
         public string PackageName
         {
-            get
-            {
-                return _packageName;
-            }
+            get { return _packageName; }
             set
             {
                 Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
@@ -89,9 +88,10 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract string GetFQN(string constraint = null);
     }
 
-    public interface IContentWithPackageName : IHavePackageName, IContent {
-        IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game);
+    public interface IContentWithPackageName : IHavePackageName, IContent
+    {
         ContentPublisher Source { get; }
+        IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game);
     }
 
     public interface IPackagedContent : IContentWithPackageName, IUninstallableContent {}
@@ -165,7 +165,8 @@ namespace SN.withSIX.Mini.Core.Games
             get { return _gameId; }
             protected set
             {
-                if (value == Guid.Empty) throw new ArgumentException(nameof(value));
+                if (value == Guid.Empty)
+                    throw new ArgumentException(nameof(value));
                 _gameId = value;
             }
         }

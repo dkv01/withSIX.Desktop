@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
@@ -37,14 +36,13 @@ namespace SN.withSIX.Mini.Core.Games
             SteamStuff.GetSteamPath());
 
         static readonly string[] getCompatibilityMods = new string[0];
+
+        private static readonly Guid[] steamGames = {GameGuids.Starbound, GameGuids.Stellaris, GameGuids.Skyrim};
         private readonly List<Guid> _getCompatibleGameIds;
-        Lazy<ContentPaths> _contentPaths;
-        Lazy<GameInstalledState> _installedState;
 
         private readonly Lazy<SteamDirectories> _steamDirectories;
-        protected SteamDirectories SteamDirectories => _steamDirectories.Value;
-
-        public SteamWorkshopDirectories SteamworkshopPaths => SteamDirectories.Workshop;
+        Lazy<ContentPaths> _contentPaths;
+        Lazy<GameInstalledState> _installedState;
 
         protected Game(Guid id, GameSettings settings) {
             Id = id;
@@ -66,6 +64,8 @@ namespace SN.withSIX.Mini.Core.Games
             _getCompatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
             _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories());
         }
+
+        protected SteamDirectories SteamDirectories => _steamDirectories.Value;
 
         // We use this because of chicken-egg problems because of constructor inheritance load order
         // Where usually overriden behavior depends on state that is not yet available in the base class constructor
@@ -111,8 +111,6 @@ namespace SN.withSIX.Mini.Core.Games
         public bool FirstTimeRunShown { get; set; }
         [IgnoreDataMember]
         public GameInstalledState InstalledState => _installedState.Value;
-        [IgnoreDataMember]
-        public ContentPaths ContentPaths => _contentPaths.Value;
         [DataMember]
         public LaunchType LastUsedLaunchType { get; set; }
         [IgnoreDataMember]
@@ -120,8 +118,14 @@ namespace SN.withSIX.Mini.Core.Games
 
         [DataMember]
         public SyncInfo SyncInfo { get; protected set; } = new SyncInfo();
+
+        private IAbsoluteDirectoryPath ExecutablePath => InstalledState.Executable.ParentDirectoryPath;
         // TODO: we could also choose to implement this as a wrapper/adapter class instead
         IAbsoluteDirectoryPath IContentEngineGame.WorkingDirectory => InstalledState.WorkingDirectory;
+
+        public SteamWorkshopDirectories SteamworkshopPaths => SteamDirectories.Workshop;
+        [IgnoreDataMember]
+        public ContentPaths ContentPaths => _contentPaths.Value;
 
         protected virtual IAbsoluteDirectoryPath GetContentDirectory() => InstalledState.WorkingDirectory;
 
@@ -400,8 +404,6 @@ namespace SN.withSIX.Mini.Core.Games
 
         bool IsRunning() => GetRunningInstances().Any();
 
-        private IAbsoluteDirectoryPath ExecutablePath => InstalledState.Executable.ParentDirectoryPath;
-
         // TODO: Optimize
         private IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetRunningInstances()
             => Metadata.Executables.SelectMany(x => Tools.Processes.GetExecuteablePaths(x))
@@ -455,8 +457,7 @@ namespace SN.withSIX.Mini.Core.Games
             GetRunningInstances().ForEach(x => x.Item1.TryKill());
         }
 
-        private static readonly Guid[] SteamGames = {GameGuids.Starbound, GameGuids.Stellaris, GameGuids.Skyrim};
-        public bool IsSteamGame() => SteamGames.Contains(Id);
+        public bool IsSteamGame() => steamGames.Contains(Id);
 
         protected IAbsoluteDirectoryPath GetContentSourceDirectory(IContentWithPackageName content)
             => content.GetSourceDirectory(this);

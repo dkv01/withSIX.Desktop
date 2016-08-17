@@ -8,10 +8,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using NDepend.Path;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Core.Games
 {

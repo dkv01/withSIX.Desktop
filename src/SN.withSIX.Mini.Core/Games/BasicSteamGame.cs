@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {

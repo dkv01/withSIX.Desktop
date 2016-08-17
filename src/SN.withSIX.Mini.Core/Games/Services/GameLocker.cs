@@ -5,13 +5,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Mini.Core.Games.Services
 {
     public class Info : IDisposable
     {
-        public CancellationToken Token { get; }
         private readonly IDisposable _disp;
 
         public Info(IDisposable disp, CancellationToken token) {
@@ -19,10 +17,13 @@ namespace SN.withSIX.Mini.Core.Games.Services
             _disp = disp;
         }
 
+        public CancellationToken Token { get; }
+
         public void Dispose() {
             _disp.Dispose();
         }
     }
+
     public interface IGameLocker
     {
         Task<CancellationTokenRegistration> RegisterCancel(Guid gameId, Action cancelAction);

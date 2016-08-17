@@ -19,6 +19,8 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class PackagedContent : InstallableContent, IPackagedContent
     {
+        private readonly Lazy<ContentPublisher> _source;
+
         protected PackagedContent() {
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
@@ -33,9 +35,9 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public string PackageName { get; set; }
         public string GetFQN(string constraint = null) => PackageName.ToLower() + "-" + (constraint ?? Version);
-        public virtual IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game) => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
 
-        private readonly Lazy<ContentPublisher> _source;
+        public virtual IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
+            => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
 
         public virtual ContentPublisher Source => _source.Value;
 

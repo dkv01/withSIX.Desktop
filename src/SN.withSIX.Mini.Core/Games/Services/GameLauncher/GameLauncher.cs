@@ -10,9 +10,7 @@ using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
 {
-    public interface IGameLauncher
-    {
-    }
+    public interface IGameLauncher {}
 
     public interface ILaunch
     {

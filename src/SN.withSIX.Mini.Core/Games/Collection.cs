@@ -31,14 +31,14 @@ namespace SN.withSIX.Mini.Core.Games
         public virtual ICollection<ContentSpec> Contents { get; protected set; } =
             new List<ContentSpec>();
 
-        public void ReplaceContent(IEnumerable<ContentSpec> contents)
-            => Contents = contents.ToList();
-
         public async Task Uninstall(IUninstallSession contentInstaller, CancellationToken cancelToken,
             string constraint = null) {
             await contentInstaller.UninstallCollection(this, cancelToken, constraint).ConfigureAwait(false);
             RemoveRecentInfo();
         }
+
+        public void ReplaceContent(IEnumerable<ContentSpec> contents)
+            => Contents = contents.ToList();
 
         // A collection is considered installed when the installation of the collection completed for the first time
         // When a collection changes, e.g a mod has been added, or updated, the collection is considered to Have Updates (Rather than not being installed)

@@ -8,13 +8,12 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Api.Models.Content;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Services;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
@@ -98,7 +97,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
             IInstallContentAction<IInstallableContent> action) {
             var session = _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
             //if (action.CancelToken != default(CancellationToken))
-              //  action.CancelToken.Register(session.Abort);
+            //  action.CancelToken.Register(session.Abort);
             await _gameLocker.RegisterCancel(action.Game.Id, session.Abort).ConfigureAwait(false);
             return session;
         }
