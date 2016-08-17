@@ -12,6 +12,7 @@ using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SN.withSIX.Steam.Api;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
@@ -30,6 +31,9 @@ namespace SN.withSIX.Mini.Applications
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }
+
+        protected static RecoverableUserError Handle(SteamInitializationException ex, string action)
+            => new RecoverableUserError(ex, ex.Message, "Running Steam Client required");
 
         protected static RecoverableUserError Handle(GameIsRunningException ex, string action)
             => new RecoverableUserError(ex, ex.Message, "Please close the game and try again");
