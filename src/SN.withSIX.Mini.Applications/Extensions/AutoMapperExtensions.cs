@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using SN.withSIX.Mini.Applications.Usecases.Main;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 
@@ -38,21 +38,23 @@ namespace SN.withSIX.Mini.Applications.Extensions
             this IMappingExpression<TSource, TDestination> expression)
             => expression.ForAllOtherMembers(opt => opt.Ignore());
 
+        public static async Task<TDesired> MapAsync<TSource, TDesired>(this Task<TSource> task, TDesired target)
+            where TDesired : class {
+            Contract.Requires<ArgumentNullException>(task != null);
+            var r = await task.ConfigureAwait(false);
+            return r.MapTo(target);
+        }
+
+        public static async Task<TDesired> MapAsync<TDesired>(this Task<object> task) {
+            Contract.Requires<ArgumentNullException>(task != null);
+            var r = await task.ConfigureAwait(false);
+            return r.MapTo<TDesired>();
+        }
+
         public static TDesired MapTo<TDesired>(this object input) => Mapper.Map<TDesired>(input);
 
         public static TDesired MapTo<TDesired>(this object input, Action<IMappingOperationOptions> opts)
             => Mapper.Map<TDesired>(input, opts);
-
-        public static PageModel<T> ToPageModel<T>(this IEnumerable<T> items, int page, int perPage) {
-            var count = items.Count();
-            var i = items.Skip((page - 1)*perPage).Take(perPage);
-            return i.ToPageModel(new PagingInfo(page, count, perPage));
-        }
-
-        public static PageModel<T> ToPageModelFromCtx<T>(this IEnumerable<T> e, ResolutionContext ctx2) {
-            var c = (PagingContext) ctx2.Items["ctx"];
-            return e.ToPageModel(c.Page, c.PageSize);
-        }
 
         public static object MapTo(this object input, Type sourceType, Type destinationType) {
             Contract.Requires<ArgumentNullException>(input != null);
@@ -110,5 +112,23 @@ namespace SN.withSIX.Mini.Applications.Extensions
             Contract.Requires<ArgumentNullException>(output != null);
             return Mapper.Map(input, output);
         }
+
+        public static PageModel<T> ToPageModel<T>(this IEnumerable<T> items, int page, int perPage) {
+            var count = items.Count();
+            var i = items.Skip((page - 1) * perPage).Take(perPage);
+            return i.ToPageModel(new PagingInfo(page, count, perPage));
+        }
+
+        public static PageModel<T> ToPageModelFromCtx<T>(this IEnumerable<T> e, ResolutionContext ctx2) {
+            var c = (PagingContext)ctx2.Items["ctx"];
+            return e.ToPageModel(c.Page, c.PageSize);
+        }
+    }
+
+
+    public class PagingContext
+    {
+        public int Page { get; set; }
+        public int PageSize { get; set; } = 24;
     }
 }
