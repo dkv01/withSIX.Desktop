@@ -642,7 +642,8 @@ namespace SN.withSIX.Mini.Applications.Services
                                     WorkingDirectory = helperExe.ParentDirectoryPath.ToString()
                                 }) {
                                     StandardOutputAction = _steamHelperParser.ProcessProgress,
-                                    StandardErrorAction = (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
+                                    StandardErrorAction =
+                                        (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
                                     CancellationToken = cancelToken
                                 }).ConfigureAwait(false);
                 r.ConfirmSuccess();
