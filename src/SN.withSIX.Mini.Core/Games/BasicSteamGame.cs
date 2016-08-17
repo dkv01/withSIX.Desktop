@@ -1,12 +1,16 @@
+// <copyright company="SIX Networks GmbH" file="BasicSteamGame.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -15,14 +19,8 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected BasicSteamGame(Guid id, GameSettings settings) : base(id, settings) {}
 
-        protected override IAbsoluteDirectoryPath GetContentDirectory() => GetSteamWorkshopFolder();
-
-        private IAbsoluteDirectoryPath GetSteamWorkshopFolder()
-            => Common.Paths.SteamPath.GetChildDirectoryWithName($@"steamapps\workshop\content\{SteamInfo.AppId}");
-
-        // TODO: Use for temp downloading until complete (should we first copy data here then for chunk patching?)
-        private IAbsoluteDirectoryPath GetSteamWorkshopDownloadFolder()
-            => Common.Paths.SteamPath.GetChildDirectoryWithName($@"steamapps\workshop\downloads\{SteamInfo.AppId}");
+        protected override IAbsoluteDirectoryPath GetContentDirectory()
+            => InstalledState.WorkingDirectory.GetChildDirectoryWithName(".synqmods");
 
         protected override Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> content) {

@@ -77,8 +77,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
         }
 
         private StellarisMod CreateStellarisMod(IModContent x)
-            => new StellarisMod(x, ContentPaths.Path, GetModInstallationDirectory());
-
+            => new StellarisMod(GetContentSourceDirectory(x), GetModInstallationDirectory());
 
         class StellarisMod
         {
@@ -86,8 +85,8 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             private readonly IAbsoluteDirectoryPath _sourcePath;
             private readonly Lazy<IAbsoluteFilePath> _sourceZip;
 
-            public StellarisMod(IModContent mod, IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath modPath) {
-                _sourcePath = contentPath.GetChildDirectoryWithName(mod.PackageName);
+            public StellarisMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath modPath) {
+                _sourcePath = contentPath;
                 _modPath = modPath;
                 _sourceZip =
                     new Lazy<IAbsoluteFilePath>(

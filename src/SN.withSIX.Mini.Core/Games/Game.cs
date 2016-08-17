@@ -20,13 +20,18 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Core.Games
 {
+    public interface IHaveSourcePaths
+    {
+        ContentPaths ContentPaths { get; }
+        SteamWorkshopDirectories SteamworkshopPaths { get; }
+    }
+
     [DataContract]
-    public abstract class Game : BaseEntity<Guid>, IContentEngineGame
+    public abstract class Game : BaseEntity<Guid>, IContentEngineGame, IHaveSourcePaths
     {
         internal static readonly SteamHelper SteamHelper = new SteamHelper(new SteamStuff().TryReadSteamConfig(),
             SteamStuff.GetSteamPath());
@@ -35,6 +40,11 @@ namespace SN.withSIX.Mini.Core.Games
         private readonly List<Guid> _getCompatibleGameIds;
         Lazy<ContentPaths> _contentPaths;
         Lazy<GameInstalledState> _installedState;
+
+        private readonly Lazy<SteamDirectories> _steamDirectories;
+        protected SteamDirectories SteamDirectories => _steamDirectories.Value;
+
+        public SteamWorkshopDirectories SteamworkshopPaths => SteamDirectories.Workshop;
 
         protected Game(Guid id, GameSettings settings) {
             Id = id;
@@ -54,6 +64,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (!DefaultDirectoriesOverriden)
                 SetupDefaultDirectories();
             _getCompatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
+            _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories());
         }
 
         // We use this because of chicken-egg problems because of constructor inheritance load order
@@ -446,6 +457,9 @@ namespace SN.withSIX.Mini.Core.Games
 
         private static readonly Guid[] SteamGames = {GameGuids.Starbound, GameGuids.Stellaris, GameGuids.Skyrim};
         public bool IsSteamGame() => SteamGames.Contains(Id);
+
+        protected IAbsoluteDirectoryPath GetContentSourceDirectory(IContentWithPackageName content)
+            => content.GetSourceDirectory(this);
     }
 
     public class ApiHashes : global::withSIX.Api.Models.Content.v3.ApiHashes {}

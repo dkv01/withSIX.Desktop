@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -88,7 +89,10 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract string GetFQN(string constraint = null);
     }
 
-    public interface IContentWithPackageName : IHavePackageName, IContent { }
+    public interface IContentWithPackageName : IHavePackageName, IContent {
+        IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game);
+        ContentPublisher Source { get; }
+    }
 
     public interface IPackagedContent : IContentWithPackageName, IUninstallableContent {}
 

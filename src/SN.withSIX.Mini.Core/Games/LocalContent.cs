@@ -9,7 +9,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -23,12 +26,15 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class LocalContent : Content, IUninstallableContent, IContentWithPackageName
     {
-        protected LocalContent() {}
+        protected LocalContent() {
+            _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
+        }
 
         protected LocalContent(string name, string packageName, Guid gameId, string version) : base(name, gameId) {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
             PackageName = packageName;
             Version = version;
+            _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
         protected LocalContent(string name, string packageName, Guid gameId, BasicInstallInfo basicInstallInfo)
@@ -37,6 +43,10 @@ namespace SN.withSIX.Mini.Core.Games
             SizePacked = basicInstallInfo.SizePacked;
             Installed(basicInstallInfo.Version, true);
         }
+
+        private readonly Lazy<ContentPublisher> _source;
+
+        public ContentPublisher Source => _source.Value;
 
         [DataMember]
         public string ContentSlug { get; protected set; }
@@ -48,6 +58,8 @@ namespace SN.withSIX.Mini.Core.Games
                 return PackageName.ToLower();
             return PackageName.ToLower() + "-" + v;
         }
+
+        public IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game) => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
 
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);

@@ -36,9 +36,8 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             => InstalledState.Directory
                 .GetChildDirectoryWithName("Data");
 
-
         protected override Task InstallMod(IModContent mod) {
-            var m = new SkyrimMod(mod, ContentPaths.Path);
+            var m = CreateMod(mod);
             return m.Install(GetModInstallationDirectory());
         }
 
@@ -49,7 +48,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
                 new[] {"Skyrim.esm", "Update.esm"}.Concat(
                     launchContentAction.Content.Select(x => x.Content)
                         .OfType<IModContent>()
-                        .Select(x => new SkyrimMod(x, ContentPaths.Path))
+                        .Select(CreateMod)
                         .Select(x => x.GetEsmFileName())
                         .Where(x => x != null))
                     .ToArray();
@@ -58,12 +57,14 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             loadOrder.WriteText(string.Join(Environment.NewLine, contentList));
         }
 
+        private SkyrimMod CreateMod(IModContent x) => new SkyrimMod(GetContentSourceDirectory(x));
+
         class SkyrimMod
         {
             private readonly IAbsoluteDirectoryPath _sourceDir;
 
-            public SkyrimMod(IModContent mod, IAbsoluteDirectoryPath contentPath) {
-                _sourceDir = contentPath.GetChildDirectoryWithName(mod.PackageName);
+            public SkyrimMod(IAbsoluteDirectoryPath contentPath) {
+                _sourceDir = contentPath;
             }
 
             public string GetEsmFileName() {

@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -51,30 +51,10 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 HandleFileBasedMod(f, packages);
         }
 
-        private static void HandleFileBasedMod(FileInfo f, string[] packages) {
+        private static void HandleFileBasedMod(FileInfo f, IEnumerable<string> packages) {
             var pak = f.ToAbsoluteFilePath();
             var pakBak = pak.GetBrotherFileWithName(pak.FileNameWithoutExtension + ".bak");
             if (packages.Contains(pak.FileNameWithoutExtension)) {
-                if (!pak.Exists && pakBak.Exists)
-                    pakBak.Move(pak);
-            } else {
-                if (!pak.Exists)
-                    return;
-                if (pakBak.Exists)
-                    pakBak.Delete();
-                pak.Move(pakBak);
-            }
-        }
-
-        private void HandleSteamDirectory(string[] packages) {
-            foreach (var d in ContentPaths.Path.DirectoryInfo.EnumerateDirectories())
-                HandleDirectoryBasedMod(d, packages);
-        }
-
-        private static void HandleDirectoryBasedMod(DirectoryInfo d, string[] packages) {
-            var pak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.pak");
-            var pakBak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.bak");
-            if (packages.Contains(d.Name)) {
                 if (!pak.Exists && pakBak.Exists)
                     pakBak.Move(pak);
             } else {
@@ -92,7 +72,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             => InstalledState.Directory.GetChildDirectoryWithName("mods");
 
         protected override async Task InstallMod(IModContent mod) {
-            var sourceDir = ContentPaths.Path.GetChildDirectoryWithName(mod.PackageName);
+            var sourceDir = GetContentSourceDirectory(mod);
             var sourcePak = sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
 
             var installDirectory = GetModInstallationDirectory();

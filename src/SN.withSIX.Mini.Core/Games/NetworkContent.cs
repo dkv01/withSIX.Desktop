@@ -6,7 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Extensions;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -30,8 +33,15 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class NetworkContent : PackagedContent, INetworkContent
     {
-        protected NetworkContent() {}
-        protected NetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
+        private readonly Lazy<ContentPublisher> _source;
+        protected NetworkContent() {
+            _source = SystemExtensions.CreateLazy(GetSource);
+        }
+
+        protected NetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {
+            _source = SystemExtensions.CreateLazy(GetSource);
+        }
+
         [DataMember]
         // Only here because of wrong dependency references... // TODO: Try to externalize this to the DTO instead..
         public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } = new List<ContentGuidSpec>();
@@ -51,6 +61,13 @@ namespace SN.withSIX.Mini.Core.Games
         public string OriginalGameSlug { get; set; }
         [IgnoreDataMember]
         public virtual ICollection<NetworkContentSpec> Dependencies { get; private set; } = new List<NetworkContentSpec>();
+
+        public override IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
+            => GetSourceRoot(game).GetChildDirectoryWithName(Source.PublisherId);
+
+        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => Source.Publisher == Publisher.Steam
+            ? game.SteamworkshopPaths.ContentPath
+            : game.ContentPaths.Path;
 
         public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
             => Dependencies = dependencies.ToList();
@@ -76,6 +93,14 @@ namespace SN.withSIX.Mini.Core.Games
 
             return list;
         }
+
+        public override ContentPublisher Source => _source.Value;
+
+        private ContentPublisher GetSource() =>
+            Publishers.Any(p => p.Publisher == Publisher.Steam) &&
+            Publishers.All(x => x.Publisher != Publisher.withSIX)
+                ? Publishers.Single(x => x.Publisher == Publisher.Steam)
+                : Publishers.Single(x => x.Publisher == Publisher.withSIX);
 
         [OnSerialized]
         void OnSerialized(StreamingContext context) {

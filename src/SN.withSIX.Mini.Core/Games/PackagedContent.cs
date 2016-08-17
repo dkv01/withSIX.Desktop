@@ -9,24 +9,35 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class PackagedContent : InstallableContent, IPackagedContent
     {
-        protected PackagedContent() {}
+        protected PackagedContent() {
+            _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
+        }
 
         protected PackagedContent(string name, string packageName, Guid gameId) : base(name, gameId) {
             Contract.Requires<ArgumentNullException>(packageName != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(packageName));
             PackageName = packageName;
+            _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
         [DataMember]
         public string PackageName { get; set; }
         public string GetFQN(string constraint = null) => PackageName.ToLower() + "-" + (constraint ?? Version);
+        public virtual IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game) => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
+
+        private readonly Lazy<ContentPublisher> _source;
+
+        public virtual ContentPublisher Source => _source.Value;
 
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);

@@ -33,6 +33,8 @@ namespace SN.withSIX.Core.Extensions
 
         public static void DoWith<T, T2>(this T This, Func<T, T2> exp) => exp(This);
 
+        public static Lazy<T> CreateLazy<T>(this Func<T> creator) => new Lazy<T>(creator);
+
         public static byte[] Combine(this byte[] @this, params byte[][] arrays) {
             var rv = new byte[arrays.Sum(a => a.Length) + @this.Length];
             var offset = 0;

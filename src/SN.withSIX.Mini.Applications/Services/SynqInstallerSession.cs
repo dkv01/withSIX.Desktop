@@ -253,9 +253,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
         }
 
-        private static bool ShouldInstallFromSteam(INetworkContent content)
-            => content.Publishers.Any(p => p.Publisher == Publisher.Steam) &&
-               content.Publishers.All(x => x.Publisher != Publisher.withSIX);
+        private static bool ShouldInstallFromSteam(INetworkContent content) => content.Source.Publisher == Publisher.Steam;
 
         private void PrepareGroupContent() {
             _groupContent = _installableContent.Where(x => _groups.Any(r => r.HasMod(x.Value.Name)))
