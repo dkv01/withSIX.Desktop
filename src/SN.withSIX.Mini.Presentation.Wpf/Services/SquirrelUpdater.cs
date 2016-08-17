@@ -91,7 +91,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 var p =
                     Process.Start(
                         Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                            "VCRedistInstaller.exe"), "VS2012 VS2013"))
+                            "VCRedistInstaller.exe"), "VS2013 VS2012"))
                 p.WaitForExit();
         }
 
