@@ -54,20 +54,20 @@ namespace SN.withSIX.Mini.Applications
         protected static InformationalUserError Handle(NoSourceFoundException ex, string action)
             =>
                 new InformationalUserError(ex,
-                    CurrentlyNotAvailable,
-                    "Could not find the desired content");
+                    "Could not find the desired content",
+                    CurrentlyNotAvailable);
 
         protected static InformationalUserError Handle(RequestedResourceNotFoundException ex, string action)
             => new InformationalUserError(ex,
-                CouldNotFindTheDesiredContent,
-                "Could not find the desired content");
+                "Could not find the desired content",
+                CouldNotFindTheDesiredContent);
 
         protected static InformationalUserError Handle(NotFoundException ex, string action)
-            => new InformationalUserError(ex, CouldNotFindTheDesiredContent, "Could not find the desired content");
+            => new InformationalUserError(ex, "Could not find the desired content", CouldNotFindTheDesiredContent);
 
         
         protected static InformationalUserError Handle(SynqPathException ex, string action)
-            => new InformationalUserError(ex, ex.Message, "Please reconfigure the Sync directory");
+            => new InformationalUserError(ex, "Please reconfigure the Sync directory", ex.Message);
 
         protected static RecoverableUserError Handle(HostListExhausted ex, string action)
             => new RecoverableUserError(ex, @"There was an issue downloading the content.
@@ -79,6 +79,6 @@ Please confirm your internet connection, and try again", "Download error");
     public class ConfigureGameFirstUserError : InformationalUserError
     {
         public ConfigureGameFirstUserError(Exception exception, string message, string title = null)
-            : base(exception, message, title) {}
+            : base(exception, title, message) { }
     }
 }

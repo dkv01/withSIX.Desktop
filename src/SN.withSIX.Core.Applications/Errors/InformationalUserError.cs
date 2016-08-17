@@ -131,7 +131,7 @@ public static class RecoveryCommands
 
     public class InformationalUserError : BasicUserError
     {
-        public InformationalUserError(Exception exception, string message, string title = null)
+        public InformationalUserError(Exception exception, string title, string message)
             : base(
                 title ?? "Non fatal error occurred", message + "\n\nError Info: " + exception.Message,
                 null, exception) {

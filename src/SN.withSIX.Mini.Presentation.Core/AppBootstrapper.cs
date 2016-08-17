@@ -145,7 +145,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                         UserError.Throw(new UserError(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
                 return result == RecoveryOptionResult.RetryOperation;
             };
-            Tools.InformUserError = (s, s1, e) => UserError.Throw(new InformationalUserError(e, s, s1)).ToTask();
+            Tools.InformUserError = (s, s1, e) => UserError.Throw(new InformationalUserError(e, s1, s)).ToTask();
         }
 
         static IEnumerable<Assembly> DiscoverAndLoadPlatform() => DiscoverPlatformDlls()
