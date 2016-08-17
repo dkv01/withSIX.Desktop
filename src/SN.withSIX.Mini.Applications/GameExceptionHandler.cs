@@ -33,23 +33,23 @@ namespace SN.withSIX.Mini.Applications
         }
 
         protected static RecoverableUserError Handle(SteamInitializationException ex, string action)
-            => new RecoverableUserError(ex, ex.Message, "Running Steam Client required");
+            => new RecoverableUserError(ex, "Running Steam Client required", ex.Message);
 
         protected static RecoverableUserError Handle(GameIsRunningException ex, string action)
-            => new RecoverableUserError(ex, ex.Message, "Please close the game and try again");
+            => new RecoverableUserError(ex, "Please close the game and try again", ex.Message);
 
         // TODO: Better handler where we guide the user to go to the settings, and configure the game, then retry?
         protected static InformationalUserError Handle(GameNotInstalledException ex, string action)
             => new ConfigureGameFirstUserError(ex, ex.Message, "Please configure the game first in the Settings");
 
         protected static RecoverableUserError Handle(AlreadyLockedException ex, string action)
-            => new RecoverableUserError(ex, "Currently only one action per game is supported. Wait until the action is finished and try again", "Unsupported");
+            => new RecoverableUserError(ex, "Unsupported", "Currently only one action per game is supported. Wait until the action is finished and try again");
 
         protected static RecoverableUserError Handle(QueueProcessingError ex, string action)
             => new RecoverableUserError(ex,
+                "One or more errors occured while processing",
                 "The following errors occurred: " +
-                string.Join("\n", ex.Flatten().InnerExceptions.Select(x => x.Message)) + "\n\nSee log for more details",
-                "One or more errors occured while processing");
+                string.Join("\n", ex.Flatten().InnerExceptions.Select(x => x.Message)) + "\n\nSee log for more details");
 
         protected static InformationalUserError Handle(NoSourceFoundException ex, string action)
             =>
