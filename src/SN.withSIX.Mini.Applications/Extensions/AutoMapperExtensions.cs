@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
@@ -16,18 +17,31 @@ namespace SN.withSIX.Mini.Applications.Extensions
     public static class MappingExtensions
     {
         public static IMapper Mapper { get; set; }
+        public static IConfigurationProvider Config => Mapper.ConfigurationProvider;
+        public static Func<Type, Type> DetermineType { get; set; } = type => type;
+        static Type GetType(object obj) => DetermineType(obj.GetType());
+
+        public static IQueryable<T> ProjectTo<T>(this IQueryable expression) {
+            Contract.Requires<ArgumentNullException>(expression != null);
+            return expression.ProjectTo<T>(Config);
+        }
+
+        public static IQueryable<T> ProjectTo<T>(this IQueryable expression, IDictionary<string, object> parameters) {
+            Contract.Requires<ArgumentNullException>(expression != null);
+            return expression.ProjectTo<T>(Config, parameters);
+        }
 
         public static void IgnoreAllMembers<TSource, TDestination>(
-            this IMappingExpression<TSource, TDestination> expression
-            ) => expression.ForAllMembers(opt => opt.Ignore());
+            this IMappingExpression<TSource, TDestination> expression) => expression.ForAllMembers(opt => opt.Ignore());
 
         public static void IgnoreAllOtherMembers<TSource, TDestination>(
-            this IMappingExpression<TSource, TDestination> expression
-            ) => expression.ForAllOtherMembers(opt => opt.Ignore());
+            this IMappingExpression<TSource, TDestination> expression)
+            => expression.ForAllOtherMembers(opt => opt.Ignore());
 
         public static TDesired MapTo<TDesired>(this object input) => Mapper.Map<TDesired>(input);
 
-        public static TDesired MapTo<TDesired>(this object input, Action<IMappingOperationOptions> opts) => Mapper.Map<TDesired>(input, opts);
+        public static TDesired MapTo<TDesired>(this object input, Action<IMappingOperationOptions> opts)
+            => Mapper.Map<TDesired>(input, opts);
 
         public static PageModel<T> ToPageModel<T>(this IEnumerable<T> items, int page, int perPage) {
             var count = items.Count();
@@ -36,7 +50,7 @@ namespace SN.withSIX.Mini.Applications.Extensions
         }
 
         public static PageModel<T> ToPageModelFromCtx<T>(this IEnumerable<T> e, ResolutionContext ctx2) {
-            var c = (PagingContext)ctx2.Items["ctx"];
+            var c = (PagingContext) ctx2.Items["ctx"];
             return e.ToPageModel(c.Page, c.PageSize);
         }
 
@@ -81,18 +95,13 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static TDesired MapTo<TSource, TDesired>(this TSource input, TDesired output) where TDesired : class {
             Contract.Requires<ArgumentNullException>(output != null);
-            return
-                (TDesired)
-                    MapTo(input, output, input.GetType(),
-                        output.GetType()); // typeof(TSource), typeof(TDesired)
+            return (TDesired) MapTo(input, output, GetType(input), GetType(output));
         }
 
-        public static TDesired MapTo<TSource, TDesired>(this TSource input, TDesired output, Action<IMappingOperationOptions> options) where TDesired : class {
+        public static TDesired MapTo<TSource, TDesired>(this TSource input, TDesired output,
+            Action<IMappingOperationOptions> options) where TDesired : class {
             Contract.Requires<ArgumentNullException>(output != null);
-            return
-                (TDesired)
-                    MapTo(input, output, input.GetType(),
-                        output.GetType(), options); // typeof(TSource), typeof(TDesired)
+            return (TDesired) MapTo(input, output, GetType(input), GetType(output), options);
         }
 
 
