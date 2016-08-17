@@ -448,13 +448,9 @@ namespace SN.withSIX.Mini.Applications.Services
             var session =
                 new SteamExternalInstallerSession(
                     _action.Game.GetMetaData<SteamInfoAttribute>().AppId,
-                    _action.Paths.Path,
+                    _action.Game.SteamworkshopPaths.ContentPath,
                     // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
-                    _steamContentToInstall.ToDictionary(
-                        x =>
-                            Convert.ToUInt64(
-                                ((INetworkContent) x.Key).Publishers.First(p => p.Publisher == Publisher.Steam)
-                                    .PublisherId),
+                    _steamContentToInstall.ToDictionary(x => Convert.ToUInt64(x.Key.Source.PublisherId),
                         x => contentProgress[i++]));
             await session.Install(_action.CancelToken).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
