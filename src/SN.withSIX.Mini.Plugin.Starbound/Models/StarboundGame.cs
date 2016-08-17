@@ -35,6 +35,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         }
 
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+            // TODO: PublisherId
             var packages =
                 launchContentAction.Content.Select(x => x.Content)
                     .OfType<IHavePackageName>()
@@ -42,7 +43,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     .ToArray();
 
             HandleModDirectory(packages);
-            HandleSteamDirectory(packages);
+            //HandleSteamDirectory(packages);
         }
 
         private void HandleModDirectory(string[] packages) {
