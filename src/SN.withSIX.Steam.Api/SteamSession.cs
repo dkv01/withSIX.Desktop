@@ -69,8 +69,11 @@ namespace SN.withSIX.Steam.Api
                 .Do(_ => {
                     try {
                         SteamAPI.RunCallbacks();
+                    } catch (Exception) {
+                        throw;
                     } catch {
                         Trace.WriteLine("Native exception ocurred while SteamAPI.RunCallbacks()");
+                        Console.Error.WriteLine("Native exception ocurred while SteamAPI.RunCallbacks()");
                     }
                 }).Subscribe();
         }
