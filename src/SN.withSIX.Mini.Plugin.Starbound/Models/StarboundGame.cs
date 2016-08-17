@@ -42,7 +42,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     .ToArray();
 
             HandleModDirectory(packages);
-            //HandleSteamDirectory(packages);
+            HandleSteamDirectory(packages);
         }
 
         private void HandleModDirectory(string[] packages) {
@@ -55,6 +55,26 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             var pak = f.ToAbsoluteFilePath();
             var pakBak = pak.GetBrotherFileWithName(pak.FileNameWithoutExtension + ".bak");
             if (packages.Contains(pak.FileNameWithoutExtension)) {
+                if (!pak.Exists && pakBak.Exists)
+                    pakBak.Move(pak);
+            } else {
+                if (!pak.Exists)
+                    return;
+                if (pakBak.Exists)
+                    pakBak.Delete();
+                pak.Move(pakBak);
+            }
+        }
+
+        private void HandleSteamDirectory(string[] packages) {
+            foreach (var d in SteamworkshopPaths.ContentPath.DirectoryInfo.EnumerateDirectories())
+                HandleDirectoryBasedMod(d, packages);
+        }
+
+        private static void HandleDirectoryBasedMod(DirectoryInfo d, IEnumerable<string> packages) {
+            var pak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.pak");
+            var pakBak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.bak");
+            if (packages.Contains(d.Name)) {
                 if (!pak.Exists && pakBak.Exists)
                     pakBak.Move(pak);
             } else {
