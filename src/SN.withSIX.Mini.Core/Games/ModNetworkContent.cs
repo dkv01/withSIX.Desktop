@@ -29,7 +29,7 @@ namespace SN.withSIX.Mini.Core.Games
         public static ModNetworkContent FromSteamId(ulong contentId, Guid gameId) {
             var contentIdStr = contentId.ToString();
             var content = new ModNetworkContent(contentIdStr, contentIdStr, gameId) {
-                Id = GameExtensions.CreateSteamContentIdGuid(contentId)
+                Id = contentId.CreateSteamContentIdGuid()
             };
             content.Publishers.Add(new ContentPublisher(Publisher.Steam, contentIdStr));
             return content;
