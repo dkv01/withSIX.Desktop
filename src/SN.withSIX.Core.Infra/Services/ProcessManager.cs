@@ -370,6 +370,7 @@ namespace SN.withSIX.Core.Infra.Services
             using (token.Register(process.TryKill))
                 await task.ConfigureAwait(false);
             _terminated.OnNext(Tuple.Create(process.StartInfo, process.ExitCode, process.Id));
+            token.ThrowIfCancellationRequested();
             return new ProcessExitResult(process.ExitCode, process.Id, process.StartInfo);
         }
 
