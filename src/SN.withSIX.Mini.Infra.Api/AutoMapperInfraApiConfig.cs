@@ -19,6 +19,9 @@ namespace SN.withSIX.Mini.Infra.Api
     {
         public static void Setup(IProfileExpression cfg) {
             cfg.CreateMap<ModClientApiJson, ModNetworkContent>()
+                .BeforeMap((json, content) => {
+                    content?.Publishers.Clear();
+                })
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
