@@ -642,6 +642,9 @@ namespace SN.withSIX.Mini.Applications.Services
                                         (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
                                     CancellationToken = cancelToken
                                 }).ConfigureAwait(false);
+                if (r.ExitCode == 3)
+                    throw new SteamInitializationException(
+                        "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
                 r.ConfirmSuccess();
             }
 

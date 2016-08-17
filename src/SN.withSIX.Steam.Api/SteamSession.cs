@@ -53,11 +53,11 @@ namespace SN.withSIX.Steam.Api
             await WriteSteamAppId(appId, tmp).ConfigureAwait(false);
 
             if (!SteamAPI.IsSteamRunning())
-                throw new InvalidOperationException("Steam does not appear to be running");
+                throw new SteamInitializationException("Steam does not appear to be running");
 
             // TODO: Start Steam
             if (!SteamAPI.Init()) {
-                throw new InvalidOperationException(
+                throw new SteamInitializationException(
                     "Steam initialization failed. Is Steam running under the same priviledges?");
             }
             //SteamAPI.RestartAppIfNecessary(new AppId_t(appId));
@@ -77,5 +77,9 @@ namespace SN.withSIX.Steam.Api
 
         private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)
             => appId.ToString().WriteToFileAsync(steamAppIdFile);
+    }
+
+    public class SteamInitializationException : InvalidOperationException {
+        public SteamInitializationException(string message) : base(message) {}
     }
 }

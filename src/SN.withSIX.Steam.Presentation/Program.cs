@@ -23,6 +23,9 @@ namespace SN.withSIX.Steam.Presentation
                     TaskCreationOptions.LongRunning)
                     .Unwrap()
                     .WaitAndUnwrapException();
+            } catch (SteamInitializationException ex) {
+                Console.Error.WriteLine(ex.Message);
+                Environment.Exit(3);
             } catch (Exception ex) {
                 Console.Error.WriteLine(ex.Message);
                 Environment.Exit(1);
