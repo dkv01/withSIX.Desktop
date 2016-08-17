@@ -10,7 +10,7 @@ using withSIX.Api.Models.Content;
 namespace SN.withSIX.Mini.Core.Games
 {
     [DataContract]
-    public class ContentPublisher
+    public class ContentPublisher : IEquatable<ContentPublisher>
     {
         public ContentPublisher(Publisher publisher, string publisherId) {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(publisherId));
@@ -22,5 +22,18 @@ namespace SN.withSIX.Mini.Core.Games
         public Publisher Publisher { get; }
         [DataMember]
         public string PublisherId { get; }
+
+        public bool Equals(ContentPublisher other) => other != null &&
+                                                      (ReferenceEquals(this, other) ||
+                                                       (other.Publisher == Publisher &&
+                                                        other.PublisherId == PublisherId));
+
+        public override int GetHashCode() {
+            unchecked {
+                return ((int) Publisher*397) ^ (PublisherId?.GetHashCode() ?? 0);
+            }
+        }
+
+        public override bool Equals(object obj) => Equals(obj as ContentPublisher);
     }
 }

@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using SN.withSIX.Core;
@@ -153,11 +154,10 @@ namespace SN.withSIX.Mini.Core.Games
     }
 
     [DataContract]
-    public abstract class ContentIdSpec<T> : IContentIdSpec<T>
+    public abstract class ContentIdSpec<T> : IContentIdSpec<T>, IEquatable<ContentIdSpec<T>>
     {
         protected ContentIdSpec(T id, string constraint = null) {
-            if (id == null)
-                throw new ArgumentNullException(nameof(id));
+            Contract.Requires<ArgumentNullException>(id != null);
             Id = id;
             Constraint = constraint;
         }
@@ -166,6 +166,18 @@ namespace SN.withSIX.Mini.Core.Games
         public string Constraint { get; }
         [DataMember]
         public T Id { get; }
+
+        public bool Equals(ContentIdSpec<T> other) => other != null && (ReferenceEquals(this, other) ||
+                                                                        EqualityComparer<T>.Default.Equals(other.Id, Id) &&
+                                                                        other.Constraint == Constraint);
+
+        public override bool Equals(object obj) => Equals(obj as ContentIdSpec<T>);
+
+        public override int GetHashCode() {
+            unchecked {
+                return ((Constraint?.GetHashCode() ?? 0)*397) ^ EqualityComparer<T>.Default.GetHashCode(Id);
+            }
+        }
     }
 
     [DataContract]
