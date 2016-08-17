@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
@@ -69,17 +70,22 @@ namespace SN.withSIX.Steam.Api
         private async Task PerformDownload(uint appId, PublishedFileId_t pid, Action<DownloadInfo> pCb,
             CancellationToken cancelToken) {
             var aid = new AppId_t(appId);
-            var obs2 = ObserveDownloadItemResultForApp(aid, pid, cancelToken).Take(1);
-            var t = obs2.ToTask(cancelToken); // in case we get a result before we would be waiting for it..
+
+            // TODO: Timeout based on receiving Download progress...
+            var readySignal = ObserveDownloadItemResultForApp(aid, pid, cancelToken)
+                .Select(x => { ConfirmResult(x.m_eResult); return Unit.Default; })
+                .Merge(ObserveInstalledFileForApp(aid, pid, cancelToken).Select(x => Unit.Default))
+                .Take(1);
+
+            // in case we get a result before we would be waiting for it..
+            var readySignalTask = readySignal.ToTask(cancelToken);
             DownloadAndConfirm(pid);
-            using (pCb == null ? null : ProcessDownloadInfo(pid, pCb, obs2)) {
-                var result = await t;
-                ConfirmResult(result.m_eResult);
-            }
+            using (pCb == null ? null : ProcessDownloadInfo(pid, pCb, readySignal))
+                await readySignalTask.ConfigureAwait(false);
         }
 
         private static IDisposable ProcessDownloadInfo(PublishedFileId_t pid, Action<DownloadInfo> pCb,
-            IObservable<DownloadItemResult_t> obs2) => ObserveDownloadInfo(pid)
+            IObservable<Unit> obs2) => ObserveDownloadInfo(pid)
                 .TakeUntil(obs2)
                 .Subscribe(pCb, () => pCb(new DownloadInfo(ulong.MaxValue, ulong.MaxValue)));
 
