@@ -87,6 +87,15 @@ namespace SN.withSIX.Mini.Applications.Extensions
                         output.GetType()); // typeof(TSource), typeof(TDesired)
         }
 
+        public static TDesired MapTo<TSource, TDesired>(this TSource input, TDesired output, Action<IMappingOperationOptions> options) where TDesired : class {
+            Contract.Requires<ArgumentNullException>(output != null);
+            return
+                (TDesired)
+                    MapTo(input, output, input.GetType(),
+                        output.GetType(), options); // typeof(TSource), typeof(TDesired)
+        }
+
+
         public static TDesired MapToOriginal<TSource, TDesired>(this TSource input, TDesired output)
             where TDesired : class {
             Contract.Requires<ArgumentNullException>(output != null);
