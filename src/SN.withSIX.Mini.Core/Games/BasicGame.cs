@@ -34,6 +34,11 @@ namespace SN.withSIX.Mini.Core.Games
                 Name = action.Name
             };
 
+        protected void RemoveInstalledContent(IReadOnlyCollection<Content> lc) {
+            foreach (var c in lc)
+                c.Uninstalled();
+        }
+
         protected override Task UninstallImpl(IContentInstallationService contentInstallation,
             IContentAction<IUninstallableContent> uninstallLocalContentAction)
             => contentInstallation.Uninstall(GetUninstallAction(uninstallLocalContentAction));

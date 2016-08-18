@@ -39,7 +39,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         public const string BohemiaRegistry = @"SOFTWARE\Bohemia Interactive";
 
         readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
-        readonly RvContentScanner _rvContentScanner;
         readonly RealVirtualityGameSettings _settings;
 
         private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
@@ -58,7 +57,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 new Lazy<IAbsoluteDirectoryPath>(() => InstalledState.Directory.GetChildDirectoryWithName("userconfig"));
 
             SetupDefaultDirectories();
-            _rvContentScanner = new RvContentScanner(this);
         }
 
         RvProfileInfoAttribute ProfileInfo { get; }
@@ -78,26 +76,19 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 _settings.RepoDirectory = _settings.PackageDirectory;
         }
 
-        protected override Task ScanForLocalContentImpl() => Task.Run(() => ScanForLocalContentInternal());
+        protected override Task ScanForLocalContentImpl()
+            => Task.Factory.StartNew(ScanForLocalContentInternal, TaskCreationOptions.LongRunning);
 
         void ScanForLocalContentInternal() {
-            var newContent = _rvContentScanner.ScanForNewContent(Metadata.Dlcs, GetExistingModFolders()).ToArray();
+            var existingModFolders = GetExistingModFolders().ToArray();
+            var newContent = new RvContentScanner(this).ScanForNewContent(Metadata.Dlcs, existingModFolders).ToArray();
             if (newContent.Any())
                 AddInstalledContent(newContent);
 
-            var directories =
-                new[] {InstalledState.Directory, _settings.PackageDirectory}.Where(x => x != null && x.Exists).ToArray();
-
-            RemoveInstalledContent(
-                InstalledContent.OfType<IPackagedContent>()
-                    .Where(x => !ModExists(x, directories))
-                    .Cast<Content>()
-                    .ToArray());
-        }
-
-        private void RemoveInstalledContent(IReadOnlyCollection<Content> lc) {
-            foreach (var c in lc)
-                c.Uninstalled();
+            RemoveInstalledContent(InstalledContent.OfType<IPackagedContent>()
+                .Where(x => !ModExists(x, existingModFolders))
+                .Cast<Content>()
+                .ToArray());
         }
 
         static bool ModExists(IHavePackageName content, IEnumerable<IAbsoluteDirectoryPath> directories)

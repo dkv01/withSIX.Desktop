@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -53,5 +54,50 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         protected abstract Task EnableMods(ILaunchContentAction<IContent> launchContentAction);
+
+        protected override Task ScanForLocalContentImpl()
+            => Task.Factory.StartNew(ScanForLocalContentInternal, TaskCreationOptions.LongRunning);
+
+        void ScanForLocalContentInternal() {
+            var existingModFolders = GetExistingModFolders().ToArray();
+            var newContent =
+                new SteamGameContentScanner(this).ScanForNewContent(existingModFolders).ToArray();
+            if (newContent.Any())
+                AddInstalledContent(newContent);
+
+            RemoveInstalledContent(InstalledContent.OfType<IPackagedContent>()
+                .Where(x => !x.GetSourceDirectory(this).Exists)
+                .Cast<Content>()
+                .ToArray());
+        }
+
+        IEnumerable<IAbsoluteDirectoryPath> GetExistingModFolders() => GetModFolders().Where(x => x.Exists);
+
+        IEnumerable<IAbsoluteDirectoryPath> GetModFolders() {
+            if (ContentPaths.IsValid)
+                yield return ContentPaths.Path;
+            if (SteamDirectories.Workshop.ContentPath.Exists)
+                yield return SteamDirectories.Workshop.ContentPath;
+        }
+    }
+
+    internal class SteamGameContentScanner
+    {
+        private readonly BasicSteamGame _game;
+
+        public SteamGameContentScanner(BasicSteamGame game) {
+            _game = game;
+        }
+
+        public IEnumerable<LocalContent> ScanForNewContent(IAbsoluteDirectoryPath[] existingModFolders) {
+            foreach (var em in existingModFolders
+                .SelectMany(d => d.ChildrenDirectoriesPath
+                    .Select(m => _game.Contents.OfType<IPackagedContent>()
+                        .FirstOrDefault(x => x.PackageName == m.DirectoryName))
+                    .Where(em => em != null)
+                    .Where(em => em.InstallInfo == null)))
+                em.Installed(null, false);
+            return new List<LocalContent>();
+        }
     }
 }
