@@ -64,7 +64,7 @@ namespace SN.withSIX.Steam.Core
         KeyValue TryGetConfigByAppId(uint appId) {
             KeyValue apps = null;
             try {
-                apps = KeyValues.GetKeyValue("InstallConfigStore", "Software", "Valve", "Steam", "apps");
+                apps = KeyValues.GetKeyValue("Software", "Valve", "Steam", "apps");
             } catch (KeyNotFoundException ex) {
                 if (Common.Flags.Verbose)
                     MainLog.Logger.FormattedWarnException(ex, "Config Store Invalid");
@@ -79,7 +79,7 @@ namespace SN.withSIX.Steam.Core
 
         public SteamApp TryGetSteamAppById(uint appId, bool noCache = false) {
             if (!SteamFound)
-                throw new NotFoundException("Unable to get Steam App, Steam was not found.");
+                throw new InvalidOperationException("Unable to get Steam App, Steam was not found.");
             try {
                 return GetSteamAppById(appId, noCache);
             } catch (Exception e) {
@@ -115,7 +115,7 @@ namespace SN.withSIX.Steam.Core
             if (KeyValues == null)
                 return list.AsReadOnly();
             try {
-                var kv = KeyValues.GetKeyValue("InstallConfigStore", "Software", "Valve", "Steam");
+                var kv = KeyValues.GetKeyValue("Software", "Valve", "Steam");
                 var iFolder = 1;
                 var key = "BaseInstallFolder_" + iFolder;
                 while (kv.ContainsKey(key)) {
@@ -157,7 +157,7 @@ namespace SN.withSIX.Steam.Core
             if (AppConfig != null && AppConfig.ContainsKey("installdir"))
                 return AppConfig["installdir"].AsString();
             try {
-                return AppManifest?.GetKeyValue("AppState", "installdir").AsString();
+                return AppManifest?.GetKeyValue("installdir").AsString();
             } catch (KeyNotFoundException ex) {
                 if (Common.Flags.Verbose)
                     MainLog.Logger.FormattedWarnException(ex, "AppManifest Invalid ({0})".FormatWith(AppId));

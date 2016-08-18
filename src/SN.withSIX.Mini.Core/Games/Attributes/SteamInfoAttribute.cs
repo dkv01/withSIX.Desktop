@@ -13,6 +13,7 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
     public class SteamInfoAttribute : Attribute
     {
         public static readonly SteamInfoAttribute Default = new NullSteamInfo();
+        private readonly string _folderFallback;
         protected SteamInfoAttribute() {}
 
         public SteamInfoAttribute(uint appId) {
@@ -23,29 +24,29 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
 
         public SteamInfoAttribute(SteamGameIds appId) : this((uint) appId) {}
 
-        public SteamInfoAttribute(uint appId, string folder) {
+        public SteamInfoAttribute(uint appId, string folderFallback) {
             Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folderFallback));
 
             AppId = appId;
-            Folder = folder;
+            _folderFallback = folderFallback;
         }
 
-        public SteamInfoAttribute(SteamGameIds appId, string folder) : this((uint) appId, folder) {}
+        public SteamInfoAttribute(SteamGameIds appId, string folderFallback) : this((uint) appId, folderFallback) {}
 
         public virtual uint AppId { get; }
-        // We use this as fallback incase issues querying steam info
-        public virtual string Folder { get; }
         public bool DRM { get; set; }
 
-        public SteamDirectories GetDirectories(SteamHelper helper) {
+        public virtual SteamDirectories GetDirectories(SteamHelper helper) {
             var si = helper.TryGetSteamAppById(AppId);
-            return new SteamDirectories(AppId, si?.GetInstallDir() ?? Folder, si?.InstallBase ?? Common.Paths.SteamPath);
+            return new SteamDirectories(AppId, si?.GetInstallDir() ?? _folderFallback,
+                si?.InstallBase ?? Common.Paths.SteamPath);
         }
 
         class NullSteamInfo : SteamInfoAttribute
         {
             public override uint AppId => 0;
+            public override SteamDirectories GetDirectories(SteamHelper helper) => null; // TODO: Null
         }
     }
 }
