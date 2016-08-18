@@ -39,7 +39,7 @@ namespace SN.withSIX.Mini.Core.Games
         static readonly string[] getCompatibilityMods = new string[0];
 
         private static readonly Guid[] steamGames = {GameGuids.Starbound, GameGuids.Stellaris, GameGuids.Skyrim};
-        private readonly List<Guid> _getCompatibleGameIds;
+        private readonly List<Guid> _compatibleGameIds;
 
         private readonly Lazy<SteamDirectories> _steamDirectories;
         Lazy<ContentPaths> _contentPaths;
@@ -59,11 +59,11 @@ namespace SN.withSIX.Mini.Core.Games
 
             _installedState = new Lazy<GameInstalledState>(GetInstalledState);
             _contentPaths = new Lazy<ContentPaths>(GetContentPathsState);
+            _compatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
+            _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories(SteamHelper));
 
             if (!DefaultDirectoriesOverriden)
                 SetupDefaultDirectories();
-            _getCompatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
-            _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories(SteamHelper));
         }
 
         protected SteamDirectories SteamDirectories => _steamDirectories.Value;
@@ -177,7 +177,7 @@ namespace SN.withSIX.Mini.Core.Games
             return new ContentPaths(contentDir, repoDir);
         }
 
-        public virtual IReadOnlyCollection<Guid> GetCompatibleGameIds() => _getCompatibleGameIds;
+        public virtual IReadOnlyCollection<Guid> GetCompatibleGameIds() => _compatibleGameIds;
 
         public virtual IReadOnlyCollection<string> GetCompatibilityMods(string packageName,
             IReadOnlyCollection<string> tags) => getCompatibilityMods;

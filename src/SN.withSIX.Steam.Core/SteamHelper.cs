@@ -167,8 +167,6 @@ namespace SN.withSIX.Steam.Core
 
         void SetAppPath() {
             var installDir = GetInstallDir();
-            if (installDir == null)
-                return;
             AppPath = InstallBase.GetChildDirectoryWithName(@"SteamApps\Common\" + installDir);
         }
 
