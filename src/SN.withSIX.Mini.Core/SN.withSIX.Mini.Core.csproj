@@ -142,6 +142,14 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SteamKit2, Version=1.8.0.26737, Culture=neutral, PublicKeyToken=ed3ce47ed5aad940, processorArchitecture=MSIL">
+      <HintPath>..\packages\SteamKit2.1.8.0\lib\net45\SteamKit2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -207,7 +215,6 @@
     <Compile Include="Games\Services\GameLauncher\LaunchGameInfo.cs" />
     <Compile Include="Games\Services\GameLauncher\ScreenResolution.cs" />
     <Compile Include="Games\Services\GameLocker.cs" />
-    <Compile Include="Games\SteamHelper.cs" />
     <Compile Include="Games\UninstallLocalContentAction.cs" />
     <Compile Include="Games\UnityStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +228,10 @@
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>SN.withSIX.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
+      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
+      <Name>SN.withSIX.Steam.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>

@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Core.Games.Attributes
@@ -38,52 +39,14 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         public virtual string Folder { get; }
         public bool DRM { get; set; }
 
-        public SteamDirectories GetDirectories() => new SteamDirectories(this, Common.Paths.SteamPath);
+        public SteamDirectories GetDirectories(SteamHelper helper) {
+            var si = helper.TryGetSteamAppById(AppId);
+            return new SteamDirectories(AppId, si?.GetInstallDir() ?? Folder, si?.InstallBase ?? Common.Paths.SteamPath);
+        }
 
         class NullSteamInfo : SteamInfoAttribute
         {
             public override uint AppId => 0;
         }
-    }
-
-    public class SteamDirectories
-    {
-        public SteamDirectories(SteamInfoAttribute info, IAbsoluteDirectoryPath steamPath) {
-            Contract.Requires<ArgumentNullException>(info != null);
-            Contract.Requires<ArgumentNullException>(steamPath != null);
-
-            // TODO: Take LibraryPath from KV store
-            RootPath = steamPath.GetChildDirectoryWithName("steamapps");
-            Game = new SteamGameDirectories(info, RootPath);
-            Workshop = new SteamWorkshopDirectories(info, RootPath);
-        }
-
-        public IAbsoluteDirectoryPath RootPath { get; }
-
-        public SteamGameDirectories Game { get; }
-
-        public SteamWorkshopDirectories Workshop { get; }
-    }
-
-    public class SteamWorkshopDirectories
-    {
-        public SteamWorkshopDirectories(SteamInfoAttribute info, IAbsoluteDirectoryPath rootPath) {
-            RootPath = rootPath.GetChildDirectoryWithName("workshop");
-            ContentPath = RootPath.GetChildDirectoryWithName("content").GetChildDirectoryWithName(info.AppId.ToString());
-        }
-
-        public IAbsoluteDirectoryPath RootPath { get; }
-        public IAbsoluteDirectoryPath ContentPath { get; }
-    }
-
-    public class SteamGameDirectories
-    {
-        public SteamGameDirectories(SteamInfoAttribute info, IAbsoluteDirectoryPath rootPath) {
-            RootPath = rootPath.GetChildDirectoryWithName("common");
-            ContentPath = RootPath.GetChildDirectoryWithName(info.Folder); // TODO: Take FolderName from KV store.
-        }
-
-        public IAbsoluteDirectoryPath RootPath { get; }
-        public IAbsoluteDirectoryPath ContentPath { get; }
     }
 }

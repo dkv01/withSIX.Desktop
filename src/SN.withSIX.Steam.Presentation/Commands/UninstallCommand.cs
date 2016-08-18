@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SN.withSIX.Core;
 using SN.withSIX.Steam.Api;
 using SN.withSIX.Steam.Api.Services;
 
@@ -25,15 +26,16 @@ namespace SN.withSIX.Steam.Presentation.Commands
                 return 11;
             }
             using (await StartSession().ConfigureAwait(false)) {
-                foreach (var nfo in pIds.Select(x => new PublishedFile(Convert.ToUInt64(x), AppId)))
-                    await ProcessContent(nfo).ConfigureAwait(false);
+                var app = new App(AppId);
+                foreach (var pid in pIds.Select(x => app.GetPf(Convert.ToUInt64(x))))
+                    await ProcessContent(app, pid).ConfigureAwait(false);
             }
             return 0;
         }
 
-        private async Task ProcessContent(PublishedFile pf) {
+        private async Task ProcessContent(App app, PublishedFile pf) {
             Console.WriteLine($"Starting {pf.Pid}");
-            await pf.Uninstall(_steamApi).ConfigureAwait(false);
+            await app.Uninstall(pf, _steamApi).ConfigureAwait(false);
             Console.WriteLine($"Finished {pf.Pid}");
         }
     }

@@ -24,7 +24,7 @@ namespace SN.withSIX.Steam.Api.Services
         }
 
         public async Task Download(PublishedFile pf, Action<long?, double> progressAction = null,
-            CancellationToken cancelToken = default(CancellationToken), bool force = false) {
+            CancellationToken cancelToken = default(CancellationToken)) {
             if (progressAction != null)
                 HandleProgress(progressAction);
             await
@@ -149,7 +149,7 @@ namespace SN.withSIX.Steam.Api.Services
     public interface ISteamDownloader
     {
         Task Download(PublishedFile pf, Action<long?, double> progressAction = null,
-            CancellationToken cancelToken = default(CancellationToken), bool force = false);
+            CancellationToken cancelToken = default(CancellationToken));
     }
 
     public struct DownloadInfo : IEquatable<DownloadInfo>

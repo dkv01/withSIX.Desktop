@@ -88,15 +88,15 @@ namespace SN.withSIX.Steam.Api.Services
 
         public class SteamSessionFactory : ISteamSessionFactory, ISteamSessionLocator
         {
-            // TODO: Improved approach like DbContextLocator ;-)
-            public SteamSession Session { get; private set; }
-
             public async Task<SteamSession> Start(uint appId) {
                 var session = new SteamSession();
                 await session.Initialize(appId).ConfigureAwait(false);
                 Session = session;
                 return session;
             }
+
+            // TODO: Improved approach like DbContextLocator ;-)
+            public SteamSession Session { get; private set; }
         }
     }
 

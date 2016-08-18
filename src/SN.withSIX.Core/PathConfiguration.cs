@@ -11,10 +11,18 @@ using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Core
 {
+    public class SteamPathHelper {
+        private static readonly string steamRegistry = @"SOFTWARE\Valve\Steam";
+
+        public static IAbsoluteDirectoryPath GetSteamPath() {
+            var p = Tools.Generic.NullSafeGetRegKeyValue<string>(steamRegistry, "InstallPath");
+            return p.IsBlankOrWhiteSpace() ? null : p.Trim().ToAbsoluteDirectoryPath();
+        }
+    }
+
     public class PathConfiguration : IPathConfiguration, IDomainService, IEnableLogging
     {
         const string CompanyPath = "SIX Networks";
-        static readonly string steamRegistry = @"SOFTWARE\Valve\Steam";
         public readonly IAbsoluteFilePath CmdExe =
             Path.Combine(Environment.SystemDirectory, "cmd.exe").ToAbsoluteFilePath();
         public readonly string SelfUpdaterExe = "withSIX-SelfUpdater.exe";
@@ -84,16 +92,11 @@ namespace SN.withSIX.Core
 
             ServiceExePath = Common.IsMini ? EntryLocation : SharedFilesPath.GetChildFileWithName(ServiceExe);
             SelfUpdaterExePath = SharedFilesPath.GetChildFileWithName(SelfUpdaterExe);
-            SteamPath = GetSteamPath();
+            SteamPath = SteamPathHelper.GetSteamPath();
 
             SynqRootPath = ProgramDataPath.GetChildDirectoryWithName("Synq");
 
             PathsSet = true;
-        }
-
-        static IAbsoluteDirectoryPath GetSteamPath() {
-            var p = Tools.Generic.NullSafeGetRegKeyValue<string>(steamRegistry, "InstallPath");
-            return p.IsBlankOrWhiteSpace() ? null : p.Trim().ToAbsoluteDirectoryPath();
         }
 
         IAbsoluteDirectoryPath GetSystemSharedPath()

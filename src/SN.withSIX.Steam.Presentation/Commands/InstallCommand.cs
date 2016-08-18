@@ -33,13 +33,14 @@ namespace SN.withSIX.Steam.Presentation.Commands
                 return 11;
             }
             using (await StartSession().ConfigureAwait(false)) {
+                var app = new App(AppId);
                 foreach (var nfo in pIds)
-                    await ProcessContent(nfo).ConfigureAwait(false);
+                    await ProcessContent(app, nfo).ConfigureAwait(false);
             }
             return 0;
         }
 
-        private async Task ProcessContent(string nfo) {
+        private async Task ProcessContent(App app, string nfo) {
             ulong p;
             var force = Force;
             if (nfo.StartsWith("!")) {
@@ -50,8 +51,7 @@ namespace SN.withSIX.Steam.Presentation.Commands
 
             Console.WriteLine($"Starting {p}");
             var pf = new PublishedFile(p, AppId);
-            await
-                pf.Download(_steamDownloader, _steamApi, (l, d) => Console.WriteLine($"{l}/s {d}%"), force: force)
+            await app.Download(_steamDownloader, _steamApi, pf, (l, d) => Console.WriteLine($"{l}/s {d}%"), force: force)
                     .ConfigureAwait(false);
             Console.WriteLine($"Finished {p}");
         }

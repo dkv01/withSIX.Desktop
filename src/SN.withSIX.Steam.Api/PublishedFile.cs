@@ -39,7 +39,7 @@ namespace SN.withSIX.Steam.Api
             }
 
             await HandleSubscription(force, api).ConfigureAwait(false);
-            await dl.Download(this, progressAction, cancelToken, force).ConfigureAwait(false);
+            await dl.Download(this, progressAction, cancelToken).ConfigureAwait(false);
         }
 
         bool IsSubscribed() => State.IsSubscribed();

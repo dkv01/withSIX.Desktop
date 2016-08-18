@@ -19,6 +19,7 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Core.Games
@@ -62,7 +63,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (!DefaultDirectoriesOverriden)
                 SetupDefaultDirectories();
             _getCompatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
-            _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories());
+            _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories(SteamHelper));
         }
 
         protected SteamDirectories SteamDirectories => _steamDirectories.Value;
