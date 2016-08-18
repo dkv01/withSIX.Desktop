@@ -54,19 +54,22 @@ namespace SN.withSIX.Steam.Api
                 var kv = KeyValue.LoadFromString(await reg.ReadTextAsync(cancelToken).ConfigureAwait(false));
                 var changed = false;
                 var key = pf.Pid.m_PublishedFileId.ToString();
+                var ws = kv.GetKeyValue("AppWorkshop");
                 foreach (
                     var root in
                         new[] {
-                            new[] {"AppWorkshop", "WorkshopItemDetails"},
-                            new[] {"AppWorkshop", "WorkshopItemsInstalled"}
-                        }
-                            .Select(r => kv.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
+                            "WorkshopItemDetails",
+                            "WorkshopItemsInstalled"
+                        }.Select(r => ws.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
                     root.Remove(key);
                     changed = true;
                 }
 
-                if (changed)
+                if (changed) {
+                    var id = ws["WorkshopItemsInstalled"];
+                    ws["SizeOnDisk"].Value = id.Children.Sum(x => x["size"].AsLong()).ToString();
                     kv.SaveToFile(reg.ToString(), false);
+                }
             }
         }
     }
