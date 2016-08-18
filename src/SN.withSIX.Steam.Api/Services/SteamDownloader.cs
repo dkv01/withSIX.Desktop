@@ -13,43 +13,24 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
 using Steamworks;
 
-namespace SN.withSIX.Steam.Api
+namespace SN.withSIX.Steam.Api.Services
 {
-    public interface ISteamDownloader
-    {
-        Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null,
-            CancellationToken cancelToken = default(CancellationToken), bool force = false);
-    }
-
     public class SteamDownloader : ISteamDownloader, IDomainService
     {
-        public async Task Download(uint appId, ulong publishedFileId, Action<long?, double> progressAction = null,
-            CancellationToken cancelToken = default(CancellationToken), bool force = false) {
-            var pid = new PublishedFileId_t(publishedFileId);
-            var state = (EItemState) SteamUGC.GetItemState(pid);
-            if (!force && !state.RequiresDownloading()) {
-                progressAction?.Invoke(null, 100);
-                return;
-            }
+        private readonly ISteamApi _api;
 
-            await HandleSubscription(force, state, pid).ConfigureAwait(false);
-
-            if (progressAction != null)
-                HandleProgress(progressAction);
-
-            await
-                PerformDownload(appId, pid, progressAction != null ? HandleProgress(progressAction) : null, cancelToken)
-                    .ConfigureAwait(false);
+        public SteamDownloader(ISteamApi api) {
+            _api = api;
         }
 
-        private static async Task HandleSubscription(bool force, EItemState state, PublishedFileId_t pid) {
-            var isSubscribed = state.HasFlag(EItemState.k_EItemStateSubscribed);
-            if (force && isSubscribed) {
-                await UnsubscribeAndConfirm(pid).ConfigureAwait(false);
-                isSubscribed = false;
-            }
-            if (!isSubscribed)
-                await SubscribeAndConfirm(pid).ConfigureAwait(false);
+        public async Task Download(PublishedFile pf, Action<long?, double> progressAction = null,
+            CancellationToken cancelToken = default(CancellationToken), bool force = false) {
+            if (progressAction != null)
+                HandleProgress(progressAction);
+            await
+                PerformDownload(pf, progressAction != null ? HandleProgress(progressAction) : null,
+                    cancelToken)
+                    .ConfigureAwait(false);
         }
 
         private static Action<DownloadInfo> HandleProgress(Action<long?, double> progressAction) {
@@ -67,35 +48,42 @@ namespace SN.withSIX.Steam.Api
             return pCb;
         }
 
-        private async Task PerformDownload(uint appId, PublishedFileId_t pid, Action<DownloadInfo> pCb,
-            CancellationToken cancelToken) {
-            var aid = new AppId_t(appId);
-
+        private async Task PerformDownload(PublishedFile pf, Action<DownloadInfo> pCb, CancellationToken cancelToken) {
             // TODO: Timeout based on receiving Download progress...
-            var readySignal = ObserveDownloadItemResultForApp(aid, pid, cancelToken)
-                .Select(x => { ConfirmResult(x.m_eResult); return Unit.Default; })
-                .Merge(ObserveInstalledFileForApp(aid, pid, cancelToken).Select(x => Unit.Default))
+            var readySignal = ObserveDownloadItemResultForApp(pf, cancelToken)
+                .Select(x => {
+                    _api.ConfirmResult(x.m_eResult);
+                    return Unit.Default;
+                })
+                .Merge(ObserveInstalledFileForApp(pf, cancelToken).Select(x => Unit.Default))
                 .Take(1);
 
             // in case we get a result before we would be waiting for it..
             var readySignalTask = readySignal.ToTask(cancelToken);
-            DownloadAndConfirm(pid);
-            using (pCb == null ? null : ProcessDownloadInfo(pid, pCb, readySignal))
+            DownloadAndConfirm(pf);
+            using (pCb == null ? null : ProcessDownloadInfo(pf, pCb, readySignal))
                 await readySignalTask.ConfigureAwait(false);
         }
 
-        private static IDisposable ProcessDownloadInfo(PublishedFileId_t pid, Action<DownloadInfo> pCb,
+        private IDisposable ProcessDownloadInfo(PublishedFile pf, Action<DownloadInfo> pCb,
+            IObservable<Unit> obs2) => ProcessDownloadInfo(pf.Pid, pCb, obs2);
+
+        private IDisposable ProcessDownloadInfo(PublishedFileId_t pid, Action<DownloadInfo> pCb,
             IObservable<Unit> obs2) => ObserveDownloadInfo(pid)
                 .TakeUntil(obs2)
                 .Subscribe(pCb, () => pCb(new DownloadInfo(ulong.MaxValue, ulong.MaxValue)));
+
+        private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForApp(PublishedFile pf,
+            CancellationToken cancelToken) =>
+                ObserveDownloadItemResultForApp(pf.Aid, pf.Pid, cancelToken);
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForApp(AppId_t aid, PublishedFileId_t pid,
             CancellationToken cancelToken)
             => ObserveDownloadItemResultForGame(aid, cancelToken)
                 .Where(x => x.m_nPublishedFileId == pid);
 
-        private static IObservable<DownloadInfo> ObserveDownloadInfo(PublishedFileId_t pid)
-            => Observable.Interval(TimeSpan.FromMilliseconds(500), SteamHelper.Scheduler)
+        private IObservable<DownloadInfo> ObserveDownloadInfo(PublishedFileId_t pid)
+            => Observable.Interval(TimeSpan.FromMilliseconds(500), _api.Scheduler)
                 .Select(_ => GetPublishedFileState(pid))
                 .DistinctUntilChanged();
 
@@ -113,51 +101,25 @@ namespace SN.withSIX.Steam.Api
             }
         }
 
-        private static void DownloadAndConfirm(PublishedFileId_t pid) {
-            if (!SteamUGC.DownloadItem(pid, true))
+        private static void DownloadAndConfirm(PublishedFile pf) {
+            if (!SteamUGC.DownloadItem(pf.Pid, true))
                 throw new InvalidOperationException("Failed to initiate download");
         }
 
-        private static async Task SubscribeAndConfirm(PublishedFileId_t pid) {
-            var r = await SubscribeToContent(pid);
-            ConfirmResult(r.m_eResult);
-        }
-
-        private static async Task UnsubscribeAndConfirm(PublishedFileId_t pid) {
-            var r = await UnsubscribeFromContent(pid);
-            ConfirmResult(r.m_eResult);
-        }
-
-        private static void ConfirmResult(EResult mEResult) {
-            if (mEResult != EResult.k_EResultOK)
-                throw new InvalidOperationException("Failed with result " + mEResult);
-        }
+        private IObservable<ItemInstalled_t> ObserveInstalledFileForApp(PublishedFile pf, CancellationToken cancelToken)
+            => ObserveInstalledFileForApp(pf.Aid, pf.Pid, cancelToken);
 
         private IObservable<ItemInstalled_t> ObserveInstalledFileForApp(AppId_t aid, PublishedFileId_t pid,
             CancellationToken cancelToken)
             => ObserveInstalledForGame(aid, cancelToken).Where(x => x.m_nPublishedFileId == pid);
 
         private IObservable<ItemInstalled_t> ObserveInstalledForGame(AppId_t aid, CancellationToken cancelToken)
-            => SteamHelper.CreateObservableFromCallback<ItemInstalled_t>(cancelToken).Where(x => x.m_unAppID == aid);
+            => _api.CreateObservableFromCallback<ItemInstalled_t>(cancelToken).Where(x => x.m_unAppID == aid);
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForGame(AppId_t aid,
             CancellationToken cancelToken)
-            =>
-                SteamHelper.CreateObservableFromCallback<DownloadItemResult_t>(cancelToken)
-                    .Where(x => x.m_unAppID == aid);
-
-        private static IObservable<RemoteStorageSubscribePublishedFileResult_t> SubscribeToContent(PublishedFileId_t pid)
-            =>
-                SteamUGC.SubscribeItem(pid)
-                    .CreateObservableFromCallresults<RemoteStorageSubscribePublishedFileResult_t>()
-                    .Take(1);
-
-        private static IObservable<RemoteStorageUnsubscribePublishedFileResult_t> UnsubscribeFromContent(
-            PublishedFileId_t pid)
-            =>
-                SteamUGC.UnsubscribeItem(pid)
-                    .CreateObservableFromCallresults<RemoteStorageUnsubscribePublishedFileResult_t>()
-                    .Take(1);
+            => _api.CreateObservableFromCallback<DownloadItemResult_t>(cancelToken)
+                .Where(x => x.m_unAppID == aid);
 
         class Progress
         {
@@ -184,10 +146,10 @@ namespace SN.withSIX.Steam.Api
         }
     }
 
-    public static class Extensions
+    public interface ISteamDownloader
     {
-        public static bool RequiresDownloading(this EItemState state)
-            => !state.HasFlag(EItemState.k_EItemStateInstalled) || state.HasFlag(EItemState.k_EItemStateNeedsUpdate);
+        Task Download(PublishedFile pf, Action<long?, double> progressAction = null,
+            CancellationToken cancelToken = default(CancellationToken), bool force = false);
     }
 
     public struct DownloadInfo : IEquatable<DownloadInfo>

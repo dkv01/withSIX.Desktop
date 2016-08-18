@@ -92,15 +92,48 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         IAbsoluteDirectoryPath GetModInstallationDirectory()
             => InstalledState.Directory.GetChildDirectoryWithName("mods");
 
-        protected override async Task InstallMod(IModContent mod) {
-            var sourceDir = GetContentSourceDirectory(mod);
-            var sourcePak = sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
+        protected override Task InstallMod(IModContent mod) {
+            var m = CreateMod(mod);
+            return m.Install();
+        }
 
-            var installDirectory = GetModInstallationDirectory();
-            installDirectory.MakeSurePathExists();
+        protected override Task UninstallMod(IModContent mod) {
+            var m = CreateMod(mod);
+            return m.Uninstall();
+        }
 
-            var pakFile = installDirectory.GetChildFileWithName($"{mod.PackageName}.pak");
+        private StarboundMod CreateMod(IModContent mod)
+            => new StarboundMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory());
+    }
+
+    internal class StarboundMod
+    {
+        private readonly IModContent _mod;
+        private readonly IAbsoluteDirectoryPath _modDir;
+        private readonly IAbsoluteDirectoryPath _sourceDir;
+
+        public StarboundMod(IModContent mod, IAbsoluteDirectoryPath sourceDir, IAbsoluteDirectoryPath modDir) {
+            _mod = mod;
+            _sourceDir = sourceDir;
+            _modDir = modDir;
+        }
+
+        public async Task Install() {
+            var sourcePak = _sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
+
+            _modDir.MakeSurePathExists();
+
+            var pakFile = _modDir.GetChildFileWithName($"{_mod.PackageName}.pak");
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
+        }
+
+        public async Task Uninstall() {
+            if (!_modDir.Exists)
+                return;
+
+            var pakFile = _modDir.GetChildFileWithName($"{_mod.PackageName}.pak");
+            if (pakFile.Exists)
+                pakFile.Delete();
         }
     }
 }

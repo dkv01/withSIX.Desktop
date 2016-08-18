@@ -66,17 +66,22 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             settings.AppendLine(ModStart);
             foreach (
                 var m in
-                    launchContentAction.Content.Select(x => x.Content).OfType<IModContent>().Select(CreateStellarisMod))
+                    launchContentAction.Content.Select(x => x.Content).OfType<IModContent>().Select(CreateMod))
                 settings.AppendLine($"\t\"{m.GetRelModName()}.mod\"");
             settings.AppendLine(ModEnd);
         }
 
         protected override Task InstallMod(IModContent mod) {
-            var m = CreateStellarisMod(mod);
-            return m.InstallMod();
+            var m = CreateMod(mod);
+            return m.Install();
         }
 
-        private StellarisMod CreateStellarisMod(IModContent x)
+        protected override Task UninstallMod(IModContent mod) {
+            var m = CreateMod(mod);
+            return m.Uninstall();
+        }
+
+        private StellarisMod CreateMod(IModContent x)
             => new StellarisMod(GetContentSourceDirectory(x), GetModInstallationDirectory());
 
         class StellarisMod
@@ -93,19 +98,17 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
                         () => _sourcePath.DirectoryInfo.EnumerateFiles("*.zip").First().ToAbsoluteFilePath());
             }
 
-            public async Task InstallMod() {
+            public async Task Install() {
                 var modName = GetModName();
-
                 var sourceZip = GetSourceZip();
-                var installDirectory = _modPath;
-                installDirectory.MakeSurePathExists();
-                var destinationDir = installDirectory.GetChildDirectoryWithName(modName);
+                _modPath.MakeSurePathExists();
+                var destinationDir = _modPath.GetChildDirectoryWithName(modName);
                 if (destinationDir.Exists)
                     destinationDir.Delete(true);
                 sourceZip.Unpack(destinationDir, true);
 
                 var desc = destinationDir.GetChildFileWithName("descriptor.mod");
-                var modFile = installDirectory.GetChildFileWithName($"{modName}.mod");
+                var modFile = _modPath.GetChildFileWithName($"{modName}.mod");
                 modFile.WriteText(
                     desc.ReadAllText()
                         .Replace($"archive=\"{modName}.zip\"", $"path=\"{GetRelModName()}\""));
@@ -119,6 +122,20 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             }
 
             private IAbsoluteFilePath GetSourceZip() => _sourceZip.Value;
+
+            public async Task Uninstall() {
+                if (!_modPath.Exists)
+                    return;
+                var modName = GetModName();
+                var destinationDir = _modPath.GetChildDirectoryWithName(modName);
+                if (destinationDir.Exists)
+                    destinationDir.Delete(true);
+                else {
+                    var modFile = _modPath.GetChildFileWithName($"{modName}.mod");
+                    if (modFile.Exists)
+                        modFile.Delete();
+                }
+            }
         }
     }
 }

@@ -75,7 +75,7 @@ namespace SN.withSIX.Mini.Core.Games
         [IgnoreDataMember]
         protected RemoteInfoAttribute RemoteInfo { get; }
         [IgnoreDataMember]
-        protected SteamInfoAttribute SteamInfo { get; }
+        public SteamInfoAttribute SteamInfo { get; }
         [IgnoreDataMember]
         protected RegistryInfoAttribute RegistryInfo { get; }
         [DataMember]
@@ -129,13 +129,14 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected virtual IAbsoluteDirectoryPath GetContentDirectory() => InstalledState.WorkingDirectory;
 
-        public IAbsoluteDirectoryPath GetContentPath(IHavePackageName content) {
+        public IAbsoluteDirectoryPath GetContentPath(IContentWithPackageName content) {
             ConfirmInstalled();
-            return ContentPaths.Path.GetChildDirectoryWithName(content.PackageName);
+            return content.GetSourceDirectory(this);
         }
 
         public IAbsoluteDirectoryPath GetContentPath() {
             ConfirmInstalled();
+            // TODO: When steam game, should provide the option to select which folder to open?!
             return ContentPaths.Path;
         }
 

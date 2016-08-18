@@ -16,6 +16,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Steam.Api;
+using SN.withSIX.Steam.Api.Services;
 
 namespace SN.withSIX.Mini.Applications
 {

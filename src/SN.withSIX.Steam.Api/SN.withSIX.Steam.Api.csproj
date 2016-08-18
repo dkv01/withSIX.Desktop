@@ -80,10 +80,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SteamDownloader.cs" />
-    <Compile Include="SteamHelper.cs" />
-    <Compile Include="SteamSession.cs" />
+    <Compile Include="PublishedFile.cs" />
+    <Compile Include="Services\SteamApi.cs" />
+    <Compile Include="Services\SteamDownloader.cs" />
+    <Compile Include="Services\SteamSession.cs" />
+    <Compile Include="Services\SteamUploader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSteamworks.dll">

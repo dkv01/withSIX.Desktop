@@ -43,6 +43,8 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
             bool processed);
 
+        public abstract Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken, bool processed);
+
         public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         public abstract void Use(IContentAction<IContent> action);
         public abstract void Use(ILaunchContentAction<IContent> action);
@@ -60,6 +62,7 @@ namespace SN.withSIX.Mini.Core.Games
         void Installed(string version, bool completed);
         IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
         Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
+        Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken, bool processed);
         void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         void Use(IContentAction<IContent> action);
         void Use(ILaunchContentAction<IContent> action);
@@ -133,6 +136,9 @@ namespace SN.withSIX.Mini.Core.Games
         [IgnoreDataMember]
         List<Func<bool, Task>> AdditionalPostInstallActions { get; } = new List<Func<bool, Task>>();
 
+        [IgnoreDataMember]
+        List<Func<bool, Task>> AdditionalPreUninstallActions { get; } = new List<Func<bool, Task>>();
+
         [DataMember]
         public Guid? GroupId { get; set; }
 
@@ -184,7 +190,16 @@ namespace SN.withSIX.Mini.Core.Games
                 await a(processed).ConfigureAwait(false);
         }
 
+        public virtual async Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken,
+            bool processed) {
+            foreach (var a in AdditionalPreUninstallActions)
+                await a(processed).ConfigureAwait(false);
+        }
+
         public void RegisterAdditionalPostInstallTask(Func<bool, Task> task) => AdditionalPostInstallActions.Add(task);
+
+        public void RegisterAdditionalPreUninstallTask(Func<bool, Task> task)
+            => AdditionalPreUninstallActions.Add(task);
 
         public ItemState GetState() => State ?? InitialCachedState();
 

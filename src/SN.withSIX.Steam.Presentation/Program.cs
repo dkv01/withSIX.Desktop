@@ -3,31 +3,32 @@
 // </copyright>
 
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using SN.withSIX.Steam.Api;
-using withSIX.Api.Models.Extensions;
+using System.Collections.Generic;
+using SN.withSIX.Core.Presentation.Logging;
+using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Core.Commands;
+using SN.withSIX.Steam.Api.Services;
+using SN.withSIX.Steam.Presentation.Commands;
 
 namespace SN.withSIX.Steam.Presentation
 {
     class Program
     {
         static void Main(string[] args) {
-            var options = new Options {
-                Force = args.Contains("--force")
-            };
-            var cla = args.Where(x => !x.StartsWith("--")).ToArray();
             try {
-                Task.Factory.StartNew(
-                    () => Process(Convert.ToUInt32(cla.First()), options, cla.Skip(1).ToArray()),
-                    TaskCreationOptions.LongRunning)
-                    .Unwrap()
-                    .WaitAndUnwrapException();
+                SetupNlog.Initialize("SteamHelper");
+                Environment.Exit(new CommandRunner(BuildCommands()).RunCommandsAndLog(args));
             } catch (SteamInitializationException ex) {
                 Console.Error.WriteLine(ex.Message);
                 Environment.Exit(3);
             } catch (Exception ex) {
-                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(
+#if DEBUG
+                    ex
+#else
+                ex.Message
+#endif
+                    );
                 Environment.Exit(1);
             } catch {
                 Console.Error.WriteLine("Native code exception!");
@@ -35,33 +36,13 @@ namespace SN.withSIX.Steam.Presentation
             }
         }
 
-        static async Task Process(uint appId, Options options, params string[] pIds) {
-            using (await SteamSession.Start(appId).ConfigureAwait(false)) {
-                var dl = new SteamDownloader();
-                foreach (var nfo in pIds)
-                    await ProcessContent(appId, options, nfo, dl).ConfigureAwait(false);
-            }
-        }
-
-        private static async Task ProcessContent(uint appId, Options options, string nfo, ISteamDownloader dl) {
-            ulong p;
-            var force = false;
-            if (nfo.StartsWith("!")) {
-                force = true;
-                p = Convert.ToUInt64(nfo.Substring(1));
-            } else
-                p = Convert.ToUInt64(nfo);
-
-            Console.WriteLine($"Starting {p}");
-            await
-                dl.Download(appId, p, (l, d) => Console.WriteLine($"{l}/s {d}%"), force: options.Force || force)
-                    .ConfigureAwait(false);
-            Console.WriteLine($"Finished {p}");
-        }
-
-        class Options
-        {
-            public bool Force { get; set; }
+        private static IEnumerable<BaseCommand> BuildCommands() {
+            var steamSessionFactory = new SteamSession.SteamSessionFactory();
+            var steamApi = new SteamApi(steamSessionFactory);
+            return new BaseCommand[] {
+                new InstallCommand(steamSessionFactory, new SteamDownloader(steamApi), steamApi),
+                new UninstallCommand(steamSessionFactory, steamApi)
+            };
         }
     }
 }

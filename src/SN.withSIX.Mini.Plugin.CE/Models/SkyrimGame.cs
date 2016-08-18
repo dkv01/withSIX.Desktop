@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="StarboundGame.cs">
+﻿// <copyright company="SIX Networks GmbH" file="SkyrimGame.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -38,7 +38,12 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 
         protected override Task InstallMod(IModContent mod) {
             var m = CreateMod(mod);
-            return m.Install(GetModInstallationDirectory());
+            return m.Install();
+        }
+
+        protected override Task UninstallMod(IModContent mod) {
+            var m = CreateMod(mod);
+            return m.Uninstall();
         }
 
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
@@ -57,14 +62,18 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             loadOrder.WriteText(string.Join(Environment.NewLine, contentList));
         }
 
-        private SkyrimMod CreateMod(IModContent x) => new SkyrimMod(GetContentSourceDirectory(x));
+        private SkyrimMod CreateMod(IModContent x)
+            => new SkyrimMod(GetContentSourceDirectory(x), GetModInstallationDirectory());
 
+        // TODO: Subdirectories support
         class SkyrimMod
         {
+            private readonly IAbsoluteDirectoryPath _installPath;
             private readonly IAbsoluteDirectoryPath _sourceDir;
 
-            public SkyrimMod(IAbsoluteDirectoryPath contentPath) {
+            public SkyrimMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath installPath) {
                 _sourceDir = contentPath;
+                _installPath = installPath;
             }
 
             public string GetEsmFileName() {
@@ -73,11 +82,21 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
                 return esm?.FileName;
             }
 
-            public async Task Install(IAbsoluteDirectoryPath installDirectory) {
-                installDirectory.MakeSurePathExists();
+            public async Task Install() {
+                _installPath.MakeSurePathExists();
 
                 foreach (var f in _sourceDir.DirectoryInfo.EnumerateFiles())
-                    await f.ToAbsoluteFilePath().CopyAsync(installDirectory).ConfigureAwait(false);
+                    await f.ToAbsoluteFilePath().CopyAsync(_installPath).ConfigureAwait(false);
+            }
+
+            public async Task Uninstall() {
+                if (!_installPath.Exists || !_sourceDir.Exists)
+                    return;
+                foreach (var df in
+                    _sourceDir.DirectoryInfo.EnumerateFiles()
+                        .Select(f => _installPath.GetChildFileWithName(f.Name))
+                        .Where(df => df.Exists))
+                    df.Delete();
             }
         }
     }

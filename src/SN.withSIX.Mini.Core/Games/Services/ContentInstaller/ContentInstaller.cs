@@ -67,8 +67,8 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 
         async Task TryUninstall(IUninstallContentAction2<IUninstallableContent> action) {
             var session = _sessionFactory.CreateUninstaller(action);
-            foreach (var c in action.Content)
-                await c.Content.Uninstall(session, action.CancelToken).ConfigureAwait(false);
+            await session.Uninstall().ConfigureAwait(false);
+
             if (!action.Status.IsEmpty())
                 await PostInstallStatusOverview(action.Status).ConfigureAwait(false);
         }

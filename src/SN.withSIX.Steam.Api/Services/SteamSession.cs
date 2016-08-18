@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -14,24 +15,30 @@ using SN.withSIX.Core.Logging;
 using Steamworks;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Steam.Api
+namespace SN.withSIX.Steam.Api.Services
 {
-    public class SteamSession : IDisposable
+    public interface ISteamSession
+    {
+        IScheduler Scheduler { get; }
+        uint AppId { get; }
+    }
+
+    public class SteamSession : IDisposable, ISteamSession
     {
         private IDisposable _callbackRunner;
         private SteamAPIWarningMessageHook_t _mSteamApiWarningMessageHook;
+        private EventLoopScheduler _scheduler;
 
-        private SteamSession(uint appId) {
-            AppId = appId;
-        }
-
-        public uint AppId { get; }
 
         public void Dispose() {
             _callbackRunner.Dispose();
-            SteamHelper.Scheduler?.Dispose();
+            _scheduler?.Dispose();
             SteamAPI.Shutdown();
         }
+
+        public IScheduler Scheduler => _scheduler;
+
+        public uint AppId { get; private set; }
 
         private static void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText) {
             var message = pchDebugText.ToString();
@@ -39,15 +46,13 @@ namespace SN.withSIX.Steam.Api
             Console.Error.WriteLine(message);
         }
 
-        public static async Task<SteamSession> Start(uint appId) {
-            var session = new SteamSession(appId);
-            await session.Initialize(appId).ConfigureAwait(false);
-            return session;
-        }
-
         private Task Initialize(uint appId) => SetupSteam(appId);
 
         private async Task SetupSteam(uint appId) {
+            Contract.Requires<ArgumentException>(appId > 0);
+            if (AppId > 0)
+                throw new InvalidOperationException("This session is already initialized!");
+            AppId = appId;
             var tmp =
                 Directory.GetCurrentDirectory().ToAbsoluteDirectoryPath().GetChildFileWithName("steam_appid.txt");
             await WriteSteamAppId(appId, tmp).ConfigureAwait(false);
@@ -64,8 +69,8 @@ namespace SN.withSIX.Steam.Api
             _mSteamApiWarningMessageHook = SteamAPIDebugTextHook;
             SteamClient.SetWarningMessageHook(_mSteamApiWarningMessageHook);
 
-            SteamHelper.Scheduler = new EventLoopScheduler();
-            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), SteamHelper.Scheduler)
+            _scheduler = new EventLoopScheduler();
+            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), Scheduler)
                 .Do(_ => {
                     try {
                         SteamAPI.RunCallbacks();
@@ -80,9 +85,33 @@ namespace SN.withSIX.Steam.Api
 
         private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)
             => appId.ToString().WriteToFileAsync(steamAppIdFile);
+
+        public class SteamSessionFactory : ISteamSessionFactory, ISteamSessionLocator
+        {
+            // TODO: Improved approach like DbContextLocator ;-)
+            public SteamSession Session { get; private set; }
+
+            public async Task<SteamSession> Start(uint appId) {
+                var session = new SteamSession();
+                await session.Initialize(appId).ConfigureAwait(false);
+                Session = session;
+                return session;
+            }
+        }
     }
 
-    public class SteamInitializationException : InvalidOperationException {
+    public interface ISteamSessionLocator
+    {
+        SteamSession Session { get; }
+    }
+
+    public interface ISteamSessionFactory
+    {
+        Task<SteamSession> Start(uint appId);
+    }
+
+    public class SteamInitializationException : InvalidOperationException
+    {
         public SteamInitializationException(string message) : base(message) {}
     }
 }

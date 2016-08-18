@@ -1,43 +1,33 @@
-// <copyright company="SIX Networks GmbH" file="SteamHelper.cs">
+// <copyright company="SIX Networks GmbH" file="Extensions.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
 using System;
 using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
+using SN.withSIX.Steam.Api.Services;
 using Steamworks;
 
-namespace SN.withSIX.Steam.Api
+namespace SN.withSIX.Steam.Api.Helpers
 {
-    public static class SteamHelper
+    public static class Extensions
     {
-        internal static EventLoopScheduler Scheduler { get; set; }
+        public static bool RequiresDownloading(this EItemState state) => !state.IsInstalled() || state.NeedsUpdate();
 
-        public static IObservable<Unit> FromCancellationToken(this CancellationToken cancelToken)
+        public static bool IsSubscribed(this EItemState state) => state.HasFlag(EItemState.k_EItemStateSubscribed);
+        public static bool IsInstalled(this EItemState state) => state.HasFlag(EItemState.k_EItemStateInstalled);
+        public static bool NeedsUpdate(this EItemState state) => state.HasFlag(EItemState.k_EItemStateNeedsUpdate);
+        public static bool IsLegacy(this EItemState state) => state.HasFlag(EItemState.k_EItemStateLegacyItem);
+
+        public static IObservable<Unit> FromCancellationToken(this CancellationToken cancelToken, ISteamSession session)
             => Observable.Create<Unit>(observer => cancelToken.Register(() => {
                 observer.OnNext(Unit.Default);
                 observer.OnCompleted();
-            })).ObserveOn(Scheduler);
+            })).ObserveOn(session.Scheduler);
 
-        public static IObservable<T> CreateObservableFromCallback<T>(CancellationToken cancelToken)
-            => Observable.Create<T>(observer => {
-                var callback = Callback<T>.Create(observer.OnNext);
-                var r = cancelToken.Register(() => HandleCanceled(observer));
-                return () => {
-                    callback.Unregister();
-                    r.Dispose();
-                };
-            }).ObserveOn(Scheduler);
-
-        public static IObservable<T> CreateObservableFromCallback<T>()
-            => Observable.Create<T>(observer => {
-                var callback = Callback<T>.Create(observer.OnNext);
-                return callback.Unregister;
-            }).ObserveOn(Scheduler);
-
-        public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall)
+        public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall,
+            ISteamSession session)
             => Observable.Create<T>(observer => {
                 var callback = CallResult<T>.Create((cb, fail) => {
                     if (fail)
@@ -50,9 +40,10 @@ namespace SN.withSIX.Steam.Api
                     if (callback.IsActive())
                         callback.Cancel();
                 };
-            }).ObserveOn(Scheduler);
+            }).ObserveOn(session.Scheduler);
 
         public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall,
+            ISteamSession session,
             CancellationToken cancelToken)
             => Observable.Create<T>(observer => {
                 var callback = CallResult<T>.Create((cb, fail) => {
@@ -67,7 +58,7 @@ namespace SN.withSIX.Steam.Api
                         if (callback.IsActive())
                             callback.Cancel();
                     } finally {
-                        HandleCanceled(observer);
+                        observer.HandleCanceled();
                     }
                 });
                 return () => {
@@ -76,9 +67,9 @@ namespace SN.withSIX.Steam.Api
                     if (!cancelToken.IsCancellationRequested)
                         r.Dispose();
                 };
-            }).ObserveOn(Scheduler);
+            }).ObserveOn(session.Scheduler);
 
-        private static void HandleCanceled<T>(IObserver<T> observer) {
+        public static void HandleCanceled<T>(this IObserver<T> observer) {
             try {
                 observer.OnError(new OperationCanceledException());
             } catch (OperationCanceledException) {}

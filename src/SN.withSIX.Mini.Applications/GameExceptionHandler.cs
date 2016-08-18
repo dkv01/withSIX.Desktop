@@ -13,6 +13,7 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Steam.Api;
+using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;

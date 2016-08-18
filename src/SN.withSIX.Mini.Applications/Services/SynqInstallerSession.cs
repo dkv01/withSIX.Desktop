@@ -8,23 +8,20 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Steam.Api;
+using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
@@ -253,7 +250,8 @@ namespace SN.withSIX.Mini.Applications.Services
                 .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
         }
 
-        private static bool ShouldInstallFromSteam(INetworkContent content) => content.Source.Publisher == Publisher.Steam;
+        private static bool ShouldInstallFromSteam(INetworkContent content)
+            => content.Source.Publisher == Publisher.Steam;
 
         private void PrepareGroupContent() {
             _groupContent = _installableContent.Where(x => _groups.Any(r => r.HasMod(x.Value.Name)))
@@ -447,12 +445,12 @@ namespace SN.withSIX.Mini.Applications.Services
             var i = 0;
             var session =
                 new SteamExternalInstallerSession(
-                    _action.Game.GetMetaData<SteamInfoAttribute>().AppId,
+                    _action.Game.SteamInfo.AppId,
                     _action.Game.SteamworkshopPaths.ContentPath,
                     // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
                     _steamContentToInstall.ToDictionary(x => Convert.ToUInt64(x.Key.Source.PublisherId),
                         x => contentProgress[i++]));
-            await session.Install(_action.CancelToken).ConfigureAwait(false);
+            await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
         }
 
@@ -614,27 +612,40 @@ namespace SN.withSIX.Mini.Applications.Services
         Task InstallContent(IContentSpec<IInstallableContent> c)
             => c.Content.Install(this, _action.CancelToken, c.Constraint);
 
-        class SteamExternalInstallerSession
+        internal class SteamExternalInstallerSession
         {
             private readonly uint _appId;
-            private readonly IAbsoluteDirectoryPath _workshopPath;
             private readonly Dictionary<ulong, ProgressLeaf> _content;
             private readonly SteamHelperParser _steamHelperParser;
+            private readonly IAbsoluteDirectoryPath _workshopPath;
 
-            public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath, Dictionary<ulong, ProgressLeaf> content) {
+            public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath,
+                Dictionary<ulong, ProgressLeaf> content) {
                 _appId = appId;
                 _workshopPath = workshopPath;
                 _content = content;
                 _steamHelperParser = new SteamHelperParser(content);
             }
 
-            public async Task Install(CancellationToken cancelToken) {
+            public Task Install(CancellationToken cancelToken, bool force) {
+                var options = new List<string>();
+                if (force)
+                    options.Add("--force");
+                return RunHelper(cancelToken, "install", options.ToArray());
+            }
+
+            public Task Uninstall(CancellationToken cancelToken) {
+                var options = new List<string>();
+                return RunHelper(cancelToken, "uninstall", options.ToArray());
+            }
+
+            private async Task RunHelper(CancellationToken cancelToken, string cmd, params string[] options) {
                 var helperExe = GetHelperExecutable();
                 var r =
                     await
                         Tools.ProcessManager.LaunchAndProcessAsync(
                             new LaunchAndProcessInfo(new ProcessStartInfo(helperExe.ToString(),
-                                GetHelperParameters().CombineParameters()) {
+                                GetHelperParameters(cmd, options).CombineParameters()) {
                                     WorkingDirectory = helperExe.ParentDirectoryPath.ToString()
                                 }) {
                                     StandardOutputAction = _steamHelperParser.ProcessProgress,
@@ -642,16 +653,18 @@ namespace SN.withSIX.Mini.Applications.Services
                                         (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
                                     CancellationToken = cancelToken
                                 }).ConfigureAwait(false);
-                if (r.ExitCode == 3)
+                if (r.ExitCode == 3) {
                     throw new SteamInitializationException(
                         "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
+                }
                 r.ConfirmSuccess();
             }
 
             private static IAbsoluteFilePath GetHelperExecutable() => Common.Paths.AppPath
                 .GetChildFileWithName("SteamHelper.exe");
 
-            private IEnumerable<string> GetHelperParameters() => new[] {_appId.ToString()}.Concat(_content.Keys.Select(Selector));
+            private IEnumerable<string> GetHelperParameters(string command, params string[] options)
+                => new[] {command, "-a", _appId.ToString()}.Concat(options).Concat(_content.Keys.Select(Selector));
 
             private string Selector(ulong x) {
                 var xStr = x.ToString();

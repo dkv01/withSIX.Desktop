@@ -32,7 +32,19 @@ namespace SN.withSIX.Mini.Core.Games
             return base.InstallImpl(installationService, content);
         }
 
+        protected override Task UninstallImpl(IContentInstallationService installationService,
+            IContentAction<IUninstallableContent> uninstallLocalContentAction) {
+            foreach (var m in uninstallLocalContentAction.Content.OfType<ModNetworkContent>()) {
+                m.RegisterAdditionalPreUninstallTask(async processed => {
+                    if (processed)
+                        await UninstallMod(m).ConfigureAwait(false);
+                });
+            }
+            return base.UninstallImpl(installationService, uninstallLocalContentAction);
+        }
+
         protected abstract Task InstallMod(IModContent mod);
+        protected abstract Task UninstallMod(IModContent mod);
 
         protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> launchContentAction) {
