@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SN.withSIX.Steam.Presentation")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("withSIX Steam Helper")]
+[assembly: AssemblyDescription("The withSIX.com Steam Helper")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SN.withSIX.Steam.Presentation")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("SIX Networks GmbH")]
+[assembly: AssemblyProduct("withSIX Steam Helper")]
+[assembly: AssemblyCopyright("Copyright © SIX Networks GmbH 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
