@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Core;
 using SN.withSIX.Steam.Core.SteamKit.Utils;
@@ -54,8 +55,11 @@ namespace SN.withSIX.Steam.Api
             await pf.Download(steamDownloader, steamApi, action, cancelToken, force).ConfigureAwait(false);
         }
 
+        // TODO: This probably actually needs Steam to close before performing actions again, as Steam caches the info and overwrites it again??
         private async Task HandleWorkshopItemMetadataRemoval(PublishedFile pf, CancellationToken cancelToken) {
-            var reg = Directories.Workshop.RootPath.GetChildFileWithName($"appworkshop_{Id.m_AppId}.acf");
+            var wsf = $"appworkshop_{Id.m_AppId}.acf";
+            var reg = Directories.Workshop.RootPath.GetChildFileWithName(wsf);
+            MainLog.Logger.Info($"Considering rewriting {wsf}");
             if (reg.Exists) {
                 var kv = KeyValue.LoadFromString(await reg.ReadTextAsync(cancelToken).ConfigureAwait(false));
                 var changed = false;
@@ -66,11 +70,13 @@ namespace SN.withSIX.Steam.Api
                             "WorkshopItemDetails",
                             "WorkshopItemsInstalled"
                         }.Select(r => kv.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
+                    MainLog.Logger.Info($"Removing {key} from {root.Name}");
                     root.Remove(key);
                     changed = true;
                 }
 
                 if (changed) {
+                    MainLog.Logger.Info($"Changes detected, saving {wsf}");
                     var id = kv["WorkshopItemsInstalled"];
                     kv["SizeOnDisk"].Value = id.Children.Sum(x => x["size"].AsLong()).ToString();
                     kv.SaveToFile(reg.ToString(), false);
