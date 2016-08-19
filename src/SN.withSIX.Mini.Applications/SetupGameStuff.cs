@@ -58,6 +58,7 @@ namespace SN.withSIX.Mini.Applications
 
         public Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds) => HandleGameContents(gameIds);
 
+        // TODO: We should perhaps create a scope and lock per game?!
         async Task HandleGameContentsWhenNeededIndividualLock(IReadOnlyCollection<Guid> tryGameIds) {
             var lockedGameIds = new List<Guid>();
             try {

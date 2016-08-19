@@ -33,6 +33,9 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract Guid GameId { get; }
         public abstract Guid Id { get; }
         public abstract string Version { get; }
+        public abstract ItemState ProcessingState { get; }
+        public abstract void StartProcessingState(string version, bool force);
+        public abstract void FinishProcessingState(string version, bool completed);
         public abstract InstallInfo InstallInfo { get; }
         public abstract RecentInfo RecentInfo { get; }
         public abstract ItemState GetState();
@@ -55,6 +58,11 @@ namespace SN.withSIX.Mini.Core.Games
     {
         string Name { get; set; }
         string Version { get; }
+        ItemState ProcessingState { get; }
+
+        void StartProcessingState(string version, bool force);
+        void FinishProcessingState(string version, bool completed);
+
         InstallInfo InstallInfo { get; }
         RecentInfo RecentInfo { get; }
         ItemState GetState();
@@ -205,6 +213,36 @@ namespace SN.withSIX.Mini.Core.Games
 
         public ItemState GetState(string constraint)
             => constraint == null || Version == constraint ? GetState() : CalculateState(constraint);
+
+        [IgnoreDataMember]
+        public ItemState ProcessingState { get; private set; }
+
+        public void StartProcessingState(string constraint, bool force) {
+            ProcessingState = GetProcessingState(constraint, force);
+        }
+
+        public void FinishProcessingState(string version, bool completed) {
+            var state = GetState(version);
+            Installed(version, completed);
+            if (state == GetState(version))
+                UpdateState(true);
+            ProcessingState = GetState();
+        }
+
+        ItemState GetProcessingState(string constraint, bool force) {
+            if (force)
+                return ItemState.Diagnosing;
+            var processState = GetState(constraint);
+            switch (processState) {
+                case ItemState.NotInstalled:
+                    return ItemState.Installing;
+                case ItemState.UpdateAvailable:
+                    return ItemState.Updating;
+                case ItemState.Incomplete:
+                    return ItemState.Installing;
+            }
+            return processState;
+        }
 
         public void Use(IContentAction<IContent> action) {
             RecentInfo = new RecentInfo();

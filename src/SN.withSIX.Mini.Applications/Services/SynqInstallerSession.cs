@@ -319,25 +319,15 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Combine status updates into single change?
             foreach (var c in _allContentToInstall) {
                 await
-                    new ContentStatusChanged(c.Key, GetProcessState(c.Key, c.Value.VersionData), progress, speed)
+                    new ContentStatusChanged(c.Key, StartProcessState(c.Key, c.Value.VersionData), progress, speed)
                         .Raise()
                         .ConfigureAwait(false);
             }
         }
 
-        private ItemState GetProcessState(IContent content, string constraint) {
-            if (_action.Force)
-                return ItemState.Diagnosing;
-            var processState = content.GetState(constraint);
-            switch (processState) {
-            case ItemState.NotInstalled:
-                return ItemState.Installing;
-            case ItemState.UpdateAvailable:
-                return ItemState.Updating;
-            case ItemState.Incomplete:
-                return ItemState.Installing;
-            }
-            return processState;
+        private ItemState StartProcessState(IContent content, string version) {
+            content.StartProcessingState(version, _action.Force);
+            return content.ProcessingState;
         }
 
         // TODO: Rethink our strategy here. We convert it to a temp collection so that we can install all the content at once.
@@ -376,13 +366,13 @@ namespace SN.withSIX.Mini.Applications.Services
             // then even if the user restarts the computer / terminates the app, the state is preserved.
             // TODO: Minus the _installed content... however, they are not fully installed anyway until their postinstall tasks have completed..
             foreach (var cInfo in _allInstallableContent)
-                cInfo.Key.Installed(cInfo.Value, false);
+                cInfo.Key.FinishProcessingState(cInfo.Value, false);
             _action.Game.RefreshCollections();
         }
 
         private void MarkContentAsFinished() {
             foreach (var cInfo in _allInstallableContent)
-                cInfo.Key.Installed(cInfo.Value, true);
+                cInfo.Key.FinishProcessingState(cInfo.Value, true);
             _action.Game.RefreshCollections();
         }
 
