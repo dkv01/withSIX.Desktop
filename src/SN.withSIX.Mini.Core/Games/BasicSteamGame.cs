@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected BasicSteamGame(Guid id, GameSettings settings) : base(id, settings) {}
 
         protected override IAbsoluteDirectoryPath GetContentDirectory()
-            => InstalledState.WorkingDirectory.GetChildDirectoryWithName(".synqmods");
+            => InstalledState.Directory.GetChildDirectoryWithName(".synqmods");
 
         protected override Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> content) {
