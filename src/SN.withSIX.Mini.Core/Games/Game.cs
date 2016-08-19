@@ -100,11 +100,12 @@ namespace SN.withSIX.Mini.Core.Games
         [IgnoreDataMember]
         public IEnumerable<LocalCollection> LocalCollections => Contents.OfType<LocalCollection>();
         [IgnoreDataMember]
-        public IOrderedEnumerable<NetworkContent> Updates
-            =>
-                InstalledContent.Where(x => x.GetState() == ItemState.UpdateAvailable)
-                    .OfType<NetworkContent>()
-                    .OrderByDescending(x => x.UpdatedVersion);
+        public IEnumerable<NetworkContent> Updates
+            => InstalledContent.Where(x => x.GetState() == ItemState.UpdateAvailable)
+                .OfType<NetworkContent>();
+
+        [IgnoreDataMember]
+        public IEnumerable<Content> AllAvailableContent => InstalledContent.Concat(IncompleteContent);
 
         [DataMember]
         public DateTime? LastPlayed { get; set; }

@@ -6,12 +6,14 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Core;
 using SN.withSIX.Steam.Core.SteamKit.Utils;
 using SteamKit2;
 using Steamworks;
 using withSIX.Api.Models.Extensions;
+using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
 
 namespace SN.withSIX.Steam.Api
 {
@@ -21,22 +23,26 @@ namespace SN.withSIX.Steam.Api
         internal static readonly SteamHelper SteamHelper = new SteamHelper(new SteamStuff().TryReadSteamConfig(),
             SteamStuff.GetSteamPath());
         private readonly SteamApp _steamInfo;
+        private Lazy<SteamDirectories> _directories;
         public App(uint id) : this(new AppId_t(id)) {}
 
         public App(AppId_t id) {
             Id = id;
             _steamInfo = SteamHelper.TryGetSteamAppById(Id.m_AppId);
+            _directories = SystemExtensions.CreateLazy(GetDirectories);
         }
 
         public AppId_t Id { get; set; }
+
+        private SteamDirectories Directories => _directories.Value;
 
         SteamDirectories GetDirectories()
             => new SteamDirectories(Id.m_AppId, _steamInfo.GetInstallDir(), _steamInfo.InstallBase);
 
         public async Task Uninstall(PublishedFile pf, ISteamApi api,
             CancellationToken cancelToken = default(CancellationToken)) {
-            await pf.Uninstall(api, cancelToken).ConfigureAwait(false);
-            await HandleWorkshopItemMetadataRemoval(pf, cancelToken).ConfigureAwait(false);
+            if (!await pf.Uninstall(api, Directories.Workshop.ContentPath, cancelToken).ConfigureAwait(false))
+                await HandleWorkshopItemMetadataRemoval(pf, cancelToken).ConfigureAwait(false);
         }
 
         public PublishedFile GetPf(ulong pId) => new PublishedFile(pId, Id.m_AppId);
@@ -49,7 +55,7 @@ namespace SN.withSIX.Steam.Api
         }
 
         private async Task HandleWorkshopItemMetadataRemoval(PublishedFile pf, CancellationToken cancelToken) {
-            var reg = GetDirectories().Workshop.RootPath.GetChildFileWithName($"appworkshop_{Id.m_AppId}.acf");
+            var reg = Directories.Workshop.RootPath.GetChildFileWithName($"appworkshop_{Id.m_AppId}.acf");
             if (reg.Exists) {
                 var kv = KeyValue.LoadFromString(await reg.ReadTextAsync(cancelToken).ConfigureAwait(false));
                 var changed = false;

@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Core.Commands;
@@ -19,21 +21,35 @@ namespace SN.withSIX.Steam.Presentation
                 SetupNlog.Initialize("SteamHelper");
                 Environment.Exit(new CommandRunner(BuildCommands()).RunCommandsAndLog(args));
             } catch (SteamInitializationException ex) {
-                Console.Error.WriteLine(ex.Message);
-                Environment.Exit(3);
+                Error(ex, 3);
+            } catch (TimeoutException ex) {
+                Error(ex, 9);
+            } catch (OperationCanceledException ex) {
+                Error(ex, 10);
             } catch (Exception ex) {
-                Console.Error.WriteLine(
+                Error(ex, 1);
+            } catch {
+                Error("Native code exception!", 2);
+            }
+        }
+
+        private static void Error(Exception ex, int exitCode) {
+            var formatted = ex.Format();
+            MainLog.Logger.Error(formatted);
+            Console.Error.WriteLine(
 #if DEBUG
-                    ex
+                formatted
 #else
                 ex.Message
 #endif
-                    );
-                Environment.Exit(1);
-            } catch {
-                Console.Error.WriteLine("Native code exception!");
-                Environment.Exit(2);
-            }
+                );
+            Environment.Exit(exitCode);
+        }
+
+        private static void Error(string msg, int exitCode) {
+            MainLog.Logger.Error(msg);
+            Console.Error.WriteLine(msg);
+            Environment.Exit(exitCode);
         }
 
         private static IEnumerable<BaseCommand> BuildCommands() {

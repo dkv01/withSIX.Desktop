@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
@@ -62,13 +63,10 @@ namespace SN.withSIX.Mini.Core.Games
             var existingModFolders = GetExistingModFolders().ToArray();
             var newContent =
                 new SteamGameContentScanner(this).ScanForNewContent(existingModFolders).ToArray();
-            if (newContent.Any())
-                AddInstalledContent(newContent);
-
-            RemoveInstalledContent(InstalledContent.OfType<IPackagedContent>()
-                .Where(x => !x.GetSourceDirectory(this).Exists)
-                .Cast<Content>()
-                .ToArray());
+            var removedContent = InstalledContent.OfType<IPackagedContent>()
+                .Where(x => !ContentExists(x.GetSourceDirectory(this)))
+                .Cast<Content>();
+            ProcessAddedAndRemovedContent(newContent, removedContent);
         }
 
         IEnumerable<IAbsoluteDirectoryPath> GetExistingModFolders() => GetModFolders().Where(x => x.Exists);
@@ -92,6 +90,7 @@ namespace SN.withSIX.Mini.Core.Games
         public IEnumerable<LocalContent> ScanForNewContent(IAbsoluteDirectoryPath[] existingModFolders) {
             foreach (var em in existingModFolders
                 .SelectMany(d => d.ChildrenDirectoriesPath
+                    .Where(x => !x.IsEmptySafe())
                     .Select(m => _game.Contents.OfType<IPackagedContent>()
                         .FirstOrDefault(x => x.PackageName == m.DirectoryName))
                     .Where(em => em != null)

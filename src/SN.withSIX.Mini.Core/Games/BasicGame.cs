@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
@@ -34,10 +36,19 @@ namespace SN.withSIX.Mini.Core.Games
                 Name = action.Name
             };
 
-        protected void RemoveInstalledContent(IReadOnlyCollection<Content> lc) {
+        protected void ProcessAddedAndRemovedContent(LocalContent[] newContent, IEnumerable<Content> removedContent) {
+            if (newContent.Any())
+                AddInstalledContent(newContent);
+            RemoveInstalledContent(removedContent);
+            RefreshCollections();
+        }
+
+        void RemoveInstalledContent(IEnumerable<Content> lc) {
             foreach (var c in lc)
                 c.Uninstalled();
         }
+
+        protected static bool ContentExists(IAbsoluteDirectoryPath dir) => dir.Exists && !dir.IsEmpty();
 
         protected override Task UninstallImpl(IContentInstallationService contentInstallation,
             IContentAction<IUninstallableContent> uninstallLocalContentAction)

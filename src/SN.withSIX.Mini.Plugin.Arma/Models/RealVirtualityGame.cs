@@ -82,17 +82,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         void ScanForLocalContentInternal() {
             var existingModFolders = GetExistingModFolders().ToArray();
             var newContent = new RvContentScanner(this).ScanForNewContent(Metadata.Dlcs, existingModFolders).ToArray();
-            if (newContent.Any())
-                AddInstalledContent(newContent);
-
-            RemoveInstalledContent(InstalledContent.OfType<IPackagedContent>()
+            var removedContent = InstalledContent.OfType<IPackagedContent>()
                 .Where(x => !ModExists(x, existingModFolders))
-                .Cast<Content>()
-                .ToArray());
+                .Cast<Content>();
+            ProcessAddedAndRemovedContent(newContent, removedContent);
         }
 
         static bool ModExists(IHavePackageName content, IEnumerable<IAbsoluteDirectoryPath> directories)
-            => directories.Any(x => x.GetChildDirectoryWithName(content.PackageName).Exists);
+            => directories.Any(x => ContentExists(x.GetChildDirectoryWithName(content.PackageName)));
 
         IEnumerable<IAbsoluteDirectoryPath> GetExistingModFolders() => GetModFolders().Where(x => x.Exists);
 

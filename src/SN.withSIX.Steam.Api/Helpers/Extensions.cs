@@ -6,6 +6,7 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+using NDepend.Path;
 using SN.withSIX.Steam.Api.Services;
 using Steamworks;
 
@@ -74,5 +75,8 @@ namespace SN.withSIX.Steam.Api.Helpers
                 observer.OnError(new OperationCanceledException());
             } catch (OperationCanceledException) {}
         }
+
+        public static IAbsolutePath GetLocation(this ItemInstallInfo This, bool isLegacy)
+            => isLegacy ? (IAbsolutePath) This.Location.ToAbsoluteFilePath() : This.Location.ToAbsoluteDirectoryPath();
     }
 }

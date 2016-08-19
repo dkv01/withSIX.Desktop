@@ -49,15 +49,7 @@ namespace SN.withSIX.Steam.Api.Services
         }
 
         private async Task PerformDownload(PublishedFile pf, Action<DownloadInfo> pCb, CancellationToken cancelToken) {
-            // TODO: Timeout based on receiving Download progress...
-            var readySignal = ObserveDownloadItemResultForApp(pf, cancelToken)
-                .Select(x => {
-                    _api.ConfirmResult(x.m_eResult);
-                    return Unit.Default;
-                })
-                .Merge(ObserveInstalledFileForApp(pf, cancelToken).Select(x => Unit.Default))
-                .Take(1);
-
+            var readySignal = CreateReadySignal(pf, cancelToken);
             // in case we get a result before we would be waiting for it..
             var readySignalTask = readySignal.ToTask(cancelToken);
             DownloadAndConfirm(pf);
@@ -65,13 +57,46 @@ namespace SN.withSIX.Steam.Api.Services
                 await readySignalTask.ConfigureAwait(false);
         }
 
+        private IObservable<Unit> CreateReadySignal(PublishedFile pf, CancellationToken cancelToken)
+            => CreateResultCompletionSource(pf, cancelToken)
+                .Merge(CreateInstalledCompletionSource(pf, cancelToken), _api.Scheduler)
+                .Merge(CreateProgressCompletionSource(pf), _api.Scheduler)
+                .Merge(CreateTimeoutSource(pf), _api.Scheduler)
+                .Take(1);
+
+        private IObservable<Unit> CreateResultCompletionSource(PublishedFile pf, CancellationToken cancelToken)
+            => ObserveDownloadItemResultForApp(pf, cancelToken)
+                .Select(x => {
+                    _api.ConfirmResult(x.m_eResult);
+                    return Unit.Default;
+                });
+
+        private IObservable<Unit> CreateInstalledCompletionSource(PublishedFile pf, CancellationToken cancelToken)
+            => ObserveInstalledFileForApp(pf, cancelToken).Select(x => Unit.Default);
+
+        private IObservable<Unit> CreateProgressCompletionSource(PublishedFile pf) => ObserveDownloadInfo(pf.Pid)
+            .Where(x => x.Total > 0 && x.Total == x.Downloaded)
+            .Select(x => Unit.Default);
+
+        private IObservable<Unit> CreateTimeoutSource(PublishedFile pf)
+            => ObserveDownloadInfo(pf.Pid)
+                .Throttle(TimeSpan.FromSeconds(60))
+                .Select(
+                    x => {
+                        throw new TimeoutException(
+                            "Did not receive download progress info from Steam for over 60 seconds");
+                        return Unit.Default;
+                    });
+
         private IDisposable ProcessDownloadInfo(PublishedFile pf, Action<DownloadInfo> pCb,
-            IObservable<Unit> obs2) => ProcessDownloadInfo(pf.Pid, pCb, obs2);
+            IObservable<Unit> readySignal) => ProcessDownloadInfo(pf.Pid, pCb, readySignal);
 
         private IDisposable ProcessDownloadInfo(PublishedFileId_t pid, Action<DownloadInfo> pCb,
-            IObservable<Unit> obs2) => ObserveDownloadInfo(pid)
-                .TakeUntil(obs2)
-                .Subscribe(pCb, () => pCb(new DownloadInfo(ulong.MaxValue, ulong.MaxValue)));
+            IObservable<Unit> readySignal) => ObserveDownloadInfo(pid)
+                .TakeUntil(readySignal) // So that the completion makes us emit a last 100% progress item :)
+                .Subscribe(pCb, () => pCb(new DownloadInfo(1, 1)));
+
+        // however since we probably already unsubscribe before completion it doesn't really help :)
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForApp(PublishedFile pf,
             CancellationToken cancelToken) =>
@@ -84,10 +109,10 @@ namespace SN.withSIX.Steam.Api.Services
 
         private IObservable<DownloadInfo> ObserveDownloadInfo(PublishedFileId_t pid)
             => Observable.Interval(TimeSpan.FromMilliseconds(500), _api.Scheduler)
-                .Select(_ => GetPublishedFileState(pid))
+                .Select(_ => GetDownloadInfo(pid))
                 .DistinctUntilChanged();
 
-        private static DownloadInfo GetPublishedFileState(PublishedFileId_t pid) {
+        private static DownloadInfo GetDownloadInfo(PublishedFileId_t pid) {
             try {
                 ulong downloaded;
                 ulong total;

@@ -2,8 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System.Collections.Generic;
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Helpers;
@@ -38,6 +39,26 @@ namespace SN.withSIX.Core.Extensions
             bool checkMd5 = false) => Tools.FileUtil.Ops.CopyDirectory(src, destination, overwrite);
 
         public static void Delete(this IAbsoluteFilePath src) => Tools.FileUtil.Ops.DeleteFile(src);
+
+        public static void Delete(this IAbsolutePath src, bool recursive = false) {
+            if (src.IsFilePath)
+                ((IAbsoluteFilePath) src).Delete();
+            else
+                global::withSIX.Api.Models.Extensions.FileExt.Delete((IAbsoluteDirectoryPath) src, recursive);
+        }
+
+        public static bool IsEmpty(this IAbsoluteDirectoryPath path)
+            => !path.Exists || !path.DirectoryInfo.EnumerateFileSystemInfos().Any();
+
+        public static bool IsEmptySafe(this IAbsoluteDirectoryPath path) {
+            try {
+                return path.IsEmpty();
+            } catch (UnauthorizedAccessException) {
+                return true;
+            } catch (IOException) {
+                return true;
+            }
+        }
 
         public static void Unpack(this IAbsoluteFilePath src, IAbsoluteDirectoryPath outputFolder,
             bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true, ITProgress progress = null)

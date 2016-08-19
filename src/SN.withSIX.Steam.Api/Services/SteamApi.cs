@@ -43,9 +43,10 @@ namespace SN.withSIX.Steam.Api.Services
             string folder;
             uint folderSize = 0; // ?
             uint timestamp;
-            if (SteamUGC.GetItemInstallInfo(pid, out sizeOnDisk, out folder, folderSize, out timestamp))
-                return new ItemInstallInfo(folder, sizeOnDisk, folderSize, timestamp);
-            throw new InvalidOperationException("Item is not actually considered installed?");
+            return SteamUGC.GetItemInstallInfo(pid, out sizeOnDisk, out folder, folderSize, out timestamp)
+                ? new ItemInstallInfo(folder, sizeOnDisk, folderSize, timestamp)
+                : null;
+            //throw new InvalidOperationException("Item is not actually considered installed?");
         }
 
         public IObservable<T> CreateObservableFromCallback<T>(CancellationToken cancelToken)

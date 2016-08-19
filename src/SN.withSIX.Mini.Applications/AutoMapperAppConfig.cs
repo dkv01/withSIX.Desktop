@@ -211,9 +211,17 @@ namespace SN.withSIX.Mini.Applications
                         .Take(10).Select(x => Convert(x.x, x.c))
                         .OrderByDescending(x => x.LastInstalled)))
                 .ForMember(x => x.Updates,
-                    opt => opt.MapFrom(src => src.SelectMany(x => x.Updates.Select(c => new {x, c}))
-                        .Select(x => Convert(x.x, x.c))
-                        .OrderByDescending(x => x.UpdatedVersion)));
+                    opt =>
+                        opt.MapFrom(
+                            src =>
+                                src.SelectMany(
+                                    x =>
+                                        x.Updates.OrderByDescending(u => u.UpdatedVersion)
+                                            .Take(24)
+                                            .Select(c => new {x, c}))
+                                    .OrderByDescending(x => x.c.UpdatedVersion)
+                                    .Select(x => Convert(x.x, x.c))
+                                    .Take(24)));
 
             cfg.CreateMap<Game, GameHomeApiModel>()
                 .ForMember(x => x.Name, opt => opt.MapFrom(src => GetName(src)))
@@ -227,33 +235,34 @@ namespace SN.withSIX.Mini.Applications
                     .OrderByDescending(x => x.RecentInfo.LastUsed)
                     .Take(10).Select(x => Convert(src, x))
                     .OrderByDescending(x => x.LastUsed)))
-                .ForMember(x => x.NewContent, opt => opt.MapFrom(src => src.InstalledContent
+                .ForMember(x => x.NewContent, opt => opt.MapFrom(src => src.AllAvailableContent
                     .OrderByDescending(x => x.InstallInfo.LastInstalled)
                     .Take(10).Select(x => Convert(src, x))
                     .OrderByDescending(x => x.LastInstalled)))
                 .ForMember(x => x.Updates, opt => opt.MapFrom(src => src.Updates
+                    .OrderByDescending(x => x.UpdatedVersion)
                     .Select(x => Convert(src, x))
-                    .OrderByDescending(x => x.UpdatedVersion)));
+                    .Take(24)));
 
             cfg.CreateMap<PageModel<ContentApiModel>, ModsApiModel>();
             cfg.CreateMap<PageModel<ContentApiModel>, MissionsApiModel>();
             cfg.CreateMap<PageModel<ContentApiModel>, CollectionsApiModel>();
 
             cfg.CreateMap<Game, MissionsApiModel>()
-                .ConstructUsing((src, ctx) =>
-                    src.InstalledContent.OfType<IMissionContent>()
-                        .Select(x => Convert(src, x))
-                        .ToPageModelFromCtx(ctx).MapTo<MissionsApiModel>());
+                .ConstructUsing((src, ctx) => src.AllAvailableContent
+                    .OfType<IMissionContent>()
+                    .Select(x => Convert(src, x))
+                    .ToPageModelFromCtx(ctx).MapTo<MissionsApiModel>());
             cfg.CreateMap<Game, ModsApiModel>()
-                .ConstructUsing((src, ctx) =>
-                    src.InstalledContent.OfType<IModContent>()
-                        .Select(x => Convert(src, x))
-                        .ToPageModelFromCtx(ctx).MapTo<ModsApiModel>());
+                .ConstructUsing((src, ctx) => src.AllAvailableContent
+                    .OfType<IModContent>()
+                    .Select(x => Convert(src, x))
+                    .ToPageModelFromCtx(ctx).MapTo<ModsApiModel>());
             cfg.CreateMap<Game, CollectionsApiModel>()
-                .ConstructUsing((src, ctx) =>
-                    src.InstalledContent.OfType<ICollectionContent>()
-                        .Select(x => Convert(src, x))
-                        .ToPageModelFromCtx(ctx).MapTo<CollectionsApiModel>());
+                .ConstructUsing((src, ctx) => src.AllAvailableContent
+                    .OfType<ICollectionContent>()
+                    .Select(x => Convert(src, x))
+                    .ToPageModelFromCtx(ctx).MapTo<CollectionsApiModel>());
 
             cfg.CreateMap<ActionNotification, ActionTabState>()
                 .ForMember(x => x.Text, opt => opt.MapFrom(src => src.Title + " " + src.Text));

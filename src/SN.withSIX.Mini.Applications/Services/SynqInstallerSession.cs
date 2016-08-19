@@ -653,9 +653,18 @@ namespace SN.withSIX.Mini.Applications.Services
                                         (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
                                     CancellationToken = cancelToken
                                 }).ConfigureAwait(false);
-                if (r.ExitCode == 3) {
+                ProcessExitResult(r);
+            }
+
+            private static void ProcessExitResult(ProcessExitResult r) {
+                switch (r.ExitCode) {
+                case 3:
                     throw new SteamInitializationException(
                         "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
+                case 9:
+                    throw new TimeoutException("The operation timed out waiting for a response from the Steam client");
+                case 10:
+                    throw new OperationCanceledException("The operation was canceled");
                 }
                 r.ConfirmSuccess();
             }
@@ -663,8 +672,11 @@ namespace SN.withSIX.Mini.Applications.Services
             private static IAbsoluteFilePath GetHelperExecutable() => Common.Paths.AppPath
                 .GetChildFileWithName("SteamHelper.exe");
 
-            private IEnumerable<string> GetHelperParameters(string command, params string[] options)
-                => new[] {command, "-a", _appId.ToString()}.Concat(options).Concat(_content.Keys.Select(Selector));
+            private IEnumerable<string> GetHelperParameters(string command, params string[] options) {
+                if (Common.Flags.Verbose)
+                    options = options.Concat(new[] {"--verbose"}).ToArray();
+                return new[] {command, "-a", _appId.ToString()}.Concat(options).Concat(_content.Keys.Select(Selector));
+            }
 
             private string Selector(ulong x) {
                 var xStr = x.ToString();

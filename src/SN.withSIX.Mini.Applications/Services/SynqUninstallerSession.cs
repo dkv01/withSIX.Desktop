@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -39,10 +41,6 @@ namespace SN.withSIX.Mini.Applications.Services
             var finalState = content.GetState();
             await new ContentStatusChanged(content, ItemState.Uninstalling, 25).Raise().ConfigureAwait(false);
             try {
-                var dir = content.GetSourceDirectory(_action.Game);
-                if (dir.Exists)
-                    dir.Delete(true);
-
                 await new ContentStatusChanged(content, ItemState.Uninstalling, 50).Raise().ConfigureAwait(false);
 
                 if (content.Source.Publisher == Publisher.Steam) {
@@ -50,7 +48,9 @@ namespace SN.withSIX.Mini.Applications.Services
                         {Convert.ToUInt64(content.Source.PublisherId), new ProgressLeaf(content.Name)}
                     });
                     await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
+                    DeleteSourceDir(content);
                 } else {
+                    DeleteSourceDir(content);
                     using (_repository = new Repository(GetRepositoryPath(), true)) {
                         _pm = new PackageManager(_repository, _action.Paths.Path, true);
                         _pm.DeletePackageIfExists(new SpecificVersion(content.PackageName));
@@ -71,6 +71,12 @@ namespace SN.withSIX.Mini.Applications.Services
             } finally {
                 await new ContentStatusChanged(content, finalState).Raise().ConfigureAwait(false);
             }
+        }
+
+        private void DeleteSourceDir<T>(T content) where T : Content, IContentWithPackageName {
+            var dir = content.GetSourceDirectory(_action.Game);
+            if (dir.Exists)
+                dir.Delete(true);
         }
 
         public async Task UninstallCollection(Collection content, CancellationToken cancelToken,
@@ -101,6 +107,9 @@ namespace SN.withSIX.Mini.Applications.Services
                             x => new ProgressLeaf(x.Key.Name)));
                 await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
 
+                //await WaitForUninstalled(steamContent).ConfigureAwait(false);
+
+
                 if (content.IsInstalled()) {
                     _action.Status.Collections.Uninstall.Add(content.Id);
                     content.Uninstalled();
@@ -108,6 +117,21 @@ namespace SN.withSIX.Mini.Applications.Services
                 finalState = ItemState.NotInstalled;
             } finally {
                 await new ContentStatusChanged(content, finalState).Raise().ConfigureAwait(false);
+            }
+        }
+
+        private async Task WaitForUninstalled(Dictionary<Content, string> steamContent) {
+            using (var cts = new CancellationTokenSource()) {
+                cts.CancelAfter(TimeSpan.FromSeconds(60));
+                // TODO: Or would we better ping steam?
+                await
+                    Observable.Interval(TimeSpan.FromMilliseconds(500) /*, api.Scheduler */)
+                        .TakeWhile(
+                            _ =>
+                                steamContent.Select(x => ((IContentWithPackageName) x.Key).GetSourceDirectory(_action.Game))
+                                    .Any(x => x.Exists))
+                        .ToTask(cts.Token)
+                        .ConfigureAwait(false);
             }
         }
 

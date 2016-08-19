@@ -29,31 +29,22 @@ namespace SN.withSIX.Steam.Presentation.Commands
 
         protected override async Task<int> RunAsync(string[] pIds) {
             if (!pIds.Any()) {
-                Console.WriteLine("Please specify at least 1 publishedfileid");
+                Error("Please specify at least 1 publishedfileid");
                 return 11;
             }
             using (await StartSession().ConfigureAwait(false)) {
-                var app = new App(AppId);
-                foreach (var nfo in pIds)
-                    await ProcessContent(app, nfo).ConfigureAwait(false);
+                foreach (var act in pIds.Select(ParsePid))
+                    await ProcessContent(act).ConfigureAwait(false);
             }
             return 0;
         }
 
-        private async Task ProcessContent(App app, string nfo) {
-            ulong p;
-            var force = Force;
-            if (nfo.StartsWith("!")) {
-                force = true;
-                p = Convert.ToUInt64(nfo.Substring(1));
-            } else
-                p = Convert.ToUInt64(nfo);
-
-            Console.WriteLine($"Starting {p}");
-            var pf = new PublishedFile(p, AppId);
-            await app.Download(_steamDownloader, _steamApi, pf, (l, d) => Console.WriteLine($"{l}/s {d}%"), force: force)
-                    .ConfigureAwait(false);
-            Console.WriteLine($"Finished {p}");
+        private async Task ProcessContent(Tuple<PublishedFile, bool> act) {
+            Info($"Starting {act.Item1.Pid}");
+            await App.Download(_steamDownloader, _steamApi, act.Item1, (l, d) => Progress($"{l}/s {d}%"),
+                force: act.Item2 || Force)
+                .ConfigureAwait(false);
+            Info($"Finished {act.Item1.Pid}");
         }
     }
 }

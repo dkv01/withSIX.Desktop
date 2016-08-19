@@ -25,21 +25,19 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             IEnumerable<IAbsoluteDirectoryPath> paths)
             => paths.SelectMany(x => GetMods(x, dlcs));
 
-        IEnumerable<LocalContent> GetMods(IAbsoluteDirectoryPath d, IReadOnlyCollection<string> dlcs)
-            =>
-                d.DirectoryInfo.GetDirectories()
-                    .Where(x => !dlcs.ContainsIgnoreCase(x.Name))
-                    .Select(HandleContent)
-                    .Where(x => x != null);
+        IEnumerable<LocalContent> GetMods(IAbsoluteDirectoryPath d, IEnumerable<string> dlcs)
+            => d.ChildrenDirectoriesPath
+                .Where(x => !dlcs.ContainsIgnoreCase(x.DirectoryName) && !x.IsEmptySafe())
+                .Select(HandleContent)
+                .Where(x => x != null);
 
-        LocalContent HandleContent(FileSystemInfo dir) {
+        LocalContent HandleContent(IAbsoluteDirectoryPath path) {
             var networkContents = _realVirtualityGame.NetworkContent.OfType<ModNetworkContent>();
-            var packageName = dir.Name;
+            var packageName = path.DirectoryName;
             var nc = networkContents.FirstOrDefault(
                 x => x.PackageName.Equals(packageName, StringComparison.CurrentCultureIgnoreCase));
             // ?? networkContents.FirstOrDefault(x => x.Aliases.ContainsIgnoreCase(packageName))
 
-            var path = dir.FullName.ToAbsoluteDirectoryPath();
             var version = GetVersion(path);
             // TODO: Hidden state change!
             // TODO: Steam vs withSIX check!
@@ -52,7 +50,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             if (nc != null && existingLocalContent != null)
                 _realVirtualityGame.Contents.Remove(existingLocalContent);
 
-            return nc == null ? ScanForAddonFolders(dir) : null;
+            return nc == null ? ScanForAddonFolders(path) : null;
         }
 
         private string GetVersion(IAbsoluteDirectoryPath path) {
@@ -69,12 +67,12 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         private LocalContent FindLocalContent(string value) => _realVirtualityGame.LocalContent.FirstOrDefault(
             x => x.PackageName.Equals(value, StringComparison.CurrentCultureIgnoreCase));
 
-        LocalContent ScanForAddonFolders(FileSystemInfo dir) {
-            var di = dir.FullName.ToAbsoluteDirectoryPath();
+        LocalContent ScanForAddonFolders(IAbsoluteDirectoryPath path) {
             var dirs = new[] {"addons", "dta", "common", "dll"};
-            if (dirs.Any(x => di.GetChildDirectoryWithName(x).Exists)) {
-                return !HasContentAlready(dir.Name)
-                    ? new ModLocalContent(dir.Name, dir.Name.ToLower(), _realVirtualityGame.Id, new BasicInstallInfo())
+            if (dirs.Any(x => !path.GetChildDirectoryWithName(x).IsEmptySafe())) {
+                return !HasContentAlready(path.DirectoryName)
+                    ? new ModLocalContent(path.DirectoryName, path.DirectoryName.ToLower(), _realVirtualityGame.Id,
+                        new BasicInstallInfo())
                     : null;
             }
             return null;
