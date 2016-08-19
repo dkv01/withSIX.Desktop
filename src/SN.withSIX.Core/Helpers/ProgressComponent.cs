@@ -77,26 +77,38 @@ namespace SN.withSIX.Core.Helpers
 
         public void Do(Action act) {
             using (Start()) {
-                act();
+                try {
+                    act();
+                } catch {
+                    Fail();
+                    throw;
+                }
                 Succeed();
             }
         }
 
         public async Task Do(Func<Task> act) {
             using (Start()) {
-                await act().ConfigureAwait(false);
+                try {
+                    await act().ConfigureAwait(false);
+                } catch {
+                    Fail();
+                    throw;
+                }
                 Succeed();
             }
         }
 
-        public void Succeed() {
+        void Fail() => End();
+
+        void Succeed() {
             lock (_dataLock) {
                 _progress = 100;
                 Success = true;
             }
         }
 
-        public void End() {
+        void End() {
             lock (_dataLock) {
                 _speed = null;
                 Done = true;
