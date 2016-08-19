@@ -59,12 +59,12 @@ namespace SN.withSIX.Mini.Core.Games
                 Paths = ContentPaths
             };
 
-        protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
+        protected override Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> launchContentAction) {
             var launcher = factory.Create(this);
-            return await (IsLaunchingSteamApp()
+            return IsLaunchingSteamApp()
                 ? LaunchWithSteam(launcher, GetStartupParameters())
-                : LaunchNormal(launcher, GetStartupParameters())).ConfigureAwait(false);
+                : LaunchNormal(launcher, GetStartupParameters());
         }
 
         protected async Task<Process> LaunchNormal(ILaunch launcher, IEnumerable<string> startupParameters)

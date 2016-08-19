@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -13,6 +14,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
@@ -32,6 +34,15 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 new Lazy<string[]>(() => Environment.Is64BitOperatingSystem
                     ? Metadata.Executables
                     : Metadata.Executables.Skip(1).ToArray());
+        }
+
+        protected override Task<Process> LaunchImpl(IGameLauncherFactory factory,
+            ILaunchContentAction<IContent> launchContentAction) {
+            var launcher = factory.Create(this);
+            return LaunchNormal(launcher, GetStartupParameters());
+            //return await (IsLaunchingSteamApp()
+            //  ? LaunchWithSteam(launcher, GetStartupParameters())
+            //                : LaunchNormal(launcher, GetStartupParameters())).ConfigureAwait(false);
         }
 
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
@@ -67,10 +78,9 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             }
         }
 
-        private static readonly string[] defaultStartupParameters = {"-noworkshop"};
+        //private static readonly string[] defaultStartupParameters = {"-noworkshop"};
 
-        protected override IEnumerable<string> GetStartupParameters()
-            => defaultStartupParameters.Concat(base.GetStartupParameters());
+        //protected override IEnumerable<string> GetStartupParameters() => defaultStartupParameters.Concat(base.GetStartupParameters());
 
         protected override string[] GetExecutables() => _executables.Value;
 
