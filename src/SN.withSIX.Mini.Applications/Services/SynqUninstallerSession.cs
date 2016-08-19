@@ -107,8 +107,10 @@ namespace SN.withSIX.Mini.Applications.Services
                             x => new ProgressLeaf(x.Key.Name)));
                 await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
 
-                //await WaitForUninstalled(steamContent).ConfigureAwait(false);
+                foreach (var c in steamContent)
+                    c.Key.Uninstalled();
 
+                //await WaitForUninstalled(steamContent).ConfigureAwait(false);
 
                 if (content.IsInstalled()) {
                     _action.Status.Collections.Uninstall.Add(content.Id);
