@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
@@ -104,6 +105,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         public async Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content) {
             PrepareContent(content);
+            _allContentToInstall.ForEach(x => StartProcessState(x.Key, x.Value.VersionData));
             await PublishIndividualItemStates().ConfigureAwait(false);
 
             var completed = false;
@@ -115,6 +117,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     MarkContentAsFinished();
                 else
                     MarkContentAsUnfinished();
+                await PublishIndividualItemStates().ConfigureAwait(false);
             }
         }
 
@@ -319,7 +322,7 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Combine status updates into single change?
             foreach (var c in _allContentToInstall) {
                 await
-                    new ContentStatusChanged(c.Key, StartProcessState(c.Key, c.Value.VersionData), progress, speed)
+                    new ContentStatusChanged(c.Key, c.Key.ProcessingState, progress, speed)
                         .Raise()
                         .ConfigureAwait(false);
             }
