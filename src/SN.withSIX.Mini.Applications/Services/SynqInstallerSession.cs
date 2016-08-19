@@ -705,10 +705,9 @@ namespace SN.withSIX.Mini.Applications.Services
                         _current.Update(speed, progress);
                     } else {
                         var startMatch = rxStart.Match(x);
-                        if (startMatch.Success) {
-                            _current?.Finish();
+                        if (startMatch.Success)
                             _current = _content[Convert.ToUInt64(startMatch.Groups[1].Value)];
-                        } else {
+                        else {
                             var endMatch = rxEnd.Match(x);
                             if (endMatch.Success)
                                 _current.Finish();
