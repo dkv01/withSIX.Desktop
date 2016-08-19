@@ -119,6 +119,9 @@
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app-busy.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ManyConsole, Version=0.4.2.20, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ManyConsole.0.4.2.20\lib\ManyConsole.dll</HintPath>
@@ -180,6 +183,9 @@
       <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
       <Name>SN.withSIX.Steam.Api</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app-busy.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
