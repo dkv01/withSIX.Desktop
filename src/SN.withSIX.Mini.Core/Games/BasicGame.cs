@@ -79,7 +79,8 @@ namespace SN.withSIX.Mini.Core.Games
                     launcher.Launch(await GetSteamLaunchInfo(startupParameters).ConfigureAwait(false))
                         .ConfigureAwait(false);
 
-        IEnumerable<string> GetStartupParameters() => Settings.StartupParameters.Get();
+        protected virtual IEnumerable<string> GetStartupParameters() => Settings.StartupParameters.Get();
+
         // TODO
         protected override async Task ScanForLocalContentImpl() {}
 

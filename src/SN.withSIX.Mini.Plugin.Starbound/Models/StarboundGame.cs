@@ -67,25 +67,10 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             }
         }
 
-        private void HandleSteamDirectory(string[] packages) {
-            foreach (var d in SteamworkshopPaths.ContentPath.DirectoryInfo.EnumerateDirectories())
-                HandleDirectoryBasedMod(d, packages);
-        }
+        private static readonly string[] defaultStartupParameters = {"-noworkshop"};
 
-        private static void HandleDirectoryBasedMod(DirectoryInfo d, IEnumerable<string> packages) {
-            var pak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.pak");
-            var pakBak = d.ToAbsoluteDirectoryPath().GetChildFileWithName("contents.bak");
-            if (packages.Contains(d.Name)) {
-                if (!pak.Exists && pakBak.Exists)
-                    pakBak.Move(pak);
-            } else {
-                if (!pak.Exists)
-                    return;
-                if (pakBak.Exists)
-                    pakBak.Delete();
-                pak.Move(pakBak);
-            }
-        }
+        protected override IEnumerable<string> GetStartupParameters()
+            => defaultStartupParameters.Concat(base.GetStartupParameters());
 
         protected override string[] GetExecutables() => _executables.Value;
 
