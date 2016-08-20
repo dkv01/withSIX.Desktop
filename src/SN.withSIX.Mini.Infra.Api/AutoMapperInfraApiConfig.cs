@@ -26,7 +26,15 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Version, opt => opt.MapFrom(src => src.LatestStableVersion ?? src.Version))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
-            cfg.CreateMap<ModClientApiJsonV3WithGameId, ModNetworkContent>();
+            // Does not get inherited?!
+            cfg.CreateMap<ModClientApiJsonV3WithGameId, ModNetworkContent>()
+                .BeforeMap((json, content) => {
+                    content?.Publishers.Clear();
+                })
+                .ForMember(x => x.Version, opt => opt.MapFrom(src => src.LatestStableVersion ?? src.Version))
+                .ForMember(x => x.Dependencies, opt => opt.Ignore())
+                .ForMember(x => x.RecentInfo, opt => opt.Ignore());
+
             cfg.CreateMap<ModClientApiJson, ModClientApiJsonV3WithGameId>();
 
             cfg.CreateMap<ModClientApiJson, ModDtoV2WithPubs>()
