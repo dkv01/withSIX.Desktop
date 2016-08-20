@@ -100,11 +100,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 yield return InstalledState.Directory;
         }
 
-        // TODO: Refactor out the MyDocuments Environment grabbing
         IAbsoluteDirectoryPath GetDefaultPackageDirectory()
-            => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                .ToAbsoluteDirectoryPath()
-                .GetChildDirectoryWithName(ProfileInfo.DocumentsMainName);
+            => Common.Paths.MyDocumentsPath.GetChildDirectoryWithName(ProfileInfo.DocumentsMainName);
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action)

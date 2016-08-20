@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -24,52 +25,20 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
     [DataContract]
     public class StellarisGame : BasicSteamGame
     {
-        private const string ModStart = "last_mods={";
-        private const string ModEnd = "}";
         public StellarisGame(Guid id, StellarisGameSettings settings) : base(id, settings) {}
 
-        IAbsoluteDirectoryPath GetModInstallationDirectory()
-            => GetDocumentsDirectory().GetChildDirectoryWithName("mod");
+        IAbsoluteDirectoryPath GetModInstallationDirectory() => GetDocumentsDirectory().GetChildDirectoryWithName("mod");
 
         private static IAbsoluteDirectoryPath GetDocumentsDirectory()
-            => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                .ToAbsoluteDirectoryPath()
-                .GetChildDirectoryWithName(@"Paradox Interactive\Stellaris");
+            => Common.Paths.MyDocumentsPath.GetChildDirectoryWithName(@"Paradox Interactive\Stellaris");
 
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             var sf = GetDocumentsDirectory().GetChildFileWithName("settings.txt");
-            var settings = GetSettingsWithoutMods(sf);
-            WriteNewModsSection(launchContentAction, settings);
-            sf.WriteText(settings.ToString());
+            new SettingsWriter(sf).Write(GetMods(launchContentAction));
         }
 
-        private static StringBuilder GetSettingsWithoutMods(IAbsoluteFilePath sf) {
-            var settings = new StringBuilder();
-            var settingsLines = sf.ReadLines();
-            var started = false;
-            var ended = false;
-            foreach (var l in settingsLines) {
-                if (!started) {
-                    if (!l.StartsWith(ModStart))
-                        settings.AppendLine(l);
-                    else
-                        started = true;
-                } else if (ended)
-                    settings.AppendLine(l);
-                else if (l == ModEnd)
-                    ended = true;
-            }
-            return settings;
-        }
-
-        private void WriteNewModsSection(ILaunchContentAction<IContent> launchContentAction, StringBuilder settings) {
-            settings.AppendLine(ModStart);
-            foreach (
-                var m in
-                    launchContentAction.Content.Select(x => x.Content).OfType<IModContent>().Select(CreateMod))
-                settings.AppendLine($"\t\"{m.GetRelModName()}.mod\"");
-            settings.AppendLine(ModEnd);
-        }
+        private IEnumerable<StellarisMod> GetMods(ILaunchContentAction<IContent> launchContentAction)
+            => launchContentAction.Content.Select(x => x.Content).OfType<IModContent>().Select(CreateMod);
 
         protected override Task InstallMod(IModContent mod) {
             var m = CreateMod(mod);
@@ -83,6 +52,57 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 
         private StellarisMod CreateMod(IModContent x)
             => new StellarisMod(GetContentSourceDirectory(x), GetModInstallationDirectory());
+
+        class SettingsWriter
+        {
+            private const string ModStart = "last_mods={";
+            private const string ModEnd = "}";
+            private IEnumerable<StellarisMod> _mods;
+            private readonly IAbsoluteFilePath _sf;
+            private StringBuilder _settings;
+
+            public SettingsWriter(IAbsoluteFilePath sf) {
+                _sf = sf;
+            }
+
+            internal void Write(IEnumerable<StellarisMod> mods) {
+                _mods = mods;
+
+                ReadSettingsFile();
+                WriteNewModsSection();
+                WriteSettingsFile();
+            }
+
+            private void ReadSettingsFile() => _settings = GetSettingsWithoutMods();
+
+            private StringBuilder GetSettingsWithoutMods() {
+                var settings = new StringBuilder();
+                var settingsLines = _sf.ReadLines();
+                var started = false;
+                var ended = false;
+                foreach (var l in settingsLines) {
+                    if (!started) {
+                        if (!l.StartsWith(ModStart))
+                            settings.AppendLine(l);
+                        else
+                            started = true;
+                    } else if (ended)
+                        settings.AppendLine(l);
+                    else if (l == ModEnd)
+                        ended = true;
+                }
+                return settings;
+            }
+
+            private void WriteNewModsSection() {
+                _settings.AppendLine(ModStart);
+                foreach (var m in _mods)
+                    _settings.AppendLine($"\t\"{m.GetRelModName()}.mod\"");
+                _settings.AppendLine(ModEnd);
+            }
+
+            private void WriteSettingsFile() => _sf.WriteText(_settings.ToString());
+        }
 
         class StellarisMod
         {
