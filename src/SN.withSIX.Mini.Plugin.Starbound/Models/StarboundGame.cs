@@ -41,9 +41,10 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             // TODO: PublisherId
             var packages =
-                launchContentAction.Content.Select(x => x.Content)
+                launchContentAction.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint))
                     .OfType<IHavePackageName>()
                     .Select(x => x.PackageName)
+                    .Distinct()
                     .ToArray();
             HandleModDirectory(packages);
         }
