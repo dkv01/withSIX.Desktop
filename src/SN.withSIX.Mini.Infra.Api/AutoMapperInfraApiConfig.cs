@@ -36,6 +36,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
             cfg.CreateMap<ModClientApiJson, ModClientApiJsonV3WithGameId>();
+            cfg.CreateMap<ModClientApiJsonV3WithGameId, ModClientApiJsonV3WithGameId>();
 
             cfg.CreateMap<ModClientApiJson, ModDtoV2WithPubs>()
                 .ForMember(x => x.Dependencies, opt => opt.ResolveUsing(_ => new List<string>()));
