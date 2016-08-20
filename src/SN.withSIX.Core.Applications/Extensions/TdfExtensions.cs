@@ -4,6 +4,7 @@
 
 using System;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
@@ -57,18 +58,17 @@ namespace SN.withSIX.Core.Applications.Extensions
                 MaxDegreeOfParallelism = degreeOfParallism
             };
 
+        // Original example was with Observable.Defer, however it didn't dispose from the source subscription!
         public static IObservable<TResult> FromTdf<T, TResult>(this IObservable<T> source,
-            Func<IPropagatorBlock<T, TResult>> blockFactory) => Observable.Defer(() => {
+            Func<IPropagatorBlock<T, TResult>> blockFactory) => Observable.Create<TResult>(observer => {
                 var block = blockFactory();
-                source.Subscribe(block.AsObserver()); // who disposes this ?
-                return block.AsObservable();
+                var dsp1 = block.AsObservable().Subscribe(observer.OnNext);
+                var dsp2 = source.Subscribe(block.AsObserver());
+                return new CompositeDisposable {dsp2, dsp1};
             });
 
         public static IObservable<TResult> FromTdf<T, TResult>(this IObservable<T> source,
-            IPropagatorBlock<T, TResult> block) => Observable.Defer(() => {
-                source.Subscribe(block.AsObserver()); // who disposes this ?
-                return block.AsObservable();
-            });
+            IPropagatorBlock<T, TResult> block) => source.FromTdf(() => block);
 
         public static TransformBlock<T, Unit> ToTransformBlock<T>(this Func<Task> taskFactory)
             => new TransformBlock<T, Unit>(_ => taskFactory.VoidReactive());
