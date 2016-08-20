@@ -15,6 +15,7 @@ using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -141,9 +142,8 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private async Task PerformInstallation() {
             using (_statusRepo)
-            using (
-                Observable.Interval(TimeSpan.FromMilliseconds(500))
-                    .SelectMany(x => Observable.FromAsync(TryStatusChange))
+            using (Observable.Interval(TimeSpan.FromMilliseconds(500))
+                    .ConcatTask(TryStatusChange)
                     .Subscribe()) {
                 await PrepareGroupsAndRepositories().ConfigureAwait(false);
                 // TODO: make it unneeded to initialize Synq stuff unless we actually need it..
