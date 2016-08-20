@@ -11,6 +11,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
@@ -36,17 +37,19 @@ namespace SN.withSIX.Mini.Applications
     {
         private readonly IDbContextFactory _factory;
         private readonly IGameLocker _gameLocker;
+        private readonly IStateHandler _stateHandler;
         readonly IDbContextLocator _locator;
         readonly INetworkContentSyncer _networkContentSyncer;
         private readonly TimerWithElapsedCancellationAsync _timer;
 
         public SetupGameStuff(IDbContextLocator locator, IDbContextFactory factory,
             INetworkContentSyncer networkContentSyncer,
-            IGameLocker gameLocker) {
+            IGameLocker gameLocker, IStateHandler stateHandler) {
             _locator = locator;
             _factory = factory;
             _networkContentSyncer = networkContentSyncer;
             _gameLocker = gameLocker;
+            _stateHandler = stateHandler;
             _timer = new TimerWithElapsedCancellationAsync(TimeSpan.FromMinutes(30), onElapsedNonBool: OnElapsed);
         }
 
@@ -58,8 +61,7 @@ namespace SN.withSIX.Mini.Applications
 
         public Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds) => HandleGameContents(gameIds);
 
-        // TODO: We should perhaps create a scope and lock per game?!
-        async Task HandleGameContentsWhenNeededIndividualLock(IReadOnlyCollection<Guid> tryGameIds) {
+        async Task HandleGameContentsWhenNeededIndividualLock(params Guid[] tryGameIds) {
             var lockedGameIds = new List<Guid>();
             try {
                 using (var scope = _factory.Create()) {
@@ -86,9 +88,10 @@ namespace SN.withSIX.Mini.Applications
 
         private async Task OnElapsed() {
             try {
-                await
-                    HandleGameContentsWhenNeededIndividualLock(GameSpecs.Select(x => x.Value.Id).ToArray())
-                        .ConfigureAwait(false);
+                var gameId = _stateHandler.SelectedGameId;
+                if (gameId == Guid.Empty)
+                    return;
+                await HandleGameContentsWhenNeededIndividualLock(gameId).ConfigureAwait(false);
             } catch (Exception ex) {
                 MainLog.Logger.FormattedWarnException(ex, "Error trying to sync game/content info");
             }
