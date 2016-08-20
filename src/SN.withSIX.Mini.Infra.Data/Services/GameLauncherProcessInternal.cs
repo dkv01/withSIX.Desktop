@@ -7,10 +7,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -19,6 +17,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using SN.withSIX.Steam.Api;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
@@ -29,14 +28,13 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     public class GameLauncherProcessInternal : IEnableLogging, IGameLauncherProcess
     {
         private readonly IRestarter _restarter;
+
         public GameLauncherProcessInternal(IRestarter restarter) {
             _restarter = restarter;
         }
 
         public async Task<Process> LaunchInternal(LaunchGameInfo info)
             => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
-
-        private GameLauncher CreateLauncher() => new GameLauncher(_restarter);
 
         public async Task<Process> LaunchInternal(LaunchGameWithJavaInfo info)
             => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
@@ -47,11 +45,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         public async Task<Process> LaunchInternal(LaunchGameWithSteamLegacyInfo info)
             => Process.GetProcessById(CreateLauncher().LaunchGame(info.ToLaunchSpec()));
 
-        public static class SteamInfos
-        {
-            public const string SteamExecutable = "Steam.exe";
-            public const string SteamServiceExecutable = "steamservice.exe";
-        }
+        private GameLauncher CreateLauncher() => new GameLauncher(_restarter);
 
         // TODO: Support for the SteamAPI/Injector
         // TODO: Re-use the external launcher option - by relaunching sync.exe with the commandline params etc.
@@ -61,15 +55,14 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             //readonly IShutdownHandler _shutdownHandler;
             ProcessStartInfo _gameStartInfo;
             bool _isSteamGameAndAvailable;
-            bool _isSteamRunning;
             bool _isSteamValid;
             Process _launchedGame;
             GameLaunchSpec _spec;
-            bool _steamError;
-            IAbsoluteFilePath _steamExePath;
-            public GameLauncher(IRestarter restarter)
-            {
-            _restarter = restarter;
+            private SteamAppLauncher _steamAppLauncher;
+            private SteamLauncher _steamLauncher;
+
+            public GameLauncher(IRestarter restarter) {
+                _restarter = restarter;
             }
 
             public int LaunchGame(GameLaunchSpec spec) {
@@ -77,9 +70,9 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(spec.GamePath));
                 Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(spec.WorkingDirectory));
 
-                _steamError = false;
-                _isSteamRunning = false;
                 _spec = spec;
+                _steamLauncher = new SteamLauncher(_spec.SteamPath);
+                _steamAppLauncher = new SteamAppLauncher(_steamLauncher);
 
                 PrepareSteamState();
                 if (_spec.LegacyLaunch && _isSteamGameAndAvailable)
@@ -125,25 +118,15 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 }
             }
 
-            void PrepareSteamState() {
-                if (_spec.SteamPath != null)
-                    _steamExePath = _spec.SteamPath.GetChildFileWithName(SteamInfos.SteamExecutable);
-                _isSteamGameAndAvailable = _spec.SteamID != 0 && _steamExePath != null &&
-                                           _steamExePath.Exists;
-            }
+            void PrepareSteamState() => _isSteamGameAndAvailable = _spec.SteamID != 0 && _steamLauncher.IsValid();
 
             void LegacySteamLaunch() {
                 PrepareLegacySteamLaunch();
                 StartGame();
             }
 
-            void PrepareLegacySteamLaunch() {
-                _gameStartInfo = new ProcessStartInfo {
-                    FileName = _steamExePath.ToString(),
-                    Arguments = "-applaunch " + _spec.SteamID + " " + _spec.Arguments,
-                    UseShellExecute = true
-                };
-            }
+            void PrepareLegacySteamLaunch()
+                => _gameStartInfo = _steamAppLauncher.GetLegacyLaunchInfo(_spec.SteamID, _spec.Arguments);
 
             void ModernLaunch() {
                 StartSteamIfRequired();
@@ -173,76 +156,13 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             void StartSteamIfRequired() {
                 if (!_isSteamGameAndAvailable)
                     return;
-                TryDetectSteamRunning();
-                if (!IsSteamStartRequired())
-                    return;
-                StartSteam();
-            }
-
-            void TryDetectSteamRunning() {
-                try {
-                    DetectSteamRunningByMainModule();
-                } catch (Exception ex1) {
-                    MainLog.Logger.FormattedWarnException(ex1, "Steam detection by main module failed");
-                    try {
-                        DetectSteamRunning();
-                    } catch (Exception ex2) {
-                        MainLog.Logger.FormattedWarnException(ex2, "Steam detection failed");
-                        _steamError = true;
-                    }
-                }
-            }
-
-            void DetectSteamRunningByMainModule() {
-                var processes = GetSteamProcesses();
-                using (new CompositeDisposable(processes))
-                    _isSteamRunning = processes.Any(IsSteamMainModule);
-            }
-
-            bool IsSteamMainModule(Process p)
-                => p.MainModule.FileName.Equals(_steamExePath.ToString(), StringComparison.InvariantCultureIgnoreCase);
-
-            void DetectSteamRunning() {
-                var processes = GetSteamProcesses();
-                using (new CompositeDisposable(processes))
-                    _isSteamRunning = processes.Any();
-            }
-
-            static Process[] GetSteamProcesses() => Tools.Processes.FindProcess(SteamInfos.SteamExecutable);
-
-            bool IsSteamStartRequired() => !_isSteamRunning && !_steamError;
-
-            void StartSteam() {
-                try {
-                    TryStartSteam();
-                } catch (Exception) {
-                    _steamError = true;
-                }
-            }
-
-            void TryStartSteam() {
-                using (Launch(new ProcessStartInfo {
-                    FileName = _steamExePath.ToString(),
-                    UseShellExecute = true,
-                    Arguments = "-forceservice"
-                })) {}
-                WaitForSteamProcess();
-            }
-
-            void WaitForSteamProcess() {
-                var tries = 0;
-                while (!_isSteamRunning && tries < 10) {
-                    if (Tools.Processes.FindProcess(SteamInfos.SteamServiceExecutable).Any())
-                        _isSteamRunning = true;
-
-                    Thread.Sleep(1000);
-                    tries++;
-                }
+                _steamLauncher.StartSteamIfRequired();
             }
 
             void ValidateSteamRunning() {
-                MainLog.Logger.Info("Steam Info: {0}, {1}, {2}", _isSteamGameAndAvailable, _isSteamRunning, _steamError);
-                _isSteamValid = _isSteamGameAndAvailable && _isSteamRunning && !_steamError;
+                MainLog.Logger.Info("Steam Info: {0}, {1}, {2}", _isSteamGameAndAvailable, _steamLauncher.IsSteamRunning,
+                    _steamLauncher.SteamError);
+                _isSteamValid = _isSteamGameAndAvailable && _steamLauncher.IsSteamRunning && !_steamLauncher.SteamError;
             }
 
             void StartGame() {
@@ -256,10 +176,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 TrySetForeground(_launchedGame);
             }
 
-            void LaunchGameWithUacBypass() {
-                _launchedGame =
-                    Process.GetProcessById(LaunchWithUacBypass(_gameStartInfo));
-            }
+            void LaunchGameWithUacBypass()
+                => _launchedGame = Process.GetProcessById(LaunchWithUacBypass(_gameStartInfo));
 
             int LaunchWithUacBypass(ProcessStartInfo gameStartInfo) {
                 MainLog.Logger.Info("LaunchingAsUser {0} from {1} with {2}", gameStartInfo.FileName,
@@ -269,7 +187,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             void LaunchGameWithoutUacBypass() {
                 try {
-                    _launchedGame = Launch(_gameStartInfo);
+                    _launchedGame = _gameStartInfo.Launch();
                 } catch (Win32Exception ex) {
                     if (ex.ErrorCode == 740) {
                         if (!Tools.Processes.Uac.CheckUac())
@@ -292,66 +210,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             void InjectSteamOverlayIfNeeded() {
                 if (_spec.SteamDRM || !_isSteamValid)
                     return;
-
-                Environment.SetEnvironmentVariable("SteamAppID", Convert.ToString(_spec.SteamID));
-                Environment.SetEnvironmentVariable("SteamGameID", Convert.ToString(_spec.SteamID));
-
-                //TryInject();
-                Launch(new ProcessStartInfo(_spec.SteamPath.GetChildFileWithName("GameOverlayUI.exe").ToString(),
-                    "-pid " + _launchedGame.Id));
-
-                //if (_spec.SteamID != 0)
-                //  TrySteamApiInit();
+                _steamAppLauncher.InjectSteamOverlay(_spec.SteamID, _launchedGame.Id);
             }
-
-            static Process Launch(ProcessStartInfo processStartInfo) {
-                MainLog.Logger.Info("Launching {0} from {1} with {2}", processStartInfo.FileName,
-                    processStartInfo.WorkingDirectory, processStartInfo.Arguments);
-                return Process.Start(processStartInfo);
-            }
-
-            /*
-            void TryInject()
-            {
-                try {
-                    var injector = new Injector(_launchedGame);
-                    injector.InjectLibrary(Path.Combine(_spec.SteamPath, "GameOverlayRenderer.dll"));
-                }
-                catch (Win32Exception)
-                {
-                    TryInject64(injector);
-                }
-            }
-
-            void TryInject64()
-            {
-                try
-                {
-                    injector.InjectLibrary(Path.Combine(_spec.SteamPath,
-                        "GameOverlayRenderer64.dll"));
-                }
-                catch (Win32Exception e)
-                {
-                    MainLog.Logger.FormattedWarnException(e);
-                }
-            }
-            */
-
-            /*
-            void TrySteamApiInit()
-            {
-                try
-                {
-                    SteamAPI.Init();
-                }
-                catch (Exception e)
-                {
-                    MainLog.Logger.FormattedWarnException(e);
-                    MainLog.Logger.Warn("Abnormal termination - SteamAPI Failed to Initialize");
-                    _shutdownHandler.Shutdown(1);
-                }
-            }
-            */
 
             public class GameLaunchSpec
             {

@@ -16,6 +16,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using SN.withSIX.Steam.Api;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
@@ -155,7 +156,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             InvalidSteamPathException SteamPathDoesntExist() => BuildException("Directory does not exist: " + _path);
 
             void ValidateSteamExecutable() {
-                _steamExe = _path.GetChildFileWithName(GameLauncherProcessInternal.SteamInfos.SteamExecutable);
+                _steamExe = _path.GetChildFileWithName(SteamLauncher.SteamInfos.SteamExecutable);
                 if (_steamExe.Exists)
                     return;
 

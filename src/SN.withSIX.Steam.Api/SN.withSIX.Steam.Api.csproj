@@ -183,6 +183,7 @@
     <Compile Include="Services\SteamDownloader.cs" />
     <Compile Include="Services\SteamSession.cs" />
     <Compile Include="Services\SteamUploader.cs" />
+    <Compile Include="SteamLauncher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSteamworks.dll">

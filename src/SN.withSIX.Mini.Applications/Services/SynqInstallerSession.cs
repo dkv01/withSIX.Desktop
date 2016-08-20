@@ -654,6 +654,9 @@ namespace SN.withSIX.Mini.Applications.Services
                 case 3:
                     throw new SteamInitializationException(
                         "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
+                case 4:
+                    throw new SteamNotFoundException(
+                        "The Steam client does not appear to be running, nor was Steam found");
                 case 9:
                     throw new TimeoutException("The operation timed out waiting for a response from the Steam client");
                 case 10:

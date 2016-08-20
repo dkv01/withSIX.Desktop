@@ -20,6 +20,8 @@ namespace SN.withSIX.Steam.Presentation
             try {
                 SetupNlog.Initialize("SteamHelper");
                 Environment.Exit(new CommandRunner(BuildCommands()).RunCommandsAndLog(args));
+            } catch (SteamNotFoundException ex) {
+                Error(ex, 4);
             } catch (SteamInitializationException ex) {
                 Error(ex, 3);
             } catch (TimeoutException ex) {

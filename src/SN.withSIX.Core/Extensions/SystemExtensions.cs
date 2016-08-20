@@ -33,6 +33,12 @@ namespace SN.withSIX.Core.Extensions
 
         public static void DoWith<T, T2>(this T This, Func<T, T2> exp) => exp(This);
 
+        public static Process Launch(this ProcessStartInfo processStartInfo) {
+            MainLog.Logger.Info("Launching {0} from {1} with {2}", processStartInfo.FileName,
+                processStartInfo.WorkingDirectory, processStartInfo.Arguments);
+            return Process.Start(processStartInfo);
+        }
+
         public static Lazy<T> CreateLazy<T>(this Func<T> creator) => new Lazy<T>(creator);
 
         public static byte[] Combine(this byte[] @this, params byte[][] arrays) {

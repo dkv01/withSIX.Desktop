@@ -248,6 +248,14 @@
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>SN.withSIX.Mini.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Api\SN.withSIX.Steam.Api.csproj">
+      <Project>{fede9ebc-c0a2-49c7-a780-4a44544508b8}</Project>
+      <Name>SN.withSIX.Steam.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
+      <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
+      <Name>SN.withSIX.Steam.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>SN.withSIX.Sync.Core</Name>

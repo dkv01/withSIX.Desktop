@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using Steamworks;
 using withSIX.Api.Models.Extensions;
@@ -50,27 +51,56 @@ namespace SN.withSIX.Steam.Api.Services
 
         private async Task SetupSteam(uint appId) {
             Contract.Requires<ArgumentException>(appId > 0);
+
+            await SetupAppId(appId).ConfigureAwait(false);
+            ConfirmSteamRunning();
+            ConfirmSteamInitialization();
+            SetupDebugHook();
+
+            _scheduler = new EventLoopScheduler();
+            _callbackRunner = CreateCallbackRunner();
+        }
+
+        private async Task SetupAppId(uint appId) {
             if (AppId > 0)
                 throw new InvalidOperationException("This session is already initialized!");
             AppId = appId;
             var tmp =
                 Directory.GetCurrentDirectory().ToAbsoluteDirectoryPath().GetChildFileWithName("steam_appid.txt");
             await WriteSteamAppId(appId, tmp).ConfigureAwait(false);
+        }
 
+        private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)
+            => appId.ToString().WriteToFileAsync(steamAppIdFile);
+
+        private static void ConfirmSteamRunning() {
+            if (SteamAPI.IsSteamRunning())
+                return;
+            var path = SteamPathHelper.GetSteamPath();
+            if (path == null || !path.Exists)
+                throw new SteamNotFoundException("Steam does not appear to be running and could not find Steam");
+            var sl = new SteamLauncher(path);
+            if (!sl.SteamExePath.Exists)
+                throw new SteamNotFoundException("Steam does not appear to be running and could not find Steam");
+            sl.StartSteamIfRequired();
             if (!SteamAPI.IsSteamRunning())
                 throw new SteamInitializationException("Steam does not appear to be running");
+        }
 
-            // TODO: Start Steam
+        private static void ConfirmSteamInitialization() {
             if (!SteamAPI.Init()) {
                 throw new SteamInitializationException(
                     "Steam initialization failed. Is Steam running under the same priviledges?");
             }
-            //SteamAPI.RestartAppIfNecessary(new AppId_t(appId));
+        }
+
+        private void SetupDebugHook() {
             _mSteamApiWarningMessageHook = SteamAPIDebugTextHook;
             SteamClient.SetWarningMessageHook(_mSteamApiWarningMessageHook);
+        }
 
-            _scheduler = new EventLoopScheduler();
-            _callbackRunner = Observable.Interval(TimeSpan.FromMilliseconds(100), Scheduler)
+        private IDisposable CreateCallbackRunner() =>
+            Observable.Interval(TimeSpan.FromMilliseconds(100), Scheduler)
                 .Do(_ => {
                     try {
                         SteamAPI.RunCallbacks();
@@ -81,10 +111,6 @@ namespace SN.withSIX.Steam.Api.Services
                         Console.Error.WriteLine("Native exception ocurred while SteamAPI.RunCallbacks()");
                     }
                 }).Subscribe();
-        }
-
-        private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)
-            => appId.ToString().WriteToFileAsync(steamAppIdFile);
 
         public class SteamSessionFactory : ISteamSessionFactory, ISteamSessionLocator
         {
@@ -113,5 +139,10 @@ namespace SN.withSIX.Steam.Api.Services
     public class SteamInitializationException : InvalidOperationException
     {
         public SteamInitializationException(string message) : base(message) {}
+    }
+
+    public class SteamNotFoundException : InvalidOperationException
+    {
+        public SteamNotFoundException(string message) : base(message) {}
     }
 }
