@@ -40,7 +40,7 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         public virtual SteamDirectories GetDirectories(SteamHelper helper) {
             var si = helper.TryGetSteamAppById(AppId);
             return new SteamDirectories(AppId, si?.GetInstallDir() ?? _folderFallback,
-                si?.InstallBase ?? Common.Paths.SteamPath);
+                si?.InstallBase ?? SteamPathHelper.SteamPath);
         }
 
         class NullSteamInfo : SteamInfoAttribute

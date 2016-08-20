@@ -10,6 +10,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Presentation.Core.Commands;
 using SN.withSIX.Steam.Api;
 using SN.withSIX.Steam.Api.Services;
+using SN.withSIX.Steam.Core;
 
 namespace SN.withSIX.Steam.Presentation.Commands
 {
@@ -28,7 +29,7 @@ namespace SN.withSIX.Steam.Presentation.Commands
         private readonly Lazy<App> _app;
         protected App App => _app.Value;
 
-        protected Task<SteamSession> StartSession() => _factory.Start(AppId);
+        protected Task<SteamSession> StartSession() => _factory.Start(AppId, SteamPathHelper.SteamPath);
 
         protected Tuple<PublishedFile, bool> ParsePid(string nfo) {
             ulong p;

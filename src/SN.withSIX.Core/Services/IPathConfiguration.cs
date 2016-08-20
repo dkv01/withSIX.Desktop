@@ -20,7 +20,5 @@ namespace SN.withSIX.Core.Services
         IAbsoluteDirectoryPath ToolPath { get; }
         bool PathsSet { get; }
         IAbsoluteDirectoryPath StartPath { get; }
-        IAbsoluteDirectoryPath JavaPath { get; }
-        IAbsoluteDirectoryPath SteamPath { get; }
     }
 }

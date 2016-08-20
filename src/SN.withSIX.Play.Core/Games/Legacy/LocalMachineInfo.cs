@@ -106,7 +106,34 @@ namespace SN.withSIX.Play.Core.Games.Legacy
 
         public static IAbsoluteDirectoryPath GetSteamPath() {
             var steamDirectory = DomainEvilGlobal.Settings.GameOptions.SteamDirectory;
-            return steamDirectory == null || !steamDirectory.IsValidAbsoluteDirectoryPath() ? Common.Paths.SteamPath : steamDirectory.ToAbsoluteDirectoryPath();
+            return steamDirectory == null || !steamDirectory.IsValidAbsoluteDirectoryPath()
+                ? DefaultSteamPath
+                : steamDirectory.ToAbsoluteDirectoryPath();
+        }
+
+        public static IAbsoluteDirectoryPath DefaultSteamPath => SteamPathHelper.SteamPath;
+
+        class SteamPathHelper
+        {
+            private static readonly string steamRegistry = @"SOFTWARE\Valve\Steam";
+            private static IAbsoluteDirectoryPath _steamPath;
+            public static IAbsoluteDirectoryPath SteamPath => _steamPath ?? (_steamPath = GetSteamPathInternal());
+
+            private static IAbsoluteDirectoryPath GetSteamPathInternal() {
+                var regPath = TryGetPathFromRegistry();
+                if (regPath != null && regPath.Exists)
+                    return regPath;
+                var expectedPath =
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
+                        .ToAbsoluteDirectoryPath()
+                        .GetChildDirectoryWithName("Steam");
+                return expectedPath.Exists ? expectedPath : null;
+            }
+
+            private static IAbsoluteDirectoryPath TryGetPathFromRegistry() {
+                var p = Tools.Generic.NullSafeGetRegKeyValue<string>(steamRegistry, "InstallPath");
+                return p.IsBlankOrWhiteSpace() ? null : p.Trim().ToAbsoluteDirectoryPath();
+            }
         }
     }
 }

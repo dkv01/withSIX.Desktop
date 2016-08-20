@@ -191,6 +191,7 @@
     <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\GetPlayerSummariesRequest.cs" />
     <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\Models\Player.cs" />
     <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\Models\ResponseRootObject.cs" />
+    <Compile Include="SteamPathHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

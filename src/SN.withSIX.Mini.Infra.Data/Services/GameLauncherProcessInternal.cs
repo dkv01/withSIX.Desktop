@@ -18,6 +18,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Api;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
@@ -424,7 +425,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             => new GameLauncherProcessInternal.GameLauncher.GameLaunchSpec {
                 GamePath = info.LaunchExecutable.ToString(),
                 WorkingDirectory = info.WorkingDirectory.ToString(),
-                SteamPath = Common.Paths.SteamPath,
+                SteamPath = SteamPathHelper.SteamPath,
                 Arguments = info.StartupParameters.CombineParameters(),
                 Priority = info.Priority,
                 Affinity = info.Affinity

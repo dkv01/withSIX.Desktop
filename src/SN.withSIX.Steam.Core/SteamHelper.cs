@@ -12,7 +12,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Core.SteamKit.Utils;
 using SteamKit2;
-using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Steam.Core
 {
@@ -28,7 +27,7 @@ namespace SN.withSIX.Steam.Core
         }
 
         KeyValue ReadSteamConfig() {
-            var steamPath = GetSteamPath();
+            var steamPath = SteamPathHelper.SteamPath;
             if (steamPath == null || !steamPath.Exists)
                 return null;
 
@@ -38,8 +37,6 @@ namespace SN.withSIX.Steam.Core
 
             return null;
         }
-
-        public static IAbsoluteDirectoryPath GetSteamPath() => SteamPathHelper.GetSteamPath();
     }
 
     public class SteamHelper

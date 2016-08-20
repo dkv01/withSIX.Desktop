@@ -24,38 +24,38 @@ namespace SN.withSIX.Play.Infra.Data.Services
 {
     public class GameLauncherProcessExternalUpdater : IEnableLogging, IGameLauncherProcess, IInfrastructureService
     {
-        readonly IPathConfiguration _pathConfiguration;
+        readonly IAbsoluteDirectoryPath _javaPath = null;
         readonly IProcessManager _processManager;
 
-        public GameLauncherProcessExternalUpdater(IProcessManager processManager, IPathConfiguration pathConfiguration) {
+        public GameLauncherProcessExternalUpdater(IProcessManager processManager) {
             _processManager = processManager;
-            _pathConfiguration = pathConfiguration;
         }
 
         public Task<Process> LaunchInternal(LaunchGameInfo info) => PerformUpdaterAction(info, new SULaunchDefaultGameArgumentsBuilder(info).Build());
 
         public Task<Process> LaunchInternal(LaunchGameWithJavaInfo info) => PerformUpdaterAction(info,
-    new SULaunchGameJavaArgumentsBuilder(info, _pathConfiguration.JavaPath)
-        .Build());
+            new SULaunchGameJavaArgumentsBuilder(info, _javaPath)
+                .Build());
 
         public Task<Process> LaunchInternal(LaunchGameWithSteamInfo info) => PerformUpdaterAction(info,
-    new SULaunchGameSteamArgumentsBuilder(info, GetAndValidateSteamPath(info.SteamDRM, false))
-        .Build());
+            new SULaunchGameSteamArgumentsBuilder(info, GetAndValidateSteamPath(info.SteamDRM, false))
+                .Build());
 
         public Task<Process> LaunchInternal(LaunchGameWithSteamLegacyInfo info) => PerformUpdaterAction(info,
-    new SULaunchGameSteamLegacyArgumentsBuilder(info, GetAndValidateSteamPath(info.SteamDRM))
-        .Build());
+            new SULaunchGameSteamLegacyArgumentsBuilder(info, GetAndValidateSteamPath(info.SteamDRM))
+                .Build());
 
         Task<Process> PerformUpdaterAction(LaunchGameInfoBase spec, IEnumerable<string> args) {
             var startInfo = BuildProcessStartInfo(spec, args);
             return LaunchUpdaterProcess(spec, startInfo);
         }
 
-        static ProcessStartInfo BuildProcessStartInfo(LaunchGameInfoBase spec, IEnumerable<string> args) => new ProcessStartInfoBuilder(Common.Paths.ServiceExePath,
-    args.CombineParameters()) {
-            AsAdministrator = spec.LaunchAsAdministrator,
-            WorkingDirectory = spec.WorkingDirectory
-        }.Build();
+        static ProcessStartInfo BuildProcessStartInfo(LaunchGameInfoBase spec, IEnumerable<string> args)
+            => new ProcessStartInfoBuilder(Common.Paths.ServiceExePath,
+                args.CombineParameters()) {
+                    AsAdministrator = spec.LaunchAsAdministrator,
+                    WorkingDirectory = spec.WorkingDirectory
+                }.Build();
 
         async Task<Process> LaunchUpdaterProcess(LaunchGameInfoBase spec, ProcessStartInfo startInfo) {
             LogGameInfo(spec);

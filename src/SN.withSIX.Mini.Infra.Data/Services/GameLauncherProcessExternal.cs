@@ -17,25 +17,25 @@ using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Api;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
 {
     public class GameLauncherProcessExternalUpdater : IEnableLogging, IGameLauncherProcess, IInfrastructureService
     {
-        readonly IPathConfiguration _pathConfiguration;
         readonly IProcessManager _processManager;
+        private readonly IAbsoluteDirectoryPath _javaPath = null; // TODO
 
-        public GameLauncherProcessExternalUpdater(IProcessManager processManager, IPathConfiguration pathConfiguration) {
+        public GameLauncherProcessExternalUpdater(IProcessManager processManager) {
             _processManager = processManager;
-            _pathConfiguration = pathConfiguration;
         }
 
         public Task<Process> LaunchInternal(LaunchGameInfo info)
             => PerformUpdaterAction(info, new SULaunchDefaultGameArgumentsBuilder(info).Build());
 
         public Task<Process> LaunchInternal(LaunchGameWithJavaInfo info) => PerformUpdaterAction(info,
-            new SULaunchGameJavaArgumentsBuilder(info, _pathConfiguration.JavaPath)
+            new SULaunchGameJavaArgumentsBuilder(info, _javaPath)
                 .Build());
 
         public Task<Process> LaunchInternal(LaunchGameWithSteamInfo info) => PerformUpdaterAction(info,
@@ -140,7 +140,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 _steamDrm = steamDrm;
                 _requireExeExist = requireExeExist;
 
-                var steamPath = Common.Paths.SteamPath;
+                var steamPath = SteamPathHelper.SteamPath;
                 if (steamPath == null)
                     throw BuildException();
 

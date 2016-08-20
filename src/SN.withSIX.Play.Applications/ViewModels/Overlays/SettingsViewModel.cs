@@ -23,6 +23,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.ViewModels.Popups;
 using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Options;
@@ -145,7 +146,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         {
             get
             {
-                var absoluteDirectoryPath = Common.Paths.SteamPath;
+                var absoluteDirectoryPath = LocalMachineInfo.DefaultSteamPath;
                 return absoluteDirectoryPath?.ToString();
             }
         }

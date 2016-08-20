@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Core;
@@ -22,9 +21,10 @@ namespace SN.withSIX.Steam.Api
     {
         // TODO: Move to SteamAPI...
         internal static readonly SteamHelper SteamHelper = new SteamHelper(new SteamStuff().TryReadSteamConfig(),
-            SteamStuff.GetSteamPath());
+            SteamPathHelper.SteamPath);
         private readonly SteamApp _steamInfo;
-        private Lazy<SteamDirectories> _directories;
+        private readonly Lazy<SteamDirectories> _directories;
+
         public App(uint id) : this(new AppId_t(id)) {}
 
         public App(AppId_t id) {

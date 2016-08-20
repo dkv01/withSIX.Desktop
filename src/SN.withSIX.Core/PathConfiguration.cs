@@ -11,15 +11,6 @@ using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Core
 {
-    public class SteamPathHelper {
-        private static readonly string steamRegistry = @"SOFTWARE\Valve\Steam";
-
-        public static IAbsoluteDirectoryPath GetSteamPath() {
-            var p = Tools.Generic.NullSafeGetRegKeyValue<string>(steamRegistry, "InstallPath");
-            return p.IsBlankOrWhiteSpace() ? null : p.Trim().ToAbsoluteDirectoryPath();
-        }
-    }
-
     public class PathConfiguration : IPathConfiguration, IDomainService, IEnableLogging
     {
         const string CompanyPath = "SIX Networks";
@@ -39,7 +30,6 @@ namespace SN.withSIX.Core
         public IAbsoluteDirectoryPath NotePath { get; private set; }
         public IAbsoluteDirectoryPath LocalDataRootPath { get; private set; }
         public IAbsoluteDirectoryPath SynqRootPath { get; private set; }
-        public IAbsoluteDirectoryPath JavaPath { get; }
         public IAbsoluteDirectoryPath AppPath { get; private set; }
         public IAbsoluteDirectoryPath ConfigPath { get; private set; }
         public IAbsoluteDirectoryPath DataPath { get; private set; }
@@ -50,7 +40,6 @@ namespace SN.withSIX.Core
         public IAbsoluteDirectoryPath ToolMinGwBinPath { get; private set; }
         public IAbsoluteDirectoryPath ToolCygwinBinPath { get; private set; }
         public IAbsoluteDirectoryPath ToolPath { get; private set; }
-        public IAbsoluteDirectoryPath SteamPath { get; private set; }
         //public string ToolsPath { get; private set; }
         public bool PathsSet { get; private set; }
         public IAbsoluteDirectoryPath StartPath { get; private set; }
@@ -92,7 +81,6 @@ namespace SN.withSIX.Core
 
             ServiceExePath = Common.IsMini ? EntryLocation : SharedFilesPath.GetChildFileWithName(ServiceExe);
             SelfUpdaterExePath = SharedFilesPath.GetChildFileWithName(SelfUpdaterExe);
-            SteamPath = SteamPathHelper.GetSteamPath();
 
             SynqRootPath = ProgramDataPath.GetChildDirectoryWithName("Synq");
 

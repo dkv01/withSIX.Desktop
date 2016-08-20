@@ -29,7 +29,11 @@ namespace SN.withSIX.Steam.Api.Services
         private IDisposable _callbackRunner;
         private SteamAPIWarningMessageHook_t _mSteamApiWarningMessageHook;
         private EventLoopScheduler _scheduler;
+        private IAbsoluteDirectoryPath _steamPath;
 
+        private SteamSession(IAbsoluteDirectoryPath steamPath) {
+            _steamPath = steamPath;
+        }
 
         public void Dispose() {
             _callbackRunner.Dispose();
@@ -53,7 +57,7 @@ namespace SN.withSIX.Steam.Api.Services
             Contract.Requires<ArgumentException>(appId > 0);
 
             await SetupAppId(appId).ConfigureAwait(false);
-            ConfirmSteamRunning();
+            StartSteamIfRequiredAndConfirm();
             ConfirmSteamInitialization();
             SetupDebugHook();
 
@@ -73,16 +77,27 @@ namespace SN.withSIX.Steam.Api.Services
         private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)
             => appId.ToString().WriteToFileAsync(steamAppIdFile);
 
-        private static void ConfirmSteamRunning() {
+        private void StartSteamIfRequiredAndConfirm() {
             if (SteamAPI.IsSteamRunning())
                 return;
-            var path = SteamPathHelper.GetSteamPath();
-            if (path == null || !path.Exists)
+            ConfirmSteamPath();
+            StartSteam();
+            ConfirmSteamRunning();
+        }
+
+        private void ConfirmSteamPath() {
+            if (_steamPath == null || !_steamPath.Exists)
                 throw new SteamNotFoundException("Steam does not appear to be running and could not find Steam");
-            var sl = new SteamLauncher(path);
+        }
+
+        private void StartSteam() {
+            var sl = new SteamLauncher(_steamPath);
             if (!sl.SteamExePath.Exists)
                 throw new SteamNotFoundException("Steam does not appear to be running and could not find Steam");
             sl.StartSteamIfRequired();
+        }
+
+        private static void ConfirmSteamRunning() {
             if (!SteamAPI.IsSteamRunning())
                 throw new SteamInitializationException("Steam does not appear to be running");
         }
@@ -114,8 +129,8 @@ namespace SN.withSIX.Steam.Api.Services
 
         public class SteamSessionFactory : ISteamSessionFactory, ISteamSessionLocator
         {
-            public async Task<SteamSession> Start(uint appId) {
-                var session = new SteamSession();
+            public async Task<SteamSession> Start(uint appId, IAbsoluteDirectoryPath steamPath) {
+                var session = new SteamSession(steamPath);
                 await session.Initialize(appId).ConfigureAwait(false);
                 Session = session;
                 return session;
@@ -133,7 +148,7 @@ namespace SN.withSIX.Steam.Api.Services
 
     public interface ISteamSessionFactory
     {
-        Task<SteamSession> Start(uint appId);
+        Task<SteamSession> Start(uint appId, IAbsoluteDirectoryPath steamPath);
     }
 
     public class SteamInitializationException : InvalidOperationException

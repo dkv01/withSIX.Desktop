@@ -34,7 +34,7 @@ namespace SN.withSIX.Mini.Core.Games
     public abstract class Game : BaseEntity<Guid>, IContentEngineGame, IHaveSourcePaths
     {
         internal static readonly SteamHelper SteamHelper = new SteamHelper(new SteamStuff().TryReadSteamConfig(),
-            SteamStuff.GetSteamPath());
+            SteamPathHelper.SteamPath);
 
         static readonly string[] getCompatibilityMods = new string[0];
 
