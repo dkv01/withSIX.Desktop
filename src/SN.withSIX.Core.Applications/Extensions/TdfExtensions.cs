@@ -20,16 +20,11 @@ namespace SN.withSIX.Core.Applications.Extensions
 
 
         public static IObservable<Unit> MergeTaskTdf<T>(this IObservable<T> obs, Func<T, Task> taskFactory,
-            int degreeOfParallism)
-            => obs.FromTdf(taskFactory.ToTransformBlock(new ExecutionDataflowBlockOptions {
-                MaxDegreeOfParallelism = degreeOfParallism
-            }));
+            int degreeOfParallism) => obs.FromTdf(taskFactory.ToTransformBlock(BuildMaxDegreeOption(degreeOfParallism)));
 
         public static IObservable<T2> MergeTaskTdf<T, T2>(this IObservable<T> obs, Func<T, Task<T2>> taskFactory,
             int degreeOfParallism)
-            => obs.FromTdf(taskFactory.ToTransformBlock(new ExecutionDataflowBlockOptions {
-                MaxDegreeOfParallelism = degreeOfParallism
-            }));
+            => obs.FromTdf(taskFactory.ToTransformBlock(BuildMaxDegreeOption(degreeOfParallism)));
 
 
         public static IObservable<Unit> ConcatTaskTdf<T>(this IObservable<T> obs, Func<T, Task> taskFactory)
@@ -41,9 +36,12 @@ namespace SN.withSIX.Core.Applications.Extensions
 
         public static IObservable<T2> MergeTaskTdf<T, T2>(this IObservable<T> obs, Func<Task<T2>> taskFactory,
             int degreeOfParallism)
-            => obs.FromTdf(taskFactory.ToTransformBlock<T, T2>(new ExecutionDataflowBlockOptions {
+            => obs.FromTdf(taskFactory.ToTransformBlock<T, T2>(BuildMaxDegreeOption(degreeOfParallism)));
+
+        private static ExecutionDataflowBlockOptions BuildMaxDegreeOption(int degreeOfParallism)
+            => new ExecutionDataflowBlockOptions {
                 MaxDegreeOfParallelism = degreeOfParallism
-            }));
+            };
 
         public static IObservable<T2> ConcatTaskTdf<T, T2>(this IObservable<T> obs, Func<Task<T2>> taskFactory)
             => obs.MergeTaskTdf(taskFactory, 1);
@@ -53,9 +51,7 @@ namespace SN.withSIX.Core.Applications.Extensions
 
         public static IObservable<Unit> MergeTaskTdf<T>(this IObservable<T> obs, Func<Task> taskFactory,
             int degreeOfParallism)
-            => obs.FromTdf(taskFactory.ToTransformBlock<T>(new ExecutionDataflowBlockOptions {
-                MaxDegreeOfParallelism = degreeOfParallism
-            }));
+            => obs.FromTdf(taskFactory.ToTransformBlock<T>(BuildMaxDegreeOption(degreeOfParallism)));
 
         public static IObservable<Unit> ConcatTaskTdf<T>(this IObservable<T> obs, Func<Task> taskFactory)
             => obs.MergeTaskTdf(taskFactory, 1);
