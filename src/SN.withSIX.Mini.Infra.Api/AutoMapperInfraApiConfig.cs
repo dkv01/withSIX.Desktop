@@ -19,9 +19,11 @@ namespace SN.withSIX.Mini.Infra.Api
     {
         public static void Setup(IProfileExpression cfg) {
             cfg.CreateMap<ModClientApiJson, ModNetworkContent>()
+                .Include<ModClientApiJsonV3WithGameId, ModNetworkContent>()
                 .BeforeMap((json, content) => {
                     content?.Publishers.Clear();
                 })
+                .ForMember(x => x.Version, opt => opt.MapFrom(src => src.LatestStableVersion ?? src.Version))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
