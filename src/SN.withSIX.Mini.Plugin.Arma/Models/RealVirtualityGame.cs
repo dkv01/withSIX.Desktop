@@ -124,14 +124,13 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             ILaunchContentAction<IContent> action) {
             var launcher = factory.Create<IRealVirtualityLauncher>(this);
             var startupParameters = await GetStartupParameters(launcher, action).ConfigureAwait(false);
+            return await InitiateLaunch(launcher, startupParameters).ConfigureAwait(false);
+        }
 
+        protected override bool ShouldLaunchWithSteam() {
             var casted = Settings as ILaunchAsDedicatedServer;
             var launchAsDedicated = (casted?.LaunchAsDedicatedServer).GetValueOrDefault();
-            return
-                await
-                    (!launchAsDedicated && IsLaunchingSteamApp()
-                        ? LaunchWithSteam(launcher, startupParameters)
-                        : LaunchNormal(launcher, startupParameters)).ConfigureAwait(false);
+            return !launchAsDedicated && base.ShouldLaunchWithSteam();
         }
 
         Tuple<string[], string[]> RvStartupParameters(IRealVirtualityLauncher launcher,

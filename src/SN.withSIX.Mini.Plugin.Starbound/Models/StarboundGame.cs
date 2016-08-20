@@ -36,14 +36,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     : Metadata.Executables.Skip(1).ToArray());
         }
 
-        protected override Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> launchContentAction) {
-            var launcher = factory.Create(this);
-            return LaunchNormal(launcher, GetStartupParameters());
-            //return await (IsLaunchingSteamApp()
-            //  ? LaunchWithSteam(launcher, GetStartupParameters())
-            //                : LaunchNormal(launcher, GetStartupParameters())).ConfigureAwait(false);
-        }
+        protected override bool ShouldLaunchWithSteam() => false;
 
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             // TODO: PublisherId
@@ -52,9 +45,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     .OfType<IHavePackageName>()
                     .Select(x => x.PackageName)
                     .ToArray();
-
             HandleModDirectory(packages);
-            //HandleSteamDirectory(packages);
         }
 
         private void HandleModDirectory(string[] packages) {
