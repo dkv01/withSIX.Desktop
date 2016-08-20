@@ -24,6 +24,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
     public class ModClientApiJsonV3WithGameId : ModClientApiJson
     {
+        public string GetVersion() => LatestStableVersion ?? Version;
         private Guid _gameId;
         public Guid GameId
         {
