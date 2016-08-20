@@ -63,6 +63,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         public override async Task Load(Guid gameId) {
+            if (!SetupGameStuff.GameSpecs.Select(x => x.Value.Id).Contains(gameId))
+                throw new NotFoundException($"The specified game is unknown/not supported {gameId}");
             using (this.Bench(gameId.ToString())) {
                 if (!Games.Select(x => x.Id).Contains(gameId))
                     Games.Add(await RetrieveGame(gameId).ConfigureAwait(false));
