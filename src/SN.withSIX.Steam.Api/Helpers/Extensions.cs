@@ -78,5 +78,7 @@ namespace SN.withSIX.Steam.Api.Helpers
 
         public static IAbsolutePath GetLocation(this ItemInstallInfo This, bool isLegacy)
             => isLegacy ? (IAbsolutePath) This.Location.ToAbsoluteFilePath() : This.Location.ToAbsoluteDirectoryPath();
+
+        public static IObservable<Unit> Void<T>(this IObservable<T> This) => This.Select(x => Unit.Default);
     }
 }

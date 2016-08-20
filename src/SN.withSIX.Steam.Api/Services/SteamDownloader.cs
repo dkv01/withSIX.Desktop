@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
+using SN.withSIX.Steam.Api.Helpers;
 using Steamworks;
 
 namespace SN.withSIX.Steam.Api.Services
@@ -66,27 +67,24 @@ namespace SN.withSIX.Steam.Api.Services
 
         private IObservable<Unit> CreateResultCompletionSource(PublishedFile pf, CancellationToken cancelToken)
             => ObserveDownloadItemResultForApp(pf, cancelToken)
-                .Select(x => {
-                    _api.ConfirmResult(x.m_eResult);
-                    return Unit.Default;
-                });
+                .Do(x => _api.ConfirmResult(x.m_eResult))
+                .Void();
 
         private IObservable<Unit> CreateInstalledCompletionSource(PublishedFile pf, CancellationToken cancelToken)
-            => ObserveInstalledFileForApp(pf, cancelToken).Select(x => Unit.Default);
+            => ObserveInstalledFileForApp(pf, cancelToken).Void();
 
         private IObservable<Unit> CreateProgressCompletionSource(PublishedFile pf) => ObserveDownloadInfo(pf.Pid)
             .Where(x => x.Total > 0 && x.Total == x.Downloaded)
-            .Select(x => Unit.Default);
+            .Void();
 
         private IObservable<Unit> CreateTimeoutSource(PublishedFile pf)
             => ObserveDownloadInfo(pf.Pid)
                 .Throttle(TimeSpan.FromSeconds(60))
-                .Select(
-                    x => {
-                        throw new TimeoutException(
-                            "Did not receive download progress info from Steam for over 60 seconds");
-                        return Unit.Default;
-                    });
+                .Do(x => {
+                    throw new TimeoutException(
+                        "Did not receive download progress info from Steam for over 60 seconds");
+                })
+                .Void();
 
         private IDisposable ProcessDownloadInfo(PublishedFile pf, Action<DownloadInfo> pCb,
             IObservable<Unit> readySignal) => ProcessDownloadInfo(pf.Pid, pCb, readySignal);
