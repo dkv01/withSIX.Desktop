@@ -48,10 +48,9 @@ namespace SN.withSIX.Mini.Core.Games
         protected abstract Task InstallMod(IModContent mod);
         protected abstract Task UninstallMod(IModContent mod);
 
-        protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> launchContentAction) {
-            await EnableMods(launchContentAction).ConfigureAwait(false);
-            return await base.LaunchImpl(factory, launchContentAction).ConfigureAwait(false);
+        protected override async Task BeforeLaunch(ILaunchContentAction<IContent> action) {
+            await EnableMods(action).ConfigureAwait(false);
+            await base.BeforeLaunch(action).ConfigureAwait(false);
         }
 
         protected abstract Task EnableMods(ILaunchContentAction<IContent> launchContentAction);

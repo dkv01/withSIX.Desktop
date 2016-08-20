@@ -304,6 +304,8 @@ namespace SN.withSIX.Mini.Core.Games
         async Task<int> LaunchInternal(IGameLauncherFactory factory, ILaunchContentAction<IContent> action) {
             ConfirmLaunch();
 
+            await BeforeLaunch(action).ConfigureAwait(false);
+
             int id;
             using (var p = await LaunchImpl(factory, action).ConfigureAwait(false))
                 id = p?.Id ?? -1;
@@ -315,6 +317,8 @@ namespace SN.withSIX.Mini.Core.Games
 
             return id;
         }
+
+        protected virtual async Task BeforeLaunch(ILaunchContentAction<IContent> action) {}
 
         protected abstract Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> launchContentAction);
