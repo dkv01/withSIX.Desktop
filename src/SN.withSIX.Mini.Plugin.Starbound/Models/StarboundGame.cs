@@ -15,6 +15,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
@@ -40,13 +41,16 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             // TODO: PublisherId
-            var packages =
-                launchContentAction.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint))
-                    .OfType<IHavePackageName>()
+
+            var content = launchContentAction.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint)).ToArray();
+            var packages = content.OfType<IHavePackageName>()
                     .Select(x => x.PackageName)
                     .Distinct()
                     .ToArray();
             HandleModDirectory(packages);
+
+            foreach (var m in content.OfType<IModContent>().Select(CreateMod))
+                await m.Install(false).ConfigureAwait(false);
         }
 
         private void HandleModDirectory(string[] packages) {
@@ -81,7 +85,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         protected override Task InstallMod(IModContent mod) {
             var m = CreateMod(mod);
-            return m.Install();
+            return m.Install(true);
         }
 
         protected override Task UninstallMod(IModContent mod) {
@@ -105,12 +109,16 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             _modDir = modDir;
         }
 
-        public async Task Install() {
-            var sourcePak = _sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
-
+        public async Task Install(bool force) {
             _modDir.MakeSurePathExists();
-
             var pakFile = _modDir.GetChildFileWithName($"{_mod.PackageName}.pak");
+            if (!force && pakFile.Exists) // TODO: Date check
+                return;
+            if (!_sourceDir.Exists)
+                throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
+            var sourcePak = _sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
+            if (!sourcePak.Exists)
+                throw new NotFoundException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
         }
 
