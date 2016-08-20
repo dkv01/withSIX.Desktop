@@ -53,23 +53,24 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             using (this.Bench()) {
                 var gamesToAdd = await
                     Task.WhenAll(
-                        SetupGameStuff.GameSpecs
-                            .Select(x => x.Value.Id)
+                        GetSupportedGameIds()
                             .Where(x => !Games.Select(g => g.Id).Contains(x))
-                            .Select(x => RetrieveGame(x, skip)))
-                        .ConfigureAwait(false);
+                            .Select(x => RetrieveGame(x, skip))).ConfigureAwait(false);
                 Games.AddRange(gamesToAdd.Where(x => x != null));
             }
         }
 
         public override async Task Load(Guid gameId) {
-            if (!SetupGameStuff.GameSpecs.Select(x => x.Value.Id).Contains(gameId))
+            if (!GetSupportedGameIds().Contains(gameId))
                 throw new NotFoundException($"The specified game is unknown/not supported {gameId}");
             using (this.Bench(gameId.ToString())) {
                 if (!Games.Select(x => x.Id).Contains(gameId))
                     Games.Add(await RetrieveGame(gameId).ConfigureAwait(false));
             }
         }
+
+        private static IEnumerable<Guid> GetSupportedGameIds() => SetupGameStuff.GameSpecs
+            .Select(x => x.Value.Id);
 
         async Task<Game> RetrieveGame(Guid gameId, bool skip = false) {
             Game game;
