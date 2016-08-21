@@ -5,6 +5,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Mini.Core.Games;
+using SN.withSIX.Steam.Core;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -14,6 +16,7 @@ namespace SN.withSIX.Mini.Applications
 
         public async Task Initialize() {
             ErrorHandlerr.RegisterHandler(new GameExceptionHandler());
+            Game.SteamHelper = SteamHelper.Create(); // TODO: Move
         }
 
         public async Task Deinitialize() {}

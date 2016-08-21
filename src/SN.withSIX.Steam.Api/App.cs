@@ -20,8 +20,7 @@ namespace SN.withSIX.Steam.Api
     public class App
     {
         // TODO: Move to SteamAPI...
-        internal static readonly SteamHelper SteamHelper = new SteamHelper(new SteamStuff().TryReadSteamConfig(),
-            SteamPathHelper.SteamPath);
+        public static SteamHelper SteamHelper { get; set; }
         private readonly SteamApp _steamInfo;
         private readonly Lazy<SteamDirectories> _directories;
 
@@ -60,27 +59,27 @@ namespace SN.withSIX.Steam.Api
             var wsf = $"appworkshop_{Id.m_AppId}.acf";
             var reg = Directories.Workshop.RootPath.GetChildFileWithName(wsf);
             MainLog.Logger.Info($"Considering rewriting {wsf}");
-            if (reg.Exists) {
-                var kv = KeyValue.LoadFromString(await reg.ReadTextAsync(cancelToken).ConfigureAwait(false));
-                var changed = false;
-                var key = pf.Pid.m_PublishedFileId.ToString();
-                foreach (
-                    var root in
-                        new[] {
-                            "WorkshopItemDetails",
-                            "WorkshopItemsInstalled"
-                        }.Select(r => kv.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
-                    MainLog.Logger.Info($"Removing {key} from {root.Name}");
-                    root.Remove(key);
-                    changed = true;
-                }
+            if (!reg.Exists) return;
 
-                if (changed) {
-                    MainLog.Logger.Info($"Changes detected, saving {wsf}");
-                    var id = kv["WorkshopItemsInstalled"];
-                    kv["SizeOnDisk"].Value = id.Children.Sum(x => x["size"].AsLong()).ToString();
-                    kv.SaveToFile(reg.ToString(), false);
-                }
+            var kv = await KeyValueHelper.LoadFromFileAsync(reg, cancelToken).ConfigureAwait(false);
+            var changed = false;
+            var key = pf.Pid.m_PublishedFileId.ToString();
+            foreach (
+                var root in
+                    new[] {
+                        "WorkshopItemDetails",
+                        "WorkshopItemsInstalled"
+                    }.Select(r => kv.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
+                MainLog.Logger.Info($"Removing {key} from {root.Name}");
+                root.Remove(key);
+                changed = true;
+            }
+
+            if (changed) {
+                MainLog.Logger.Info($"Changes detected, saving {wsf}");
+                var id = kv["WorkshopItemsInstalled"];
+                kv["SizeOnDisk"].Value = id.Children.Sum(x => x["size"].AsLong()).ToString();
+                KeyValueHelper.SaveToFile(kv, reg);
             }
         }
     }

@@ -29,7 +29,10 @@ namespace SN.withSIX.Steam.Presentation.Commands
         private readonly Lazy<App> _app;
         protected App App => _app.Value;
 
-        protected Task<SteamSession> StartSession() => _factory.Start(AppId, SteamPathHelper.SteamPath);
+        protected Task<SteamSession> StartSession() {
+            App.SteamHelper = SteamHelper.Create(); // TODO: Move
+            return _factory.Start(AppId, SteamPathHelper.SteamPath);
+        }
 
         protected Tuple<PublishedFile, bool> ParsePid(string nfo) {
             ulong p;

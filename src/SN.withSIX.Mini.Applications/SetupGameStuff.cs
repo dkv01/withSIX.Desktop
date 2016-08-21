@@ -17,6 +17,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SN.withSIX.Steam.Core;
 
 namespace SN.withSIX.Mini.Applications
 {
