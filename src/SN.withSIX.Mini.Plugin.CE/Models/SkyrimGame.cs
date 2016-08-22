@@ -18,7 +18,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 {
     // SkyrimLauncher.exe
     [Game(GameUUids.Skyrim, Executables = new[] {@"SKSE.exe", @"TESV.exe"}, Name = "Skyrim",
-        IsPublic = false,
+        IsPublic = true,
         Slug = "Skyrim")]
     [SynqRemoteInfo(GameUUids.Skyrim)]
     [SteamInfo(SteamGameIds.Skyrim)]

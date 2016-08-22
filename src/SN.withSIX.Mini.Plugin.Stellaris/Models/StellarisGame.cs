@@ -18,7 +18,7 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 {
-    [Game(GameUUids.Stellaris, Executables = new[] {@"stellaris.exe"}, Name = "Stellaris", IsPublic = false,
+    [Game(GameUUids.Stellaris, Executables = new[] {@"stellaris.exe"}, Name = "Stellaris", IsPublic = true,
         Slug = "Stellaris")]
     [SynqRemoteInfo(GameUUids.Stellaris)]
     [SteamInfo(SteamGameIds.Stellaris)]

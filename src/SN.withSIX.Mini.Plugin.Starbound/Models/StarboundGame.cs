@@ -14,14 +14,13 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
 {
     [Game(GameUUids.Starbound, Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"}, Name = "Starbound",
-        IsPublic = false,
+        IsPublic = true,
         Slug = "Starbound")]
     [SynqRemoteInfo(GameUUids.Starbound)]
     [SteamInfo(SteamGameIds.Starbound)]
