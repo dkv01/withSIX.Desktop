@@ -33,8 +33,12 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task Uninstall() {
-            foreach (var c in _action.Content)
-                await c.Content.Uninstall(this, _action.CancelToken).ConfigureAwait(false);
+            try {
+                foreach (var c in _action.Content)
+                    await c.Content.Uninstall(this, _action.CancelToken).ConfigureAwait(false);
+            } finally {
+                _action.Game.RefreshCollections();
+            }
         }
 
         public async Task Uninstall<T>(T content) where T : Content, IContentWithPackageName {
@@ -65,7 +69,6 @@ namespace SN.withSIX.Mini.Applications.Services
                     //else if (content is ICollectionContent)
                     //  _action.Status.Collections.Uninstall.Add(content.Id);
                     content.Uninstalled();
-                    _action.Game.RefreshCollections();
                 }
                 finalState = ItemState.NotInstalled;
             } finally {
