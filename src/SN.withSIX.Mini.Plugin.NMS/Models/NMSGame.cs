@@ -17,10 +17,10 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.NMS.Models
 {
-    [Game(GameUUids.NMS, Executables = new[] { @"Binaries\NMS.exe" }, Name = "No Mans Sky",
+    [Game(GameIds.NMS, Executables = new[] { @"Binaries\NMS.exe" }, Name = "No Mans Sky",
         IsPublic = true,
         Slug = "Starbound")]
-    [SynqRemoteInfo(GameUUids.NMS)]
+    [SynqRemoteInfo(GameIds.NMS)]
     [SteamInfo(SteamGameIds.NMS)]
     [DataContract]
     public class NMSGame : BasicGame

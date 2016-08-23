@@ -7,10 +7,11 @@ using System.Runtime.Serialization;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Witcher3.Models
 {
-    [Game(GameUUids.Witcher3, Executables = new[] {@"bin\x64\witcher3.exe"}, Name = "The Witcher 3", IsPublic = false,
+    [Game(GameIds.Witcher3, Executables = new[] {@"bin\x64\witcher3.exe"}, Name = "The Witcher 3", IsPublic = false,
         Slug = "witcher-3")]
     [RegistryInfo(@"SOFTWARE\GOG.com\Games\1207664643", "PATH")]
     [DataContract]

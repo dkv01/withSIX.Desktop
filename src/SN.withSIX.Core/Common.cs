@@ -393,46 +393,4 @@ namespace SN.withSIX.Core
     {
         protected AsyncDomainEvent(T subject) : base(subject) {}
     }
-
-    public static class GameUUids
-    {
-        public const string Arma1 = "1781B5A8-7C05-4B5D-8EC3-62C14DA42B5B";
-        public const string Arma2Oa = "B4EC1290-CECD-45A3-977F-136C5929E51C";
-        public const string Arma2 = "FA5A2E52-D760-4B12-ACBD-07FD35FF12E8";
-        public const string Arma2Co = "1947DE55-44ED-4D92-A62F-26CFBE48258B";
-        public const string Arma2Free = "FA5A2B52-D770-4B12-ACBD-07FD35CB12E8";
-        public const string Arma3 = "9DE199E3-7342-4495-AD18-195CF264BA5B";
-        public const string IronFront = "3EBAA36D-CA5C-4C08-B4A8-3B1CAE423F65";
-        public const string TKOH = "C24098DC-4EFC-443D-B1A4-3FA69512780A";
-        public const string TKOM = "AE3D9D2D-F09B-4E2F-BF1A-89D9C6BA4FA9";
-        public const string DayZSA = "E3EB8AC2-AE32-41D0-8B34-E936A20B31A6";
-        public const string Homeworld2 = "E65A1906-F0CB-4B78-835E-E367E6DB6962";
-        public const string CarrierCommand = "6A1D6219-F47C-4EEB-BE3E-D8E39BF89FE0";
-        public const string KerbalSP = "A980BC60-74E1-46D9-9F3D-8BB695A21B69";
-        public const string GTAV = "BE87E190-6FA4-4C96-B604-0D9B08165CC5";
-        public const string GTAIV = "8BA4D622-2A91-4149-9E06-EF40DF4E2DCB";
-        public const string Witcher3 = "5137A2FB-1A8D-4DA8-97F6-65F88042E4D6";
-        public const string Stellaris = "54218fae-042d-5368-bbb4-275e36d78da5";
-        public const string Starbound = "c56ca8b0-8095-5191-b942-141f75fe001c";
-        public const string Skyrim = "90abc214-0abd-53c7-a1c7-046114af5253";
-    }
-
-    public static class GameUuids
-    {
-        public static readonly Guid Arma1 = new Guid(GameUUids.Arma1);
-        public static readonly Guid Arma2 = new Guid(GameUUids.Arma2);
-        public static readonly Guid Arma2Free = new Guid(GameUUids.Arma2Free);
-        public static readonly Guid Arma2Oa = new Guid(GameUUids.Arma2Oa);
-        public static readonly Guid Arma2Co = new Guid(GameUUids.Arma2Co);
-        public static readonly Guid Arma3 = new Guid(GameUUids.Arma3);
-        public static readonly Guid IronFront = new Guid(GameUUids.IronFront);
-        public static readonly Guid TKOH = new Guid(GameUUids.TKOH);
-        public static readonly Guid TKOM = new Guid(GameUUids.TKOM);
-        public static readonly Guid DayZSA = new Guid(GameUUids.DayZSA);
-        public static readonly Guid Homeworld2 = new Guid(GameUUids.Homeworld2);
-        public static readonly Guid CarrierCommand = new Guid(GameUUids.CarrierCommand);
-        public static readonly Guid KerbalSP = new Guid(GameUUids.KerbalSP);
-        public static readonly Guid GTAV = new Guid(GameUUids.GTAV);
-        public static readonly Guid GTAIV = new Guid(GameUUids.GTAIV);
-    }
 }

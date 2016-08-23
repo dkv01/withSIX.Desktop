@@ -21,6 +21,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Games;
+using GameGuids = withSIX.Api.Models.Games.GameGuids;
 
 namespace SN.withSIX.Mini.Core.Games
 {

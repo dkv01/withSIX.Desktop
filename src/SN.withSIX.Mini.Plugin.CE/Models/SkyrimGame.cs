@@ -17,10 +17,10 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.CE.Models
 {
     // SkyrimLauncher.exe
-    [Game(GameUUids.Skyrim, Executables = new[] {@"SKSE.exe", @"TESV.exe"}, Name = "Skyrim",
+    [Game(GameIds.Skyrim, Executables = new[] {@"SKSE.exe", @"TESV.exe"}, Name = "Skyrim",
         IsPublic = true,
         Slug = "Skyrim")]
-    [SynqRemoteInfo(GameUUids.Skyrim)]
+    [SynqRemoteInfo(GameIds.Skyrim)]
     [SteamInfo(SteamGameIds.Skyrim)]
     [DataContract]
     public class SkyrimGame : BasicSteamGame

@@ -20,10 +20,10 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
 {
-    [Game(GameUUids.Starbound, Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"}, Name = "Starbound",
+    [Game(GameIds.Starbound, Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"}, Name = "Starbound",
         IsPublic = true,
         Slug = "Starbound")]
-    [SynqRemoteInfo(GameUUids.Starbound)]
+    [SynqRemoteInfo(GameIds.Starbound)]
     [SteamInfo(SteamGameIds.Starbound)]
     [DataContract]
     public class StarboundGame : BasicSteamGame

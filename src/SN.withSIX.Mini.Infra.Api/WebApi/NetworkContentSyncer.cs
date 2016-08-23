@@ -25,6 +25,7 @@ using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 
@@ -124,7 +125,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                             MappingExtensions.Mapper.Map<ModClientApiJson, ModClientApiJsonV3WithGameId>(x,
                                 opts => opts.AfterMap((src, dest) => dest.GameId = c))));
             }
-            if (game.Id == GameUuids.Arma3) {
+            if (game.Id == GameGuids.Arma3) {
                 // TODO: Handle these special dependencies on the server side!
                 var backMods = await DownloadContentListV2(compatGameIds, latestHashes).ConfigureAwait(false);
                 foreach (var m in backMods) {

@@ -15,10 +15,11 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
-    [Game(GameUUids.GTAV, Name = "GTA 5", Slug = "GTA-5",
+    [Game(GameIds.GTAV, Name = "GTA 5", Slug = "GTA-5",
         Executables = new[] {"PlayGTAV.exe", "GTAVLauncher.exe"},
         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
         IsPublic = true,
@@ -30,7 +31,7 @@ Some important information before you get started:
 In order to ensure a save and working mod experience, For now Sync will automatically backup and delete all pre installed modifications from your GTA5 folder, when launching of the game."
         )]
     [SteamInfo(271590, "Grand Theft Auto V")]
-    [SynqRemoteInfo(GameUUids.GTAV)]
+    [SynqRemoteInfo(GameIds.GTAV)]
     [GTA5ContentCleaning]
     [RegistryInfo(@"SOFTWARE\Rockstar Games\Grand Theft Auto V", "InstallFolder")]
     public class GTA5Game : GTAGame

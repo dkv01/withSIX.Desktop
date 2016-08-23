@@ -7,13 +7,14 @@ using System.Runtime.Serialization;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
-    [Game(GameUUids.DayZSA, Name = "DayZ: Zombie RPG", Slug = "DayZ", Executables = new[] {"dayz.exe"})
+    [Game(GameIds.DayZSA, Name = "DayZ: Zombie RPG", Slug = "DayZ", Executables = new[] {"dayz.exe"})
     ]
     [SteamInfo(107410, "DayZ", DRM = true)]
-    [SynqRemoteInfo(GameUUids.DayZSA)]
+    [SynqRemoteInfo(GameIds.DayZSA)]
     [RvProfileInfo("DayZ", "DayZ - other profiles", "DayZProfile")]
     [DataContract]
     public class DayZGame : RealVirtualityGame

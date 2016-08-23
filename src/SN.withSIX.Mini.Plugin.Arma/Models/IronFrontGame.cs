@@ -8,10 +8,11 @@ using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
-    [Game(GameUUids.IronFront, Name = "Iron Front", Slug = "Iron-Front",
+    [Game(GameIds.IronFront, Name = "Iron Front", Slug = "Iron-Front",
         Executables = new[] {"ironfront.exe"},
         ServerExecutables = new[] {"ironfrontserver.exe"},
         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer})

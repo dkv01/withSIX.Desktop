@@ -10,6 +10,7 @@ using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Data.Services;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Tests
 {
@@ -35,8 +36,8 @@ namespace SN.withSIX.Mini.Tests
     {
         [TestCase]
         public void ConfirmDependencyConstraints() {
-            var mod1 = new ModNetworkContent("Test mod 1", "@test-mod-1", GameUuids.Arma3);
-            var mod2 = new ModNetworkContent("Test mod 2", "@test-mod-2", GameUuids.Arma3);
+            var mod1 = new ModNetworkContent("Test mod 1", "@test-mod-1", GameGuids.Arma3);
+            var mod2 = new ModNetworkContent("Test mod 2", "@test-mod-2", GameGuids.Arma3);
             mod1.Dependencies.Add(new NetworkContentSpec(mod2, "1.0.0"));
 
             mod1.GetRelatedContent().First().Constraint.ShouldEqual("1.0.0");
@@ -48,11 +49,11 @@ namespace SN.withSIX.Mini.Tests
     {
         [TestCase]
         public void ConfirmDependencyConstraints() {
-            var mod1 = new ModNetworkContent("Test mod 1", "@test-mod-1", GameUuids.Arma3);
-            var mod2 = new ModNetworkContent("Test mod 2", "@test-mod-2", GameUuids.Arma3);
+            var mod1 = new ModNetworkContent("Test mod 1", "@test-mod-1", GameGuids.Arma3);
+            var mod2 = new ModNetworkContent("Test mod 2", "@test-mod-2", GameGuids.Arma3);
             mod1.Dependencies.Add(new NetworkContentSpec(mod2, "1.0.0"));
 
-            var collection = new LocalCollection(GameUuids.Arma3, "Test collection", new[] {
+            var collection = new LocalCollection(GameGuids.Arma3, "Test collection", new[] {
                 new ContentSpec(mod1),
                 new ContentSpec(mod2)
             });
@@ -62,11 +63,11 @@ namespace SN.withSIX.Mini.Tests
 
         [TestCase]
         public void ConfirmDependencyConstraintsOverride() {
-            var mod1 = new ModNetworkContent("Test mod 1", "@test-mod-1", GameUuids.Arma3);
-            var mod2 = new ModNetworkContent("Test mod 2", "@test-mod-2", GameUuids.Arma3);
+            var mod1 = new ModNetworkContent("Test mod 1", "@test-mod-1", GameGuids.Arma3);
+            var mod2 = new ModNetworkContent("Test mod 2", "@test-mod-2", GameGuids.Arma3);
             mod1.Dependencies.Add(new NetworkContentSpec(mod2, "1.0.0"));
 
-            var collection = new LocalCollection(GameUuids.Arma3, "Test collection", new [] {
+            var collection = new LocalCollection(GameGuids.Arma3, "Test collection", new [] {
                 new ContentSpec(mod1), 
                 new ContentSpec(mod2, "2.0.0")
             });

@@ -24,7 +24,7 @@ using Player = SN.withSIX.Mini.Core.Games.Player;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
-    [Game(GameUUids.Arma3, Name = "Arma 3", Slug = "Arma-3",
+    [Game(GameIds.Arma3, Name = "Arma 3", Slug = "Arma-3",
         Executables = new[] {"arma3.exe"},
         IsPublic = true,
         ServerExecutables = new[] {"arma3server.exe"},
@@ -57,7 +57,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         public Arma3Game(Guid id, Arma3GameSettings settings) : base(id, settings) {
             _settings = settings;
-            _getCompatibleGameIds = new[] {Id, GameUuids.Arma2Co};
+            _getCompatibleGameIds = new[] {Id, GameGuids.Arma2Co};
         }
 
         protected override string[] BeGameParam { get; } = {"2", "1"};

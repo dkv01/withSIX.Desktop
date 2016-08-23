@@ -13,12 +13,13 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Mini.Plugin.Homeworld.Services;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Homeworld.Models
 {
-    [Game(GameUUids.Homeworld2, Name = "Homeworld 2", Slug = "Homeworld-2", Executables = new[] {"homeworld2.exe"})]
+    [Game(GameIds.Homeworld2, Name = "Homeworld 2", Slug = "Homeworld-2", Executables = new[] {"homeworld2.exe"})]
     [RegistryInfo(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Homeworld2", "GAMEDIR")]
-    [SynqRemoteInfo(GameUUids.Homeworld2)]
+    [SynqRemoteInfo(GameIds.Homeworld2)]
     [DataContract]
     public class Homeworld2Game : Game, ILaunchWith<IHomeworld2Launcher>
     {

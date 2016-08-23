@@ -7,10 +7,11 @@ using System.Runtime.Serialization;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Kerbal.Models
 {
-    [Game(GameUUids.KerbalSP, Name = "Kerbal Space Program", Executables = new[] {"ksp.exe"})]
+    [Game(GameIds.KerbalSP, Name = "Kerbal Space Program", Executables = new[] {"ksp.exe"})]
     [SteamInfo(220200, "Kerbal Space Program")]
     [DataContract]
     public class KerbalSPGame : BasicGame
