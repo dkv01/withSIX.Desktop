@@ -1,25 +1,19 @@
-﻿// <copyright company="SIX Networks GmbH" file="StarboundGame.cs">
+﻿// <copyright company="SIX Networks GmbH" file="NMSGame.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.NMS.Models
 {
-    [Game(GameIds.NMS, Executables = new[] { @"Binaries\NMS.exe" }, Name = "No Mans Sky",
-        IsPublic = true,
-        Slug = "Starbound")]
+    [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMS.exe"}, Name = "No Mans Sky",
+        IsPublic = false,
+        Slug = "NMS")]
     [SynqRemoteInfo(GameIds.NMS)]
     [SteamInfo(SteamGameIds.NMS)]
     [DataContract]
