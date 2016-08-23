@@ -296,8 +296,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="withSIX.Api.Models, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.1.8.3\lib\net46\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=1.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.8.6\lib\net46\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="YamlDotNet, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">

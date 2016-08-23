@@ -211,8 +211,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="withSIX.Api.Models, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.1.8.3\lib\net46\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=1.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.8.6\lib\net46\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
