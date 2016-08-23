@@ -49,7 +49,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
         }
 
         IAbsoluteDirectoryPath GetModInstallationDirectory()
-            => InstalledState.Directory.GetChildDirectoryWithName("mods");
+            => InstalledState.Directory.GetChildDirectoryWithName(@"GAMEDATA\PCBANKS");
 
         private void HandleModDirectory(string[] packages) {
             var md = GetModInstallationDirectory();
