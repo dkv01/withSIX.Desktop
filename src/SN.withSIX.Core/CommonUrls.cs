@@ -64,42 +64,37 @@ namespace SN.withSIX.Core
             Local
         }
 
-        public static readonly Uri FlashUri = new Uri(
-            "https://fpdownload.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_21_ppapi.exe");
-        public static readonly string TwitterUrl = @"https://twitter.com/SixNetworks";
-        public static readonly string FacebookUrl = @"https://www.facebook.com/withSIX";
-        public static readonly string GplusUrl = @"https://plus.google.com/104785560298357015306";
-        public static readonly Uri ApiCdnUrl = new Uri("http://" + Buckets.WithSixApi.CdnHostname);
-        public static readonly Uri ImageCdn = new Uri("https://withsix-img.azureedge.net");
-        public static readonly Uri UsercontentCdnProduction =
+        public static Uri FlashUri { get; } =
+            new Uri(
+                "https://fpdownload.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_21_ppapi.exe");
+        public static Uri UsercontentCdnProduction { get; } =
             new Uri("https://" + Buckets.WthSiUsercontentProduction.CdnHostname);
-        public static readonly Uri ConnectUrlHttp = new Uri(UrlBuilder.GetUri("http"), "me/");
-        public static readonly Uri PlayUrl = new Uri(UrlBuilder.GetUri("http"), "p/");
-        public static readonly Uri PublishApiUrl = new Uri(UrlBuilder.GetUrl("https", "publish-api"));
-        public static readonly string ContentApiVersion = "2";
-        static readonly string ApiHost = "api.withsix.com";
-        public static readonly Uri ContentApiUrl = new Uri(@"https://" + ApiHost);
-        public static readonly Uri ContentUrl = new Uri(@"http://" + ApiHost);
+        public static string TwitterUrl { get; } = @"https://twitter.com/SixNetworks";
+        public static string FacebookUrl { get; } = @"https://www.facebook.com/withSIX";
+        public static string GplusUrl { get; } = @"https://plus.google.com/104785560298357015306";
+        public static Uri ApiCdnUrl { get; } = new Uri("http://" + Buckets.WithSixApi.CdnHostname);
+        public static Uri ImageCdn { get; } = new Uri("https://withsix-img.azureedge.net");
+        public static Uri PublishApiUrl { get; } = UrlBuilder.GetUri("https", "publish-api");
+        public static string ContentApiVersion { get; } = "2";
+        public static Uri ApiUrl { get; } = UrlBuilder.GetUri("https", UrlBuilder.Sites.Auth);
         public static Uri CdnUrl2 { get; } = new Uri("http://cdn2.withsix.com");
-        public static readonly string RemoteSoftwarePath = "software/withSIX/";
-        public static readonly Uri ConnectUrl = new Uri(UrlBuilder.GetUri("https"), "me/");
-        public static readonly Uri MainUrl = new Uri(UrlBuilder.GetUrl("http", ""));
-        public static readonly Uri SocialApiUrl =
-            new Uri(UrlBuilder.GetUrl("https", UrlBuilder.Sites.Auth));
-        public static readonly Uri LoginUrl = ConnectUrl;
-        public static readonly Uri RegisterUrl = new Uri(MainUrl, @"register");
-        public static readonly Uri AccountSettingsUrl = new Uri(ConnectUrl, @"settings");
-        public static readonly Uri ClientUrl = new Uri(SocialApiUrl, @"client");
-        public static readonly Uri SuUrl = MainUrl;
-        public static readonly Uri BlogUrl = new Uri(MainUrl, "blog");
-        public static readonly Uri SuAboutUrl = SuUrl;
-        public static readonly Uri SuSupportUrl = new Uri(SuUrl, "support");
-        public static readonly Uri SuclUrl = new Uri(SuUrl, "changelog");
+        public static string RemoteSoftwarePath { get; } = "software/withSIX/";
+        public static Uri MainUrl { get; } = UrlBuilder.GetUri("http", "");
+        public static Uri MainSslUrl { get; } = UrlBuilder.GetUri("https", "");
+        public static Uri ConnectUrlHttp { get; } = new Uri(MainUrl, "me/");
+        public static Uri PlayUrl { get; } = new Uri(MainUrl, "p/");
+        public static Uri ConnectUrl { get; } = new Uri(MainSslUrl, "me/");
+        public static Uri SocialApiUrl => ApiUrl;
+        public static Uri LoginUrl => ConnectUrl;
+        public static Uri RegisterUrl { get; } = new Uri(MainUrl, @"register");
+        public static Uri AccountSettingsUrl { get; } = new Uri(ConnectUrl, @"settings");
+        public static Uri ClientUrl { get; } = new Uri(ApiUrl, @"client");
+        public static Uri BlogUrl { get; } = new Uri(MainUrl, "blog");
+        public static Uri SupportUrl { get; } = new Uri(MainUrl, "support");
+        public static Uri ChangelogUrl { get; } = new Uri(MainUrl, "changelog");
         public static Uri SoftwareUpdateUri { get; } = new Uri(CdnUrl2, RemoteSoftwarePath);
-        public static readonly Uri Ws1Url = new Uri(UrlBuilder.GetUrl("https", "ws1"));
-        public static readonly Uri SignalrApi = Environments.Environment == Environments.Production
-            ? Ws1Url
-            : SocialApiUrl;
+        public static Uri Ws1Url { get; } = UrlBuilder.GetUri("https", "ws1");
+        public static Uri SignalrApi => ApiUrl;
 
         public static bool IsWithSixUrl(string url) => IsWithSixUrl(new Uri(url));
 
@@ -115,18 +110,17 @@ namespace SN.withSIX.Core
 
         public static class AuthorizationEndpoints
         {
-            //public const string PwSClientName = "playwithsix";
-            public const string SyncClientName = "mini";
+            public static string SyncClientName { get; } = "mini";
             static readonly Uri baseAddress = UrlBuilder.GetUri("https", "auth");
-            public static readonly Uri AuthorizeEndpoint = new Uri(baseAddress, "/identity/connect/authorize");
-            public static readonly Uri LogoutEndpoint = new Uri(baseAddress, "/identity/connect/endsession");
-            public static readonly Uri TokenEndpoint = new Uri(baseAddress, "/identity/connect/token");
-            public static readonly Uri UserInfoEndpoint = new Uri(baseAddress, "/identity/connect/userinfo");
-            public static readonly Uri IdentityTokenValidationEndpoint = new Uri(baseAddress,
+            public static Uri AuthorizeEndpoint { get; } = new Uri(baseAddress, "/identity/connect/authorize");
+            public static Uri LogoutEndpoint { get; } = new Uri(baseAddress, "/identity/connect/endsession");
+            public static Uri TokenEndpoint { get; } = new Uri(baseAddress, "/identity/connect/token");
+            public static Uri UserInfoEndpoint { get; } = new Uri(baseAddress, "/identity/connect/userinfo");
+            public static Uri IdentityTokenValidationEndpoint { get; } = new Uri(baseAddress,
                 "/identity/connect/identitytokenvalidation");
-            public static readonly Uri TokenRevocationEndpoint = new Uri(baseAddress, "/identity/connect/revocation");
-            public static readonly Uri LocalCallback = new Uri("https://localhost/formsclient");
-            public static readonly Uri LocalCallbackMini = new Uri("oob://localhost/wpfclient");
+            public static Uri TokenRevocationEndpoint { get; } = new Uri(baseAddress, "/identity/connect/revocation");
+            public static Uri LocalCallback { get; } = new Uri("https://localhost/formsclient");
+            public static Uri LocalCallbackMini { get; } = new Uri("oob://localhost/wpfclient");
         }
 
         public static class UrlBuilder
@@ -311,8 +305,6 @@ namespace SN.withSIX.Core
             "admin.preview.withsix.com", "auth.preview.withsix.com"
         };
         static readonly string[] localCloudHosts;
-        public static string[] Origins { get; }
-        public static string RootPath { get; }
         static readonly string[] localHosts = {
             "local.withsix.net", "www.local.withsix.net", "connect.local.withsix.net", "play.local.withsix.net",
             "admin.local.withsix.net", "auth.local.withsix.net"
@@ -331,6 +323,9 @@ namespace SN.withSIX.Core
             if (Common.Flags.Staging)
                 Bla.IgnoreBadCertificates();
         }
+
+        public static string[] Origins { get; }
+        public static string RootPath { get; }
 
         public static string Host { get; }
         public static bool IsLocal { get; set; }
@@ -397,6 +392,7 @@ namespace SN.withSIX.Core
                 localCloudHosts.Select(x => "http://" + x + ":9000")
                     .Concat(localCloudHosts.Select(x => "https://" + x + ":9001")));
 
-        private static IEnumerable<string> GetProtocolUrls(string[] hosts) => hosts.Select(x => "http://" + x).Concat(hosts.Select(x => "https://" + x));
+        private static IEnumerable<string> GetProtocolUrls(string[] hosts)
+            => hosts.Select(x => "http://" + x).Concat(hosts.Select(x => "https://" + x));
     }
 }

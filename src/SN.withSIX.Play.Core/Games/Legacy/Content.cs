@@ -42,7 +42,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
 
         public virtual Uri ProfileUrl() => Tools.Transfer.JoinUri(CommonUrls.PlayUrl, GetPlayPath());
 
-        public virtual Uri GetChangelogUrl() => Tools.Transfer.JoinUri(CommonUrls.ContentUrl, GetMyApiPath(), "changelog");
+        public virtual Uri GetChangelogUrl() => Tools.Transfer.JoinUri(CommonUrls.ApiUrl, GetMyApiPath(), "changelog");
 
         public ContentState State
         {

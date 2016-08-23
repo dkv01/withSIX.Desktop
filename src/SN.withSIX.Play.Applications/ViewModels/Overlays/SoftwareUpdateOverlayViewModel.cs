@@ -34,7 +34,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         
         public void ViewChangelog() {
             TryClose();
-            BrowserHelper.TryOpenUrlIntegrated(CommonUrls.SuclUrl);
+            BrowserHelper.TryOpenUrlIntegrated(CommonUrls.ChangelogUrl);
         }
     }
 

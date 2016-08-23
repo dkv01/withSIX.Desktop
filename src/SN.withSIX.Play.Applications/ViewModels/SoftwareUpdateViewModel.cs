@@ -38,7 +38,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
         
         public void ViewChangelog() {
-            BrowserHelper.TryOpenUrlIntegrated(CommonUrls.SuclUrl);
+            BrowserHelper.TryOpenUrlIntegrated(CommonUrls.ChangelogUrl);
         }
 
 

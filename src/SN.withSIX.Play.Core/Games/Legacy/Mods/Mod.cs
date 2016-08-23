@@ -30,7 +30,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
     
     public class Mod : HostedContent, IMod, IComparePK<Mod>, IEnableLogging
     {
-        static readonly Uri modUrl2 = Tools.Transfer.JoinUri(CommonUrls.SuUrl, "api/v1/mods");
+        static readonly Uri modUrl2 = Tools.Transfer.JoinUri(CommonUrls.MainUrl, "api/v1/mods");
         static readonly ArmaModPathValidator modPathValidator = new ArmaModPathValidator();
         static readonly string[] acreMods = {"@ACRE2", "@ACRE", "@ACRE_A3"};
         string[] _aliases = new string[0];

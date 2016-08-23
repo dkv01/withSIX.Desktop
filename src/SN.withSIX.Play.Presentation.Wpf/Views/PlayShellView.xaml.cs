@@ -279,7 +279,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         }
 
         void Help(object sender, ExecutedRoutedEventArgs e) {
-            BrowserHelper.TryOpenUrlIntegrated(CommonUrls.SuSupportUrl);
+            BrowserHelper.TryOpenUrlIntegrated(CommonUrls.SupportUrl);
         }
 
         void PlayShellView_OnLoaded(object sender, RoutedEventArgs e) {
