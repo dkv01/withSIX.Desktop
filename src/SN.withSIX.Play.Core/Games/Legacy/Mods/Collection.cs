@@ -25,6 +25,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Glue.Helpers;
 using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
@@ -34,7 +35,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         IEnableLogging,
         IHaveId<Guid>
     {
-        public static readonly Guid DefaultGameUuid = GameUuids.Arma2Co;
+        public static readonly Guid DefaultGameUuid = GameGuids.Arma2Co;
         static readonly string[] ignoredProperties = {
             "LastJoinedOn", "IsFavorite", "Items",
             "RequiredMods", "Notes", "HasNotes", "AdditionalMods", "DisabledItems", "Dependencies"
@@ -636,21 +637,21 @@ IContentManager contentList) => contentList.FindOrCreateLocalMods(Game,
         static Guid? FindGameUuidMatch(string gameName) {
             switch (gameName.ToLower()) {
             case "arma 3":
-                return GameUuids.Arma3;
+                return GameGuids.Arma3;
             case "arma3":
-                return GameUuids.Arma3;
+                return GameGuids.Arma3;
             case "arma 2":
-                return GameUuids.Arma2;
+                return GameGuids.Arma2;
             case "arma2":
-                return GameUuids.Arma2;
+                return GameGuids.Arma2;
             case "arma 2 oa":
-                return GameUuids.Arma2Oa;
+                return GameGuids.Arma2Oa;
             case "arma2oa":
-                return GameUuids.Arma2Oa;
+                return GameGuids.Arma2Oa;
             case "arma 2 co":
-                return GameUuids.Arma2Co;
+                return GameGuids.Arma2Co;
             case "arma2co":
-                return GameUuids.Arma2Co;
+                return GameGuids.Arma2Co;
             default: {
                 Guid id;
                 return Guid.TryParse(gameName, out id) ? (Guid?) id : null;

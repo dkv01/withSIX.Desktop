@@ -28,6 +28,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
@@ -35,10 +36,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
     {
         static readonly string[] missionSubFolders = {MissionFolders.SpMissions, MissionFolders.MpMissions};
         static readonly Dictionary<Guid, string> sixPlayDic = new Dictionary<Guid, string> {
-            {GameUuids.Arma3, "@six_play_a3"},
-            {GameUuids.Arma2, "@six_play_a2"},
-            {GameUuids.Arma2Oa, "@six_play_a2"},
-            {GameUuids.Arma2Co, "@six_play_a2"}
+            {GameGuids.Arma3, "@six_play_a3"},
+            {GameGuids.Arma2, "@six_play_a2"},
+            {GameGuids.Arma2Oa, "@six_play_a2"},
+            {GameGuids.Arma2Co, "@six_play_a2"}
         };
         readonly IContentManager _contentList;
         readonly IDialogManager _dialogManager;

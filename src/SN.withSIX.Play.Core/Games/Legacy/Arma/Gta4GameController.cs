@@ -10,12 +10,13 @@ using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Sync.Core.Packages;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {
     public class Gta4GameController : GameController
     {
-        static readonly Guid modRepo = GameUuids.GTAIV;
+        static readonly Guid modRepo = GameGuids.GTA4;
         static readonly Dictionary<Guid, Uri[]> defaultRemotes = new[] {
             GetSet(modRepo)
             //GetSet(MissionRepo)

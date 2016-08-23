@@ -14,6 +14,7 @@ using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Applications.Services
 {
@@ -53,7 +54,7 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         IronFrontInfo GetIronFrontInfo(Game game) {
-            var ironFront = _gameContext.Games.Find(GameUuids.IronFront);
+            var ironFront = _gameContext.Games.Find(GameGuids.IronFront);
             if (!ironFront.InstalledState.IsInstalled)
                 throw new OaIronfrontNotFoundException("Iron front not found at");
 
@@ -62,7 +63,7 @@ namespace SN.withSIX.Play.Applications.Services
 
             return new IronFrontInfo(ironFront.InstalledState.Directory,
                 game.InstalledState.Directory, Path.Combine(Path.GetTempPath(), "IFA").ToAbsoluteDirectoryPath(),
-                new IfaStatus(), game.Id == GameUuids.Arma3 ? IfaGameEdition.Arma3 : IfaGameEdition.Arma2CO);
+                new IfaStatus(), game.Id == GameGuids.Arma3 ? IfaGameEdition.Arma3 : IfaGameEdition.Arma2CO);
         }
     }
 

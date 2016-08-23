@@ -24,6 +24,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Helpers;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
@@ -110,16 +111,16 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
             if (name.Equals("@allinarma", StringComparison.InvariantCultureIgnoreCase)) {
                 return new[] {
-                    GameUuids.Arma1,
-                    GameUuids.Arma2,
-                    GameUuids.Arma2Oa,
-                    GameUuids.TKOH
+                    GameGuids.Arma1,
+                    GameGuids.Arma2,
+                    GameGuids.Arma2Oa,
+                    GameGuids.TakeOnHelicopters
                 };
             }
             if (name.Equals("Rearmed", StringComparison.InvariantCultureIgnoreCase)) {
                 return new[] {
-                    GameUuids.Arma2,
-                    GameUuids.Arma2Oa
+                    GameGuids.Arma2,
+                    GameGuids.Arma2Oa
                 };
             }
 
@@ -266,7 +267,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             Contract.Requires<ArgumentNullException>(path != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(path));
             Contract.Requires<ArgumentNullException>(game != null);
-            if (game.Id == GameUuids.Homeworld2) {
+            if (game.Id == GameGuids.Homeworld2) {
                 return GetModFiles(path)
                     .ToArray();
             }

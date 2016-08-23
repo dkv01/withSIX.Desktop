@@ -64,6 +64,7 @@ using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using Splat;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace SN.withSIX.Play.Presentation.Wpf
@@ -276,7 +277,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
         }
 
         static Game FindFirstInstalledGameOrDefault(IGameContext gameContext) => gameContext.Games.LastOrDefault(x => x.InstalledState.IsInstalled)
-       ?? gameContext.Games.FindOrThrow(GameUuids.Arma3);
+       ?? gameContext.Games.FindOrThrow(GameGuids.Arma3);
 
         protected override void StartDesignTime() {
             base.StartDesignTime();

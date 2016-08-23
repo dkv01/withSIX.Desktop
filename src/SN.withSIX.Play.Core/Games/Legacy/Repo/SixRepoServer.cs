@@ -10,6 +10,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Api.Models.Games;
 using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
@@ -19,15 +20,15 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
     public class SixRepoServer : IBaseYaml
     {
         static readonly Dictionary<string, string> mapping = new Dictionary<string, string> {
-            {"a3", GameUUids.Arma3},
-            {"a2", GameUUids.Arma2Co},
-            {"a2co", GameUUids.Arma2Co},
-            {"arma3", GameUUids.Arma3},
-            {"arma2oaco", GameUUids.Arma2Co},
-            {"arma2", GameUUids.Arma2},
-            {"arma2co", GameUUids.Arma2Co},
-            {"arma2oa", GameUUids.Arma2Oa},
-            {"toh", GameUUids.TKOH}
+            {"a3", GameIds.Arma3},
+            {"a2", GameIds.Arma2Co},
+            {"a2co", GameIds.Arma2Co},
+            {"arma3", GameIds.Arma3},
+            {"arma2oaco", GameIds.Arma2Co},
+            {"arma2", GameIds.Arma2},
+            {"arma2co", GameIds.Arma2Co},
+            {"arma2oa", GameIds.Arma2Oa},
+            {"toh", GameIds.TKOH}
         };
         public static readonly string[] SYS = {":modlist", ":sixmodlist"};
         ServerAddress _address;

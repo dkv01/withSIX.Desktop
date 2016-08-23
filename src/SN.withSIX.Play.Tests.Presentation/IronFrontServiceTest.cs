@@ -17,6 +17,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Tests.Presentation
 {
@@ -48,14 +49,14 @@ namespace SN.withSIX.Play.Tests.Presentation
 
         IGameContext CreateFakeGameList() {
             var gameList = A.Fake<IGameContext>();
-            var list = new List<Game> {CreateFakeGame(GameUUids.IronFront), CreateFakeGame(GameUUids.Arma2Oa)};
+            var list = new List<Game> {CreateFakeGame(GameIds.IronFront), CreateFakeGame(GameIds.Arma2Oa)};
             /*
-            list.Add(CreateFakeGame(GameUUids.Arma1Uuid));
-            list.Add(CreateFakeGame(GameUUids.Arma2FreeUuid));
-            list.Add(CreateFakeGame(GameUUids.Arma2Uuid));
-            list.Add(CreateFakeGame(GameUUids.Arma3Uuid));
-            list.Add(CreateFakeGame(GameUUids.DayZSAUuid));
-            list.Add(CreateFakeGame(GameUUids.TKOHUuid));
+            list.Add(CreateFakeGame(GameGuids.Arma1Uuid));
+            list.Add(CreateFakeGame(GameGuids.Arma2FreeUuid));
+            list.Add(CreateFakeGame(GameGuids.Arma2Uuid));
+            list.Add(CreateFakeGame(GameGuids.Arma3Uuid));
+            list.Add(CreateFakeGame(GameGuids.DayZSAUuid));
+            list.Add(CreateFakeGame(GameGuids.TKOHUuid));
              */
 
             var dbSet = A.Fake<InMemoryDbSet<Game, Guid>>(o => o.WithArgumentsForConstructor(new Object[] {list}));

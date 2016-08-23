@@ -20,6 +20,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Entities.Other;
 using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Core.Options.Entries
 {
@@ -131,8 +132,8 @@ namespace SN.withSIX.Play.Core.Options.Entries
         }
 
         void MigrateOldGameSettings(Guid gameId, GameSettings gameSettings) {
-            if (gameId == GameUuids.Arma2Co)
-                ProcessGame(GameUuids.Arma2Oa, gameSettings);
+            if (gameId == GameGuids.Arma2Co)
+                ProcessGame(GameGuids.Arma2Oa, gameSettings);
             ProcessGame(gameId, gameSettings);
         }
 

@@ -24,6 +24,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services.Infrastructure
 {
@@ -185,7 +186,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services.Infrastructure
             }
         }
 
-        Game GetDefaultGame() => Games.First(x => x.Id == GameUuids.Arma2Co);
+        Game GetDefaultGame() => Games.First(x => x.Id == GameGuids.Arma2Co);
 
         InMemoryDbSet<T, Guid> CreateDbSet<T>(ReactiveList<T> input) where T : IHaveId<Guid>
             => new InMemoryDbSet<T, Guid>(input);
@@ -207,42 +208,42 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services.Infrastructure
         void CreateRealVirtualityGames(ICollection<Game> list) {
             CreateArmaGames(list);
 
-            list.Add(new DayZGame(GameUuids.DayZSA, _gameSettingsController));
+            list.Add(new DayZGame(GameGuids.DayZ, _gameSettingsController));
         }
 
         void CreateArmaGames(ICollection<Game> list) {
-            var arma1Game = new Arma1Game(GameUuids.Arma1, _gameSettingsController);
+            var arma1Game = new Arma1Game(GameGuids.Arma1, _gameSettingsController);
             list.Add(arma1Game);
 
-            var arma2FreeGame = new Arma2FreeGame(GameUuids.Arma2Free, _gameSettingsController);
+            var arma2FreeGame = new Arma2FreeGame(GameGuids.Arma2Free, _gameSettingsController);
             list.Add(arma2FreeGame);
 
-            var arma2Game = new Arma2Game(GameUuids.Arma2, _gameSettingsController);
+            var arma2Game = new Arma2Game(GameGuids.Arma2, _gameSettingsController);
             list.Add(arma2Game);
 
-            var arma2OaGame = new Arma2OaGame(GameUuids.Arma2Oa, _gameSettingsController);
+            var arma2OaGame = new Arma2OaGame(GameGuids.Arma2Oa, _gameSettingsController);
             list.Add(arma2OaGame);
 
-            list.Add(new Arma2COGame(GameUuids.Arma2Co, _gameSettingsController, arma2Game, arma2FreeGame));
+            list.Add(new Arma2COGame(GameGuids.Arma2Co, _gameSettingsController, arma2Game, arma2FreeGame));
 
-            list.Add(new IronFrontGame(GameUuids.IronFront, _gameSettingsController));
+            list.Add(new IronFrontGame(GameGuids.IronFront, _gameSettingsController));
 
-            var takeOnHelicoptersGame = new TakeOnHelicoptersGame(GameUuids.TKOH, _gameSettingsController);
+            var takeOnHelicoptersGame = new TakeOnHelicoptersGame(GameGuids.TakeOnHelicopters, _gameSettingsController);
             list.Add(takeOnHelicoptersGame);
 
-            list.Add(new Arma3Game(GameUuids.Arma3, _gameSettingsController,
+            list.Add(new Arma3Game(GameGuids.Arma3, _gameSettingsController,
                 new Arma3Game.AllInArmaGames(arma1Game, arma2Game, arma2FreeGame, arma2OaGame, takeOnHelicoptersGame)));
         }
 
         void CreateOtherGames(ICollection<Game> list) {
 #if DEBUG
-            list.Add(new Homeworld2Game(GameUuids.Homeworld2, _gameSettingsController));
+            list.Add(new Homeworld2Game(GameGuids.Homeworld2, _gameSettingsController));
 #endif
-            list.Add(new CarrierCommandGame(GameUuids.CarrierCommand, _gameSettingsController));
-            list.Add(new TakeOnMarsGame(GameUuids.TKOM, _gameSettingsController));
+            list.Add(new CarrierCommandGame(GameGuids.CarrierCommand, _gameSettingsController));
+            list.Add(new TakeOnMarsGame(GameGuids.TakeOnHelicopters, _gameSettingsController));
 #if DEBUG
-            list.Add(new KerbalSPGame(GameUuids.KerbalSP, _gameSettingsController));
-            list.Add(new GTAVGame(GameUuids.GTAV, _gameSettingsController));
+            list.Add(new KerbalSPGame(GameGuids.KerbalSP, _gameSettingsController));
+            list.Add(new GTAVGame(GameGuids.GTA5, _gameSettingsController));
 #endif
         }
     }

@@ -18,6 +18,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
 {
@@ -464,7 +465,7 @@ namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
             }
 
             void HandleArma1(ICollection<Game> existingGames, IAbsoluteDirectoryPath aiaModPath) {
-                var a1 = existingGames.FirstOrDefault(g => g.Id == GameUuids.Arma1);
+                var a1 = existingGames.FirstOrDefault(g => g.Id == GameGuids.Arma1);
                 if (a1 == null)
                     return;
                 existingGames.Remove(a1);
