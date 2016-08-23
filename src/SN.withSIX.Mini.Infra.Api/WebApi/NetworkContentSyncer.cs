@@ -31,7 +31,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 {
     public class NetworkContentSyncer : IInfrastructureService, INetworkContentSyncer
     {
-        private static readonly Uri apiHost = new Uri("http://withsix-api.azureedge.net");
+        private static readonly Uri apiCdnHost = new Uri("http://withsix-api.azureedge.net");
         private readonly CollectionSyncer _collectionSyncer;
         readonly IDbContextLocator _locator;
 
@@ -59,14 +59,14 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var mods =
                 await
                     Tools.Transfer.GetJson<List<ModDtoV2>>(
-                        new Uri(apiHost, "/api/v2/mods.json.gz?v=" + hashes.Mods))
+                        new Uri(apiCdnHost, "/api/v2/mods.json.gz?v=" + hashes.Mods))
                         .ConfigureAwait(false);
             return mods.Where(x => gameIds.Contains(x.GameId)).ToList();
         }
 
         Task<List<ModClientApiJson>> DownloadContentListV3(Guid gameId, ApiHashes hashes) =>
             Tools.Transfer.GetJson<List<ModClientApiJson>>(
-                new Uri(apiHost, $"/api/v3/mods-{gameId}.json.gz?v=" + hashes.Mods));
+                new Uri(apiCdnHost, $"/api/v3/mods-{gameId}.json.gz?v=" + hashes.Mods));
 
         async Task ProcessGame(Game game) {
             var invalidContent = game.Contents.Where(x => x.GameId == Guid.Empty).ToArray();
@@ -107,7 +107,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         }
 
         Task<ApiHashes> GetHashesV3(Guid gameId)
-            => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiHost, $"/api/v3/hashes-{gameId}.json.gz"));
+            => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz"));
 
         private async Task<List<ModClientApiJsonV3WithGameId>> GetContent(Game game, ApiHashes latestHashes) {
             var compatGameIds = game.GetCompatibleGameIds();
@@ -475,17 +475,11 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
             private async Task<List<CollectionModelWithLatestVersion>> RetrieveCollections(Guid gameId,
                 IEnumerable<Guid> colIds) {
-                var apiHost =
-                    //#if DEBUG
-                    //"https://auth.local.withsix.net";
-                    //#else
-                    "https://auth.withsix.com";
-                //#endif
                 var token = await GetToken().ConfigureAwait(false);
                 return
                     await
                         Tools.Transfer.GetJson<List<CollectionModelWithLatestVersion>>(
-                            new Uri(apiHost + "/api/collections?gameId=" + gameId +
+                            new Uri(CommonUrls.ApiUrl + "/api/collections?gameId=" + gameId +
                                     string.Join("", colIds.Select(x => "&ids=" + x))), token).ConfigureAwait(false);
             }
 
