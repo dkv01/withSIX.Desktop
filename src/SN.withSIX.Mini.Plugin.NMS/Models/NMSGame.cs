@@ -96,7 +96,6 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             if (!sourcePak.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
-            ]
         }
 
         private string GetPakName() => $"{_mod.PackageName}.pak";
