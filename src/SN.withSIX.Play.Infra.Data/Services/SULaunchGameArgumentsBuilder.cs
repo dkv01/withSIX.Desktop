@@ -16,7 +16,7 @@ namespace SN.withSIX.Play.Infra.Data.Services
 {
     abstract class SULaunchGameArgumentsBuilder
     {
-        protected readonly LaunchGameInfoBase Spec;
+        protected LaunchGameInfoBase Spec { get; }
 
         protected SULaunchGameArgumentsBuilder(LaunchGameInfoBase spec) {
             Contract.Requires<ArgumentNullException>(spec != null);

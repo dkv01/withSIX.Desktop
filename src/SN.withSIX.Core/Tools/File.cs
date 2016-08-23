@@ -62,7 +62,7 @@ namespace SN.withSIX.Core
             }
              */
 
-            public readonly FileOps Ops = new FileOps();
+            public FileOps Ops { get; } = new FileOps();
 
             public bool ComparePathsOsCaseSensitive(string path1, string path2)
                 => GetFullCleanPath(path1).Equals(GetFullCleanPath(path2));

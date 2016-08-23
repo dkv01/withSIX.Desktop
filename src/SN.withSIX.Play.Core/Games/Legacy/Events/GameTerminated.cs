@@ -11,7 +11,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class GameTerminated : TimeStampedEvent
     {
-        public readonly Process Process;
+        public Process Process { get; }
 
         public GameTerminated(Process process) {
             Contract.Requires<ArgumentNullException>(process != null);

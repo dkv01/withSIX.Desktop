@@ -14,10 +14,10 @@ namespace SN.withSIX.Core
     public class PathConfiguration : IPathConfiguration, IDomainService, IEnableLogging
     {
         const string CompanyPath = "SIX Networks";
-        public readonly IAbsoluteFilePath CmdExe =
+        public IAbsoluteFilePath CmdExe { get; } =
             Path.Combine(Environment.SystemDirectory, "cmd.exe").ToAbsoluteFilePath();
-        public readonly string SelfUpdaterExe = "withSIX-SelfUpdater.exe";
-        public readonly string ServiceExe = "withSIX-Updater.exe";
+        public string SelfUpdaterExe { get; } = "withSIX-SelfUpdater.exe";
+        public string ServiceExe { get; } = "withSIX-Updater.exe";
         public IAbsoluteDirectoryPath ProgramDataPath { get; private set; }
         public IAbsoluteDirectoryPath SharedFilesPath { get; private set; }
         public IAbsoluteFilePath ServiceExePath { get; private set; }

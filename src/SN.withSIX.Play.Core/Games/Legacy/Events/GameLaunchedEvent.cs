@@ -11,8 +11,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class GameLaunchedEvent : TimeStampedEvent
     {
-        public readonly RunningGame RunningGame;
-        public readonly Server Server;
+        public RunningGame RunningGame { get; }
+        public Server Server { get; }
 
         public GameLaunchedEvent(RunningGame runningGame, Server server = null) {
             Contract.Requires<ArgumentNullException>(runningGame != null);

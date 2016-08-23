@@ -328,14 +328,14 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 
     public class CustomCollectionLibraryItemViewModel : CollectionLibraryItemViewModel
     {
-        protected readonly ObservableAsPropertyHelper<bool> _canLockCollection;
-        protected readonly ObservableAsPropertyHelper<bool> _canUnlockCollection;
+        protected ObservableAsPropertyHelper<bool> _canLockCollection { get; }
+        protected ObservableAsPropertyHelper<bool> _canUnlockCollection { get; }
         // Protected because of obfuscation issues..
-        protected readonly ObservableAsPropertyHelper<bool> _isHosted;
-        protected readonly ObservableAsPropertyHelper<bool> _isListed;
-        protected readonly ObservableAsPropertyHelper<bool> _isPublishable;
-        protected readonly ObservableAsPropertyHelper<bool> _isPublished;
-        protected readonly ObservableAsPropertyHelper<bool> _isSharable;
+        protected ObservableAsPropertyHelper<bool> _isHosted { get; }
+        protected ObservableAsPropertyHelper<bool> _isListed { get; }
+        protected ObservableAsPropertyHelper<bool> _isPublishable { get; }
+        protected ObservableAsPropertyHelper<bool> _isPublished { get; }
+        protected ObservableAsPropertyHelper<bool> _isSharable { get; }
         readonly ModLibraryViewModel _library;
         bool _isPrivate;
 

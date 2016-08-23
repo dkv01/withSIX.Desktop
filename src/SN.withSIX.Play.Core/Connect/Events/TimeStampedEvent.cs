@@ -9,7 +9,7 @@ namespace SN.withSIX.Play.Core.Connect.Events
 {
     public abstract class TimeStampedEvent : EventArgs, IAsyncDomainEvent
     {
-        public readonly DateTime TimeStamp;
+        public DateTime TimeStamp { get; }
 
         protected TimeStampedEvent() {
             TimeStamp = Tools.Generic.GetCurrentUtcDateTime;

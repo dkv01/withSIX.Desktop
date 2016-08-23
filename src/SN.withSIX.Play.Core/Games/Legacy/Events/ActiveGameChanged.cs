@@ -10,7 +10,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class ActiveGameChanged : EventArgs, IAsyncDomainEvent
     {
-        public readonly Game Game;
+        public Game Game { get; }
 
         public ActiveGameChanged(Game game) {
             Game = game;

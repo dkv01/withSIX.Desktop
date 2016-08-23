@@ -51,10 +51,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         readonly ModLibraryViewModel _library;
         readonly ISupportModding _modding;
         readonly UserSettings _settings;
-        public readonly ModLibraryGroupViewModel BuiltInGroup;
-        public readonly ModLibraryGroupViewModel CollectionsGroup;
-        public readonly ModLibraryGroupViewModel LocalGroup;
-        public readonly ModLibraryGroupViewModel OnlineGroup;
+        public ModLibraryGroupViewModel BuiltInGroup { get; }
+        public ModLibraryGroupViewModel CollectionsGroup { get; }
+        public ModLibraryGroupViewModel LocalGroup { get; }
+        public ModLibraryGroupViewModel OnlineGroup { get; }
         ContentLibraryItemViewModel<BuiltInContentContainer> _builtinFavorites;
         ContentLibraryItemViewModel<BuiltInContentContainer> _builtinFeatured;
         ContentLibraryItemViewModel<BuiltInContentContainer> _builtinRecent;

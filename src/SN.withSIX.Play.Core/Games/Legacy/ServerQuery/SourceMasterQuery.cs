@@ -77,7 +77,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 
         readonly IDictionary<string, string> _filterSb;
         readonly Region _region;
-        protected readonly string ServerBrowserTag;
+        protected string ServerBrowserTag { get; }
 
         public SourceMasterQuery(string serverBrowserTag, Region region = Region.All) {
             ServerBrowserTag = serverBrowserTag;

@@ -8,7 +8,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class MyActiveServerAddressChanged : EventArgs
     {
-        public readonly ServerAddress Address;
+        public ServerAddress Address { get; }
 
         public MyActiveServerAddressChanged(ServerAddress address) {
             Address = address;

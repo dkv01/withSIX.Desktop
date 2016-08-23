@@ -8,7 +8,7 @@ namespace SN.withSIX.Play.Core.Connect.Events
 {
     public class ApiKeyUpdated : EventArgs
     {
-        public readonly string ApiKey;
+        public string ApiKey { get; }
 
         public ApiKeyUpdated(string apiKey) {
             ApiKey = apiKey;

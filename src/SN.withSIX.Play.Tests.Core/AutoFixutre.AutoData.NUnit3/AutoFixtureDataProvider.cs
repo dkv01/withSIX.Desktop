@@ -6,7 +6,7 @@ namespace AutoDataConnector
 {
     public class AutoFixtureDataProvider : ITypedDataProvider
     {
-        protected readonly IFixture Fixture;
+        protected IFixture Fixture { get; }
 
         public AutoFixtureDataProvider(params ICustomization[] customizations)
         {

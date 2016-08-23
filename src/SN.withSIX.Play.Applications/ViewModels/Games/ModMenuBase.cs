@@ -12,7 +12,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public abstract class ModMenuBase<TContent> : ContextMenuBase<TContent> where TContent : class, IContent
     {
-        public readonly ModLibraryViewModel Library;
+        public ModLibraryViewModel Library { get; }
 
         protected ModMenuBase(ModLibraryViewModel library) {
             Contract.Requires<ArgumentNullException>(library != null);

@@ -50,7 +50,7 @@ namespace SN.withSIX.Sync.Core.Packages
     public class PackageManager : IEnableLogging
     {
         readonly string _remote;
-        public readonly Repository Repo;
+        public Repository Repo { get; }
 
         public PackageManager(Repository repo, IAbsoluteDirectoryPath workDir, bool createWhenNotExisting = false,
             string remote = null) {

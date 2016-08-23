@@ -1507,7 +1507,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
 
         class ModStates
         {
-            public readonly InstallStatusOverview InstallState = new InstallStatusOverview {
+            public InstallStatusOverview InstallState { get; } = new InstallStatusOverview {
                 Missions =
                     new InstallStatus {
                         Install = new List<Guid>(),
@@ -1527,8 +1527,8 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
                         Update = new List<Guid>()
                     }
             };
-            public readonly List<ModController> Procced = new List<ModController>();
-            public readonly List<ModController> Userconfigs = new List<ModController>();
+            public List<ModController> Procced { get; } = new List<ModController>();
+            public List<ModController> Userconfigs { get; } = new List<ModController>();
         }
 
         public static class UpdateStates

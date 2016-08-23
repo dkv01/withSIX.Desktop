@@ -8,7 +8,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class GamePathChanged
     {
-        public readonly IAbsoluteDirectoryPath Path;
+        public IAbsoluteDirectoryPath Path { get; }
 
         public GamePathChanged(IAbsoluteDirectoryPath value) {
             Path = value;

@@ -8,8 +8,8 @@ namespace SN.withSIX.Core
 {
     public class PathDoesntExistException : Exception
     {
-        public readonly string Path;
-        public readonly string PathName;
+        public string Path { get; }
+        public string PathName { get; }
 
         public PathDoesntExistException(string path) {
             Path = path;

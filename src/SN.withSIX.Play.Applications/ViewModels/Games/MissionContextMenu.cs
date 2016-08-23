@@ -18,7 +18,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public abstract class MissionMenuBase : ContextMenuBase<IContent>
     {
-        public readonly MissionLibraryViewModel Library;
+        public MissionLibraryViewModel Library { get; }
 
         protected MissionMenuBase(MissionLibraryViewModel library) {
             Contract.Requires<ArgumentNullException>(library != null);

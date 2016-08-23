@@ -9,8 +9,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class ModPathChanged : EventArgs
     {
-        public readonly IAbsoluteDirectoryPath OldPath;
-        public readonly IAbsoluteDirectoryPath Path;
+        public IAbsoluteDirectoryPath OldPath { get; }
+        public IAbsoluteDirectoryPath Path { get; }
 
         public ModPathChanged(IAbsoluteDirectoryPath value, IAbsoluteDirectoryPath oldValue) {
             Path = value;
@@ -20,8 +20,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Events
 
     public class SynqPathChanged : EventArgs
     {
-        public readonly IAbsoluteDirectoryPath OldPath;
-        public readonly IAbsoluteDirectoryPath Path;
+        public IAbsoluteDirectoryPath OldPath { get; }
+        public IAbsoluteDirectoryPath Path { get; }
 
         public SynqPathChanged(IAbsoluteDirectoryPath value, IAbsoluteDirectoryPath oldValue) {
             Path = value;

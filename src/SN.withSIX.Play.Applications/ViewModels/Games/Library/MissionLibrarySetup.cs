@@ -31,10 +31,10 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         readonly MissionLibraryViewModel _library;
         readonly IContentManager _missionList;
         readonly UserSettings _settings;
-        public readonly MissionLibraryGroupViewModel BuiltInGroup;
-        public readonly MissionLibraryGroupViewModel CollectionsGroup;
-        public readonly MissionLibraryGroupViewModel LocalGroup;
-        public readonly MissionLibraryGroupViewModel OnlineGroup;
+        public MissionLibraryGroupViewModel BuiltInGroup { get; }
+        public MissionLibraryGroupViewModel CollectionsGroup { get; }
+        public MissionLibraryGroupViewModel LocalGroup { get; }
+        public MissionLibraryGroupViewModel OnlineGroup { get; }
         //"add repo",
         ContentLibraryItemViewModel<BuiltInContentContainer> _builtinFavorites;
         ContentLibraryItemViewModel<BuiltInContentContainer> _builtinFeatured;

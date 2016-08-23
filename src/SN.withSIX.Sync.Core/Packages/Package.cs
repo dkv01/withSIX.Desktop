@@ -781,13 +781,13 @@ namespace SN.withSIX.Sync.Core.Packages
 
         class ChangeList
         {
-            public readonly IDictionary<string, string> ChangedCase = new Dictionary<string, string>();
-            public readonly IDictionary<string, List<string>> Copy = new Dictionary<string, List<string>>();
-            public readonly List<string> Equal = new List<string>();
-            public readonly List<string> New = new List<string>();
-            public readonly List<string> Remove = new List<string>();
-            public readonly IDictionary<string, Status> StatusDic = new Dictionary<string, Status>();
-            public readonly List<string> Update = new List<string>();
+            public IDictionary<string, string> ChangedCase { get; } = new Dictionary<string, string>();
+            public IDictionary<string, List<string>> Copy { get; } = new Dictionary<string, List<string>>();
+            public List<string> Equal { get; } = new List<string>();
+            public List<string> New { get; } = new List<string>();
+            public List<string> Remove { get; } = new List<string>();
+            public IDictionary<string, Status> StatusDic { get; } = new Dictionary<string, Status>();
+            public List<string> Update { get; } = new List<string>();
 
             public ChangeList(IReadOnlyCollection<IAbsoluteFilePath> workingPathFiles,
                 IOrderedEnumerable<FileObjectMapping> mappings,

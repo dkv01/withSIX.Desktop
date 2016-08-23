@@ -205,12 +205,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
     public abstract class LibraryItemViewModel<T> : LibraryItemViewModel, IHaveSelectedItemsView<T>
         where T : class, IHierarchicalLibraryItem
     {
-        protected readonly object ItemsLock = new object();
+        protected object ItemsLock { get; } = new object();
         IReactiveDerivedList<T> _selectedItems;
 
         protected LibraryItemViewModel(LibraryGroupViewModel group) : base(group) {
             this.WhenAnyValue(x => x.SelectedItemsInternal)
-                .Select(x => x == null ? null : x.CreateDerivedCollection(i => (T) i))
+                .Select(x => x?.CreateDerivedCollection(i => (T) i))
                 .BindTo(this, x => x.SelectedItems);
         }
 

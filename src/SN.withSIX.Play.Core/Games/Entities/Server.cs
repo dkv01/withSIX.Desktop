@@ -681,7 +681,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
 
     public abstract class Server<TGame> : Server where TGame : Game, ISupportServers
     {
-        protected readonly TGame Game;
+        protected TGame Game { get; }
 
         protected Server(TGame game, ServerAddress address) : base(game, address) {
             Game = game;

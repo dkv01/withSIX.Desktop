@@ -13,7 +13,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
     public abstract class ContentLibraryItemMenuBase<T, T2> : ContextMenuBase<ContentLibraryItemViewModel<T>>
         where T : class, ISelectionList<IContent> where T2 : class
     {
-        public readonly T2 Library;
+        public T2 Library { get; }
 
         protected ContentLibraryItemMenuBase(T2 library) {
             Contract.Requires<ArgumentNullException>(library != null);

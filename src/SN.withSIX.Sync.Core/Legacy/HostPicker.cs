@@ -37,7 +37,7 @@ namespace SN.withSIX.Sync.Core.Legacy
     public class HostPicker : IEnableLogging
     {
         readonly IHostChecker _hostChecker;
-        public readonly Dictionary<Uri, int> HostStates = new Dictionary<Uri, int>();
+        public Dictionary<Uri, int> HostStates { get; } = new Dictionary<Uri, int>();
 
         public HostPicker(IEnumerable<Uri> hosts, MultiThreadingSettings multiThreadingSettings,
             Func<ExportLifetimeContext<IHostChecker>> hostChecker) {
@@ -48,7 +48,6 @@ namespace SN.withSIX.Sync.Core.Legacy
 
             _hostChecker = hostChecker().Value;
 
-            HostStates = new Dictionary<Uri, int>();
             foreach (var host in hosts)
                 HostStates[host] = 0;
         }

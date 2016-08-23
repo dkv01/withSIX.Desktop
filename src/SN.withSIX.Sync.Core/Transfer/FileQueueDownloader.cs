@@ -14,7 +14,7 @@ namespace SN.withSIX.Sync.Core.Transfer
     // TODO: cleanup token handling...
     public class FileQueueDownloader : IFileQueueDownloader
     {
-        protected readonly IMultiMirrorFileDownloader Downloader;
+        protected IMultiMirrorFileDownloader Downloader { get; }
 
         public FileQueueDownloader(IMultiMirrorFileDownloader downloader) {
             Downloader = downloader;

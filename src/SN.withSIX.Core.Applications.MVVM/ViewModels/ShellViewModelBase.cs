@@ -15,8 +15,8 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
     public abstract class ShellViewModelBase : ReactiveConductor<IScreen>.Collection.OneActive, IShellViewModelBase
         /*, IHandle<KeyEventArgs>*/
     {
-         protected readonly ObservableAsPropertyHelper<bool> _mainContentEnabled;
-         protected readonly ObservableAsPropertyHelper<bool> _modalItemShowing;
+         protected ObservableAsPropertyHelper<bool> _mainContentEnabled { get; }
+         protected ObservableAsPropertyHelper<bool> _modalItemShowing { get; }
         protected IModalScreen _modalActiveItem;
         protected bool _modalViewCanCancel;
 

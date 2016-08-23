@@ -24,7 +24,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         readonly CompositeDisposable _disposables = new CompositeDisposable();
         readonly ServerLibraryViewModel _library;
         readonly IServerList _serverList;
-        public readonly ServerLibraryGroupViewModel BuiltInGroup;
+        public ServerLibraryGroupViewModel BuiltInGroup { get; }
         ServerLibraryItemViewModel<BuiltInServerContainer> _network;
 
         public ServerLibrarySetup(ServerLibraryViewModel library, IServerList serverList) {

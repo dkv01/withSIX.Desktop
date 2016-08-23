@@ -33,7 +33,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
         readonly NamedPipeClientStream _pipeClient;
         readonly List<SentCommand> _tasks = new List<SentCommand>();
         readonly CancellationToken _token;
-        public readonly IObservable<IReceiveOnlyMessage> MessageReceived;
+        public IObservable<IReceiveOnlyMessage> MessageReceived { get; }
         volatile bool _isConnected;
 
         static CommandAPI() {

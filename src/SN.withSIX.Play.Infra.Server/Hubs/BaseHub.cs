@@ -12,7 +12,7 @@ namespace SN.withSIX.Play.Infra.Server.Hubs
 
     public abstract class BaseHub : Hub, IInfrastructureService
     {
-        protected readonly IMediator _mediator;
+        protected IMediator _mediator { get; }
 
         protected BaseHub(IMediator mediator) {
             _mediator = mediator;

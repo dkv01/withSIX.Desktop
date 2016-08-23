@@ -37,10 +37,10 @@ namespace SN.withSIX.Sync.Core
         )]
     public class EvilGlobalServices : IDomainService
     {
-        public readonly IFileDownloader Downloader;
-        public readonly IFileDownloadHelper DownloadHelper;
-        public readonly Func<ExportLifetimeContext<IHostChecker>> GetHostChecker;
-        public readonly IStringDownloader StringDownloader;
+        public IFileDownloader Downloader { get; }
+        public IFileDownloadHelper DownloadHelper { get; }
+        public Func<ExportLifetimeContext<IHostChecker>> GetHostChecker { get; }
+        public IStringDownloader StringDownloader { get; }
 
         public EvilGlobalServices(IFileDownloadHelper downloadHelper, IFileDownloader fileDownloader,
             IStringDownloader stringDownloader,

@@ -11,7 +11,7 @@ namespace SN.withSIX.Sync.Core.Transfer
     public class AverageContainer
     {
         private readonly int _count;
-        protected readonly List<long> _speeds = new List<long>();
+        protected List<long> _speeds { get; } = new List<long>();
 
         public AverageContainer(int count) {
             _count = count;
