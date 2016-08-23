@@ -12,6 +12,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.WebApi;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
 {

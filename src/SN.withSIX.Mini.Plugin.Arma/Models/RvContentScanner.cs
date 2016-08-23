@@ -10,6 +10,7 @@ using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Sync.Core.Packages;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {

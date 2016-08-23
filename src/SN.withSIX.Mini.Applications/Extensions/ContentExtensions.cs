@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Extensions
 {

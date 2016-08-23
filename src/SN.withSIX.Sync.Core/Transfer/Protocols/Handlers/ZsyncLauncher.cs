@@ -13,6 +13,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 {

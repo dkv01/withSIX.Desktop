@@ -24,6 +24,7 @@ using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Extensions;
 using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 

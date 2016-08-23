@@ -16,6 +16,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core.Services
 {

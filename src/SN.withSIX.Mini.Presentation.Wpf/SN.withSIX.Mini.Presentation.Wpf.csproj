@@ -296,8 +296,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="withSIX.Api.Models, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.1.8.1\lib\net46\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=1.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.8.2\lib\net46\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="YamlDotNet, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -486,6 +486,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Kerbal\SN.withSIX.Mini.Plugin.Kerbal.csproj">
       <Project>{c048fe9d-ce82-456b-933f-51dd5d7318f0}</Project>
       <Name>SN.withSIX.Mini.Plugin.Kerbal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.NMS\SN.withSIX.Mini.Plugin.NMS.csproj">
+      <Project>{a76a5640-cafd-4f80-9cc8-dd136618fbcb}</Project>
+      <Name>SN.withSIX.Mini.Plugin.NMS</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Starbound\SN.withSIX.Mini.Plugin.Starbound.csproj">
       <Project>{e58aeeb7-ea2a-4bed-850a-357bb019e218}</Project>

@@ -12,6 +12,7 @@ using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Core.Games
 {

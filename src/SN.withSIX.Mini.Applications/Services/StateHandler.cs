@@ -31,6 +31,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Api.Models.Extensions;
 using Status = SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Status;
 
 namespace SN.withSIX.Mini.Applications.Services

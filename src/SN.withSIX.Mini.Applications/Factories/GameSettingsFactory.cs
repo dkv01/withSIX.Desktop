@@ -10,6 +10,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Factories
 {
