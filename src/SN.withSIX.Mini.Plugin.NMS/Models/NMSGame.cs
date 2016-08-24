@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
@@ -76,6 +77,16 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                     pakBak.Delete();
                 pak.Move(pakBak);
             }
+        }
+
+        public override Uri GetPublisherUrl(ContentPublisher c) {
+            switch (c.Publisher) {
+            case Publisher.NoMansSkyMods:
+                return new Uri($"http://nomansskymods.com/mods/{c.PublisherId}");
+            case Publisher.NexusMods:
+                return new Uri($"http://www.nexusmods.com/nomanssky/{c.PublisherId}");
+            }
+            throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
         }
     }
 

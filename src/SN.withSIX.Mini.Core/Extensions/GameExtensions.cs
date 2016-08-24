@@ -13,7 +13,7 @@ namespace SN.withSIX.Mini.Core.Extensions
 {
     public static class GameExtensions
     {
-        public static bool ShouldInstallFromExternal(this Publisher p) => p == Publisher.NoMansSkyMods;
+        public static bool ShouldInstallFromExternal(this Publisher p) => p == Publisher.NoMansSkyMods || p == Publisher.NexusMods;
 
         public static IAbsoluteDirectoryPath TryGetDefaultDirectory(this RegistryInfoAttribute registryInfo) {
             if (registryInfo.Path != null) {

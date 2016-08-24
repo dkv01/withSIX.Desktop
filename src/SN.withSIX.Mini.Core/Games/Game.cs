@@ -20,6 +20,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Core;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Games;
 using GameGuids = withSIX.Api.Models.Games.GameGuids;
 
@@ -469,6 +470,10 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected IAbsoluteDirectoryPath GetContentSourceDirectory(IContentWithPackageName content)
             => content.GetSourceDirectory(this);
+
+        public virtual Uri GetPublisherUrl(ContentPublisher c) {
+            throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
+        }
     }
 
     public class ApiHashes : global::withSIX.Api.Models.Content.v3.ApiHashes {}

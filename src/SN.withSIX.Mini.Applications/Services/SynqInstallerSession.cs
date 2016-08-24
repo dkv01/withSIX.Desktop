@@ -497,8 +497,8 @@ namespace SN.withSIX.Mini.Applications.Services
             var i = 0;
             var session =
                 new ExternalContentInstallerSession(_action.Paths.Path,
-                    // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
-                    _externalContentToInstall.ToDictionary(x => x.Key.Source, x => contentProgress[i++]), _dl);
+                    _externalContentToInstall.ToDictionary(x => x.Key.Source, x => contentProgress[i++]), _action.Game,
+                    _dl);
             await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             _installedContent.AddRange(_externalContentToInstall.Values);
         }
@@ -845,11 +845,13 @@ namespace SN.withSIX.Mini.Applications.Services
     {
         private readonly IAbsoluteDirectoryPath _contentPath;
         private readonly Dictionary<ContentPublisher, ProgressLeaf> _content;
+        private readonly Game _game;
         private readonly IExternalFileDownloader _dl;
 
-        public ExternalContentInstallerSession(IAbsoluteDirectoryPath contentPath, Dictionary<ContentPublisher, ProgressLeaf> content, IExternalFileDownloader dl) {
+        public ExternalContentInstallerSession(IAbsoluteDirectoryPath contentPath, Dictionary<ContentPublisher, ProgressLeaf> content, Game game, IExternalFileDownloader dl) {
             _contentPath = contentPath;
             _content = content;
+            _game = game;
             _dl = dl;
         }
 
@@ -858,16 +860,13 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Progress reporting
             foreach (var c in _content) {
                 // TODO: Progress reporting
-                var f = await _dl.DownloadFile(GetPublisherUri(c), _contentPath, c.Value.Update).ConfigureAwait(false);
+                var f = await _dl.DownloadFile(_game.GetPublisherUrl(c.Key), _contentPath, c.Value.Update).ConfigureAwait(false);
                 var childDirectoryWithName = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
                 if (childDirectoryWithName.Exists)
                     childDirectoryWithName.Delete(true);
                 Tools.Compression.Unpack(f, childDirectoryWithName, true); // TODO: Progress reporting..
             }
         }
-
-        private static Uri GetPublisherUri(KeyValuePair<ContentPublisher, ProgressLeaf> c)
-            => new Uri("http://nomansskymods.com/mods/" + c.Key.PublisherId);
     }
 
     public interface IExternalFileDownloader
