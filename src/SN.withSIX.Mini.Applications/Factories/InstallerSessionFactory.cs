@@ -20,13 +20,15 @@ namespace SN.withSIX.Mini.Applications.Factories
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _isPremium;
         readonly IToolsCheat _toolsInstaller;
+        private IExternalFileDownloader _dl;
 
         public InstallerSessionFactory(Func<bool> isPremium, IToolsCheat toolsInstaller,
-            IContentEngine contentEngine, IAuthProvider authProvider) {
+            IContentEngine contentEngine, IAuthProvider authProvider, IExternalFileDownloader dl) {
             _isPremium = isPremium;
             _toolsInstaller = toolsInstaller;
             _contentEngine = contentEngine;
             _authProvider = authProvider;
+            _dl = dl;
         }
 
         public IInstallerSession Create(
@@ -35,7 +37,7 @@ namespace SN.withSIX.Mini.Applications.Factories
             switch (action.InstallerType) {
             case InstallerType.Synq:
                 return new SynqInstallerSession(action, _toolsInstaller, _isPremium, progress, _contentEngine,
-                    _authProvider);
+                    _authProvider, _dl);
             default:
                 throw new NotSupportedException(action.InstallerType + " is not supported!");
             }

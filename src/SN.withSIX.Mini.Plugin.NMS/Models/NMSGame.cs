@@ -23,7 +23,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
     [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMS.exe"}, Name = "No Mans Sky",
         IsPublic = false,
         Slug = "NMS")]
-    [SynqRemoteInfo(GameIds.NMS)]
+    //[SynqRemoteInfo(GameIds.NMS)] // TODO
     [SteamInfo(SteamGameIds.NMS)]
     [DataContract]
     public class NMSGame : BasicSteamGame
@@ -56,6 +56,11 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             var md = GetModInstallationDirectory();
             foreach (var f in md.DirectoryInfo.EnumerateFiles("_*.pak"))
                 HandleFileBasedMod(f, packages);
+        }
+
+        protected override IEnumerable<IAbsoluteDirectoryPath> GetModFolders() {
+            if (ContentPaths.IsValid)
+                yield return ContentPaths.Path;
         }
 
         private static void HandleFileBasedMod(FileInfo f, IEnumerable<string> packages) {
@@ -99,7 +104,9 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
         }
 
-        private string GetPakName() => $"_{_mod.PackageName}.pak";
+        private string GetPakName() => $"{GetPrefix()}{_mod.PackageName}.pak";
+
+        private string GetPrefix() => _mod.PackageName.StartsWith("_") ? "" : "_";
 
         public async Task Uninstall() {
             if (!_destination.Exists)

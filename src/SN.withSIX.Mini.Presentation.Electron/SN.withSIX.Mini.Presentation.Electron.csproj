@@ -211,8 +211,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="withSIX.Api.Models, Version=1.8.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.1.8.6\lib\net46\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.8.7\lib\net46\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -221,6 +221,7 @@
     <Compile Include="Api.cs" />
     <Compile Include="ElectronAppBootstrapper.cs" />
     <Compile Include="Entrypoint.cs" />
+    <Compile Include="ExternalFileDownloader.cs" />
     <Compile Include="INodeApi.cs" />
     <Compile Include="NodeDialogManager.cs" />
     <Compile Include="NodeErrorHandler.cs" />
@@ -299,6 +300,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Kerbal\SN.withSIX.Mini.Plugin.Kerbal.csproj">
       <Project>{c048fe9d-ce82-456b-933f-51dd5d7318f0}</Project>
       <Name>SN.withSIX.Mini.Plugin.Kerbal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.NMS\SN.withSIX.Mini.Plugin.NMS.csproj">
+      <Project>{a76a5640-cafd-4f80-9cc8-dd136618fbcb}</Project>
+      <Name>SN.withSIX.Mini.Plugin.NMS</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Starbound\SN.withSIX.Mini.Plugin.Starbound.csproj">
       <Project>{e58aeeb7-ea2a-4bed-850a-357bb019e218}</Project>

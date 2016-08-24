@@ -20,6 +20,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -81,12 +82,20 @@ namespace SN.withSIX.Mini.Applications.Services
             new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _steamContentToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
+        private Dictionary<IPackagedContent, SpecificVersion> _externalContent =
+            new Dictionary<IPackagedContent, SpecificVersion>();
+        private Dictionary<IPackagedContent, SpecificVersion> _externalContentToInstall =
+            new Dictionary<IPackagedContent, SpecificVersion>();
+
         private ProgressComponent _steamProcessing;
         private ProgressComponent _steamProgress;
+        private ProgressComponent _externalProcessing;
+        private ProgressComponent _externalProgress;
+        private IExternalFileDownloader _dl;
 
         public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
             Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
-            IAuthProvider authProvider) {
+            IAuthProvider authProvider, IExternalFileDownloader dl) {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
             if (toolsInstaller == null)
@@ -99,6 +108,7 @@ namespace SN.withSIX.Mini.Applications.Services
             _statusChange = statusChange;
             _contentEngine = contentEngine;
             _authProvider = authProvider;
+            _dl = dl;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
@@ -220,6 +230,7 @@ namespace SN.withSIX.Mini.Applications.Services
             PrepareGroupContent();
             PrepareRepoContent();
             PrepareSteamContent();
+            PrepareExternalContent();
             PreparePackageContent();
             _allContentToInstall =
                 _packagesToInstall.Concat(_repoContentToInstall)
@@ -228,6 +239,28 @@ namespace SN.withSIX.Mini.Applications.Services
                     .ToDictionary(x => x.Key, x => x.Value);
             //_preparingProgress.Finish();
         }
+
+        private void PrepareExternalContent() {
+            _externalContent = GetExternalContent();
+            _externalContentToInstall = _externalContent; // TODO
+            if (_externalContentToInstall.Any()) {
+                _externalProgress = new ProgressComponent("External mods");
+                _externalProcessing = new ProgressComponent("Processing");
+                _externalProcessing.AddComponents(
+                    _externalContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                _externalProgress.AddComponents(_externalProcessing);
+                _progress.AddComponents(_externalProgress);
+            }
+        }
+
+        private Dictionary<IPackagedContent, SpecificVersion> GetExternalContent() => _installableContent
+            .Except(_groupContent)
+            .Except(_repoContent)
+            .Select(x => new {Content = x.Key as INetworkContent, x.Value})
+            .Where(x => ShouldInstallFromExternal(x.Content))
+            .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
+
+        private static bool ShouldInstallFromExternal(IContentWithPackageName content) => content.Source.Publisher.ShouldInstallFromExternal();
 
         private void PrepareSteamContent() {
             _steamContent = _action.Game.IsSteamGame()
@@ -244,14 +277,12 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        private Dictionary<IPackagedContent, SpecificVersion> GetSteamContent() {
-            return _installableContent
-                .Except(_groupContent)
-                .Except(_repoContent)
-                .Select(x => new {Content = x.Key as INetworkContent, x.Value})
-                .Where(x => ShouldInstallFromSteam(x.Content))
-                .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
-        }
+        private Dictionary<IPackagedContent, SpecificVersion> GetSteamContent() => _installableContent
+            .Except(_groupContent)
+            .Except(_repoContent)
+            .Select(x => new {Content = x.Key as INetworkContent, x.Value})
+            .Where(x => ShouldInstallFromSteam(x.Content))
+            .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
 
         private static bool ShouldInstallFromSteam(INetworkContent content)
             => content.Source.Publisher == Publisher.Steam;
@@ -272,11 +303,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private void PreparePackageContent() {
-            _packageContent = _installableContent
-                .Except(_groupContent)
-                .Except(_repoContent)
-                .Except(_steamContent)
-                .ToDictionary(x => x.Key, x => x.Value);
+            _packageContent = GetPackagedContent();
             if (_action.RemoteInfo == null) {
                 if (_packageContent.Any())
                     throw new NotSupportedException("This game currently does not support SynqPackages");
@@ -290,6 +317,13 @@ namespace SN.withSIX.Mini.Applications.Services
                 _packageProgress = SetupSynqProgress("Network mods", _packagesToInstall);
             }
         }
+
+        private Dictionary<IPackagedContent, SpecificVersion> GetPackagedContent() => _installableContent
+            .Except(_groupContent)
+            .Except(_repoContent)
+            .Except(_steamContent)
+            .Except(_externalContent)
+            .ToDictionary(x => x.Key, x => x.Value);
 
         private SixSyncProgress SetupSixSyncProgress(string title,
             Dictionary<IPackagedContent, SpecificVersion> progressContent) {
@@ -355,6 +389,7 @@ namespace SN.withSIX.Mini.Applications.Services
         async Task TryInstallContent() {
             await InstallPackages().ConfigureAwait(false);
             await InstallSteamContent().ConfigureAwait(false);
+            await InstallExternalContent().ConfigureAwait(false);
             _averageSpeed = new AverageContainer2(20);
             using (new RepoWatcher(_statusRepo))
             using (new StatusRepoMonitor(_statusRepo, TryLegacyStatusChange)) {
@@ -430,6 +465,13 @@ namespace SN.withSIX.Mini.Applications.Services
             HandleInstallUpdateStats(_steamContentToInstall);
         }
 
+        async Task InstallExternalContent() {
+            if (_externalContentToInstall.Count == 0)
+                return;
+            await PerformInstallExternalContent().ConfigureAwait(false);
+            HandleInstallUpdateStats(_externalContentToInstall);
+        }
+
         private async Task PerformInstallSteamContent() {
             var contentProgress = _steamProcessing
                 .GetComponents()
@@ -445,6 +487,20 @@ namespace SN.withSIX.Mini.Applications.Services
                         x => contentProgress[i++]));
             await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
+        }
+
+        private async Task PerformInstallExternalContent() {
+            var contentProgress = _externalProcessing
+                .GetComponents()
+                .OfType<ProgressLeaf>()
+                .ToArray();
+            var i = 0;
+            var session =
+                new ExternalContentInstallerSession(_action.Paths.Path,
+                    // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
+                    _externalContentToInstall.ToDictionary(x => x.Key.Source, x => contentProgress[i++]), _dl);
+            await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
+            _installedContent.AddRange(_externalContentToInstall.Values);
         }
 
         async Task InstallRepoContent() {
@@ -783,5 +839,39 @@ namespace SN.withSIX.Mini.Applications.Services
                     _progressCallback(_repo.Info.Progress, _repo.Info.Speed);
             }
         }
+    }
+
+    internal class ExternalContentInstallerSession
+    {
+        private readonly IAbsoluteDirectoryPath _contentPath;
+        private readonly Dictionary<ContentPublisher, ProgressLeaf> _content;
+        private readonly IExternalFileDownloader _dl;
+
+        public ExternalContentInstallerSession(IAbsoluteDirectoryPath contentPath, Dictionary<ContentPublisher, ProgressLeaf> content, IExternalFileDownloader dl) {
+            _contentPath = contentPath;
+            _content = content;
+            _dl = dl;
+        }
+
+        public async Task Install(CancellationToken cancelToken, bool force) {
+            // Contact Node, tell it to download from URL, to Directory
+            // TODO: Progress reporting
+            foreach (var c in _content) {
+                // TODO: Progress reporting
+                var f = await _dl.DownloadFile(GetPublisherUri(c), _contentPath, c.Value.Update).ConfigureAwait(false);
+                var childDirectoryWithName = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
+                if (childDirectoryWithName.Exists)
+                    childDirectoryWithName.Delete(true);
+                Tools.Compression.Unpack(f, childDirectoryWithName, true); // TODO: Progress reporting..
+            }
+        }
+
+        private static Uri GetPublisherUri(KeyValuePair<ContentPublisher, ProgressLeaf> c)
+            => new Uri("http://nomansskymods.com/mods/" + c.Key.PublisherId);
+    }
+
+    public interface IExternalFileDownloader
+    {
+        Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination, Action<long?, double> progressAction);
     }
 }

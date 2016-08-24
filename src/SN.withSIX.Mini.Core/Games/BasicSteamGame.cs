@@ -71,7 +71,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         IEnumerable<IAbsoluteDirectoryPath> GetExistingModFolders() => GetModFolders().Where(x => x.Exists);
 
-        IEnumerable<IAbsoluteDirectoryPath> GetModFolders() {
+        protected virtual IEnumerable<IAbsoluteDirectoryPath> GetModFolders() {
             if (ContentPaths.IsValid)
                 yield return ContentPaths.Path;
             if (SteamDirectories.Workshop.ContentPath.Exists)

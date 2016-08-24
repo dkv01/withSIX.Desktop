@@ -98,11 +98,16 @@ namespace SN.withSIX.Mini.Core.Games
         public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
             => Dependencies = dependencies.ToList();
 
-        private ContentPublisher GetSource() =>
-            Publishers.Any(p => p.Publisher == Publisher.Steam) &&
-            Publishers.All(x => x.Publisher != Publisher.withSIX)
-                ? Publishers.Single(x => x.Publisher == Publisher.Steam)
-                : Publishers.Single(x => x.Publisher == Publisher.withSIX);
+        private ContentPublisher GetSource() {
+            var isHostedOnNetwork = Publishers.Any(x => x.Publisher == Publisher.withSIX);
+            if (isHostedOnNetwork)
+                return Publishers.Single(x => x.Publisher == Publisher.withSIX);
+            if (Publishers.Any(p => p.Publisher == Publisher.Steam))
+                return Publishers.Single(x => x.Publisher == Publisher.Steam);
+            if (Publishers.Any(p => p.Publisher == Publisher.NoMansSkyMods))
+                return Publishers.Single(x => x.Publisher == Publisher.NoMansSkyMods);
+            throw new NotSupportedException("No supported Publishers found for: " + Id);
+        }
 
         [OnSerialized]
         void OnSerialized(StreamingContext context) {

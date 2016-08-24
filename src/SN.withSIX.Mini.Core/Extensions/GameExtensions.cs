@@ -7,11 +7,14 @@ using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Steam.Core;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Extensions
 {
     public static class GameExtensions
     {
+        public static bool ShouldInstallFromExternal(this Publisher p) => p == Publisher.NoMansSkyMods;
+
         public static IAbsoluteDirectoryPath TryGetDefaultDirectory(this RegistryInfoAttribute registryInfo) {
             if (registryInfo.Path != null) {
                 var path = Tools.Generic.NullSafeGetRegKeyValue<string>(registryInfo.Path, registryInfo.Key);

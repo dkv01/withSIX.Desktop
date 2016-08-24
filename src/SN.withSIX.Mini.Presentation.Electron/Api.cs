@@ -6,11 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ReactiveUI;
 using MediatR;
-using SN.withSIX.Core;
+using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -27,16 +25,15 @@ namespace SN.withSIX.Mini.Presentation.Electron
     public class NodeApi : INodeApi
     {
         private readonly Func<object, Task<object>> _displayTrayBaloon;
+        private readonly Func<object, Task<object>> _downloadFile;
         private readonly Func<object, Task<object>> _exit;
         private readonly Func<object, Task<object>> _handleUserError;
         private readonly Func<object, Task<object>> _installSelfUpdate;
         private readonly Func<object, Task<object>> _setState;
         private readonly Func<object, Task<object>> _showMessageBox;
+        private readonly Func<object, Task<object>> _showNotification;
         private readonly Func<object, Task<object>> _showOpenDialog;
         private readonly Func<object, Task<object>> _showSaveDialog;
-        private readonly Func<object, Task<object>> _showNotification;
-
-        public ArgsO Args { get; }
 
         public NodeApi(dynamic api) {
             _handleUserError = api.handleUserError as Func<object, Task<object>>;
@@ -45,20 +42,27 @@ namespace SN.withSIX.Mini.Presentation.Electron
             _showSaveDialog = api.showSaveDialog as Func<object, Task<object>>;
             _showNotification = api.showNotification as Func<object, Task<object>>;
             _displayTrayBaloon = api.displayTrayBaloon as Func<object, Task<object>>;
+            _downloadFile = api.downloadFile as Func<object, Task<object>>;
             _setState = api.setState as Func<object, Task<object>>;
             _installSelfUpdate = api.installSelfUpdate as Func<object, Task<object>>;
             _exit = api.exit as Func<object, Task<object>>;
             Version = api.version;
-            if (api.args != null)
-                Args = new ArgsO { /* Dynamic = api.args.multi, */ Port = api.args.port, WorkingDirectory = api.args.workingDirectory };
+            if (api.args != null) {
+                Args = new ArgsO {
+                    /* Dynamic = api.args.multi, */ Port = api.args.port,
+                    WorkingDirectory = api.args.workingDirectory
+                };
+            }
         }
+
+        public ArgsO Args { get; }
 
         public string Version { get; }
 
         public async Task<RecoveryOptionResult> HandleUserError(UserError error) {
             var t2 = RecoveryCommandImmediate.GetTask(error.RecoveryOptions);
-            Console.WriteLine((string) ("Handling error" + error));
-            var r = (string)await _handleUserError(new UserErrorModel(error)).ConfigureAwait(false);
+            Console.WriteLine("Handling error" + error);
+            var r = (string) await _handleUserError(new UserErrorModel(error)).ConfigureAwait(false);
             Console.WriteLine("got response" + r + r.GetType());
             var cmd = error.RecoveryOptions.First(x => x.CommandName == r);
             //cmd.RecoveryResult = RecoveryOptionResult.RetryOperation;
@@ -69,10 +73,15 @@ namespace SN.withSIX.Mini.Presentation.Electron
             //return error.RecoveryOptions.First(x => x.RecoveryResult.HasValue).RecoveryResult.Value;
         }
 
+        public async Task<string> DownloadFile(Uri url, string path) {
+            var r = await _downloadFile(new {url, path}).ConfigureAwait(false);
+            return (string) r;
+        }
+
         public async Task<string[]> ShowFileDialog(string title = null, string defaultPath = null) {
-            var properties = new[] { "openFile" };
-            var r = await _showOpenDialog(new { title, defaultPath, properties }).ConfigureAwait(false);
-            var rO = (object[])r;
+            var properties = new[] {"openFile"};
+            var r = await _showOpenDialog(new {title, defaultPath, properties}).ConfigureAwait(false);
+            var rO = (object[]) r;
             return rO?.Cast<string>().ToArray();
         }
 
@@ -80,22 +89,22 @@ namespace SN.withSIX.Mini.Presentation.Electron
             => (bool?) await _showNotification(new {title, message}).ConfigureAwait(false);
 
         public async Task<string> ShowSaveDialog(string title = null, string defaultPath = null) {
-            var r = await _showSaveDialog(new { title, defaultPath }).ConfigureAwait(false);
-            return (string)r;
+            var r = await _showSaveDialog(new {title, defaultPath}).ConfigureAwait(false);
+            return (string) r;
         }
 
         public async Task<string[]> ShowFolderDialog(string title = null, string defaultPath = null) {
-            var properties = new[] { "openDirectory" };
-            var r = await _showOpenDialog(new { title, defaultPath, properties }).ConfigureAwait(false);
-            var rO = (object[])r;
+            var properties = new[] {"openDirectory"};
+            var r = await _showOpenDialog(new {title, defaultPath, properties}).ConfigureAwait(false);
+            var rO = (object[]) r;
             return rO?.Cast<string>().ToArray();
         }
 
         public Task DisplayTrayBaloon(string title, string content, string icon = null)
-            => _displayTrayBaloon(new { title, content, icon });
+            => _displayTrayBaloon(new {title, content, icon});
 
         public Task SetState(BusyState state, string description, double? progress)
-            => _setState(new StateInfo { state = (int)state, description = description, progress = progress });
+            => _setState(new StateInfo {state = (int) state, description = description, progress = progress});
 
         public Task InstallSelfUpdate() => _installSelfUpdate(true);
 
@@ -103,8 +112,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         // TODO: Icon and type etc..
         public async Task<string> ShowMessageBox(string title, string message, string[] buttons, string type = null) {
-            var r = await _showMessageBox(new { title, message, buttons, type }).ConfigureAwait(false);
-            return (string)r;
+            var r = await _showMessageBox(new {title, message, buttons, type}).ConfigureAwait(false);
+            return (string) r;
         }
 
         class StateInfo
@@ -114,9 +123,11 @@ namespace SN.withSIX.Mini.Presentation.Electron
             public double? progress { get; set; }
         }
     }
+
     public class Api : IUsecaseExecutor
     {
         private readonly Excecutor _executor = new Excecutor();
+
         public async Task<object> Invoke(dynamic input) {
             try {
                 return await TryInvoke(input).ConfigureAwait(false);
@@ -129,7 +140,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         private Task<object> TryInvoke(dynamic input) {
             var request = (string) input.request;
-            var requestData = (object)input.data ?? new Dictionary<string, object>();
+            var requestData = (object) input.data ?? new Dictionary<string, object>();
 
             switch (request) {
             case "getSettings":
@@ -167,11 +178,6 @@ namespace SN.withSIX.Mini.Presentation.Electron
             }
         }
 
-        class SICall
-        {
-            public List<string> pars { get; set; }
-        }
-
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
@@ -181,7 +187,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
         async Task<object> Request<T, T2>(object requestData) where T : IAsyncRequest<T2> {
             var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
-            return await _executor.ApiAction(() => this.SendAsync(request),request, CreateException).ConfigureAwait(false);
+            return
+                await _executor.ApiAction(() => this.SendAsync(request), request, CreateException).ConfigureAwait(false);
         }
 
         private static T Unpack<T>(object requestData) {
@@ -190,5 +197,10 @@ namespace SN.withSIX.Mini.Presentation.Electron
         }
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
+
+        class SICall
+        {
+            public List<string> pars { get; set; }
+        }
     }
 }

@@ -450,7 +450,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton<IINstallerSessionFactory>(
                 () =>
                     new InstallerSessionFactory(() => _isPremium(), Container.GetInstance<IToolsCheat>(),
-                        Container.GetInstance<IContentEngine>(), Container.GetInstance<IAuthProvider>()));
+                        Container.GetInstance<IContentEngine>(), Container.GetInstance<IAuthProvider>(),
+                        Container.GetInstance<IExternalFileDownloader>()));
             Container.RegisterSingleton<IContentInstallationService>(
                 () =>
                     new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),

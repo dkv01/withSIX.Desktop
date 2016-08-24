@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Mini.Applications;
@@ -17,6 +18,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         Task<string> ShowSaveDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFileDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFolderDialog(string title = null, string defaultPath = null);
+        Task<string> DownloadFile(Uri url, string path);
         Task<bool?> ShowNotification(string title, string message = null);
         Task DisplayTrayBaloon(string title, string content, string icon = null);
         Task SetState(BusyState state, string description, double? progress);
