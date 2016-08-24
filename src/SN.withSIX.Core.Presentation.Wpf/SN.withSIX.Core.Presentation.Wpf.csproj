@@ -519,8 +519,8 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="withSIX.Api.Models, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.1.8.7\lib\net46\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=1.8.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.8.8\lib\net46\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WpfAnimatedGif, Version=1.4.14.0, Culture=neutral, processorArchitecture=MSIL">
@@ -871,7 +871,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

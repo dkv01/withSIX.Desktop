@@ -251,8 +251,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="withSIX.Api.Models, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.1.8.7\lib\net46\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=1.8.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.1.8.8\lib\net46\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
