@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -109,7 +110,16 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 return;
             if (!_source.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
-            var sourcePak = _source.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
+
+            var rx = new Regex(@"\.(zip|7z|rar|gz)");
+            foreach (var c in _source.DirectoryInfo.EnumerateFiles("*")
+                .Where(x => rx.IsMatch(x.Extension))
+                .Select(x => x.ToAbsoluteFilePath()))
+                Tools.Compression.Unpack(c, _source, true);
+
+            // TODO: Or each included?
+            var sourcePak =
+                _source.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).First().ToAbsoluteFilePath();
             if (!sourcePak.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
