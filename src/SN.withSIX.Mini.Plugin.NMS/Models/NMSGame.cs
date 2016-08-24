@@ -85,7 +85,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             case Publisher.NoMansSkyMods:
                 return new Uri($"http://nomansskymods.com/mods/{c.PublisherId}");
             case Publisher.NexusMods:
-                return new Uri($"http://www.nexusmods.com/nomanssky/{c.PublisherId}");
+                return new Uri($"http://www.nexusmods.com/nomanssky/mods/{c.PublisherId}/?");
             }
             throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
         }

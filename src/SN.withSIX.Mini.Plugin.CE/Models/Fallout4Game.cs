@@ -12,6 +12,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 
@@ -71,6 +72,14 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 
         private Fallout4Mod CreateMod(IModContent x)
             => new Fallout4Mod(GetContentSourceDirectory(x), GetModInstallationDirectory());
+
+        public override Uri GetPublisherUrl(ContentPublisher c) {
+            switch (c.Publisher) {
+                case Publisher.NexusMods:
+                    return new Uri($"http://www.nexusmods.com/fallout4/mods/{c.PublisherId}/?");
+            }
+            throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
+        }
 
         // TODO: Subdirectories support
         class Fallout4Mod
