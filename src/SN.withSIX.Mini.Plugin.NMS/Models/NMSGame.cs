@@ -19,6 +19,7 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.NMS.Models
 {
+    // TODO: Registry, but also auto detection scanner..
     [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMS.exe"}, Name = "No Mans Sky",
         IsPublic = false,
         Slug = "NMS")]
@@ -53,7 +54,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
 
         private void HandleModDirectory(string[] packages) {
             var md = GetModInstallationDirectory();
-            foreach (var f in md.DirectoryInfo.EnumerateFiles("*.pak"))
+            foreach (var f in md.DirectoryInfo.EnumerateFiles("_*.pak"))
                 HandleFileBasedMod(f, packages);
         }
 
@@ -98,7 +99,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
         }
 
-        private string GetPakName() => $"{_mod.PackageName}.pak";
+        private string GetPakName() => $"_{_mod.PackageName}.pak";
 
         public async Task Uninstall() {
             if (!_destination.Exists)
