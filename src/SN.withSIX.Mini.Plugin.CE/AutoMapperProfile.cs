@@ -13,6 +13,8 @@ namespace SN.withSIX.Mini.Plugin.CE
         public AutoMapperProfile() {
             CreateMap<SkyrimGameSettings, SkyrimGameSettingsApiModel>();
             CreateMap<SkyrimGameSettingsApiModel, SkyrimGameSettings>();
+            CreateMap<Fallout4GameSettings, Fallout4GameSettingsApiModel>();
+            CreateMap<Fallout4GameSettingsApiModel, Fallout4GameSettings>();
         }
     }
 }

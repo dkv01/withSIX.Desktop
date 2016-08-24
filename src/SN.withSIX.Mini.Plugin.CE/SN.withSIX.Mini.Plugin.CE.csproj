@@ -65,10 +65,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiModels\Fallout4GameSettingsApiModel.cs" />
     <Compile Include="ApiModels\SkyrimGameSettingsApiModel.cs" />
     <Compile Include="AutoMapperProfile.cs" />
+    <Compile Include="Models\Fallout4Game.cs" />
     <Compile Include="Models\SkyrimGame.cs" />
+    <Compile Include="Models\Fallout4GameSettings.cs" />
     <Compile Include="Models\SkyrimGameSettings.cs" />
+    <Compile Include="Models\Fallout4StartupParameters.cs" />
     <Compile Include="Models\SkyrimStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
