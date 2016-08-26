@@ -55,6 +55,9 @@ namespace SN.withSIX.Core.Extensions
             return rv;
         }
 
+        public static IEnumerable<T> AsEnumerable<T>(this T enumVal) where T : struct, IConvertible => AsEnumerable<T>();
+        public static IEnumerable<T> AsEnumerable<T>() => Enum.GetValues(typeof(T)).Cast<T>();
+
         public static void TryKill(this Process p) {
             var id = -1;
             try {
