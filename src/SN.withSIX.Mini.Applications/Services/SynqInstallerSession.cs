@@ -16,6 +16,7 @@ using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -861,10 +862,16 @@ namespace SN.withSIX.Mini.Applications.Services
             foreach (var c in _content) {
                 // TODO: Progress reporting
                 var f = await _dl.DownloadFile(_game.GetPublisherUrl(c.Key), _contentPath, c.Value.Update).ConfigureAwait(false);
-                var childDirectoryWithName = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
-                if (childDirectoryWithName.Exists)
-                    childDirectoryWithName.Delete(true);
-                Tools.Compression.Unpack(f, childDirectoryWithName, true); // TODO: Progress reporting..
+                var destinationDir = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
+                if (destinationDir.Exists)
+                    destinationDir.Delete(true);
+                // TODO: Progress reporting..
+                if (f.IsArchive())
+                    Tools.Compression.Unpack(f, destinationDir, true);
+                else {
+                    destinationDir.Create();
+                    f.Move(destinationDir);
+                }
             }
         }
     }

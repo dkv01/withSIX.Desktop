@@ -111,9 +111,8 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             if (!_source.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
 
-            var rx = new Regex(@"\.(zip|7z|rar|gz)");
             foreach (var c in _source.DirectoryInfo.EnumerateFiles("*")
-                .Where(x => rx.IsMatch(x.Extension))
+                .Where(x => NDependPathHelpers.ArchiveRx.IsMatch(x.Extension))
                 .Select(x => x.ToAbsoluteFilePath()))
                 Tools.Compression.Unpack(c, _source, true);
 

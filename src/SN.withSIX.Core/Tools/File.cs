@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -451,19 +452,18 @@ namespace SN.withSIX.Core
             Tools.FileUtil.Ops.CreateDirectoryWithRetry(path.ToString());
         }
 
-        public static void MakeSureParentPathExists(this IDirectoryPath subPath, bool retry = true) {
+        public static void MakeSureParentPathExists(this IPath subPath, bool retry = true) {
             Contract.Requires<ArgumentNullException>(subPath != null);
             var folder = subPath.ParentDirectoryPath;
             if (folder != null)
                 MakeSurePathExists(folder);
         }
 
-        public static void MakeSureParentPathExists(this IFilePath subPath, bool retry = true) {
-            Contract.Requires<ArgumentNullException>(subPath != null);
-            var folder = subPath.ParentDirectoryPath;
-            if (folder != null)
-                MakeSurePathExists(folder);
-        }
+        public static void Create(this IDirectoryPath src)
+            => Directory.CreateDirectory(src.ToString());
+
+        public static void Create(this IDirectoryPath src, DirectorySecurity security)
+            => Directory.CreateDirectory(src.ToString(), security);
 
         public static void RemoveReadonlyWhenExists(this string path) {
             Contract.Requires<ArgumentNullException>(path != null);
