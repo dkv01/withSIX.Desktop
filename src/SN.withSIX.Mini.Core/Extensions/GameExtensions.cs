@@ -2,6 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Collections.Generic;
+using System.Linq;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
@@ -34,5 +36,10 @@ namespace SN.withSIX.Mini.Core.Extensions
                 return SteamApp.Default;
             return Game.SteamHelper.TryGetSteamAppById(steamInfo.AppId);
         }
+
+        public static bool HasPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Any(p => p.Publisher == publisher);
+
+        public static ContentPublisher GetPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Single(x => x.Publisher == publisher);
+
     }
 }

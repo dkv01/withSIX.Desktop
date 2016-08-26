@@ -99,14 +99,14 @@ namespace SN.withSIX.Mini.Core.Games
             => Dependencies = dependencies.ToList();
 
         private ContentPublisher GetSource() {
-            var isHostedOnNetwork = Publishers.Any(x => x.Publisher == Publisher.withSIX);
-            if (isHostedOnNetwork)
-                return Publishers.Single(x => x.Publisher == Publisher.withSIX);
-            if (Publishers.Any(p => p.Publisher == Publisher.Steam))
-                return Publishers.Single(x => x.Publisher == Publisher.Steam);
-            if (Publishers.Any(p => p.Publisher == Publisher.NoMansSkyMods))
-                return Publishers.Single(x => x.Publisher == Publisher.NoMansSkyMods);
-            throw new NotSupportedException("No supported Publishers found for: " + Id);
+            if (!Publishers.Any())
+                throw new NotSupportedException("No supported Publishers found for: " + Id);
+            if (Publishers.HasPublisher(Publisher.withSIX))
+                return Publishers.GetPublisher(Publisher.withSIX);
+            // TODO: Only Steam when the user has Steam, or there are no other publishers
+            return Publishers.HasPublisher(Publisher.Steam)
+                ? Publishers.GetPublisher(Publisher.Steam)
+                : Publishers.First();
         }
 
         [OnSerialized]
