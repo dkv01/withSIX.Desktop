@@ -114,7 +114,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             foreach (var c in _source.DirectoryInfo.EnumerateFiles("*")
                 .Where(x => NDependPathHelpers.ArchiveRx.IsMatch(x.Extension))
                 .Select(x => x.ToAbsoluteFilePath()))
-                Tools.Compression.Unpack(c, _source, true);
+                c.Unpack(_source, true);
 
             // TODO: Or each included?
             var sourcePak =

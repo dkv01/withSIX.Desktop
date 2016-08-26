@@ -860,14 +860,12 @@ namespace SN.withSIX.Mini.Applications.Services
             // Contact Node, tell it to download from URL, to Directory
             // TODO: Progress reporting
             foreach (var c in _content) {
-                // TODO: Progress reporting
                 var f = await _dl.DownloadFile(_game.GetPublisherUrl(c.Key), _contentPath, c.Value.Update).ConfigureAwait(false);
                 var destinationDir = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
                 if (destinationDir.Exists)
                     destinationDir.Delete(true);
-                // TODO: Progress reporting..
                 if (f.IsArchive())
-                    Tools.Compression.Unpack(f, destinationDir, true);
+                    f.Unpack(destinationDir, true);
                 else {
                     destinationDir.Create();
                     f.Move(destinationDir);
