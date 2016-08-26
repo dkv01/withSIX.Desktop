@@ -103,10 +103,9 @@ namespace SN.withSIX.Mini.Core.Games
                 throw new NotSupportedException("No supported Publishers found for: " + Id);
             if (Publishers.HasPublisher(Publisher.withSIX))
                 return Publishers.GetPublisher(Publisher.withSIX);
-            // TODO: Only Steam when the user has Steam, or there are no other publishers
-            return Publishers.HasPublisher(Publisher.Steam)
+            return Publishers.HasPublisher(Publisher.Steam) && (Game.SteamHelper.SteamFound || Publishers.Count == 1)
                 ? Publishers.GetPublisher(Publisher.Steam)
-                : Publishers.First();
+                : Publishers.First(x => x.Publisher != Publisher.Steam);
         }
 
         [OnSerialized]
