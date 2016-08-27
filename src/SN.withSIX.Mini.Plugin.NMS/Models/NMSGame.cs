@@ -23,7 +23,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
 {
     // TODO: Registry, but also auto detection scanner..
     [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMS.exe"}, Name = "No Man's Sky",
-        IsPublic = false,
+        IsPublic = true,
         Slug = "NoMansSky")]
     //[SynqRemoteInfo(GameIds.NMS)] // TODO
     [SteamInfo(SteamGameIds.NMS)]
