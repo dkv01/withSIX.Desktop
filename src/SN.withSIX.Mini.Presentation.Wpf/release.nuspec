@@ -34,6 +34,7 @@
         <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.GTA.dll" target="lib\net45\SN.withSIX.Mini.Plugin.GTA.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Homeworld.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Homeworld.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Kerbal.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Kerbal.dll" />
+		<!-- <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.NMS.dll" target="lib\net45\SN.withSIX.Mini.Plugin.NMS.dll" /> -->
 		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Stellaris.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Stellaris.dll" />
 		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Starbound.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Core.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Core.dll" />
