@@ -66,6 +66,7 @@ namespace SN.withSIX.Mini.Infra.Api
                     builder.Run(context => RespondJson(context, new { Version = Consts.ApiVersion}));
                 });
                 api.Map("/content", content => {
+                    AddPath<AddExternalMod>(content, "/add-external-mod");
                     content.Map("/install-content", builder => builder.Run(ExcecuteVoidCommand<InstallContent>));
                     content.Map("/install-contents", builder => builder.Run(ExcecuteVoidCommand<InstallContents>));
                     content.Map("/install-steam-contents", builder => builder.Run(ExcecuteVoidCommand<InstallSteamContents>));
@@ -110,6 +111,9 @@ namespace SN.withSIX.Mini.Infra.Api
 
             app.Map("", builder => builder.Run(async ctx => ctx.Response.Redirect("https://withsix.com")));
         }
+
+        private IAppBuilder AddPath<T>(IAppBuilder content, string path) where T : IAsyncRequest<Unit>
+            => content.Map(path, builder => builder.Run(ExcecuteVoidCommand<T>));
 
         Task ExcecuteVoidCommand<T>(IOwinContext context) where T : IAsyncRequest<Unit>
             => ExecuteRequest<T, Unit>(context);

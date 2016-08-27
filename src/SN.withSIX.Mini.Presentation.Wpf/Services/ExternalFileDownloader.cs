@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Presentation;
@@ -12,9 +13,19 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
 {
     public class ExternalFileDownloader : IExternalFileDownloader, IPresentationService
     {
-        public Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
+        private IDictionary<Uri, IAbsoluteFilePath> cache = new Dictionary<Uri, IAbsoluteFilePath>();
+        public async Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
             Action<long?, double> progressAction) {
+            if (cache.ContainsKey(url)) {
+                var c = cache[url];
+                cache.Remove(url);
+                return c;
+            }
             throw new NotImplementedException();
+        }
+
+        public void RegisterExisting(Uri url, IAbsoluteFilePath path) {
+            cache[url] = path;
         }
     }
 }

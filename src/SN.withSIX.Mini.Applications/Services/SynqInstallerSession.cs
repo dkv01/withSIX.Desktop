@@ -877,5 +877,6 @@ namespace SN.withSIX.Mini.Applications.Services
     public interface IExternalFileDownloader
     {
         Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination, Action<long?, double> progressAction);
+        void RegisterExisting(Uri url, IAbsoluteFilePath path);
     }
 }

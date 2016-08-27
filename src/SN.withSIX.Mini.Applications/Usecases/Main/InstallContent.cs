@@ -13,7 +13,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
-using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 

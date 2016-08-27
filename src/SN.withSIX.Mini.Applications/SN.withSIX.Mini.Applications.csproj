@@ -234,6 +234,7 @@
     <Compile Include="Services\SynqUninstallerSession.cs" />
     <Compile Include="Services\ToolsCheat.cs" />
     <Compile Include="SetupGameStuff.cs" />
+    <Compile Include="Usecases\Main\AddExternalMod.cs" />
     <Compile Include="Usecases\Main\Cancel.cs" />
     <Compile Include="Usecases\Main\ApiDbCommandBase.cs" />
     <Compile Include="Usecases\Main\BrowseFolder.cs" />
