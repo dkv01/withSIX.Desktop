@@ -24,9 +24,9 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     [ApiUserAction("Install")]
     public class AddExternalMod : IAsyncVoidCommand, IUseContent, INotifyAction, IHaveNexAction
     {
-        readonly Regex nexus = new Regex(@"http://www.nexusmods.com/([^\/#])/mods/([^\/#])/");
+        readonly Regex nexus = new Regex(@"http://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
 
-        readonly Regex nmsm = new Regex(@"http://nomansskymods.com/mods/([^\/#])");
+        readonly Regex nmsm = new Regex(@"http://nomansskymods.com/mods/([^\/#]+)");
 
         public AddExternalMod(string fileName, Uri referrer) {
             FileName = fileName;
