@@ -117,7 +117,7 @@
         <file src="bin\release\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
 
         <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
-        <file src="..\dll\VCRedistInstaller.exe" target="lib\net45\VCRedistInstaller.exe" />
+        <file src="bin\release\VCRedistInstaller.exe" target="lib\net45\VCRedistInstaller.exe" />
         <file src="bin\release\nss-3.11.zip" target="lib\net45\nss-3.11.zip" />
 
         <file src="bin\release\Squirrel.dll" target="lib\net45\Squirrel.dll" />
