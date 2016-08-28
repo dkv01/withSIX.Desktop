@@ -26,6 +26,7 @@ using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Services;
 using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 using Repository = SN.withSIX.Sync.Core.Repositories.Repository;
 
 namespace SN.withSIX.Sync.Core.Packages

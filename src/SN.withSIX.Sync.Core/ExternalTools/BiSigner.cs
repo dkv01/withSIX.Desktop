@@ -8,6 +8,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.ExternalTools
 {

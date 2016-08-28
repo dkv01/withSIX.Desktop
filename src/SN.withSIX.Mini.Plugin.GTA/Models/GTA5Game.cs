@@ -15,6 +15,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
+using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.GTA.Models

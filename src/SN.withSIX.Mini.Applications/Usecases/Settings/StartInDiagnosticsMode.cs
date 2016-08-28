@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Settings
 {

@@ -13,6 +13,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Legacy.Yoma
 {

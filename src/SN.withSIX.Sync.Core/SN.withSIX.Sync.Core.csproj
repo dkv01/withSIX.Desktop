@@ -310,7 +310,6 @@
     <Compile Include="Packages\Internals\MetaDataDtoBase.cs" />
     <Compile Include="Packages\Internals\PackageMetaData.cs" />
     <Compile Include="Packages\Internals\PackageMetaDataDto.cs" />
-    <Compile Include="Packages\Internals\VersionIncrementer.cs" />
     <Compile Include="Packages\Package.cs" />
     <Compile Include="Packages\PackageFactory.cs" />
     <Compile Include="Packages\PackageHelper.cs" />
@@ -410,7 +409,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

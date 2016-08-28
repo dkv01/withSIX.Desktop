@@ -10,6 +10,7 @@ using System.Threading;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Api.Models.Extensions;
 using Timer = System.Timers.Timer;
 
 namespace SN.withSIX.Sync.Core.Repositories

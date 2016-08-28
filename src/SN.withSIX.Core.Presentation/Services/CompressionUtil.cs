@@ -15,6 +15,7 @@ using SharpCompress.Compressor.Deflate;
 using SharpCompress.Writer;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Services
 {

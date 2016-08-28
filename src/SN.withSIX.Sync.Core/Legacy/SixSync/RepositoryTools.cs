@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
