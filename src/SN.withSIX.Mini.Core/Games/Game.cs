@@ -421,6 +421,9 @@ namespace SN.withSIX.Mini.Core.Games
         public async Task UpdateSettings(GameSettings settings) {
             Settings = settings;
 
+            if (Settings.RepoDirectory == null && Settings.GameDirectory != null)
+                Settings.RepoDirectory = Settings.GameDirectory;
+
             // We refresh the info already here because we are in background thread..
             var installedState = GetInstalledState();
             _installedState = new Lazy<GameInstalledState>(() => installedState);
