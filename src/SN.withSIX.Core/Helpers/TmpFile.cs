@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using NDepend.Path;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Helpers
 {

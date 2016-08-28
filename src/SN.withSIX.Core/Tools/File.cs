@@ -20,6 +20,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Core.Validators;
+using withSIX.Api.Models.Extensions;
 using ProcessExtensions = SN.withSIX.Core.Extensions.ProcessExtensions;
 
 namespace SN.withSIX.Core
@@ -442,11 +443,6 @@ namespace SN.withSIX.Core
                 MakeSurePathExists(folder);
         }
 
-        public static void MakeSurePathExists(this IDirectoryPath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Tools.FileUtil.Ops.CreateDirectory(path.ToString());
-        }
-
         public static void MakeSurePathExistsWithRetry(this IDirectoryPath path) {
             Contract.Requires<ArgumentNullException>(path != null);
             Tools.FileUtil.Ops.CreateDirectoryWithRetry(path.ToString());
@@ -455,15 +451,8 @@ namespace SN.withSIX.Core
         public static void MakeSureParentPathExists(this IPath subPath, bool retry = true) {
             Contract.Requires<ArgumentNullException>(subPath != null);
             var folder = subPath.ParentDirectoryPath;
-            if (folder != null)
-                MakeSurePathExists(folder);
+            folder?.MakeSurePathExists();
         }
-
-        public static void Create(this IDirectoryPath src)
-            => Directory.CreateDirectory(src.ToString());
-
-        public static void Create(this IDirectoryPath src, DirectorySecurity security)
-            => Directory.CreateDirectory(src.ToString(), security);
 
         public static void RemoveReadonlyWhenExists(this string path) {
             Contract.Requires<ArgumentNullException>(path != null);
