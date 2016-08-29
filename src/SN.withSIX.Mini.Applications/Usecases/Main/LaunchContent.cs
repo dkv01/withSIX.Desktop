@@ -18,7 +18,7 @@ using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction("Launch")]
-    public class LaunchContent : SingleCntentBase, ICancellable, INotifyAction, IUseContent
+    public class LaunchContent : SingleCntentBase, ICancellable, INotifyAction, IUseContent, IDisableDesktopNotification
     {
         public LaunchContent(Guid gameId, ContentGuidSpec content, LaunchType launchType = LaunchType.Default,
             LaunchAction action = LaunchAction.Default) : base(gameId, content) {
@@ -41,7 +41,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     }
 
     [ApiUserAction("Launch")]
-    public class LaunchContents : ContentsBase, ICancellable, INotifyAction, IUseContent
+    public class LaunchContents : ContentsBase, ICancellable, INotifyAction, IUseContent, IDisableDesktopNotification
     {
         public LaunchContents(Guid gameId, List<ContentGuidSpec> contents, LaunchType launchType = LaunchType.Default,
             LaunchAction action = LaunchAction.Default) : base(gameId, contents) {

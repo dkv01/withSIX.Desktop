@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
         }
 
         public async Task Handle(ActionNotification notification) {
-            if (notification.Type == ActionType.Start)
+            if (!notification.DesktopNotification)
                 return;
             await
                 Notify(notification.Title, notification.Text, GenerateActions(notification).ToArray())

@@ -109,9 +109,15 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                     Type = type,
                     NextAction = nextAction?.Item2,
                     NextActionInfo = nextAction?.Item1,
-                    Href = href
+                    Href = href,
+                    DesktopNotification =
+                        type != ActionType.Start &&
+                        (type != ActionType.End || !(request is IDisableDesktopNotification))
                 };
     }
+
+    // TODO: This should rather be configurable on the action attribute instead?
+    internal interface IDisableDesktopNotification {}
 
     // TODO: Specify in Attribute instead?
     public interface ICancelable {}
@@ -144,6 +150,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         [JsonIgnore]
         public IAsyncVoidCommandBase NextAction { get; set; }
         public Uri Href { get; set; }
+        public bool DesktopNotification { get; set; } = true;
     }
 
     public enum ActionType
