@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -34,6 +35,8 @@ namespace SN.withSIX.Mini.Applications.Services
 
         public async Task Uninstall() {
             try {
+                var isSteamEdition = _action.Game.IsSteamEdition();
+                _action.Content.ForEach(x => x.Content.SteamSupportedGameActive = isSteamEdition);
                 foreach (var c in _action.Content)
                     await c.Content.Uninstall(this, _action.CancelToken).ConfigureAwait(false);
             } finally {

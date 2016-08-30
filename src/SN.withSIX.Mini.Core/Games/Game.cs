@@ -382,7 +382,9 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual IAbsoluteDirectoryPath GetDefaultDirectory()
             => RegistryInfo.TryGetDefaultDirectory() ?? SteamInfo.TryGetDefaultDirectory();
 
-        protected virtual bool ShouldLaunchWithSteam() {
+        protected virtual bool ShouldLaunchWithSteam() => IsSteamEdition();
+
+        public bool IsSteamEdition() {
             var gameDir = InstalledState.Directory;
             var steamApp = SteamInfo.TryGetSteamApp();
             if (steamApp.IsValid) {

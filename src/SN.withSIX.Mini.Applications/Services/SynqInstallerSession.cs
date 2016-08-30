@@ -116,6 +116,8 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content) {
+            var isSteamEdition = _action.Game.IsSteamEdition();
+            content.ForEach(x => x.Content.SteamSupportedGameActive = isSteamEdition);
             PrepareContent(content);
             _allContentToInstall.ForEach(x => StartProcessState(x.Key, x.Value.VersionData));
             await PublishIndividualItemStates().ConfigureAwait(false);

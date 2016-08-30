@@ -51,6 +51,7 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         public abstract void Use(IContentAction<IContent> action);
         public abstract void Use(ILaunchContentAction<IContent> action);
+        public abstract bool SteamSupportedGameActive { get; set; }
     }
 
     [ContractClass(typeof (IContentContract))]
@@ -74,6 +75,7 @@ namespace SN.withSIX.Mini.Core.Games
         void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         void Use(IContentAction<IContent> action);
         void Use(ILaunchContentAction<IContent> action);
+        bool SteamSupportedGameActive { get; set; }
     }
 
     [ContractClass(typeof (IHavePackageNameContract))]
