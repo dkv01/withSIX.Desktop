@@ -7,8 +7,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Presentation;
+using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services;
+using SN.withSIX.Mini.Applications.Usecases.Main;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -28,6 +31,11 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 cache.Remove(url);
                 return c;
             }
+
+            // TODO: Support the external browser too, store reference ID to pick DL from, add a timeout?
+            //if (Consts.PluginBrowserFound != Browser.None)
+              //  Tools.Generic.OpenUrl(url);
+
             // TODO: Progress reporting..
             // TODO: cancellation
             var r = await _api.DownloadFile(url, destination.ToString()).ConfigureAwait(false);

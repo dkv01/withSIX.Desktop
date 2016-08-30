@@ -15,6 +15,7 @@ using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Steam.Api;
 using SN.withSIX.Steam.Api.Services;
 
@@ -163,6 +164,7 @@ namespace SN.withSIX.Mini.Applications
         // TODO: Consider FirstRun not just from Setup but also in terms of Settings.... so that deleting settings is a new FirstRun?
         public static bool FirstRun { get; set; }
         public static string ApiVersion { get; } = "4";
+        public static Browser PluginBrowserFound { get; set; }
 
         public static class Features
         {

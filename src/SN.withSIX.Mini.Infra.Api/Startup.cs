@@ -129,6 +129,9 @@ namespace SN.withSIX.Mini.Infra.Api
 
             app.Map("/api", api => {
                 api.Map("/version", builder => builder.Run(context => context.RespondJson(new { Version = Consts.ApiVersion})));
+
+                api.AddPath<PingPlugin>("/ping-plugin");
+
                 api.Map("/content", content => {
                     content.AddPath<AddExternalMod>("/add-external-mod");
                     content.AddPath<InstallContent>("/install-content");

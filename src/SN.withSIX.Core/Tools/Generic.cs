@@ -118,7 +118,7 @@ namespace SN.withSIX.Core
                 return false;
             }
 
-            void OpenUrl(string url) {
+            public void OpenUrl(string url) {
                 url = url.Trim();
                 //url = url.Replace("\"", String.Empty).Replace("\\", String.Empty);
 
@@ -138,7 +138,7 @@ namespace SN.withSIX.Core
                 }
             }
 
-            void OpenUrl(Uri uri) {
+            public void OpenUrl(Uri uri) {
                 Contract.Requires<ArgumentNullException>(uri != null);
                 Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(uri.ToString()));
 

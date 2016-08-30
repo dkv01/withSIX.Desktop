@@ -262,6 +262,7 @@
     <Compile Include="Usecases\Main\Login.cs" />
     <Compile Include="Usecases\Main\OpenFolder.cs" />
     <Compile Include="Usecases\Main\PerformUpdate.cs" />
+    <Compile Include="Usecases\Main\PingPlugin.cs" />
     <Compile Include="Usecases\Main\PlayContent.cs" />
     <Compile Include="Usecases\Main\PrepareFolder.cs" />
     <Compile Include="Usecases\Main\RemoveQueueItem.cs" />
