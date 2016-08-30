@@ -132,8 +132,13 @@ namespace SN.withSIX.Mini.Infra.Api
 
                 api.AddPath<PingPlugin>("/ping-plugin");
 
+                api.Map("/external-downloads", content => {
+                    content.AddPath<ExternalDownloadStarted, Guid>("/started");
+                    content.AddPath<ExternalDownloadProgressing>("/progressing");
+                    content.AddPath<AddExternalModRead>("/completed");
+                });
+
                 api.Map("/content", content => {
-                    content.AddPath<AddExternalModRead>("/add-external-mod");
                     content.AddPath<InstallContent>("/install-content");
                     content.AddPath<InstallContents>("/install-contents");
                     content.AddPath<InstallSteamContents>("/install-steam-contents");
@@ -142,6 +147,9 @@ namespace SN.withSIX.Mini.Infra.Api
                     content.AddPath<LaunchContent>("/launch-content");
                     content.AddPath<LaunchContents>("/launch-contents");
                     content.AddPath<CloseGame>("/close-game");
+
+                    // Deprecate
+                    content.AddPath<AddExternalModRead>("/add-external-mod");
                 });
 
                 api.Map("/get-upload-folders",

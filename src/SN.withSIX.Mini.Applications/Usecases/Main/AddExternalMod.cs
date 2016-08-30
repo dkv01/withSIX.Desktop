@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -21,6 +22,9 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
+    public class ExternalDownloadStarted : IAsyncCommand<Guid> {}
+    public class ExternalDownloadProgressing : IAsyncVoidCommand {}
+
     public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId
     {
         readonly Regex nexus = new Regex(@"http://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
@@ -100,10 +104,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             => new LaunchContent(GameId, Content);
     }
 
-
     public class AddExternalModRead : AddExternalMod, IExcludeGameWriteLock
     {
-        public AddExternalModRead(string fileName, Uri referrer) : base(fileName, referrer) { }
+        public AddExternalModRead(string fileName, Uri referrer, bool isSuccess = true) : base(fileName, referrer) {
+            IsSuccess = isSuccess;
+        }
+        public bool IsSuccess { get; set; } // TODO: Use for abort
     }
 
     [ApiUserAction("Install")]
@@ -114,7 +120,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public AddExternalModWrite(string fileName, Uri referrer) : base(fileName, referrer) {}
     }
 
-    public class AddExternalModHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<AddExternalModRead>, IAsyncVoidCommandHandler<AddExternalModWrite>
+    public class AddExternalModHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<AddExternalModRead>, IAsyncVoidCommandHandler<AddExternalModWrite>, IAsyncRequestHandler<ExternalDownloadStarted, Guid>, IAsyncVoidCommandHandler<ExternalDownloadProgressing>
     {
         readonly IContentInstallationService _contentInstallation;
         private readonly IExternalFileDownloader _fd;
@@ -152,6 +158,19 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             await game.Install(_contentInstallation, action).ConfigureAwait(false);
 
             return Unit.Value;
+        }
+
+        public Task<Guid> Handle(ExternalDownloadStarted message) {
+            throw new NotImplementedException();
+        }
+
+        public Task<Unit> Handle(ExternalDownloadProgressing message) {
+            throw new NotImplementedException();
+        }
+
+        public class ExternalDownloadState
+        {
+            public Dictionary<uint, ProgressInfo> Progress = new Dictionary<uint, ProgressInfo>();
         }
     }
 }
