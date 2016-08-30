@@ -34,9 +34,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 return c;
             }
 
-            // TODO: Support the external browser too, store reference ID to pick DL from, add a timeout?
-            //if (Consts.PluginBrowserFound != Browser.None)
-              //  return await HandleViaBrowser(url, token).ConfigureAwait(false);
+            if (Consts.PluginBrowserFound != Browser.None)
+                return await HandleViaBrowser(url, token).ConfigureAwait(false);
 
             // TODO: Progress reporting..
             var r = await _api.DownloadFile(url, destination.ToString(), token).ConfigureAwait(false);
@@ -47,7 +46,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             tasks[url] = new TaskCompletionSource<IAbsoluteFilePath>();
             token.Register(tasks[url].SetCanceled);
             Tools.Generic.OpenUrl(url);
-            return tasks[url].Task; // TODO: Timeout?
+            return tasks[url].Task;
         }
 
         public bool RegisterExisting(Uri url, IAbsoluteFilePath path) {

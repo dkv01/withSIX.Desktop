@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             token.Register(tasks[url].SetCanceled);
             Tools.Generic.OpenUrl(url);
             try {
-                return await tasks[url].Task; // TODO: Timeout?
+                return await tasks[url].Task;
             } finally {
                 if (tasks.ContainsKey(url))
                     tasks.Remove(url);

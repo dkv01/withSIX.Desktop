@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         readonly Regex nmsm = new Regex(@"http://nomansskymods.com/mods/([^\/#]+)");
 
-        public AddExternalMod(string fileName, Uri referrer) {
+        protected AddExternalMod(string fileName, Uri referrer) {
             FileName = fileName;
             Referrer = referrer;
 
