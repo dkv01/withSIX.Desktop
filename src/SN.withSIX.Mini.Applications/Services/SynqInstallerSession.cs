@@ -860,7 +860,10 @@ namespace SN.withSIX.Mini.Applications.Services
             // Contact Node, tell it to download from URL, to Directory
             // TODO: Progress reporting
             foreach (var c in _content) {
-                var f = await _dl.DownloadFile(_game.GetPublisherUrl(c.Key), _contentPath, c.Value.Update).ConfigureAwait(false);
+                var f =
+                    await
+                        _dl.DownloadFile(_game.GetPublisherUrl(c.Key), _contentPath, c.Value.Update, cancelToken)
+                            .ConfigureAwait(false);
                 var destinationDir = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
                 if (destinationDir.Exists)
                     destinationDir.Delete(true);
