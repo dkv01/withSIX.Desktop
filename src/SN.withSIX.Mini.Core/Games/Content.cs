@@ -162,6 +162,9 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public RecentInfo RecentInfo { get; protected set; }
 
+        // TODO: Fill this in somehow...
+        public bool SteamSupportedGameActive { get; set; } = true;
+
         public void Installed(string version, bool completed) {
             if (!IsInstalled())
                 JustInstalled(version, completed);
