@@ -20,7 +20,7 @@ using SN.withSIX.Mini.Applications.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
-    public class Excecutor
+    public class Excecutor : IUsecaseExecutor
     {
         public async Task<TResponse> ApiAction<TResponse>(Func<Task<TResponse>> action, object command, Func<string, Exception, Exception> createException) {
             //var isUserAction = command.GetType().GetAttribute<ApiUserActionAttribute>() != null;
