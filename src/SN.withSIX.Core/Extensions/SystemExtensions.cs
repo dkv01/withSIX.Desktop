@@ -31,16 +31,9 @@ namespace SN.withSIX.Core.Extensions
 
         public static ShortGuid ToShortId(this Guid id) => new ShortGuid(id);
 
-        public static Task<bool> WhenCanceled(this CancellationToken cancellationToken) {
-            var tcs = new TaskCompletionSource<bool>();
-            cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
-            return tcs.Task;
-        }
-
-        public static async Task ThrowWhenCanceled(this CancellationToken cancellationToken) {
-            if (await cancellationToken.WhenCanceled().ConfigureAwait(false))
-                throw new OperationCanceledException();
-        }
+        [Obsolete("Find better approach, as this will leave resources when not cancelled")]
+        public static Task ThrowWhenCanceled(this CancellationToken cancellationToken)
+            => Task.Delay(-1, cancellationToken);
 
         public static void DoWith<T>(this T This, Action<T> exp) => exp(This);
 
