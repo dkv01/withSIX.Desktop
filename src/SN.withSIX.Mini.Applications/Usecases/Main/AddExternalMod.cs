@@ -100,16 +100,18 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             => new LaunchContent(GameId, Content);
     }
 
+
+    public class AddExternalModRead : AddExternalMod, IExcludeGameWriteLock
+    {
+        public AddExternalModRead(string fileName, Uri referrer) : base(fileName, referrer) { }
+    }
+
     [ApiUserAction("Install")]
     public class AddExternalModWrite : AddExternalMod, IUseContent, INotifyAction, IHaveNexAction
     {
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
         public AddExternalModWrite(string fileName, Uri referrer) : base(fileName, referrer) {}
-    }
-
-    public class AddExternalModRead : AddExternalMod, IExcludeGameWriteLock {
-        public AddExternalModRead(string fileName, Uri referrer) : base(fileName, referrer) {}
     }
 
     public class AddExternalModHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<AddExternalModRead>, IAsyncVoidCommandHandler<AddExternalModWrite>

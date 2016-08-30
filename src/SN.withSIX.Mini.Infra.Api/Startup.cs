@@ -133,7 +133,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 api.AddPath<PingPlugin>("/ping-plugin");
 
                 api.Map("/content", content => {
-                    content.AddPath<AddExternalMod>("/add-external-mod");
+                    content.AddPath<AddExternalModRead>("/add-external-mod");
                     content.AddPath<InstallContent>("/install-content");
                     content.AddPath<InstallContents>("/install-contents");
                     content.AddPath<InstallSteamContents>("/install-steam-contents");
