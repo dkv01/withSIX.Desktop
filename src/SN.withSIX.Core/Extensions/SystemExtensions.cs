@@ -14,6 +14,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
 using withSIX.Api.Models;
@@ -28,6 +30,17 @@ namespace SN.withSIX.Core.Extensions
         static readonly DateTime unixBase = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static ShortGuid ToShortId(this Guid id) => new ShortGuid(id);
+
+        public static Task<bool> WhenCanceled(this CancellationToken cancellationToken) {
+            var tcs = new TaskCompletionSource<bool>();
+            cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
+            return tcs.Task;
+        }
+
+        public static async Task ThrowWhenCanceled(this CancellationToken cancellationToken) {
+            if (await cancellationToken.WhenCanceled().ConfigureAwait(false))
+                throw new OperationCanceledException();
+        }
 
         public static void DoWith<T>(this T This, Action<T> exp) => exp(This);
 

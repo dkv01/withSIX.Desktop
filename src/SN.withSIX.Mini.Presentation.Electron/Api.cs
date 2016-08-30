@@ -5,10 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -73,8 +75,12 @@ namespace SN.withSIX.Mini.Presentation.Electron
             //return error.RecoveryOptions.First(x => x.RecoveryResult.HasValue).RecoveryResult.Value;
         }
 
-        public async Task<string> DownloadFile(Uri url, string path) {
-            var r = await _downloadFile(new {url, path}).ConfigureAwait(false);
+        public async Task<string> DownloadFile(Uri url, string path, CancellationToken token) {
+            var t = _downloadFile(new {url, path});
+            var tc = token.ThrowWhenCanceled();
+            await Task.WhenAny(t, tc).ConfigureAwait(false);
+            await tc; // As WhenAny apparently wouldnt throw??
+            var r = await t.ConfigureAwait(false);
             return (string) r;
         }
 

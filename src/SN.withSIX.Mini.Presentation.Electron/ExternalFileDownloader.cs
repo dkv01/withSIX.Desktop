@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -19,13 +20,14 @@ namespace SN.withSIX.Mini.Presentation.Electron
     {
         private readonly INodeApi _api;
         private IDictionary<Uri, IAbsoluteFilePath> cache = new Dictionary<Uri, IAbsoluteFilePath>();
+        private IDictionary<Uri, TaskCompletionSource<IAbsoluteFilePath>> tasks = new Dictionary<Uri, TaskCompletionSource<IAbsoluteFilePath>>();
 
         public ExternalFileDownloader(INodeApi api) {
             _api = api;
         }
 
         public async Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
-            Action<long?, double> progressAction) {
+            Action<long?, double> progressAction, CancellationToken token = default(CancellationToken)) {
             if (cache.ContainsKey(url)) {
                 var c = cache[url];
                 cache.Remove(url);
@@ -34,16 +36,28 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
             // TODO: Support the external browser too, store reference ID to pick DL from, add a timeout?
             //if (Consts.PluginBrowserFound != Browser.None)
-              //  Tools.Generic.OpenUrl(url);
+              //  return await HandleViaBrowser(url, token).ConfigureAwait(false);
 
             // TODO: Progress reporting..
-            // TODO: cancellation
-            var r = await _api.DownloadFile(url, destination.ToString()).ConfigureAwait(false);
+            var r = await _api.DownloadFile(url, destination.ToString(), token).ConfigureAwait(false);
             return r.ToAbsoluteFilePath();
         }
 
-        public void RegisterExisting(Uri url, IAbsoluteFilePath path) {
+        private Task<IAbsoluteFilePath> HandleViaBrowser(Uri url, CancellationToken token) {
+            tasks[url] = new TaskCompletionSource<IAbsoluteFilePath>();
+            token.Register(tasks[url].SetCanceled);
+            Tools.Generic.OpenUrl(url);
+            return tasks[url].Task; // TODO: Timeout?
+        }
+
+        public bool RegisterExisting(Uri url, IAbsoluteFilePath path) {
+            if (tasks.ContainsKey(url)) {
+                tasks[url].SetResult(path);
+                tasks.Remove(url);
+                return true;
+            }
             cache[url] = path;
+            return false;
         }
     }
 }

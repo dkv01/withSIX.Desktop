@@ -21,8 +21,7 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
-    [ApiUserAction("Install")]
-    public class AddExternalMod : IAsyncVoidCommand, IUseContent, INotifyAction, IHaveNexAction
+    public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId
     {
         readonly Regex nexus = new Regex(@"http://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
 
@@ -56,8 +55,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public Exception Error { get; set; }
 
-        IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
-
         public string PubId { get; set; }
 
         public Publisher Publisher { get; }
@@ -72,7 +69,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public bool HideLaunchAction { get; set; }
 
         public Guid ClientId { get; set; }
-        public Guid RequestId { get; }
+        public Guid RequestId { get; set; }
         public Guid GameId { get; }
 
         public ContentGuidSpec Content { get; set; }
@@ -103,7 +100,19 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             => new LaunchContent(GameId, Content);
     }
 
-    public class AddExternalModHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<AddExternalMod>
+    [ApiUserAction("Install")]
+    public class AddExternalModWrite : AddExternalMod, IUseContent, INotifyAction, IHaveNexAction
+    {
+
+        IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
+        public AddExternalModWrite(string fileName, Uri referrer) : base(fileName, referrer) {}
+    }
+
+    public class AddExternalModRead : AddExternalMod, IExcludeGameWriteLock {
+        public AddExternalModRead(string fileName, Uri referrer) : base(fileName, referrer) {}
+    }
+
+    public class AddExternalModHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<AddExternalModRead>, IAsyncVoidCommandHandler<AddExternalModWrite>
     {
         readonly IContentInstallationService _contentInstallation;
         private readonly IExternalFileDownloader _fd;
@@ -115,16 +124,31 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             _fd = fd;
         }
 
-        public async Task<Unit> Handle(AddExternalMod request) {
+        public async Task<Unit> Handle(AddExternalModRead request) {
             // TODO
             if (request.Error != null)
                 throw request.Error;
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var action = request.GetAction(game);
-            _fd.RegisterExisting(
-                game.GetPublisherUrl(action.Content.Select(x => x.Content).OfType<NetworkContent>().First().Source),
-                request.FileName.ToAbsoluteFilePath());
+            var content = action.Content.Select(x => x.Content).OfType<NetworkContent>().FirstOrDefault();
+            if (content == null ||
+                !_fd.RegisterExisting(game.GetPublisherUrl(content.Source), request.FileName.ToAbsoluteFilePath()))
+                await
+                    Cheat.Mediator.SendAsync(new AddExternalModWrite(request.FileName, request.Referrer))
+                        .ConfigureAwait(false);
+
+            return Unit.Value;
+        }
+
+        public async Task<Unit> Handle(AddExternalModWrite request) {
+            // This shouldnt happen because we already check it in Read..
+            if (request.Error != null)
+                throw request.Error;
+            var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
+            var action = request.GetAction(game);
+            //_fd.RegisterExisting(game.GetPublisherUrl(action.Content.Select(x => x.Content).OfType<NetworkContent>().First().Source),request.FileName.ToAbsoluteFilePath());
             await game.Install(_contentInstallation, action).ConfigureAwait(false);
+
             return Unit.Value;
         }
     }
