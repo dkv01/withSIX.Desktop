@@ -857,14 +857,15 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task Install(CancellationToken cancelToken, bool force) {
-            // Contact Node, tell it to download from URL, to Directory
             // TODO: Progress reporting
-            foreach (var c in _content) {
+            foreach (var c in
+                    _content.Select(x => Tuple.Create(x.Key, x.Value, _game.GetPublisherUrl(x.Key)))
+                        .GroupBy(x => x.Item3.DnsSafeHost).SelectMany(x => x)) {
                 var f =
                     await
-                        _dl.DownloadFile(_game.GetPublisherUrl(c.Key), _contentPath, c.Value.Update, cancelToken)
+                        _dl.DownloadFile(c.Item3, _contentPath, c.Item2.Update, cancelToken)
                             .ConfigureAwait(false);
-                var destinationDir = _contentPath.GetChildDirectoryWithName(c.Key.PublisherId);
+                var destinationDir = _contentPath.GetChildDirectoryWithName(c.Item1.PublisherId);
                 if (destinationDir.Exists)
                     destinationDir.Delete(true);
                 if (f.IsArchive())
