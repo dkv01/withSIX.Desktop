@@ -32,7 +32,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
         }
 
         public async Task<Unit> Handle(StartDownloadSession message) {
-            var game = await GameContext.Games.FindFromRequestAsync(message).ConfigureAwait(false);
+            var game = await GameContext.FindGameFromRequestOrThrowAsync(message).ConfigureAwait(false);
             await _downloader.StartSession(game.GetPublisherUrl(), game.GetContentPath()).ConfigureAwait(false);
             return Unit.Value;
         }
