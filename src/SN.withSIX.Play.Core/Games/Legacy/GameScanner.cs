@@ -52,7 +52,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             IsSkipTree = true;
         }
 
-        public Task<bool> ScanForGames() => Task.Factory.StartNew(() => ScanAllDrives(), TaskCreationOptions.LongRunning);
+        public Task<bool> ScanForGames() => TaskExtExt.StartLongRunningTask(() => ScanAllDrives());
 
         bool ScanAllDrives() {
             lock (_busyLock) {

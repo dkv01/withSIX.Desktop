@@ -194,8 +194,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
             GetMissionsToDownload(
             IEnumerable<Mission> missions,
             IAbsoluteDirectoryPath destination, StatusRepo repo)
-            => Task.Factory.StartNew(() => SumMissions(destination, missions.ToDictionary(x => x,
-                x => (ITransferStatus) new Status(x.FileName, repo))), TaskCreationOptions.LongRunning);
+            => TaskExtExt.StartLongRunningTask(() => SumMissions(destination, missions.ToDictionary(x => x,
+                x => (ITransferStatus) new Status(x.FileName, repo))));
 
         static IDictionary<FileFetchInfo, ITransferStatus> SumMissions(
             IAbsoluteDirectoryPath destination,

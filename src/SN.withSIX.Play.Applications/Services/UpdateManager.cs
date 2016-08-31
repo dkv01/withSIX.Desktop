@@ -217,9 +217,8 @@ namespace SN.withSIX.Play.Applications.Services
                             statusRepo,
                             "Migrating mod data",
                             () =>
-                                Task.Factory.StartNew(
-                                    () => _pathMover.MoveModFolders(sourcePath, destinationPath),
-                                    TaskCreationOptions.LongRunning)).ConfigureAwait(false);
+                                TaskExtExt.StartLongRunningTask(
+                                    () => _pathMover.MoveModFolders(sourcePath, destinationPath))).ConfigureAwait(false);
                 }
             }
         }
@@ -234,10 +233,10 @@ namespace SN.withSIX.Play.Applications.Services
                             statusRepo,
                             "Migrating synq data",
                             () =>
-                                Task.Factory.StartNew(
+                                TaskExtExt.StartLongRunningTask(
                                     () =>
-                                        Tools.FileUtil.Ops.MoveDirectory(sourcePath, destinationPath),
-                                    TaskCreationOptions.LongRunning)).ConfigureAwait(false);
+                                        Tools.FileUtil.Ops.MoveDirectory(sourcePath, destinationPath)))
+                            .ConfigureAwait(false);
                 }
             }
         }
@@ -690,7 +689,7 @@ namespace SN.withSIX.Play.Applications.Services
                 return;
 
             await
-                Task.Factory.StartNew(Uninstall, TaskCreationOptions.LongRunning)
+                TaskExtExt.StartLongRunningTask(() => Uninstall())
                     .ConfigureAwait(false);
         }
 
@@ -718,7 +717,7 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        Task StartMessagePump() => _messagePump = Task.Factory.StartNew(() => Run(), TaskCreationOptions.LongRunning).Unwrap();
+        Task StartMessagePump() => _messagePump = TaskExtExt.StartLongRunningTask(Run);
 
         async Task Run() {
             while (true) {

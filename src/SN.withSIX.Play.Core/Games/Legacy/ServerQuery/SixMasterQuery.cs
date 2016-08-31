@@ -21,9 +21,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
             int limit = 0) {
             return
                 await
-                    Task.Factory.StartNew(
-                        () => DoStuff(forceLocal, limit).Select(x => new GamespyServerQueryResult(x, true)),
-                        TaskCreationOptions.LongRunning).ConfigureAwait(false);
+                    TaskExtExt.StartLongRunningTask(
+                        () => DoStuff(forceLocal, limit).Select(x => new GamespyServerQueryResult(x, true))).ConfigureAwait(false);
         }
 
         IEnumerable<IDictionary<string, string>> DoStuff(bool forceLocal, int limit) {

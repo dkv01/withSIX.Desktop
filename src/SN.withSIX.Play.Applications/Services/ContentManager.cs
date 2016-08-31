@@ -1365,18 +1365,18 @@ namespace SN.withSIX.Play.Applications.Services
             var game = Game;
             if (game.SupportsMods()) {
                 var modding = game.Modding();
-                await Task.Factory.StartNew(() => {
+                await TaskExtExt.StartLongRunningTask(() => {
                     lock (_updateAllModsLock)
                         modding.UpdateModStates(game.Lists.Mods);
-                }, TaskCreationOptions.LongRunning).ConfigureAwait(false);
+                }).ConfigureAwait(false);
             }
 
             if (game.SupportsMissions()) {
                 var missions = game.Missions();
-                await Task.Factory.StartNew(() => {
+                await TaskExtExt.StartLongRunningTask(() => {
                     lock (_updateAllModsLock)
                         missions.UpdateMissionStates(game.Lists.Missions);
-                }, TaskCreationOptions.LongRunning).ConfigureAwait(false);
+                }).ConfigureAwait(false);
             }
         }
 

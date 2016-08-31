@@ -104,9 +104,9 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
             return done;
         }
 
-        public async Task<T> QueueSend<T>(ISendMessage command) => (T)await QueueSend(command);
+        public async Task<T> QueueSend<T>(ISendMessage command) => (T)await QueueSend(command).ConfigureAwait(false);
 
-        public Task ReadLoop() => Task.Factory.StartNew(() => ReadLoopInternal(), _token, TaskCreationOptions.LongRunning,
+        public Task ReadLoop() => Task.Factory.StartNew(ReadLoopInternal, _token, TaskCreationOptions.LongRunning,
         TaskScheduler.Default).Unwrap();
 
         async Task ReadLoopInternal() {

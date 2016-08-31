@@ -51,7 +51,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             _settings.GameOptions.RecentGameSet = x == null ? null : new RecentGameSet(x);
             OnPropertyChanged(nameof(ActiveGame));
             await
-                Task.Factory.StartNew(() => TryActiveGameChanged(x), TaskCreationOptions.LongRunning).Unwrap()
+                TaskExtExt.StartLongRunningTask(() => TryActiveGameChanged(x))
                     .ConfigureAwait(false);
         }
 
