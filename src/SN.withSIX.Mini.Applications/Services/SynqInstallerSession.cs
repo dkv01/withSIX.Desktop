@@ -46,6 +46,7 @@ namespace SN.withSIX.Mini.Applications.Services
         private readonly IAuthProvider _authProvider;
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _getIsPremium;
+        private readonly List<IContent> _found = new List<IContent>();
         readonly List<Tuple<IPackagedContent, string>> _installed = new List<Tuple<IPackagedContent, string>>();
         readonly List<SpecificVersion> _installedContent = new List<SpecificVersion>();
         //private readonly ProgressLeaf _preparingProgress;
@@ -92,7 +93,7 @@ namespace SN.withSIX.Mini.Applications.Services
         private ProgressComponent _steamProgress;
         private ProgressComponent _externalProcessing;
         private ProgressComponent _externalProgress;
-        private IExternalFileDownloader _dl;
+        private readonly IExternalFileDownloader _dl;
 
         public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
             Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
@@ -218,33 +219,42 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Consider if instead we want to Concat up the Content, for a later all-at-once execution instead...
             // but then it would be bad to have an Install command on Content class, but not actually finish installing before the method ends
             // so instead we should have a Query on content then.
-            _installableContent = content.ToDictionary(x => x.Content,
-                x => new SpecificVersion(x.Content.GetFQN(x.Constraint)))
-                .Where(x => !_installedContent.Contains(x.Value))
-                .ToDictionary(x => x.Key, x => x.Value);
+            BuildInstallableContent(content);
 
             // Add collections if available
-            _allInstallableContent =
-                _installableContent.ToDictionary(x => (IContent) x.Key, x => x.Value.VersionData)
-                    .Concat(_action.Content.ToDictionary(x => (IContent) x.Content,
-                        x => x.Constraint ?? x.Content.Version))
-                    .Distinct()
-                    .ToDictionary(x => x.Key, x => x.Value);
+            BuildAllInstallableContent();
             PrepareGroupContent();
             PrepareRepoContent();
             PrepareSteamContent();
             PrepareExternalContent();
             PreparePackageContent();
-            _allContentToInstall =
-                _packagesToInstall.Concat(_repoContentToInstall)
-                    .Concat(_groupContentToInstall)
-                    .Concat(_steamContentToInstall)
-                    .ToDictionary(x => x.Key, x => x.Value);
+            BuildAllContentToInstall();
             //_preparingProgress.Finish();
         }
 
+        private void BuildInstallableContent(IEnumerable<IContentSpec<IPackagedContent>> content)
+            => _installableContent = content.ToDictionary(x => x.Content,
+                x => new SpecificVersion(x.Content.GetFQN(x.Constraint)))
+                .Where(x => !_installedContent.Contains(x.Value))
+                .ToDictionary(x => x.Key, x => x.Value);
+
+        private void BuildAllInstallableContent() => _allInstallableContent =
+            _installableContent.ToDictionary(x => (IContent) x.Key, x => x.Value.VersionData)
+                .Concat(_action.Content.ToDictionary(x => (IContent) x.Content, x => x.Constraint ?? x.Content.Version))
+                .DistinctBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.Value);
+
+        private void BuildAllContentToInstall() => _allContentToInstall =
+            _packagesToInstall
+                .Concat(_repoContentToInstall)
+                .Concat(_groupContentToInstall)
+                .Concat(_steamContentToInstall)
+                .Concat(_externalContentToInstall)
+                .ToDictionary(x => x.Key, x => x.Value);
+
         private void PrepareExternalContent() {
             _externalContent = GetExternalContent();
+            _found.AddRange(_externalContent.Select(x => x.Key));
             _externalContentToInstall = _externalContent; // TODO
             if (_externalContentToInstall.Any()) {
                 _externalProgress = new ProgressComponent("External mods");
@@ -257,18 +267,18 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private Dictionary<IPackagedContent, SpecificVersion> GetExternalContent() => _installableContent
-            .Except(_groupContent)
-            .Except(_repoContent)
-            .Select(x => new {Content = x.Key as INetworkContent, x.Value})
-            .Where(x => ShouldInstallFromExternal(x.Content))
-            .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
+            .Where(x => !_found.Contains(x.Key))
+            .Where(x => ShouldInstallFromExternal(x.Key))
+            .ToDictionary(x => x.Key, y => y.Value);
 
-        private static bool ShouldInstallFromExternal(IContentWithPackageName content) => content.Source.Publisher.ShouldInstallFromExternal();
+        private static bool ShouldInstallFromExternal(IContentWithPackageName content)
+            => content.Source.Publisher.ShouldInstallFromExternal();
 
         private void PrepareSteamContent() {
             _steamContent = _action.Game.IsSteamGame()
                 ? GetSteamContent()
                 : new Dictionary<IPackagedContent, SpecificVersion>();
+            _found.AddRange(_steamContent.Select(x => x.Key));
             _steamContentToInstall = _steamContent; // TODO
             if (_steamContentToInstall.Any()) {
                 _steamProgress = new ProgressComponent("Steam mods");
@@ -281,32 +291,37 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private Dictionary<IPackagedContent, SpecificVersion> GetSteamContent() => _installableContent
-            .Except(_groupContent)
-            .Except(_repoContent)
+            .Where(x => !_found.Contains(x.Key))
             .Select(x => new {Content = x.Key as INetworkContent, x.Value})
             .Where(x => ShouldInstallFromSteam(x.Content))
             .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
 
-        private static bool ShouldInstallFromSteam(INetworkContent content)
+        private static bool ShouldInstallFromSteam(IContentWithPackageName content)
             => content.Source.Publisher == Publisher.Steam;
 
         private void PrepareGroupContent() {
-            _groupContent = _installableContent.Where(x => _groups.Any(r => r.HasMod(x.Value.Name)))
+            _groupContent = _installableContent
+                .Where(x => !_found.Contains(x.Key))
+                .Where(x => _groups.Any(r => r.HasMod(x.Value.Name)))
                 .ToDictionary(x => x.Key, x => x.Value);
             _groupContentToInstall = _action.Force ? _groupContent : GetGroupContentToInstallOrUpdate();
             _groupProgress = SetupSixSyncProgress("Group mods", _groupContentToInstall);
+            _found.AddRange(_groupContent.Select(x => x.Key));
         }
 
         private void PrepareRepoContent() {
-            _repoContent = _installableContent.Except(_groupContent)
+            _repoContent = _installableContent
+                .Where(x => !_found.Contains(x.Key))
                 .Where(x => _repositories.Any(r => r.HasMod(x.Value.Name)))
                 .ToDictionary(x => x.Key, x => x.Value);
             _repoContentToInstall = _action.Force ? _repoContent : GetRepoContentToInstallOrUpdate();
             _repoProgress = SetupSixSyncProgress("Repo mods", _repoContentToInstall);
+            _found.AddRange(_repoContent.Select(x => x.Key));
         }
 
         private void PreparePackageContent() {
             _packageContent = GetPackagedContent();
+            _found.AddRange(_packageContent.Select(x => x.Key));
             if (_action.RemoteInfo == null) {
                 if (_packageContent.Any())
                     throw new NotSupportedException("This game currently does not support SynqPackages");
@@ -322,10 +337,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private Dictionary<IPackagedContent, SpecificVersion> GetPackagedContent() => _installableContent
-            .Except(_groupContent)
-            .Except(_repoContent)
-            .Except(_steamContent)
-            .Except(_externalContent)
+            .Where(x => !_found.Contains(x.Key))
             .ToDictionary(x => x.Key, x => x.Value);
 
         private SixSyncProgress SetupSixSyncProgress(string title,
@@ -365,10 +377,7 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        private ItemState StartProcessState(IContent content, string version) {
-            content.StartProcessingState(version, _action.Force);
-            return content.ProcessingState;
-        }
+        private void StartProcessState(IContent content, string version) => content.StartProcessingState(version, _action.Force);
 
         // TODO: Rethink our strategy here. We convert it to a temp collection so that we can install all the content at once.
         // this is because we relinquish control to the content.Install method, and that will build the dependency tree and call the installer actions with it..
