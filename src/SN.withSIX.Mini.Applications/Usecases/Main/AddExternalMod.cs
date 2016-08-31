@@ -148,14 +148,20 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var action = request.GetAction(game);
             var content = action.Content.Select(x => x.Content).OfType<NetworkContent>().FirstOrDefault();
-            if (content == null ||
-                !_fd.RegisterExisting(game.GetPublisherUrl(content.Source), request.FileName.ToAbsoluteFilePath()))
-                await
-                    Cheat.Mediator.SendAsync(new AddExternalModWrite(request.FileName, request.Referrer))
-                        .ConfigureAwait(false);
+            if (content == null)
+                await SendWrite(request).ConfigureAwait(false);
+            else {
+                content.SteamSupportedGameActive = false;
+                if (!_fd.RegisterExisting(game.GetPublisherUrl(content.Source), request.FileName.ToAbsoluteFilePath()))
+                    await SendWrite(request).ConfigureAwait(false);
+            }
+
 
             return Unit.Value;
         }
+
+        private static Task<Unit> SendWrite(AddExternalModRead request)
+            => Cheat.Mediator.SendAsync(new AddExternalModWrite(request.FileName, request.Referrer));
 
         public async Task<Unit> Handle(AddExternalModWrite request) {
             // This shouldnt happen because we already check it in Read..
@@ -163,6 +169,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 throw request.Error;
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var action = request.GetAction(game);
+
+            action.Content.First().Content.SteamSupportedGameActive = false;
             //_fd.RegisterExisting(game.GetPublisherUrl(action.Content.Select(x => x.Content).OfType<NetworkContent>().First().Source),request.FileName.ToAbsoluteFilePath());
             await game.Install(_contentInstallation, action).ConfigureAwait(false);
 
