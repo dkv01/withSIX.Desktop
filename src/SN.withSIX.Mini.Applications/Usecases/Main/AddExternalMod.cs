@@ -27,9 +27,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
     public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId
     {
-        readonly Regex nexus = new Regex(@"http://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
+        readonly Regex nexus = new Regex(@"https?://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
 
-        readonly Regex nmsm = new Regex(@"http://nomansskymods.com/mods/([^\/#]+)");
+        readonly Regex nmsm = new Regex(@"https?://nomansskymods.com/mods/([^\/#]+)");
+
+        readonly Regex cf = new Regex(@"https?://community.playstarbound.com/resources/([^/]+)\.(\d+)");
 
         protected AddExternalMod(string fileName, Uri referrer) {
             FileName = fileName;
@@ -40,7 +42,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             if (m.Success) {
                 GameId = GameGuids.NMS;
                 Publisher = Publisher.NoMansSkyMods;
-                PubId = nmsm.Match(r).Groups[1].Value;
+                PubId = m.Groups[1].Value;
                 // TODO: Install as local mod when unknown etc
             } else {
                 m = nexus.Match(r);
@@ -51,9 +53,16 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                     }
                     GameId = GameGuids.Fallout4;
                     Publisher = Publisher.NexusMods;
-                    PubId = nmsm.Match(r).Groups[2].Value;
-                } else
-                    Error = new ValidationException("The link is not recognized");
+                    PubId = m.Groups[2].Value;
+                } else {
+                    m = cf.Match(r);
+                    if (m.Success) {
+                        GameId = GameGuids.Starbound;
+                        Publisher = Publisher.Chucklefish;
+                        PubId = m.Groups[2].Value;
+                    } else
+                        Error = new ValidationException("The link is not recognized");
+                }
             }
         }
 
