@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -18,20 +19,26 @@ namespace SN.withSIX.Mini.Core
     }
 
     [DataContract]
-    public abstract class BaseEntity<T> : BaseEntity, IHaveId<T>
+    public abstract class BaseEntity<TId> : BaseEntity, IHaveId<TId>, IEquatable<BaseEntity<TId>>
     {
         [DataMember]
-        public T Id { get; set; }
+        public TId Id { get; protected set; }
+
+        public bool Equals(BaseEntity<TId> other) => other != null
+                                                     &&
+                                                     (ReferenceEquals(this, other) ||
+                                                      (!EqualityComparer<TId>.Default.Equals(Id, default(TId)) &&
+                                                       EqualityComparer<TId>.Default.Equals(Id, other.Id)));
+        public override bool Equals(object other) => Equals(other as BaseEntity<TId>);
+
+        public override int GetHashCode() => EqualityComparer<TId>.Default.GetHashCode(Id);
     }
 
     [DataContract]
-    public abstract class BaseEntityGuidId : BaseEntity, IHaveId<Guid>
+    public abstract class BaseEntityGuidId : BaseEntity<Guid>
     {
         protected BaseEntityGuidId() {
             Id = Guid.NewGuid();
         }
-
-        [DataMember]
-        public Guid Id { get; protected set; }
     }
 }
