@@ -880,6 +880,8 @@ namespace SN.withSIX.Mini.Applications.Services
     {
         Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
             Action<long?, double> progressAction, CancellationToken cancelToken = default(CancellationToken));
+
+        Task StartSession(Uri url, IAbsoluteDirectoryPath destination, CancellationToken cancelToken = default(CancellationToken));
         bool RegisterExisting(Uri url, IAbsoluteFilePath path);
     }
 }

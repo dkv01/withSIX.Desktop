@@ -479,6 +479,14 @@ namespace SN.withSIX.Mini.Core.Games
         public virtual Uri GetPublisherUrl(ContentPublisher c) {
             throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
         }
+
+        public virtual Uri GetPublisherUrl(Publisher c) {
+            throw new NotSupportedException($"The publisher is not currently supported {c} for this game");
+        }
+
+        public virtual Uri GetPublisherUrl() {
+            throw new NotSupportedException($"The game does not support external publishers currently");
+        }
     }
 
     public class ApiHashes : global::withSIX.Api.Models.Content.v3.ApiHashes {}

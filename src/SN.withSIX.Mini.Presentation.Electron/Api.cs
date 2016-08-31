@@ -28,6 +28,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
     {
         private readonly Func<object, Task<object>> _displayTrayBaloon;
         private readonly Func<object, Task<object>> _downloadFile;
+        private readonly Func<object, Task<object>> _downloadSession;
         private readonly Func<object, Task<object>> _exit;
         private readonly Func<object, Task<object>> _handleUserError;
         private readonly Func<object, Task<object>> _installSelfUpdate;
@@ -45,6 +46,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             _showNotification = api.showNotification as Func<object, Task<object>>;
             _displayTrayBaloon = api.displayTrayBaloon as Func<object, Task<object>>;
             _downloadFile = api.downloadFile as Func<object, Task<object>>;
+            _downloadSession = api.downloadFile as Func<object, Task<object>>;
             _setState = api.setState as Func<object, Task<object>>;
             _installSelfUpdate = api.installSelfUpdate as Func<object, Task<object>>;
             _exit = api.exit as Func<object, Task<object>>;
@@ -83,6 +85,15 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var r = await t.ConfigureAwait(false);
             return (string) r;
         }
+
+        public async Task DownloadSession(Uri url, string path, CancellationToken token) {
+            var t = _downloadSession(new {url, path});
+            var tc = token.ThrowWhenCanceled();
+            await Task.WhenAny(t, tc).ConfigureAwait(false);
+            await tc; // As WhenAny apparently wouldnt throw??
+            await t.ConfigureAwait(false);
+        }
+
 
         public async Task<string[]> ShowFileDialog(string title = null, string defaultPath = null) {
             var properties = new[] {"openFile"};

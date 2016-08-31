@@ -76,10 +76,20 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
         public override Uri GetPublisherUrl(ContentPublisher c) {
             switch (c.Publisher) {
                 case Publisher.NexusMods:
-                    return new Uri($"http://www.nexusmods.com/fallout4/mods/{c.PublisherId}/?");
+                    return new Uri(GetPublisherUrl(c.Publisher), $"{c.PublisherId}/?");
             }
             throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
         }
+
+        public override Uri GetPublisherUrl(Publisher c) {
+            switch (c) {
+                case Publisher.NexusMods:
+                    return new Uri($"http://www.nexusmods.com/fallout4/mods/");
+            }
+            throw new NotSupportedException($"The publisher is not currently supported {c} for this game");
+        }
+
+        public override Uri GetPublisherUrl() => GetPublisherUrl(Publisher.NexusMods);
 
         // TODO: Subdirectories support
         class Fallout4Mod

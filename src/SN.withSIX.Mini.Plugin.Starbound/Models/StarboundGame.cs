@@ -14,6 +14,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
@@ -44,9 +45,9 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
             var content = launchContentAction.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint)).ToArray();
             var packages = content.OfType<IHavePackageName>()
-                    .Select(x => x.PackageName)
-                    .Distinct()
-                    .ToArray();
+                .Select(x => x.PackageName)
+                .Distinct()
+                .ToArray();
             HandleModDirectory(packages);
 
             foreach (var m in content.OfType<IModContent>().Select(CreateMod))
@@ -95,6 +96,24 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         private StarboundMod CreateMod(IModContent mod)
             => new StarboundMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory());
+
+        public override Uri GetPublisherUrl(ContentPublisher c) {
+            switch (c.Publisher) {
+            case Publisher.Chucklefish:
+                return new Uri(GetPublisherUrl(Publisher.Chucklefish), $"{c.PublisherId}");
+            }
+            throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
+        }
+
+        public override Uri GetPublisherUrl(Publisher c) {
+            switch (c) {
+            case Publisher.Chucklefish:
+                return new Uri($"http://community.playstarbound.com/resources/");
+            }
+            throw new NotSupportedException($"The publisher is not currently supported {c} for this game");
+        }
+
+        public override Uri GetPublisherUrl() => GetPublisherUrl(Publisher.Chucklefish);
     }
 
     internal class StarboundMod

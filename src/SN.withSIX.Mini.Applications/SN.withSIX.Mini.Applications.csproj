@@ -295,6 +295,7 @@
     <Compile Include="Usecases\Settings\InstallExtension.cs" />
     <Compile Include="Usecases\Settings\StartInDiagnosticsMode.cs" />
     <Compile Include="Usecases\Shutdown.cs" />
+    <Compile Include="Usecases\StartDownloadSession.cs" />
     <Compile Include="Usecases\UnhandledUserException.cs" />
     <Compile Include="Usecases\UriOpener.cs" />
   </ItemGroup>

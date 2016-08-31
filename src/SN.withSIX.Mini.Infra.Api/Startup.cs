@@ -136,6 +136,7 @@ namespace SN.withSIX.Mini.Infra.Api
                     content.AddPath<ExternalDownloadStarted, Guid>("/started");
                     content.AddPath<ExternalDownloadProgressing>("/progressing");
                     content.AddPath<AddExternalModRead>("/completed");
+                    content.AddPath<StartDownloadSession>("/start-session");
                 });
 
                 api.Map("/content", content => {

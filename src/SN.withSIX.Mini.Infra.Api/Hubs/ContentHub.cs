@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using NDepend.Path;
+using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 
@@ -59,6 +60,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         public Task<Guid> UploadFolder(UploadFolder command) => SendAsync(command);
 
         public Task OpenFolder(OpenFolder command) => SendAsync(command);
+        public Task StartSession(StartDownloadSession command) => SendAsync(command);
     }
 
     public interface IContentClientHub

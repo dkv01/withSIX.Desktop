@@ -20,6 +20,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         Task<string[]> ShowFileDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFolderDialog(string title = null, string defaultPath = null);
         Task<string> DownloadFile(Uri url, string path, CancellationToken token);
+        Task DownloadSession(Uri url, string path, CancellationToken token);
         Task<bool?> ShowNotification(string title, string message = null);
         Task DisplayTrayBaloon(string title, string content, string icon = null);
         Task SetState(BusyState state, string description, double? progress);

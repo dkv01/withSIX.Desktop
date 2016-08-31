@@ -42,6 +42,15 @@ namespace SN.withSIX.Mini.Presentation.Electron
             return r.ToAbsoluteFilePath();
         }
 
+        public async Task StartSession(Uri url, IAbsoluteDirectoryPath destination,
+            CancellationToken cancelToken = new CancellationToken()) {
+            if (Consts.PluginBrowserFound != Browser.None) {
+                Tools.Generic.OpenUrl(url);
+                return;
+            }
+            await _api.DownloadSession(url, destination.ToString(), cancelToken).ConfigureAwait(false);
+        }
+
         private Task<IAbsoluteFilePath> HandleViaBrowser(Uri url, CancellationToken token) {
             tasks[url] = new TaskCompletionSource<IAbsoluteFilePath>();
             token.Register(tasks[url].SetCanceled);

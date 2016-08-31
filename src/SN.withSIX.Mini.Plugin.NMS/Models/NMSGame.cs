@@ -83,12 +83,24 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
         public override Uri GetPublisherUrl(ContentPublisher c) {
             switch (c.Publisher) {
             case Publisher.NoMansSkyMods:
-                return new Uri($"http://nomansskymods.com/mods/{c.PublisherId}");
+                return new Uri(GetPublisherUrl(Publisher.NoMansSkyMods), $"{c.PublisherId}");
             case Publisher.NexusMods:
-                return new Uri($"http://www.nexusmods.com/nomanssky/mods/{c.PublisherId}/?");
+                return new Uri(GetPublisherUrl(Publisher.NexusMods), $"{c.PublisherId}/?");
             }
             throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
         }
+
+        public override Uri GetPublisherUrl(Publisher c) {
+            switch (c) {
+                case Publisher.NoMansSkyMods:
+                    return new Uri($"http://nomansskymods.com/mods/");
+                case Publisher.NexusMods:
+                    return new Uri($"http://www.nexusmods.com/nomanssky/mods/");
+            }
+            throw new NotSupportedException($"The publisher is not currently supported {c} for this game");
+        }
+
+        public override Uri GetPublisherUrl() => GetPublisherUrl(Publisher.NoMansSkyMods);
     }
 
     class NMSMod

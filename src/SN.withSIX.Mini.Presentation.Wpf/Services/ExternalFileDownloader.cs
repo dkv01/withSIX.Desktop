@@ -32,6 +32,14 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             throw new NotImplementedException();
         }
 
+        public async Task StartSession(Uri url, IAbsoluteDirectoryPath destination, CancellationToken cancelToken = new CancellationToken()) {
+            if (Consts.PluginBrowserFound != Browser.None) {
+                Tools.Generic.OpenUrl(url);
+                return;
+            }
+            throw new NotImplementedException();
+        }
+
         private async Task<IAbsoluteFilePath> HandleViaBrowser(Uri url, CancellationToken token) {
             tasks[url] = new TaskCompletionSource<IAbsoluteFilePath>();
             token.Register(tasks[url].SetCanceled);
