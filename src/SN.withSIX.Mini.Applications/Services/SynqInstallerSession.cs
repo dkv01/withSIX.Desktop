@@ -46,12 +46,11 @@ namespace SN.withSIX.Mini.Applications.Services
         private readonly IAuthProvider _authProvider;
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _getIsPremium;
-        readonly List<Tuple<IPackagedContent, string>> _installed = new List<Tuple<IPackagedContent, string>>();
         readonly List<SpecificVersion> _installedContent = new List<SpecificVersion>();
         //private readonly ProgressLeaf _preparingProgress;
         private readonly ProgressComponent _progress;
         readonly Func<ProgressInfo, Task> _statusChange;
-        private readonly StatusRepo _statusRepo = new StatusRepo(); // we do this for abort capability
+        private readonly StatusRepo _statusRepo = new StatusRepo();
         readonly IToolsCheat _toolsInstaller;
         private Dictionary<IPackagedContent, SpecificVersion> _allContentToInstall;
         private Dictionary<IContent, string> _allInstallableContent = new Dictionary<IContent, string>();
@@ -456,7 +455,6 @@ namespace SN.withSIX.Mini.Applications.Services
             var modInfo = @group.GetMod(dep.Name);
             await @group.GetMod(modInfo, _action.Paths.Path, _packPath, _pm.StatusRepo, _authProvider, _action.Force)
                 .ConfigureAwait(false);
-            _installed.Add(Tuple.Create(c, modInfo.Version));
             progressComponent.Finish();
             // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
         }
@@ -526,7 +524,6 @@ namespace SN.withSIX.Mini.Applications.Services
             await
                 repo.GetMod(dep.Name, _action.Paths.Path, _packPath, _pm.StatusRepo, _action.Force)
                     .ConfigureAwait(false);
-            _installed.Add(Tuple.Create(c, modInfo.Value.GetVersionInfo()));
             progress.Finish();
             // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
         }
@@ -552,7 +549,6 @@ namespace SN.withSIX.Mini.Applications.Services
                         x.MetaData.GetVersionInfo()))
                 .Where(x => x.Item1 != null);
             // Null check because we might download additional packages defined in package dependencies :S
-            _installed.AddRange(installedContent);
             _installedContent.AddRange(_packageContent.Values);
         }
 
