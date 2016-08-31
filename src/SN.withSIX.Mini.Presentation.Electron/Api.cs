@@ -46,7 +46,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             _showNotification = api.showNotification as Func<object, Task<object>>;
             _displayTrayBaloon = api.displayTrayBaloon as Func<object, Task<object>>;
             _downloadFile = api.downloadFile as Func<object, Task<object>>;
-            _downloadSession = api.downloadFile as Func<object, Task<object>>;
+            _downloadSession = api.downloadSession as Func<object, Task<object>>;
             _setState = api.setState as Func<object, Task<object>>;
             _installSelfUpdate = api.installSelfUpdate as Func<object, Task<object>>;
             _exit = api.exit as Func<object, Task<object>>;

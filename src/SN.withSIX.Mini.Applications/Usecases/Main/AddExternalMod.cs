@@ -161,11 +161,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         }
 
         public Task<Guid> Handle(ExternalDownloadStarted message) {
-            throw new NotImplementedException();
+            throw new OperationCanceledException(); // TODO
         }
 
         public Task<Unit> Handle(ExternalDownloadProgressing message) {
-            throw new NotImplementedException();
+            throw new OperationCanceledException(); // TODO
         }
 
         public class ExternalDownloadState
