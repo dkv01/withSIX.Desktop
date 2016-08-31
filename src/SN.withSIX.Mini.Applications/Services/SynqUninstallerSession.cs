@@ -54,9 +54,9 @@ namespace SN.withSIX.Mini.Applications.Services
                         {Convert.ToUInt64(content.GetSource(_action.Game).PublisherId), new ProgressLeaf(content.Name)}
                     });
                     await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
-                    DeleteSourceDir(content);
+                    _action.Game.Delete(content);
                 } else {
-                    DeleteSourceDir(content);
+                    _action.Game.Delete(content);
                     using (_repository = new Repository(GetRepositoryPath(), true)) {
                         _pm = new PackageManager(_repository, _action.Paths.Path, true);
                         _pm.DeletePackageIfExists(new SpecificVersion(content.PackageName));
@@ -76,12 +76,6 @@ namespace SN.withSIX.Mini.Applications.Services
             } finally {
                 await new ContentStatusChanged(content, finalState).Raise().ConfigureAwait(false);
             }
-        }
-
-        private void DeleteSourceDir<T>(T content) where T : Content, IContentWithPackageName {
-            var dir = content.GetSourceDirectory(_action.Game);
-            if (dir.Exists)
-                dir.Delete(true);
         }
 
         public async Task UninstallCollection(Collection content, CancellationToken cancelToken,

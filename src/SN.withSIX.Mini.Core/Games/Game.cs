@@ -22,6 +22,8 @@ using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Content;
 using GameGuids = withSIX.Api.Models.Games.GameGuids;
+using withSIX.Api.Models.Extensions;
+using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -473,6 +475,12 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected IAbsoluteDirectoryPath GetContentSourceDirectory(IContentWithPackageName content)
             => content.GetSourceDirectory(this);
+
+        public void Delete(IContentWithPackageName content) {
+            var dir = content.GetSourceDirectory(this);
+            if (dir.Exists)
+                dir.Delete(true);
+        }
 
         public Uri GetPublisherUrl(IContentWithPackageName c) => GetPublisherUrl(c.GetSource(this));
 
