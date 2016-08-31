@@ -13,6 +13,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -51,7 +52,6 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         public abstract void Use(IContentAction<IContent> action);
         public abstract void Use(ILaunchContentAction<IContent> action);
-        public abstract bool SteamSupportedGameActive { get; set; }
     }
 
     [ContractClass(typeof (IContentContract))]
@@ -75,7 +75,6 @@ namespace SN.withSIX.Mini.Core.Games
         void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         void Use(IContentAction<IContent> action);
         void Use(ILaunchContentAction<IContent> action);
-        bool SteamSupportedGameActive { get; set; }
     }
 
     [ContractClass(typeof (IHavePackageNameContract))]
@@ -101,10 +100,15 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract string GetFQN(string constraint = null);
     }
 
-    public interface IContentWithPackageName : IHavePackageName, IContent
+    public interface ISourcedContent
     {
-        ContentPublisher Source { get; }
+        ContentPublisher GetSource(IHaveSourcePaths game);
         IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game);
+        void OverrideSource(Publisher publisher);
+    }
+
+    public interface IContentWithPackageName : IHavePackageName, IContent, ISourcedContent
+    {
     }
 
     public interface IPackagedContent : IContentWithPackageName, IUninstallableContent {}
@@ -163,9 +167,6 @@ namespace SN.withSIX.Mini.Core.Games
         protected ItemState? State { get; set; }
         [DataMember]
         public RecentInfo RecentInfo { get; protected set; }
-
-        // TODO: Fill this in somehow...
-        public bool SteamSupportedGameActive { get; set; } = true;
 
         public void Installed(string version, bool completed) {
             if (!IsInstalled())

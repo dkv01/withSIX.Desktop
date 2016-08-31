@@ -36,8 +36,6 @@ namespace SN.withSIX.Mini.Applications.Services
 
         public async Task Uninstall() {
             try {
-                var isSteamEdition = _action.Game.IsSteamEdition();
-                _action.Content.ForEach(x => x.Content.SteamSupportedGameActive = isSteamEdition);
                 foreach (var c in _action.Content)
                     await c.Content.Uninstall(this, _action.CancelToken).ConfigureAwait(false);
             } finally {
@@ -51,9 +49,9 @@ namespace SN.withSIX.Mini.Applications.Services
             try {
                 await new ContentStatusChanged(content, ItemState.Uninstalling, 50).Raise().ConfigureAwait(false);
 
-                if (content.Source.Publisher == Publisher.Steam) {
+                if (content.GetSource(_action.Game).Publisher == Publisher.Steam) {
                     var s = CreateSteamSession(new Dictionary<ulong, ProgressLeaf> {
-                        {Convert.ToUInt64(content.Source.PublisherId), new ProgressLeaf(content.Name)}
+                        {Convert.ToUInt64(content.GetSource(_action.Game).PublisherId), new ProgressLeaf(content.Name)}
                     });
                     await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
                     DeleteSourceDir(content);
@@ -95,8 +93,9 @@ namespace SN.withSIX.Mini.Applications.Services
                     .Where(x => x.Content is IUninstallableContent && x.Content != content).ToArray();
 
                 var packedContent = contentSpecs.Where(x => x.Content is IContentWithPackageName);
-                var steamContent = packedContent.Where(x => ((IContentWithPackageName) x.Content).Source.Publisher == Publisher.Steam)
-                        .ToDictionary(x => x.Content, x => x.Constraint);
+                var steamContent = packedContent.Where(
+                    x => ((IContentWithPackageName) x.Content).GetSource(_action.Game).Publisher == Publisher.Steam)
+                    .ToDictionary(x => x.Content, x => x.Constraint);
 
                 foreach (var c in contentSpecs.Where(x => !steamContent.ContainsKey(x.Content))) {
                     cancelToken.ThrowIfCancellationRequested();
@@ -110,7 +109,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 var s =
                     CreateSteamSession(
                         steamContent.ToDictionary(
-                            x => Convert.ToUInt64(((IContentWithPackageName) x.Key).Source.PublisherId),
+                            x => Convert.ToUInt64(((IContentWithPackageName) x.Key).GetSource(_action.Game).PublisherId),
                             x => new ProgressLeaf(x.Key.Name)));
                 await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
 

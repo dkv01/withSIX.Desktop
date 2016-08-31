@@ -49,7 +49,9 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public string ContentSlug { get; protected set; }
 
-        public ContentPublisher Source => _source.Value;
+        public ContentPublisher GetSource(IHaveSourcePaths game) => _source.Value;
+        public void OverrideSource(Publisher publisher) {}
+
         [DataMember]
         public string PackageName { get; set; }
 

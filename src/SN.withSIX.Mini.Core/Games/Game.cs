@@ -474,7 +474,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected IAbsoluteDirectoryPath GetContentSourceDirectory(IContentWithPackageName content)
             => content.GetSourceDirectory(this);
 
-        public Uri GetPublisherUrl(IContentWithPackageName c) => GetPublisherUrl(c.Source);
+        public Uri GetPublisherUrl(IContentWithPackageName c) => GetPublisherUrl(c.GetSource(this));
 
         public virtual Uri GetPublisherUrl(ContentPublisher c) {
             throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");

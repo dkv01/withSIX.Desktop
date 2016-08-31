@@ -36,10 +36,11 @@ namespace SN.withSIX.Mini.Core.Games
         public string PackageName { get; set; }
         public string GetFQN(string constraint = null) => PackageName.ToLower() + "-" + (constraint ?? Version);
 
+        public virtual ContentPublisher GetSource(IHaveSourcePaths game) => _source.Value;
+        public virtual void OverrideSource(Publisher publisher) { }
+
         public virtual IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
             => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
-
-        public virtual ContentPublisher Source => _source.Value;
 
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);

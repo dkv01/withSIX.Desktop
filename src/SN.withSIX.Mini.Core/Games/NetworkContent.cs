@@ -33,15 +33,11 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class NetworkContent : PackagedContent, INetworkContent
     {
-        private readonly Lazy<ContentPublisher> _source;
+        private ContentPublisher _publisher;
 
-        protected NetworkContent() {
-            _source = SystemExtensions.CreateLazy(GetSource);
-        }
+        protected NetworkContent() {}
 
-        protected NetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {
-            _source = SystemExtensions.CreateLazy(GetSource);
-        }
+        protected NetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
 
         [DataMember]
         // Only here because of wrong dependency references... // TODO: Try to externalize this to the DTO instead..
@@ -65,7 +61,7 @@ namespace SN.withSIX.Mini.Core.Games
             new List<NetworkContentSpec>();
 
         public override IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
-            => GetSourceRoot(game).GetChildDirectoryWithName(Source.PublisherId);
+            => GetSourceRoot(game).GetChildDirectoryWithName(GetSource(game).PublisherId);
 
         public string GetPath() => this.GetContentPath(ContentSlug);
 
@@ -89,23 +85,26 @@ namespace SN.withSIX.Mini.Core.Games
             return list;
         }
 
-        public override ContentPublisher Source => _source.Value;
-
-        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => Source.Publisher == Publisher.Steam
+        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => GetSource(game).Publisher == Publisher.Steam
             ? game.SteamDirectories.Workshop.ContentPath
             : game.ContentPaths.Path;
 
         public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
             => Dependencies = dependencies.ToList();
 
-        private ContentPublisher GetSource() {
+        public override void OverrideSource(Publisher publisher) => _publisher = Publishers.First(x => x.Publisher == publisher);
+
+        public override ContentPublisher GetSource(IHaveSourcePaths game)
+            => _publisher ?? (_publisher = CalculatePublisher(game));
+
+        private ContentPublisher CalculatePublisher(IHaveSourcePaths game) {
             if (!Publishers.Any())
                 throw new NotSupportedException("No supported Publishers found for: " + Id);
             if (Publishers.HasPublisher(Publisher.withSIX))
                 return Publishers.GetPublisher(Publisher.withSIX);
-            
+
             return Publishers.HasPublisher(Publisher.Steam) &&
-                   ((Game.SteamHelper.SteamFound && SteamSupportedGameActive) || Publishers.Count == 1)
+                   ((Game.SteamHelper.SteamFound && game.SteamDirectories.IsValid) || Publishers.Count == 1)
                 ? Publishers.GetPublisher(Publisher.Steam)
                 : Publishers.First(x => x.Publisher != Publisher.Steam);
         }

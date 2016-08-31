@@ -151,11 +151,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             if (content == null)
                 await SendWrite(request).ConfigureAwait(false);
             else {
-                content.SteamSupportedGameActive = false;
+                content.OverrideSource(request.Publisher);
                 if (!_fd.RegisterExisting(game.GetPublisherUrl(content), request.FileName.ToAbsoluteFilePath()))
                     await SendWrite(request).ConfigureAwait(false);
             }
-
 
             return Unit.Value;
         }
@@ -170,7 +169,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var action = request.GetAction(game);
 
-            action.Content.First().Content.SteamSupportedGameActive = false;
+            var content = (IContentWithPackageName) action.Content.First().Content;
+            content.OverrideSource(request.Publisher);
             //_fd.RegisterExisting(game.GetPublisherUrl(action.Content.Select(x => x.Content).OfType<NetworkContent>().First().Source),request.FileName.ToAbsoluteFilePath());
             await game.Install(_contentInstallation, action).ConfigureAwait(false);
 

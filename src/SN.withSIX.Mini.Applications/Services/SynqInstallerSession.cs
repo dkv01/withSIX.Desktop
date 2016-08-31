@@ -117,8 +117,6 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content) {
-            var isSteamEdition = _action.Game.IsSteamEdition();
-            content.ForEach(x => x.Content.SteamSupportedGameActive = isSteamEdition);
             PrepareContent(content);
             _allContentToInstall.ForEach(x => StartProcessState(x.Key, x.Value.VersionData));
             await PublishIndividualItemStates().ConfigureAwait(false);
@@ -273,8 +271,8 @@ namespace SN.withSIX.Mini.Applications.Services
             .Where(x => ShouldInstallFromExternal(x.Key))
             .ToDictionary(x => x.Key, y => y.Value);
 
-        private static bool ShouldInstallFromExternal(IContentWithPackageName content)
-            => content.Source.Publisher.ShouldInstallFromExternal();
+        private bool ShouldInstallFromExternal(IContentWithPackageName content)
+            => content.GetSource(_action.Game).Publisher.ShouldInstallFromExternal();
 
         private void PrepareSteamContent() {
             MarkPrepared(_steamContent = _action.Game.IsSteamGame()
@@ -296,8 +294,8 @@ namespace SN.withSIX.Mini.Applications.Services
             .Where(x => ShouldInstallFromSteam(x.Content))
             .ToDictionary(x => x.Content as IPackagedContent, y => y.Value);
 
-        private static bool ShouldInstallFromSteam(IContentWithPackageName content)
-            => content.Source.Publisher == Publisher.Steam;
+        private bool ShouldInstallFromSteam(IContentWithPackageName content)
+            => content.GetSource(_action.Game).Publisher == Publisher.Steam;
 
         private void PrepareGroupContent() {
             MarkPrepared(_groupContent = _installableContent
@@ -485,7 +483,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     _action.Game.SteamInfo.AppId,
                     _action.Game.SteamDirectories.Workshop.ContentPath,
                     // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
-                    _steamContentToInstall.ToDictionary(x => Convert.ToUInt64(x.Key.Source.PublisherId),
+                    _steamContentToInstall.ToDictionary(x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
                         x => contentProgress[i++]));
             await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
@@ -499,7 +497,8 @@ namespace SN.withSIX.Mini.Applications.Services
             var i = 0;
             var session =
                 new ExternalContentInstallerSession(_action.Paths.Path,
-                    _externalContentToInstall.ToDictionary(x => x.Key.Source, x => contentProgress[i++]), _action.Game,
+                    _externalContentToInstall.ToDictionary(x => x.Key.GetSource(_action.Game), x => contentProgress[i++]),
+                    _action.Game,
                     _dl);
             await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             _installedContent.AddRange(_externalContentToInstall.Values);
