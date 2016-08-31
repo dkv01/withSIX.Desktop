@@ -26,6 +26,7 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Steam.Api.Services;
+using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
@@ -482,7 +483,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var session =
                 new SteamExternalInstallerSession(
                     _action.Game.SteamInfo.AppId,
-                    _action.Game.SteamworkshopPaths.ContentPath,
+                    _action.Game.SteamDirectories.Workshop.ContentPath,
                     // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
                     _steamContentToInstall.ToDictionary(x => Convert.ToUInt64(x.Key.Source.PublisherId),
                         x => contentProgress[i++]));

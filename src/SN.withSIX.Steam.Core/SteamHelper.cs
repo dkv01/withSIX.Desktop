@@ -92,7 +92,7 @@ namespace SN.withSIX.Steam.Core
             _appCache = new Dictionary<uint, SteamApp>();
             KeyValues = steamConfig;
             _steamPath = steamPath;
-            SteamFound = KeyValues != null || (_steamPath != null && _steamPath.Exists);
+            SteamFound = _steamPath != null && _steamPath.Exists;
             _baseInstallPaths = GetBaseInstallFolderPaths();
         }
 

@@ -74,7 +74,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual IEnumerable<IAbsoluteDirectoryPath> GetModFolders() {
             if (ContentPaths.IsValid)
                 yield return ContentPaths.Path;
-            if (SteamDirectories.Workshop.ContentPath.Exists)
+            if (SteamDirectories.IsValid && SteamDirectories.Workshop.ContentPath.Exists)
                 yield return SteamDirectories.Workshop.ContentPath;
         }
     }

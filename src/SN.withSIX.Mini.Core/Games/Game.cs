@@ -21,7 +21,6 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Content;
-using withSIX.Api.Models.Games;
 using GameGuids = withSIX.Api.Models.Games.GameGuids;
 
 namespace SN.withSIX.Mini.Core.Games
@@ -29,7 +28,7 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IHaveSourcePaths
     {
         ContentPaths ContentPaths { get; }
-        SteamWorkshopDirectories SteamworkshopPaths { get; }
+        SteamDirectories SteamDirectories { get; }
     }
 
     [DataContract]
@@ -68,7 +67,7 @@ namespace SN.withSIX.Mini.Core.Games
                 SetupDefaultDirectories();
         }
 
-        protected SteamDirectories SteamDirectories => _steamDirectories.Value;
+        public SteamDirectories SteamDirectories => _steamDirectories.Value;
 
         // We use this because of chicken-egg problems because of constructor inheritance load order
         // Where usually overriden behavior depends on state that is not yet available in the base class constructor
@@ -127,7 +126,6 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: we could also choose to implement this as a wrapper/adapter class instead
         IAbsoluteDirectoryPath IContentEngineGame.WorkingDirectory => InstalledState.WorkingDirectory;
 
-        public SteamWorkshopDirectories SteamworkshopPaths => SteamDirectories.Workshop;
         [IgnoreDataMember]
         public ContentPaths ContentPaths => _contentPaths.Value;
 

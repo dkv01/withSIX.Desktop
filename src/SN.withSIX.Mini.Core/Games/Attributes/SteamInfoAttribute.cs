@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Games;
 
@@ -22,7 +21,7 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
             AppId = appId;
         }
 
-        public SteamInfoAttribute(SteamGameIds appId) : this((uint) appId) {}
+        protected SteamInfoAttribute(SteamGameIds appId) : this((uint) appId) {}
 
         public SteamInfoAttribute(uint appId, string folderFallback) {
             Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
@@ -34,10 +33,15 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
 
         public SteamInfoAttribute(SteamGameIds appId, string folderFallback) : this((uint) appId, folderFallback) {}
 
+        public virtual bool IsValid => true;
+
         public virtual uint AppId { get; }
         public bool DRM { get; set; }
 
         public virtual SteamDirectories GetDirectories(SteamHelper helper) {
+            if (!helper.SteamFound)
+                return SteamDirectories.Default;
+
             var si = helper.TryGetSteamAppById(AppId);
             return new SteamDirectories(AppId, si?.GetInstallDir() ?? _folderFallback,
                 si?.InstallBase ?? SteamPathHelper.SteamPath);
@@ -46,7 +50,8 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         class NullSteamInfo : SteamInfoAttribute
         {
             public override uint AppId => 0;
-            public override SteamDirectories GetDirectories(SteamHelper helper) => null; // TODO: Null
+            public override bool IsValid => false;
+            public override SteamDirectories GetDirectories(SteamHelper helper) => SteamDirectories.Default;
         }
     }
 }

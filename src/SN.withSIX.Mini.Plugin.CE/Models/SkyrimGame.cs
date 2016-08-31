@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
         IsPublic = true,
         Slug = "Skyrim")]
     [SynqRemoteInfo(GameIds.Skyrim)]
-    [SteamInfo(SteamGameIds.Skyrim)]
+    [SteamInfo(SteamGameIds.Skyrim, "Skyrim")]
     [DataContract]
     public class SkyrimGame : BasicSteamGame
     {

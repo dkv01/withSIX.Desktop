@@ -15,6 +15,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
@@ -147,7 +148,7 @@ namespace SN.withSIX.Mini.Applications.Services
             Dictionary<ulong, ProgressLeaf> progressLeaves)
             =>
                 new SynqInstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
-                    _action.Game.SteamworkshopPaths.ContentPath, progressLeaves);
+                    _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves);
 
         IAbsoluteDirectoryPath GetRepositoryPath()
             => _action.Paths.RepositoryPath.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory);

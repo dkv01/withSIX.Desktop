@@ -26,7 +26,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
         IsPublic = true,
         Slug = "NoMansSky")]
     //[SynqRemoteInfo(GameIds.NMS)] // TODO
-    [SteamInfo(SteamGameIds.NMS)]
+    [SteamInfo(SteamGameIds.NMS, "No Man's Sky")]
     [DataContract]
     public class NMSGame : BasicSteamGame
     {

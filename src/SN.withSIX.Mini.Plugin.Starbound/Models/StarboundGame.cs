@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         IsPublic = true,
         Slug = "Starbound")]
     [SynqRemoteInfo(GameIds.Starbound)]
-    [SteamInfo(SteamGameIds.Starbound)]
+    [SteamInfo(SteamGameIds.Starbound, "Starbound")]
     [DataContract]
     public class StarboundGame : BasicSteamGame
     {

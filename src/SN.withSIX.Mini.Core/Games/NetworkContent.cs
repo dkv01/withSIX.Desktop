@@ -92,7 +92,7 @@ namespace SN.withSIX.Mini.Core.Games
         public override ContentPublisher Source => _source.Value;
 
         private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => Source.Publisher == Publisher.Steam
-            ? game.SteamworkshopPaths.ContentPath
+            ? game.SteamDirectories.Workshop.ContentPath
             : game.ContentPaths.Path;
 
         public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)

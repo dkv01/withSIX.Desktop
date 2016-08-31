@@ -23,7 +23,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
         IsPublic = false,
         Slug = "Fallout4")]
     // [SynqRemoteInfo(GameIds.Fallout4)] // TODO
-    [SteamInfo(SteamGameIds.Fallout4)]
+    [SteamInfo(SteamGameIds.Fallout4, "Fallout 4")]
     [DataContract]
     public class Fallout4Game : BasicSteamGame
     {
