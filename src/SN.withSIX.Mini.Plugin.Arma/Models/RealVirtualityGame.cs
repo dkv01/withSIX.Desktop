@@ -77,7 +77,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         protected override Task ScanForLocalContentImpl()
-            => Task.Factory.StartNew(ScanForLocalContentInternal, TaskCreationOptions.LongRunning);
+            => TaskExtExt.StartLongRunningTask(() => ScanForLocalContentInternal());
 
         void ScanForLocalContentInternal() {
             var existingModFolders = GetExistingModFolders().ToArray();

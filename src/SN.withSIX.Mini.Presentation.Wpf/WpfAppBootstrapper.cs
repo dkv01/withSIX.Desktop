@@ -149,9 +149,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private void HandleUpdateStateInBackground()
-            =>
-                Task.Factory.StartNew(Container.GetInstance<SelfUpdateHandler>().HandleUpdateState,
-                    TaskCreationOptions.LongRunning);
+            => SystemExtensions.StartLongRunningTask(Container.GetInstance<SelfUpdateHandler>().HandleUpdateState);
 
         protected override IEnumerable<Assembly> GetApplicationAssemblies()
             =>
@@ -172,8 +170,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void EndOv() => End().WaitSpecial();
 
-        private void TryInstallFlashInBackground() => Task.Factory.StartNew(InstallFlash,
-            TaskCreationOptions.LongRunning).Unwrap();
+        private void TryInstallFlashInBackground() => TaskExtExt.StartLongRunningTask(InstallFlash);
 
         private static Task InstallFlash() => new FlashHandler(CommonUrls.FlashUri).InstallFlash();
     }

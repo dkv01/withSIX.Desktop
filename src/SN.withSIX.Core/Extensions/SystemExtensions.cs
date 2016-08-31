@@ -23,6 +23,15 @@ using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Core.Extensions
 {
+    public static class TaskExtExt
+    {
+        public static Task<T> StartLongRunningTask<T>(Func<Task<T>> fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning).Unwrap();
+        public static Task StartLongRunningTask(Func<Task> fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning).Unwrap();
+        public static Task StartLongRunningTask(Action fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning);
+
+        public static Task<T> StartLongRunningTask<T>(Func<T> fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning);
+    }
+
     public static class SystemExtensions
     {
         static readonly Regex singleVersion = new Regex(@"^\d+$", RegexOptions.Compiled);

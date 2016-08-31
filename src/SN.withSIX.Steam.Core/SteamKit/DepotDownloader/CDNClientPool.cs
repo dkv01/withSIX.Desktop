@@ -36,7 +36,7 @@ namespace SN.withSIX.Steam.Core.SteamKit.DepotDownloader
             _monitorCts = new CancellationTokenSource();
 
             Task.Factory.StartNew(ConnectionPoolMonitor, _monitorCts.Token,
-                TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
         }
 
         public void Dispose() {

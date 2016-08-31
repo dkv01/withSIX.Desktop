@@ -12,6 +12,7 @@ using NDepend.Path;
 using RageLib.GTA5.Cryptography;
 using RpfGeneratorTool;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Mini.Plugin.GTA.Models
@@ -24,7 +25,7 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
             _gameDir = gameDir;
         }
 
-        public Task HandlePackages() => Task.Factory.StartNew(HandlePackagesImpl);
+        public Task HandlePackages() => TaskExtExt.StartLongRunningTask(() => HandlePackagesImpl());
 
         void HandlePackagesImpl() {
             Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(_gameDir);

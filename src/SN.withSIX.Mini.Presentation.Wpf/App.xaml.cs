@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using SimpleInjector;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Services;
@@ -70,7 +71,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);
-            Task.Factory.StartNew(StartupInternal, TaskCreationOptions.LongRunning).Unwrap().WaitSpecial();
+            SystemExtensions.StartLongRunningTask(StartupInternal).WaitSpecial();
         }
 
         static void HandleSingleInstance() {

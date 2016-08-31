@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Assemblies
 {
@@ -43,14 +44,14 @@ namespace SN.withSIX.Core.Presentation.Assemblies
             }
         }
 
-        Task RunInstaller() => Task.Factory.StartNew(() => {
+        Task RunInstaller() => TaskExtExt.StartLongRunningTask(() => {
             using (var p = Process.Start(_tmpFile, "-install")) {
                 //  /vREINSTALL=ALL /vREINSTALLMODE=vomus /v/qb
                 p.WaitForExit();
             }
             if (!IsInstalled())
                 throw new InstallationFailed();
-        }, TaskCreationOptions.LongRunning);
+        });
 
         async Task Download() {
             Directory.CreateDirectory(_tmpLocation);

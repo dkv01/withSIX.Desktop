@@ -25,6 +25,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -202,7 +203,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 BackgroundActions();
                 await HandleWaitForBackgroundTasks().ConfigureAwait(false);
                 // TODO: call from node?
-                var task = Task.Factory.StartNew(
+                var task = TaskExtExt.StartLongRunningTask(
                     () =>
                         new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()));
             } catch (SQLiteException ex) {
@@ -256,8 +257,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private void TryHandleFirefoxInBackground()
-            => BackgroundTasks.RegisterTask(Task.Factory.StartNew(TryHandleFirefox,
-                TaskCreationOptions.LongRunning));
+            => BackgroundTasks.RegisterTask(TaskExtExt.StartLongRunningTask(() => TryHandleFirefox()));
 
         private void TryHandlePorts() {
             try {
@@ -306,7 +306,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             await Container.GetInstance<IStateHandler>().Initialize().ConfigureAwait(false);
         }
 
-        private void InstallToolsInBackground() => Task.Factory.StartNew(InstallTools, TaskCreationOptions.LongRunning);
+        private void InstallToolsInBackground() => TaskExtExt.StartLongRunningTask(InstallTools);
 
         private async Task InstallTools() {
             try {
@@ -658,7 +658,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton(() => Tools.Transfer);
         }
 
-        protected Task End() => Task.Factory.StartNew(EndInternal, TaskCreationOptions.LongRunning).Unwrap();
+        protected Task End() => TaskExtExt.StartLongRunningTask(EndInternal);
 
         private async Task EndInternal() {
             // This creates an ambient context when shutdown is called from a usecase.
@@ -704,7 +704,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         private async Task TryHandleImport() {
             try {
-                await Task.Factory.StartNew(HandleImportInternal, TaskCreationOptions.LongRunning).ConfigureAwait(false);
+                await TaskExtExt.StartLongRunningTask(HandleImportInternal).ConfigureAwait(false);
             } catch (Exception ex) {
                 await UserError.Throw(ex.Message, ex);
             }

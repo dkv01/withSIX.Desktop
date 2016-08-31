@@ -57,7 +57,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected abstract Task EnableMods(ILaunchContentAction<IContent> launchContentAction);
 
         protected override Task ScanForLocalContentImpl()
-            => Task.Factory.StartNew(ScanForLocalContentInternal, TaskCreationOptions.LongRunning);
+            => TaskExtExt.StartLongRunningTask(ScanForLocalContentInternal);
 
         void ScanForLocalContentInternal() {
             var existingModFolders = GetExistingModFolders().ToArray();

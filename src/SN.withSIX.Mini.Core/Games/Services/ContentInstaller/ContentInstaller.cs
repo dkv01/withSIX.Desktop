@@ -123,8 +123,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
             public Task CleanAsync(IAbsoluteDirectoryPath workingDirectory,
                 IReadOnlyCollection<IRelativePath> exclusions, IEnumerable<string> fileTypes,
                 IAbsoluteDirectoryPath backupPath)
-                => Task.Factory.StartNew(() => Clean(workingDirectory, exclusions, fileTypes, backupPath),
-                    TaskCreationOptions.LongRunning);
+                => TaskExtExt.StartLongRunningTask(() => Clean(workingDirectory, exclusions, fileTypes, backupPath));
 
             public void Clean(IAbsoluteDirectoryPath workingDirectory, IReadOnlyCollection<IRelativePath> exclusions,
                 IEnumerable<string> fileTypes, IAbsoluteDirectoryPath backupPath) {

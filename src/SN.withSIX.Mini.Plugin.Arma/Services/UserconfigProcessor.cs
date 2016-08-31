@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
     {
         public Task<string> ProcessUserconfig(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true)
-            => Task.Factory.StartNew(() => ProcessUserconfigInternal(modPath, gamePath, exisitingChecksum, force));
+            => TaskExtExt.StartLongRunningTask(() => ProcessUserconfigInternal(modPath, gamePath, exisitingChecksum, force));
 
         string ProcessUserconfigInternal(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true) {

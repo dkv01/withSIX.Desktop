@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
 
@@ -68,8 +69,8 @@ namespace SN.withSIX.Core.Applications.Services
         async Task PerformUnpack() {
             _statusRepo.Action = RepoStatus.Unpacking;
             _progress.Reset(RepoStatus.Unpacking);
-            await _restarter.TryWithUacFallback(Task.Factory.StartNew(
-                () => Tools.Compression.Unpack(_sourceFile, _destination, true), TaskCreationOptions.LongRunning),
+            await _restarter.TryWithUacFallback(TaskExtExt.StartLongRunningTask(
+                () => Tools.Compression.Unpack(_sourceFile, _destination, true)),
                 "files").ConfigureAwait(false);
             _progress.Update(null, 100);
             _statusRepo.UpdateProgress(90);

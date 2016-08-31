@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Extensions;
+using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -33,7 +35,7 @@ namespace SN.withSIX.Mini.Applications
         public override TResponseData Send<TResponseData>(IRequest<TResponseData> request)
             =>
                 Perform(request,
-                    () => Task.Factory.StartNew(() => base.Send(request), TaskCreationOptions.LongRunning))
+                    () => TaskExtExt.StartLongRunningTask(() => base.Send(request)))
                     .WaitAndUnwrapException();
 
         public override Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
