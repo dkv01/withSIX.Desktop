@@ -61,6 +61,7 @@ using SN.withSIX.Sync.Core.Legacy.Yoma;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models.Content.v2;
+using withSIX.Api.Models.Extensions;
 using Timer = System.Timers.Timer;
 
 namespace SN.withSIX.Play.Applications.Services

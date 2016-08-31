@@ -71,7 +71,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);
-            SystemExtensions.StartLongRunningTask(StartupInternal).WaitSpecial();
+            TaskExtExt.StartLongRunningTask(StartupInternal).WaitSpecial();
         }
 
         static void HandleSingleInstance() {

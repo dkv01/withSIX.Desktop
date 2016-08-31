@@ -149,7 +149,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private void HandleUpdateStateInBackground()
-            => SystemExtensions.StartLongRunningTask(Container.GetInstance<SelfUpdateHandler>().HandleUpdateState);
+            => TaskExtExt.StartLongRunningTask(Container.GetInstance<SelfUpdateHandler>().HandleUpdateState);
 
         protected override IEnumerable<Assembly> GetApplicationAssemblies()
             =>

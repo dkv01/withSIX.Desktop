@@ -17,6 +17,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Options;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Infra.Data.Services
 {

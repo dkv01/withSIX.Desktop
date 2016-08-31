@@ -29,6 +29,7 @@ using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {

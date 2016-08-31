@@ -28,8 +28,12 @@ namespace SN.withSIX.Core.Extensions
         public static Task<T> StartLongRunningTask<T>(Func<Task<T>> fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning).Unwrap();
         public static Task StartLongRunningTask(Func<Task> fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning).Unwrap();
         public static Task StartLongRunningTask(Action fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning);
-
         public static Task<T> StartLongRunningTask<T>(Func<T> fnc) => Task.Factory.StartNew(fnc, TaskCreationOptions.LongRunning);
+
+        public static Task<T> StartLongRunningTask<T>(Func<Task<T>> fnc, CancellationToken token) => Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
+        public static Task StartLongRunningTask(Func<Task> fnc, CancellationToken token) => Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
+        public static Task StartLongRunningTask(Action fnc, CancellationToken token) => Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        public static Task<T> StartLongRunningTask<T>(Func<T> fnc, CancellationToken token) => Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
     }
 
     public static class SystemExtensions

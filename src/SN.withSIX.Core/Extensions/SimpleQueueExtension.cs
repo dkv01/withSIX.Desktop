@@ -117,8 +117,7 @@ namespace SN.withSIX.Core.Extensions
             public Task Run() => TaskExtExt.StartLongRunningTask(RunInternal);
 
             public Task Run(CancellationToken token)
-                => Task.Factory.StartNew(() => RunInternal(token), token, TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default).Unwrap();
+                => TaskExtExt.StartLongRunningTask(() => RunInternal(token), token);
 
             async Task RunInternal() {
                 T item;

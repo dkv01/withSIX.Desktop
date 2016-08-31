@@ -9,6 +9,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
 using SN.withSIX.Sync.Core.Packages;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {
