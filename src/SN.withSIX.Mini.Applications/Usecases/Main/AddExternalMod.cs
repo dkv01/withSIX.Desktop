@@ -152,7 +152,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 await SendWrite(request).ConfigureAwait(false);
             else {
                 content.SteamSupportedGameActive = false;
-                if (!_fd.RegisterExisting(game.GetPublisherUrl(content.Source), request.FileName.ToAbsoluteFilePath()))
+                if (!_fd.RegisterExisting(game.GetPublisherUrl(content), request.FileName.ToAbsoluteFilePath()))
                     await SendWrite(request).ConfigureAwait(false);
             }
 
