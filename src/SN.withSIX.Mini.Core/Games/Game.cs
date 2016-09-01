@@ -63,11 +63,14 @@ namespace SN.withSIX.Mini.Core.Games
             _installedState = new Lazy<GameInstalledState>(GetInstalledState);
             _contentPaths = new Lazy<ContentPaths>(GetContentPathsState);
             _compatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
-            _steamDirectories = SystemExtensions.CreateLazy(() => SteamInfo.GetDirectories(SteamHelper));
+            _steamDirectories = SystemExtensions.CreateLazy(GetSteamDirectories);
 
             if (!DefaultDirectoriesOverriden)
                 SetupDefaultDirectories();
         }
+
+        private SteamDirectories GetSteamDirectories()
+            => IsSteamEdition() ? SteamInfo.GetDirectories(SteamHelper) : SteamDirectories.Default;
 
         public SteamDirectories SteamDirectories => _steamDirectories.Value;
 
@@ -422,13 +425,14 @@ namespace SN.withSIX.Mini.Core.Games
         public bool IsSteamEdition() {
             var gameDir = InstalledState.Directory;
             var steamApp = SteamInfo.TryGetSteamApp();
-            if (steamApp.IsValid) {
-                return gameDir.Equals(steamApp.AppPath) ||
-                       InstalledState.LaunchExecutable.ParentDirectoryPath.DirectoryInfo.EnumerateFiles("steam_api*.dll")
-                           .Any();
-            }
+            if (steamApp.IsValid)
+                return gameDir.Equals(steamApp.AppPath);// || HasSteamApiDlls();
             return false;
         }
+
+        private bool HasSteamApiDlls()
+            => InstalledState.LaunchExecutable.ParentDirectoryPath.DirectoryInfo.EnumerateFiles("steam_api*.dll")
+                .Any();
 
         protected virtual Task<LaunchGameInfo> GetDefaultLaunchInfo(IEnumerable<string> startupParameters)
             => Task.FromResult(new LaunchGameInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
