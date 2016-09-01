@@ -13,8 +13,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
+using ReactiveUI;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -388,6 +390,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         async Task TryInstallContent() {
+            await ConfirmExternalContent().ConfigureAwait(false);
             await InstallPackages().ConfigureAwait(false);
             await InstallSteamContent().ConfigureAwait(false);
             await InstallExternalContent().ConfigureAwait(false);
@@ -398,6 +401,18 @@ namespace SN.withSIX.Mini.Applications.Services
                 await InstallRepoContent().ConfigureAwait(false);
             }
             await PerformPostInstallTasks().ConfigureAwait(false);
+        }
+
+        private async Task ConfirmExternalContent() {
+            if (_externalContentToInstall.Any()) {
+                if (await
+                    UserError.Throw(new UserError("External Content found",
+                        "The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
+                        string.Join(", ", _externalContentToInstall.Select(x => x.Key.Name) + "\n\nPress OK to Continue"),
+                        new[] {RecoveryCommandImmediate.Ok, RecoveryCommandImmediate.Cancel})) ==
+                    RecoveryOptionResult.CancelOperation)
+                    throw new OperationCanceledException("The user cancelled the operation");
+            }
         }
 
         private void MarkContentAsUnfinished() {
