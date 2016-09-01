@@ -341,7 +341,8 @@ namespace SN.withSIX.Mini.Core.Games
                 $"$$$ HasUpdate [{Id}] {Name} for {GetWithDesired(desiredVersion)}, isLatestVersion: {isLatestVersion}. Result: {result}");
         }
 
-        private bool IsLatestVersion(string desiredVersion) => InstallInfo.Version == desiredVersion;
+        private bool IsLatestVersion(string desiredVersion)
+            => InstallInfo.Version.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase);
 
         public abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
             string constraint = null);
