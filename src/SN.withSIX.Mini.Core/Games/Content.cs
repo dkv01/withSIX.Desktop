@@ -342,7 +342,9 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         private bool IsLatestVersion(string desiredVersion)
-            => InstallInfo.Version.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase);
+            =>
+                InstallInfo.Version?.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase) ??
+                InstallInfo.Version == desiredVersion;
 
         public abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
             string constraint = null);
