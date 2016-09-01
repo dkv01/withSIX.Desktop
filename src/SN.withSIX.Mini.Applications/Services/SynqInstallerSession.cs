@@ -408,7 +408,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 if (await
                     UserError.Throw(new UserError("External Content found",
                         "The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
-                        string.Join(", ", _externalContentToInstall.Select(x => x.Key.Name) + "\n\nPress OK to Continue"),
+                        string.Join(", ", _externalContentToInstall.Select(x => x.Key.Name)) + "\n\nPress OK to Continue",
                         new[] {RecoveryCommandImmediate.Ok, RecoveryCommandImmediate.Cancel})) ==
                     RecoveryOptionResult.CancelOperation)
                     throw new OperationCanceledException("The user cancelled the operation");
