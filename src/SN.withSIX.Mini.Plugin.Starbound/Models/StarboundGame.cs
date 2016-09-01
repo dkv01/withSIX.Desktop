@@ -138,10 +138,11 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 return;
             if (!_sourceDir.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
-            var sourcePak = _sourceDir.DirectoryInfo.EnumerateFiles("*.pak").First().ToAbsoluteFilePath();
-            if (!sourcePak.Exists)
+            // TODO: Support mods without Paks, perhaps as "not installable"
+            var sourcePak = _sourceDir.DirectoryInfo.EnumerateFiles("*.pak").FirstOrDefault();
+            if (sourcePak == null || !sourcePak.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
-            await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
+            await sourcePak.ToAbsoluteFilePath().CopyAsync(pakFile).ConfigureAwait(false);
         }
 
         public async Task Uninstall() {
