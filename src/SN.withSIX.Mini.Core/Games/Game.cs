@@ -382,6 +382,41 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual IAbsoluteDirectoryPath GetDefaultDirectory()
             => RegistryInfo.TryGetDefaultDirectory() ?? SteamInfo.TryGetDefaultDirectory();
 
+        // TODO: GOG attribute, or a more generic Publishers approach
+        protected static IAbsoluteDirectoryPath GetGogDir(string gogName) {
+            IAbsoluteDirectoryPath gogDir;
+            return GetGogDir(gogName, out gogDir) ? gogDir : null;
+        }
+
+        private static bool GetGogDir(string gogName, out IAbsoluteDirectoryPath gogDir) {
+            // TODO: Find the GOG Games folder
+            var gog = @"C:\GOG Games".ToAbsoluteDirectoryPath();
+            if (gog.Exists) {
+                var gogSB = gog.GetChildDirectoryWithName(gogName);
+                if (gogSB.Exists) {
+                    gogDir = gogSB;
+                    return true;
+                }
+            }
+
+            // TODO: Find galaxy client
+            var galaxy =
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
+                    .ToAbsoluteDirectoryPath()
+                    .GetChildDirectoryWithName(@"GalaxyClient")
+                    .GetChildDirectoryWithName("Games");
+            if (galaxy.Exists) {
+                var gogSB = galaxy.GetChildDirectoryWithName(gogName);
+                if (gogSB.Exists) {
+                    gogDir = gogSB;
+                    return true;
+                }
+            }
+
+            gogDir = null;
+            return false;
+        }
+
         protected virtual bool ShouldLaunchWithSteam() => IsSteamEdition();
 
         public bool IsSteamEdition() {

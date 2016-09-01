@@ -4,6 +4,7 @@
 
 using System;
 using System.Runtime.Serialization;
+using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
@@ -18,5 +19,7 @@ namespace SN.withSIX.Mini.Plugin.Witcher3.Models
     public class Witcher3Game : BasicGame
     {
         public Witcher3Game(Guid id, Witcher3GameSettings settings) : base(id, settings) {}
+
+        protected override IAbsoluteDirectoryPath GetDefaultDirectory() => GetGogDir("The Witcher 3 Wild Hunt") ?? base.GetDefaultDirectory();
     }
 }

@@ -65,6 +65,8 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 yield return ContentPaths.Path;
         }
 
+        protected override IAbsoluteDirectoryPath GetDefaultDirectory() => GetGogDir("No Man's Sky") ?? base.GetDefaultDirectory();
+
         private static void HandleFileBasedMod(FileInfo f, IEnumerable<string> packages) {
             var pak = f.ToAbsoluteFilePath();
             var pakBak = pak.GetBrotherFileWithName(pak.FileNameWithoutExtension + ".bak");

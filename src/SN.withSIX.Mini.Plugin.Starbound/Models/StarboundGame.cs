@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
@@ -53,6 +54,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             foreach (var m in content.OfType<IModContent>().Select(CreateMod))
                 await m.Install(false).ConfigureAwait(false);
         }
+
+        protected override IAbsoluteDirectoryPath GetDefaultDirectory() => GetGogDir("Starbound") ?? base.GetDefaultDirectory();
 
         private void HandleModDirectory(string[] packages) {
             var md = GetModInstallationDirectory();
