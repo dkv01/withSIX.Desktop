@@ -79,21 +79,20 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         public async Task<string> DownloadFile(Uri url, string path, CancellationToken token) {
             var t = _downloadFile(new {url, path});
-            var tc = token.ThrowWhenCanceled();
-            await Task.WhenAny(t, tc).ConfigureAwait(false);
-            await tc; // As WhenAny apparently wouldnt throw??
-            var r = await t.ConfigureAwait(false);
-            return (string) r;
+            using (var tc = token.ThrowWhenCanceled()) {
+                await Task.WhenAny(t, tc).ConfigureAwait(false);
+                var r = await t.ConfigureAwait(false);
+                return (string) r;
+            }
         }
 
         public async Task DownloadSession(Uri url, string path, CancellationToken token) {
             var t = _downloadSession(new {url, path});
-            var tc = token.ThrowWhenCanceled();
-            await Task.WhenAny(t, tc).ConfigureAwait(false);
-            await tc; // As WhenAny apparently wouldnt throw??
-            await t.ConfigureAwait(false);
+            using (var tc = token.ThrowWhenCanceled()) {
+                await Task.WhenAny(t, tc).ConfigureAwait(false);
+                await t.ConfigureAwait(false);
+            }
         }
-
 
         public async Task<string[]> ShowFileDialog(string title = null, string defaultPath = null) {
             var properties = new[] {"openFile"};
