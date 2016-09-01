@@ -60,9 +60,28 @@ namespace SN.withSIX.Core.Extensions
 
         public static ShortGuid ToShortId(this Guid id) => new ShortGuid(id);
 
-        [Obsolete("Find better approach, as this will leave resources when not cancelled")]
-        public static Task ThrowWhenCanceled(this CancellationToken cancellationToken)
-            => Task.Delay(-1, cancellationToken);
+        public static CancelHandler ThrowWhenCanceled(this CancellationToken cancellationToken)
+            => new CancelHandler(cancellationToken);
+
+        public class CancelHandler : IDisposable
+        {
+            private readonly CancellationTokenSource _cts;
+            private CancellationTokenRegistration _registration;
+            private readonly Task _task;
+
+            public CancelHandler(CancellationToken token) {
+                _cts = new CancellationTokenSource();
+                _registration = token.Register(_cts.Cancel);
+                _task = Task.Delay(-1, _cts.Token);
+            }
+
+            public Task Task => _task;
+            public void Dispose() {
+                _registration.Dispose();
+                _cts.Cancel(); // so we get rid of the task..
+                _cts.Dispose();
+            }
+        }
 
         public static void DoWith<T>(this T This, Action<T> exp) => exp(This);
 

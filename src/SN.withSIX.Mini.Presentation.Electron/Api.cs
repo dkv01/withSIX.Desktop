@@ -80,7 +80,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public async Task<string> DownloadFile(Uri url, string path, CancellationToken token) {
             var t = _downloadFile(new {url, path});
             using (var tc = token.ThrowWhenCanceled()) {
-                await Task.WhenAny(t, tc).ConfigureAwait(false);
+                await Task.WhenAny(t, tc.Task).ConfigureAwait(false);
                 var r = await t.ConfigureAwait(false);
                 return (string) r;
             }
@@ -89,7 +89,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public async Task DownloadSession(Uri url, string path, CancellationToken token) {
             var t = _downloadSession(new {url, path});
             using (var tc = token.ThrowWhenCanceled()) {
-                await Task.WhenAny(t, tc).ConfigureAwait(false);
+                await Task.WhenAny(t, tc.Task).ConfigureAwait(false);
                 await t.ConfigureAwait(false);
             }
         }
