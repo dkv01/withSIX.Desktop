@@ -231,8 +231,8 @@
     <Compile Include="Services\Queue.cs" />
     <Compile Include="Services\StateHandler.cs" />
     <Compile Include="Services\SteamDepotDownloader.cs" />
-    <Compile Include="Services\SynqInstallerSession.cs" />
-    <Compile Include="Services\SynqUninstallerSession.cs" />
+    <Compile Include="Services\InstallerSession.cs" />
+    <Compile Include="Services\UninstallerSession.cs" />
     <Compile Include="Services\ToolsCheat.cs" />
     <Compile Include="SetupGameStuff.cs" />
     <Compile Include="Usecases\Main\AddExternalMod.cs" />
