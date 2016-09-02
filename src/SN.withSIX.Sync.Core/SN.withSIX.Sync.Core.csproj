@@ -277,7 +277,6 @@
     <Compile Include="ExternalTools\PboTools.cs" />
     <Compile Include="Keys\SshKeyFactory.cs" />
     <Compile Include="Keys\SshKeyPair.cs" />
-    <Compile Include="Legacy\AbortedException.cs" />
     <Compile Include="Legacy\Archive\ArchiveContent.cs" />
     <Compile Include="Legacy\FileDownloadHelper.cs" />
     <Compile Include="Legacy\FileDownloadManager.cs" />
@@ -409,7 +408,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
@@ -52,13 +53,13 @@ namespace SN.withSIX.Sync.Core.Packages
         readonly string _remote;
         public Repository Repo { get; }
 
-        public PackageManager(Repository repo, IAbsoluteDirectoryPath workDir, bool createWhenNotExisting = false,
+        public PackageManager(Repository repo, IAbsoluteDirectoryPath workDir, StatusRepo statusRepo, bool createWhenNotExisting = false,
             string remote = null) {
             Contract.Requires<ArgumentNullException>(repo != null);
             Contract.Requires<ArgumentNullException>(workDir != null);
             WorkDir = workDir;
+            StatusRepo = statusRepo;
             Repo = repo;
-            StatusRepo = new StatusRepo();
             Settings = new PackageManagerSettings();
 
             Repository.Factory.HandlePathRequirements(WorkDir, Repo);
@@ -98,15 +99,14 @@ namespace SN.withSIX.Sync.Core.Packages
         public PackageProgress Progress { get; set; } = SetupSynqProgress();
 
         public PackageManagerSettings Settings { get; }
-        public StatusRepo StatusRepo { get; set; }
+        public StatusRepo StatusRepo { get; }
         public IAbsoluteDirectoryPath WorkDir { get; }
 
         [Obsolete("Workaround for classic callers")]
         public static async Task<PackageManager> Create(Repository repo, IAbsoluteDirectoryPath workDir,
             bool createWhenNotExisting = false,
             string remote = null) {
-            var pm = new PackageManager(repo, workDir, createWhenNotExisting, remote);
-            pm.LegacyMode = true;
+            var pm = new PackageManager(repo, workDir, new StatusRepo(), createWhenNotExisting, remote) {LegacyMode = true};
             await repo.RefreshRemotes().ConfigureAwait(false);
             return pm;
         }
@@ -142,9 +142,9 @@ namespace SN.withSIX.Sync.Core.Packages
 
         static string FetchString(Uri uri) => SyncEvilGlobal.StringDownloader.Download(uri);
 
-        public async Task UpdateRemotes() {
-            await Repo.RefreshRemotes(_remote).ConfigureAwait(false);
-            await Repo.UpdateRemotes().ConfigureAwait(false);
+        public async Task UpdateRemotes(CancellationToken token = default(CancellationToken)) {
+            await Repo.RefreshRemotes(_remote, token).ConfigureAwait(false);
+            await Repo.UpdateRemotes(token).ConfigureAwait(false);
         }
 
         public async Task<List<Package>> Checkout(IReadOnlyCollection<string> packageNames,

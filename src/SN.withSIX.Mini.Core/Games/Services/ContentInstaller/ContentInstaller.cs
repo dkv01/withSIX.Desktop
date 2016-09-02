@@ -95,11 +95,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 
         async Task<IInstallerSession> CreateSession(
             IInstallContentAction<IInstallableContent> action) {
-            var session = _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
-            //if (action.CancelToken != default(CancellationToken))
-            //  action.CancelToken.Register(session.Abort);
-            await _gameLocker.RegisterCancel(action.Game.Id, session.Abort).ConfigureAwait(false);
-            return session;
+            return _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
         }
 
         // TODO: Post this to an async Queue that processes and retries in the background instead? (and perhaps merges queued items etc??)

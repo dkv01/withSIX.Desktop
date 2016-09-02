@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Threading;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
@@ -12,7 +13,7 @@ namespace SN.withSIX.Mini.Applications.Services
 {
     public interface IToolsCheat
     {
-        Task SingleToolsInstallTask();
+        Task SingleToolsInstallTask(CancellationToken token = default(CancellationToken));
     }
 
     public class ToolsCheat : IToolsCheat, IApplicationService
@@ -25,23 +26,23 @@ namespace SN.withSIX.Mini.Applications.Services
             _toolsInstaller = toolsInstaller;
         }
 
-        public async Task SingleToolsInstallTask() {
+        public async Task SingleToolsInstallTask(CancellationToken token = default(CancellationToken)) {
             Task lazy;
-            using (await _lock.LockAsync().ConfigureAwait(false)) {
+            using (await _lock.LockAsync(token).ConfigureAwait(false)) {
                 if (_lazy == null || _lazy.IsFaulted)
-                    _lazy = InstallToolsIfNeeded();
+                    _lazy = InstallToolsIfNeeded(token);
                 lazy = _lazy;
             }
             await lazy;
         }
 
-        async Task InstallToolsIfNeeded() {
+        async Task InstallToolsIfNeeded(CancellationToken token) {
             if (await _toolsInstaller.ConfirmToolsInstalled(true).ConfigureAwait(false))
                 return;
-            using (var repo = new StatusRepo {Action = RepoStatus.Downloading})
+            var repo = new StatusRepo(token) {Action = RepoStatus.Downloading};
                 //using (new RepoWatcher(repo))
                 //using (new StatusRepoMonitor(repo, (Func<double, double, Task>)StatusChange))
-                await _toolsInstaller.DownloadAndInstallTools(repo).ConfigureAwait(false);
+            await _toolsInstaller.DownloadAndInstallTools(repo).ConfigureAwait(false);
         }
     }
 }

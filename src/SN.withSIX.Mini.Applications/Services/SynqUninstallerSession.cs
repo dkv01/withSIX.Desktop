@@ -58,7 +58,8 @@ namespace SN.withSIX.Mini.Applications.Services
                 } else {
                     _action.Game.Delete(content);
                     using (_repository = new Repository(GetRepositoryPath(), true)) {
-                        _pm = new PackageManager(_repository, _action.Paths.Path, true);
+                        _pm = new PackageManager(_repository, _action.Paths.Path,
+                            new Sync.Core.Legacy.Status.StatusRepo(_action.CancelToken), true);
                         _pm.DeletePackageIfExists(new SpecificVersion(content.PackageName));
                     }
                 }

@@ -402,10 +402,10 @@ namespace SN.withSIX.Sync.Core.Repositories
             return false;
         }
 
-        public async Task<IReadOnlyCollection<RepositoryRemote>> LoadRemotesAsync(string remote = null) {
-            using (await _remoteLock.LockAsync().ConfigureAwait(false)) {
+        public async Task<IReadOnlyCollection<RepositoryRemote>> LoadRemotesAsync(string remote = null, CancellationToken token = default(CancellationToken)) {
+            using (await _remoteLock.LockAsync(token).ConfigureAwait(false)) {
                 var remotes = GetRepositoryRemotes(remote).ToArray();
-                await Task.WhenAll(remotes.Select(x => x.LoadAsync())).ConfigureAwait(false);
+                await Task.WhenAll(remotes.Select(x => x.LoadAsync(token: token))).ConfigureAwait(false);
                 return remotes;
             }
         }
@@ -422,19 +422,19 @@ namespace SN.withSIX.Sync.Core.Repositories
             return remotes;
         }
 
-        public async Task RefreshRemotes(string remote = null) {
+        public async Task RefreshRemotes(string remote = null, CancellationToken token = default(CancellationToken)) {
             Remotes =
-                (await LoadRemotesAsync(remote).ConfigureAwait(false)).Where(
+                (await LoadRemotesAsync(remote, token).ConfigureAwait(false)).Where(
                     x => x.Config.Uuid != Config.Uuid).ToArray();
         }
 
-        public async Task UpdateRemotes() {
-            using (await _remoteLock.LockAsync().ConfigureAwait(false)) {
+        public async Task UpdateRemotes(CancellationToken token = default(CancellationToken)) {
+            using (await _remoteLock.LockAsync(token).ConfigureAwait(false)) {
                 var remotes = Remotes;
                 if (!remotes.Any())
                     throw new Exception("No remotes found");
                 foreach (var remote in remotes)
-                    await remote.Update().ConfigureAwait(false);
+                    await remote.Update(token).ConfigureAwait(false);
             }
         }
 

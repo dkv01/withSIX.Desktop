@@ -83,12 +83,6 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
                 repo.CalcFileSizes();
         }
 
-        public void Abort() {
-            var repo = Repo;
-            if (repo != null)
-                repo.Abort();
-        }
-
         #endregion
     }
 

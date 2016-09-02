@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
@@ -57,7 +58,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
             return _downloader.DownloadFileAsync(Tools.Transfer.JoinUri(Url, config), ConfigArchive);
         }
 
-        public Task Download() => DownloadMod(null);
+        public Task Download(CancellationToken token) => DownloadMod(null, token);
 
         bool ConfirmFileValidity(IAbsoluteFilePath file, string md5) {
             if (!file.Exists)
@@ -80,7 +81,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
             _downloader.DownloadFileAsync(Tools.Transfer.JoinUri(Url, addon.Url), destination);
         }
 
-        public virtual async Task DownloadMod(YomaConfig.YomaMod mod) {
+        public virtual async Task DownloadMod(YomaConfig.YomaMod mod, CancellationToken token) {
             Config.Addons.Where(x => !File.Exists(Path.Combine(Destination.ToString(), x.Path, x.Pbo))
                                      && FilesDir.GetChildFileWithName(x.Url).Exists).ForEach(UnpackAddon);
             var remoteFiles = Config.Addons
@@ -90,11 +91,10 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
                             x.Md5))
                 .Select(x => x.Url);
 
-            using (var statusRepo = new StatusRepo()) {
-                await _downloader.DownloadFilesAsync(new[] {Url}, statusRepo,
-                    remoteFiles.ToDictionary(x => new FileFetchInfo(x),
-                        x => (ITransferStatus) null), FilesDir).ConfigureAwait(false);
-            }
+            var statusRepo = new StatusRepo(token);
+            await _downloader.DownloadFilesAsync(new[] {Url}, statusRepo,
+                remoteFiles.ToDictionary(x => new FileFetchInfo(x),
+                    x => (ITransferStatus) null), FilesDir).ConfigureAwait(false);
         }
 
         public virtual void UnpackAddon(YomaConfig.YomaAddon addon) {

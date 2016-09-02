@@ -763,8 +763,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         }
 
         async Task ProcessPackChange(string item, bool changesOnly) {
-            if (StatusRepo.Aborted)
-                return;
+           StatusRepo.CancelToken.ThrowIfCancellationRequested();
             var status = CreateStatus(item);
             StartOutput(status);
             await TryProcessPackChange(status, changesOnly).ConfigureAwait(false);

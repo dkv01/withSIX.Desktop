@@ -18,7 +18,7 @@ using SN.withSIX.Sync.Core.Transfer;
 namespace SN.withSIX.Sync.Core.Legacy.Status
 {
     
-    public class StatusRepo : ModelBase, IHaveTimestamps, IDisposable
+    public class StatusRepo : ModelBase, IHaveTimestamps
     {
         RepoStatus _action;
         long _fileSize;
@@ -28,22 +28,18 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         StatusInfo _statusInfo;
         int _total = -1;
 
-        public StatusRepo() {
+        public StatusRepo(CancellationToken cancelToken = default(CancellationToken)) {
+            CancelToken = cancelToken;
             CreatedAt = Tools.Generic.GetCurrentUtcDateTime;
             UpdatedAt = Tools.Generic.GetCurrentUtcDateTime;
-            CTS = new Lazy<CancellationTokenSource>();
             Info = new StatusInfo(RepoStatus.Waiting, 0, 0, 0, 0);
         }
 
-        public CancellationToken CancelToken => CTS.Value.Token;
+        public CancellationToken CancelToken { get; }
         public StatusInfo Info
         {
             get { return _statusInfo; }
             set { SetProperty(ref _statusInfo, value); }
-        }
-
-        public void Dispose() {
-            Dispose(true);
         }
 
         public void UpdateTotals() {
@@ -136,16 +132,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
             return string.IsNullOrWhiteSpace(realObject) ? status.Item : realObject.Replace("/", "\\");
         }
 
-        protected virtual void Dispose(bool disposing) {
-            var cts = CTS;
-            CTS = null;
-            if (cts != null && cts.IsValueCreated)
-                cts.Value.Dispose();
-        }
-
         #region StatusRepo Members
-
-        Lazy<CancellationTokenSource> CTS;
 
         public StatusMod Owner
         {
@@ -183,8 +170,6 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
             get { return _fileSizeTransfered; }
             set { SetProperty(ref _fileSizeTransfered, value); }
         }
-
-        public bool Aborted { get; set; }
 
         public long DownloadSize { get; set; }
 
@@ -259,13 +244,6 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
 
         IEnumerable<IAbsoluteFilePath> GetExistingPackFiles(IEnumerable<string> unchanged)
             => unchanged.Select(x => PackFolder.GetChildFileWithName(x)).Where(x => x.Exists);
-
-        public void Abort() {
-            Aborted = true;
-            var cts = CTS;
-            if (cts != null)
-                CTS.Value.Cancel();
-        }
 
         #endregion
     }

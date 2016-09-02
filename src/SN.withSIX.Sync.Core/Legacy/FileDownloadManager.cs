@@ -98,12 +98,10 @@ namespace SN.withSIX.Sync.Core.Legacy
         }
 
         public async Task FetchFileAsync(Spec spec) {
-            if (_statusRepo.Aborted)
-                throw new AbortedException();
-
             TryPickHost(spec);
             var done = false;
-            while (!done && spec.CurrentHost != null && !_statusRepo.Aborted) {
+            while (!done && spec.CurrentHost != null) {
+                _statusRepo.CancelToken.ThrowIfCancellationRequested();
                 spec.Status.Info = spec.CurrentHost.ToString();
                 this.Logger().Info("Fetching {0} @ {1}", spec.File, spec.CurrentHost);
                 done = await TryDownloadFile(spec).ConfigureAwait(false);
@@ -252,7 +250,7 @@ namespace SN.withSIX.Sync.Core.Legacy
                 spec.Status.FailOutput(spec.FullPath.ToString());
                 token.Cancel();
                 throw;
-            } catch (AbortedException) {
+            } catch (OperationCanceledException) {
                 spec.Status.FailOutput(spec.FullPath.ToString());
                 token.Cancel();
                 throw;

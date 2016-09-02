@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Exceptions;
@@ -166,13 +167,13 @@ namespace SN.withSIX.Sync.Core.Packages
             return dic.ToDictionary(x => x.Key, x => x.Value.Select(y => y).Reverse().ToArray());
         }
 
-        public async Task UpdateRemotesConditional() {
+        public async Task UpdateRemotesConditional(CancellationToken token = default(CancellationToken)) {
             if (Tools.Generic.LongerAgoThan(_lastSync, syncInterval))
-                await UpdateRemotes().ConfigureAwait(false);
+                await UpdateRemotes(token).ConfigureAwait(false);
         }
 
-        async Task UpdateRemotes() {
-            await PackageManager.UpdateRemotes().ConfigureAwait(false);
+        async Task UpdateRemotes(CancellationToken token) {
+            await PackageManager.UpdateRemotes(token).ConfigureAwait(false);
             _lastSync = Tools.Generic.GetCurrentUtcDateTime;
         }
     }

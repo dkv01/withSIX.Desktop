@@ -23,13 +23,11 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Steam.Api.Services;
-using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
@@ -47,25 +45,30 @@ namespace SN.withSIX.Mini.Applications.Services
     public class SynqInstallerSession : IInstallerSession
     {
         readonly IInstallContentAction<IInstallableContent> _action;
-        private readonly IAuthProvider _authProvider;
         readonly IContentEngine _contentEngine;
-        readonly Func<bool> _getIsPremium;
+        private readonly IExternalFileDownloader _dl;
         readonly List<SpecificVersion> _installedContent = new List<SpecificVersion>();
+        private readonly PackageInstaller _packageInstaller;
         //private readonly ProgressLeaf _preparingProgress;
         private readonly ProgressComponent _progress;
+        private readonly SixSyncInstaller _sixSyncInstaller;
         readonly Func<ProgressInfo, Task> _statusChange;
-        private readonly StatusRepo _statusRepo = new StatusRepo();
         readonly IToolsCheat _toolsInstaller;
         private Dictionary<IPackagedContent, SpecificVersion> _allContentToInstall;
         private Dictionary<IContent, string> _allInstallableContent = new Dictionary<IContent, string>();
 
         private AverageContainer2 _averageSpeed;
+        private Dictionary<IPackagedContent, SpecificVersion> _externalContent =
+            new Dictionary<IPackagedContent, SpecificVersion>();
+        private Dictionary<IPackagedContent, SpecificVersion> _externalContentToInstall =
+            new Dictionary<IPackagedContent, SpecificVersion>();
+        private ProgressComponent _externalProcessing;
+        private ProgressComponent _externalProgress;
         private Dictionary<IPackagedContent, SpecificVersion> _groupContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _groupContentToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private SixSyncProgress _groupProgress;
-        private IReadOnlyCollection<Group> _groups = new List<Group>();
         private Dictionary<IPackagedContent, SpecificVersion> _installableContent;
         private Dictionary<IPackagedContent, SpecificVersion> _packageContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
@@ -73,30 +76,20 @@ namespace SN.withSIX.Mini.Applications.Services
         private Dictionary<IPackagedContent, SpecificVersion> _packagesToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private IAbsoluteDirectoryPath _packPath;
-        PackageManager _pm;
+        private Dictionary<IPackagedContent, SpecificVersion> _postProcess;
         private Dictionary<IPackagedContent, SpecificVersion> _repoContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _repoContentToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private IAbsoluteDirectoryPath _repoPath;
         private SixSyncProgress _repoProgress;
-        IReadOnlyCollection<CustomRepo> _repositories = new List<CustomRepo>();
-        Repository _repository;
+
         private Dictionary<IPackagedContent, SpecificVersion> _steamContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _steamContentToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
-        private Dictionary<IPackagedContent, SpecificVersion> _externalContent =
-            new Dictionary<IPackagedContent, SpecificVersion>();
-        private Dictionary<IPackagedContent, SpecificVersion> _externalContentToInstall =
-            new Dictionary<IPackagedContent, SpecificVersion>();
-
         private ProgressComponent _steamProcessing;
         private ProgressComponent _steamProgress;
-        private ProgressComponent _externalProcessing;
-        private ProgressComponent _externalProgress;
-        private readonly IExternalFileDownloader _dl;
-        private Dictionary<IPackagedContent, SpecificVersion> _postProcess;
 
         public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
             Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
@@ -109,18 +102,19 @@ namespace SN.withSIX.Mini.Applications.Services
                 throw new ArgumentNullException(nameof(statusChange));
             _action = action;
             _toolsInstaller = toolsInstaller;
-            _getIsPremium = isPremium;
             _statusChange = statusChange;
             _contentEngine = contentEngine;
-            _authProvider = authProvider;
             _dl = dl;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
+            _packageInstaller = new PackageInstaller(_action, isPremium);
+            _sixSyncInstaller = new SixSyncInstaller(_action, TryLegacyStatusChange, authProvider);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
         }
 
         public async Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content) {
             PrepareContent(content);
+            await ConfirmExternalContent().ConfigureAwait(false);
             _allContentToInstall.ForEach(x => StartProcessState(x.Key, x.Value.VersionData));
             await PublishIndividualItemStates().ConfigureAwait(false);
 
@@ -145,8 +139,6 @@ namespace SN.withSIX.Mini.Applications.Services
             await PerformInstallation().ConfigureAwait(false);
         }
 
-        public void Abort() => _statusRepo.Abort();
-
         public void RunCE(IPackagedContent content) {
             if (_contentEngine.ModHasScript(content.Id)) {
                 _contentEngine.LoadModS(new ContentEngineContent(content.Id, content.Id, true,
@@ -156,28 +148,12 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private async Task PerformInstallation() {
-            using (_statusRepo)
             using (Observable.Interval(TimeSpan.FromMilliseconds(500))
-                    .ConcatTask(TryStatusChange)
-                    .Subscribe()) {
-                await PrepareGroupsAndRepositories().ConfigureAwait(false);
-                // TODO: make it unneeded to initialize Synq stuff unless we actually need it..
-                if (_action.RemoteInfo != null) {
-                    using (_repository = new Repository(_repoPath, true)) {
-                        SetupPackageManager();
-                        await UpdateSynqRemotes().ConfigureAwait(false);
-                        await InstallContent().ConfigureAwait(false);
-                    }
-                } else
-                    await InstallContent().ConfigureAwait(false);
+                .ConcatTask(TryStatusChange)
+                .Subscribe()) {
+                await _sixSyncInstaller.PrepareGroupsAndRepositories().ConfigureAwait(false);
+                await InstallContent().ConfigureAwait(false);
             }
-        }
-
-        private async Task PrepareGroupsAndRepositories() {
-            //_preparingProgress.Progress = 50;
-            await HandleGroups().ConfigureAwait(false);
-            //_preparingProgress.Progress = 70;
-            await HandleRepositories().ConfigureAwait(false);
         }
 
         async Task TryStatusChange() {
@@ -207,7 +183,6 @@ namespace SN.withSIX.Mini.Applications.Services
         private void CreateDirectories() {
             _repoPath = _action.Paths.RepositoryPath.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory);
             _packPath = _repoPath.GetChildDirectoryWithName("legacy");
-
             Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(_action.Game.InstalledState.Directory);
             if (_action.GlobalWorkingPath != null)
                 Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(_action.GlobalWorkingPath);
@@ -302,7 +277,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private void PrepareGroupContent() {
             MarkPrepared(_groupContent = _installableContent
-                .Where(x => _groups.Any(r => r.HasMod(x.Value.Name)))
+                .Where(x => _sixSyncInstaller._groups.Any(r => r.HasMod(x.Value.Name)))
                 .ToDictionary(x => x.Key, x => x.Value));
             _groupContentToInstall = _action.Force ? _groupContent : GetGroupContentToInstallOrUpdate();
             _groupProgress = SetupSixSyncProgress("Group mods", _groupContentToInstall);
@@ -310,7 +285,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private void PrepareRepoContent() {
             MarkPrepared(_repoContent = _installableContent
-                .Where(x => _repositories.Any(r => r.HasMod(x.Value.Name)))
+                .Where(x => _sixSyncInstaller._repositories.Any(r => r.HasMod(x.Value.Name)))
                 .ToDictionary(x => x.Key, x => x.Value));
             _repoContentToInstall = _action.Force ? _repoContent : GetRepoContentToInstallOrUpdate();
             _repoProgress = SetupSixSyncProgress("Repo mods", _repoContentToInstall);
@@ -323,11 +298,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     throw new NotSupportedException("This game currently does not support SynqPackages");
                 _packagesToInstall = _packageContent;
             } else {
-                var remotePackageIndex = _pm.GetPackagesAsVersions(true);
-                // TODO: Only handle content that is not yet on the right version (SynqInfo/RepositoryYml etc) Unless forced / diagnose?
-                // The problem with GTA is that we wipe the folders beforehand.. Something we would solve with new mod folder approach
                 _packagesToInstall = _action.Force ? _packageContent : OnlyWhenNewOrUpdateAvailable();
-                HandleStats();
                 _packageProgress = SetupSynqProgress("Network mods", _packagesToInstall);
             }
         }
@@ -369,7 +340,8 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        private void StartProcessState(IContent content, string version) => content.StartProcessingState(version, _action.Force);
+        private void StartProcessState(IContent content, string version)
+            => content.StartProcessingState(version, _action.Force);
 
         // TODO: Rethink our strategy here. We convert it to a temp collection so that we can install all the content at once.
         // this is because we relinquish control to the content.Install method, and that will build the dependency tree and call the installer actions with it..
@@ -382,38 +354,31 @@ namespace SN.withSIX.Mini.Applications.Services
         LocalCollection ConvertToTemporaryCollection() => new LocalCollection(_action.Game.Id, "$$temp",
             _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
 
-        async Task UpdateSynqRemotes() {
-            await
-                RepositoryHandler.ReplaceRemotes(GetRemotes(_action.RemoteInfo, _getIsPremium()), _repository)
-                    .ConfigureAwait(false);
-            await _pm.UpdateRemotes().ConfigureAwait(false);
-            _pm.StatusRepo.Reset(RepoStatus.Processing, 0);
-        }
-
         async Task TryInstallContent() {
-            await ConfirmExternalContent().ConfigureAwait(false);
-            await InstallPackages().ConfigureAwait(false);
+            await PerformInstallPackages().ConfigureAwait(false);
             await InstallSteamContent().ConfigureAwait(false);
             await InstallExternalContent().ConfigureAwait(false);
-            _averageSpeed = new AverageContainer2(20);
-            using (new RepoWatcher(_statusRepo))
-            using (new StatusRepoMonitor(_statusRepo, TryLegacyStatusChange)) {
-                await InstallGroupContent().ConfigureAwait(false);
-                await InstallRepoContent().ConfigureAwait(false);
-            }
+            await InstallGroupAndRepoContent().ConfigureAwait(false);
             await PerformPostInstallTasks().ConfigureAwait(false);
         }
 
+        private async Task InstallGroupAndRepoContent() {
+            _averageSpeed = new AverageContainer2(20);
+            await InstallGroupContent().ConfigureAwait(false);
+            await PerformInstallRepoContent().ConfigureAwait(false);
+        }
+
         private async Task ConfirmExternalContent() {
-            if (_externalContentToInstall.Any()) {
-                if (await
-                    UserError.Throw(new UserError("External Content found",
-                        "The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
-                        string.Join(", ", _externalContentToInstall.Select(x => x.Key.Name)) + "\n\nPress OK to Continue",
-                        new[] {RecoveryCommandImmediate.Ok, RecoveryCommandImmediate.Cancel})) ==
-                    RecoveryOptionResult.CancelOperation)
-                    throw new OperationCanceledException("The user cancelled the operation");
-            }
+            if (!_externalContentToInstall.Any())
+                return;
+            if (await
+                UserError.Throw(new UserError("External Content found",
+                    "The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
+                    string.Join(", ", _externalContentToInstall.Select(x => x.Key.Name)) +
+                    "\n\nPress OK to Continue",
+                    new[] {RecoveryCommandImmediate.Ok, RecoveryCommandImmediate.Cancel})) ==
+                RecoveryOptionResult.CancelOperation)
+                throw new OperationCanceledException("The user cancelled the operation");
         }
 
         private void MarkContentAsUnfinished() {
@@ -439,44 +404,51 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        Task InstallToolsIfNeeded() => _toolsInstaller.SingleToolsInstallTask();
+        Task InstallToolsIfNeeded() => _toolsInstaller.SingleToolsInstallTask(_action.CancelToken);
 
         async Task InstallGroupContent() {
             if (_groupContentToInstall.Count == 0)
                 return;
-            var contentProgress =
-                _groupProgress.Processing
-                    .GetComponents()
-                    .OfType<ProgressLeaf>()
-                    .ToArray();
-            var i = 0;
-            foreach (var cInfo in _groupContentToInstall)
-                await InstallGroupC(cInfo.Value, cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
-            _installedContent.AddRange(_groupContentToInstall.Values);
+            await
+                _sixSyncInstaller.InstallGroupContent(_groupContentToInstall, _groupProgress, _packPath)
+                    .ConfigureAwait(false);
             HandleInstallUpdateStats(_groupContentToInstall);
+            _installedContent.AddRange(_groupContentToInstall.Values);
         }
 
         private void HandleInstallUpdateStats(Dictionary<IPackagedContent, SpecificVersion> contentToInstall) {
             foreach (var c in contentToInstall.Where(x => x.Key.GetState(x.Value.VersionData) == ItemState.NotInstalled)
                 )
-                HandleInstallStats(c.Key);
+                HandleInstallStats(c.Key, _action.Status);
             foreach (
                 var c in contentToInstall.Where(x => x.Key.GetState(x.Value.VersionData) == ItemState.UpdateAvailable))
-                HandleUpdateStats(c.Key);
+                HandleUpdateStats(c.Key, _action.Status);
         }
 
-        private async Task InstallGroupC(SpecificVersion dep, IPackagedContent c, ProgressLeaf progressComponent) {
-            var group = _groups.First(x => x.HasMod(dep.Name));
-            var modInfo = @group.GetMod(dep.Name);
-            await @group.GetMod(modInfo, _action.Paths.Path, _packPath, _pm.StatusRepo, _authProvider, _action.Force)
-                .ConfigureAwait(false);
-            progressComponent.Finish();
-            // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
+        protected static void HandleInstallStats(IPackagedContent key, InstallStatusOverview installStatusOverview) {
+            if (key is ModNetworkContent)
+                installStatusOverview.Mods.Install.Add(key.Id);
+            else if (key is MissionNetworkContent)
+                installStatusOverview.Missions.Install.Add(key.Id);
+            // TODO!
+            else if (key is NetworkCollection)
+                installStatusOverview.Collections.Install.Add(key.Id);
+        }
+
+        protected static void HandleUpdateStats(IPackagedContent key, InstallStatusOverview installStatusOverview) {
+            if (key is ModNetworkContent)
+                installStatusOverview.Mods.Update.Add(key.Id);
+            else if (key is MissionNetworkContent)
+                installStatusOverview.Missions.Update.Add(key.Id);
+            // TODO!
+            else if (key is NetworkCollection)
+                installStatusOverview.Collections.Update.Add(key.Id);
         }
 
         async Task InstallSteamContent() {
             if (_steamContentToInstall.Count == 0)
                 return;
+            _averageSpeed = new AverageContainer2(20);
             await PerformInstallSteamContent().ConfigureAwait(false);
             HandleInstallUpdateStats(_steamContentToInstall);
         }
@@ -484,6 +456,7 @@ namespace SN.withSIX.Mini.Applications.Services
         async Task InstallExternalContent() {
             if (_externalContentToInstall.Count == 0)
                 return;
+            _averageSpeed = new AverageContainer2(20);
             await PerformInstallExternalContent().ConfigureAwait(false);
             HandleInstallUpdateStats(_externalContentToInstall);
         }
@@ -499,7 +472,8 @@ namespace SN.withSIX.Mini.Applications.Services
                     _action.Game.SteamInfo.AppId,
                     _action.Game.SteamDirectories.Workshop.ContentPath,
                     // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
-                    _steamContentToInstall.ToDictionary(x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
+                    _steamContentToInstall.ToDictionary(
+                        x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
                         x => contentProgress[i++]));
             await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             _installedContent.AddRange(_steamContentToInstall.Values);
@@ -520,42 +494,24 @@ namespace SN.withSIX.Mini.Applications.Services
             _installedContent.AddRange(_externalContentToInstall.Values);
         }
 
-        async Task InstallRepoContent() {
+        async Task PerformInstallRepoContent() {
             if (_repoContentToInstall.Count == 0)
                 return;
-            var contentProgress =
-                _repoProgress.Processing
-                    .GetComponents()
-                    .OfType<ProgressLeaf>()
-                    .ToArray();
-            var i = 0;
-            foreach (var cInfo in _repoContentToInstall)
-                await InstallRepoC(cInfo.Value, cInfo.Key, contentProgress[i++]).ConfigureAwait(false);
+            await
+                _sixSyncInstaller.InstallRepoContent(_repoContentToInstall, _repoProgress, _packPath)
+                    .ConfigureAwait(false);
             _installedContent.AddRange(_repoContentToInstall.Values);
         }
 
-        private async Task InstallRepoC(SpecificVersion dep, IPackagedContent c, ProgressLeaf progress) {
-            var repo = _repositories.First(x => x.HasMod(dep.Name));
-            var modInfo = repo.GetMod(dep.Name);
-            await
-                repo.GetMod(dep.Name, _action.Paths.Path, _packPath, _pm.StatusRepo, _action.Force)
-                    .ConfigureAwait(false);
-            progress.Finish();
-            // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
-        }
-
-        async Task InstallPackages() {
+        async Task PerformInstallPackages() {
             if (_packagesToInstall.Count == 0)
                 return;
 
-            await _pm.Repo.ClearObjectsAsync().ConfigureAwait(false);
+            await
+                _packageInstaller.Install(_packagesToInstall, _action.Force, _packageProgress, _repoPath)
+                    .ConfigureAwait(false);
 
-            _pm.Progress = _packageProgress;
-            var installedPackages =
-                await
-                    _pm.ProcessPackages(_packagesToInstall.Values, skipWhenFileMatches: !_action.Force)
-                        .ConfigureAwait(false);
-
+            /*
             var installedContent = installedPackages.Select(
                 x =>
                     Tuple.Create(
@@ -563,8 +519,9 @@ namespace SN.withSIX.Mini.Applications.Services
                             .FirstOrDefault(
                                 c => c.PackageName.Equals(x.MetaData.Name, StringComparison.CurrentCultureIgnoreCase)),
                         x.MetaData.GetVersionInfo()))
-                .Where(x => x.Item1 != null);
             // Null check because we might download additional packages defined in package dependencies :S
+                .Where(x => x.Item1 != null);
+            */
             _installedContent.AddRange(_packageContent.Values);
         }
 
@@ -577,104 +534,205 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private Dictionary<IPackagedContent, SpecificVersion> GetRepoContentToInstallOrUpdate()
             => _repoContent.Where(c => {
-                var repo = _repositories.First(x => x.HasMod(c.Value.Name));
+                var repo = _sixSyncInstaller._repositories.First(x => x.HasMod(c.Value.Name));
                 return !repo.ExistsAndIsRightVersion(c.Value.Name, _action.Paths.Path);
             }).ToDictionary(x => x.Key, x => x.Value);
 
         private Dictionary<IPackagedContent, SpecificVersion> GetGroupContentToInstallOrUpdate()
             => _groupContent.Where(c => {
-                var group = _groups.First(x => x.HasMod(c.Value.Name));
+                var group = _sixSyncInstaller._groups.First(x => x.HasMod(c.Value.Name));
                 return !group.ExistsAndIsRightVersion(c.Value.Name, _action.Paths.Path);
             }).ToDictionary(x => x.Key, x => x.Value);
-
-        private void HandleStats() {
-            var localPackageIndex = _pm.GetPackagesAsVersions();
-            foreach (var p in _packagesToInstall) {
-                if (localPackageIndex.ContainsKey(p.Value.Name)) {
-                    if (localPackageIndex[p.Value.Name].Contains(p.Value.VersionInfo)) {
-                        // already have version
-                    } else {
-                        HandleUpdateStats(p.Key);
-                        // is Update
-                    }
-                } else {
-                    HandleInstallStats(p.Key);
-                    // is Install
-                }
-            }
-        }
 
         SpecificVersion GetInstalledInfo(KeyValuePair<IPackagedContent, SpecificVersion> i) {
             switch (_action.CheckoutType) {
             case CheckoutType.NormalCheckout:
-                return Package.ReadSynqInfoFile(_pm.WorkDir.GetChildDirectoryWithName(i.Value.Name));
+                return Package.ReadSynqInfoFile(_action.Paths.Path.GetChildDirectoryWithName(i.Value.Name));
             case CheckoutType.CheckoutWithoutRemoval: {
                 // TODO: Cache per GlobalWorkingPath ??
-                return Package.GetInstalledPackages(_pm.WorkDir).FirstOrDefault(x => x.Name.Equals(i.Value.Name));
+                return Package.GetInstalledPackages(_action.Paths.Path).FirstOrDefault(x => x.Name.Equals(i.Value.Name));
             }
             }
             throw new NotSupportedException("Unknown " + _action.CheckoutType);
         }
 
-        void HandleInstallStats(IPackagedContent key) {
-            if (key is ModNetworkContent)
-                _action.Status.Mods.Install.Add(key.Id);
-            else if (key is MissionNetworkContent)
-                _action.Status.Missions.Install.Add(key.Id);
-            // TODO!
-            else if (key is NetworkCollection)
-                _action.Status.Collections.Install.Add(key.Id);
-        }
+        Task InstallContent(IContentSpec<IInstallableContent> c)
+            => c.Content.Install(this, _action.CancelToken, c.Constraint);
 
-        void HandleUpdateStats(IPackagedContent key) {
-            if (key is ModNetworkContent)
-                _action.Status.Mods.Update.Add(key.Id);
-            else if (key is MissionNetworkContent)
-                _action.Status.Missions.Update.Add(key.Id);
-            // TODO!
-            else if (key is NetworkCollection)
-                _action.Status.Collections.Update.Add(key.Id);
-        }
+        class SixSyncInstaller
+        {
+            readonly IInstallContentAction<IInstallableContent> _action;
+            private readonly IAuthProvider _authProvider;
+            internal IReadOnlyCollection<Group> _groups = new List<Group>();
+            internal IReadOnlyCollection<CustomRepo> _repositories = new List<CustomRepo>();
+            private StatusRepo _statusRepo;
 
-        async Task HandleRepositories() {
-            _repositories =
-                _action.Content.Select(x => x.Content).OfType<IHaveRepositories>()
+            public SixSyncInstaller(IInstallContentAction<IInstallableContent> action,
+                Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider) {
+                TryLegacyStatusChange = tryLegacyStatusChange;
+                _action = action;
+                _authProvider = authProvider;
+                _statusRepo = new StatusRepo(_action.CancelToken);
+            }
+
+            public Func<double, long?, Task> TryLegacyStatusChange { get; set; }
+
+            public async Task PrepareGroupsAndRepositories() {
+                //_preparingProgress.Progress = 50;
+                await HandleGroups().ConfigureAwait(false);
+                //_preparingProgress.Progress = 70;
+                await HandleRepositories().ConfigureAwait(false);
+            }
+
+            public async Task InstallGroupContent(
+                Dictionary<IPackagedContent, SpecificVersion> groupContentToInstall, SixSyncProgress progress,
+                IAbsoluteDirectoryPath packPath) {
+                var contentProgress =
+                    progress.Processing
+                        .GetComponents()
+                        .OfType<ProgressLeaf>()
+                        .ToArray();
+                var i = 0;
+                using (new RepoWatcher(_statusRepo))
+                using (new StatusRepoMonitor(_statusRepo, TryLegacyStatusChange)) {
+                    foreach (var cInfo in groupContentToInstall) {
+                        await
+                            InstallGroupC(cInfo.Value, cInfo.Key, contentProgress[i++], packPath).ConfigureAwait(false);
+                    }
+                }
+            }
+
+            private async Task InstallGroupC(SpecificVersion dep, IPackagedContent c, ProgressLeaf progressComponent,
+                IAbsoluteDirectoryPath packPath) {
+                var group = _groups.First(x => x.HasMod(dep.Name));
+                var modInfo = @group.GetMod(dep.Name);
+                await
+                    @group.GetMod(modInfo, _action.Paths.Path, packPath,
+                        _statusRepo, _authProvider, _action.Force)
+                        .ConfigureAwait(false);
+                progressComponent.Finish();
+                // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
+            }
+
+            public async Task InstallRepoContent(Dictionary<IPackagedContent, SpecificVersion> repoContentToInstall,
+                SixSyncProgress sixSyncProgress, IAbsoluteDirectoryPath packPath) {
+                var contentProgress =
+                    sixSyncProgress.Processing
+                        .GetComponents()
+                        .OfType<ProgressLeaf>()
+                        .ToArray();
+                var i = 0;
+                _statusRepo = new StatusRepo(_action.CancelToken);
+                using (new RepoWatcher(_statusRepo))
+                using (new StatusRepoMonitor(_statusRepo, TryLegacyStatusChange)) {
+                    foreach (var cInfo in repoContentToInstall)
+                        await InstallRepoC(cInfo.Value, cInfo.Key, contentProgress[i++], packPath).ConfigureAwait(false);
+                }
+            }
+
+            private async Task InstallRepoC(SpecificVersion dep, IPackagedContent c, ProgressLeaf progress,
+                IAbsoluteDirectoryPath packPath) {
+                var repo = _repositories.First(x => x.HasMod(dep.Name));
+                var modInfo = repo.GetMod(dep.Name);
+                await
+                    repo.GetMod(dep.Name, _action.Paths.Path, packPath,
+                        _statusRepo, _action.Force)
+                        .ConfigureAwait(false);
+                progress.Finish();
+                // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
+            }
+
+            private async Task HandleRepositories() {
+                _repositories = _action.Content.Select(x => x.Content).OfType<IHaveRepositories>()
                     .SelectMany(x => x.Repositories.Select(r => new CustomRepo(CustomRepo.GetRepoUri(new Uri(r)))))
                     .ToArray();
-            foreach (var r in _repositories) {
-                await
-                    new AuthDownloadWrapper(_authProvider).WrapAction(
-                        uri => r.Load(SyncEvilGlobal.StringDownloader, uri),
-                        r.Uri).ConfigureAwait(false);
+                foreach (var r in _repositories) {
+                    await
+                        new AuthDownloadWrapper(_authProvider).WrapAction(
+                            uri => r.Load(SyncEvilGlobal.StringDownloader, uri),
+                            r.Uri).ConfigureAwait(false);
+                }
             }
-        }
 
-        private async Task HandleGroups() {
-            _groups =
-                _action.Content.Select(x => x.Content)
+            private async Task HandleGroups() {
+                _groups = _action.Content.Select(x => x.Content)
                     .OfType<IHaveGroup>()
                     .Where(x => x.GroupId.HasValue)
                     .Select(x => new Group(x.GroupId.Value, "Unknown"))
                     .ToArray();
-            var token = await _authProvider.GetToken().ConfigureAwait(false);
-            foreach (var g in _groups)
-                await g.Load(token).ConfigureAwait(false);
+                var token = await _authProvider.GetToken().ConfigureAwait(false);
+                foreach (var g in _groups)
+                    await g.Load(token).ConfigureAwait(false);
+            }
         }
 
-        void SetupPackageManager() {
-            _pm = new PackageManager(_repository, _action.Paths.Path, true) {StatusRepo = _statusRepo};
-            Sync.Core.Packages.CheckoutType ct;
-            if (!Enum.TryParse(_action.CheckoutType.ToString(), out ct))
-                throw new InvalidOperationException("Unsupported checkout type");
-            _pm.Settings.CheckoutType = ct;
-            _pm.Settings.GlobalWorkingPath = _action.GlobalWorkingPath;
+        class PackageInstaller
+        {
+            private readonly IInstallContentAction<IInstallableContent> _action;
+            private readonly Func<bool> _getIsPremium;
+            private readonly StatusRepo _statusRepo;
+            private PackageManager _pm;
+            private bool _synqInitialized;
+
+            public PackageInstaller(IInstallContentAction<IInstallableContent> action, Func<bool> getIsPremium) {
+                _action = action;
+                _getIsPremium = getIsPremium;
+                _statusRepo = new StatusRepo(_action.CancelToken);
+            }
+
+            private async Task UpdateSynqRemotes() {
+                await
+                    RepositoryHandler.ReplaceRemotes(GetRemotes(_action.RemoteInfo, _getIsPremium()), _pm.Repo)
+                        .ConfigureAwait(false);
+                await _pm.UpdateRemotes().ConfigureAwait(false);
+                _pm.StatusRepo.Reset(RepoStatus.Processing, 0);
+            }
+
+            public async Task<Package[]> Install(IDictionary<IPackagedContent, SpecificVersion> packagesToInstall,
+                bool force, PackageProgress packageProgress, IAbsoluteDirectoryPath repoPath) {
+                using (var repo = new Repository(repoPath, true)) {
+                    SetupPackageManager(repo);
+                    if (!_synqInitialized) {
+                        await _pm.Repo.ClearObjectsAsync().ConfigureAwait(false);
+                        await UpdateSynqRemotes().ConfigureAwait(false);
+                        _synqInitialized = true;
+                    }
+                    _pm.Progress = packageProgress;
+                    HandlePackageStats(packagesToInstall);
+                    return await _pm.ProcessPackages(packagesToInstall.Values, skipWhenFileMatches: !force)
+                        .ConfigureAwait(false);
+                }
+            }
+
+            private void HandlePackageStats(IDictionary<IPackagedContent, SpecificVersion> packagesToInstall) {
+                var localPackageIndex = _pm.GetPackagesAsVersions();
+                foreach (var p in packagesToInstall) {
+                    if (localPackageIndex.ContainsKey(p.Value.Name)) {
+                        if (localPackageIndex[p.Value.Name].Contains(p.Value.VersionInfo)) {
+                            // already have version
+                        } else {
+                            HandleUpdateStats(p.Key, _action.Status);
+                            // is Update
+                        }
+                    } else {
+                        HandleInstallStats(p.Key, _action.Status);
+                        // is Install
+                    }
+                }
+            }
+
+            private void SetupPackageManager(Repository repo) {
+                _pm = new PackageManager(repo, _action.Paths.Path, _statusRepo, true);
+                Sync.Core.Packages.CheckoutType ct;
+                if (!Enum.TryParse(_action.CheckoutType.ToString(), out ct))
+                    throw new InvalidOperationException("Unsupported checkout type");
+                _pm.Settings.CheckoutType = ct;
+                _pm.Settings.GlobalWorkingPath = _action.GlobalWorkingPath;
+            }
+
+            private IEnumerable<KeyValuePair<Guid, Uri[]>> GetRemotes(RemoteInfoAttribute synqRemoteInfo, bool isPremium)
+                => isPremium ? synqRemoteInfo.PremiumRemotes : synqRemoteInfo.DefaultRemotes;
         }
-
-        IEnumerable<KeyValuePair<Guid, Uri[]>> GetRemotes(RemoteInfoAttribute synqRemoteInfo, bool isPremium)
-            => isPremium ? synqRemoteInfo.PremiumRemotes : synqRemoteInfo.DefaultRemotes;
-
-        Task InstallContent(IContentSpec<IInstallableContent> c)
-            => c.Content.Install(this, _action.CancelToken, c.Constraint);
 
         internal class SteamExternalInstallerSession
         {
@@ -784,7 +842,7 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        class SixSyncProgress
+        public class SixSyncProgress
         {
             public SixSyncProgress(ProgressComponent main, ProgressComponent processing) {
                 Main = main;
@@ -858,12 +916,13 @@ namespace SN.withSIX.Mini.Applications.Services
 
     internal class ExternalContentInstallerSession
     {
-        private readonly IAbsoluteDirectoryPath _contentPath;
         private readonly Dictionary<ContentPublisher, ProgressLeaf> _content;
-        private readonly Game _game;
+        private readonly IAbsoluteDirectoryPath _contentPath;
         private readonly IExternalFileDownloader _dl;
+        private readonly Game _game;
 
-        public ExternalContentInstallerSession(IAbsoluteDirectoryPath contentPath, Dictionary<ContentPublisher, ProgressLeaf> content, Game game, IExternalFileDownloader dl) {
+        public ExternalContentInstallerSession(IAbsoluteDirectoryPath contentPath,
+            Dictionary<ContentPublisher, ProgressLeaf> content, Game game, IExternalFileDownloader dl) {
             _contentPath = contentPath;
             _content = content;
             _game = game;
@@ -873,8 +932,8 @@ namespace SN.withSIX.Mini.Applications.Services
         public async Task Install(CancellationToken cancelToken, bool force) {
             // TODO: Progress reporting
             foreach (var c in
-                    _content.Select(x => Tuple.Create(x.Key, x.Value, _game.GetPublisherUrl(x.Key)))
-                        .GroupBy(x => x.Item3.DnsSafeHost).SelectMany(x => x)) {
+                _content.Select(x => Tuple.Create(x.Key, x.Value, _game.GetPublisherUrl(x.Key)))
+                    .GroupBy(x => x.Item3.DnsSafeHost).SelectMany(x => x)) {
                 var f =
                     await
                         _dl.DownloadFile(c.Item3, _contentPath, c.Item2.Update, cancelToken)

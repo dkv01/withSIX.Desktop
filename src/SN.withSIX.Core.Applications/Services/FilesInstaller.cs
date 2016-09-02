@@ -9,6 +9,7 @@ using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
+using SN.withSIX.Sync.Core.Transfer.Specs;
 
 namespace SN.withSIX.Core.Applications.Services
 {
@@ -61,8 +62,9 @@ namespace SN.withSIX.Core.Applications.Services
             DeleteSourceFileIfExists();
             Directory.CreateDirectory(_sourceFile.ParentDirectoryPath.ToString());
             await
-                _downloader.DownloadAsync(Tools.Transfer.JoinUri(CommonUrls.SoftwareUpdateUri, _file), _sourceFile,
-                    _progress).ConfigureAwait(false);
+                _downloader.DownloadAsync(
+                    new FileDownloadSpec(Tools.Transfer.JoinUri(CommonUrls.SoftwareUpdateUri, _file), _sourceFile,
+                        _progress) {CancellationToken = _statusRepo.CancelToken}).ConfigureAwait(false);
             _statusRepo.UpdateProgress(50);
         }
 

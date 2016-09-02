@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -64,7 +65,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
             }
         }
 
-        public Task LoadAsync(bool includeObjects = false) => Task.Run(() => Load(includeObjects));
+        public Task LoadAsync(bool includeObjects = false, CancellationToken token = default(CancellationToken)) => Task.Run(() => Load(includeObjects));
 
         public void Load(bool includeObjects = false) {
             LoadConfig();
@@ -103,7 +104,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
                     .Objects;
         }
 
-        public async Task Update(bool inclObjects = false) {
+        public async Task Update(CancellationToken token, bool inclObjects = false) {
             await
                 DownloadFiles(inclObjects
                     ? defaultFiles.Concat(new[] {
@@ -111,26 +112,25 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
                             OnVerify = Repository.ConfirmValidity<RepositoryStoreObjectsDto>
                         }
                     })
-                    : defaultFiles)
+                    : defaultFiles, token)
                     .ConfigureAwait(false);
 
-            await LoadAsync(inclObjects).ConfigureAwait(false);
+            await LoadAsync(inclObjects, token).ConfigureAwait(false);
         }
 
         public static int CalculateHttpFallbackAfter(int limit) => Math.Max((int) (limit/3.0), 1);
 
-        async Task DownloadFiles(IEnumerable<FileFetchInfo> remoteFiles) {
+        async Task DownloadFiles(IEnumerable<FileFetchInfo> remoteFiles, CancellationToken token) {
             var retryLimit = 6;
-            using (var statusRepo = new StatusRepo()) {
-                await SyncEvilGlobal.DownloadHelper.DownloadFilesAsync(Urls, statusRepo,
-                    remoteFiles.ToDictionary(x => x,
-                        x =>
-                            (ITransferStatus)
-                                new TransferStatus(x.FilePath) {
-                                    ZsyncHttpFallbackAfter = CalculateHttpFallbackAfter(retryLimit)
-                                }), Path,
-                    retryLimit).ConfigureAwait(false);
-            }
+            var statusRepo = new StatusRepo(token);
+            await SyncEvilGlobal.DownloadHelper.DownloadFilesAsync(Urls, statusRepo,
+                remoteFiles.ToDictionary(x => x,
+                    x =>
+                        (ITransferStatus)
+                            new TransferStatus(x.FilePath) {
+                                ZsyncHttpFallbackAfter = CalculateHttpFallbackAfter(retryLimit)
+                            }), Path,
+                retryLimit).ConfigureAwait(false);
         }
     }
 }
