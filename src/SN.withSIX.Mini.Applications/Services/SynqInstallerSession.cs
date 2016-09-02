@@ -23,6 +23,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
@@ -889,14 +890,5 @@ namespace SN.withSIX.Mini.Applications.Services
                 }
             }
         }
-    }
-
-    public interface IExternalFileDownloader
-    {
-        Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
-            Action<long?, double> progressAction, CancellationToken cancelToken = default(CancellationToken));
-
-        Task StartSession(Uri url, IAbsoluteDirectoryPath destination, CancellationToken cancelToken = default(CancellationToken));
-        bool RegisterExisting(Uri url, IAbsoluteFilePath path);
     }
 }

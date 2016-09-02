@@ -216,6 +216,7 @@
     <Compile Include="Services\GameLockMonitor.cs" />
     <Compile Include="Services\GameSwitcher.cs" />
     <Compile Include="Services\IExplorerExtensionInstaller.cs" />
+    <Compile Include="Services\IExternalFileDownloader.cs" />
     <Compile Include="Services\Infra\IContentFolderLinkContext.cs" />
     <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
     <Compile Include="Services\Infra\IDbContext.cs" />
