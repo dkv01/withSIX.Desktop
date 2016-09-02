@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Extensions;
+using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
@@ -55,7 +55,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 await m.Install(false).ConfigureAwait(false);
         }
 
-        protected override IAbsoluteDirectoryPath GetDefaultDirectory() => GetGogDir("Starbound") ?? base.GetDefaultDirectory();
+        protected override IAbsoluteDirectoryPath GetDefaultDirectory()
+            => GetGogDir("Starbound") ?? base.GetDefaultDirectory();
 
         private void HandleModDirectory(string[] packages) {
             var md = GetModInstallationDirectory();
@@ -98,7 +99,9 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         }
 
         private StarboundMod CreateMod(IModContent mod)
-            => new StarboundMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory());
+            =>
+                new StarboundMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory(),
+                    InstalledState.Directory);
 
         public override Uri GetPublisherUrl(ContentPublisher c) {
             switch (c.Publisher) {
@@ -121,14 +124,17 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
     internal class StarboundMod
     {
+        private readonly IAbsoluteDirectoryPath _gameDir;
         private readonly IModContent _mod;
         private readonly IAbsoluteDirectoryPath _modDir;
         private readonly IAbsoluteDirectoryPath _sourceDir;
 
-        public StarboundMod(IModContent mod, IAbsoluteDirectoryPath sourceDir, IAbsoluteDirectoryPath modDir) {
+        public StarboundMod(IModContent mod, IAbsoluteDirectoryPath sourceDir, IAbsoluteDirectoryPath modDir,
+            IAbsoluteDirectoryPath gameDir) {
             _mod = mod;
             _sourceDir = sourceDir;
             _modDir = modDir;
+            _gameDir = gameDir;
         }
 
         public async Task Install(bool force) {
@@ -139,10 +145,43 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             if (!_sourceDir.Exists)
                 throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
             // TODO: Support mods without Paks, perhaps as "not installable"
-            var sourcePak = _sourceDir.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).FirstOrDefault();
-            if (sourcePak == null || !sourcePak.Exists)
-                throw new NotFoundException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
-            await sourcePak.ToAbsoluteFilePath().CopyAsync(pakFile).ConfigureAwait(false);
+
+            // 1. rename *.modinfo to pak.modinfo
+            var c = @"win32\asset_packer.exe modfolder modfolder.pak";
+
+            var sourcePak =
+                _sourceDir.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).FirstOrDefault();
+            IAbsoluteFilePath sourcePakPath;
+            if (sourcePak == null || !sourcePak.Exists) {
+                var modInfo =
+                    _sourceDir.DirectoryInfo.EnumerateFiles("*.modinfo", SearchOption.AllDirectories).FirstOrDefault();
+                if (modInfo == null) {
+                    throw new NotInstallableException(
+                        $"{_mod.PackageName} source .pak not found! You might try Diagnosing");
+                }
+                // todo get the dir
+                var modInfoPath = modInfo.ToAbsoluteFilePath();
+                sourcePakPath = await PackMod(modInfoPath).ConfigureAwait(false);
+            } else
+                sourcePakPath = sourcePak.ToAbsoluteFilePath();
+            await sourcePakPath.CopyAsync(pakFile).ConfigureAwait(false);
+        }
+
+        private async Task<IAbsoluteFilePath> PackMod(IAbsoluteFilePath modInfoPath) {
+            await modInfoPath.CopyAsync(modInfoPath.GetBrotherFileWithName("pak.modinfo")).ConfigureAwait(false);
+            var sourcePakPath =
+                Path.GetTempPath().ToAbsoluteDirectoryPath().GetChildFileWithName($"{_mod.PackageName}.pak");
+            // TODO: Delete after usage
+            var r = await
+                Tools.ProcessManager.LaunchAndGrabAsync(
+                    new BasicLaunchInfo(new ProcessStartInfo(
+                        _gameDir.GetChildFileWithName(@"win32\asset_packer.exe").ToString(),
+                        new[] {modInfoPath.ParentDirectoryPath.ToString(), sourcePakPath.ToString()}
+                            .CombineParameters()))).ConfigureAwait(false);
+            if (r.ExitCode != 0)
+                throw new Exception(
+                    $"Failed creating a pak file for the mod. Code: {r.ExitCode} Output: {r.StandardOutput} Error: {r.StandardError}");
+            return sourcePakPath;
         }
 
         public async Task Uninstall() {
@@ -153,5 +192,10 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             if (pakFile.Exists)
                 pakFile.Delete();
         }
+    }
+
+    public class NotInstallableException : NotFoundException
+    {
+        public NotInstallableException(string message) : base(message) {}
     }
 }
