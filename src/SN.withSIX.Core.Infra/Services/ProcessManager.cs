@@ -415,7 +415,11 @@ namespace SN.withSIX.Core.Infra.Services
             if (ret.ExitCode == 0)
                 return ret;
 
-            throw new ProcessException(
+            throw BuildProcessException(startInfo, tool, ret);
+        }
+
+        private static ProcessException BuildProcessException(ProcessStartInfo startInfo, string tool,
+            ProcessExitResultWithOutput ret) => new ProcessException(
                 string.Format("{6} [{7}] error: {0} while running: {1} {2} from {3}\nOutput: {4}\nError: {5}",
                     ret.ExitCode,
                     startInfo.FileName,
@@ -425,7 +429,6 @@ namespace SN.withSIX.Core.Infra.Services
                     ret.StandardError,
                     tool ?? Path.GetFileNameWithoutExtension(startInfo.FileName),
                     ret.Id));
-        }
 
         public virtual ProcessExitResultWithOutput LaunchAndGrabToolCmd(ProcessStartInfo info,
             string tool) {
