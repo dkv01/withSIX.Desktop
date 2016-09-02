@@ -41,7 +41,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         protected override bool ShouldLaunchWithSteam() => false;
 
-        protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+        protected override Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             // TODO: PublisherId
 
             var content = launchContentAction.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint)).ToArray();
@@ -51,8 +51,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 .ToArray();
             HandleModDirectory(packages);
 
-            foreach (var m in content.OfType<IModContent>().Select(CreateMod))
-                await m.Install(false).ConfigureAwait(false);
+            return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Install(false));
         }
 
         protected override IAbsoluteDirectoryPath GetDefaultDirectory()
@@ -192,10 +191,5 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             if (pakFile.Exists)
                 pakFile.Delete();
         }
-    }
-
-    public class NotInstallableException : NotFoundException
-    {
-        public NotInstallableException(string message) : base(message) {}
     }
 }

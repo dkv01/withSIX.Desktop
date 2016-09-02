@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Security;
 using System.Security.AccessControl;
@@ -527,47 +528,69 @@ namespace SN.withSIX.Core
                     if (user == null)
                         user = GetCurrentUserSDDL();
 
-                    if (Directory.Exists(location.ToString())) {
+                    var path = location.ToString();
+                    if (Directory.Exists(path)) {
+                        var dp = path.ToAbsoluteDirectoryPath();
                         try {
-                            SetDirectoryACL(location, user, rights);
+                            SetDirectoryACL(dp, user, rights);
                         } catch (InvalidOperationException) {
-                            FixDirectoryACL(location);
-                            SetDirectoryACL(location, user, rights);
+                            FixDirectoryACL(dp);
+                            SetDirectoryACL(dp, user, rights);
                         }
-                    } else if (File.Exists(location.ToString())) {
+                    } else if (File.Exists(path)) {
+                        var fp = path.ToAbsoluteFilePath();
                         try {
-                            SetFileACL(location, user, rights);
+                            SetFileACL(fp, user, rights);
                         } catch (InvalidOperationException) {
-                            FixFileACL(location);
-                            SetFileACL(location, user, rights);
+                            FixFileACL(fp);
+                            SetFileACL(fp, user, rights);
                         }
                     } else
                         throw new Exception("Path does not exist");
                 }
 
-                static void SetDirectoryACL(IAbsolutePath location, string user, FileSystemRights rights) {
-                    var acl = Directory.GetAccessControl(location.ToString());
-                    acl.SetAccessRule(GetAccessRule(user, rights));
-                    Directory.SetAccessControl(location.ToString(), acl);
+                static void SetDirectoryACL(IAbsoluteDirectoryPath location, string user, FileSystemRights rights) {
+                    var di = location.DirectoryInfo;
+                    if (ModifyACL(user, rights, di.GetAccessControl()))
+                        di.SetAccessControl(di.GetAccessControl());
                 }
 
-                static void SetFileACL(IAbsolutePath location, string user, FileSystemRights rights) {
-                    var acl = File.GetAccessControl(location.ToString());
-                    acl.SetAccessRule(GetAccessRule(user, rights));
-                    File.SetAccessControl(location.ToString(), acl);
+                static void SetFileACL(IAbsoluteFilePath location, string user, FileSystemRights rights) {
+                    var fi = location.FileInfo;
+                    if (ModifyACL(user, rights, fi.GetAccessControl()))
+                        fi.SetAccessControl(fi.GetAccessControl());
                 }
+
+                private static bool ModifyACL(string user, FileSystemRights rights, CommonObjectSecurity security) {
+                    var rule = GetAccessRule(user, rights);
+                    if (FindMatch(security, rule))
+                        return false;
+                    bool modified;
+                    security.ModifyAccessRule(AccessControlModification.Add, rule, out modified);
+                    return modified;
+                }
+
+                private static bool FindMatch(CommonObjectSecurity security, FileSystemAccessRule rule)
+                    => security.GetAccessRules(true, false, typeof (SecurityIdentifier))
+                        .OfType<FileSystemAccessRule>()
+                        .Any(
+                            ar =>
+                                ar.IdentityReference.Equals(rule.IdentityReference) &&
+                                ar.FileSystemRights.Equals(rule.FileSystemRights) &&
+                                ar.InheritanceFlags.Equals(rule.InheritanceFlags) &&
+                                ar.PropagationFlags.Equals(rule.PropagationFlags));
 
                 // Fix for not caninonical issue...
-                static void FixDirectoryACL(IAbsolutePath path) {
-                    var directoryInfo = new DirectoryInfo(path.ToString());
+                static void FixDirectoryACL(IAbsoluteDirectoryPath path) {
+                    var directoryInfo = path.DirectoryInfo;
                     var directorySecurity = directoryInfo.GetAccessControl(AccessControlSections.Access);
                     CanonicalizeDacl(directorySecurity);
                     directoryInfo.SetAccessControl(directorySecurity);
                 }
 
                 // Fix for not caninonical issue...
-                static void FixFileACL(IAbsolutePath path) {
-                    var fileInfo = new FileInfo(path.ToString());
+                static void FixFileACL(IAbsoluteFilePath path) {
+                    var fileInfo = path.FileInfo;
                     var fileSecurity = fileInfo.GetAccessControl(AccessControlSections.Access);
                     CanonicalizeDacl(fileSecurity);
                     fileInfo.SetAccessControl(fileSecurity);

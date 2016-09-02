@@ -88,15 +88,17 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
                 .ToArray(), action.Cleaning.FileTypes, action.Paths.Path.GetChildDirectoryWithName(SyncBackupDir));
 
         async Task Synchronize(IInstallContentAction<IInstallableContent> action) {
-            await (await CreateSession(action).ConfigureAwait(false)).Synchronize().ConfigureAwait(false);
-            if (!action.Status.IsEmpty())
-                await PostInstallStatusOverview(action.Status).ConfigureAwait(false);
+            try {
+                await (await CreateSession(action).ConfigureAwait(false)).Synchronize().ConfigureAwait(false);
+            } finally {
+                if (!action.Status.IsEmpty())
+                    await PostInstallStatusOverview(action.Status).ConfigureAwait(false);
+            }
         }
 
         async Task<IInstallerSession> CreateSession(
-            IInstallContentAction<IInstallableContent> action) {
-            return _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
-        }
+            IInstallContentAction<IInstallableContent> action)
+            => _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
 
         // TODO: Post this to an async Queue that processes and retries in the background instead? (and perhaps merges queued items etc??)
         // And make the errors non fatal..

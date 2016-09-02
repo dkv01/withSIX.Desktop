@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Extensions;
@@ -77,6 +78,16 @@ namespace SN.withSIX.Mini.Core.Games
             if (SteamDirectories.IsValid && SteamDirectories.Workshop.ContentPath.Exists)
                 yield return SteamDirectories.Workshop.ContentPath;
         }
+
+
+        protected Task EnableModsInternal<T>(IEnumerable<T> content, Func<T, Task> act)
+            => content.RunAndThrow(async m => {
+                try {
+                    await act(m).ConfigureAwait(false);
+                } catch (NotInstallableException ex) {
+                    MainLog.Logger.Warn($"Error enabling mod {ex}");
+                }
+            });
     }
 
     internal class SteamGameContentScanner

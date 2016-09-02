@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
@@ -43,7 +44,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 return await DownloadFileImpl(url, destination, progressAction, token).ConfigureAwait(false);
             } catch (Exception ex) {
                 if (ex.Message.StartsWith("AbortedBeforeStartedError"))
-                    throw new OperationCanceledException(ex.Message, ex);
+                    throw new ExternalDownloadCancelled(ex.Message, ex);
                 throw;
             }
         }
@@ -80,5 +81,10 @@ namespace SN.withSIX.Mini.Applications.Services
             Tools.Generic.OpenUrl(url);
             return _tasks[url].Task;
         }
+    }
+
+    public class ExternalDownloadCancelled : UserException
+    {
+        public ExternalDownloadCancelled(string message, Exception exception) : base(message, exception) {}
     }
 }

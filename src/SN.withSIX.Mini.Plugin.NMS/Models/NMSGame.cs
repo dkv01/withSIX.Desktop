@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
@@ -39,7 +40,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
 
         protected override Task UninstallMod(IModContent mod) => CreateMod(mod).Uninstall();
 
-        protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+        protected override Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             var content = launchContentAction.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint)).ToArray();
             var packages = content.OfType<IHavePackageName>()
                 .Select(x => x.PackageName)
@@ -47,8 +48,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 .ToArray();
             HandleModDirectory(packages);
 
-            foreach (var m in content.OfType<IModContent>().Select(CreateMod))
-                await m.Install(false).ConfigureAwait(false);
+            return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Install(false));
         }
 
         IAbsoluteDirectoryPath GetModInstallationDirectory()
@@ -134,7 +134,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             var sourcePak =
                 _source.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).First().ToAbsoluteFilePath();
             if (!sourcePak.Exists)
-                throw new NotFoundException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
+                throw new NotInstallableException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
         }
 

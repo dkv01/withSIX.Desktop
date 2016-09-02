@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
 
@@ -27,6 +28,11 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task SingleToolsInstallTask(CancellationToken token = default(CancellationToken)) {
+            using (this.Bench("Awaiting tools install"))
+                await SingleToolsInstallTaskInternal(token).ConfigureAwait(false);
+        }
+
+        private async Task SingleToolsInstallTaskInternal(CancellationToken token) {
             Task lazy;
             using (await _lock.LockAsync(token).ConfigureAwait(false)) {
                 if (_lazy == null || _lazy.IsFaulted)

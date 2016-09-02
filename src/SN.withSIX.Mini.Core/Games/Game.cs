@@ -21,6 +21,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Content;
+using withSIX.Api.Models.Exceptions;
 using GameGuids = withSIX.Api.Models.Games.GameGuids;
 using withSIX.Api.Models.Extensions;
 using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
@@ -662,5 +663,10 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public IReadOnlyCollection<GameRequirementMissingException> Exceptions { get; }
+    }
+
+    public class NotInstallableException : NotFoundException
+    {
+        public NotInstallableException(string message) : base(message) { }
     }
 }

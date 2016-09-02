@@ -75,6 +75,9 @@ namespace SN.withSIX.Core.Extensions
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> enumerable, T item)
             => enumerable.Concat(Enumerable.Repeat(item, 1));
 
+        public static IEnumerable<T> NotOfType<T, T2>(this IReadOnlyCollection<T> This) where T2 : T
+            => This.Where(x => !(x is T2)); // This.Except(This.OfType<T2>().Cast<T>());
+
         public static async Task<IEnumerable<TOut>> SelectAsync<TIn, TOut>(this IEnumerable<TIn> input,
             Func<TIn, Task<TOut>> doFunc) {
             var list = new List<TOut>();

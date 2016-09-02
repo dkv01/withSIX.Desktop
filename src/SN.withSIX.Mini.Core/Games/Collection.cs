@@ -68,8 +68,8 @@ namespace SN.withSIX.Mini.Core.Games
         public override async Task Install(IInstallerSession installerSession, CancellationToken cancelToken,
             string constraint = null) {
             await base.Install(installerSession, cancelToken, constraint).ConfigureAwait(false);
-            foreach (var c in GetCollections(constraint))
-                await c.Content.PostInstall(installerSession, cancelToken, true).ConfigureAwait(false);
+            //foreach (var c in GetCollections(constraint))
+                //await c.Content.PostInstall(installerSession, cancelToken, true).ConfigureAwait(false);
             Installed(constraint ?? Version, true);
         }
 

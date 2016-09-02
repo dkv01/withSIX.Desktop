@@ -18,8 +18,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
-using withSIX.Api.Models;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -27,6 +27,7 @@ namespace SN.withSIX.Core.Extensions
     {
         public static Task<T> StartLongRunningTask<T>(Func<Task<T>> fnc)
             => StartLongRunningTask(fnc, CancellationToken.None);
+
         public static Task StartLongRunningTask(Action fnc) => StartLongRunningTask(fnc, CancellationToken.None);
         public static Task StartLongRunningTask(Func<Task> fnc) => StartLongRunningTask(fnc, CancellationToken.None);
         public static Task<T> StartLongRunningTask<T>(Func<T> fnc) => StartLongRunningTask(fnc, CancellationToken.None);
@@ -50,6 +51,52 @@ namespace SN.withSIX.Core.Extensions
             =>
                 Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning | TaskCreationOptions.DenyChildAttach,
                     TaskScheduler.Default);
+
+
+        public static Task<List<Exception>> Run<T>(this IEnumerable<T> content, Func<T, Task> act)
+            => content.Select(x => new Func<Task>(() => act(x))).Run();
+
+        public static Task RunAndThrow<T>(this IEnumerable<T> content, Func<T, Task> act)
+            => content.Select(x => new Func<Task>(() => act(x))).RunAndThrow();
+
+        public static IEnumerable<Func<Task>> Create(params Func<Task>[] tasks) => tasks;
+
+        public static async Task<List<Exception>> Run(this IEnumerable<Func<Task>> content) {
+            var errors = new List<Exception>();
+            await content.RunInternal(errors.Add).ConfigureAwait(false);
+            return errors;
+        }
+
+        public static async Task<List<Exception>> RunAnd(this IEnumerable<Func<Task>> content, Action<Exception> onError) {
+            var errors = new List<Exception>();
+            await content.RunInternal(x => {
+                errors.Add(x);
+                onError(x);
+            }).ConfigureAwait(false);
+            return errors;
+        }
+
+        public static async Task RunInternal(this IEnumerable<Func<Task>> content, Action<Exception> onError) {
+            foreach (var m in content) {
+                try {
+                    await m().ConfigureAwait(false);
+                } catch (OperationCanceledException) {
+                    throw;
+                } catch (Exception ex) {
+                    onError(ex);
+                }
+            }
+        }
+
+        public static Task RunAndThrow(this IEnumerable<Func<Task>> content) => content.Run().ThrowIf();
+
+        public static async Task ThrowIf(this Task<List<Exception>> errorsFac)
+            => (await errorsFac.ConfigureAwait(false)).ThrowIf();
+
+        public static void ThrowIf(this List<Exception> errors) {
+            if (errors.Any())
+                throw new AggregateException(errors).Flatten();
+        }
     }
 
     public static class SystemExtensions
@@ -62,26 +109,6 @@ namespace SN.withSIX.Core.Extensions
 
         public static CancelHandler ThrowWhenCanceled(this CancellationToken cancellationToken)
             => new CancelHandler(cancellationToken);
-
-        public class CancelHandler : IDisposable
-        {
-            private readonly CancellationTokenSource _cts;
-            private CancellationTokenRegistration _registration;
-            private readonly Task _task;
-
-            public CancelHandler(CancellationToken token) {
-                _cts = new CancellationTokenSource();
-                _registration = token.Register(_cts.Cancel);
-                _task = Task.Delay(-1, _cts.Token);
-            }
-
-            public Task Task => _task;
-            public void Dispose() {
-                _registration.Dispose();
-                _cts.Cancel(); // so we get rid of the task..
-                _cts.Dispose();
-            }
-        }
 
         public static void DoWith<T>(this T This, Action<T> exp) => exp(This);
 
@@ -110,7 +137,7 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static IEnumerable<T> AsEnumerable<T>(this T enumVal) where T : struct, IConvertible => AsEnumerable<T>();
-        public static IEnumerable<T> AsEnumerable<T>() => Enum.GetValues(typeof(T)).Cast<T>();
+        public static IEnumerable<T> AsEnumerable<T>() => Enum.GetValues(typeof (T)).Cast<T>();
 
         public static void TryKill(this Process p) {
             var id = -1;
@@ -119,12 +146,12 @@ namespace SN.withSIX.Core.Extensions
             } catch (Win32Exception e) {
                 try {
                     id = p.Id;
-                } catch { }
+                } catch {}
                 MainLog.Logger.FormattedWarnException(e, "Error while trying to kill process " + id);
             } catch (InvalidOperationException e) {
                 try {
                     id = p.Id;
-                } catch { }
+                } catch {}
                 MainLog.Logger.FormattedWarnException(e, "Error while trying to kill process" + id);
             }
         }
@@ -668,6 +695,26 @@ namespace SN.withSIX.Core.Extensions
         public static IEnumerable<string> SplitBySize(this string @this, int chunkSize)
             => Enumerable.Range(0, @this.Length/chunkSize)
                 .Select(i => @this.Substring(i*chunkSize, chunkSize));
+
+        public class CancelHandler : IDisposable
+        {
+            private readonly CancellationTokenSource _cts;
+            private CancellationTokenRegistration _registration;
+
+            public CancelHandler(CancellationToken token) {
+                _cts = new CancellationTokenSource();
+                _registration = token.Register(_cts.Cancel);
+                Task = Task.Delay(-1, _cts.Token);
+            }
+
+            public Task Task { get; }
+
+            public void Dispose() {
+                _registration.Dispose();
+                _cts.Cancel(); // so we get rid of the task..
+                _cts.Dispose();
+            }
+        }
     }
 
     public class CachedEnumerable<T> : IEnumerable<T>
