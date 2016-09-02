@@ -9,28 +9,26 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Steam.Core;
+using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
-using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
-    public class SynqUninstallerSession : IUninstallSession
+    public class UninstallerSession : IUninstallSession
     {
         readonly IUninstallContentAction2<IUninstallableContent> _action;
         PackageManager _pm;
         Repository _repository;
 
-        public SynqUninstallerSession(IUninstallContentAction2<IUninstallableContent> action) {
+        public UninstallerSession(IUninstallContentAction2<IUninstallableContent> action) {
             _action = action;
         }
 
@@ -59,7 +57,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     _action.Game.Delete(content);
                     using (_repository = new Repository(GetRepositoryPath(), true)) {
                         _pm = new PackageManager(_repository, _action.Paths.Path,
-                            new Sync.Core.Legacy.Status.StatusRepo(_action.CancelToken), true);
+                            new StatusRepo(_action.CancelToken), true);
                         _pm.DeletePackageIfExists(new SpecificVersion(content.PackageName));
                     }
                 }
@@ -131,17 +129,18 @@ namespace SN.withSIX.Mini.Applications.Services
                     Observable.Interval(TimeSpan.FromMilliseconds(500) /*, api.Scheduler */)
                         .TakeWhile(
                             _ =>
-                                steamContent.Select(x => ((IContentWithPackageName) x.Key).GetSourceDirectory(_action.Game))
+                                steamContent.Select(
+                                    x => ((IContentWithPackageName) x.Key).GetSourceDirectory(_action.Game))
                                     .Any(x => x.Exists))
                         .ToTask(cts.Token)
                         .ConfigureAwait(false);
             }
         }
 
-        private SynqInstallerSession.SteamExternalInstallerSession CreateSteamSession(
+        private InstallerSession.SteamExternalInstallerSession CreateSteamSession(
             Dictionary<ulong, ProgressLeaf> progressLeaves)
             =>
-                new SynqInstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
+                new InstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
                     _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves);
 
         IAbsoluteDirectoryPath GetRepositoryPath()

@@ -42,7 +42,7 @@ using Group = SN.withSIX.Mini.Core.Social.Group;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
-    public class SynqInstallerSession : IInstallerSession
+    public class InstallerSession : IInstallerSession
     {
         readonly IInstallContentAction<IInstallableContent> _action;
         readonly IContentEngine _contentEngine;
@@ -91,7 +91,7 @@ namespace SN.withSIX.Mini.Applications.Services
         private ProgressComponent _steamProcessing;
         private ProgressComponent _steamProgress;
 
-        public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
+        public InstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
             Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
             IAuthProvider authProvider, IExternalFileDownloader dl) {
             if (action == null)
@@ -575,7 +575,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 _statusRepo = new StatusRepo(_action.CancelToken);
             }
 
-            public Func<double, long?, Task> TryLegacyStatusChange { get; set; }
+            public Func<double, long?, Task> TryLegacyStatusChange { get; }
 
             public async Task PrepareGroupsAndRepositories() {
                 //_preparingProgress.Progress = 50;

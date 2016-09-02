@@ -36,7 +36,7 @@ namespace SN.withSIX.Mini.Applications.Factories
             Func<ProgressInfo, Task> progress) {
             switch (action.InstallerType) {
             case InstallerType.Synq:
-                return new SynqInstallerSession(action, _toolsInstaller, _isPremium, progress, _contentEngine,
+                return new InstallerSession(action, _toolsInstaller, _isPremium, progress, _contentEngine,
                     _authProvider, _dl);
             default:
                 throw new NotSupportedException(action.InstallerType + " is not supported!");
@@ -44,6 +44,6 @@ namespace SN.withSIX.Mini.Applications.Factories
         }
 
         public IUninstallSession CreateUninstaller(IUninstallContentAction2<IUninstallableContent> action)
-            => new SynqUninstallerSession(action);
+            => new UninstallerSession(action);
     }
 }
