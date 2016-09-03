@@ -60,15 +60,13 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         async Task<List<ModDtoV2>> DownloadContentListV2(IEnumerable<Guid> gameIds, ApiHashes hashes) {
             var mods =
                 await
-                    Tools.Transfer.GetJson<List<ModDtoV2>>(
-                        new Uri(apiCdnHost, "/api/v2/mods.json.gz?v=" + hashes.Mods))
+                    new Uri(apiCdnHost, "/api/v2/mods.json.gz?v=" + hashes.Mods).GetJson<List<ModDtoV2>>()
                         .ConfigureAwait(false);
             return mods.Where(x => gameIds.Contains(x.GameId)).ToList();
         }
 
-        Task<List<ModClientApiJson>> DownloadContentListV3(Guid gameId, ApiHashes hashes) =>
-            Tools.Transfer.GetJson<List<ModClientApiJson>>(
-                new Uri(apiCdnHost, $"/api/v3/mods-{gameId}.json.gz?v=" + hashes.Mods));
+        Task<string> DownloadContentListV3(Guid gameId, ApiHashes hashes) =>
+            new Uri(apiCdnHost, $"/api/v3/mods-{gameId}.json.gz?v=" + hashes.Mods).GetJsonText();
 
         async Task ProcessGame(Game game) {
             var invalidContent = game.Contents.Where(x => x.GameId == Guid.Empty).ToArray();
@@ -119,8 +117,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var mods = new List<ModClientApiJsonV3WithGameId>();
             foreach (var c in compatGameIds) {
                 var cMods = await DownloadContentListV3(c, latestHashes).ConfigureAwait(false);
-                mods.AddRange(
-                    cMods.Select(
+                mods.AddRange(cMods.FromJson<List<ModClientApiJson>>()
+                    .Select(
                         x =>
                             MappingExtensions.Mapper.Map<ModClientApiJson, ModClientApiJsonV3WithGameId>(x,
                                 opts => opts.AfterMap((src, dest) => dest.GameId = c))));

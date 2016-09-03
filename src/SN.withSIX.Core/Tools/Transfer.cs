@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -42,7 +43,7 @@ namespace SN.withSIX.Core
             public string EncodePathIfRequired(Uri uri, string path) => UriPathEncoder.EncodePath(uri, path);
 
             // TODO: Missing serializersettings?
-            public Task<T> GetJson<T>(Uri uri, string token = null) => DownloaderExtensions.GetJson<T>(uri, token);
+            public Task<T> GetJson<T>(Uri uri, string token = null) => uri.GetJson<T>(token);
 
             // TODO: Missing serializersettings?
             public Task<HttpResponseMessage> PostJson(object model, Uri uri, string token = null)
@@ -101,12 +102,16 @@ namespace SN.withSIX.Core
         static readonly DataAnnotationsValidator.DataAnnotationsValidator _validator =
             new DataAnnotationsValidator.DataAnnotationsValidator();
 
-        public static async Task<T> GetJson<T>(Uri uri, string token = null) {
+        public static async Task<T> GetJson<T>(this Uri uri, string token = null) {
+            var r = await uri.GetJsonText(token).ConfigureAwait(false);
+            return r.FromJson<T>();
+        }
+
+        public static async Task<string> GetJsonText(this Uri uri, string token = null) {
             using (var client = GetHttpClient()) {
                 client.Setup(uri, token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var r = await client.GetStringAsync(uri).ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<T>(r);
+                return await client.GetStringAsync(uri).ConfigureAwait(false);
             }
         }
 
