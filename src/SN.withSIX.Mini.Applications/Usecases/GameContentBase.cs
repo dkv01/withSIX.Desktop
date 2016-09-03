@@ -18,7 +18,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
 
     public abstract class GameContentBaseWithInfo : GameContentBase, IHaveRequestName
     {
-        public GameContentBaseWithInfo(Guid gameId) : base(gameId) {}
+        protected GameContentBaseWithInfo(Guid gameId) : base(gameId) {}
         public Uri Href { get; set; }
 
         public string Name { get; set; } = "Playlist";

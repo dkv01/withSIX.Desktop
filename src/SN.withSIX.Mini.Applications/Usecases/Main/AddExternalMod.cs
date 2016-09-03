@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     public class ExternalDownloadStarted : IAsyncCommand<Guid> {}
     public class ExternalDownloadProgressing : IAsyncVoidCommand {}
 
-    public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId
+    public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId, IHaveContentPublisher
     {
         readonly Regex nexus = new Regex(@"https?://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
 
@@ -111,6 +111,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public IAsyncVoidCommandBase GetNextAction()
             => new LaunchContent(GameId, Content);
+    }
+
+    public interface IHaveContentPublisher
+    {
+        string PubId { get; set; }
+        Publisher Publisher { get; }
     }
 
     public class AddExternalModRead : AddExternalMod, IExcludeGameWriteLock

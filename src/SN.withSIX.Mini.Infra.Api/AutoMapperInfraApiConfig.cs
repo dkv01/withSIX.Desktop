@@ -8,6 +8,7 @@ using AutoMapper;
 using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.WebApi;
 using withSIX.Api.Models.Content;
@@ -36,11 +37,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
-            cfg.CreateMap<ModClientApiJson, ModClientApiJsonV3WithGameId>();
             cfg.CreateMap<ModClientApiJsonV3WithGameId, ModClientApiJsonV3WithGameId>();
-
-            cfg.CreateMap<ModClientApiJson, ModDtoV2WithPubs>()
-                .ForMember(x => x.Dependencies, opt => opt.ResolveUsing(_ => new List<string>()));
 
             cfg.CreateMap<ContentPublisherApiJson, ContentPublisher>()
                 .ConstructUsing(src => new ContentPublisher(src.Type, src.Id))
@@ -58,12 +55,10 @@ namespace SN.withSIX.Mini.Infra.Api
 
             // TODO: Why do the above includes not work??
             cfg.CreateMap<ModDtoV2, ModNetworkContent>()
-                .Include<ModDtoV2WithPubs, ModNetworkContent>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
                 .ForMember(x => x.Version, opt => opt.MapFrom(src => src.GetVersion()));
-            cfg.CreateMap<ModDtoV2WithPubs, ModNetworkContent>();
             cfg.CreateMap<MissionDtoV2, MissionNetworkContent>()
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())

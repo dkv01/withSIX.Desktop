@@ -11,6 +11,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Extensions;
 
@@ -77,6 +78,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
     public class DbContextLocator : IDbContextLocator, IInfrastructureService
     {
+        public IApiContext GetApiContext() => GetConfirmScope().ApiContext();
+
         public IGameContext GetGameContext() => GetConfirmScope().GameContext();
 
         public IContentFolderLinkContext GetContentLinkContext() => GetConfirmScope().ContentLinkContext();
@@ -243,6 +246,8 @@ Stack Trace:
 
         public IGameContext GameContext() => _contexts._gameContext.Value;
 
+        public IApiContext ApiContext() => _contexts._apiContext.Value;
+
         public ISettingsStorage SettingsContext() => _contexts._settingsContext.Value;
 
         /// <summary>
@@ -329,15 +334,24 @@ Stack Trace:
         internal readonly Lazy<IContentFolderLinkContext> _contentLinkContext;
         internal readonly Lazy<ISettingsStorage> _settingsContext;
         internal Lazy<IGameContext> _gameContext;
+        internal Lazy<IApiContext> _apiContext;
 
         public DbContexts(ILocalCache cache, ISettingsStorage settingsStorage) {
             _cache = cache;
             _gameContext = new Lazy<IGameContext>(Factory);
+            _apiContext = new Lazy<IApiContext>(ApiFactory);
             _settingsContext = new Lazy<ISettingsStorage>(() => settingsStorage);
             _contentLinkContext =
                 new Lazy<IContentFolderLinkContext>(
                     () =>
                         new ContentFolderLinkContext(Common.Paths.LocalDataPath.GetChildFileWithName("folderlink.json")));
+        }
+
+        ApiContext ApiFactory() {
+            var apiCtx = new ApiContext(_cache);
+            // Workaround for nasty issue where we get the DomainEventHandler from the same lazy instance during load :S
+            _apiContext = new Lazy<IApiContext>(() => apiCtx);
+            return apiCtx;
         }
 
         GameContext Factory() {

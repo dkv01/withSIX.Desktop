@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -14,6 +15,7 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
 
@@ -102,12 +104,36 @@ namespace SN.withSIX.Mini.Applications
         }
 
         private async Task<bool> HandleGameContents(object request, Guid gameId) {
-            if (request is INeedGameContents) {
-                // TODO: Handle exception with an Ignore option, e.g in case internet/platform is down!
-                await _gameSwitcher.UpdateGameState(gameId).ConfigureAwait(false);
-                return true;
+            if (!(request is INeedGameContents))
+                return false;
+
+            // TODO: Handle exception with an Ignore option, e.g in case internet/platform is down!
+            var a = request as IHaveContent;
+            if (a != null) {
+                await _gameSwitcher.UpdateGameState(gameId, new ContentQuery {Ids = {a.Content.Id}}).ConfigureAwait(false);
+            } else {
+                var b = request as INeedContents;
+                if (b != null) {
+                    await
+                        _gameSwitcher.UpdateGameState(gameId,
+                            new ContentQuery {Ids = b.Contents.Select(x => x.Id).ToList()})
+                            .ConfigureAwait(false);
+                } else {
+                    var c = request as IHaveContentPublisher;
+                    if (c != null) {
+                        await
+                            _gameSwitcher.UpdateGameState(gameId,
+                                new ContentQuery {
+                                    Publishers = {new ContentPublisherApiJson {Id = c.PubId, Type = c.Publisher}}
+                                })
+                                .ConfigureAwait(false);
+                    } else
+                        await
+                            _gameSwitcher.UpdateGameState(gameId)
+                                .ConfigureAwait(false);
+                }
             }
-            return false;
+            return true;
         }
     }
 }

@@ -25,13 +25,14 @@ namespace SN.withSIX.Mini.Applications
     {
         Task Initialize();
 
-        Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds);
+        Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null);
     }
 
     public static class GameStuffExtensions
     {
         public static Task HandleGameContentsWhenNeeded(this ISetupGameStuff This,
-            params Guid[] gameIds) => This.HandleGameContentsWhenNeeded(gameIds);
+            ContentQuery query = null, params Guid[] gameIds)
+            => This.HandleGameContentsWhenNeeded(gameIds, query);
     }
 
     public class SetupGameStuff : IApplicationService, ISetupGameStuff, IDisposable
@@ -60,14 +61,15 @@ namespace SN.withSIX.Mini.Applications
 
         public Task Initialize() => Migrate();
 
-        public Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds) => HandleGameContents(gameIds);
+        public Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds,
+            ContentQuery query = null) => HandleGameContents(gameIds, query);
 
         async Task HandleGameContentsWhenNeededIndividualLock(params Guid[] tryGameIds) {
             var lockedGameIds = new List<Guid>();
             try {
                 using (var scope = _factory.Create()) {
                     lockedGameIds = await TryLockIndividualGames(tryGameIds).ConfigureAwait(false);
-                    await HandleGameContents(lockedGameIds, false).ConfigureAwait(false);
+                    await HandleGameContents(lockedGameIds).ConfigureAwait(false);
                     await scope.SaveChangesAsync().ConfigureAwait(false);
                 }
             } finally {
@@ -122,7 +124,7 @@ namespace SN.withSIX.Mini.Applications
                 await gc.SaveChanges().ConfigureAwait(false);
         }
 
-        async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, bool shouldEmitEvents = true) {
+        async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Handling game contents for {string.Join(", ", gameIds)}");
 
@@ -131,7 +133,7 @@ namespace SN.withSIX.Mini.Applications
 
             var games = gc.Games.Where(x => gameIds.Contains(x.Id) && x.InstalledState.IsInstalled).ToArray();
             await
-                _networkContentSyncer.SyncContent(games).ConfigureAwait(false);
+                _networkContentSyncer.SyncContent(games, query).ConfigureAwait(false);
             //if (shouldEmitEvents) await new StatusChanged(Status.Preparing, new ProgressInfo(progress: 50)).Raise().ConfigureAwait(false);
             await SynchronizeCollections(games).ConfigureAwait(false);
             foreach (var g in games)

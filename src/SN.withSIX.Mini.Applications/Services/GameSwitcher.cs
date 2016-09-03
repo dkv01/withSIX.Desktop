@@ -3,12 +3,14 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services;
 
 namespace SN.withSIX.Mini.Applications.Services
@@ -16,7 +18,7 @@ namespace SN.withSIX.Mini.Applications.Services
     public interface IGameSwitcher
     {
         Task<bool> SwitchGame(Guid id);
-        Task UpdateGameState(Guid gameId);
+        Task UpdateGameState(Guid gameId, ContentQuery query = null);
     }
 
     public class GameSwitcher : IGameSwitcher, IApplicationService, IDisposable
@@ -39,14 +41,24 @@ namespace SN.withSIX.Mini.Applications.Services
             _lock.Dispose();
         }
 
-        public async Task UpdateGameState(Guid gameId) {
+        public async Task UpdateGameState(Guid gameId, ContentQuery query = null) {
             _stateHandler.SelectedGameId = gameId;
 
             var gameContext = _locator.GetGameContext();
             var game = await gameContext.FindGameOrThrowAsync(gameId).ConfigureAwait(false);
+            if (query == null) CleanupGame(game);
 
-            await _setup.HandleGameContentsWhenNeeded(game.Id).ConfigureAwait(false);
+            await _setup.HandleGameContentsWhenNeeded(query, game.Id).ConfigureAwait(false);
         }
+
+        public void CleanupGame(Game game) {
+            var l = new List<IContentSpec<Content>>();
+            var toRemove = game.Contents.Except(
+                game.AllAvailableContent.SelectMany(x => x.GetRelatedContent(l)).Select(x => x.Content).Distinct())
+                .ToList();
+            game.Contents.RemoveAll(toRemove);
+        }
+
 
         public async Task<bool> SwitchGame(Guid id) {
             using (await _lock.LockAsync().ConfigureAwait(false)) {

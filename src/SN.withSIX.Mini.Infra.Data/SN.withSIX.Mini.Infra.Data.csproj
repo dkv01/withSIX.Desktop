@@ -214,6 +214,7 @@
     <Compile Include="Services\GameLauncherProcessExternal.cs" />
     <Compile Include="Services\GameLauncherProcessInternal.cs" />
     <Compile Include="Services\SettingsStorage.cs" />
+    <Compile Include="ApiContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -247,6 +248,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>SN.withSIX.Mini.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\SN.withSIX.Mini.Infra.Api.csproj">
+      <Project>{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}</Project>
+      <Name>SN.withSIX.Mini.Infra.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Api\SN.withSIX.Steam.Api.csproj">
       <Project>{fede9ebc-c0a2-49c7-a780-4a44544508b8}</Project>

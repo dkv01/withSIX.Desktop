@@ -8,7 +8,7 @@ using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
-    public abstract class SingleCntentBase : GameContentBase, IHaveId<Guid>
+    public abstract class SingleCntentBase : GameContentBase, IHaveId<Guid>, IHaveContent
     {
         protected SingleCntentBase(Guid gameId, ContentGuidSpec content) : base(gameId) {
             Content = content;
@@ -16,5 +16,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public ContentGuidSpec Content { get; }
         public Guid Id => Content.Id;
+    }
+
+    public interface IHaveContent
+    {
+        ContentGuidSpec Content { get; }
     }
 }

@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Social;
@@ -22,31 +23,28 @@ using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Collections;
-using withSIX.Api.Models.Content.v3;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
-using withSIX.Api.Models.Games;
-using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 
 namespace SN.withSIX.Mini.Infra.Api.WebApi
 {
     public class NetworkContentSyncer : IInfrastructureService, INetworkContentSyncer
     {
-        private static readonly Uri apiCdnHost = new Uri("http://withsix-api.azureedge.net");
         private readonly CollectionSyncer _collectionSyncer;
         readonly IDbContextLocator _locator;
 
         public NetworkContentSyncer(IDbContextLocator locator) {
             _locator = locator;
-            _collectionSyncer = new CollectionSyncer(locator);
+            _collectionSyncer = new CollectionSyncer(locator, this);
         }
 
-        public async Task SyncContent(IReadOnlyCollection<Game> games) {
+        public async Task SyncContent(IReadOnlyCollection<Game> games, ContentQuery filterFunc = null) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Syncing content for games: {string.Join(", ", games.Select(x => x.Id))}");
             foreach (var g in games)
-                await ProcessGame(g).ConfigureAwait(false);
+                await ProcessGame(g, filterFunc).ConfigureAwait(false);
         }
 
         public Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections,
@@ -57,28 +55,21 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             IReadOnlyCollection<Guid> collectionIds, IReadOnlyCollection<NetworkContent> content)
             => _collectionSyncer.GetCollections(gameId, collectionIds, content);
 
-        async Task<List<ModDtoV2>> DownloadContentListV2(IEnumerable<Guid> gameIds, ApiHashes hashes) {
-            var mods =
-                await
-                    new Uri(apiCdnHost, "/api/v2/mods.json.gz?v=" + hashes.Mods).GetJson<List<ModDtoV2>>()
-                        .ConfigureAwait(false);
-            return mods.Where(x => gameIds.Contains(x.GameId)).ToList();
+        async Task<Dictionary<Guid, ModClientApiJsonV3WithGameId>> GetContentList(Guid gameId, ApiHashes hashes) {
+            var r = await _locator.GetApiContext().GetMods(gameId, hashes.Mods);
+            return r.ToDictionary(x => x.Id, x => x);
         }
 
-        Task<string> DownloadContentListV3(Guid gameId, ApiHashes hashes) =>
-            new Uri(apiCdnHost, $"/api/v3/mods-{gameId}.json.gz?v=" + hashes.Mods).GetJsonText();
-
-        async Task ProcessGame(Game game) {
+        async Task ProcessGame(Game game, ContentQuery filterFunc) {
             var invalidContent = game.Contents.Where(x => x.GameId == Guid.Empty).ToArray();
             if (invalidContent.Any())
                 invalidContent.ForEach(x => x.FixGameId(game.Id));
 
             var stats = await GetHashStats(game).ConfigureAwait(false);
-            if (!stats.ShouldSyncBecauseHashes && !stats.ShouldSyncBecauseVersion)
+            if (!stats.ShouldSyncBecauseHashes && !stats.ShouldSyncBecauseVersion && filterFunc == null)
                 return;
             var gameContent = await GetContent(game, stats.Hashes).ConfigureAwait(false);
-            ProcessContents(game, gameContent);
-            ProcessLocalContent(game);
+            ProcessContents(game, gameContent, filterFunc);
             game.RefreshCollections();
 
             var si = game.SyncInfo;
@@ -106,55 +97,76 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return hashStats;
         }
 
-        Task<ApiHashes> GetHashesV3(Guid gameId)
-            => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz"));
+        Task<ApiHashes> GetHashesV3(Guid gameId) => _locator.GetApiContext().GetHashes(gameId);
 
-        private async Task<List<ModClientApiJsonV3WithGameId>> GetContent(Game game, ApiHashes latestHashes) {
+        private async Task<Dictionary<Guid, ModClientApiJsonV3WithGameId>> GetContent(Game game, ApiHashes latestHashes) {
             var compatGameIds = game.GetCompatibleGameIds();
             var ctx = _locator.GetGameContext();
             await ctx.Load(compatGameIds).ConfigureAwait(false);
 
-            var mods = new List<ModClientApiJsonV3WithGameId>();
+            // TODO: Only process and keep content that we actually are looking for (1. Installed content, 2. Desired content)
+            var mods = new Dictionary<Guid, ModClientApiJsonV3WithGameId>();
             foreach (var c in compatGameIds) {
-                var cMods = await DownloadContentListV3(c, latestHashes).ConfigureAwait(false);
-                mods.AddRange(cMods.FromJson<List<ModClientApiJson>>()
-                    .Select(
-                        x =>
-                            MappingExtensions.Mapper.Map<ModClientApiJson, ModClientApiJsonV3WithGameId>(x,
-                                opts => opts.AfterMap((src, dest) => dest.GameId = c))));
-            }
-            if (game.Id == GameGuids.Arma3) {
-                // TODO: Handle these special dependencies on the server side!
-                var backMods = await DownloadContentListV2(compatGameIds, latestHashes).ConfigureAwait(false);
-                foreach (var m in backMods) {
-                    var nm = mods.FirstOrDefault(x => x.Id == m.Id);
-                    if (nm == null)
-                        continue;
-                    nm.Tags = m.Tags;
-                }
+                var cMods = await GetContentList(c, latestHashes).ConfigureAwait(false);
+                foreach (var m in cMods)
+                    m.Value.GameId = c;
+                mods.AddRange(cMods);
             }
             return mods;
         }
 
-        static void ProcessContents(Game game, IEnumerable<ModClientApiJsonV3WithGameId> contents) {
+        static void ProcessContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents, ContentQuery filterFunc) {
             // TODO: If we timestamp the DTO's, and save the timestamp also in our database,
             // then we can simply update data only when it has actually changed and speed things up.
             // The only thing to remember is when there are schema changes / new fields etc, either all timestamps need updating
             // or the syncer needs to take it into account..
             var mapping = new Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent>();
-            UpdateContents(game, contents, mapping);
+            UpdateContents(game, contents, mapping, filterFunc);
             HandleDependencies(game, mapping);
+            if (filterFunc == null)
+                ProcessLocalContent(game);
         }
 
-        static void UpdateContents(Game game, IEnumerable<ModClientApiJsonV3WithGameId> contents,
-            IDictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
-            var newContent = new List<ModNetworkContent>();
+        /// <summary>
+        ///     If desiredMods is not specified, we synchronize all content.
+        ///     If it is specified, we only synchronize the desired mods (and their deps)
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="contents"></param>
+        /// <param name="content"></param>
+        /// <param name="desiredMods"></param>
+        static void UpdateContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents,
+            IDictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content, ContentQuery filterFunc = null) {
             var defaultTags = new List<string>();
-            foreach (
-                var c in
-                    contents.Select(
-                        x => new {DTO = x, Existing = game.NetworkContent.OfType<ModNetworkContent>().Find(x.Id)})
-                        .OrderByDescending(x => x.DTO.GameId == game.Id)) {
+
+            var networkContents = game.NetworkContent.OfType<ModNetworkContent>();
+            Dictionary<Guid, ModNetworkContent> currentContent;
+            IEnumerable<Guid> contentToBeSynced;
+            if (filterFunc == null) {
+                var localMods =
+                    game.LocalContent.OfType<ModLocalContent>()
+                        .Select(
+                            x =>
+                                contents.Values.FirstOrDefault(
+                                    c => c.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase)))
+                        .Where(x => x != null);
+                currentContent = networkContents.ToDictionary(x => x.Id, x => x);
+                contentToBeSynced = currentContent.Keys.Concat(localMods.Select(x => x.Id)).Distinct();
+            } else {
+                var desiredModsList = GetTheDesiredMods(filterFunc, contents);
+                currentContent = networkContents.Where(x => desiredModsList.ContainsKey(x.Id))
+                    .ToDictionary(x => x.Id, x => x);
+                contentToBeSynced = desiredModsList.Keys;
+            }
+
+            var mapping = contentToBeSynced
+                .Where(contents.ContainsKey)
+                .Select(
+                    x => new {DTO = contents[x], Existing = currentContent.ContainsKey(x) ? currentContent[x] : null});
+
+            var newContent = new List<ModNetworkContent>();
+
+            foreach (var c in mapping) {
                 var theDto = c.DTO;
                 var theGame = SetupGameStuff.GameSpecs.Select(x => x.Value).FindOrThrow(c.DTO.GameId);
                 if (c.DTO.GameId != game.Id) {
@@ -163,7 +175,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     theDto.Dependencies = theDto.Dependencies.ToList();
                     var cMods = game.GetCompatibilityMods(theDto.PackageName, theDto.Tags ?? defaultTags);
                     foreach (var m in cMods) {
-                        var theM = content.Keys.FirstOrDefault(x => x.PackageName.Equals(m, StringComparison.CurrentCultureIgnoreCase));
+                        var theM =
+                            content.Keys.FirstOrDefault(
+                                x => x.PackageName.Equals(m, StringComparison.CurrentCultureIgnoreCase));
                         if (theM != null && theDto.Dependencies.All(x => x.Id != theM.Id))
                             theDto.Dependencies.Add(new ContentGuidSpec {Id = theM.Id});
                     }
@@ -177,11 +191,30 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     theDto.MapTo(c.Existing);
                     content[theDto] = c.Existing;
                 }
-                if (c.DTO.GameId != game.Id) {
+                if (c.DTO.GameId != game.Id)
                     content[theDto].HandleOriginalGame(c.DTO.GameId, theGame.Slug, game.Id);
-                }
             }
+
             game.Contents.AddRange(newContent);
+        }
+
+        private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(ContentQuery filterFunc,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
+            var existing = cDict.Where(x => filterFunc.IsMatch(x.Value));
+            var d = existing.ToDictionary(x => x.Key, x => x.Value);
+            GetRelatedContent(d.Values, d, cDict);
+            return d;
+        }
+
+        private static void GetRelatedContent(IEnumerable<ModClientApiJsonV3WithGameId> existing,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> d,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
+            foreach (var c in existing.Where(x => !d.ContainsKey(x.Id))) {
+                d.Add(c.Id, c);
+                GetRelatedContent(c.Dependencies.Select(x => cDict[x.Id]), d, cDict);
+                d.Remove(c.Id);
+                d.Add(c.Id, c);
+            }
         }
 
         static void HandleDependencies(Game game, Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
@@ -201,16 +234,6 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 .Select(x => new NetworkContentSpec(x)));
         }
 
-        static void HandleDependencies(KeyValuePair<ModClientApiJson, ModNetworkContent> nc,
-            IEnumerable<ModNetworkContent> networkContent) {
-            nc.Value.ReplaceDependencies(
-                nc.Key.Dependencies.Select(
-                    d => new {d.Constraint, Content = networkContent.FirstOrDefault(x => x.Id == d.Id)})
-                    // TODO: Find out why we would have nulls..
-                    .Where(x => x.Content != null)
-                    .Select(x => new NetworkContentSpec(x.Content, x.Constraint)));
-        }
-
         static void ProcessLocalContent(Game game) {
             var networkContents = game.NetworkContent.ToArray();
             var dict = game.LocalContent.Select(
@@ -227,7 +250,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             foreach (var c in dict.Where(c => c.Value != null)) {
                 var version = gameInstalled ? GetVersion(game.ContentPaths.Path) : null;
                 c.Value.Installed(version ?? (c.Key.IsInstalled() ? c.Key.InstallInfo.Version : null), version != null);
-                ReplaceLocalContentInCollection(game, c);
+                ReplaceLocalContentInCollections(game, c);
                 game.Contents.Remove(c.Key);
             }
         }
@@ -237,7 +260,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return v?.VersionData;
         }
 
-        private static void ReplaceLocalContentInCollection(Game game, KeyValuePair<LocalContent, NetworkContent> c) {
+        private static void ReplaceLocalContentInCollections(Game game, KeyValuePair<LocalContent, NetworkContent> c) {
             foreach (var col in game.Collections) {
                 var existing = col.Contents.FirstOrDefault(x => x.Content == c.Key);
                 if (existing == null)
@@ -259,9 +282,11 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         public class CollectionSyncer
         {
             private readonly IDbContextLocator _locator;
+            private readonly NetworkContentSyncer _networkContentSyncer;
 
-            public CollectionSyncer(IDbContextLocator locator) {
+            public CollectionSyncer(IDbContextLocator locator, NetworkContentSyncer networkContentSyncer) {
                 _locator = locator;
+                _networkContentSyncer = networkContentSyncer;
             }
 
             public async Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections,
@@ -320,19 +345,34 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 CollectionModelWithLatestVersion c) {
                 var customRepos = await GetRepositories(col).ConfigureAwait(false);
                 var groupContent = await GetGroupContent(col).ConfigureAwait(false);
-                return c.LatestVersion
+                var deps = c.LatestVersion
                     .Dependencies
-                    .Where(x => x.DependencyType == DependencyType.Package)
-                    .Select(
-                        x =>
-                            new {
-                                Content = ConvertToGroupOrRepoContent(x, col, customRepos, groupContent, content) ??
-                                          ConvertToContentOrLocal(x, col, content), // temporary
-                                x.Constraint
-                            })
-                    .Where(x => x.Content != null)
-                    .Select(x => new ContentSpec(x.Content, x.Constraint))
-                    .ToArray();
+                    .Where(x => x.DependencyType == DependencyType.Package);
+                var found = deps.Select(x =>
+                    new {
+                        Content = ConvertToGroupOrRepoContent(x, col, customRepos, groupContent, content), //??
+                        x.Constraint,
+                        x
+                    })
+                    .Where(x => x.Content != null);
+
+                var todo = deps.Except(found.Select(x => x.x));
+                await SynchronizeContent(col.GameId, todo.Select(x => x.Dependency));
+
+                //ConvertToContentOrLocal(x, col, content), // temporary
+
+                return
+                    todo.Select(x => new ContentSpec(ConvertToContentOrLocal(x, col, content), x.Constraint))
+                        .Where(x => x.Content != null)
+                        .Concat(found.Select(x => new ContentSpec(x.Content, x.Constraint)))
+                        .ToArray();
+            }
+
+            private async Task SynchronizeContent(Guid gameId, IEnumerable<string> packageNames) {
+                await
+                    _networkContentSyncer.SyncContent(
+                        new[] {await _locator.GetGameContext().Games.FindOrThrowAsync(gameId).ConfigureAwait(false)},
+                        new ContentQuery {PackageNames = packageNames.ToList()}).ConfigureAwait(false);
             }
 
             private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(

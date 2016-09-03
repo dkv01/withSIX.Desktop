@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core;
@@ -36,7 +37,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         public async Task<Unit> Handle(ScanLocalContent request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
 
-            await _setup.HandleGameContentsWhenNeeded(game.Id).ConfigureAwait(false);
+            await
+                _setup.HandleGameContentsWhenNeeded(new ContentQuery {
+                    PackageNames = game.LocalContent.OfType<ModLocalContent>().Select(x => x.PackageName).ToList()
+                }, game.Id)
+                    .ConfigureAwait(false);
 
             return Unit.Value;
         }

@@ -8,7 +8,11 @@ using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {
-    public abstract class ContentsBase : GameContentBaseWithInfo
+    public interface INeedContents {
+        List<ContentGuidSpec> Contents { get; }
+    }
+
+    public abstract class ContentsBase : GameContentBaseWithInfo, INeedContents
     {
         protected ContentsBase(Guid gameId, List<ContentGuidSpec> contents) : base(gameId) {
             Contents = contents;

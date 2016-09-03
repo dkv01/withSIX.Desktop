@@ -112,7 +112,7 @@ namespace SN.withSIX.Mini.Core.Games
                 .OfType<NetworkContent>();
 
         [IgnoreDataMember]
-        public IEnumerable<Content> AllAvailableContent => InstalledContent.Concat(IncompleteContent);
+        public IEnumerable<Content> AllAvailableContent => Contents.Where(x => x.IsInstalled() || x.IsIncompleteInstalled());
 
         [DataMember]
         public DateTime? LastPlayed { get; set; }
