@@ -203,7 +203,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 BackgroundActions();
                 await HandleWaitForBackgroundTasks().ConfigureAwait(false);
                 // TODO: call from node?
-                var task = TaskExtExt.StartLongRunningTask(
+                var task = TaskExt.StartLongRunningTask(
                     () =>
                         new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()));
             } catch (SQLiteException ex) {
@@ -257,7 +257,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private void TryHandleFirefoxInBackground()
-            => BackgroundTasks.RegisterTask(TaskExtExt.StartLongRunningTask(() => TryHandleFirefox()));
+            => BackgroundTasks.RegisterTask(TaskExt.StartLongRunningTask(() => TryHandleFirefox()));
 
         private void TryHandlePorts() {
             try {
@@ -306,7 +306,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             await Container.GetInstance<IStateHandler>().Initialize().ConfigureAwait(false);
         }
 
-        private void InstallToolsInBackground() => TaskExtExt.StartLongRunningTask(InstallTools);
+        private void InstallToolsInBackground() => TaskExt.StartLongRunningTask(InstallTools);
 
         private async Task InstallTools() {
             try {
@@ -658,7 +658,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton(() => Tools.Transfer);
         }
 
-        protected Task End() => TaskExtExt.StartLongRunningTask(EndInternal);
+        protected Task End() => TaskExt.StartLongRunningTask(EndInternal);
 
         private async Task EndInternal() {
             // This creates an ambient context when shutdown is called from a usecase.
@@ -704,7 +704,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         private async Task TryHandleImport() {
             try {
-                await TaskExtExt.StartLongRunningTask(HandleImportInternal).ConfigureAwait(false);
+                await TaskExt.StartLongRunningTask(HandleImportInternal).ConfigureAwait(false);
             } catch (Exception ex) {
                 await UserError.Throw(ex.Message, ex);
             }

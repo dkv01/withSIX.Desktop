@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Assemblies
 {
@@ -44,7 +45,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
             }
         }
 
-        Task RunInstaller() => TaskExtExt.StartLongRunningTask(() => {
+        Task RunInstaller() => TaskExt.StartLongRunningTask(() => {
             using (var p = Process.Start(_tmpFile, "-install")) {
                 //  /vREINSTALL=ALL /vREINSTALLMODE=vomus /v/qb
                 p.WaitForExit();

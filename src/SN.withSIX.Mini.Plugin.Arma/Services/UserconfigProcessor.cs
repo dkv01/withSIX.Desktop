@@ -14,6 +14,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services
 {
@@ -21,7 +22,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
     {
         public Task<string> ProcessUserconfig(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true)
-            => TaskExtExt.StartLongRunningTask(() => ProcessUserconfigInternal(modPath, gamePath, exisitingChecksum, force));
+            => TaskExt.StartLongRunningTask(() => ProcessUserconfigInternal(modPath, gamePath, exisitingChecksum, force));
 
         string ProcessUserconfigInternal(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true) {

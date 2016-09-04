@@ -111,7 +111,7 @@ namespace SN.withSIX.Sync.Core.Repositories
         public RepositoryStore Index { get; protected set; }
         public RepositoryRemote[] Remotes { get; private set; }
 
-        public Task ClearObjectsAsync() => TaskExtExt.StartLongRunningTask(() => ClearObjects());
+        public Task ClearObjectsAsync() => TaskExt.StartLongRunningTask(() => ClearObjects());
 
         private void ClearObjects() {
             foreach (

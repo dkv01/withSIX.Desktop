@@ -19,6 +19,7 @@ using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Wpf
 {
@@ -71,7 +72,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);
-            TaskExtExt.StartLongRunningTask(StartupInternal).WaitSpecial();
+            TaskExt.StartLongRunningTask(StartupInternal).WaitSpecial();
         }
 
         static void HandleSingleInstance() {

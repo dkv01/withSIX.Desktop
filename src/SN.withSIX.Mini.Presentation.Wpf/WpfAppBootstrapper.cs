@@ -33,6 +33,7 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
+using withSIX.Api.Models.Extensions;
 using DefaultViewLocator = SN.withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;
 using IScreen = Caliburn.Micro.IScreen;
 using ViewLocator = Caliburn.Micro.ViewLocator;
@@ -149,7 +150,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         private void HandleUpdateStateInBackground()
-            => TaskExtExt.StartLongRunningTask(Container.GetInstance<SelfUpdateHandler>().HandleUpdateState);
+            => TaskExt.StartLongRunningTask(Container.GetInstance<SelfUpdateHandler>().HandleUpdateState);
 
         protected override IEnumerable<Assembly> GetApplicationAssemblies()
             =>
@@ -170,7 +171,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void EndOv() => End().WaitSpecial();
 
-        private void TryInstallFlashInBackground() => TaskExtExt.StartLongRunningTask(InstallFlash);
+        private void TryInstallFlashInBackground() => TaskExt.StartLongRunningTask(InstallFlash);
 
         private static Task InstallFlash() => new FlashHandler(CommonUrls.FlashUri).InstallFlash();
     }

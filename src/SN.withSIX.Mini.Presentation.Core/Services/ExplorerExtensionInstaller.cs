@@ -107,7 +107,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        static Task RestartExplorer() => TaskExtExt.StartLongRunningTask(() => RestartExplorerInternal());
+        static Task RestartExplorer() => TaskExt.StartLongRunningTask(() => RestartExplorerInternal());
 
         static void RestartExplorerInternal() {
             try {

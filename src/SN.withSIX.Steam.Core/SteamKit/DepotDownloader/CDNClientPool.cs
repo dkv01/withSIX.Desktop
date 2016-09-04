@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
 using SteamKit2;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Steam.Core.SteamKit.DepotDownloader
 {
@@ -36,7 +37,7 @@ namespace SN.withSIX.Steam.Core.SteamKit.DepotDownloader
             populatePoolEvent = new AutoResetEvent(true);
             _monitorCts = new CancellationTokenSource();
 
-            TaskExtExt.StartLongRunningTask(ConnectionPoolMonitor, _monitorCts.Token);
+            TaskExt.StartLongRunningTask(ConnectionPoolMonitor, _monitorCts.Token);
         }
 
         public void Dispose() {

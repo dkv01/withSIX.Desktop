@@ -60,7 +60,7 @@ namespace SN.withSIX.Core
                 }
 
                 private async Task OnlyCopyIfHashMisMatch(IAbsoluteFilePath source, IAbsoluteFilePath destination, ITProgress status) {
-                    if (await TaskExtExt.StartLongRunningTask(() => HashEncryption.MD5FileHash(source) != HashEncryption.MD5FileHash(destination)).ConfigureAwait(false)) {
+                    if (await TaskExt.StartLongRunningTask(() => HashEncryption.MD5FileHash(source) != HashEncryption.MD5FileHash(destination)).ConfigureAwait(false)) {
                         await CopyAsyncInternal(source, destination, true, status).ConfigureAwait(false);
                         return;
                     }

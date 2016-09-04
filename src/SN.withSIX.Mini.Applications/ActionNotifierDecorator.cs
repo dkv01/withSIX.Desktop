@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Applications
         public override TResponseData Send<TResponseData>(IRequest<TResponseData> request)
             =>
                 Perform(request,
-                    () => TaskExtExt.StartLongRunningTask(() => base.Send(request)))
+                    () => TaskExt.StartLongRunningTask(() => base.Send(request)))
                     .WaitAndUnwrapException();
 
         public override Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)

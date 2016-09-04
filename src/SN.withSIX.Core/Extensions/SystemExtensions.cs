@@ -25,34 +25,6 @@ namespace SN.withSIX.Core.Extensions
 {
     public static class TaskExtExt
     {
-        public static Task<T> StartLongRunningTask<T>(Func<Task<T>> fnc)
-            => StartLongRunningTask(fnc, CancellationToken.None);
-
-        public static Task StartLongRunningTask(Action fnc) => StartLongRunningTask(fnc, CancellationToken.None);
-        public static Task StartLongRunningTask(Func<Task> fnc) => StartLongRunningTask(fnc, CancellationToken.None);
-        public static Task<T> StartLongRunningTask<T>(Func<T> fnc) => StartLongRunningTask(fnc, CancellationToken.None);
-
-        public static Task<T> StartLongRunningTask<T>(Func<Task<T>> fnc, CancellationToken token)
-            =>
-                Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning | TaskCreationOptions.DenyChildAttach,
-                    TaskScheduler.Default).Unwrap();
-
-        public static Task StartLongRunningTask(Func<Task> fnc, CancellationToken token)
-            =>
-                Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning | TaskCreationOptions.DenyChildAttach,
-                    TaskScheduler.Default).Unwrap();
-
-        public static Task StartLongRunningTask(Action fnc, CancellationToken token)
-            =>
-                Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning | TaskCreationOptions.DenyChildAttach,
-                    TaskScheduler.Default);
-
-        public static Task<T> StartLongRunningTask<T>(Func<T> fnc, CancellationToken token)
-            =>
-                Task.Factory.StartNew(fnc, token, TaskCreationOptions.LongRunning | TaskCreationOptions.DenyChildAttach,
-                    TaskScheduler.Default);
-
-
         public static Task<List<Exception>> Run<T>(this IEnumerable<T> content, Func<T, Task> act)
             => content.Select(x => new Func<Task>(() => act(x))).Run();
 

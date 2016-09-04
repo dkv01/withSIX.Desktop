@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -19,7 +20,7 @@ namespace SN.withSIX.Core.Extensions
             var tasks = Enumerable.Range(1, maxThreads > 0
                 ? Math.Min(maxThreads, queue.Count)
                 : 1)
-                .Select(x => TaskExtExt.StartLongRunningTask(() => {
+                .Select(x => TaskExt.StartLongRunningTask(() => {
                     T item;
                     while (queue.TryDequeue(out item))
                         act(item);
@@ -33,10 +34,10 @@ namespace SN.withSIX.Core.Extensions
             var tasks = Enumerable.Range(1, maxThreads > 0
                 ? maxThreads
                 : 1)
-                .Select(x => TaskExtExt.StartLongRunningTask(async () => {
+                .Select(x => TaskExt.StartLongRunningTask(async () => {
                     foreach (var item in block.GetConsumingEnumerable(token))
                         await item().ConfigureAwait(false);
-                }));
+                }, token));
 
             return Task.WhenAll(tasks);
         }
@@ -46,10 +47,10 @@ namespace SN.withSIX.Core.Extensions
             var tasks = Enumerable.Range(1, maxThreads > 0
                 ? maxThreads
                 : 1)
-                .Select(x => TaskExtExt.StartLongRunningTask(() => {
+                .Select(x => TaskExt.StartLongRunningTask(() => {
                     foreach (var item in block.GetConsumingEnumerable(token))
                         item();
-                }));
+                }, token));
 
             return Task.WhenAll(tasks);
         }
@@ -59,7 +60,7 @@ namespace SN.withSIX.Core.Extensions
             var tasks = Enumerable.Range(1, maxThreads > 0
                 ? maxThreads
                 : 1)
-                .Select(x => TaskExtExt.StartLongRunningTask(() => {
+                .Select(x => TaskExt.StartLongRunningTask(() => {
                     foreach (var item in block.GetConsumingEnumerable())
                         act(item);
                 }));
@@ -71,7 +72,7 @@ namespace SN.withSIX.Core.Extensions
             Action<BlockingCollection<T>> mainAct, Action<T> act) {
             var queue = new ConcurrentQueue<T>(items);
             using (var blockingCollection = new BlockingCollection<T>(queue)) {
-                var syncTask = TaskExtExt.StartLongRunningTask(() => mainAct(blockingCollection));
+                var syncTask = TaskExt.StartLongRunningTask(() => mainAct(blockingCollection));
                 var monitorTask = blockingCollection.RunningQueue(maxThreads, act);
 
                 await syncTask.ConfigureAwait(false);
@@ -114,10 +115,10 @@ namespace SN.withSIX.Core.Extensions
                 _tasks = new List<Task>();
             }
 
-            public Task Run() => TaskExtExt.StartLongRunningTask(RunInternal);
+            public Task Run() => TaskExt.StartLongRunningTask(RunInternal);
 
             public Task Run(CancellationToken token)
-                => TaskExtExt.StartLongRunningTask(() => RunInternal(token), token);
+                => TaskExt.StartLongRunningTask(() => RunInternal(token), token);
 
             async Task RunInternal() {
                 T item;

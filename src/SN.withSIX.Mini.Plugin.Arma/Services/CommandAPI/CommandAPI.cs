@@ -105,7 +105,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI
 
         public async Task<T> QueueSend<T>(ISendMessage command) => (T) await QueueSend(command);
 
-        public Task ReadLoop() => TaskExtExt.StartLongRunningTask(ReadLoopInternal, _token);
+        public Task ReadLoop() => TaskExt.StartLongRunningTask(ReadLoopInternal, _token);
 
         async Task ReadLoopInternal() {
             while (_isConnected) {

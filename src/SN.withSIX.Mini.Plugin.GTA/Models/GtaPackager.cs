@@ -14,6 +14,7 @@ using RpfGeneratorTool;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
@@ -25,7 +26,7 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
             _gameDir = gameDir;
         }
 
-        public Task HandlePackages() => TaskExtExt.StartLongRunningTask(() => HandlePackagesImpl());
+        public Task HandlePackages() => TaskExt.StartLongRunningTask(() => HandlePackagesImpl());
 
         void HandlePackagesImpl() {
             Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(_gameDir);

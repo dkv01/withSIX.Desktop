@@ -295,10 +295,10 @@ namespace SN.withSIX.Sync.Core.Packages
         }
 
         public Task CheckoutAsync(ProgressLeaf progressLeaf)
-            => TaskExtExt.StartLongRunningTask(() => Checkout(progressLeaf));
+            => TaskExt.StartLongRunningTask(() => Checkout(progressLeaf));
 
         public Task CheckoutWithoutRemovalAsync(ProgressLeaf progressLeaf)
-            => TaskExtExt.StartLongRunningTask(() => CheckoutWithoutRemoval(progressLeaf));
+            => TaskExt.StartLongRunningTask(() => CheckoutWithoutRemoval(progressLeaf));
 
         public void Checkout(ProgressLeaf progressLeaf) {
             WorkingPath.MakeSurePathExists();

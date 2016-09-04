@@ -27,6 +27,7 @@ using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Services;
 using SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI;
+using withSIX.Api.Models.Extensions;
 using CollectionServer = SN.withSIX.Mini.Core.Games.CollectionServer;
 using ServerAddress = withSIX.Api.Models.ServerAddress;
 
@@ -77,7 +78,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         protected override Task ScanForLocalContentImpl()
-            => TaskExtExt.StartLongRunningTask(() => ScanForLocalContentInternal());
+            => TaskExt.StartLongRunningTask(() => ScanForLocalContentInternal());
 
         void ScanForLocalContentInternal() {
             var existingModFolders = GetExistingModFolders().ToArray();
