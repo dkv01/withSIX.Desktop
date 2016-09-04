@@ -72,7 +72,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             var dirs = new[] {"addons", "dta", "common", "dll"};
             if (dirs.Any(x => !path.GetChildDirectoryWithName(x).IsEmptySafe())) {
                 return !HasContentAlready(path.DirectoryName)
-                    ? new ModLocalContent(path.DirectoryName, path.DirectoryName.ToLower(), _realVirtualityGame.Id,
+                    ? new ModLocalContent(path.DirectoryName.ToLower(), _realVirtualityGame.Id,
                         new BasicInstallInfo())
                     : null;
             }

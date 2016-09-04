@@ -49,7 +49,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
                 if (content.GetSource(_action.Game).Publisher == Publisher.Steam) {
                     var s = CreateSteamSession(new Dictionary<ulong, ProgressLeaf> {
-                        {Convert.ToUInt64(content.GetSource(_action.Game).PublisherId), new ProgressLeaf(content.Name)}
+                        {Convert.ToUInt64(content.GetSource(_action.Game).PublisherId), new ProgressLeaf(content.PackageName)}
                     });
                     await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
                     _action.Game.Delete(content);
@@ -103,7 +103,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     CreateSteamSession(
                         steamContent.ToDictionary(
                             x => Convert.ToUInt64(((IContentWithPackageName) x.Key).GetSource(_action.Game).PublisherId),
-                            x => new ProgressLeaf(x.Key.Name)));
+                            x => new ProgressLeaf(((IContentWithPackageName)x.Key).PackageName)));
                 await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
 
                 foreach (var c in steamContent)

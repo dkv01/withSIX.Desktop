@@ -29,6 +29,6 @@ namespace SN.withSIX.Mini.Core.Extensions
     public static class ContentExtensions
     {
         internal static string GetContentPath(this Content content, string type, string name)
-            => type + "/" + content.Id.ToShortId() + "/" + (name ?? content.Name ?? "content").Sluggify(true);
+            => type + "/" + content.Id.ToShortId() + "/" + (name ?? "content").Sluggify(true);
     }
 }

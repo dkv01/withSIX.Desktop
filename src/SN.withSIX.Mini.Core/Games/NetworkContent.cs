@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected NetworkContent() {}
 
-        protected NetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
+        protected NetworkContent(string packageName, Guid gameId) : base(packageName, gameId) {}
 
         [DataMember]
         // Only here because of wrong dependency references... // TODO: Try to externalize this to the DTO instead..

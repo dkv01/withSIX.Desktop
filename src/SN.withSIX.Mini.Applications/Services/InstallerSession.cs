@@ -260,7 +260,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 _externalProgress = new ProgressComponent("External mods");
                 _externalProcessing = new ProgressComponent("Processing");
                 _externalProcessing.AddComponents(
-                    _externalContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                    _externalContentToInstall.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
                 _externalProgress.AddComponents(_externalProcessing);
                 _progress.AddComponents(_externalProgress);
             }
@@ -282,7 +282,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 _steamProgress = new ProgressComponent("Steam mods");
                 _steamProcessing = new ProgressComponent("Processing");
                 _steamProcessing.AddComponents(
-                    _steamContentToInstall.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+                    _steamContentToInstall.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
                 _steamProgress.AddComponents(_steamProcessing);
                 _progress.AddComponents(_steamProgress);
             }
@@ -331,7 +331,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
             var modComponents = new ProgressComponent(title, progressContent.Count);
             var processingComponent = new ProgressComponent("Downloading");
-            processingComponent.AddComponents(progressContent.Select(x => new ProgressLeaf(x.Key.Name)).ToArray());
+            processingComponent.AddComponents(progressContent.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
             modComponents.AddComponents(processingComponent);
             _progress.AddComponents(modComponents);
             return new SixSyncProgress(modComponents, processingComponent);
@@ -372,8 +372,10 @@ namespace SN.withSIX.Mini.Applications.Services
             ? _action.Content.First()
             : new InstallContentSpec(ConvertToTemporaryCollection());
 
-        LocalCollection ConvertToTemporaryCollection() => new LocalCollection(_action.Game.Id, "$$temp",
-            _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
+        LocalCollection ConvertToTemporaryCollection()
+            =>
+                new LocalCollection(_action.Game.Id,
+                    _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
 
         Task TryInstallContent() => TaskExtExt.Create(
             InstallPackages,
@@ -401,13 +403,12 @@ namespace SN.withSIX.Mini.Applications.Services
                 throw new OperationCanceledException("The user cancelled the operation");
         }
 
-        private IObservable<RecoveryOptionResult> ConfirmUser() {
-            return UserError.Throw(new UserError("External Content found",
+        private IObservable<RecoveryOptionResult> ConfirmUser()
+            => UserError.Throw(new UserError("External Content found",
                 "The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
-                string.Join(", ", _externalContentToInstall.Select(x => x.Key.Name)) +
+                string.Join(", ", _externalContentToInstall.Select(x => x.Key.PackageName)) +
                 "\n\nPress OK to Continue",
                 new[] {RecoveryCommandImmediate.Ok, RecoveryCommandImmediate.Cancel}));
-        }
 
         private void MarkContentStates() {
             // TODO: How about marking this content at the start, much like .Use() for RecentItems

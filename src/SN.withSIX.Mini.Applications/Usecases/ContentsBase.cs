@@ -33,5 +33,6 @@ namespace SN.withSIX.Mini.Applications.Usecases
     public interface IHaveRequestName
     {
         string Name { get; }
+        Uri Href { get; }
     }
 }

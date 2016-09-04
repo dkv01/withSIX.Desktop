@@ -45,9 +45,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public Guid Id { get; set; }
         public string PackageName { get; set; }
         public string Name { get; set; }
-        public Uri Image { get; set; }
-        public string Path { get; set; }
-        public string Author { get; set; }
         public Guid GameId { get; set; }
         public Guid? OriginalGameId { get; set; }
         public string OriginalGameSlug { get; set; }

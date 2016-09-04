@@ -229,7 +229,6 @@ namespace SN.withSIX.Mini.Core.Games
             var content = action.Content.Count == 1
                 ? action.Content.First().Content
                 : FindOrCreateLocalCollection(action);
-            action.Name = content.Name;
             // TODO: it would probably be better to have rewritten the action content, so we dont again create a temporary collection further down the line..
             return content;
         }
@@ -241,10 +240,12 @@ namespace SN.withSIX.Mini.Core.Games
             if (existing != null)
                 return existing;
             var isNotUpdateAll = action.Name != "Update all" && action.Name != "Available updates";
+            /*
             var name = isNotUpdateAll
                 ? $"{action.Name ?? "Playlist"} {DateTime.UtcNow.ToString(Tools.GenericTools.DefaultDateFormat)}"
                 : action.Name;
-            var localCollection = new LocalCollection(Id, name, contents);
+                */
+            var localCollection = new LocalCollection(Id, contents);
             if (isNotUpdateAll)
                 Contents.Add(localCollection);
             return localCollection;

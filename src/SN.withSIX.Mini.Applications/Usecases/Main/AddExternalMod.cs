@@ -64,6 +64,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                         Error = new ValidationException("The link is not recognized");
                 }
             }
+            if (Name == null)
+                Name = PubId;
         }
 
         public Exception Error { get; set; }
@@ -95,13 +97,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 throw new NotFoundException("Content not found");
             Content = new ContentGuidSpec(c.Id, null);
             var hasPath = c as IHavePath;
-            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name));
             return new DownloadContentAction(CancelToken,
                 new InstallContentSpec(c, Content.Constraint)) {
                     HideLaunchAction = HideLaunchAction,
                     Force = Force,
-                    Name = c.Name,
-                    Href = href
+                    Name = Name,
+                    Href = Href ?? (hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name)))
                 };
         }
 
@@ -113,6 +114,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             => new LaunchContent(GameId, Content);
 
         public string Name { get; set; }
+        public Uri Href { get; set; }
     }
 
     public interface IHaveContentPublisher

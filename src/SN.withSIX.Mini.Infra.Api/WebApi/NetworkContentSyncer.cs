@@ -422,7 +422,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                         c => c.PackageName.Equals(x.Dependency, StringComparison.CurrentCultureIgnoreCase));
                 if (gc != null)
                     // TODO: dependencies etc
-                    return new ModNetworkGroupContent(gc.Id, gc.PackageName, gc.PackageName, gc.GameId);
+                    return new ModNetworkGroupContent(gc.Id, gc.PackageName, gc.GameId);
                 return HandleRepoContent(x, col, customRepos, content);
             }
 
@@ -432,7 +432,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 if (repo == null)
                     return null;
                 var repoContent = repo.GetMod(x.Dependency);
-                var mod = new ModRepoContent(x.Dependency, x.Dependency, col.GameId, repoContent.Value.GetVersionInfo());
+                var mod = new ModRepoContent(x.Dependency, col.GameId, repoContent.Value.GetVersionInfo());
                 if (repoContent.Value.Dependencies != null)
                     mod.Dependencies = GetDependencyTree(repoContent, customRepos, content);
                 return mod;
@@ -493,7 +493,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                         cnt.PackageName.Equals(x.Dependency,
                             StringComparison.CurrentCultureIgnoreCase))
                                                         ??
-                                                        new ModLocalContent(x.Dependency, x.Dependency.ToLower(),
+                                                        new ModLocalContent(x.Dependency.ToLower(),
                                                             col.GameId,
                                                             new BasicInstallInfo());
 

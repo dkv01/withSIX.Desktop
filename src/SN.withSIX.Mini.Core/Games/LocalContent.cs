@@ -32,15 +32,15 @@ namespace SN.withSIX.Mini.Core.Games
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
-        protected LocalContent(string name, string packageName, Guid gameId, string version) : base(name, gameId) {
+        protected LocalContent(string packageName, Guid gameId, string version) : base(gameId) {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
             PackageName = packageName;
             Version = version;
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
-        protected LocalContent(string name, string packageName, Guid gameId, BasicInstallInfo basicInstallInfo)
-            : this(name, packageName, gameId, basicInstallInfo.Version) {
+        protected LocalContent(string packageName, Guid gameId, BasicInstallInfo basicInstallInfo)
+            : this(packageName, gameId, basicInstallInfo.Version) {
             Size = basicInstallInfo.Size;
             SizePacked = basicInstallInfo.SizePacked;
             Installed(basicInstallInfo.Version, true);
@@ -91,13 +91,13 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected ModLocalContent() {}
 
-        public ModLocalContent(string name, string packageName, Guid gameId, BasicInstallInfo basicInstallInfo)
-            : base(name, packageName, gameId, basicInstallInfo) {
+        public ModLocalContent(string packageName, Guid gameId, BasicInstallInfo basicInstallInfo)
+            : base(packageName, gameId, basicInstallInfo) {
             ContentSlug = "mods";
         }
 
-        public ModLocalContent(string name, string packageName, Guid gameId, string version)
-            : base(name, packageName, gameId, version) {}
+        public ModLocalContent(string packageName, Guid gameId, string version)
+            : base(packageName, gameId, version) {}
     }
 
     [DataContract]
@@ -105,8 +105,8 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected ModRepoContent() {}
 
-        public ModRepoContent(string name, string packageName, Guid gameId, string version)
-            : base(name, packageName, gameId, version) {}
+        public ModRepoContent(string packageName, Guid gameId, string version)
+            : base(packageName, gameId, version) {}
 
         [DataMember]
         // TODO: Actually build dependencies out of objects instead of strings
@@ -124,7 +124,7 @@ namespace SN.withSIX.Mini.Core.Games
             list.Add(spec);
             // TODO: Dependencies of dependencies
             list.AddRange(
-                Dependencies.Select(d => new ModRepoContentSpec(new ModRepoContent(d, d.ToLower(), GameId, null))));
+                Dependencies.Select(d => new ModRepoContentSpec(new ModRepoContent(d.ToLower(), GameId, null))));
             list.RemoveAll(x => x.Content == this);
             list.Add(spec);
 
@@ -139,10 +139,10 @@ namespace SN.withSIX.Mini.Core.Games
         protected MissionLocalContent() {}
 
         public MissionLocalContent(string name, string packageName, Guid gameId, string version)
-            : base(name, packageName, gameId, version) {}
+            : base(packageName, gameId, version) {}
 
         public MissionLocalContent(string name, string packageName, Guid gameId, BasicInstallInfo basicInstallInfo)
-            : base(name, packageName, gameId, basicInstallInfo) {
+            : base(packageName, gameId, basicInstallInfo) {
             ContentSlug = "missions";
         }
     }

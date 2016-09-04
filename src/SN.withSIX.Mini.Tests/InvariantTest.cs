@@ -21,11 +21,11 @@ namespace SN.withSIX.Mini.Tests
 
         [Test]
         public void Test() {
-            var c = new ModLocalContent("testmod", "@testmod", Guid.Empty, "1.0");
+            var c = new ModLocalContent("@testmod", Guid.Empty, "1.0");
             var act2 = new Action(() => c.PackageName = "");
             act2.ShouldThrow<Exception>();
-            var act = new Action(() => c.Name = "");
-            act.ShouldThrow<Exception>();
+            //var act = new Action(() => c.Name = "");
+            //act.ShouldThrow<Exception>();
         }
     }
 }

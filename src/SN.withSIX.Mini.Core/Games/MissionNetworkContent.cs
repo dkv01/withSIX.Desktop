@@ -11,7 +11,7 @@ namespace SN.withSIX.Mini.Core.Games
     public class MissionNetworkContent : NetworkContent
     {
         protected MissionNetworkContent() {}
-        public MissionNetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
+        public MissionNetworkContent(string packageName, Guid gameId) : base(packageName, gameId) {}
         public override string ContentSlug { get; } = "missions";
     }
 }

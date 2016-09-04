@@ -57,7 +57,6 @@ namespace SN.withSIX.Mini.Core.Games
     [ContractClass(typeof (IContentContract))]
     public interface IContent : IHaveGameId, IHaveId<Guid>
     {
-        string Name { get; set; }
         string Version { get; }
         ItemState ProcessingState { get; }
 
@@ -140,10 +139,8 @@ namespace SN.withSIX.Mini.Core.Games
         private Guid _gameId;
         protected Content() {}
 
-        protected Content(string name, Guid gameId) : this() {
-            Contract.Requires<ArgumentNullException>(name != null);
+        protected Content(Guid gameId) : this() {
             //Contract.Requires<ArgumentException>(gameId != Guid.Empty);
-            Name = name;
             _gameId = gameId; // circumvent the setter protection
         }
 
@@ -190,8 +187,6 @@ namespace SN.withSIX.Mini.Core.Games
                 _gameId = value;
             }
         }
-        [DataMember]
-        public string Name { get; set; }
         [DataMember]
         public string Version { get; protected set; }
 
@@ -315,7 +310,7 @@ namespace SN.withSIX.Mini.Core.Games
             var installedVersion = !isInstalled ? "No" : InstallInfo.Version;
             var complete = isInstalled && InstallInfo.Completed;
             MainLog.Logger.Info(
-                $"$$$ CalculateState [{Id}] {Name} for desired v{GetWithDesired(desiredVersion)}, Installed: {installedVersion}, Complete: {complete}. Result: {result}");
+                $"$$$ CalculateState [{Id}] {(this as IHavePackageName)?.PackageName} for desired v{GetWithDesired(desiredVersion)}, Installed: {installedVersion}, Complete: {complete}. Result: {result}");
         }
 
         protected string GetWithDesired(string desiredVersion)
@@ -338,7 +333,7 @@ namespace SN.withSIX.Mini.Core.Games
             var isInstalled = IsInstalled();
             var isLatestVersion = isInstalled && IsLatestVersion(desiredVersion ?? Version);
             MainLog.Logger.Info(
-                $"$$$ HasUpdate [{Id}] {Name} for {GetWithDesired(desiredVersion)}, isLatestVersion: {isLatestVersion}. Result: {result}");
+                $"$$$ HasUpdate [{Id}] {(this as IHavePackageName)?.PackageName} for {GetWithDesired(desiredVersion)}, isLatestVersion: {isLatestVersion}. Result: {result}");
         }
 
         private bool IsLatestVersion(string desiredVersion)
@@ -390,7 +385,7 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class InstallableContent : Content, IInstallableContent
     {
-        protected InstallableContent(string name, Guid gameId) : base(name, gameId) {}
+        protected InstallableContent(Guid gameId) : base(gameId) {}
         protected InstallableContent() {}
         // TODO: We only call Install on top-level entities, like a collection, or like the top of a dependency tree
         // PostInstall is however called for every processed entity now...

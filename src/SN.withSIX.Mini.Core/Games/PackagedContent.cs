@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Core.Games
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
-        protected PackagedContent(string name, string packageName, Guid gameId) : base(name, gameId) {
+        protected PackagedContent(string packageName, Guid gameId) : base(gameId) {
             Contract.Requires<ArgumentNullException>(packageName != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(packageName));
             PackageName = packageName;

@@ -17,7 +17,7 @@ namespace SN.withSIX.Mini.Core.Games
     public class ModNetworkContent : NetworkContent, IModContent
     {
         protected ModNetworkContent() {}
-        public ModNetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
+        public ModNetworkContent(string packageName, Guid gameId) : base(packageName, gameId) {}
         public override string ContentSlug { get; } = "mods";
 
         public override async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
@@ -28,7 +28,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         public static ModNetworkContent FromSteamId(ulong contentId, Guid gameId) {
             var contentIdStr = contentId.ToString();
-            var content = new ModNetworkContent(contentIdStr, contentIdStr, gameId) {
+            var content = new ModNetworkContent(contentIdStr, gameId) {
                 Id = contentId.CreateSteamContentIdGuid()
             };
             content.Publishers.Add(new ContentPublisher(Publisher.Steam, contentIdStr));
@@ -50,8 +50,8 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected ModNetworkGroupContent() {}
 
-        public ModNetworkGroupContent(Guid id, string name, string packageName, Guid gameId)
-            : base(name, packageName, gameId) {
+        public ModNetworkGroupContent(Guid id, string packageName, Guid gameId)
+            : base(packageName, gameId) {
             Id = id;
         }
     }

@@ -16,6 +16,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
         public Guid GameId { get; }
 
         public string Name { get; set; }
+        public Uri Href { get; set; }
     }
 
     public abstract class GameContentBaseWithInfo : GameContentBase
@@ -23,7 +24,6 @@ namespace SN.withSIX.Mini.Applications.Usecases
         protected GameContentBaseWithInfo(Guid gameId) : base(gameId) {
             Name = "Playlist";
         }
-        public Uri Href { get; set; }
 
         public Uri GetHref(Game game) => Href ?? GetHrefInternal(game);
 

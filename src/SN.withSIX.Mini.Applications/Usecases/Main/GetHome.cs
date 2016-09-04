@@ -42,9 +42,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
     public class ContentApiModel : ContentModel
     {
-        public string Slug { get; set; }
         public string Type { get; set; }
-        public string GameSlug { get; set; }
+        public string GameSlug { get; set; } // TODO: Remove unneeded?
         public string Version { get; set; }
         public DateTime? UpdatedVersion { get; set; }
         public DateTime? LastUsed { get; set; }

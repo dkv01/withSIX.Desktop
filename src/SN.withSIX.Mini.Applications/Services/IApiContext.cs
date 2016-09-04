@@ -32,6 +32,12 @@ namespace SN.withSIX.Mini.Applications.Services
         }
         // Only used for BWC
         public List<string> Tags { get; set; }
+
+        public new string Name
+        {
+            get { return null; }
+            set { }
+        }
         public string GetVersion() => LatestStableVersion ?? Version;
     }
 }

@@ -20,7 +20,7 @@ namespace SN.withSIX.Mini.Core.Games
     public abstract class Collection : InstallableContent, ICollectionContent, IUninstallableContent
     {
         protected Collection() {}
-        protected Collection(string name, Guid gameId) : base(name, gameId) {}
+        protected Collection(Guid gameId) : base(gameId) {}
         // TODO: Handle circular?
         [DataMember]
         public virtual ICollection<CollectionContentSpec> Dependencies { get; protected set; } =
@@ -59,7 +59,7 @@ namespace SN.withSIX.Mini.Core.Games
         private void LogContentIsUptodate(bool result) {
             var requiresAction = string.Join(", ",
                 Contents.Where(x => x.GetState().RequiresAction()).Select(x => x.Content.Id));
-            MainLog.Logger.Info($"$$$ ContentsIsUptodate [{Id}] {Name}: Todos: {requiresAction}. Result: {result}");
+            MainLog.Logger.Info($"$$$ ContentsIsUptodate [{Id}]: Todos: {requiresAction}. Result: {result}");
         }
 
         protected IEnumerable<IContentSpec<Collection>> GetCollections(string constraint = null)
@@ -115,7 +115,7 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class LocalCollection : Collection
     {
-        public LocalCollection(Guid gameId, string name, ICollection<ContentSpec> contents) : base(name, gameId) {
+        public LocalCollection(Guid gameId, ICollection<ContentSpec> contents) : base(gameId) {
             Contract.Requires<ArgumentNullException>(contents != null);
             //Author = "You"; // better assume null author = you?
             Contents = contents;
@@ -140,9 +140,8 @@ namespace SN.withSIX.Mini.Core.Games
     public abstract class NetworkCollection : Collection, IHaveRepositories, IHaveServers, ILaunchableContent, IHavePath
         // Hmm ILaunchableContent.. (is to allow SErvers to be collected from this collection, not sure if best)
     {
-        protected NetworkCollection(Guid id, string name, Guid gameId) {
+        protected NetworkCollection(Guid id, Guid gameId) {
             Id = id;
-            Name = name;
             GameId = gameId;
         }
 
@@ -164,7 +163,7 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class SubscribedCollection : NetworkCollection, IHaveGroup
     {
-        public SubscribedCollection(Guid id, string name, Guid gameId) : base(id, name, gameId) {}
+        public SubscribedCollection(Guid id, Guid gameId) : base(id, gameId) {}
     }
 
     [DataContract]
