@@ -4,6 +4,7 @@
 
 using System;
 using Akavache;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using Splat;
 
@@ -25,17 +26,15 @@ namespace SN.withSIX.Core.Infra.Cache
             var url = uri.ToString();
             return _cache.LoadImageFromUrl(GetDimensionKey(uri, desiredDimensions), url, false, desiredDimensions.Width,
                 desiredDimensions.Height,
-                GetAbsoluteUtc(offset));
+                offset.GetAbsoluteUtc());
         }
 
         public IObservable<IBitmap> GetImage(Uri uri) => _cache.LoadImageFromUrl(uri.ToString());
 
         public IObservable<IBitmap> GetImage(Uri uri, TimeSpan offset)
-            => _cache.LoadImageFromUrl(uri.ToString(), false, null, null, GetAbsoluteUtc(offset));
+            => _cache.LoadImageFromUrl(uri.ToString(), false, null, null, offset.GetAbsoluteUtc());
 
         static string GetDimensionKey(Uri uri, DesiredImageSize desiredDimensions)
             => uri + "??dimensions=" + desiredDimensions;
-
-        static DateTime GetAbsoluteUtc(TimeSpan offset) => Tools.Generic.GetCurrentUtcDateTime.Add(offset);
     }
 }
