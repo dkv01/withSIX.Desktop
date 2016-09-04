@@ -56,11 +56,9 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public async Task<Info> ConfirmLock(Guid gameId, bool canAbort = false) {
-            using (await _lock.LockAsync().ConfigureAwait(false)) {
+            using (await _lock.LockAsync().ConfigureAwait(false))
                 return new Info(new Disposable(() => ReleaseLock(gameId)), ConfirmLockInternal(gameId, canAbort));
-            }
         }
-
 
         public void ReleaseLock(Guid gameId) {
             using (_lock.Lock())

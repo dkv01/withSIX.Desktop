@@ -65,36 +65,22 @@ namespace SN.withSIX.Mini.Applications
             ContentQuery query = null) => HandleGameContents(gameIds, query);
 
         async Task HandleGameContentsWhenNeededIndividualLock(params Guid[] tryGameIds) {
-            var lockedGameIds = new List<Guid>();
-            try {
-                lockedGameIds = await TryLockIndividualGames(tryGameIds).ConfigureAwait(false);
-                if (lockedGameIds.Any()) {
+            foreach (var g in tryGameIds) {
+                using (var i = await TryLock(g).ConfigureAwait(false))
+                    if (i == null)
+                        continue;
                     using (var scope = _factory.Create()) {
-                        await HandleGameContents(lockedGameIds).ConfigureAwait(false);
+                        await HandleGameContents(gameIds: g).ConfigureAwait(false);
                         await scope.SaveChangesAsync().ConfigureAwait(false);
                     }
-                }
-            } finally {
-                foreach (var id in lockedGameIds)
-                    _gameLocker.ReleaseLock(id);
             }
         }
 
-        private async Task<List<Guid>> TryLockIndividualGames(IEnumerable<Guid> gameIds) {
-            var l = new List<Guid>();
-            foreach (var id in gameIds) {
-                if (await TryLock(id).ConfigureAwait(false))
-                    l.Add(id);
-            }
-            return l;
-        }
-
-        private async Task<bool> TryLock(Guid id) {
+        private async Task<Info> TryLock(Guid id) {
             try {
-                await _gameLocker.ConfirmLock(id).ConfigureAwait(false);
-                return true;
+                return await _gameLocker.ConfirmLock(id).ConfigureAwait(false);
             } catch (AlreadyLockedException) {}
-            return false;
+            return null;
         }
 
         private async Task OnElapsed() {
@@ -131,6 +117,9 @@ namespace SN.withSIX.Mini.Applications
             if (newGames.Any())
                 await gc.SaveChanges().ConfigureAwait(false);
         }
+
+        Task HandleGameContents(ContentQuery query = null, params Guid[] gameIds)
+            => HandleGameContents(gameIds, query);
 
         async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
             if (Common.Flags.Verbose)
