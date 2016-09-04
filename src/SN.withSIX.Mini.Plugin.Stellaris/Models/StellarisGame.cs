@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 
@@ -51,7 +52,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
         }
 
         private StellarisMod CreateMod(IModContent x)
-            => new StellarisMod(GetContentSourceDirectory(x), GetModInstallationDirectory());
+            => new StellarisMod(GetContentSourceDirectory(x), GetModInstallationDirectory(), x);
 
         class SettingsWriter
         {
@@ -107,20 +108,25 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
         class StellarisMod
         {
             private readonly IAbsoluteDirectoryPath _modPath;
+            private readonly IModContent _mod;
             private readonly IAbsoluteDirectoryPath _sourcePath;
             private readonly Lazy<IAbsoluteFilePath> _sourceZip;
 
-            public StellarisMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath modPath) {
+            public StellarisMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath modPath, IModContent mod) {
                 _sourcePath = contentPath;
                 _modPath = modPath;
+                _mod = mod;
                 _sourceZip =
                     new Lazy<IAbsoluteFilePath>(
                         () => _sourcePath.DirectoryInfo.EnumerateFiles("*.zip").First().ToAbsoluteFilePath());
             }
 
             public async Task Install() {
+                if (!_sourcePath.Exists)
+                    throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
+
                 var modName = GetModName();
-                var sourceZip = GetSourceZip();
+                var sourceZip = SourceZip;
                 _modPath.MakeSurePathExists();
                 var destinationDir = _modPath.GetChildDirectoryWithName(modName);
                 if (destinationDir.Exists)
@@ -137,11 +143,11 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             public string GetRelModName() => $"mod/{GetModName()}";
 
             private string GetModName() {
-                var sz = GetSourceZip();
+                var sz = SourceZip;
                 return sz.FileNameWithoutExtension;
             }
 
-            private IAbsoluteFilePath GetSourceZip() => _sourceZip.Value;
+            private IAbsoluteFilePath SourceZip => _sourceZip.Value;
 
             public async Task Uninstall() {
                 if (!_modPath.Exists)
