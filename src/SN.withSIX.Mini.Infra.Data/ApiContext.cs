@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
@@ -61,12 +60,19 @@ namespace SN.withSIX.Mini.Infra.Data
         private async Task<List<ModClientApiJsonV3WithGameId>> Retrieve(Guid gameId, string version) {
             var content =
                 await BuildUri(gameId, version).GetJson<List<ModClientApiJsonV3WithGameId>>().ConfigureAwait(false);
+            await HandleSpecialCases(content, gameId, version).ConfigureAwait(false);
+            return content;
+        }
+
+        private async Task HandleSpecialCases(IReadOnlyCollection<ModClientApiJsonV3WithGameId> content, Guid gameId,
+            string version) {
+            // The api does not transfer game ids to save bw
             foreach (var c in content)
                 c.GameId = gameId;
 
             // TODO: Handle these special dependencies on the server side!
             if (gameId != GameGuids.Arma3)
-                return content;
+                return;
 
             var mods = content.ToDictionary(x => x.Id, x => x);
             var backMods =
@@ -75,8 +81,6 @@ namespace SN.withSIX.Mini.Infra.Data
                         .ConfigureAwait(false);
             foreach (var m in backMods.Where(x => mods.ContainsKey(x.Id)))
                 mods[m.Id].Tags = m.Tags;
-
-            return content;
         }
 
         private static Uri BuildUri(Guid gameId, string version)
