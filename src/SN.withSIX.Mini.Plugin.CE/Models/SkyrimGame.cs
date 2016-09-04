@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
@@ -38,7 +37,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 
         protected override Task InstallMod(IModContent mod) {
             var m = CreateMod(mod);
-            return m.Install();
+            return m.Install(true);
         }
 
         protected override Task UninstallMod(IModContent mod) {
@@ -63,37 +62,36 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
         }
 
         private SkyrimMod CreateMod(IModContent x)
-            => new SkyrimMod(GetContentSourceDirectory(x), GetModInstallationDirectory());
+            => new SkyrimMod(GetContentSourceDirectory(x), GetModInstallationDirectory(), x);
 
         // TODO: Subdirectories support
-        class SkyrimMod
+        class SkyrimMod : SteamMod
         {
             private readonly IAbsoluteDirectoryPath _installPath;
-            private readonly IAbsoluteDirectoryPath _sourceDir;
 
-            public SkyrimMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath installPath) {
-                _sourceDir = contentPath;
+            public SkyrimMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath installPath, IModContent mod)
+                : base(contentPath, mod) {
                 _installPath = installPath;
             }
 
             public string GetEsmFileName() {
-                var sourceEsm = _sourceDir.DirectoryInfo.EnumerateFiles("*.esm").FirstOrDefault();
+                var sourceEsm = SourcePath.DirectoryInfo.EnumerateFiles("*.esm").FirstOrDefault();
                 var esm = sourceEsm?.ToAbsoluteFilePath();
                 return esm?.FileName;
             }
 
-            public async Task Install() {
+            protected override async Task InstallImpl(bool force) {
                 _installPath.MakeSurePathExists();
 
-                foreach (var f in _sourceDir.DirectoryInfo.EnumerateFiles())
+                foreach (var f in SourcePath.DirectoryInfo.EnumerateFiles())
                     await f.ToAbsoluteFilePath().CopyAsync(_installPath).ConfigureAwait(false);
             }
 
-            public async Task Uninstall() {
-                if (!_installPath.Exists || !_sourceDir.Exists)
+            protected override async Task UninstallImpl() {
+                if (!_installPath.Exists || !SourcePath.Exists)
                     return;
                 foreach (var df in
-                    _sourceDir.DirectoryInfo.EnumerateFiles()
+                    SourcePath.DirectoryInfo.EnumerateFiles()
                         .Select(f => _installPath.GetChildFileWithName(f.Name))
                         .Where(df => df.Exists))
                     df.Delete();

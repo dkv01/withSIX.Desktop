@@ -13,7 +13,6 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
-using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 
@@ -43,7 +42,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
 
         protected override Task InstallMod(IModContent mod) {
             var m = CreateMod(mod);
-            return m.Install();
+            return m.Install(true);
         }
 
         protected override Task UninstallMod(IModContent mod) {
@@ -58,8 +57,8 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
         {
             private const string ModStart = "last_mods={";
             private const string ModEnd = "}";
-            private IEnumerable<StellarisMod> _mods;
             private readonly IAbsoluteFilePath _sf;
+            private IEnumerable<StellarisMod> _mods;
             private StringBuilder _settings;
 
             public SettingsWriter(IAbsoluteFilePath sf) {
@@ -105,33 +104,30 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
             private void WriteSettingsFile() => _sf.WriteText(_settings.ToString());
         }
 
-        class StellarisMod
+        class StellarisMod : SteamMod
         {
-            private readonly IAbsoluteDirectoryPath _modPath;
             private readonly IModContent _mod;
-            private readonly IAbsoluteDirectoryPath _sourcePath;
+            private readonly IAbsoluteDirectoryPath _modPath;
             private readonly Lazy<IAbsoluteFilePath> _sourceZip;
 
-            public StellarisMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath modPath, IModContent mod) {
-                _sourcePath = contentPath;
+            public StellarisMod(IAbsoluteDirectoryPath contentPath, IAbsoluteDirectoryPath modPath, IModContent mod)
+                : base(contentPath, mod) {
                 _modPath = modPath;
                 _mod = mod;
                 _sourceZip =
                     new Lazy<IAbsoluteFilePath>(
-                        () => _sourcePath.DirectoryInfo.EnumerateFiles("*.zip").First().ToAbsoluteFilePath());
+                        () => SourcePath.DirectoryInfo.EnumerateFiles("*.zip").First().ToAbsoluteFilePath());
             }
 
-            public async Task Install() {
-                if (!_sourcePath.Exists)
-                    throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
+            private IAbsoluteFilePath SourceZip => _sourceZip.Value;
 
+            protected override async Task InstallImpl(bool force) {
                 var modName = GetModName();
-                var sourceZip = SourceZip;
                 _modPath.MakeSurePathExists();
                 var destinationDir = _modPath.GetChildDirectoryWithName(modName);
                 if (destinationDir.Exists)
                     destinationDir.Delete(true);
-                sourceZip.Unpack(destinationDir, true);
+                SourceZip.Unpack(destinationDir, true);
 
                 var desc = destinationDir.GetChildFileWithName("descriptor.mod");
                 var modFile = _modPath.GetChildFileWithName($"{modName}.mod");
@@ -147,9 +143,7 @@ namespace SN.withSIX.Mini.Plugin.Stellaris.Models
                 return sz.FileNameWithoutExtension;
             }
 
-            private IAbsoluteFilePath SourceZip => _sourceZip.Value;
-
-            public async Task Uninstall() {
+            protected override async Task UninstallImpl() {
                 if (!_modPath.Exists)
                     return;
                 var modName = GetModName();

@@ -16,7 +16,6 @@ using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
-using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 
@@ -119,77 +118,73 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         }
 
         public override Uri GetPublisherUrl() => GetPublisherUrl(Publisher.Chucklefish);
-    }
 
-    internal class StarboundMod
-    {
-        private readonly IAbsoluteDirectoryPath _gameDir;
-        private readonly IModContent _mod;
-        private readonly IAbsoluteDirectoryPath _modDir;
-        private readonly IAbsoluteDirectoryPath _sourceDir;
+        class StarboundMod : SteamMod
+        {
+            private readonly IAbsoluteDirectoryPath _gameDir;
+            private readonly IAbsoluteDirectoryPath _modDir;
 
-        public StarboundMod(IModContent mod, IAbsoluteDirectoryPath sourceDir, IAbsoluteDirectoryPath modDir,
-            IAbsoluteDirectoryPath gameDir) {
-            _mod = mod;
-            _sourceDir = sourceDir;
-            _modDir = modDir;
-            _gameDir = gameDir;
-        }
+            public StarboundMod(IModContent mod, IAbsoluteDirectoryPath sourceDir, IAbsoluteDirectoryPath modDir,
+                IAbsoluteDirectoryPath gameDir) : base(sourceDir, mod) {
+                _modDir = modDir;
+                _gameDir = gameDir;
+            }
 
-        public async Task Install(bool force) {
-            _modDir.MakeSurePathExists();
-            var pakFile = _modDir.GetChildFileWithName($"{_mod.PackageName}.pak");
-            if (!force && pakFile.Exists) // TODO: Date check
-                return;
-            if (!_sourceDir.Exists)
-                throw new NotFoundException($"{_mod.PackageName} source not found! You might try Diagnosing");
-            // TODO: Support mods without Paks, perhaps as "not installable"
+            protected override async Task InstallImpl(bool force) {
+                _modDir.MakeSurePathExists();
+                var pakFile = _modDir.GetChildFileWithName($"{Mod.PackageName}.pak");
+                if (!force && pakFile.Exists) // TODO: Date check
+                    return;
+                // TODO: Support mods without Paks, perhaps as "not installable"
 
-            // 1. rename *.modinfo to pak.modinfo
-            var c = @"win32\asset_packer.exe modfolder modfolder.pak";
+                // 1. rename *.modinfo to pak.modinfo
+                var c = @"win32\asset_packer.exe modfolder modfolder.pak";
 
-            var sourcePak =
-                _sourceDir.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).FirstOrDefault();
-            IAbsoluteFilePath sourcePakPath;
-            if (sourcePak == null || !sourcePak.Exists) {
-                var modInfo =
-                    _sourceDir.DirectoryInfo.EnumerateFiles("*.modinfo", SearchOption.AllDirectories).FirstOrDefault();
-                if (modInfo == null) {
-                    throw new NotInstallableException(
-                        $"{_mod.PackageName} source .pak not found! You might try Diagnosing");
+                var sourcePak =
+                    SourcePath.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).FirstOrDefault();
+                IAbsoluteFilePath sourcePakPath;
+                if (sourcePak == null || !sourcePak.Exists) {
+                    var modInfo =
+                        SourcePath.DirectoryInfo.EnumerateFiles("*.modinfo", SearchOption.AllDirectories)
+                            .FirstOrDefault();
+                    if (modInfo == null) {
+                        throw new NotInstallableException(
+                            $"{Mod.PackageName} source .pak not found! You might try Diagnosing");
+                    }
+                    // todo get the dir
+                    var modInfoPath = modInfo.ToAbsoluteFilePath();
+                    sourcePakPath = await PackMod(modInfoPath).ConfigureAwait(false);
+                } else
+                    sourcePakPath = sourcePak.ToAbsoluteFilePath();
+                await sourcePakPath.CopyAsync(pakFile).ConfigureAwait(false);
+            }
+
+            private async Task<IAbsoluteFilePath> PackMod(IAbsoluteFilePath modInfoPath) {
+                await modInfoPath.CopyAsync(modInfoPath.GetBrotherFileWithName("pak.modinfo")).ConfigureAwait(false);
+                var sourcePakPath =
+                    Path.GetTempPath().ToAbsoluteDirectoryPath().GetChildFileWithName($"{Mod.PackageName}.pak");
+                // TODO: Delete after usage
+                var r = await
+                    Tools.ProcessManager.LaunchAndGrabAsync(
+                        new BasicLaunchInfo(new ProcessStartInfo(
+                            _gameDir.GetChildFileWithName(@"win32\asset_packer.exe").ToString(),
+                            new[] {modInfoPath.ParentDirectoryPath.ToString(), sourcePakPath.ToString()}
+                                .CombineParameters()))).ConfigureAwait(false);
+                if (r.ExitCode != 0) {
+                    throw new Exception(
+                        $"Failed creating a pak file for the mod. Code: {r.ExitCode} Output: {r.StandardOutput} Error: {r.StandardError}");
                 }
-                // todo get the dir
-                var modInfoPath = modInfo.ToAbsoluteFilePath();
-                sourcePakPath = await PackMod(modInfoPath).ConfigureAwait(false);
-            } else
-                sourcePakPath = sourcePak.ToAbsoluteFilePath();
-            await sourcePakPath.CopyAsync(pakFile).ConfigureAwait(false);
-        }
+                return sourcePakPath;
+            }
 
-        private async Task<IAbsoluteFilePath> PackMod(IAbsoluteFilePath modInfoPath) {
-            await modInfoPath.CopyAsync(modInfoPath.GetBrotherFileWithName("pak.modinfo")).ConfigureAwait(false);
-            var sourcePakPath =
-                Path.GetTempPath().ToAbsoluteDirectoryPath().GetChildFileWithName($"{_mod.PackageName}.pak");
-            // TODO: Delete after usage
-            var r = await
-                Tools.ProcessManager.LaunchAndGrabAsync(
-                    new BasicLaunchInfo(new ProcessStartInfo(
-                        _gameDir.GetChildFileWithName(@"win32\asset_packer.exe").ToString(),
-                        new[] {modInfoPath.ParentDirectoryPath.ToString(), sourcePakPath.ToString()}
-                            .CombineParameters()))).ConfigureAwait(false);
-            if (r.ExitCode != 0)
-                throw new Exception(
-                    $"Failed creating a pak file for the mod. Code: {r.ExitCode} Output: {r.StandardOutput} Error: {r.StandardError}");
-            return sourcePakPath;
-        }
+            protected override async Task UninstallImpl() {
+                if (!_modDir.Exists)
+                    return;
 
-        public async Task Uninstall() {
-            if (!_modDir.Exists)
-                return;
-
-            var pakFile = _modDir.GetChildFileWithName($"{_mod.PackageName}.pak");
-            if (pakFile.Exists)
-                pakFile.Delete();
+                var pakFile = _modDir.GetChildFileWithName($"{Mod.PackageName}.pak");
+                if (pakFile.Exists)
+                    pakFile.Delete();
+            }
         }
     }
 }

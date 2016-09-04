@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Core.Games
@@ -88,6 +87,28 @@ namespace SN.withSIX.Mini.Core.Games
                     MainLog.Logger.Warn($"Error enabling mod {ex}");
                 }
             });
+
+        protected abstract class SteamMod
+        {
+            protected readonly IModContent Mod;
+            protected readonly IAbsoluteDirectoryPath SourcePath;
+
+            protected SteamMod(IAbsoluteDirectoryPath sourcePath, IModContent mod) {
+                SourcePath = sourcePath;
+                Mod = mod;
+            }
+
+            public async Task Install(bool force) {
+                if (!SourcePath.Exists)
+                    throw new NotFoundException($"{Mod.PackageName} source not found! You might try Diagnosing");
+                await InstallImpl(force).ConfigureAwait(false);
+            }
+
+            protected abstract Task InstallImpl(bool force);
+
+            public Task Uninstall() => UninstallImpl();
+            protected abstract Task UninstallImpl();
+        }
     }
 
     internal class SteamGameContentScanner
