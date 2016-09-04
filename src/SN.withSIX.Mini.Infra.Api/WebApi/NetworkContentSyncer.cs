@@ -23,7 +23,6 @@ using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Collections;
-using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
@@ -115,7 +114,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return mods;
         }
 
-        static void ProcessContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents, ContentQuery filterFunc) {
+        static void ProcessContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents,
+            ContentQuery filterFunc) {
             // TODO: If we timestamp the DTO's, and save the timestamp also in our database,
             // then we can simply update data only when it has actually changed and speed things up.
             // The only thing to remember is when there are schema changes / new fields etc, either all timestamps need updating

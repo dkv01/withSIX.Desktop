@@ -67,10 +67,12 @@ namespace SN.withSIX.Mini.Applications
         async Task HandleGameContentsWhenNeededIndividualLock(params Guid[] tryGameIds) {
             var lockedGameIds = new List<Guid>();
             try {
-                using (var scope = _factory.Create()) {
-                    lockedGameIds = await TryLockIndividualGames(tryGameIds).ConfigureAwait(false);
-                    await HandleGameContents(lockedGameIds).ConfigureAwait(false);
-                    await scope.SaveChangesAsync().ConfigureAwait(false);
+                lockedGameIds = await TryLockIndividualGames(tryGameIds).ConfigureAwait(false);
+                if (lockedGameIds.Any()) {
+                    using (var scope = _factory.Create()) {
+                        await HandleGameContents(lockedGameIds).ConfigureAwait(false);
+                        await scope.SaveChangesAsync().ConfigureAwait(false);
+                    }
                 }
             } finally {
                 foreach (var id in lockedGameIds)
@@ -78,7 +80,7 @@ namespace SN.withSIX.Mini.Applications
             }
         }
 
-        private async Task<List<Guid>> TryLockIndividualGames(IReadOnlyCollection<Guid> gameIds) {
+        private async Task<List<Guid>> TryLockIndividualGames(IEnumerable<Guid> gameIds) {
             var l = new List<Guid>();
             foreach (var id in gameIds) {
                 try {
