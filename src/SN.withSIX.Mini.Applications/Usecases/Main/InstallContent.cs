@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public bool Force { get; set; }
 
         public IAsyncVoidCommandBase GetNextAction()
-            => new LaunchContent(GameId, Content);
+            => new LaunchContent(GameId, Content) { Name = Name };
 
         public CancellationToken CancelToken { get; set; }
 

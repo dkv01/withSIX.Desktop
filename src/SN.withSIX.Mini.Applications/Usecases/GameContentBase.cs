@@ -7,7 +7,7 @@ using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {
-    public abstract class GameContentBase : RequestBase, IHaveGameId, INeedGameContents
+    public abstract class GameContentBase : RequestBase, IHaveGameId, INeedGameContents, IHaveRequestName
     {
         protected GameContentBase(Guid gameId) {
             GameId = gameId;
@@ -18,7 +18,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
         public string Name { get; set; }
     }
 
-    public abstract class GameContentBaseWithInfo : GameContentBase, IHaveRequestName
+    public abstract class GameContentBaseWithInfo : GameContentBase
     {
         protected GameContentBaseWithInfo(Guid gameId) : base(gameId) {
             Name = "Playlist";
