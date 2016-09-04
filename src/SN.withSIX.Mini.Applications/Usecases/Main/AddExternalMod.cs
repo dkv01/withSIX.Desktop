@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     public class ExternalDownloadStarted : IAsyncCommand<Guid> {}
     public class ExternalDownloadProgressing : IAsyncVoidCommand {}
 
-    public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId, IHaveContentPublisher
+    public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId, IHaveContentPublisher, IHaveRequestName
     {
         readonly Regex nexus = new Regex(@"https?://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
 
@@ -95,7 +95,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 throw new NotFoundException("Content not found");
             Content = new ContentGuidSpec(c.Id, null);
             var hasPath = c as IHavePath;
-            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
+            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name));
             return new DownloadContentAction(CancelToken,
                 new InstallContentSpec(c, Content.Constraint)) {
                     HideLaunchAction = HideLaunchAction,
@@ -111,6 +111,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public IAsyncVoidCommandBase GetNextAction()
             => new LaunchContent(GameId, Content);
+
+        public string Name { get; set; }
     }
 
     public interface IHaveContentPublisher

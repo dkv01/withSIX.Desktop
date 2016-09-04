@@ -41,7 +41,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         public UninstallLocalContentAction GetAction(Game game) {
             var content = game.Contents.OfType<IUninstallableContent>().FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
-            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
+            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name));
             return new UninstallLocalContentAction(CancelToken, new UninstallContentSpec(content, Content.Constraint)) {
                 Name = Name ?? content.Name,
                 Href = href

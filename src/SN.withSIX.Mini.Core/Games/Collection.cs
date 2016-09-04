@@ -148,7 +148,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         public override bool IsNetworkContent { get; } = true;
 
-        public string GetPath() => this.GetContentPath(ContentSlug);
+        public string GetPath(string name) => this.GetContentPath(ContentSlug, name);
 
         public virtual string ContentSlug { get; } = "collections";
         [DataMember]

@@ -28,7 +28,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public PlayContentAction GetAction(Game game) {
             var content = game.Contents.FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
-            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
+            var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name));
             return new PlayContentAction(cancelToken: CancelToken,
                 content: new ContentSpec(content, Content.Constraint)) {
                     Name = Name ?? content.Name,

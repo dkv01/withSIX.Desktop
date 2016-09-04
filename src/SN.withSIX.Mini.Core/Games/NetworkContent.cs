@@ -22,7 +22,7 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IHavePath
     {
         string ContentSlug { get; }
-        string GetPath();
+        string GetPath(string name);
     }
 
     public interface IHaveImage
@@ -63,7 +63,7 @@ namespace SN.withSIX.Mini.Core.Games
         public override IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
             => GetSourceRoot(game).GetChildDirectoryWithName(GetSource(game).PublisherId);
 
-        public string GetPath() => this.GetContentPath(ContentSlug);
+        public string GetPath(string name) => this.GetContentPath(ContentSlug, name);
 
         public abstract string ContentSlug { get; }
 

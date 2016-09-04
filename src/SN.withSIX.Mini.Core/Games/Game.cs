@@ -486,7 +486,7 @@ namespace SN.withSIX.Mini.Core.Games
                 c.Uninstalled();
         }
 
-        public string GetContentPath(IHavePath content) => Metadata.Slug + "/" + content.GetPath();
+        public string GetContentPath(IHavePath content, string name) => Metadata.Slug + "/" + content.GetPath(name);
 
         public void RemoveCollection(Collection collection) {
             collection.Uninstalled(); // we want the content status to update
