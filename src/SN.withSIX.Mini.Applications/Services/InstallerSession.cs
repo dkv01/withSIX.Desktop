@@ -1063,9 +1063,9 @@ namespace SN.withSIX.Mini.Applications.Services
             }
 
             // TODO: Progress reporting
-            public async Task Install(CancellationToken cancelToken, bool force) {
+            public Task Install(CancellationToken cancelToken, bool force) {
                 var i = 0;
-                await RunAndThrow(_content.OrderBy(x => _game.GetPublisherUrl(x.Key)), async x => {
+                return RunAndThrow(_content.OrderBy(x => _game.GetPublisherUrl(x.Key)), async x => {
                     var f =
                         await
                             _dl.DownloadFile(_game.GetPublisherUrl(x.Key), _contentPath, _contentProgress[i++].Update,
@@ -1079,7 +1079,7 @@ namespace SN.withSIX.Mini.Applications.Services
                         destinationDir.Create();
                         f.Move(destinationDir);
                     }
-                }).ConfigureAwait(false);
+                });
             }
         }
     }

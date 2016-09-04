@@ -19,12 +19,10 @@ namespace SN.withSIX.Mini.Presentation.Electron
             _api = api;
         }
 
-        protected override async Task<IAbsoluteFilePath> DownloadFileImpl(Uri url, IAbsoluteDirectoryPath destination,
-            Action<long?, double> progressAction, CancellationToken token) {
-            // TODO: Progress reporting
-            var r = await _api.DownloadFile(url, destination.ToString(), token).ConfigureAwait(false);
-            return r.ToAbsoluteFilePath();
-        }
+        // TODO: Progress reporting
+        protected override Task<IAbsoluteFilePath> DownloadFileImpl(Uri url, IAbsoluteDirectoryPath destination,
+            Action<long?, double> progressAction, CancellationToken token)
+            => _api.DownloadFile(url, destination.ToString(), token);
 
         protected override Task StartSessionImpl(Uri url, IAbsoluteDirectoryPath destination,
             CancellationToken cancelToken) => _api.DownloadSession(url, destination.ToString(), cancelToken);

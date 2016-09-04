@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
@@ -77,12 +78,12 @@ namespace SN.withSIX.Mini.Presentation.Electron
             //return error.RecoveryOptions.First(x => x.RecoveryResult.HasValue).RecoveryResult.Value;
         }
 
-        public async Task<string> DownloadFile(Uri url, string path, CancellationToken token) {
+        public async Task<IAbsoluteFilePath> DownloadFile(Uri url, string path, CancellationToken token) {
             var t = _downloadFile(new {url, path});
             using (var tc = token.ThrowWhenCanceled()) {
                 await Task.WhenAny(t, tc.Task).ConfigureAwait(false);
                 var r = await t.ConfigureAwait(false);
-                return (string) r;
+                return ((string) r).ToAbsoluteFilePath();
             }
         }
 
