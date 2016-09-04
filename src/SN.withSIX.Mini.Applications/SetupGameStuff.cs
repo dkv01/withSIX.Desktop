@@ -83,12 +83,18 @@ namespace SN.withSIX.Mini.Applications
         private async Task<List<Guid>> TryLockIndividualGames(IEnumerable<Guid> gameIds) {
             var l = new List<Guid>();
             foreach (var id in gameIds) {
-                try {
-                    await _gameLocker.ConfirmLock(id).ConfigureAwait(false);
+                if (await TryLock(id).ConfigureAwait(false))
                     l.Add(id);
-                } catch (AlreadyLockedException) {}
             }
             return l;
+        }
+
+        private async Task<bool> TryLock(Guid id) {
+            try {
+                await _gameLocker.ConfirmLock(id).ConfigureAwait(false);
+                return true;
+            } catch (AlreadyLockedException) {}
+            return false;
         }
 
         private async Task OnElapsed() {
