@@ -7,10 +7,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Akavache;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Services;
@@ -24,18 +24,21 @@ namespace SN.withSIX.Mini.Infra.Data
     {
         private static readonly Uri apiCdnHost = new Uri("http://withsix-api.azureedge.net");
         private readonly ILocalCache _cache;
-        private readonly ConcurrentDictionary<string, List<ModClientApiJsonV3WithGameId>> _tempCache = new ConcurrentDictionary<string, List<ModClientApiJsonV3WithGameId>>();
+        private readonly Dictionary<string, object> _tempCache = new Dictionary<string, object>();
 
         public ApiContext(ILocalCache cache) {
             _cache = cache;
         }
 
-        public async Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version) {
-            var localCacheKey = $"{gameId}_{version}";
-            return _tempCache.ContainsKey(localCacheKey)
+        public Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version)
+            => GetOrCreateInTempCache($"{gameId}_{version}", () => GetOrFetchAndCache(gameId, version));
+
+        public Task<ApiHashes> GetHashes(Guid gameId) => GetOrCreateInTempCache("hashes", () => GetApiHashes(gameId));
+
+        private async Task<T> GetOrCreateInTempCache<T>(string localCacheKey, Func<Task<T>> creator)
+            => (T) (_tempCache.ContainsKey(localCacheKey)
                 ? _tempCache[localCacheKey]
-                : (_tempCache[localCacheKey] = await GetOrFetchAndCache(gameId, version).ConfigureAwait(false));
-        }
+                : (_tempCache[localCacheKey] = await creator().ConfigureAwait(false)));
 
         private async Task<List<ModClientApiJsonV3WithGameId>> GetOrFetchAndCache(Guid gameId, string version) {
             List<ModClientApiJsonV3WithGameId> result;
@@ -48,17 +51,12 @@ namespace SN.withSIX.Mini.Infra.Data
                 await _cache.InsertObject(uriKey, result);
             } else
                 result = await _cache.GetOrFetchObject(uriKey, () => Retrieve(gameId, version));
-
             await _cache.InsertObject(versionKey, version);
             return result;
         }
 
-        public async Task<ApiHashes> GetHashes(Guid gameId)
-            =>
-                await
-                    _cache.GetOrFetchObject("api_hashes_v3",
-                        () => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz")),
-                        TimeSpan.FromSeconds(30).GetAbsoluteUtc());
+        private Task<ApiHashes> GetApiHashes(Guid gameId) => _cache.GetOrFetchObject("api_hashes_v3",
+            () => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz"))).ToTask();
 
         private async Task<List<ModClientApiJsonV3WithGameId>> Retrieve(Guid gameId, string version) {
             var content =
