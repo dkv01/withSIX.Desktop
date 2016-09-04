@@ -54,8 +54,8 @@ namespace SN.withSIX.Mini.Infra.Data
             return result;
         }
 
-        private Task<ApiHashes> GetApiHashes(Guid gameId) => _cache.GetOrFetchObject("api_hashes_v3",
-            () => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz"))).ToTask();
+        private Task<ApiHashes> GetApiHashes(Guid gameId)
+            => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz"));
 
         private async Task<List<ModClientApiJsonV3WithGameId>> Retrieve(Guid gameId, string version) {
             var content =
