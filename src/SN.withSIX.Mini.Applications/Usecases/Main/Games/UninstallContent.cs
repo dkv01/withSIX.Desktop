@@ -43,7 +43,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
             var hasPath = content as IHavePath;
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
             return new UninstallLocalContentAction(CancelToken, new UninstallContentSpec(content, Content.Constraint)) {
-                Name = content.Name,
+                Name = Name ?? content.Name,
                 Href = href
             };
         }

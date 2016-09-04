@@ -31,7 +31,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var href = hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath));
             return new PlayContentAction(cancelToken: CancelToken,
                 content: new ContentSpec(content, Content.Constraint)) {
-                    Name = content.Name,
+                    Name = Name ?? content.Name,
                     Href = href
                 };
         }

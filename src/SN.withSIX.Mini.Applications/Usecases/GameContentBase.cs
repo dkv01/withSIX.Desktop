@@ -14,14 +14,17 @@ namespace SN.withSIX.Mini.Applications.Usecases
         }
 
         public Guid GameId { get; }
+
+        public string Name { get; set; }
     }
 
     public abstract class GameContentBaseWithInfo : GameContentBase, IHaveRequestName
     {
-        protected GameContentBaseWithInfo(Guid gameId) : base(gameId) {}
+        protected GameContentBaseWithInfo(Guid gameId) : base(gameId) {
+            Name = "Playlist";
+        }
         public Uri Href { get; set; }
 
-        public string Name { get; set; } = "Playlist";
         public Uri GetHref(Game game) => Href ?? GetHrefInternal(game);
 
         private Uri GetHrefInternal(Game game) => new Uri(Name == "Playlist"

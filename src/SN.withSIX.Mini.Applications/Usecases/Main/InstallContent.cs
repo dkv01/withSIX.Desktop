@@ -43,7 +43,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 new InstallContentSpec(content, Content.Constraint)) {
                     HideLaunchAction = HideLaunchAction,
                     Force = Force,
-                    Name = content.Name,
+                    Name = Name ?? content.Name,
                     Href = href
                 };
         }
