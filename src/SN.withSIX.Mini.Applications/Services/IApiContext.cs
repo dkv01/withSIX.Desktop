@@ -12,8 +12,7 @@ namespace SN.withSIX.Mini.Applications.Services
 {
     public interface IApiContext
     {
-        Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version,
-            IEnumerable<Guid> desiredContent = null);
+        Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version);
 
         Task<ApiHashes> GetHashes(Guid gameId);
     }

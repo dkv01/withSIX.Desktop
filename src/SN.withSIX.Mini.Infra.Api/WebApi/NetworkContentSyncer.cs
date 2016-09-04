@@ -56,7 +56,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             => _collectionSyncer.GetCollections(gameId, collectionIds, content);
 
         async Task<Dictionary<Guid, ModClientApiJsonV3WithGameId>> GetContentList(Guid gameId, ApiHashes hashes) {
-            var r = await _locator.GetApiContext().GetMods(gameId, hashes.Mods);
+            var r = await _locator.GetApiContext().GetMods(gameId, hashes.Mods).ConfigureAwait(false);
             return r.ToDictionary(x => x.Id, x => x);
         }
 
@@ -127,14 +127,6 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 ProcessLocalContent(game);
         }
 
-        /// <summary>
-        ///     If desiredMods is not specified, we synchronize all content.
-        ///     If it is specified, we only synchronize the desired mods (and their deps)
-        /// </summary>
-        /// <param name="game"></param>
-        /// <param name="contents"></param>
-        /// <param name="content"></param>
-        /// <param name="desiredMods"></param>
         static void UpdateContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents,
             IDictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content, ContentQuery filterFunc = null) {
             var defaultTags = new List<string>();
