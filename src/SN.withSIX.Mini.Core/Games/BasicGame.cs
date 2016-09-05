@@ -61,26 +61,27 @@ namespace SN.withSIX.Mini.Core.Games
             };
 
         protected override Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> launchContentAction) {
+            ILaunchContentAction<IContent> action) {
             var launcher = factory.Create(this);
-            return InitiateLaunch(launcher, GetStartupParameters());
+            return InitiateLaunch(launcher,
+                new LaunchState(GetLaunchExecutable(action.Action), GetExecutable(action.Action), GetStartupParameters().ToArray(), action.Action));
         }
 
-        protected Task<Process> InitiateLaunch<T>(T launcher, IEnumerable<string> startupParameters)
-            where T : ILaunch, ILaunchWithSteam => ShouldLaunchWithSteam()
-                ? LaunchWithSteam(launcher, startupParameters)
-                : LaunchNormal(launcher, startupParameters);
+        protected Task<Process> InitiateLaunch<T>(T launcher, LaunchState ls)
+            where T : ILaunch, ILaunchWithSteam => ShouldLaunchWithSteam(ls)
+                ? LaunchWithSteam(launcher, ls)
+                : LaunchNormal(launcher, ls);
 
-        protected async Task<Process> LaunchNormal(ILaunch launcher, IEnumerable<string> startupParameters)
+        protected async Task<Process> LaunchNormal(ILaunch launcher, LaunchState ls)
             =>
                 await
-                    launcher.Launch(await GetDefaultLaunchInfo(startupParameters).ConfigureAwait(false))
+                    launcher.Launch(await GetDefaultLaunchInfo(ls).ConfigureAwait(false))
                         .ConfigureAwait(false);
 
-        protected async Task<Process> LaunchWithSteam(ILaunchWithSteam launcher, IEnumerable<string> startupParameters)
+        protected async Task<Process> LaunchWithSteam(ILaunchWithSteam launcher, LaunchState ls)
             =>
                 await
-                    launcher.Launch(await GetSteamLaunchInfo(startupParameters).ConfigureAwait(false))
+                    launcher.Launch(await GetSteamLaunchInfo(ls).ConfigureAwait(false))
                         .ConfigureAwait(false);
 
         protected virtual IEnumerable<string> GetStartupParameters() => Settings.StartupParameters.Get();

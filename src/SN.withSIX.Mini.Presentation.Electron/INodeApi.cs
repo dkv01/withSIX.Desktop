@@ -5,6 +5,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.Mini.Applications;
 
@@ -19,7 +20,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         Task<string> ShowSaveDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFileDialog(string title = null, string defaultPath = null);
         Task<string[]> ShowFolderDialog(string title = null, string defaultPath = null);
-        Task<string> DownloadFile(Uri url, string path, CancellationToken token);
+        Task<IAbsoluteFilePath> DownloadFile(Uri url, string path, CancellationToken token);
         Task DownloadSession(Uri url, string path, CancellationToken token);
         Task<bool?> ShowNotification(string title, string message = null);
         Task DisplayTrayBaloon(string title, string content, string icon = null);

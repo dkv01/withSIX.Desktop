@@ -130,12 +130,12 @@ namespace SN.withSIX.Mini.Core.Games
 
         private IAbsoluteDirectoryPath ExecutablePath => InstalledState.Executable.ParentDirectoryPath;
         // TODO: we could also choose to implement this as a wrapper/adapter class instead
-        IAbsoluteDirectoryPath IContentEngineGame.WorkingDirectory => InstalledState.WorkingDirectory;
+        IAbsoluteDirectoryPath IContentEngineGame.WorkingDirectory => InstalledState.Directory;
 
         [IgnoreDataMember]
         public ContentPaths ContentPaths => _contentPaths.Value;
 
-        protected virtual IAbsoluteDirectoryPath GetContentDirectory() => InstalledState.WorkingDirectory;
+        protected virtual IAbsoluteDirectoryPath GetContentDirectory() => InstalledState.Directory;
 
         public IAbsoluteDirectoryPath GetContentPath(IContentWithPackageName content) {
             ConfirmInstalled();
@@ -203,10 +203,7 @@ namespace SN.withSIX.Mini.Core.Games
             var executable = GetExecutable();
             if (!executable.Exists)
                 return GameInstalledState.Default;
-            var launchExecutable = GetLaunchExecutable();
-            if (!launchExecutable.Exists)
-                return GameInstalledState.Default;
-            return new GameInstalledState(executable, launchExecutable, gameDirectory, GetWorkingDirectory());
+            return new GameInstalledState(executable, gameDirectory);
         }
 
         // TODO: Get this path from somewhere else than global state!!
@@ -328,7 +325,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual async Task BeforeLaunch(ILaunchContentAction<IContent> action) {}
 
         protected abstract Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> launchContentAction);
+            ILaunchContentAction<IContent> action);
 
         protected abstract Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> downloadContentAction);
@@ -374,13 +371,23 @@ namespace SN.withSIX.Mini.Core.Games
             return path ?? GetFileInGameDirectory(executables.First());
         }
 
-        protected virtual string[] GetExecutables() => Metadata.Executables;
+        protected virtual IAbsoluteFilePath GetExecutable(LaunchAction action) {
+            var executables = GetExecutables(action);
+            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
+            return path ?? GetFileInGameDirectory(executables.First());
+        }
 
-        protected virtual IAbsoluteFilePath GetLaunchExecutable() => GetExecutable();
+        protected virtual IEnumerable<IRelativeFilePath> GetExecutables()
+            => Metadata.Executables.Concat(Metadata.ServerExecutables).ToRelativeFilePaths();
+
+        protected virtual IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
+            (action == LaunchAction.LaunchAsServer ? Metadata.ServerExecutables : Metadata.Executables).ToRelativeFilePaths();
+
+        protected virtual IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) => GetExecutable();
 
         IAbsoluteDirectoryPath GetRepoDirectory() => Settings.RepoDirectory;
 
-        IAbsoluteFilePath GetFileInGameDirectory(string file) => GetGameDirectory().GetChildFileWithName(file);
+        IAbsoluteFilePath GetFileInGameDirectory(IRelativeFilePath file) => file.GetAbsolutePathFrom(GetGameDirectory());
 
         IAbsoluteDirectoryPath GetGameDirectory() => Settings.GameDirectory;
 
@@ -422,7 +429,7 @@ namespace SN.withSIX.Mini.Core.Games
             return false;
         }
 
-        protected virtual bool ShouldLaunchWithSteam() => IsSteamEdition();
+        protected virtual bool ShouldLaunchWithSteam(LaunchState ls) => IsSteamEdition();
 
         public bool IsSteamEdition() {
             var gameDir = InstalledState.Directory;
@@ -432,21 +439,36 @@ namespace SN.withSIX.Mini.Core.Games
             return false;
         }
 
-        private bool HasSteamApiDlls()
-            => InstalledState.LaunchExecutable.ParentDirectoryPath.DirectoryInfo.EnumerateFiles("steam_api*.dll")
-                .Any();
+        protected class LaunchState
+        {
+            public LaunchState(IAbsoluteFilePath launchExecutable, IAbsoluteFilePath executable, IReadOnlyCollection<string> startupParameters, LaunchAction action) {
+                LaunchExecutable = launchExecutable;
+                Executable = executable;
+                StartupParameters = startupParameters;
+                Action = action;
+            }
 
-        protected virtual Task<LaunchGameInfo> GetDefaultLaunchInfo(IEnumerable<string> startupParameters)
-            => Task.FromResult(new LaunchGameInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
-                InstalledState.WorkingDirectory,
-                startupParameters) {
+            public IAbsoluteFilePath Executable { get; }
+            public IAbsoluteFilePath LaunchExecutable { get; }
+            public IReadOnlyCollection<string> StartupParameters { get; }
+            public LaunchAction Action { get; }
+        }
+
+        //private bool HasSteamApiDlls()
+          //  => _launchState.LaunchExecutable.ParentDirectoryPath.DirectoryInfo.EnumerateFiles("steam_api*.dll")
+                //.Any();
+
+        protected virtual Task<LaunchGameInfo> GetDefaultLaunchInfo(LaunchState launchState)
+            => Task.FromResult(new LaunchGameInfo(launchState.LaunchExecutable, launchState.Executable,
+                launchState.LaunchExecutable.ParentDirectoryPath,
+                launchState.StartupParameters) {
                     LaunchAsAdministrator = ShouldLaunchAsAdministrator()
                 });
 
-        protected virtual Task<LaunchGameWithSteamInfo> GetSteamLaunchInfo(IEnumerable<string> startupParameters)
-            => Task.FromResult(new LaunchGameWithSteamInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
-                InstalledState.WorkingDirectory,
-                startupParameters) {
+        protected virtual Task<LaunchGameWithSteamInfo> GetSteamLaunchInfo(LaunchState launchState)
+            => Task.FromResult(new LaunchGameWithSteamInfo(launchState.LaunchExecutable, launchState.Executable,
+                launchState.LaunchExecutable.ParentDirectoryPath,
+                launchState.StartupParameters) {
                     SteamAppId = SteamInfo.AppId,
                     SteamDRM = SteamInfo.DRM,
                     LaunchAsAdministrator = ShouldLaunchAsAdministrator()

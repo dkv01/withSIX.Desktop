@@ -37,35 +37,35 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         private readonly Arma2OaGameSettings _settings;
         protected Arma2OaGame(Guid id) : this(id, new Arma2OaGameSettings()) {}
 
-        public Arma2OaGame(Guid id, Arma2OaGameSettings settings) : base(id, settings) {
+        protected Arma2OaGame(Guid id, Arma2OaGameSettings settings) : base(id, settings) {
             _settings = settings;
         }
 
         protected virtual string[] BeGameParam { get; } = {"2", "0"};
 
-        protected override string[] GetExecutables()
-            => ShouldLaunchAsDedicatedServer ? Metadata.ServerExecutables : Metadata.Executables;
+        protected override IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action)
+            => (action == LaunchAction.LaunchAsServer ? Metadata.ServerExecutables : Metadata.Executables)
+                    .ToRelativeFilePaths();
 
-        protected override IAbsoluteFilePath GetLaunchExecutable() {
+        protected override IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) {
             var battleEyeClientExectuable = GetBattleEyeClientExectuable();
-            return LaunchNormally(battleEyeClientExectuable)
-                ? base.GetLaunchExecutable()
+            return LaunchNormally(battleEyeClientExectuable, action)
+                ? base.GetLaunchExecutable(action)
                 : battleEyeClientExectuable;
         }
 
         protected virtual IAbsoluteFilePath GetBattleEyeClientExectuable()
             => GetExecutable().GetBrotherFileWithName(BattleEyeExe);
 
-        protected override async Task<IEnumerable<string>> GetStartupParameters(IRealVirtualityLauncher launcher,
-            ILaunchContentAction<IContent> action) {
-            var defParams = await base.GetStartupParameters(launcher, action).ConfigureAwait(false);
-            return LaunchNormally(GetBattleEyeClientExectuable())
+        protected override async Task<IReadOnlyCollection<string>> GetStartupParameters(IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction) {
+            var defParams = await base.GetStartupParameters(launcher, action, launchAction).ConfigureAwait(false);
+            return LaunchNormally(GetBattleEyeClientExectuable(), launchAction)
                 ? defParams
-                : AddBattleEyeLaunchParameters(defParams);
+                : AddBattleEyeLaunchParameters(defParams).ToArray();
         }
 
-        private bool LaunchNormally(IAbsoluteFilePath beExecutable)
-            => ShouldLaunchAsDedicatedServer || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
+        private bool LaunchNormally(IAbsoluteFilePath beExecutable, LaunchAction launchAction)
+            => launchAction == LaunchAction.LaunchAsServer || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
 
         IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => BeGameParam.Concat(defParams);
 

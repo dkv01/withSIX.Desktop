@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -28,6 +29,11 @@ namespace SN.withSIX.Core.Extensions
         private static readonly string[] archiveExts = { "gz", "7z", "rar", "zip" };
         private static readonly string[] archiveExtensions = archiveExts.Select(x => $".{x}").ToArray();
         public static readonly Regex ArchiveRx = new Regex(@"\.(" + string.Join("|", archiveExts) + ")");
+
+        public static IEnumerable<IRelativeFilePath> ToRelativeFilePaths(this IEnumerable<string> files) => files.Select(ToRelativeFile);
+        static IRelativeFilePath ToRelativeFile(this string file) => $@".\{file}".ToRelativeFilePath();
+        public static IEnumerable<IRelativeDirectoryPath> ToRelativeDirectoryPaths(this IEnumerable<string> directories) => directories.Select(ToRelativeDirectory);
+        static IRelativeDirectoryPath ToRelativeDirectory(this string directory) => $@".\{directory}".ToRelativeDirectoryPath();
 
 
         public static bool IsArchive(this IFilePath absoluteFilePath)

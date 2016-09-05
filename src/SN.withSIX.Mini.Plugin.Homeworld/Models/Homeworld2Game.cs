@@ -21,40 +21,9 @@ namespace SN.withSIX.Mini.Plugin.Homeworld.Models
     [RegistryInfo(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Homeworld2", "GAMEDIR")]
     [SynqRemoteInfo(GameIds.Homeworld2)]
     [DataContract]
-    public class Homeworld2Game : Game, ILaunchWith<IHomeworld2Launcher>
+    public class Homeworld2Game : BasicGame, ILaunchWith<IHomeworld2Launcher>
     {
         protected Homeworld2Game(Guid id) : this(id, new Homeworld2GameSettings()) {}
         public Homeworld2Game(Guid id, Homeworld2GameSettings settings) : base(id, settings) {}
-        IEnumerable<string> GetStartupParameters() => Settings.StartupParameters.Get();
-
-        protected override Task UninstallImpl(IContentInstallationService contentInstallation,
-            IContentAction<IUninstallableContent> uninstallLocalContentAction)
-            => contentInstallation.Uninstall(GetUninstallAction(uninstallLocalContentAction));
-
-        UnInstallContentAction GetUninstallAction(IContentAction<IUninstallableContent> action)
-            => new UnInstallContentAction(this, action.Content, action.CancelToken) {
-                Paths = ContentPaths
-            };
-
-        protected override Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> action)
-            => installationService.Install(new InstallContentAction(action.Content, action.CancelToken) {
-                RemoteInfo = RemoteInfo,
-                Paths = ContentPaths,
-                Game = this,
-                Cleaning = ContentCleaning
-            });
-
-        protected override Task<Process> LaunchImpl(IGameLauncherFactory factory,
-            ILaunchContentAction<IContent> action)
-            =>
-                factory.Create(this)
-                    .Launch(new LaunchGameInfo(InstalledState.LaunchExecutable, InstalledState.Executable,
-                        InstalledState.WorkingDirectory, GetStartupParameters()) {
-                            LaunchAsAdministrator = ShouldLaunchAsAdministrator()
-                        });
-
-        // TODO
-        protected override async Task ScanForLocalContentImpl() {}
     }
 }

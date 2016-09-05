@@ -42,6 +42,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
         readonly RealVirtualityGameSettings _settings;
 
+        [Obsolete("deprecate")]
         private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
         readonly Lazy<IAbsoluteDirectoryPath> _userconfigPath;
 
@@ -63,8 +64,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         RvProfileInfoAttribute ProfileInfo { get; }
         protected override bool DefaultDirectoriesOverriden => true;
         private IAbsoluteDirectoryPath KeysPath => _keysPath.Value;
-
-        protected bool ShouldLaunchAsDedicatedServer => _shouldLaunchAsDedicatedServer.Value;
 
         private IAbsoluteDirectoryPath UserconfigPath => _userconfigPath.Value;
 
@@ -121,25 +120,36 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> action) {
             var launcher = factory.Create<IRealVirtualityLauncher>(this);
-            var startupParameters = await GetStartupParameters(launcher, action).ConfigureAwait(false);
-            return await InitiateLaunch(launcher, startupParameters).ConfigureAwait(false);
+            var launchAction = _shouldLaunchAsDedicatedServer.Value ? LaunchAction.LaunchAsServer:  action.Action;
+            var ls = new LaunchState(GetLaunchExecutable(launchAction), GetExecutable(launchAction), 
+                await GetStartupParameters(launcher, action, launchAction).ConfigureAwait(false), launchAction);
+            if (launchAction == LaunchAction.LaunchAsServer)
+                Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
+
+            foreach (
+                var mod in
+                    action.Content.SelectMany(x => x.Content.GetLaunchables())
+                        .Distinct()
+                        .OfType<IModContent>()
+                        .Select(c => new RvMod(this, c))) {
+                await mod.PreLaunch(action.Action).ConfigureAwait(false);
+            }
+            return await InitiateLaunch(launcher, ls).ConfigureAwait(false);
         }
 
-        protected override bool ShouldLaunchWithSteam() {
+        protected override bool ShouldLaunchWithSteam(LaunchState ls) {
             var casted = Settings as ILaunchAsDedicatedServer;
             var launchAsDedicated = (casted?.LaunchAsDedicatedServer).GetValueOrDefault();
-            return !launchAsDedicated && base.ShouldLaunchWithSteam();
+            return !launchAsDedicated && base.ShouldLaunchWithSteam(ls);
         }
 
-        Tuple<string[], string[]> RvStartupParameters(IRealVirtualityLauncher launcher,
-            ILaunchContentAction<IContent> action)
-            => GetStartupBuilder().GetStartupParameters(GetStartupSpec(action));
+        Tuple<string[], string[]> RvStartupParameters(IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction)
+            => GetStartupBuilder().GetStartupParameters(GetStartupSpec(action, launchAction));
 
         protected virtual StartupBuilder GetStartupBuilder() => new StartupBuilder(this, new ModListBuilder());
 
-        protected virtual async Task<IEnumerable<string>> GetStartupParameters(IRealVirtualityLauncher launcher,
-            ILaunchContentAction<IContent> action) {
-            var startupInfo = RvStartupParameters(launcher, action);
+        protected virtual async Task<IReadOnlyCollection<string>> GetStartupParameters(IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction) {
+            var startupInfo = RvStartupParameters(launcher, action, launchAction);
             var startupParameters = startupInfo.Item1.ToList();
             var parData = startupInfo.Item2;
             if (!parData.Any())
@@ -162,14 +172,12 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         protected override Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> content) {
-            if (ShouldLaunchAsDedicatedServer)
-                Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
             foreach (var m in GetPackagedContent(content.Content).Select(x => new RvMod(this, x)))
                 m.Register();
             return base.InstallImpl(installationService, content);
         }
 
-        StartupBuilderSpec GetStartupSpec(ILaunchContentAction<IContent> action) {
+        StartupBuilderSpec GetStartupSpec(ILaunchContentAction<IContent> action, LaunchAction launchAction) {
             var content = GetLaunchables(action);
 
             return new StartupBuilderSpec {
@@ -180,7 +188,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 InputMods = content.OfType<IModContent>(), //.Where(x => x.Controller.Exists),
                 AdditionalLaunchMods = GetAdditionalLaunchMods(),
                 //Mission = CalculatedSettings.Mission,
-                Server = GetServer(action, content),
+                Server = GetServer(content, launchAction),
                 // TODO: Or configurable by user?
                 StartupParameters = Settings.StartupParameters.Get(),
                 UseParFile = true
@@ -190,12 +198,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected virtual IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
             => action.GetLaunchables().ToArray();
 
-        CollectionServer GetServer(ILaunchContentAction<IContent> action, IEnumerable<ILaunchableContent> content) {
-            if (ShouldLaunchAsDedicatedServer)
-                return null;
-            if (action.Action == LaunchAction.Default)
+        CollectionServer GetServer(IEnumerable<ILaunchableContent> content, LaunchAction launchAction) {
+            if (launchAction == LaunchAction.Default)
                 return content.OfType<IHaveServers>().FirstOrDefault()?.Servers.FirstOrDefault();
-            return action.Action == LaunchAction.Join
+            return launchAction == LaunchAction.Join
                 ? content.OfType<IHaveServers>().First().Servers.First()
                 : null;
         }
@@ -232,7 +238,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             private async Task PostInstall(bool processed) {
                 await InstallUserconfig(processed).ConfigureAwait(false);
-                if (_game.ShouldLaunchAsDedicatedServer)
+            }
+
+            public async Task PreLaunch(LaunchAction action) {
+                if (action == LaunchAction.LaunchAsServer)
                     await InstallBikeys().ConfigureAwait(false);
             }
 

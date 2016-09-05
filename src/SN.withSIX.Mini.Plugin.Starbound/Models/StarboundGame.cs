@@ -21,7 +21,10 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
 {
-    [Game(GameIds.Starbound, Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"}, Name = "Starbound",
+    [Game(GameIds.Starbound,
+        Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"},
+        ServerExecutables = new[] { @"win64\starbound_server.exe", @"win32\starbound_server.exe" },
+        Name = "Starbound",
         IsPublic = true,
         Slug = "Starbound")]
     [SynqRemoteInfo(GameIds.Starbound)]
@@ -29,16 +32,21 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
     [DataContract]
     public class StarboundGame : BasicSteamGame
     {
-        private readonly Lazy<string[]> _executables;
+        private readonly Lazy<IRelativeFilePath[]> _executables;
+        private readonly Lazy<IRelativeFilePath[]> _serverExecutables;
 
         public StarboundGame(Guid id, StarboundGameSettings settings) : base(id, settings) {
             _executables =
-                new Lazy<string[]>(() => Environment.Is64BitOperatingSystem
-                    ? Metadata.Executables
-                    : Metadata.Executables.Skip(1).ToArray());
+                new Lazy<IRelativeFilePath[]>(() => Environment.Is64BitOperatingSystem
+                    ? Metadata.Executables.ToRelativeFilePaths().ToArray()
+                    : Metadata.Executables.Skip(1).ToRelativeFilePaths().ToArray());
+            _serverExecutables =
+                new Lazy<IRelativeFilePath[]>(() => Environment.Is64BitOperatingSystem
+                    ? Metadata.ServerExecutables.ToRelativeFilePaths().ToArray()
+                    : Metadata.ServerExecutables.Skip(1).ToRelativeFilePaths().ToArray());
         }
 
-        protected override bool ShouldLaunchWithSteam() => false;
+        protected override bool ShouldLaunchWithSteam(LaunchState ls) => false;
 
         protected override Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             // TODO: PublisherId
@@ -52,6 +60,9 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
             return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Install(false));
         }
+
+        protected override IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
+            action == LaunchAction.LaunchAsServer ? _serverExecutables.Value : _executables.Value;
 
         protected override IAbsoluteDirectoryPath GetDefaultDirectory()
             => GetGogDir("Starbound") ?? base.GetDefaultDirectory();
@@ -80,8 +91,6 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         //private static readonly string[] defaultStartupParameters = {"-noworkshop"};
 
         //protected override IEnumerable<string> GetStartupParameters() => defaultStartupParameters.Concat(base.GetStartupParameters());
-
-        protected override string[] GetExecutables() => _executables.Value;
 
         IAbsoluteDirectoryPath GetModInstallationDirectory()
             => InstalledState.Directory.GetChildDirectoryWithName("mods");

@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics.Contracts;
 using NDepend.Path;
 
 namespace SN.withSIX.Mini.Core.Games
@@ -11,32 +12,20 @@ namespace SN.withSIX.Mini.Core.Games
     {
         public static readonly GameInstalledState Default = new NotGameInstalledState();
 
-        public GameInstalledState(IAbsoluteFilePath executable, IAbsoluteFilePath launchExecutable,
-            IAbsoluteDirectoryPath directory, IAbsoluteDirectoryPath workingDirectory, Version version = null,
-            bool isClient = true) {
-            /*
-        Contract.Requires<ArgumentNullException>(executable != null);
-        Contract.Requires<ArgumentNullException>(launchExecutable != null);
-        Contract.Requires<ArgumentNullException>(directory != null);
-        Contract.Requires<ArgumentNullException>(workingDirectory != null);
-        */
+        public GameInstalledState(IAbsoluteFilePath executable, IAbsoluteDirectoryPath directory, Version version = null) {
+            Contract.Requires<ArgumentNullException>(executable != null);
+            Contract.Requires<ArgumentNullException>(directory != null);
 
             Executable = executable;
-            LaunchExecutable = launchExecutable;
             Directory = directory;
-            WorkingDirectory = workingDirectory;
             Version = version;
-            IsClient = isClient;
         }
 
         protected GameInstalledState() {}
         public virtual bool IsInstalled => true;
-        public bool IsClient { get; }
-        public IAbsoluteDirectoryPath WorkingDirectory { get; }
         public IAbsoluteDirectoryPath Directory { get; }
         public Version Version { get; }
         public IAbsoluteFilePath Executable { get; }
-        public IAbsoluteFilePath LaunchExecutable { get; }
 
         class NotGameInstalledState : GameInstalledState
         {

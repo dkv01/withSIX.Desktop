@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
@@ -26,6 +27,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         public bool LaunchThroughBattlEye { get; set; } = true;
 
         [DataMember]
+        [Obsolete("deprecate")]
         public bool? LaunchAsDedicatedServer { get; set; }
     }
 }

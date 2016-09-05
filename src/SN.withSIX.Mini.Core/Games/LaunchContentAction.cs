@@ -42,6 +42,7 @@ namespace SN.withSIX.Mini.Core.Games
     {
         Default,
         Launch,
-        Join
+        Join,
+        LaunchAsServer
     }
 }

@@ -18,7 +18,7 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
                 Paths = ContentPaths,
                 Game = this,
                 CheckoutType = CheckoutType.CheckoutWithoutRemoval,
-                GlobalWorkingPath = InstalledState.WorkingDirectory,
+                GlobalWorkingPath = InstalledState.Directory,
                 Cleaning = ContentCleaning,
                 Force = action.Force,
                 HideLaunchAction = action.HideLaunchAction,
