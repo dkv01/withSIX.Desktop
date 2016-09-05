@@ -583,7 +583,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable(
             IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
-            => dict.Where(x => x.Key.GetState(x.Value.ToString()) != ItemState.Uptodate);
+            => dict.Where(x => x.Key.GetState(x.Value) != ItemState.Uptodate);
         
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable()
             => _packageContent.Where(x => {

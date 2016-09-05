@@ -13,6 +13,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Games
@@ -97,6 +98,12 @@ namespace SN.withSIX.Mini.Core.Games
             }
         }
         public abstract string GetFQN(string constraint = null);
+    }
+
+    public static class ContentExtensions
+    {
+        public static ItemState GetState(this IContent This, SpecificVersionInfo constraint) => This.GetState(constraint?.ToString());
+        public static ItemState GetState(this IContent This, SpecificVersion constraint) => This.GetState(constraint?.VersionInfo);
     }
 
     public interface ISourcedContent
