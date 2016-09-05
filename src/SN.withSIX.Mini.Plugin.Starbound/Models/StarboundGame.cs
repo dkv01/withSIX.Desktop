@@ -58,7 +58,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 .ToArray();
             HandleModDirectory(packages);
 
-            return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Install(false));
+            return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Enable());
         }
 
         protected override IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
@@ -138,6 +138,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 _modDir = modDir;
                 _gameDir = gameDir;
             }
+
+            public Task Enable() => Install(false);
 
             protected override async Task InstallImpl(bool force) {
                 _modDir.MakeSurePathExists();
