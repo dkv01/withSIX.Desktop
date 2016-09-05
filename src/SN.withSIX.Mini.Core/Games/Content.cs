@@ -129,8 +129,7 @@ namespace SN.withSIX.Mini.Core.Games
     {
         Task Install(IInstallerSession installerSession, CancellationToken cancelToken, string constraint = null);
 
-        IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
-            string constraint = null);
+        IEnumerable<IContentSpec<Content>> GetRelatedContent(string constraint = null);
 
         void SetIncomplete(string constraint);
     }
@@ -198,7 +197,7 @@ namespace SN.withSIX.Mini.Core.Games
         public string Version { get; protected set; }
 
         public IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null)
-            => GetRelatedContent(constraint: constraint).Select(x => x.Content).OfType<ILaunchableContent>();
+            => GetRelatedContent(constraint).Select(x => x.Content).OfType<ILaunchableContent>();
 
         public virtual async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
             bool processed) {
@@ -348,7 +347,10 @@ namespace SN.withSIX.Mini.Core.Games
                 InstallInfo.Version?.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase) ??
                 InstallInfo.Version == desiredVersion;
 
-        public abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
+        public IEnumerable<IContentSpec<Content>> GetRelatedContent(string constraint = null)
+            => GetRelatedContent(new List<IContentSpec<Content>>(), constraint);
+
+        internal abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list, 
             string constraint = null);
 
         public void RemoveRecentInfo() {
@@ -399,12 +401,9 @@ namespace SN.withSIX.Mini.Core.Games
         public virtual Task Install(IInstallerSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Install(GetPackaged(constraint).ToArray());
 
-        public void SetIncomplete(string constraint) {
-            Installed(constraint, false);
-        }
+        public void SetIncomplete(string constraint) => Installed(constraint, false);
 
         protected IEnumerable<IContentSpec<IPackagedContent>> GetPackaged(string constraint = null)
-            => GetRelatedContent(constraint: constraint)
-                .OfType<IContentSpec<IPackagedContent>>();
+            => GetRelatedContent(constraint).OfType<IContentSpec<IPackagedContent>>();
     }
 }

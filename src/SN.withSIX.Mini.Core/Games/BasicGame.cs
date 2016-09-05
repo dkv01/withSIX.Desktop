@@ -91,7 +91,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected static IEnumerable<IContentWithPackageName> GetPackagedContent(
             IEnumerable<IContentSpec<IInstallableContent>> content)
-            => content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
+            => content.SelectMany(x => x.Content.GetRelatedContent(x.Constraint))
                 .Select(x => x.Content).Distinct().OfType<IContentWithPackageName>();
     }
 }

@@ -63,7 +63,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         protected IEnumerable<IContentSpec<Collection>> GetCollections(string constraint = null)
-            => GetRelatedContent(constraint: constraint).OfType<IContentSpec<Collection>>();
+            => GetRelatedContent(constraint).OfType<IContentSpec<Collection>>();
 
         public override async Task Install(IInstallerSession installerSession, CancellationToken cancelToken,
             string constraint = null) {
@@ -81,10 +81,8 @@ namespace SN.withSIX.Mini.Core.Games
             base.UpdateState(force);
         }
 
-        public override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
+        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list,
             string constraint = null) {
-            if (list == null)
-                list = new List<IContentSpec<Content>>();
 
             if (list.Select(x => x.Content).Contains(this))
                 return list;

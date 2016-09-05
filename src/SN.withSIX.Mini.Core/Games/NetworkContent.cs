@@ -67,7 +67,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         public abstract string ContentSlug { get; }
 
-        public override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
+        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list,
             string constraint = null) {
             if (list == null)
                 list = new List<IContentSpec<Content>>();

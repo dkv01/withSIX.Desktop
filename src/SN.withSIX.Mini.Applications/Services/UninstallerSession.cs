@@ -82,7 +82,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var finalState = content.GetState();
             await new ContentStatusChanged(content, ItemState.Uninstalling, 25).Raise().ConfigureAwait(false);
             try {
-                var contentSpecs = content.GetRelatedContent(constraint: constraint)
+                var contentSpecs = content.GetRelatedContent(constraint)
                     .Where(x => x.Content is IUninstallableContent && x.Content != content).ToArray();
 
                 var packedContent = contentSpecs.Where(x => x.Content is IContentWithPackageName);
