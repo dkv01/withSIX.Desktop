@@ -11,6 +11,7 @@ using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 
@@ -64,10 +65,15 @@ namespace SN.withSIX.Mini.Core.Games
             var newContent =
                 new SteamGameContentScanner(this).ScanForNewContent(existingModFolders).ToArray();
             var removedContent = InstalledContent.OfType<IPackagedContent>()
-                .Where(x => !ContentExists(x.GetSourceDirectory(this)))
+                .Where(ContentExists)
                 .Cast<Content>();
             ProcessAddedAndRemovedContent(newContent, removedContent);
         }
+
+        private bool ContentExists(IPackagedContent x)
+            =>
+                (x.GetSource(this).Publisher == Publisher.Steam && !SteamDirectories.IsValid) ||
+                !ContentExists(x.GetSourceDirectory(this));
 
         IEnumerable<IAbsoluteDirectoryPath> GetExistingModFolders() => GetModFolders().Where(x => x.Exists);
 

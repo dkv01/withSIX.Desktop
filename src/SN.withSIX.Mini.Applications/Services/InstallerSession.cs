@@ -167,9 +167,13 @@ namespace SN.withSIX.Mini.Applications.Services
                     await InstallContent().ConfigureAwait(false);
                 }
             } catch (AggregateException ex) {
-                throw ex.Flatten().InnerExceptions.NotOfType<Exception, ExternalDownloadCancelled>().FirstOrDefault()
-                      ?? new OperationCanceledException();
+                throw GetFirstNotExternalDownloadCancelled(ex) ?? new OperationCanceledException();
             }
+        }
+
+        private static Exception GetFirstNotExternalDownloadCancelled(AggregateException ex) {
+            var errors = ex.Flatten().InnerExceptions;
+            return errors.NotOfType<Exception, ExternalDownloadCancelled>().FirstOrDefault();
         }
 
         async Task TryStatusChange() {
@@ -1065,7 +1069,7 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Progress reporting
             public Task Install(CancellationToken cancelToken, bool force) {
                 var i = 0;
-                return RunAndThrow(_content.OrderBy(x => _game.GetPublisherUrl(x.Key)), async x => {
+                return RunAndThrow(_content.OrderBy(x => _game.GetPublisherUrl(x.Key).DnsSafeHost), async x => {
                     var f =
                         await
                             _dl.DownloadFile(_game.GetPublisherUrl(x.Key), _contentPath, _contentProgress[i++].Update,
