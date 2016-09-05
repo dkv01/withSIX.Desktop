@@ -377,11 +377,10 @@ namespace SN.withSIX.Mini.Core.Games
             return path ?? GetFileInGameDirectory(executables.First());
         }
 
-        protected virtual IEnumerable<IRelativeFilePath> GetExecutables()
-            => Metadata.Executables.Concat(Metadata.ServerExecutables).ToRelativeFilePaths();
+        protected virtual IEnumerable<IRelativeFilePath> GetExecutables() => Metadata.GetAllExecutables();
 
         protected virtual IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
-            (action == LaunchAction.LaunchAsServer ? Metadata.ServerExecutables : Metadata.Executables).ToRelativeFilePaths();
+            action == LaunchAction.LaunchAsServer ? Metadata.GetServerExecutables() : Metadata.GetExecutables();
 
         protected virtual IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) => GetExecutable();
 

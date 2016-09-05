@@ -394,6 +394,6 @@ In order to ensure a save and working mod experience, For now Sync will automati
             @"update\x64\dlcpacks\mpapartment\dlc.rpf",
             @"update\x64\dlcpacks\mpxmas_604490\dlc.rpf",
             @"update\x64\dlcpacks\patchday8ng\dlc.rpf"
-        }.Select(x => (@".\" + x).ToRelativeFilePath()).ToList();
+        }.ToRelativeFilePaths().ToList();
     }
 }

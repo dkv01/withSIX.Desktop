@@ -43,10 +43,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         protected virtual string[] BeGameParam { get; } = {"2", "0"};
 
-        protected override IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action)
-            => (action == LaunchAction.LaunchAsServer ? Metadata.ServerExecutables : Metadata.Executables)
-                    .ToRelativeFilePaths();
-
         protected override IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) {
             var battleEyeClientExectuable = GetBattleEyeClientExectuable();
             return LaunchNormally(battleEyeClientExectuable, action)

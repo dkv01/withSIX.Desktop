@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using withSIX.Api.Models.Games;
@@ -31,6 +32,6 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
         public override IReadOnlyCollection<IRelativePath> Exclusions => GameFiles();
         // TODO
         static IReadOnlyCollection<IRelativeFilePath> GameFiles()
-            => new string[0].Select(x => x.ToRelativeFilePath()).ToList();
+            => new string[0].ToRelativeFilePaths().ToList();
     }
 }

@@ -3,7 +3,11 @@
 // </copyright>
 
 using System;
+using System.Linq;
+using System.Collections.Generic;
+using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Mini.Core.Games.Attributes
 {
@@ -23,15 +27,21 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         public string ShortName { get; set; }
         public string Slug { get; set; }
         public string FirstTimeRunInfo { get; set; }
-        public string[] Executables { get; set; }
-        public string[] MultiplayerExecutables { get; set; }
-        public string[] ServerExecutables { get; set; }
+        public string[] Executables { get; set; } = {};
+        public string[] MultiplayerExecutables { get; set; } = {};
+        public string[] ServerExecutables { get; set; } = {};
         public LaunchType[] LaunchTypes { get; set; } = {LaunchType.Default};
         public Uri Image { get; set; }
         public Uri BackgroundImage { get; set; }
         public string[] Dlcs { get; set; }
         public TimeSpan? AfterLaunchDelay { get; set; } = TimeSpan.FromSeconds(10);
-
         public Guid Id { get; }
+
+        public IEnumerable<IRelativeFilePath> GetExecutables() => Executables.ToRelativeFilePaths();
+        public IEnumerable<IRelativeFilePath> GetMultiplayerExecutables() => MultiplayerExecutables.ToRelativeFilePaths();
+        public IEnumerable<IRelativeFilePath> GetServerExecutables() => ServerExecutables.ToRelativeFilePaths();
+
+        public IEnumerable<IRelativeFilePath> GetAllExecutables()
+            => GetExecutables().Concat(GetMultiplayerExecutables()).Concat(GetServerExecutables());
     }
 }

@@ -35,7 +35,6 @@ namespace SN.withSIX.Core.Extensions
         public static IEnumerable<IRelativeDirectoryPath> ToRelativeDirectoryPaths(this IEnumerable<string> directories) => directories.Select(ToRelativeDirectory);
         static IRelativeDirectoryPath ToRelativeDirectory(this string directory) => $@".\{directory}".ToRelativeDirectoryPath();
 
-
         public static bool IsArchive(this IFilePath absoluteFilePath)
             => archiveExtensions.Contains(absoluteFilePath.FileExtension);
 

@@ -38,12 +38,12 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         public StarboundGame(Guid id, StarboundGameSettings settings) : base(id, settings) {
             _executables =
                 new Lazy<IRelativeFilePath[]>(() => Environment.Is64BitOperatingSystem
-                    ? Metadata.Executables.ToRelativeFilePaths().ToArray()
-                    : Metadata.Executables.Skip(1).ToRelativeFilePaths().ToArray());
+                    ? Metadata.GetExecutables().ToArray()
+                    : Metadata.GetExecutables().Skip(1).ToArray());
             _serverExecutables =
                 new Lazy<IRelativeFilePath[]>(() => Environment.Is64BitOperatingSystem
-                    ? Metadata.ServerExecutables.ToRelativeFilePaths().ToArray()
-                    : Metadata.ServerExecutables.Skip(1).ToRelativeFilePaths().ToArray());
+                    ? Metadata.GetServerExecutables().ToArray()
+                    : Metadata.GetServerExecutables().Skip(1).ToArray());
         }
 
         protected override bool ShouldLaunchWithSteam(LaunchState ls) => false;
