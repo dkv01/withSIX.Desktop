@@ -52,13 +52,13 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public void CleanupGame(Game game) {
-            var l = new List<IContentSpec<Content>>();
-            var toRemove = game.Contents.Except(
-                game.AllAvailableContent.SelectMany(x => x.GetRelatedContent(l)).Select(x => x.Content).Distinct())
+            var toRemove = game.Contents
+                .Except(game.AllAvailableContent
+                    .SelectMany(x => x.GetRelatedContent())
+                    .Select(x => x.Content).Distinct())
                 .ToList();
             game.Contents.RemoveAll(toRemove);
         }
-
 
         public async Task<bool> SwitchGame(Guid id) {
             using (await _lock.LockAsync().ConfigureAwait(false)) {
