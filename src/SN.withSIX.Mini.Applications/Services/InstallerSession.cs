@@ -23,6 +23,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
@@ -259,16 +260,21 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private void PrepareExternalContent() {
             MarkPrepared(_externalContent = GetExternalContent());
-            _externalContentToInstall = _externalContent; // TODO
-            if (_externalContentToInstall.Any()) {
-                _externalProgress = new ProgressComponent("External mods");
-                _externalProcessing = new ProgressComponent("Processing");
-                _externalProcessing.AddComponents(
-                    _externalContentToInstall.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
-                _externalProgress.AddComponents(_externalProcessing);
-                _progress.AddComponents(_externalProgress);
-            }
+            _externalContentToInstall = ToProcessContent(_externalContent);
+            if (!_externalContentToInstall.Any())
+                return;
+            _externalProgress = new ProgressComponent("External mods");
+            _externalProcessing = new ProgressComponent("Processing");
+            _externalProcessing.AddComponents(
+                _externalContentToInstall.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
+            _externalProgress.AddComponents(_externalProcessing);
+            _progress.AddComponents(_externalProgress);
         }
+
+        private Dictionary<IPackagedContent, SpecificVersion> ToProcessContent(
+            Dictionary<IPackagedContent, SpecificVersion> content) => _action.Force
+                ? content
+                : OnlyWhenNewOrUpdateAvailable(content).ToDictionary(x => x.Key, x => x.Value);
 
         private Dictionary<IPackagedContent, SpecificVersion> GetExternalContent() => _installableContent
             .Where(x => ShouldInstallFromExternal(x.Key))
@@ -281,15 +287,15 @@ namespace SN.withSIX.Mini.Applications.Services
             MarkPrepared(_steamContent = _action.Game.IsSteamGame()
                 ? GetSteamContent()
                 : new Dictionary<IPackagedContent, SpecificVersion>());
-            _steamContentToInstall = _steamContent; // TODO
-            if (_steamContentToInstall.Any()) {
-                _steamProgress = new ProgressComponent("Steam mods");
-                _steamProcessing = new ProgressComponent("Processing");
-                _steamProcessing.AddComponents(
-                    _steamContentToInstall.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
-                _steamProgress.AddComponents(_steamProcessing);
-                _progress.AddComponents(_steamProgress);
-            }
+            _steamContentToInstall = ToProcessContent(_steamContent);
+            if (!_steamContentToInstall.Any())
+                return;
+            _steamProgress = new ProgressComponent("Steam mods");
+            _steamProcessing = new ProgressComponent("Processing");
+            _steamProcessing.AddComponents(
+                _steamContentToInstall.Select(x => new ProgressLeaf(x.Key.PackageName)).ToArray());
+            _steamProgress.AddComponents(_steamProcessing);
+            _progress.AddComponents(_steamProgress);
         }
 
         private Dictionary<IPackagedContent, SpecificVersion> GetSteamContent() => _installableContent
@@ -323,10 +329,15 @@ namespace SN.withSIX.Mini.Applications.Services
                     throw new NotSupportedException("This game currently does not support SynqPackages");
                 _packagesToInstall = _packageContent;
             } else {
-                _packagesToInstall = _action.Force ? _packageContent : OnlyWhenNewOrUpdateAvailable();
+                _packagesToInstall = GetPackageContentToInstall();
                 _packageProgress = SetupSynqProgress("Network mods", _packagesToInstall);
             }
         }
+
+        private Dictionary<IPackagedContent, SpecificVersion> GetPackageContentToInstall() => _action.Force
+            ? _packageContent
+            : OnlyWhenNewOrUpdateAvailable()
+                .ToDictionary(x => x.Key, x => x.Value);
 
         private SixSyncProgress SetupSixSyncProgress(string title,
             Dictionary<IPackagedContent, SpecificVersion> progressContent) {
@@ -570,12 +581,16 @@ namespace SN.withSIX.Mini.Applications.Services
             */
         }
 
-        private Dictionary<IPackagedContent, SpecificVersion> OnlyWhenNewOrUpdateAvailable()
+        private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable(
+            IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
+            => dict.Where(x => x.Key.GetState(x.Value.ToString()) != ItemState.Uptodate);
+        
+        private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable()
             => _packageContent.Where(x => {
                 var syncInfo = GetInstalledInfo(x);
                 // syncINfo = null: new download, VersionData not equal: new update
                 return syncInfo == null || !syncInfo.VersionData.Equals(x.Value.VersionData);
-            }).ToDictionary(x => x.Key, x => x.Value);
+            });
 
         private Dictionary<IPackagedContent, SpecificVersion> GetRepoContentToInstallOrUpdate()
             => _repoContent.Where(c => {
