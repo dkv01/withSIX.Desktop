@@ -363,16 +363,14 @@ namespace SN.withSIX.Mini.Core.Games
                 throw new InvalidPathsException("Invalid content target directories");
         }
 
-        protected virtual IAbsoluteDirectoryPath GetWorkingDirectory() => GetExecutable().ParentDirectoryPath;
-
         protected virtual IAbsoluteFilePath GetExecutable() {
-            var executables = GetExecutables();
+            var executables = GetExecutables().ToArray();
             var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
             return path ?? GetFileInGameDirectory(executables.First());
         }
 
         protected virtual IAbsoluteFilePath GetExecutable(LaunchAction action) {
-            var executables = GetExecutables(action);
+            var executables = GetExecutables(action).ToArray();
             var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
             return path ?? GetFileInGameDirectory(executables.First());
         }
@@ -382,7 +380,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
             action == LaunchAction.LaunchAsServer ? Metadata.GetServerExecutables() : Metadata.GetExecutables();
 
-        protected virtual IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) => GetExecutable();
+        protected virtual IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) => GetExecutable(action);
 
         IAbsoluteDirectoryPath GetRepoDirectory() => Settings.RepoDirectory;
 
