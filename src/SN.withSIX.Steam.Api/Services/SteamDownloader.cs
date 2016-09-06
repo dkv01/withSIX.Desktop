@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Steam.Api.Helpers;
 using Steamworks;
@@ -24,14 +25,12 @@ namespace SN.withSIX.Steam.Api.Services
             _api = api;
         }
 
-        public async Task Download(PublishedFile pf, Action<long?, double> progressAction = null,
+        public Task Download(PublishedFile pf, Action<long?, double> progressAction = null,
             CancellationToken cancelToken = default(CancellationToken)) {
             if (progressAction != null)
                 HandleProgress(progressAction);
-            await
-                PerformDownload(pf, progressAction != null ? HandleProgress(progressAction) : null,
-                    cancelToken)
-                    .ConfigureAwait(false);
+            return
+                PerformDownload(pf, progressAction != null ? HandleProgress(progressAction) : null, cancelToken);
         }
 
         private static Action<DownloadInfo> HandleProgress(Action<long?, double> progressAction) {
@@ -59,27 +58,27 @@ namespace SN.withSIX.Steam.Api.Services
         }
 
         private IObservable<Unit> CreateReadySignal(PublishedFile pf, CancellationToken cancelToken)
-            => CreateResultCompletionSource(pf, cancelToken)
-                .Merge(CreateInstalledCompletionSource(pf, cancelToken), _api.Scheduler)
-                .Merge(CreateProgressCompletionSource(pf), _api.Scheduler)
+            => CreateDownloadItemResultCompletionSource(pf, cancelToken)
+                .Merge(CreateInstalledFileCompletionSource(pf, cancelToken), _api.Scheduler)
+                //.Merge(CreateProgressCompletionSource(pf), _api.Scheduler)
                 .Merge(CreateTimeoutSource(pf), _api.Scheduler)
                 .Take(1);
 
-        private IObservable<Unit> CreateResultCompletionSource(PublishedFile pf, CancellationToken cancelToken)
+        private IObservable<Unit> CreateDownloadItemResultCompletionSource(PublishedFile pf, CancellationToken cancelToken)
             => ObserveDownloadItemResultForApp(pf, cancelToken)
+                .Do(x => MainLog.Logger.Info($"Received DownloadItemResult event for {pf}"))
                 .Do(x => _api.ConfirmResult(x.m_eResult))
                 .Void();
 
-        private IObservable<Unit> CreateInstalledCompletionSource(PublishedFile pf, CancellationToken cancelToken)
-            => ObserveInstalledFileForApp(pf, cancelToken).Void();
-
-        private IObservable<Unit> CreateProgressCompletionSource(PublishedFile pf) => ObserveDownloadInfo(pf.Pid)
-            .Where(x => x.Total > 0 && x.Total == x.Downloaded)
-            .Void();
+        private IObservable<Unit> CreateInstalledFileCompletionSource(PublishedFile pf, CancellationToken cancelToken)
+            => ObserveInstalledFileForApp(pf, cancelToken)
+                .Do(x => MainLog.Logger.Info($"Received InstalledFile event for {pf}"))
+                .Void();
 
         private IObservable<Unit> CreateTimeoutSource(PublishedFile pf)
             => ObserveDownloadInfo(pf.Pid)
                 .Throttle(TimeSpan.FromSeconds(60))
+                .Do(x => MainLog.Logger.Info($"Reached timeout for {pf}"))
                 .Do(x => {
                     throw new TimeoutException(
                         "Did not receive download progress info from Steam for over 60 seconds");

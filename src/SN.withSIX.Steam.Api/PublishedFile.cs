@@ -34,6 +34,8 @@ namespace SN.withSIX.Steam.Api
         public AppId_t Aid { get; }
         public PublishedFileId_t Pid { get; }
 
+        public override string ToString() => Pid.ToString();
+
         public async Task Download(ISteamDownloader dl, ISteamApi api, Action<long?, double> progressAction = null,
             CancellationToken cancelToken = default(CancellationToken), bool force = false) {
             if (!force && !RequiresDownloading()) {
