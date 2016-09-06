@@ -86,6 +86,15 @@ public static class RecoveryCommands
         }
 
         /// <summary>
+        /// A default command whose caption is "Continue"
+        /// </summary>
+        /// <value>RetryOperation</value>
+        public static IRecoveryCommand Continue
+        {
+            get { var ret = new RecoveryCommandImmediate("Continue") { IsDefault = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.RetryOperation); return ret; }
+        }
+
+        /// <summary>
         /// A default command whose caption is "Cancel"
         /// </summary>
         /// <value>FailOperation</value>

@@ -366,9 +366,12 @@ namespace SN.withSIX.Mini.Applications.Services
             return bla;
         }
 
-        async Task PublishIndividualItemStates(double progress = 0, long? speed = null) {
+        Task PublishIndividualItemStates(double progress = 0, long? speed = null)
+            => PublishIndividualItemStates(_allContentToInstall, progress, speed);
+
+        private static async Task PublishIndividualItemStates(IDictionary<IPackagedContent, SpecificVersion> states, double progress = 0, long? speed = null) {
             // TODO: Combine status updates into single change?
-            foreach (var c in _allContentToInstall) {
+            foreach (var c in states) {
                 await
                     new ContentStatusChanged(c.Key, c.Key.ProcessingState, progress, speed)
                         .Raise()
@@ -418,11 +421,15 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         private IObservable<RecoveryOptionResult> ConfirmUser()
-            => UserError.Throw(new UserError("External Content found",
-                "The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
-                string.Join(", ", _externalContentToInstall.Select(x => x.Key.PackageName)) +
-                "\n\nPress OK to Continue",
-                new[] {RecoveryCommandImmediate.Ok, RecoveryCommandImmediate.Cancel}));
+            => UserError.Throw(new UserError("Some content is hosted externally",
+                @"To start the automatic installation, initiate the download on the external website.
+
+Click CONTINUE to open the download page and follow the instructions until the download starts. 
+<i>(Login might be required)</i>",
+                //"The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
+                //string.Join(", ", _externalContentToInstall.Select(x => x.Key.PackageName)) +
+                //"\n\nPress OK to Continue",
+                new[] {RecoveryCommandImmediate.Cancel, RecoveryCommandImmediate.Continue}));
 
         private void MarkContentStates() {
             // TODO: How about marking this content at the start, much like .Use() for RecentItems
