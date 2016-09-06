@@ -145,8 +145,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             protected override async Task InstallImpl(bool force) {
                 _modDir.MakeSurePathExists();
                 var exts = new[] { ".pak", ".modpak" };
-                var destPakFiles = exts.Select(x => _modDir.GetChildFileWithName($"{Mod.PackageName}{x}")).ToArray();
-                if (!force && destPakFiles.Any(x => x.Exists)) // TODO: Date check
+                var destPakFile = _modDir.GetChildFileWithName($"{Mod.PackageName}.pak");
+                if (!force && destPakFile.Exists) // TODO: Date check
                     return;
                 
                 // TODO: Support mods without Paks, as folder ? Or mark as not-installable
@@ -173,7 +173,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     }
                 } else
                     sourcePakPath = sourcePak;
-                await sourcePakPath.CopyAsync(destPakFiles.First(x => x.FileExtension == sourcePakPath.FileExtension)).ConfigureAwait(false);
+                await sourcePakPath.CopyAsync(destPakFile).ConfigureAwait(false);
             }
 
             private async Task<IAbsoluteFilePath> PackModInfoMod(IAbsoluteFilePath modInfoPath) {
