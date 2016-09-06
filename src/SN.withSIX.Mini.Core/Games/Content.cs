@@ -38,6 +38,7 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract ItemState ProcessingState { get; }
         public abstract void StartProcessingState(string version, bool force);
         public abstract void FinishProcessingState(string version, bool completed);
+        public abstract void CancelProcessingState();
         public abstract InstallInfo InstallInfo { get; }
         public abstract RecentInfo RecentInfo { get; }
         public abstract ItemState GetState();
@@ -63,6 +64,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         void StartProcessingState(string version, bool force);
         void FinishProcessingState(string version, bool completed);
+        void CancelProcessingState();
 
         InstallInfo InstallInfo { get; }
         RecentInfo RecentInfo { get; }
@@ -228,10 +230,14 @@ namespace SN.withSIX.Mini.Core.Games
             ProcessingState = GetProcessingState(constraint, force);
         }
 
+        public void CancelProcessingState() {
+            ProcessingState = GetState();
+        }
+
         public void FinishProcessingState(string version, bool completed) {
             var state = GetState(version);
             Installed(version, completed);
-            if (state == GetState(version))
+            if (state != GetState(version))
                 UpdateState(true);
             ProcessingState = GetState();
         }

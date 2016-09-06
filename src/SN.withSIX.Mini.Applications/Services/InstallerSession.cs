@@ -23,7 +23,6 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
@@ -57,6 +56,7 @@ namespace SN.withSIX.Mini.Applications.Services
         //private readonly ProgressLeaf _preparingProgress;
         private readonly ProgressComponent _progress;
         private readonly SixSyncInstaller _sixSyncInstaller;
+        private readonly Dictionary<IContent, SpecificVersion> _started = new Dictionary<IContent, SpecificVersion>();
         readonly Func<ProgressInfo, Task> _statusChange;
         readonly IToolsCheat _toolsInstaller;
         private IDictionary<IPackagedContent, SpecificVersion> _allContentToInstall;
@@ -82,7 +82,8 @@ namespace SN.withSIX.Mini.Applications.Services
         private Dictionary<IPackagedContent, SpecificVersion> _packagesToInstall =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private IAbsoluteDirectoryPath _packPath;
-        private IDictionary<IContent, SpecificVersion> _postInstallCompleted = new Dictionary<IContent, SpecificVersion>();
+        private IDictionary<IContent, SpecificVersion> _postInstallCompleted =
+            new Dictionary<IContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _repoContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
         private Dictionary<IPackagedContent, SpecificVersion> _repoContentToInstall =
@@ -369,7 +370,8 @@ namespace SN.withSIX.Mini.Applications.Services
         Task PublishIndividualItemStates(double progress = 0, long? speed = null)
             => PublishIndividualItemStates(_allContentToInstall, progress, speed);
 
-        private static async Task PublishIndividualItemStates(IDictionary<IPackagedContent, SpecificVersion> states, double progress = 0, long? speed = null) {
+        private static async Task PublishIndividualItemStates(IDictionary<IPackagedContent, SpecificVersion> states,
+            double progress = 0, long? speed = null) {
             // TODO: Combine status updates into single change?
             foreach (var c in states) {
                 await
@@ -436,8 +438,12 @@ Click CONTINUE to open the download page and follow the instructions until the d
             // then even if the user restarts the computer / terminates the app, the state is preserved.
             // TODO: Minus the _installed content... however, they are not fully installed anyway until their postinstall tasks have completed..
             var failedContent = _allInstallableContent.Except(_postInstallCompleted).ToArray();
-            foreach (var cInfo in failedContent)
-                cInfo.Key.FinishProcessingState(cInfo.Value.VersionData, false);
+            foreach (var cInfo in failedContent) {
+                if (_started.ContainsKey(cInfo.Key))
+                    cInfo.Key.FinishProcessingState(cInfo.Value.VersionData, false);
+                else
+                    cInfo.Key.CancelProcessingState();
+            }
 
             // Include or not Include Collections // TODO: Collections also have special Installed case (call in Install method)
             foreach (var cInfo in failedContent.Any() ? _postInstallCompleted : _allInstallableContent)
@@ -547,6 +553,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
         private void ProcessSessionResults(Session session) {
             _completed.AddRange(ConvertPairs(session.Completed));
+            _started.AddRange(ConvertPairs(session.Started));
             _failed.AddRange(ConvertPairs(session.Failed));
         }
 
@@ -590,7 +597,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable(
             IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
             => dict.Where(x => x.Key.GetState(x.Value) != ItemState.Uptodate);
-        
+
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable()
             => _packageContent.Where(x => {
                 var syncInfo = GetInstalledInfo(x);
@@ -648,8 +655,12 @@ Click CONTINUE to open the download page and follow the instructions until the d
                         _steamContentToInstall.ToDictionary(
                             x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
                             x => _contentProgress[i++]));
+                Started.AddRange(_steamContentToInstall);
                 try {
                     await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
+                } catch (DidNotStartException) {
+                    _steamContentToInstall.ForEach(x => Started.Remove(x.Key));
+                    throw;
                 } catch (Exception) {
                     Failed.AddRange(_steamContentToInstall);
                     throw;
@@ -795,12 +806,17 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 new Dictionary<T, T2>();
             public IDictionary<T, T2> Failed { get; } =
                 new Dictionary<T, T2>();
+            public IDictionary<T, T2> Started { get; } = new Dictionary<T, T2>();
 
             protected Task RunAndThrow(IEnumerable<KeyValuePair<T, T2>> c, Func<KeyValuePair<T, T2>, Task> act) =>
                 c.Select(cInfo => new Func<Task>(async () => {
                     try {
+                        Started.Add(cInfo.Key, cInfo.Value);
                         await act(cInfo).ConfigureAwait(false);
                         Completed.Add(cInfo.Key, cInfo.Value);
+                    } catch (DidNotStartException) {
+                        Started.Remove(cInfo.Key);
+                        throw;
                     } catch (OperationCanceledException) {
                         throw;
                     } catch (Exception) {
@@ -1087,24 +1103,37 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 _dl = dl;
             }
 
-            // TODO: Progress reporting
             public Task Install(CancellationToken cancelToken, bool force) {
                 var i = 0;
                 return RunAndThrow(_content.OrderBy(x => _game.GetPublisherUrl(x.Key).DnsSafeHost), async x => {
-                    var f =
-                        await
-                            _dl.DownloadFile(_game.GetPublisherUrl(x.Key), _contentPath, _contentProgress[i++].Update,
-                                cancelToken).ConfigureAwait(false);
-                    var destinationDir = _contentPath.GetChildDirectoryWithName(x.Key.GetSource(_game).PublisherId);
-                    if (destinationDir.Exists)
-                        destinationDir.Delete(true);
-                    if (f.IsArchive())
-                        f.Unpack(destinationDir, true);
-                    else {
-                        destinationDir.Create();
-                        f.Move(destinationDir);
-                    }
+                    var f = await DownloadFile(cancelToken, x, _contentProgress[i++]).ConfigureAwait(false);
+                    ProcessDownloadedFile(x, f);
                 });
+            }
+
+            private async Task<IAbsoluteFilePath> DownloadFile(CancellationToken cancelToken,
+                KeyValuePair<IPackagedContent, SpecificVersion> x, IUpdateSpeedAndProgress progressLeaf) {
+                try {
+                    return await
+                        _dl.DownloadFile(_game.GetPublisherUrl(x.Key), _contentPath, progressLeaf.Update, cancelToken)
+                            .ConfigureAwait(false);
+                } catch (OperationCanceledException) {
+                    throw;
+                } catch (Exception ex) {
+                    throw new DidNotStartException("The download failed to complete", ex);
+                }
+            }
+
+            private void ProcessDownloadedFile(KeyValuePair<IPackagedContent, SpecificVersion> x, IAbsoluteFilePath f) {
+                var destinationDir = _contentPath.GetChildDirectoryWithName(x.Key.GetSource(_game).PublisherId);
+                if (destinationDir.Exists)
+                    destinationDir.Delete(true);
+                if (f.IsArchive())
+                    f.Unpack(destinationDir, true);
+                else {
+                    destinationDir.Create();
+                    f.Move(destinationDir);
+                }
             }
         }
     }

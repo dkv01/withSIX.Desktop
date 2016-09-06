@@ -14,6 +14,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using Steamworks;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Steam.Api.Services
@@ -151,12 +152,18 @@ namespace SN.withSIX.Steam.Api.Services
         Task<SteamSession> Start(uint appId, IAbsoluteDirectoryPath steamPath);
     }
 
-    public class SteamInitializationException : InvalidOperationException
+    public class DidNotStartException : UserException
+    {
+        public DidNotStartException(string message) : base(message) { }
+        public DidNotStartException(string message, Exception ex) : base(message, ex) { }
+    }
+
+    public class SteamInitializationException : DidNotStartException
     {
         public SteamInitializationException(string message) : base(message) {}
     }
 
-    public class SteamNotFoundException : InvalidOperationException
+    public class SteamNotFoundException : DidNotStartException
     {
         public SteamNotFoundException(string message) : base(message) {}
     }
