@@ -26,15 +26,21 @@ namespace SN.withSIX.Mini.Applications.Services
 
     public abstract class ExternalFileDownloaderBase : IExternalFileDownloader
     {
+        protected IExternalDownloadStateHandler State { get; }
         private readonly IDictionary<Uri, IAbsoluteFilePath> _cache = new Dictionary<Uri, IAbsoluteFilePath>();
         private readonly IDictionary<Uri, TaskCompletionSource<IAbsoluteFilePath>> _tasks =
             new Dictionary<Uri, TaskCompletionSource<IAbsoluteFilePath>>();
+
+        protected ExternalFileDownloaderBase(IExternalDownloadStateHandler state) {
+            State = state;
+        }
 
         public async Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
             Action<long?, double> progressAction, CancellationToken token = default(CancellationToken)) {
             if (_cache.ContainsKey(url)) {
                 var c = _cache[url];
                 _cache.Remove(url);
+                progressAction(100, 100);
                 return c;
             }
 

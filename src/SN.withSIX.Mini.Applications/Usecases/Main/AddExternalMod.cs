@@ -22,8 +22,18 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
-    public class ExternalDownloadStarted : IAsyncCommand<Guid> {}
-    public class ExternalDownloadProgressing : IAsyncVoidCommand {}
+    public class ExternalDownloadStarted : IAsyncCommand<Guid>
+    {
+        public Uri Referrer { get; set; }
+        public uint Id { get; set; }
+    }
+
+    public class ExternalDownloadProgressing : IAsyncVoidCommand
+    {
+        public uint Id { get; set; }
+        public uint BytesReceived { get; set; }
+        public uint TotalBytes { get; set; }
+    }
 
     public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId, IHaveContentPublisher, IHaveRequestName
     {
@@ -143,12 +153,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         readonly IContentInstallationService _contentInstallation;
         private readonly IExternalFileDownloader _fd;
+        private readonly IExternalDownloadStateHandler _state;
 
         public AddExternalModHandler(IDbContextLocator dbContextLocator,
-            IContentInstallationService contentInstallation, IExternalFileDownloader fd)
+            IContentInstallationService contentInstallation, IExternalFileDownloader fd, IExternalDownloadStateHandler state)
             : base(dbContextLocator) {
             _contentInstallation = contentInstallation;
             _fd = fd;
+            _state = state;
         }
 
         public async Task<Unit> Handle(AddExternalModRead request) {
@@ -187,17 +199,41 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             return Unit.Value;
         }
 
-        public Task<Guid> Handle(ExternalDownloadStarted message) {
-            throw new OperationCanceledException(); // TODO
+        public async Task<Guid> Handle(ExternalDownloadStarted message) {
+            await _state.UpdateState(message.Id, 0, 0).ConfigureAwait(false);
+            return Guid.Empty;
         }
 
-        public Task<Unit> Handle(ExternalDownloadProgressing message) {
-            throw new OperationCanceledException(); // TODO
+        public async Task<Unit> Handle(ExternalDownloadProgressing message) {
+            await _state.UpdateState(message.Id, message.BytesReceived, message.TotalBytes).ConfigureAwait(false);
+
+            return Unit.Value;
         }
 
         public class ExternalDownloadState
         {
             public Dictionary<uint, ProgressInfo> Progress = new Dictionary<uint, ProgressInfo>();
+        }
+    }
+
+    public interface IExternalDownloadStateHandler {
+        Tuple<uint, uint> Current { get; }
+        Task UpdateState(uint id, uint bytesReceived, uint totalBytes);
+    }
+
+    public class ExternalDownloadStateHandler : IApplicationService, IExternalDownloadStateHandler
+    {
+        IDictionary<uint, Tuple<uint, uint>> storage = new Dictionary<uint, Tuple<uint, uint>>();
+
+        public Tuple<uint, uint> Current { get; private set; }
+
+        public void Clear() {
+            Current = null;
+            storage = new Dictionary<uint, Tuple<uint, uint>>();
+        }
+
+        public async Task UpdateState(uint id, uint bytesReceived, uint totalBytes) {
+            Current = storage[id] = Tuple.Create(bytesReceived, totalBytes);
         }
     }
 }

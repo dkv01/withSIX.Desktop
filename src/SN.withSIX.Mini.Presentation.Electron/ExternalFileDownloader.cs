@@ -3,11 +3,13 @@
 // </copyright>
 
 using System;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications.Services;
+using SN.withSIX.Mini.Applications.Usecases.Main;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -15,14 +17,33 @@ namespace SN.withSIX.Mini.Presentation.Electron
     {
         private readonly INodeApi _api;
 
-        public ExternalFileDownloader(INodeApi api) {
+        public ExternalFileDownloader(INodeApi api, IExternalDownloadStateHandler state) : base(state) {
             _api = api;
         }
 
         // TODO: Progress reporting
-        protected override Task<IAbsoluteFilePath> DownloadFileImpl(Uri url, IAbsoluteDirectoryPath destination,
-            Action<long?, double> progressAction, CancellationToken token)
-            => _api.DownloadFile(url, destination.ToString(), token);
+        protected override async Task<IAbsoluteFilePath> DownloadFileImpl(Uri url, IAbsoluteDirectoryPath destination,
+            Action<long?, double> progressAction, CancellationToken token) {
+
+            DateTime lastTime = DateTime.UtcNow;
+            uint lastBytes = 0;
+            using (Observable.Interval(TimeSpan.FromMilliseconds(500)).Select(x => State.Current).Where(x => x != null)
+                .Where(x => x.Item2 > 0)
+                .Do(x => {
+                    long? speed = null;
+                    if (lastBytes != 0) {
+                        var timeSpan = DateTime.UtcNow - lastTime;
+                        if (timeSpan.TotalMilliseconds > 0) {
+                            var bytesChange = x.Item1 - lastBytes;
+                            speed = (long) (bytesChange/(timeSpan.TotalMilliseconds/1000.0));
+                        }
+                    }
+                    progressAction(speed, x.Item2/(double) x.Item1*100);
+                    lastTime = DateTime.UtcNow;
+                    lastBytes = x.Item1;
+                }).Subscribe())
+                return await _api.DownloadFile(url, destination.ToString(), token).ConfigureAwait(false);
+        }
 
         protected override Task StartSessionImpl(Uri url, IAbsoluteDirectoryPath destination,
             CancellationToken cancelToken) => _api.DownloadSession(url, destination.ToString(), cancelToken);
