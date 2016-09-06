@@ -1107,7 +1107,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 var i = 0;
                 return RunAndThrow(_content.OrderBy(x => _game.GetPublisherUrl(x.Key).DnsSafeHost), async x => {
                     var f = await DownloadFile(cancelToken, x, _contentProgress[i++]).ConfigureAwait(false);
-                    ProcessDownloadedFile(x, f);
+                    ProcessDownloadedFile(x.Key, f);
                 });
             }
 
@@ -1124,8 +1124,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 }
             }
 
-            private void ProcessDownloadedFile(KeyValuePair<IPackagedContent, SpecificVersion> x, IAbsoluteFilePath f) {
-                var destinationDir = _contentPath.GetChildDirectoryWithName(x.Key.GetSource(_game).PublisherId);
+            private void ProcessDownloadedFile(ISourcedContent c, IAbsoluteFilePath f) {
+                var destinationDir = _contentPath.GetChildDirectoryWithName(c.GetSource(_game).PublisherId);
                 if (destinationDir.Exists)
                     destinationDir.Delete(true);
                 if (f.IsArchive())
