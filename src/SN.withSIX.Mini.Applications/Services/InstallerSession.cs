@@ -660,6 +660,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                     await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
                 } catch (DidNotStartException) {
                     _steamContentToInstall.ForEach(x => Started.Remove(x.Key));
+                    Failed.AddRange(_steamContentToInstall);
                     throw;
                 } catch (Exception) {
                     Failed.AddRange(_steamContentToInstall);
@@ -816,8 +817,10 @@ Click CONTINUE to open the download page and follow the instructions until the d
                         Completed.Add(cInfo.Key, cInfo.Value);
                     } catch (DidNotStartException) {
                         Started.Remove(cInfo.Key);
+                        Failed.Add(cInfo.Key, cInfo.Value);
                         throw;
                     } catch (OperationCanceledException) {
+                        Failed.Add(cInfo.Key, cInfo.Value);
                         throw;
                     } catch (Exception) {
                         Failed.Add(cInfo.Key, cInfo.Value);
@@ -1118,6 +1121,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                         _dl.DownloadFile(_game.GetPublisherUrl(x.Key), _contentPath, progressLeaf.Update, cancelToken)
                             .ConfigureAwait(false);
                 } catch (OperationCanceledException) {
+                    throw;
+                } catch (DidNotStartException) {
                     throw;
                 } catch (Exception ex) {
                     throw new DidNotStartException("The download failed to complete", ex);
