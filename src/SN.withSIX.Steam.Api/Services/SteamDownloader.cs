@@ -57,6 +57,7 @@ namespace SN.withSIX.Steam.Api.Services
                 await readySignalTask.ConfigureAwait(false);
         }
 
+        // Generally we get the InstalledItem event first, and very shortly after we get the DownloadItemResult
         private IObservable<Unit> CreateReadySignal(PublishedFile pf, CancellationToken cancelToken)
             => CreateDownloadItemResultCompletionSource(pf, cancelToken)
                 .Merge(CreateInstalledFileCompletionSource(pf, cancelToken), _api.Scheduler)
@@ -77,7 +78,7 @@ namespace SN.withSIX.Steam.Api.Services
 
         private IObservable<Unit> CreateTimeoutSource(PublishedFile pf)
             => ObserveDownloadInfo(pf.Pid)
-                .Throttle(TimeSpan.FromSeconds(60))
+                .Throttle(TimeSpan.FromMinutes(2))
                 .Do(x => MainLog.Logger.Info($"Reached timeout for {pf}"))
                 .Do(x => {
                     throw new TimeoutException(
