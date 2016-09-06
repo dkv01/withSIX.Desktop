@@ -219,21 +219,22 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     public interface IExternalDownloadStateHandler {
         Tuple<uint, uint> Current { get; }
         Task UpdateState(uint id, uint bytesReceived, uint totalBytes);
+        void Clear();
     }
 
     public class ExternalDownloadStateHandler : IApplicationService, IExternalDownloadStateHandler
     {
-        IDictionary<uint, Tuple<uint, uint>> storage = new Dictionary<uint, Tuple<uint, uint>>();
+        //IDictionary<uint, Tuple<uint, uint>> storage = new Dictionary<uint, Tuple<uint, uint>>();
 
         public Tuple<uint, uint> Current { get; private set; }
 
         public void Clear() {
             Current = null;
-            storage = new Dictionary<uint, Tuple<uint, uint>>();
+            //storage = new Dictionary<uint, Tuple<uint, uint>>();
         }
 
         public async Task UpdateState(uint id, uint bytesReceived, uint totalBytes) {
-            Current = storage[id] = Tuple.Create(bytesReceived, totalBytes);
+            Current = Tuple.Create(bytesReceived, totalBytes); //  storage[id] = 
         }
     }
 }

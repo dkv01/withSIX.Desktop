@@ -27,6 +27,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
             DateTime lastTime = DateTime.UtcNow;
             uint lastBytes = 0;
+            State.Clear();
             using (Observable.Interval(TimeSpan.FromMilliseconds(500)).Select(x => State.Current).Where(x => x != null)
                 .Where(x => x.Item2 > 0)
                 .Do(x => {
