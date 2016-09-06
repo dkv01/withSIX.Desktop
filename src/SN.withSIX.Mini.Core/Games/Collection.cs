@@ -90,6 +90,15 @@ namespace SN.withSIX.Mini.Core.Games
             var spec = new CollectionContentSpec(this, constraint ?? Version);
             list.Add(spec);
 
+            ProcessDependenciesFirstThenOurContents(list);
+
+            list.RemoveAll(x => x.Content == this);
+            list.Add(spec);
+
+            return list;
+        }
+
+        private void ProcessDependenciesFirstThenOurContents(List<IContentSpec<Content>> list) {
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(list, d.Constraint);
 
@@ -102,11 +111,16 @@ namespace SN.withSIX.Mini.Core.Games
                 if (c.Constraint != null)
                     e.Constraint = c.Constraint;
             }
+        }
 
-            list.RemoveAll(x => x.Content == this);
-            list.Add(spec);
+        private void ProcessOurContentsFirstThenDependencies(List<IContentSpec<Content>> list) {
+            // First process the Contents, so that our constraints take precedence,
+            // however our 'Dependencies' aren't really our Dependencies anymore then..
+            foreach (var c in Contents)
+                c.Content.GetRelatedContent(list, c.Constraint);
 
-            return list;
+            foreach (var d in Dependencies)
+                d.Content.GetRelatedContent(list, d.Constraint);
         }
     }
 
