@@ -38,7 +38,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
                             speed = (long) (bytesChange/(timeSpan.TotalMilliseconds/1000.0));
                         }
                     }
-                    progressAction(speed, x.Item2/(double) x.Item1*100);
+                    progressAction(speed, x.Item1/(double) x.Item2*100);
                     lastTime = DateTime.UtcNow;
                     lastBytes = x.Item1;
                 }).Subscribe())
