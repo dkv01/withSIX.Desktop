@@ -4,13 +4,16 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
@@ -62,21 +65,34 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                     .ConfigureAwait(false);
             try {
                 return await action().ConfigureAwait(false);
+            } catch (InstallerSession.AbortedException) {
+                await HandleAsFailed(request, text, href, info).ConfigureAwait(false);
+                throw;
             } catch (OperationCanceledException) {
-                var nextAction = CreateNextActionFromRequest(request, text, href, "Continue");
-                await
-                    request.FromRequest($"{info.Noun} {abortAction.Item1.Title.GetPastFromVerb()}", text,
-                        nextAction.Item1.Href, ActionType.Cancel,
-                        nextAction).Raise().ConfigureAwait(false);
+                await HandleAsPaused(request, text, href, info, abortAction).ConfigureAwait(false);
                 throw;
             } catch {
-                var nextAction = CreateNextActionFromRequest(request, text, href, "Retry");
-                await
-                    request.FromRequest($"{info.Noun} {"Fail".GetPastFromVerb()}", text, nextAction.Item1.Href,
-                        ActionType.Fail,
-                        nextAction).Raise().ConfigureAwait(false);
+                await HandleAsFailed(request, text, href, info).ConfigureAwait(false);
                 throw;
             }
+        }
+
+        private static async Task HandleAsPaused<T>(T request, string text, Uri href, NotifyingActionOverrideAttribute info,
+            Tuple<NextActionInfo, IAsyncVoidCommandBase> abortAction) where T : IHaveGameId, IAsyncVoidCommandBase {
+            var nextAction = CreateNextActionFromRequest(request, text, href, "Continue");
+            await
+                request.FromRequest($"{info.Noun} {abortAction.Item1.Title.GetPastFromVerb()}", text,
+                    nextAction.Item1.Href, ActionType.Cancel,
+                    nextAction).Raise().ConfigureAwait(false);
+        }
+
+        private static async Task HandleAsFailed<T>(T request, string text, Uri href, NotifyingActionOverrideAttribute info)
+            where T : IHaveGameId, IAsyncVoidCommandBase {
+            var nextAction = CreateNextActionFromRequest(request, text, href, "Retry");
+            await
+                request.FromRequest($"{info.Noun} {"Fail".GetPastFromVerb()}", text, nextAction.Item1.Href,
+                    ActionType.Fail,
+                    nextAction).Raise().ConfigureAwait(false);
         }
 
         private static string GetActionName<T>(this T action) where T : IRequestBase

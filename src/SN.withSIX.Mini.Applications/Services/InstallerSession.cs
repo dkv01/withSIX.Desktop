@@ -169,9 +169,11 @@ namespace SN.withSIX.Mini.Applications.Services
                     await InstallContent().ConfigureAwait(false);
                 }
             } catch (AggregateException ex) {
-                throw GetFirstNotExternalDownloadCancelled(ex) ?? new OperationCanceledException();
+                throw GetFirstNotExternalDownloadCancelled(ex) ?? new AbortedException();
             }
         }
+
+        public class AbortedException : OperationCanceledException {}
 
         private static Exception GetFirstNotExternalDownloadCancelled(AggregateException ex) {
             var errors = ex.Flatten().InnerExceptions;
@@ -820,7 +822,6 @@ Click CONTINUE to open the download page and follow the instructions until the d
                         Failed.Add(cInfo.Key, cInfo.Value);
                         throw;
                     } catch (OperationCanceledException) {
-                        Failed.Add(cInfo.Key, cInfo.Value);
                         throw;
                     } catch (Exception) {
                         Failed.Add(cInfo.Key, cInfo.Value);
