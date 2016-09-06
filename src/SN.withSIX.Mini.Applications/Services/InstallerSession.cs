@@ -413,8 +413,7 @@ namespace SN.withSIX.Mini.Applications.Services
             if (!_externalContentToInstall.Any())
                 return;
             var result = await ConfirmUser();
-            if (result ==
-                RecoveryOptionResult.CancelOperation)
+            if (result == RecoveryOptionResult.CancelOperation)
                 throw new OperationCanceledException("The user cancelled the operation");
         }
 

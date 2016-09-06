@@ -91,7 +91,7 @@ public static class RecoveryCommands
         /// <value>FailOperation</value>
         public static IRecoveryCommand Cancel
         {
-            get { var ret = new RecoveryCommandImmediate("Cancel") { IsCancel = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.FailOperation); return ret; }
+            get { var ret = new RecoveryCommandImmediate("Cancel") { IsCancel = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.CancelOperation); return ret; }
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ public static class RecoveryCommands
         /// <value>FailOperation</value>
         public static IRecoveryCommand No
         {
-            get { var ret = new RecoveryCommandImmediate("No") { IsCancel = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.FailOperation); return ret; }
+            get { var ret = new RecoveryCommandImmediate("No") { IsCancel = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.CancelOperation); return ret; }
         }
     }
 
