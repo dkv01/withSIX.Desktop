@@ -441,7 +441,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 //"The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
                 //string.Join(", ", _externalContentToInstall.Select(x => x.Key.PackageName)) +
                 //"\n\nPress OK to Continue",
-                new[] {RecoveryCommandImmediate.Cancel, RecoveryCommandImmediate.Continue}));
+                new[] { RecoveryCommandImmediate.Continue, RecoveryCommandImmediate.Cancel }));
 
         private void MarkContentStates() {
             // TODO: How about marking this content at the start, much like .Use() for RecentItems
