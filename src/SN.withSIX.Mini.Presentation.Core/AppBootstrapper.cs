@@ -681,6 +681,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             if (ErrorHandler.Handler != null)
                 UserError.RegisterHandler(error => ErrorHandler.Handler.Handler(error));
 
+            await Container.GetInstance<ICacheManager>().VacuumIfNeeded(TimeSpan.FromDays(14)).ConfigureAwait(false);
+
             var settings =
                 await
                     Container.GetInstance<IDbContextLocator>()

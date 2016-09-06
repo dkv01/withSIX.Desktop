@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
@@ -23,6 +24,28 @@ namespace SN.withSIX.Core.Infra.Cache
                 caches = _caches.ToArray();
 
             return caches.Select(x => x.Vacuum()).Merge().ToList().Select(_ => Unit.Default).ToTask();
+        }
+
+        public Task VacuumIfNeeded(TimeSpan timeAgo) {
+            IBlobCache[] caches;
+            lock (_caches)
+                caches = _caches.ToArray();
+
+            return
+                caches
+                    .Select(x => Observable.FromAsync(() => VacuumIfNeeded(x, timeAgo)))
+                    .Concat()
+                    .Select(_ => Unit.Default)
+                    .ToTask();
+        }
+
+        private async Task VacuumIfNeeded(IBlobCache x, TimeSpan timeAgo) {
+            var key = "____last_vacuum";
+            var lastVacuum = await x.GetOrCreateObject(key, () => new DateTime());
+            if (lastVacuum > DateTime.UtcNow.Subtract(timeAgo))
+                return;
+            await x.Vacuum();
+            await x.InsertObject(key, DateTime.UtcNow);
         }
 
         public Task Shutdown() {
