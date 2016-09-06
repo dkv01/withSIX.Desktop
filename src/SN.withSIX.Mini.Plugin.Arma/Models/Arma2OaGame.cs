@@ -61,7 +61,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         private bool LaunchNormally(IAbsoluteFilePath beExecutable, LaunchAction launchAction)
-            => launchAction == LaunchAction.LaunchAsServer || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
+            => launchAction == LaunchAction.LaunchAsDedicatedServer || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
 
         IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => BeGameParam.Concat(defParams);
 

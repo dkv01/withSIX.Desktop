@@ -120,10 +120,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> action) {
             var launcher = factory.Create<IRealVirtualityLauncher>(this);
-            var launchAction = _shouldLaunchAsDedicatedServer.Value ? LaunchAction.LaunchAsServer:  action.Action;
+            var launchAction = _shouldLaunchAsDedicatedServer.Value ? LaunchAction.LaunchAsDedicatedServer :  action.Action;
             var ls = new LaunchState(GetLaunchExecutable(launchAction), GetExecutable(launchAction), 
                 await GetStartupParameters(launcher, action, launchAction).ConfigureAwait(false), launchAction);
-            if (launchAction == LaunchAction.LaunchAsServer)
+            if (launchAction.IsAsServer())
                 Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
 
             foreach (
@@ -182,7 +182,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             return new StartupBuilderSpec {
                 GamePath = InstalledState.Directory,
-                LaunchType = action.LaunchType,
+                LaunchType = launchAction == LaunchAction.LaunchAsServer ? LaunchType.Multiplayer : action.LaunchType,
                 ModPath = ContentPaths.Path,
                 GameVersion = InstalledState.Version,
                 InputMods = content.OfType<IModContent>(), //.Where(x => x.Controller.Exists),
@@ -241,7 +241,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             }
 
             public async Task PreLaunch(LaunchAction action) {
-                if (action == LaunchAction.LaunchAsServer)
+                if (action.IsAsServer())
                     await InstallBikeys().ConfigureAwait(false);
             }
 
@@ -519,6 +519,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             }
 
             void AddServerArgs() {
+                //if (_spec.LaunchAction == LaunchAction.LaunchAsServer) {
+                  //  AddArgOrPar("-server");
+                //}
+
                 if (_spec.Server == null)
                     return;
                 var args = GetServerArgs().ToArray();

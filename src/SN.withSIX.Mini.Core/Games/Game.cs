@@ -378,7 +378,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected virtual IEnumerable<IRelativeFilePath> GetExecutables() => Metadata.GetAllExecutables();
 
         protected virtual IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
-            action == LaunchAction.LaunchAsServer ? Metadata.GetServerExecutables() : Metadata.GetExecutables();
+            action == LaunchAction.LaunchAsDedicatedServer ? Metadata.GetServerExecutables() : Metadata.GetExecutables();
 
         protected virtual IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) => GetExecutable(action);
 

@@ -43,6 +43,13 @@ namespace SN.withSIX.Mini.Core.Games
         Default,
         Launch,
         Join,
-        LaunchAsServer
+        LaunchAsServer,
+        LaunchAsDedicatedServer
+    }
+
+    public static class LaunchActionExtensions
+    {
+        public static bool IsAsServer(this LaunchAction action)
+            => action == LaunchAction.LaunchAsServer || action == LaunchAction.LaunchAsDedicatedServer;
     }
 }

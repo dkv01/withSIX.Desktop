@@ -63,7 +63,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         }
 
         protected override IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
-            action == LaunchAction.LaunchAsServer ? _serverExecutables.Value : _executables.Value;
+            action == LaunchAction.LaunchAsDedicatedServer ? _serverExecutables.Value : _executables.Value;
 
         protected override IAbsoluteDirectoryPath GetDefaultDirectory()
             => GetGogDir("Starbound") ?? base.GetDefaultDirectory();
