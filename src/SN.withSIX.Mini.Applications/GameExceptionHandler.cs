@@ -33,8 +33,17 @@ namespace SN.withSIX.Mini.Applications
             return Handle((dynamic) ex, action);
         }
 
+        protected static RecoverableUserError Handle(SetupException ex, string action) =>
+            new RecoverableUserError(ex, "Configuration error", ex.Message);
+
+        protected static RecoverableUserError Handle(SteamNotFoundException ex, string action)
+            => new RecoverableUserError(ex, "Requires the Steam Client", ex.Message);
+
         protected static RecoverableUserError Handle(SteamInitializationException ex, string action)
             => new RecoverableUserError(ex, "Running Steam Client required", ex.Message);
+
+        protected static RecoverableUserError Handle(NotDetectedAsSteamGame ex, string action)
+            => new RecoverableUserError(ex, "Requires a Steam version of the game", ex.Message);
 
         protected static RecoverableUserError Handle(GameIsRunningException ex, string action)
             => new RecoverableUserError(ex, "Please close the game and try again", ex.Message);

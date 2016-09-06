@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -169,15 +171,21 @@ namespace SN.withSIX.Mini.Applications.Services
                     await InstallContent().ConfigureAwait(false);
                 }
             } catch (AggregateException ex) {
-                throw GetFirstNotExternalDownloadCancelled(ex) ?? new AbortedException();
+                MainLog.Logger.FormattedWarnException(ex, "All errors");
+                var filterAggregateException = FilterAggregateException(ex);
+                if (filterAggregateException != null)
+                    ExceptionDispatchInfo.Capture(filterAggregateException.InnerException).Throw();
+                else
+                    throw new AbortedException();
             }
         }
 
         public class AbortedException : OperationCanceledException {}
 
-        private static Exception GetFirstNotExternalDownloadCancelled(AggregateException ex) {
+        private static Exception FilterAggregateException(AggregateException ex) {
             var errors = ex.Flatten().InnerExceptions;
-            return errors.NotOfType<Exception, ExternalDownloadCancelled>().FirstOrDefault();
+            var filtered = errors.NotOfType<Exception, ExternalDownloadCancelled>().ToArray();
+            return filtered.Any() ? new AggregateException(filtered) : null;
         }
 
         async Task TryStatusChange() {
@@ -648,18 +656,9 @@ Click CONTINUE to open the download page and follow the instructions until the d
             }
 
             public async Task Install() {
-                var i = 0;
-                var session =
-                    new SteamExternalInstallerSession(
-                        _action.Game.SteamInfo.AppId,
-                        _action.Game.SteamDirectories.Workshop.ContentPath,
-                        // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
-                        _steamContentToInstall.ToDictionary(
-                            x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
-                            x => _contentProgress[i++]));
                 Started.AddRange(_steamContentToInstall);
                 try {
-                    await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
+                    await PerformInstall().ConfigureAwait(false);
                 } catch (DidNotStartException) {
                     _steamContentToInstall.ForEach(x => Started.Remove(x.Key));
                     Failed.AddRange(_steamContentToInstall);
@@ -669,6 +668,21 @@ Click CONTINUE to open the download page and follow the instructions until the d
                     throw;
                 }
                 Completed.AddRange(_steamContentToInstall);
+            }
+
+            private async Task PerformInstall() {
+                if (!_action.Game.SteamDirectories.IsValid)
+                    throw new NotDetectedAsSteamGame();
+                var i = 0;
+                var session =
+                    new SteamExternalInstallerSession(
+                        _action.Game.SteamInfo.AppId,
+                        _action.Game.SteamDirectories.Workshop.ContentPath,
+                        // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
+                        _steamContentToInstall.ToDictionary(
+                            x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
+                            x => _contentProgress[i++]));
+                await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             }
         }
 
@@ -919,6 +933,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
             public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath,
                 Dictionary<ulong, ProgressLeaf> content) {
+                Contract.Requires<ArgumentNullException>(workshopPath != null);
+                Contract.Requires<ArgumentNullException>(content != null);
                 _appId = appId;
                 _workshopPath = workshopPath;
                 _content = content;

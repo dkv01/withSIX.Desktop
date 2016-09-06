@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -152,7 +153,13 @@ namespace SN.withSIX.Steam.Api.Services
         Task<SteamSession> Start(uint appId, IAbsoluteDirectoryPath steamPath);
     }
 
-    public class DidNotStartException : UserException
+    public abstract class SetupException : InvalidOperationException
+    {
+        protected SetupException(string message) : base(message) { }
+        protected SetupException(string message, Exception ex) : base(message, ex) { }
+    }
+
+    public class DidNotStartException : SetupException
     {
         public DidNotStartException(string message) : base(message) { }
         public DidNotStartException(string message, Exception ex) : base(message, ex) { }
@@ -166,5 +173,12 @@ namespace SN.withSIX.Steam.Api.Services
     public class SteamNotFoundException : DidNotStartException
     {
         public SteamNotFoundException(string message) : base(message) {}
+    }
+
+    public class NotDetectedAsSteamGame : DidNotStartException
+    {
+        public NotDetectedAsSteamGame() : base("The current game does not appear to be detected as a Steam game") {}
+        public NotDetectedAsSteamGame(string message) : base(message) {}
+        public NotDetectedAsSteamGame(string message, Exception inner) : base(message, inner) {}
     }
 }
