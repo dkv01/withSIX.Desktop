@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NDepend.Path;
@@ -46,5 +47,18 @@ namespace SN.withSIX.Mini.Core.Extensions
         public static bool HasPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Any(p => p.Publisher == publisher);
 
         public static ContentPublisher GetPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Single(x => x.Publisher == publisher);
+
+        public static void BuildDependencies<T>(this ICollection<T> list, Func<T> createSpec, Func<ICollection<T>, bool> contains, Action<ICollection<T>> childrenFnc) {
+            if (contains(list))
+                return;
+
+            var spec = createSpec();
+            list.Add(spec);
+
+            childrenFnc(list);
+
+            list.Remove(spec);
+            list.Add(spec);
+        }
     }
 }

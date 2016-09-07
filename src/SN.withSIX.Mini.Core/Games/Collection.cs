@@ -81,24 +81,11 @@ namespace SN.withSIX.Mini.Core.Games
             base.UpdateState(force);
         }
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list,
-            string constraint = null) {
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new CollectionContentSpec(this, constraint ?? Version);
 
-            if (list.Select(x => x.Content).Contains(this))
-                return list;
+        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) => ProcessDependenciesFirstThenOurContents(x);
 
-            var spec = new CollectionContentSpec(this, constraint ?? Version);
-            list.Add(spec);
-
-            ProcessDependenciesFirstThenOurContents(list);
-
-            list.Remove(spec);
-            list.Add(spec);
-
-            return list;
-        }
-
-        private void ProcessDependenciesFirstThenOurContents(HashSet<IContentSpec<Content>> list) {
+        private void ProcessDependenciesFirstThenOurContents(ICollection<IContentSpec<Content>> list) {
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(list, d.Constraint);
 
@@ -113,7 +100,7 @@ namespace SN.withSIX.Mini.Core.Games
             }
         }
 
-        private void ProcessOurContentsFirstThenDependencies(HashSet<IContentSpec<Content>> list) {
+        private void ProcessOurContentsFirstThenDependencies(ICollection<IContentSpec<Content>> list) {
             // First process the Contents, so that our constraints take precedence,
             // however our 'Dependencies' aren't really our Dependencies anymore then..
             foreach (var c in Contents)

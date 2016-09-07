@@ -67,19 +67,11 @@ namespace SN.withSIX.Mini.Core.Games
 
         public abstract string ContentSlug { get; }
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list,
-            string constraint = null) {
-            if (list.Select(x => x.Content).Contains(this))
-                return list;
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new NetworkContentSpec(this, constraint ?? Version);
 
-            var spec = new NetworkContentSpec(this, constraint ?? Version);
-            list.Add(spec);
+        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {
             foreach (var d in Dependencies)
-                d.Content.GetRelatedContent(list, d.Constraint);
-            list.Remove(spec);
-            list.Add(spec);
-
-            return list;
+                d.Content.GetRelatedContent(x, d.Constraint);
         }
 
         private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => GetSource(game).Publisher == Publisher.Steam

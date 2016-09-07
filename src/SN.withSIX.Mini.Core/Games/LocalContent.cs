@@ -68,22 +68,9 @@ namespace SN.withSIX.Mini.Core.Games
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list = null,
-            string constraint = null) => HandleLocal(list, constraint);
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new LocalContentSpec(this, constraint ?? Version);
 
-        protected virtual IEnumerable<IContentSpec<Content>> HandleLocal(HashSet<IContentSpec<Content>> list,
-            string constraint) {
-            if (list == null)
-                list = new HashSet<IContentSpec<Content>>();
-
-            if (list.Select(x => x.Content).Contains(this))
-                return list;
-
-            var spec = new LocalContentSpec(this, constraint ?? Version);
-            list.Add(spec);
-
-            return list;
-        }
+        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {}
     }
 
     [DataContract]
@@ -112,21 +99,12 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Actually build dependencies out of objects instead of strings
         public List<string> Dependencies { get; set; } = new List<string>();
 
-        protected override IEnumerable<IContentSpec<Content>> HandleLocal(HashSet<IContentSpec<Content>> list,
-            string constraint) {
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new ModRepoContentSpec(this, constraint ?? Version);
 
-            if (list.Select(x => x.Content).Contains(this))
-                return list;
-
-            var spec = new ModRepoContentSpec(this, constraint ?? Version);
-            list.Add(spec);
+        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {
             // TODO: Dependencies of dependencies
-            list.AddRange(
+            x.AddRange(
                 Dependencies.Select(d => new ModRepoContentSpec(new ModRepoContent(d.ToLower(), GameId, null))));
-            list.Remove(spec);
-            list.Add(spec);
-
-            return list;
         }
     }
 

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
@@ -354,11 +355,22 @@ namespace SN.withSIX.Mini.Core.Games
                 InstallInfo.Version?.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase) ??
                 InstallInfo.Version == desiredVersion;
 
-        public IEnumerable<IContentSpec<Content>> GetRelatedContent(string constraint = null)
-            => GetRelatedContent(new HashSet<IContentSpec<Content>>(), constraint);
+        public IEnumerable<IContentSpec<Content>> GetRelatedContent(string constraint = null) {
+            var l = new List<IContentSpec<Content>>();
+            GetRelatedContent(l, constraint);
+            return l;
+        }
 
-        internal abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list, 
-            string constraint = null);
+        internal void GetRelatedContent(ICollection<IContentSpec<Content>> l, string constraint)
+            =>
+                l.BuildDependencies(() => CreateRelatedSpec(constraint), x => x.Select(c => c.Content).Contains(this),
+                    HandleRelatedContentChildren);
+
+        protected abstract IContentSpec<Content> CreateRelatedSpec(string constraint);
+
+        protected abstract void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x);
+
+        //internal abstract void GetRelatedContent(List<IContentSpec<Content>> list, string constraint = null);
 
         public void RemoveRecentInfo() {
             RemoveRecentInfoInternal();

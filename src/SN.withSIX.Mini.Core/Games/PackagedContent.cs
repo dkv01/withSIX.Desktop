@@ -45,14 +45,8 @@ namespace SN.withSIX.Mini.Core.Games
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list,
-            string constraint = null) {
-            if (list.Select(x => x.Content).Contains(this))
-                return list;
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new PackagedContentSpec(this, constraint ?? Version);
 
-            var spec = new PackagedContentSpec(this, constraint ?? Version);
-            list.Add(spec);
-            return list;
-        }
+        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {}
     }
 }
