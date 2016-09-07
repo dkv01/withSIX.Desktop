@@ -46,6 +46,5 @@ namespace SN.withSIX.Mini.Core.Extensions
         public static bool HasPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Any(p => p.Publisher == publisher);
 
         public static ContentPublisher GetPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Single(x => x.Publisher == publisher);
-
     }
 }
