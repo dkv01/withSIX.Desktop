@@ -10,6 +10,7 @@ using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {

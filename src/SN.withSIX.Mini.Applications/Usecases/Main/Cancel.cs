@@ -11,6 +11,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {

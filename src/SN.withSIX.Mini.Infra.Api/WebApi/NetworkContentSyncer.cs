@@ -23,8 +23,10 @@ using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Collections;
+using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
+using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 
 namespace SN.withSIX.Mini.Infra.Api.WebApi
@@ -111,6 +113,11 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     m.Value.GameId = c;
                 mods.AddRange(cMods);
             }
+
+            var dupes = FindDupes(mods.Select(x => x.Value));
+            if (dupes.Any())
+                throw new InvalidOperationException("Found dupes!");
+
             return mods;
         }
 
@@ -134,6 +141,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var networkContents = game.NetworkContent.OfType<ModNetworkContent>();
             Dictionary<Guid, ModNetworkContent> currentContent;
             IEnumerable<Guid> contentToBeSynced;
+
             if (filterFunc == null) {
                 var localMods =
                     game.LocalContent.OfType<ModLocalContent>()
@@ -189,6 +197,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
             game.Contents.AddRange(newContent);
         }
+
+        private static IEnumerable<T> FindDupes<T>(IEnumerable<T> networkContents) where T : IHaveId<Guid>
+            => networkContents.GroupBy(x => x.Id).Where(x => x.Count() > 1).SelectMany(x => x.Take(1));
 
         private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(ContentQuery filterFunc,
             IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {

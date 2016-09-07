@@ -5,7 +5,7 @@
 using System;
 using NDepend.Path;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.ContentEngine.Core
 {

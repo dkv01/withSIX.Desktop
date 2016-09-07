@@ -17,7 +17,7 @@ namespace SN.withSIX.Mini.Applications.Services
         Task<ApiHashes> GetHashes(Guid gameId);
     }
 
-    public class ModClientApiJsonV3WithGameId : ModClientApiJson
+    public class ModClientApiJsonV3WithGameId : ModClientApiJson, IHaveId<Guid>
     {
         private Guid _gameId;
         public Guid GameId

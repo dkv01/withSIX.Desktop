@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Core.Applications.Extensions
 {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Mini.Core
 {

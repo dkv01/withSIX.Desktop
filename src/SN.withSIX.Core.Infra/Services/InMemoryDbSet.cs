@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Infrastructure;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Core.Infra.Services
 {

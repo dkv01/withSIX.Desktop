@@ -11,6 +11,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main

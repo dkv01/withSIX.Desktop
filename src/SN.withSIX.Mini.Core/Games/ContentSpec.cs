@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Mini.Core.Games
 {

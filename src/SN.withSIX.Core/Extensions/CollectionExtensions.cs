@@ -12,6 +12,7 @@ using MoreLinq;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Core.Extensions
 {

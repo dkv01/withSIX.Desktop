@@ -4,6 +4,7 @@
 
 using System.Linq;
 using ReactiveUI;
+using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Applications.Infrastructure

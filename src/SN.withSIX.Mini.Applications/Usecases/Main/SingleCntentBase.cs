@@ -4,7 +4,8 @@
 
 using System;
 using SN.withSIX.Core;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Content.v3;
+using ContentGuidSpec = SN.withSIX.Mini.Core.Games.ContentGuidSpec;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
