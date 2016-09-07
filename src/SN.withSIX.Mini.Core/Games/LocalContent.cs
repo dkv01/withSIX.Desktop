@@ -68,13 +68,13 @@ namespace SN.withSIX.Mini.Core.Games
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
+        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list = null,
             string constraint = null) => HandleLocal(list, constraint);
 
-        protected virtual IEnumerable<IContentSpec<Content>> HandleLocal(List<IContentSpec<Content>> list,
+        protected virtual IEnumerable<IContentSpec<Content>> HandleLocal(HashSet<IContentSpec<Content>> list,
             string constraint) {
             if (list == null)
-                list = new List<IContentSpec<Content>>();
+                list = new HashSet<IContentSpec<Content>>();
 
             if (list.Select(x => x.Content).Contains(this))
                 return list;
@@ -112,10 +112,8 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Actually build dependencies out of objects instead of strings
         public List<string> Dependencies { get; set; } = new List<string>();
 
-        protected override IEnumerable<IContentSpec<Content>> HandleLocal(List<IContentSpec<Content>> list,
+        protected override IEnumerable<IContentSpec<Content>> HandleLocal(HashSet<IContentSpec<Content>> list,
             string constraint) {
-            if (list == null)
-                list = new List<IContentSpec<Content>>();
 
             if (list.Select(x => x.Content).Contains(this))
                 return list;
@@ -125,9 +123,8 @@ namespace SN.withSIX.Mini.Core.Games
             // TODO: Dependencies of dependencies
             list.AddRange(
                 Dependencies.Select(d => new ModRepoContentSpec(new ModRepoContent(d.ToLower(), GameId, null))));
-            list.RemoveAll(x => x.Content == this);
+            list.Remove(spec);
             list.Add(spec);
-
 
             return list;
         }

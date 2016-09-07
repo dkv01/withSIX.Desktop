@@ -139,6 +139,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var defaultTags = new List<string>();
 
             var networkContents = game.NetworkContent.OfType<ModNetworkContent>();
+            var dupes = FindDupes(networkContents);
+            if (dupes.Any())
+                throw new InvalidOperationException("Dupes found!");
             Dictionary<Guid, ModNetworkContent> currentContent;
             IEnumerable<Guid> contentToBeSynced;
 

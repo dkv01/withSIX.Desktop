@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using MoreLinq;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Extensions;
 using withSIX.Api.Models.Content;
 
@@ -16,7 +16,7 @@ namespace SN.withSIX.Mini.Core.Games
     public interface INetworkContent : IPackagedContent, IInstallableContent, IHavePath
     {
         ICollection<NetworkContentSpec> Dependencies { get; }
-        List<ContentPublisher> Publishers { get; }
+        ICollection<ContentPublisher> Publishers { get; }
     }
 
     public interface IHavePath
@@ -41,9 +41,9 @@ namespace SN.withSIX.Mini.Core.Games
 
         [DataMember]
         // Only here because of wrong dependency references... // TODO: Try to externalize this to the DTO instead..
-        public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } = new List<ContentGuidSpec>();
+        public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } = new HashSet<ContentGuidSpec>();
         //[DataMember]
-        //public List<string> Aliases { get; protected set; } = new List<string>();
+        //public List<string> Aliases { get; protected set; } = new HashSet<string>();
         [DataMember]
         public DateTime UpdatedVersion { get; set; }
 
@@ -55,10 +55,10 @@ namespace SN.withSIX.Mini.Core.Games
         public string OriginalGameSlug { get; set; }
 
         [DataMember]
-        public List<ContentPublisher> Publishers { get; protected set; } = new List<ContentPublisher>();
+        public ICollection<ContentPublisher> Publishers { get; protected set; } = new HashSet<ContentPublisher>();
         [IgnoreDataMember]
         public virtual ICollection<NetworkContentSpec> Dependencies { get; private set; } =
-            new List<NetworkContentSpec>();
+            new HashSet<NetworkContentSpec>();
 
         public override IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
             => GetSourceRoot(game).GetChildDirectoryWithName(GetSource(game).PublisherId);
@@ -67,11 +67,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         public abstract string ContentSlug { get; }
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list,
+        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list,
             string constraint = null) {
-            if (list == null)
-                list = new List<IContentSpec<Content>>();
-
             if (list.Select(x => x.Content).Contains(this))
                 return list;
 
@@ -79,7 +76,7 @@ namespace SN.withSIX.Mini.Core.Games
             list.Add(spec);
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(list, d.Constraint);
-            list.RemoveAll(x => x.Content == this);
+            list.Remove(spec);
             list.Add(spec);
 
             return list;
@@ -112,7 +109,9 @@ namespace SN.withSIX.Mini.Core.Games
         [OnSerialized]
         void OnSerialized(StreamingContext context) {
             InternalDependencies =
-                Dependencies.Select(x => new ContentGuidSpec(x.Content.Id, x.Constraint)).ToList();
+                Dependencies.DistinctBy(x => x.Content.Id)
+                    .Select(x => new ContentGuidSpec(x.Content.Id, x.Constraint))
+                    .ToHashSet();
         }
 
         public void UpdateVersionInfo(string version, DateTime updatedVersion) {

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
@@ -39,8 +40,34 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
 
     public interface IGameContext : IGameContextReadOnly, IUnitOfWork, IDbContext
     {
-        Task Migrate();
+        Task<bool> Migrate(List<Migration> migrations);
     }
+
+    public abstract class Migration
+    {
+        public abstract Task Migrate(IGameContext gc);
+    }
+
+    class Migration1 : Migration
+    {
+        public override async Task Migrate(IGameContext gc) {
+            await gc.LoadAll().ConfigureAwait(false);
+            foreach (var g in gc.Games) {
+                CleanupGame(g);
+                g.MigrateContents();
+            }
+        }
+
+        void CleanupGame(Game game) {
+            var toRemove = game.Contents
+                .Except(game.AllAvailableContent
+                    .SelectMany(x => x.GetRelatedContent())
+                    .Select(x => x.Content).Distinct())
+                .ToList();
+            game.Contents.RemoveAll(toRemove);
+        }
+    }
+
 
     public static class GameContextExtensions
     {

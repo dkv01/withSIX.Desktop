@@ -9,12 +9,14 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
+using Akavache;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
+using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
@@ -58,6 +60,21 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                             .Select(x => RetrieveGame(x, skip))).ConfigureAwait(false);
                 Games.AddRange(gamesToAdd.Where(x => x != null));
             }
+        }
+
+        public override async Task<bool> Migrate(List<Migration> migrations) {
+            var key = "____migration_version";
+            var migrationId = await _cache.GetOrCreateObject(key, () => 0);
+            var newMigrationId = migrations.Count;
+            if (newMigrationId > migrationId) {
+                foreach (var m in migrations.Skip(migrationId))
+                    await m.Migrate(this).ConfigureAwait(false);
+                // TODO: This should be a transaction :)
+                await SaveChanges().ConfigureAwait(false);
+                await _cache.InsertObject(key, newMigrationId);
+                return true;
+            }
+            return false;
         }
 
         public override async Task Load(Guid gameId) {
@@ -106,6 +123,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             // TODO: Now we would have copies of various content spread out over the games that support content from other games :S
             foreach (var g in Games) {
+                ConfirmConsistency(g);
                 var jsonStr = JsonConvert.SerializeObject(g, Settings);
                 await
                     _cache.Insert(GetCacheKey(g.Id),
@@ -113,6 +131,13 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             }
 
             return -1; // TODO
+        }
+
+        private static void ConfirmConsistency(Game g) {
+            if (g.Contents.GroupBy(x => x.Id).Any(x => x.Count() > 1)) {
+                throw new InvalidOperationException(
+                    $"DB Error: Tried to insert duplicate content for game: {g.Metadata.ShortName} [{g.Id}]");
+            }
         }
     }
 }

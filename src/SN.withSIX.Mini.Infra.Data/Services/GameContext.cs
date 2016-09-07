@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Extensions;
@@ -26,7 +27,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         //        public virtual ICollection<Content> Contents { get; } = new List<Content>();
         //        public virtual ICollection<RecentItem> Recents { get; } = new List<RecentItem>();
 
-        public virtual Task Migrate() => TaskExt.Default;
+        public abstract Task<bool> Migrate(List<Migration> migrations);
         // We expect a convention where the settings exist in the same namespace as the game, and are {GameClassName}Settings
     }
 }

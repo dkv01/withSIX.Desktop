@@ -111,6 +111,10 @@ namespace SN.withSIX.Mini.Core.Games
             => InstalledContent.Where(x => x.GetState() == ItemState.UpdateAvailable)
                 .OfType<NetworkContent>();
 
+        public void MigrateContents() {
+            Contents = Contents.ToHashSet();
+        }
+
         [IgnoreDataMember]
         public IEnumerable<Content> AllAvailableContent => Contents.Where(x => x.IsInstalled() || x.IsIncompleteInstalled());
 

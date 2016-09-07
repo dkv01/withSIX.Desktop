@@ -24,12 +24,12 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Handle circular?
         [DataMember]
         public virtual ICollection<CollectionContentSpec> Dependencies { get; protected set; } =
-            new List<CollectionContentSpec>();
+            new HashSet<CollectionContentSpec>();
         // TODO: Client vs Server vs All ?
         // TODO: Optional vs Required ?
         [DataMember]
         public virtual ICollection<ContentSpec> Contents { get; protected set; } =
-            new List<ContentSpec>();
+            new HashSet<ContentSpec>();
 
         public async Task Uninstall(IUninstallSession contentInstaller, CancellationToken cancelToken,
             string constraint = null) {
@@ -81,7 +81,7 @@ namespace SN.withSIX.Mini.Core.Games
             base.UpdateState(force);
         }
 
-        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list,
+        internal override IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list,
             string constraint = null) {
 
             if (list.Select(x => x.Content).Contains(this))
@@ -92,13 +92,13 @@ namespace SN.withSIX.Mini.Core.Games
 
             ProcessDependenciesFirstThenOurContents(list);
 
-            list.RemoveAll(x => x.Content == this);
+            list.Remove(spec);
             list.Add(spec);
 
             return list;
         }
 
-        private void ProcessDependenciesFirstThenOurContents(List<IContentSpec<Content>> list) {
+        private void ProcessDependenciesFirstThenOurContents(HashSet<IContentSpec<Content>> list) {
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(list, d.Constraint);
 
@@ -113,7 +113,7 @@ namespace SN.withSIX.Mini.Core.Games
             }
         }
 
-        private void ProcessOurContentsFirstThenDependencies(List<IContentSpec<Content>> list) {
+        private void ProcessOurContentsFirstThenDependencies(HashSet<IContentSpec<Content>> list) {
             // First process the Contents, so that our constraints take precedence,
             // however our 'Dependencies' aren't really our Dependencies anymore then..
             foreach (var c in Contents)
@@ -163,9 +163,9 @@ namespace SN.withSIX.Mini.Core.Games
 
         public virtual string ContentSlug { get; } = "collections";
         [DataMember]
-        public virtual ICollection<string> Repositories { get; protected set; } = new List<string>();
+        public virtual ICollection<string> Repositories { get; protected set; } = new HashSet<string>();
         [DataMember]
-        public virtual ICollection<CollectionServer> Servers { get; protected set; } = new List<CollectionServer>();
+        public virtual ICollection<CollectionServer> Servers { get; protected set; } = new HashSet<CollectionServer>();
 
         public bool GetHasServers() => Servers.Any();
 

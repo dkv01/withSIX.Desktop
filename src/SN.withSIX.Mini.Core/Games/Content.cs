@@ -355,9 +355,9 @@ namespace SN.withSIX.Mini.Core.Games
                 InstallInfo.Version == desiredVersion;
 
         public IEnumerable<IContentSpec<Content>> GetRelatedContent(string constraint = null)
-            => GetRelatedContent(new List<IContentSpec<Content>>(), constraint);
+            => GetRelatedContent(new HashSet<IContentSpec<Content>>(), constraint);
 
-        internal abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list, 
+        internal abstract IEnumerable<IContentSpec<Content>> GetRelatedContent(HashSet<IContentSpec<Content>> list, 
             string constraint = null);
 
         public void RemoveRecentInfo() {

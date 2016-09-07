@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -17,7 +18,6 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Steam.Core;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -42,14 +42,16 @@ namespace SN.withSIX.Mini.Applications
         private readonly IStateHandler _stateHandler;
         readonly IDbContextLocator _locator;
         readonly INetworkContentSyncer _networkContentSyncer;
+        private readonly ICacheManager _cacheMan;
         private readonly TimerWithElapsedCancellationAsync _timer;
 
         public SetupGameStuff(IDbContextLocator locator, IDbContextFactory factory,
-            INetworkContentSyncer networkContentSyncer,
+            INetworkContentSyncer networkContentSyncer, ICacheManager cacheMan,
             IGameLocker gameLocker, IStateHandler stateHandler) {
             _locator = locator;
             _factory = factory;
             _networkContentSyncer = networkContentSyncer;
+            _cacheMan = cacheMan;
             _gameLocker = gameLocker;
             _stateHandler = stateHandler;
             _timer = new TimerWithElapsedCancellationAsync(TimeSpan.FromMinutes(30), onElapsedNonBool: OnElapsed);
@@ -101,10 +103,15 @@ namespace SN.withSIX.Mini.Applications
         async Task Migrate() {
             var gc = _locator.GetGameContext();
             GameSpecs = GameFactory.GetGameTypesWithAttribute();
-            await gc.Migrate().ConfigureAwait(false);
+            var migrated = await gc.Migrate(GetMigrations()).ConfigureAwait(false);
+            if (migrated) {
+                await _cacheMan.Vacuum().ConfigureAwait(false);
+            }
             //await Task.Run(() => gc.Migrate()).ConfigureAwait(false);
             await HandleMissingGames(gc).ConfigureAwait(false);
         }
+
+        private static List<Migration> GetMigrations() => new List<Migration> {new Migration1()};
 
         async Task HandleMissingGames(IGameContext gc) {
             await gc.LoadAll(true).ConfigureAwait(false);
@@ -121,7 +128,7 @@ namespace SN.withSIX.Mini.Applications
         Task HandleGameContents(ContentQuery query = null, params Guid[] gameIds)
             => HandleGameContents(gameIds, query);
 
-        async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
+        async Task HandleGameContents(System.Collections.Generic.IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Handling game contents for {string.Join(", ", gameIds)}");
 
@@ -137,7 +144,7 @@ namespace SN.withSIX.Mini.Applications
                 await g.RefreshState().ConfigureAwait(false);
         }
 
-        Task SynchronizeCollections(IReadOnlyCollection<Game> games) {
+        Task SynchronizeCollections(System.Collections.Generic.IReadOnlyCollection<Game> games) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Syncing collections for games: {string.Join(", ", games.Select(x => x.Id))}");
             var contents = games.SelectMany(x => x.Contents).OfType<NetworkContent>().Distinct().ToArray();
