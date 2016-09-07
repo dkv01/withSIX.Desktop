@@ -58,25 +58,24 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract void Use(ILaunchContentAction<IContent> action);
     }
 
-    [ContractClass(typeof (IContentContract))]
-    public interface IContent : IHaveGameId, IHaveId<Guid>
+    public interface IProcessingState
     {
-        string Version { get; }
         ItemState ProcessingState { get; }
-
         void StartProcessingState(string version, bool force);
         void FinishProcessingState(string version, bool completed);
         void CancelProcessingState();
+    }
+
+    [ContractClass(typeof (IContentContract))]
+    public interface IContent : IHaveGameId, IHaveId<Guid>, IPostInstallable, IProcessingState
+    {
+        string Version { get; }
 
         InstallInfo InstallInfo { get; }
         RecentInfo RecentInfo { get; }
         ItemState GetState();
         ItemState GetState(string constraint);
-        void Installed(string version, bool completed);
         IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
-        Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
-        Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken, bool processed);
-        void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         void Use(IContentAction<IContent> action);
         void Use(ILaunchContentAction<IContent> action);
     }
@@ -121,13 +120,20 @@ namespace SN.withSIX.Mini.Core.Games
     {
     }
 
-    public interface IPackagedContent : IContentWithPackageName, IUninstallableContent {}
+    public interface IPackagedContent : IContentWithPackageName, IUninstallableContent { }
 
     public interface IModContent : IPackagedContent, ILaunchableContent {}
 
     public interface IMissionContent : IPackagedContent, ILaunchableContent {}
 
     public interface ICollectionContent : ILaunchableContent, IContent {}
+
+    public interface IPostInstallable
+    {
+        Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken, bool processed);
+        void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
+        void Installed(string version, bool completed);
+    }
 
     public interface IInstallableContent : IContent
     {
@@ -141,6 +147,7 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IUninstallableContent : IContent
     {
         Task Uninstall(IUninstallSession contentInstaller, CancellationToken cancelToken, string constraint = null);
+        Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken, bool processed);
     }
 
     [DataContract]
