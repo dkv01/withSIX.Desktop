@@ -70,14 +70,12 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IContent : IHaveGameId, IHaveId<Guid>, IPostInstallable, IProcessingState
     {
         string Version { get; }
-
         InstallInfo InstallInfo { get; }
         RecentInfo RecentInfo { get; }
         ItemState GetState();
         ItemState GetState(string constraint);
         IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
         void Use(IContentAction<IContent> action);
-        void Use(ILaunchContentAction<IContent> action);
     }
 
     [ContractClass(typeof (IHavePackageNameContract))]
@@ -415,7 +413,10 @@ namespace SN.withSIX.Mini.Core.Games
         public Content Content { get; }
     }
 
-    public interface ILaunchableContent : IContent {}
+    public interface ILaunchableContent : IContent
+    {
+        void Use(ILaunchContentAction<IContent> action);
+    }
 
     [DataContract]
     public abstract class InstallableContent : Content, IInstallableContent
