@@ -174,6 +174,15 @@ namespace SN.withSIX.Mini.Core.Games
 
         protected abstract Task ScanForLocalContentImpl();
 
+        public void CleanupContent() {
+            var toRemove = Contents
+                .Except(AllAvailableContent
+                    .SelectMany(x => x.GetRelatedContent())
+                    .Select(x => x.Content).Distinct())
+                .ToList();
+            Contents.RemoveAll(toRemove);
+        }
+
         ContentPaths GetContentPathsState() {
             if (!InstalledState.IsInstalled)
                 return ContentPaths.Default;

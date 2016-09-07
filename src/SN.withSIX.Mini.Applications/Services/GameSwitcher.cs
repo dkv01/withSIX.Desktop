@@ -46,18 +46,9 @@ namespace SN.withSIX.Mini.Applications.Services
 
             var gameContext = _locator.GetGameContext();
             var game = await gameContext.FindGameOrThrowAsync(gameId).ConfigureAwait(false);
-            if (query == null) CleanupGame(game);
+            if (query == null) game.CleanupContent();
 
             await _setup.HandleGameContentsWhenNeeded(query, game.Id).ConfigureAwait(false);
-        }
-
-        public void CleanupGame(Game game) {
-            var toRemove = game.Contents
-                .Except(game.AllAvailableContent
-                    .SelectMany(x => x.GetRelatedContent())
-                    .Select(x => x.Content).Distinct())
-                .ToList();
-            game.Contents.RemoveAll(toRemove);
         }
 
         public async Task<bool> SwitchGame(Guid id) {

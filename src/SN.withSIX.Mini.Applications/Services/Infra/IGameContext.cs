@@ -4,15 +4,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services.Infra
 {
@@ -53,21 +51,11 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
         public override async Task Migrate(IGameContext gc) {
             await gc.LoadAll().ConfigureAwait(false);
             foreach (var g in gc.Games) {
-                CleanupGame(g);
+                g.CleanupContent();
                 g.MigrateContents();
             }
         }
-
-        void CleanupGame(Game game) {
-            var toRemove = game.Contents
-                .Except(game.AllAvailableContent
-                    .SelectMany(x => x.GetRelatedContent())
-                    .Select(x => x.Content).Distinct())
-                .ToList();
-            game.Contents.RemoveAll(toRemove);
-        }
     }
-
 
     public static class GameContextExtensions
     {
