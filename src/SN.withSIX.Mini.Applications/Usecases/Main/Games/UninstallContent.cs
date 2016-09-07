@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
@@ -40,10 +39,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
-        public UninstallLocalContentAction GetAction(Game game) {
+        public UninstallContentAction GetAction(Game game) {
             var content = game.Contents.OfType<IUninstallableContent>().FindContentOrThrow(Content.Id);
             var hasPath = content as IHavePath;
-            return new UninstallLocalContentAction(CancelToken, new UninstallContentSpec(content, Content.Constraint)) {
+            return new UninstallContentAction(CancelToken, new UninstallContentSpec(content, Content.Constraint)) {
                 Name = Name,
                 Href =
                     Href ??
@@ -63,7 +62,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
-        public UninstallLocalContentAction GetAction(Game game) => new UninstallLocalContentAction(
+        public UninstallContentAction GetAction(Game game) => new UninstallContentAction(
             Ids.Select(
                 x => new UninstallContentSpec(game.Contents.OfType<IUninstallableContent>().FindContentOrThrow(x)))
                 .ToArray(), CancelToken) {Name = Name, Href = GetHref(game)};

@@ -22,8 +22,8 @@ namespace SN.withSIX.Mini.Core.Games
         protected BasicGame(Guid id, GameSettings settings) : base(id, settings) {}
 
         protected override Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> content)
-            => installationService.Install(GetInstallAction(content));
+            IDownloadContentAction<IInstallableContent> action)
+            => installationService.Install(GetInstallAction(action));
 
         protected virtual InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action)
@@ -52,8 +52,8 @@ namespace SN.withSIX.Mini.Core.Games
         protected static bool ContentExists(IAbsoluteDirectoryPath dir) => dir.Exists && !dir.IsEmpty();
 
         protected override Task UninstallImpl(IContentInstallationService contentInstallation,
-            IContentAction<IUninstallableContent> uninstallLocalContentAction)
-            => contentInstallation.Uninstall(GetUninstallAction(uninstallLocalContentAction));
+            IContentAction<IUninstallableContent> action)
+            => contentInstallation.Uninstall(GetUninstallAction(action));
 
         UnInstallContentAction GetUninstallAction(IContentAction<IUninstallableContent> action)
             => new UnInstallContentAction(this, action.Content, action.CancelToken) {

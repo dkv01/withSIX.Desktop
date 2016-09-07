@@ -215,7 +215,7 @@
     <Compile Include="Games\Services\GameLauncher\LaunchGameInfo.cs" />
     <Compile Include="Games\Services\GameLauncher\ScreenResolution.cs" />
     <Compile Include="Games\Services\GameLocker.cs" />
-    <Compile Include="Games\UninstallLocalContentAction.cs" />
+    <Compile Include="Games\UninstallContentAction.cs" />
     <Compile Include="Games\UnityStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Social\Group.cs" />

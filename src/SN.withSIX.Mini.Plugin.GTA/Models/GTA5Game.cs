@@ -54,8 +54,8 @@ In order to ensure a save and working mod experience, For now Sync will automati
             => base.GetDefaultDirectory() ?? GetDefaultRockstarDirectory();
 
         protected override async Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> content) {
-            await base.InstallImpl(installationService, content).ConfigureAwait(false);
+            IDownloadContentAction<IInstallableContent> action) {
+            await base.InstallImpl(installationService, action).ConfigureAwait(false);
             await new GtaPackager(InstalledState.Directory).HandlePackages().ConfigureAwait(false);
             HandleBackups();
         }

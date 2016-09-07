@@ -26,25 +26,25 @@ namespace SN.withSIX.Mini.Core.Games
             => InstalledState.Directory.GetChildDirectoryWithName(".synqmods");
 
         protected override Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> content) {
-            foreach (var m in GetPackagedContent(content.Content).OfType<ModNetworkContent>()) {
+            IDownloadContentAction<IInstallableContent> action) {
+            foreach (var m in GetPackagedContent(action.Content).OfType<ModNetworkContent>()) {
                 m.RegisterAdditionalPostInstallTask(async processed => {
                     if (processed)
                         await InstallMod(m).ConfigureAwait(false);
                 });
             }
-            return base.InstallImpl(installationService, content);
+            return base.InstallImpl(installationService, action);
         }
 
         protected override Task UninstallImpl(IContentInstallationService installationService,
-            IContentAction<IUninstallableContent> uninstallLocalContentAction) {
-            foreach (var m in uninstallLocalContentAction.Content.OfType<ModNetworkContent>()) {
+            IContentAction<IUninstallableContent> action) {
+            foreach (var m in action.Content.OfType<ModNetworkContent>()) {
                 m.RegisterAdditionalPreUninstallTask(async processed => {
                     if (processed)
                         await UninstallMod(m).ConfigureAwait(false);
                 });
             }
-            return base.UninstallImpl(installationService, uninstallLocalContentAction);
+            return base.UninstallImpl(installationService, action);
         }
 
         protected abstract Task InstallMod(IModContent mod);

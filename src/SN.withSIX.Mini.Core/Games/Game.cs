@@ -282,7 +282,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public async Task Uninstall(IContentInstallationService contentInstallation,
-            IUninstallContentAction<IUninstallableContent> uninstallLocalContentAction) {
+            IContentAction<IUninstallableContent> uninstallLocalContentAction) {
             await UninstallInternal(contentInstallation, uninstallLocalContentAction).ConfigureAwait(false);
             PrepareEvent(new UninstallActionCompleted(uninstallLocalContentAction, this));
         }
@@ -309,7 +309,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         async Task UninstallInternal(IContentInstallationService contentInstallation,
-            IUninstallContentAction<IUninstallableContent> uninstallContentAction) {
+            IContentAction<IUninstallableContent> uninstallContentAction) {
             //ConfirmUninstall()
             await UninstallImpl(contentInstallation, uninstallContentAction).ConfigureAwait(false);
 
@@ -341,10 +341,10 @@ namespace SN.withSIX.Mini.Core.Games
             ILaunchContentAction<IContent> action);
 
         protected abstract Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> downloadContentAction);
+            IDownloadContentAction<IInstallableContent> action);
 
         protected abstract Task UninstallImpl(IContentInstallationService contentInstallation,
-            IContentAction<IUninstallableContent> uninstallLocalContentAction);
+            IContentAction<IUninstallableContent> action);
 
         protected virtual void ConfirmPlay() {
             ConfirmInstalled();
@@ -605,13 +605,13 @@ namespace SN.withSIX.Mini.Core.Games
 
     public class UninstallActionCompleted : ISyncDomainEvent
     {
-        public UninstallActionCompleted(IUninstallContentAction<IUninstallableContent> uninstallLocalContentAction,
+        public UninstallActionCompleted(IContentAction<IUninstallableContent> uninstallLocalContentAction,
             Game game) {
             UninstallLocalContentAction = uninstallLocalContentAction;
             Game = game;
         }
 
-        public IUninstallContentAction<IUninstallableContent> UninstallLocalContentAction { get; }
+        public IContentAction<IUninstallableContent> UninstallLocalContentAction { get; }
         public Game Game { get; }
     }
 

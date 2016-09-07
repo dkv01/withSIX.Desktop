@@ -171,10 +171,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         protected override Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> content) {
-            foreach (var m in GetPackagedContent(content.Content).Select(x => new RvMod(this, x)))
+            IDownloadContentAction<IInstallableContent> action) {
+            foreach (var m in GetPackagedContent(action.Content).Select(x => new RvMod(this, x)))
                 m.Register();
-            return base.InstallImpl(installationService, content);
+            return base.InstallImpl(installationService, action);
         }
 
         StartupBuilderSpec GetStartupSpec(ILaunchContentAction<IContent> action, LaunchAction launchAction) {
