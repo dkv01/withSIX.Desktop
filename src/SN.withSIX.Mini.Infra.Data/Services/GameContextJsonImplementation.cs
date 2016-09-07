@@ -134,6 +134,10 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         private static void ConfirmConsistency(Game g) {
+            //ConfirmGameContents(g);
+        }
+
+        private static void ConfirmGameContents(Game g) {
             if (g.Contents.GroupBy(x => x.Id).Any(x => x.Count() > 1)) {
                 throw new InvalidOperationException(
                     $"DB Error: Tried to insert duplicate content for game: {g.Metadata.ShortName} [{g.Id}]");

@@ -114,10 +114,6 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 mods.AddRange(cMods);
             }
 
-            var dupes = FindDupes(mods.Select(x => x.Value));
-            if (dupes.Any())
-                throw new InvalidOperationException("Found dupes!");
-
             return mods;
         }
 
@@ -139,9 +135,6 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var defaultTags = new List<string>();
 
             var networkContents = game.NetworkContent.OfType<ModNetworkContent>();
-            var dupes = FindDupes(networkContents);
-            if (dupes.Any())
-                throw new InvalidOperationException("Dupes found!");
             Dictionary<Guid, ModNetworkContent> currentContent;
             IEnumerable<Guid> contentToBeSynced;
 
@@ -200,9 +193,6 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
             game.Contents.AddRange(newContent);
         }
-
-        private static IEnumerable<T> FindDupes<T>(IEnumerable<T> networkContents) where T : IHaveId<Guid>
-            => networkContents.GroupBy(x => x.Id).Where(x => x.Count() > 1).SelectMany(x => x.Take(1));
 
         private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(ContentQuery filterFunc,
             IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
