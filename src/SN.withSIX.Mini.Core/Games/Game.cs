@@ -313,8 +313,7 @@ namespace SN.withSIX.Mini.Core.Games
             //ConfirmUninstall()
             await UninstallImpl(contentInstallation, uninstallContentAction).ConfigureAwait(false);
 
-            foreach (var c in uninstallContentAction.Content.Select(x => x.Content)
-                .OfType<LocalContent>())
+            foreach (var c in uninstallContentAction.Content.Select(x => x.Content).OfType<Content>())
                 Contents.Remove(c);
         }
 
