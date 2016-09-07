@@ -115,17 +115,6 @@ namespace SN.withSIX.Mini.Core.Games
     }
 
     [DataContract]
-    public class NetworkContentRelation : NetworkContentSpec
-    {
-        public NetworkContentRelation(NetworkContent content, NetworkContent self, string constraint = null)
-            : base(content, constraint) {
-            Self = self;
-        }
-
-        public NetworkContent Self { get; }
-    }
-
-    [DataContract]
     public class CollectionContentSpec : ContentSpec<Collection>
     {
         public CollectionContentSpec(Collection content, string constraint = null) : base(content, constraint) {}
