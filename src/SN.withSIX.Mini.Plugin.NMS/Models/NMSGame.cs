@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -23,10 +24,10 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.NMS.Models
 {
     // TODO: Registry, but also auto detection scanner..
-    [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMS.exe"}, Name = "No Man's Sky",
+    [Game(GameIds.NMS, Executables = new[] { @"Binaries\NMSELauncher.exe", @"Binaries\NMS.exe"}, Name = "No Man's Sky",
         IsPublic = true,
         Slug = "NoMansSky")]
-    //[SynqRemoteInfo(GameIds.NMS)] // TODO
+    [SynqRemoteInfo(GameIds.NMS)]
     [SteamInfo(SteamGameIds.NMS, "No Man's Sky")]
     [DataContract]
     public class NMSGame : BasicSteamGame
@@ -36,7 +37,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
         protected override Task InstallMod(IModContent mod) => CreateMod(mod).Install(true);
 
         private NMSMod CreateMod(IModContent mod)
-            => new NMSMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory());
+            => new NMSMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory(), InstalledState.Directory);
 
         protected override Task UninstallMod(IModContent mod) => CreateMod(mod).Uninstall();
 
@@ -108,13 +109,15 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
     class NMSMod
     {
         private readonly IAbsoluteDirectoryPath _destination;
+        private readonly IAbsoluteDirectoryPath _gameDir;
         private readonly IModContent _mod;
         private readonly IAbsoluteDirectoryPath _source;
 
-        public NMSMod(IModContent mod, IAbsoluteDirectoryPath source, IAbsoluteDirectoryPath destination) {
+        public NMSMod(IModContent mod, IAbsoluteDirectoryPath source, IAbsoluteDirectoryPath destination, IAbsoluteDirectoryPath gameDir) {
             _mod = mod;
             _source = source;
             _destination = destination;
+            _gameDir = gameDir;
         }
 
         public async Task Install(bool force) {
@@ -130,11 +133,48 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 .Select(x => x.ToAbsoluteFilePath()))
                 c.Unpack(_source, true);
 
+            var modInfo =
+                _source.DirectoryInfo.EnumerateFiles("modinfo.xml", SearchOption.AllDirectories)
+                    .FirstOrDefault()?
+                    .ToAbsoluteFilePath();
+            if (modInfo != null && modInfo.Exists)
+                await HandleAsModInfoBasedMod(modInfo).ConfigureAwait(false);
+            else
+                await HandleAsSinglePakMod(pakFile).ConfigureAwait(false);
+        }
+
+        private async Task HandleAsModInfoBasedMod(IAbsoluteFilePath modInfo) {
+            var doc = new XmlDocument();
+            doc.Load(modInfo.ToString());
+            var el = doc.SelectSingleNode("ModInfo/FilesAdded");
+            if (el == null)
+                throw new ValidationException("The included modinfo is invalid");
+            foreach (var filePath in el.ChildNodes.Cast<XmlNode>().Select(n => n.InnerText)) {
+                if (IsNotAllowedPath(filePath))
+                    throw new ValidationException("Not allowed to overwrite the main nms.exe");
+                await
+                    _source.GetChildFileWithName(filePath)
+                        .CopyAsync(_gameDir.GetChildFileWithName(filePath))
+                        .ConfigureAwait(false);
+            }
+        }
+
+        private static bool IsNotAllowedPath(string filePath) {
+            var lower = filePath.ToLower();
+            return lower.Equals(@"binaries\nms.exe") || lower.Equals(@"binaries/nms.exe");
+        }
+
+        private async Task HandleAsSinglePakMod(IAbsoluteFilePath pakFile) {
             // TODO: Or each included?
             var sourcePak =
-                _source.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories).First().ToAbsoluteFilePath();
-            if (!sourcePak.Exists)
-                throw new NotInstallableException($"{_mod.PackageName} source .pak not found! You might try Diagnosing");
+                _source.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories)
+                    .FirstOrDefault()?
+                    .ToAbsoluteFilePath();
+
+            if (sourcePak == null || !sourcePak.Exists) {
+                throw new NotInstallableException(
+                    $"{_mod.PackageName} source .pak not found! You might try Diagnosing");
+            }
             await sourcePak.CopyAsync(pakFile).ConfigureAwait(false);
         }
 
