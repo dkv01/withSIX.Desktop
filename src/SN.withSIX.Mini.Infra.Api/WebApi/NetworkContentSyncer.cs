@@ -23,10 +23,8 @@ using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Collections;
-using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
-using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 
 namespace SN.withSIX.Mini.Infra.Api.WebApi
@@ -196,26 +194,36 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
         private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(ContentQuery filterFunc,
             IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
-            var existing = cDict.Where(x => filterFunc.IsMatch(x.Value));
-            var d = existing.ToDictionary(x => x.Key, x => x.Value);
-            GetRelatedContent(d.Values, d, cDict);
+            var desired = cDict.Where(x => filterFunc.IsMatch(x.Value));
+            var d = new Dictionary<Guid, ModClientApiJsonV3WithGameId>();
+            GetRelatedContent(desired.Select(x => x.Value), d, cDict);
             return d;
         }
 
-        private static void GetRelatedContent(IEnumerable<ModClientApiJsonV3WithGameId> existing,
+        private static void GetRelatedContent(IEnumerable<ModClientApiJsonV3WithGameId> desired,
             IDictionary<Guid, ModClientApiJsonV3WithGameId> d,
             IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
-            foreach (var c in existing.Where(x => !d.ContainsKey(x.Id))) {
-                d.Add(c.Id, c);
-                GetRelatedContent(c.Dependencies.Select(x => cDict[x.Id]), d, cDict);
-                d.Remove(c.Id);
-                d.Add(c.Id, c);
-            }
+            foreach (var c in desired)
+                GetRelatedContent(c, d, cDict);
+        }
+
+        private static void GetRelatedContent(ModClientApiJsonV3WithGameId c,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> d,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
+            // A dictionary would not retain order, however we dont need to retain order currently
+            if (d.ContainsKey(c.Id))
+                return;
+            d.Add(c.Id, c);
+            GetRelatedContent(c.Dependencies.Select(x => cDict[x.Id]), d, cDict);
+            d.Remove(c.Id);
+            d.Add(c.Id, c);
         }
 
         static void HandleDependencies(Game game, Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
+            // TODO: just use the mapping?
+            var dict = game.NetworkContent.OfType<ModNetworkContent>().ToDictionary(x => x.Id, x => x);
             foreach (var nc in content)
-                HandleDependencies(nc, game.NetworkContent.OfType<ModNetworkContent>().ToDictionary(x => x.Id, x => x));
+                HandleDependencies(nc, dict);
         }
 
         // TODO: catch frigging circular reference mayhem!
@@ -223,10 +231,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         // http://stackoverflow.com/questions/21686499/how-to-restore-circular-references-e-g-id-from-json-net-serialized-json
         static void HandleDependencies(KeyValuePair<ModClientApiJsonV3WithGameId, ModNetworkContent> nc,
             IDictionary<Guid, ModNetworkContent> networkContent) {
-            var foundDeps = nc.Key.Dependencies.Select(
-                d => networkContent.ContainsKey(d.Id) ? networkContent[d.Id] : null)
-                // TODO: Find out why we would have nulls..
-                .Where(x => x != null)
+            var foundDeps = nc.Key.Dependencies.Select(d => networkContent[d.Id])
                 .Select(x => new NetworkContentSpec(x));
             nc.Value.ReplaceDependencies(foundDeps);
         }
