@@ -61,7 +61,10 @@ namespace SN.withSIX.Mini.Applications
 
         public void Dispose() => Dispose(true);
 
-        public Task Initialize() => Migrate();
+        public Task Initialize() {
+            GameSpecs = GameFactory.GetGameTypesWithAttribute();
+            return Migrate();
+        }
 
         public Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds,
             ContentQuery query = null) => HandleGameContents(gameIds, query);
@@ -102,13 +105,12 @@ namespace SN.withSIX.Mini.Applications
 
         async Task Migrate() {
             var gc = _locator.GetGameContext();
-            GameSpecs = GameFactory.GetGameTypesWithAttribute();
+            await HandleMissingGames(gc).ConfigureAwait(false);
             var migrated = await gc.Migrate(GetMigrations()).ConfigureAwait(false);
             if (migrated) {
                 await _cacheMan.Vacuum().ConfigureAwait(false);
             }
             //await Task.Run(() => gc.Migrate()).ConfigureAwait(false);
-            await HandleMissingGames(gc).ConfigureAwait(false);
         }
 
         private static List<Migration> GetMigrations() => new List<Migration> {new Migration1()};
