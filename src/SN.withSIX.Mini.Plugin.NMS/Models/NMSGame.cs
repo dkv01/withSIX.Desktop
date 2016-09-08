@@ -133,15 +133,16 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 .Select(x => x.ToAbsoluteFilePath()))
                 c.Unpack(_source, true);
 
-            var modInfo =
-                _source.DirectoryInfo.EnumerateFiles("modinfo.xml", SearchOption.AllDirectories)
-                    .FirstOrDefault()?
-                    .ToAbsoluteFilePath();
+            var modInfo = EnumerateMatchingFiles("modinfo.xml").FirstOrDefault();
             if (modInfo != null && modInfo.Exists)
                 await HandleAsModInfoBasedMod(modInfo).ConfigureAwait(false);
             else
-                await HandleAsSinglePakMod(pakFile).ConfigureAwait(false);
+                await HandleFileBasedMod(pakFile).ConfigureAwait(false);
         }
+
+        private IEnumerable<IAbsoluteFilePath> EnumerateMatchingFiles(string searchPattern)
+            => _source.DirectoryInfo.EnumerateFiles(searchPattern, SearchOption.AllDirectories)
+                .Select(x => x.ToAbsoluteFilePath());
 
         private async Task HandleAsModInfoBasedMod(IAbsoluteFilePath modInfo) {
             var doc = new XmlDocument();
@@ -164,13 +165,18 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             return lower.Equals(@"binaries\nms.exe") || lower.Equals(@"binaries/nms.exe");
         }
 
+        private async Task HandleFileBasedMod(IAbsoluteFilePath pakFile) {
+            // TODO: Or each included?
+            var dll = EnumerateMatchingFiles("*.dll").FirstOrDefault();
+            if (dll != null) {
+                await dll.CopyAsync(_gameDir.GetChildDirectoryWithName(@"binaries\NMSE")).ConfigureAwait(false);
+            } else
+                await HandleAsSinglePakMod(pakFile).ConfigureAwait(false);
+        }
+
         private async Task HandleAsSinglePakMod(IAbsoluteFilePath pakFile) {
             // TODO: Or each included?
-            var sourcePak =
-                _source.DirectoryInfo.EnumerateFiles("*.pak", SearchOption.AllDirectories)
-                    .FirstOrDefault()?
-                    .ToAbsoluteFilePath();
-
+            var sourcePak = EnumerateMatchingFiles("*.pak").FirstOrDefault();
             if (sourcePak == null || !sourcePak.Exists) {
                 throw new NotInstallableException(
                     $"{_mod.PackageName} source .pak not found! You might try Diagnosing");
