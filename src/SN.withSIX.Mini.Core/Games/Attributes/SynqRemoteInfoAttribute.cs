@@ -35,7 +35,7 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
 
         protected static KeyValuePair<Guid, Uri[]> GetPremiumSet(Guid repo) => new KeyValuePair<Guid, Uri[]>(repo,
             premiumMirrors.Concat(defaultMirrors)
-                .Select(x => Tools.Transfer.JoinUri(new Uri(x), repo + "/p"))
+                .Select(x => Tools.Transfer.JoinUri(new Uri(x), repo))
                 .ToArray());
     }
 }
