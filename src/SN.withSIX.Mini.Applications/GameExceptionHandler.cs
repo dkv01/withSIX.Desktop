@@ -49,8 +49,8 @@ namespace SN.withSIX.Mini.Applications
             => new RecoverableUserError(ex, "Please close the game and try again", ex.Message);
 
         // TODO: Better handler where we guide the user to go to the settings, and configure the game, then retry?
-        protected static InformationalUserError Handle(GameNotInstalledException ex, string action)
-            => new ConfigureGameFirstUserError(ex, ex.Message, "Please configure the game first in the Settings");
+        protected static RecoverableUserError Handle(GameNotInstalledException ex, string action)
+            => new ConfigureGameFirstUserError(ex, ex.Message, "Please configure the game first in the Settings, then retry");
 
         protected static RecoverableUserError Handle(AlreadyLockedException ex, string action)
             => new RecoverableUserError(ex, "Unsupported", "Currently only one action per game is supported. Wait until the action is finished and try again");
@@ -86,7 +86,7 @@ Network or connection issues might prevent the download to succeed.
 Please confirm your internet connection, and try again", "Download error");
     }
 
-    public class ConfigureGameFirstUserError : InformationalUserError
+    public class ConfigureGameFirstUserError : RecoverableUserError
     {
         public ConfigureGameFirstUserError(Exception exception, string message, string title = null)
             : base(exception, title, message) { }
