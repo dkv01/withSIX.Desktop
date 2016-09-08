@@ -153,12 +153,12 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             foreach (var filePath in el.ChildNodes.Cast<XmlNode>().Select(n => n.InnerText)) {
                 if (IsNotAllowedPath(filePath))
                     throw new ValidationException("Not allowed to overwrite the main nms.exe");
-                await
-                    _source.GetChildFileWithName(filePath)
-                        .CopyAsync(_gameDir.GetChildFileWithName(filePath))
-                        .ConfigureAwait(false);
+                await CopyFromSourceToGame(filePath).ConfigureAwait(false);
             }
         }
+
+        private Task CopyFromSourceToGame(string filePath) => _source.GetChildFileWithName(filePath)
+            .CopyAsync(_gameDir.GetChildFileWithName(filePath));
 
         private static bool IsNotAllowedPath(string filePath) {
             var lower = filePath.ToLower();
@@ -169,9 +169,15 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             // TODO: Or each included?
             var dll = EnumerateMatchingFiles("*.dll").FirstOrDefault();
             if (dll != null) {
-                await dll.CopyAsync(_gameDir.GetChildDirectoryWithName(@"binaries\NMSE")).ConfigureAwait(false);
+                await CopyToNMSE(dll).ConfigureAwait(false);
             } else
                 await HandleAsSinglePakMod(pakFile).ConfigureAwait(false);
+        }
+
+        private Task CopyToNMSE(IAbsoluteFilePath dll) {
+            var nmseDir = _gameDir.GetChildDirectoryWithName(@"binaries\NMSE");
+            nmseDir.MakeSurePathExists();
+            return dll.CopyAsync(nmseDir);
         }
 
         private async Task HandleAsSinglePakMod(IAbsoluteFilePath pakFile) {
