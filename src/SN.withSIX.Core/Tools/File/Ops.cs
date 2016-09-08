@@ -39,6 +39,7 @@ namespace SN.withSIX.Core
                     }
 
                     File.Copy(source.ToString(), destination.ToString(), overwrite);
+                    CopyTimestamps(source, destination);
                 }
 
                 public void CopyWithRetry(IAbsoluteFilePath source, IAbsoluteFilePath destination, bool overwrite = true,
@@ -438,6 +439,17 @@ namespace SN.withSIX.Core
                     using (var destinationStream = File.Create(destination.ToString()))
                         using (new StatusProcessor(destination, status, source.FileInfo.Length))
                         await sourceStream.CopyToAsync(destinationStream).ConfigureAwait(false);
+                    CopyTimestamps(source, destination);
+                }
+
+                private static void CopyTimestamps(IAbsoluteFilePath source, IAbsoluteFilePath destination) {
+                    CopyTimestamps(destination.FileInfo, source.FileInfo);
+                }
+
+                private static void CopyTimestamps(FileInfo fi, FileInfo origin) {
+                    fi.CreationTime = origin.CreationTime;
+                    fi.LastWriteTime = origin.LastWriteTime;
+                    fi.LastAccessTime = origin.LastAccessTime;
                 }
 
                 static void CopyWithUpdater(IAbsoluteFilePath source, IAbsoluteFilePath destination,
