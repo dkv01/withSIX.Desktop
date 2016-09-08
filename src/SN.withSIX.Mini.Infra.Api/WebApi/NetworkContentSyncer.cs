@@ -215,19 +215,20 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
         static void HandleDependencies(Game game, Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
             foreach (var nc in content)
-                HandleDependencies(nc, game.NetworkContent.OfType<ModNetworkContent>());
+                HandleDependencies(nc, game.NetworkContent.OfType<ModNetworkContent>().ToDictionary(x => x.Id, x => x));
         }
 
         // TODO: catch frigging circular reference mayhem!
         // http://stackoverflow.com/questions/16472958/json-net-silently-ignores-circular-references-and-sets-arbitrary-links-in-the-ch
         // http://stackoverflow.com/questions/21686499/how-to-restore-circular-references-e-g-id-from-json-net-serialized-json
         static void HandleDependencies(KeyValuePair<ModClientApiJsonV3WithGameId, ModNetworkContent> nc,
-            IEnumerable<ModNetworkContent> networkContent) {
-            nc.Value.ReplaceDependencies(nc.Key.Dependencies.Select(
-                d => networkContent.FirstOrDefault(x => x.Id == d.Id))
+            IDictionary<Guid, ModNetworkContent> networkContent) {
+            var foundDeps = nc.Key.Dependencies.Select(
+                d => networkContent.ContainsKey(d.Id) ? networkContent[d.Id] : null)
                 // TODO: Find out why we would have nulls..
                 .Where(x => x != null)
-                .Select(x => new NetworkContentSpec(x)));
+                .Select(x => new NetworkContentSpec(x));
+            nc.Value.ReplaceDependencies(foundDeps);
         }
 
         static void ProcessLocalContent(Game game) {
