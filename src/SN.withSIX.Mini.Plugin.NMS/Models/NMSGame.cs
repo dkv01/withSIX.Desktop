@@ -48,8 +48,21 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 .Distinct()
                 .ToArray();
             HandleModDirectory(packages);
+            HandleNMSEDirectory();
 
             return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Install(false));
+        }
+
+        private void HandleNMSEDirectory() {
+            var nmseDir = InstalledState.Directory.GetChildDirectoryWithName(@"binaries\nmse");
+            if (!nmseDir.Exists) return;
+            foreach (var f in nmseDir.DirectoryInfo.EnumerateFiles("*.dll")
+                .Select(x => x.ToAbsoluteFilePath())) {
+                var bak = f.GetBrotherFileWithName(f.FileNameWithoutExtension + ".bak");
+                if (bak.Exists)
+                    bak.Delete();
+                f.Move(bak);
+            }
         }
 
         IAbsoluteDirectoryPath GetModInstallationDirectory()
