@@ -24,12 +24,12 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Handle circular?
         [DataMember]
         public virtual ICollection<CollectionContentSpec> Dependencies { get; protected set; } =
-            new HashSet<CollectionContentSpec>();
+            new List<CollectionContentSpec>();
         // TODO: Client vs Server vs All ?
         // TODO: Optional vs Required ?
         [DataMember]
         public virtual ICollection<ContentSpec> Contents { get; protected set; } =
-            new HashSet<ContentSpec>();
+            new List<ContentSpec>();
 
         public async Task Uninstall(IUninstallSession contentInstaller, CancellationToken cancelToken,
             string constraint = null) {
@@ -108,6 +108,11 @@ namespace SN.withSIX.Mini.Core.Games
 
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(list, d.Constraint);
+        }
+
+        public void Replace(ContentSpec existing, Content n) {
+            Contents.Remove(existing);
+            Contents.Add(new ContentSpec(n, existing.Constraint));
         }
     }
 
