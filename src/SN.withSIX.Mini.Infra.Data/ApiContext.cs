@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Akavache;
 using SN.withSIX.Core;
@@ -22,10 +21,10 @@ namespace SN.withSIX.Mini.Infra.Data
     public class ApiContext : IApiContext, IInfrastructureService
     {
         private static readonly Uri apiCdnHost = new Uri("http://withsix-api.azureedge.net");
-        private readonly ILocalCache _cache;
+        private readonly IApiLocalCache _cache;
         private readonly Dictionary<string, object> _tempCache = new Dictionary<string, object>();
 
-        public ApiContext(ILocalCache cache) {
+        public ApiContext(IApiLocalCache cache) {
             _cache = cache;
         }
 
