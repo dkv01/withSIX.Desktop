@@ -20,14 +20,16 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     public class DbContextFactory : IDbContextFactory, IInfrastructureService
     {
         readonly Lazy<ILocalCache> _cache;
+        private readonly Lazy<IApiLocalCache> _apiCache;
         readonly Lazy<ISettingsStorage> _settingsContext;
 
-        public DbContextFactory(Lazy<ILocalCache> cache, Lazy<ISettingsStorage> settingsContext) {
+        public DbContextFactory(Lazy<ILocalCache> cache, Lazy<IApiLocalCache> apiCache, Lazy<ISettingsStorage> settingsContext) {
             _cache = cache;
+            _apiCache = apiCache;
             _settingsContext = settingsContext;
         }
 
-        public IDbContextScope Create() => new DbContextScope(_cache.Value, _settingsContext.Value);
+        public IDbContextScope Create() => new DbContextScope(_cache.Value, _apiCache.Value, _settingsContext.Value);
 
         public IDisposable SuppressAmbientContext() => new AmbientContextSuppressor();
     }
@@ -112,10 +114,10 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         private DbContexts _contexts;
         bool _disposed;
 
-        public DbContextScope(ILocalCache cache, ISettingsStorage settingsStorage) {
+        public DbContextScope(ILocalCache cache, IApiLocalCache apiCache, ISettingsStorage settingsStorage) {
             _parentScope = GetAmbientScope();
             if (_parentScope == null)
-                _contexts = new DbContexts(cache, settingsStorage);
+                _contexts = new DbContexts(cache, apiCache, settingsStorage);
             else {
                 _contexts = _parentScope._contexts;
                 _nested = true;
@@ -331,13 +333,15 @@ Stack Trace:
     internal class DbContexts
     {
         private readonly ILocalCache _cache;
+        private readonly IApiLocalCache _apiCache;
         internal readonly Lazy<IContentFolderLinkContext> _contentLinkContext;
         internal readonly Lazy<ISettingsStorage> _settingsContext;
         internal Lazy<IGameContext> _gameContext;
         internal Lazy<IApiContext> _apiContext;
 
-        public DbContexts(ILocalCache cache, ISettingsStorage settingsStorage) {
+        public DbContexts(ILocalCache cache, IApiLocalCache apiCache, ISettingsStorage settingsStorage) {
             _cache = cache;
+            _apiCache = apiCache;
             _gameContext = new Lazy<IGameContext>(Factory);
             _apiContext = new Lazy<IApiContext>(ApiFactory);
             _settingsContext = new Lazy<ISettingsStorage>(() => settingsStorage);
@@ -348,7 +352,7 @@ Stack Trace:
         }
 
         ApiContext ApiFactory() {
-            var apiCtx = new ApiContext(_cache);
+            var apiCtx = new ApiContext(_apiCache);
             // Workaround for nasty issue where we get the DomainEventHandler from the same lazy instance during load :S
             _apiContext = new Lazy<IApiContext>(() => apiCtx);
             return apiCtx;
