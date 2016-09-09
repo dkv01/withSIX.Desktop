@@ -139,13 +139,12 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             if (filterFunc == null) {
                 var localMods =
                     game.LocalContent.OfType<ModLocalContent>()
-                        .Select(
-                            x =>
-                                contents.Values.FirstOrDefault(
-                                    c => c.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase)))
+                        .Select(x => contents.Values.FirstOrDefault(c => c.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase)))
                         .Where(x => x != null);
                 currentContent = networkContents.ToDictionary(x => x.Id, x => x);
-                contentToBeSynced = currentContent.Keys.Concat(localMods.Select(x => x.Id)).Distinct();
+                var ids = currentContent.Keys.Concat(localMods.Select(x => x.Id)).Distinct();
+                var desired = GetTheDesiredMods(new ContentQuery { Ids = ids.ToList() }, contents);
+                contentToBeSynced = desired.Keys;
             } else {
                 var desiredModsList = GetTheDesiredMods(filterFunc, contents);
                 currentContent = networkContents.Where(x => desiredModsList.ContainsKey(x.Id))
@@ -220,10 +219,10 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         }
 
         static void HandleDependencies(Game game, Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
-            // TODO: just use the mapping?
-            var dict = game.NetworkContent.OfType<ModNetworkContent>().ToDictionary(x => x.Id, x => x);
-            foreach (var nc in content)
-                HandleDependencies(nc, dict);
+            var c = content.Values.ToDictionary(x => x.Id, x => x);
+            foreach (var nc in content) {
+                HandleDependencies(nc, c);
+            }
         }
 
         // TODO: catch frigging circular reference mayhem!
