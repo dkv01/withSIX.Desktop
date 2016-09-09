@@ -20,6 +20,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Steam.Core;
+using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using GameGuids = withSIX.Api.Models.Games.GameGuids;
@@ -566,6 +567,42 @@ namespace SN.withSIX.Mini.Core.Games
 
         public virtual Uri GetPublisherUrl() {
             throw new NotSupportedException($"The game does not support external publishers currently");
+        }
+
+
+        public void ProcessLocalContent() {
+            var networkContents = NetworkContent.ToArray();
+            var dict = LocalContent.Select(
+                x =>
+                    new {
+                        x,
+                        Nc =
+                            networkContents.FirstOrDefault(
+                                nc => nc.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase))
+                    })
+                .ToDictionary(x => x.x, x => x.Nc);
+
+            var gameInstalled = InstalledState.IsInstalled;
+            foreach (var c in dict.Where(c => c.Value != null)) {
+                var version = gameInstalled ? GetVersion(ContentPaths.Path) : null;
+                c.Value.Installed(version ?? (c.Key.IsInstalled() ? c.Key.InstallInfo.Version : null), version != null);
+                ReplaceLocalContentInCollections(c);
+                Contents.Remove(c.Key);
+            }
+        }
+
+        private static string GetVersion(IAbsoluteDirectoryPath path) {
+            var v = Package.ReadSynqInfoFile(path);
+            return v?.VersionData;
+        }
+
+        private void ReplaceLocalContentInCollections(KeyValuePair<LocalContent, NetworkContent> c) {
+            foreach (var col in Collections) {
+                var existing = col.Contents.FirstOrDefault(x => x.Content == c.Key);
+                if (existing == null)
+                    continue;
+                col.Replace(existing, c.Value);
+            }
         }
     }
 

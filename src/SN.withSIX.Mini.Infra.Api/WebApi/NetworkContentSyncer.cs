@@ -67,8 +67,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var stats = await GetHashStats(game).ConfigureAwait(false);
             if (!stats.ShouldSyncBecauseHashes && !stats.ShouldSyncBecauseVersion && filterFunc == null)
                 return;
-            var gameContent = await GetContent(game, stats.Hashes).ConfigureAwait(false);
-            ProcessContents(game, gameContent, filterFunc);
+            var onlineContent = await GetContent(game, stats.Hashes).ConfigureAwait(false);
+            ProcessContents(game, onlineContent, filterFunc);
             game.RefreshCollections();
 
             var si = game.SyncInfo;
@@ -115,107 +115,106 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return mods;
         }
 
-        static void ProcessContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents,
+        static void ProcessContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent,
             ContentQuery filterFunc) {
             // TODO: If we timestamp the DTO's, and save the timestamp also in our database,
             // then we can simply update data only when it has actually changed and speed things up.
             // The only thing to remember is when there are schema changes / new fields etc, either all timestamps need updating
             // or the syncer needs to take it into account..
             var mapping = new Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent>();
-            UpdateContents(game, contents, mapping, filterFunc);
+            UpdateContents(game, onlineContent, mapping, filterFunc);
             HandleDependencies(game, mapping);
             if (filterFunc == null)
-                ProcessLocalContent(game);
+                game.ProcessLocalContent();
         }
 
-        static void UpdateContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> contents,
+        static void UpdateContents(Game game, IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent,
             IDictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content, ContentQuery filterFunc = null) {
-            var defaultTags = new List<string>();
-
-            var networkContents = game.NetworkContent.OfType<ModNetworkContent>();
-            Dictionary<Guid, ModNetworkContent> currentContent;
-            IEnumerable<Guid> contentToBeSynced;
-
-            if (filterFunc == null) {
-                var localMods =
-                    game.LocalContent.OfType<ModLocalContent>()
-                        .Select(x => contents.Values.FirstOrDefault(c => c.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase)))
-                        .Where(x => x != null);
-                currentContent = networkContents.ToDictionary(x => x.Id, x => x);
-                var ids = currentContent.Keys.Concat(localMods.Select(x => x.Id)).Distinct();
-                var desired = GetTheDesiredMods(new ContentQuery { Ids = ids.ToList() }, contents);
-                contentToBeSynced = desired.Keys;
-            } else {
-                var desiredModsList = GetTheDesiredMods(filterFunc, contents);
-                currentContent = networkContents.Where(x => desiredModsList.ContainsKey(x.Id))
-                    .ToDictionary(x => x.Id, x => x);
-                contentToBeSynced = desiredModsList.Keys;
-            }
-
-            var mapping = contentToBeSynced
-                .Where(contents.ContainsKey)
+            var currentContent = game.NetworkContent.OfType<ModNetworkContent>().ToDictionary(x => x.Id, x => x);
+            var desiredModsList = GetDesiredModList(game, onlineContent, filterFunc, currentContent);
+            var mapping = desiredModsList.Keys
+                .Where(onlineContent.ContainsKey)
                 .Select(
-                    x => new {DTO = contents[x], Existing = currentContent.ContainsKey(x) ? currentContent[x] : null});
-
-            var newContent = new List<ModNetworkContent>();
+                    x =>
+                        new {
+                            DTO = onlineContent[x],
+                            Existing = currentContent.ContainsKey(x) ? currentContent[x] : null
+                        });
 
             foreach (var c in mapping) {
-                var theDto = c.DTO;
+                var dto = c.DTO;
                 var theGame = SetupGameStuff.GameSpecs.Select(x => x.Value).FindOrThrow(c.DTO.GameId);
-                if (c.DTO.GameId != game.Id) {
-                    // Make a copy of the DTO, and clone the list, because otherwise the changes will bleed through to other games...
-                    theDto = c.DTO.MapTo<ModClientApiJsonV3WithGameId>();
-                    theDto.Dependencies = theDto.Dependencies.ToList();
-                    var cMods = game.GetCompatibilityMods(theDto.PackageName, theDto.Tags ?? defaultTags);
-                    foreach (var m in cMods) {
-                        var theM =
-                            content.Keys.FirstOrDefault(
-                                x => x.PackageName.Equals(m, StringComparison.CurrentCultureIgnoreCase));
-                        if (theM != null && theDto.Dependencies.All(x => x.Id != theM.Id))
-                            theDto.Dependencies.Add(new ContentGuidSpec {Id = theM.Id});
-                    }
-                }
                 if (c.Existing == null) {
-                    var nc = theDto.MapTo<ModNetworkContent>();
-                    newContent.Add(nc);
-                    content[theDto] = nc;
+                    var nc = dto.MapTo<ModNetworkContent>();
+                    content[dto] = nc;
+                    game.Contents.Add(nc);
                 } else {
-                    c.Existing.UpdateVersionInfo(theDto.LatestStableVersion, theDto.UpdatedVersion);
-                    theDto.MapTo(c.Existing);
-                    content[theDto] = c.Existing;
+                    c.Existing.UpdateVersionInfo(dto.LatestStableVersion, dto.UpdatedVersion);
+                    dto.MapTo(c.Existing);
+                    content[dto] = c.Existing;
                 }
                 if (c.DTO.GameId != game.Id)
-                    content[theDto].HandleOriginalGame(c.DTO.GameId, theGame.Slug, game.Id);
+                    content[dto].HandleOriginalGame(c.DTO.GameId, theGame.Slug, game.Id);
             }
-
-            game.Contents.AddRange(newContent);
         }
 
-        private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(ContentQuery filterFunc,
-            IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
-            var desired = cDict.Where(x => filterFunc.IsMatch(x.Value));
-            var d = new Dictionary<Guid, ModClientApiJsonV3WithGameId>();
-            GetRelatedContent(desired.Select(x => x.Value), d, cDict);
-            return d;
+        private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetDesiredModList(Game game,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent, ContentQuery filterFunc,
+            Dictionary<Guid, ModNetworkContent> currentContent) {
+            if (filterFunc != null)
+                return GetTheDesiredMods(game, filterFunc, onlineContent);
+
+            var localMods =
+                game.LocalContent.OfType<ModLocalContent>()
+                    .Select(
+                        x =>
+                            onlineContent.Values.FirstOrDefault(
+                                c => c.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase)))
+                    .Where(x => x != null);
+            var ids = currentContent.Keys.Concat(localMods.Select(x => x.Id)).Distinct();
+            return GetTheDesiredMods(game, new ContentQuery {Ids = ids.ToList()}, onlineContent);
         }
 
-        private static void GetRelatedContent(IEnumerable<ModClientApiJsonV3WithGameId> desired,
-            IDictionary<Guid, ModClientApiJsonV3WithGameId> d,
-            IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
+        private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(Game game, ContentQuery filterFunc,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent) {
+            var desired = onlineContent.Where(x => filterFunc.IsMatch(x.Value));
+            var dependencyChain = new Dictionary<Guid, ModClientApiJsonV3WithGameId>();
+            GetRelatedContent(game, desired.Select(x => x.Value), dependencyChain, onlineContent);
+            return dependencyChain;
+        }
+
+        private static void GetRelatedContent(Game game, IEnumerable<ModClientApiJsonV3WithGameId> desired,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> dependencyChain,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent) {
             foreach (var c in desired)
-                GetRelatedContent(c, d, cDict);
+                GetRelatedContent(game, c, dependencyChain, onlineContent);
         }
 
-        private static void GetRelatedContent(ModClientApiJsonV3WithGameId c,
-            IDictionary<Guid, ModClientApiJsonV3WithGameId> d,
-            IDictionary<Guid, ModClientApiJsonV3WithGameId> cDict) {
+        private static void GetRelatedContent(Game game, ModClientApiJsonV3WithGameId c,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> dependencyChain,
+            IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent) {
             // A dictionary would not retain order, however we dont need to retain order currently
-            if (d.ContainsKey(c.Id))
+            if (dependencyChain.ContainsKey(c.Id))
                 return;
-            d.Add(c.Id, c);
-            GetRelatedContent(c.Dependencies.Select(x => cDict[x.Id]), d, cDict);
-            d.Remove(c.Id);
-            d.Add(c.Id, c);
+            dependencyChain.Add(c.Id, c);
+            var defaultTags = new List<string>();
+
+            if (c.GameId != game.Id) {
+                // Make a copy of the DTO, and clone the list, because otherwise the changes might bleed through to other games, or cached re-usages
+                c = c.MapTo<ModClientApiJsonV3WithGameId>();
+                c.Dependencies = c.Dependencies.ToList();
+                var cMods = game.GetCompatibilityMods(c.PackageName, c.Tags ?? defaultTags);
+                foreach (var m in cMods) {
+                    var theM =
+                        onlineContent.Values.FirstOrDefault(
+                            x => x.PackageName.Equals(m, StringComparison.CurrentCultureIgnoreCase));
+                    if (theM != null && c.Dependencies.All(x => x.Id != theM.Id))
+                        c.Dependencies.Add(new ContentGuidSpec { Id = theM.Id });
+                }
+            }
+            GetRelatedContent(game, c.Dependencies.Select(x => onlineContent[x.Id]), dependencyChain, onlineContent);
+            dependencyChain.Remove(c.Id);
+            dependencyChain.Add(c.Id, c);
         }
 
         static void HandleDependencies(Game game, Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
@@ -233,42 +232,6 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             var foundDeps = nc.Key.Dependencies.Select(d => networkContent[d.Id])
                 .Select(x => new NetworkContentSpec(x));
             nc.Value.ReplaceDependencies(foundDeps);
-        }
-
-        static void ProcessLocalContent(Game game) {
-            var networkContents = game.NetworkContent.ToArray();
-            var dict = game.LocalContent.Select(
-                x =>
-                    new {
-                        x,
-                        Nc =
-                            networkContents.FirstOrDefault(
-                                nc => nc.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase))
-                    })
-                .ToDictionary(x => x.x, x => x.Nc);
-
-            var gameInstalled = game.InstalledState.IsInstalled;
-            foreach (var c in dict.Where(c => c.Value != null)) {
-                var version = gameInstalled ? GetVersion(game.ContentPaths.Path) : null;
-                c.Value.Installed(version ?? (c.Key.IsInstalled() ? c.Key.InstallInfo.Version : null), version != null);
-                ReplaceLocalContentInCollections(game, c);
-                game.Contents.Remove(c.Key);
-            }
-        }
-
-        private static string GetVersion(IAbsoluteDirectoryPath path) {
-            var v = Package.ReadSynqInfoFile(path);
-            return v?.VersionData;
-        }
-
-        private static void ReplaceLocalContentInCollections(Game game, KeyValuePair<LocalContent, NetworkContent> c) {
-            foreach (var col in game.Collections) {
-                var existing = col.Contents.FirstOrDefault(x => x.Content == c.Key);
-                if (existing == null)
-                    continue;
-                col.Contents.Remove(existing);
-                col.Contents.Add(new ContentSpec(c.Value, existing.Constraint));
-            }
         }
 
 
