@@ -53,14 +53,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var newCollectionIds =
                 ids.Except(existingCollections.Select(x => x.Id)).ToList();
 
-            var networkContents = game.NetworkContent.ToArray();
             await
-                networkContentSyncer.SyncCollections(existingCollections, networkContents).ConfigureAwait(false);
+                networkContentSyncer.SyncCollections(existingCollections).ConfigureAwait(false);
             if (newCollectionIds.Any()) {
-                var newCollections =
-                    await
-                        networkContentSyncer.GetCollections(game.Id, newCollectionIds, networkContents)
-                            .ConfigureAwait(false);
+                var newCollections = await networkContentSyncer.GetCollections(game.Id, newCollectionIds).ConfigureAwait(false);
                 game.Contents.AddRange(newCollections);
             }
         }

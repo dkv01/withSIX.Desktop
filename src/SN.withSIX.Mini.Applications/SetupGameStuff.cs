@@ -146,13 +146,11 @@ namespace SN.withSIX.Mini.Applications
                 await g.RefreshState().ConfigureAwait(false);
         }
 
-        Task SynchronizeCollections(System.Collections.Generic.IReadOnlyCollection<Game> games) {
+        Task SynchronizeCollections(IReadOnlyCollection<Game> games) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Syncing collections for games: {string.Join(", ", games.Select(x => x.Id))}");
-            var contents = games.SelectMany(x => x.Contents).OfType<NetworkContent>().Distinct().ToArray();
             return
-                _networkContentSyncer.SyncCollections(games.SelectMany(x => x.SubscribedCollections).ToArray(),
-                    contents, false);
+                _networkContentSyncer.SyncCollections(games.SelectMany(x => x.SubscribedCollections).ToArray(), false);
         }
 
         private void Dispose(bool isDisposing) {

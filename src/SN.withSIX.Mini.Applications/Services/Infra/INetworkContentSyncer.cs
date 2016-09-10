@@ -17,10 +17,10 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
         Task SyncContent(IReadOnlyCollection<Game> games, ContentQuery query = null);
 
         Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections,
-            IReadOnlyCollection<NetworkContent> content, bool countCheck = true);
+            bool countCheck = true);
 
         Task<IReadOnlyCollection<SubscribedCollection>> GetCollections(Guid gameId,
-            IReadOnlyCollection<Guid> collectionIds, IReadOnlyCollection<NetworkContent> content);
+            IReadOnlyCollection<Guid> collectionIds);
     }
 
     public class ContentQuery
