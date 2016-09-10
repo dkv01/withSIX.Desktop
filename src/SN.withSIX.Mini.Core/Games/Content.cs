@@ -303,7 +303,7 @@ namespace SN.withSIX.Mini.Core.Games
             // TODO: There should be more considerations, because on the statuschanged event
             // we carry more data, like current installed version, and such!
             if (!force && currentState == State)
-                return;
+               return;
             RaiseContentStatusChanged();
         }
 
