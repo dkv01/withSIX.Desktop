@@ -315,21 +315,15 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     .Where(x => x.DependencyType == DependencyType.Package).ToArray();
                 var found = new List<Tuple<Content, string, CollectionVersionDependencyModel>>();
                 foreach (var d in deps) {
-                    var t =
-                        Tuple.Create(
-                            await
-                                ConvertToGroupOrRepoContent(d, col, customRepos, groupContent, game)
-                                    .ConfigureAwait(false), //??
-                            d.Constraint,
-                            d);
-                    if (t.Item1 != null)
-                        found.Add(t);
+                    var content = await ConvertToGroupOrRepoContent(d, col, customRepos, groupContent, game).ConfigureAwait(false);
+                    if (content == null)
+                        continue;
+                    var t = Tuple.Create(content, d.Constraint, d);
+                    found.Add(t);
                 }
                 var todo = deps.Except(found.Select(x => x.Item3)).ToArray();
                 if (todo.Any())
                     await SynchronizeContent(game, todo.Select(x => x.Dependency)).ConfigureAwait(false);
-
-                //ConvertToContentOrLocal(x, col, content), // temporary
 
                 return
                     todo.Select(x => new ContentSpec(ConvertToContentOrLocal(x, col, game), x.Constraint))
