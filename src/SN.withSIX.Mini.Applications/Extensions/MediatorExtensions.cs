@@ -25,13 +25,12 @@ namespace SN.withSIX.Mini.Applications.Extensions
             => message.Execute(Cheat.Mediator);
 
         // We are using dynamic here because we don't want to care about Async or Sync handlers for notifications
-        public static Task Publish(this IDomainEvent message) => PublishEvent((dynamic) message);
-
-        static Task PublishEvent(IAsyncNotification evt) => Cheat.Mediator.PublishAsync(evt);
-        static async Task PublishEvent(INotification evt) => Cheat.Mediator.Publish(evt);
+        static Task PublishToMediatorDynamically(this IDomainEvent message) => PublishToMediator((dynamic) message);
+        static Task PublishToMediator(IAsyncNotification evt) => Cheat.Mediator.PublishAsync(evt);
+        static async Task PublishToMediator(INotification evt) => Cheat.Mediator.Publish(evt);
 
         public static async Task Raise(this IDomainEvent message) {
-            await message.Publish().ConfigureAwait(false);
+            await message.PublishToMediatorDynamically().ConfigureAwait(false);
             Cheat.MessageBus.SendMessage((dynamic)message);
         }
 

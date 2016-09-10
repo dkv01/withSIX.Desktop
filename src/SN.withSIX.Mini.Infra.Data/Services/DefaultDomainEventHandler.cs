@@ -45,7 +45,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     {
         public static async Task RaiseEvents(this IEnumerable<IDomainEvent> events) {
             foreach (var evt in events)
-                await evt.Publish().ConfigureAwait(false);
+                await evt.Raise().ConfigureAwait(false);
         }
     }
 }

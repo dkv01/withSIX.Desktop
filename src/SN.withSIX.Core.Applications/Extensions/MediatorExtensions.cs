@@ -10,9 +10,6 @@ namespace SN.withSIX.Core.Applications.Extensions
 {
     public static class MediatorExtensions
     {
-        public static void Notify(this IMediator m, INotification evt) => m.Publish(evt);
-        public static Task NotifyAsync(this IMediator m, IAsyncNotification evt) => m.PublishAsync(evt);
-
         public static async Task<Unit> Void<T>(this Task<T> task) {
             await task.ConfigureAwait(false);
             return Unit.Value;
