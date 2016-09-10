@@ -117,7 +117,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
         void TrayNotify(ShowTrayNotification showTrayNotification) {
             if (!SettingsContext.Settings.Local.ShowDesktopNotifications)
                 return;
-            Cheat.MessageBus.SendMessage(showTrayNotification);
+            showTrayNotification.PublishToMessageBus();
         }
         */
 

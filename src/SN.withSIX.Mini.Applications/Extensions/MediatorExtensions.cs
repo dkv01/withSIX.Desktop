@@ -24,6 +24,9 @@ namespace SN.withSIX.Mini.Applications.Extensions
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message)
             => message.Execute(Cheat.Mediator);
 
+        public static void PublishToMessageBus<T>(this T message) => Cheat.MessageBus.SendMessage(message);
+        // We are using dynamic here because the messagebus relies on generic typing
+        static void PublishToMessageBusDynamically(this IDomainEvent message) => Cheat.MessageBus.SendMessage((dynamic)message);
         // We are using dynamic here because we don't want to care about Async or Sync handlers for notifications
         static Task PublishToMediatorDynamically(this IDomainEvent message) => PublishToMediator((dynamic) message);
         static Task PublishToMediator(IAsyncNotification evt) => Cheat.Mediator.PublishAsync(evt);
@@ -31,7 +34,7 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static async Task Raise(this IDomainEvent message) {
             await message.PublishToMediatorDynamically().ConfigureAwait(false);
-            Cheat.MessageBus.SendMessage((dynamic)message);
+            message.PublishToMessageBusDynamically();
         }
 
         /*

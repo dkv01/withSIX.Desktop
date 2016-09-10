@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using ReactiveUI;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -66,7 +67,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
         }
     }
 
-    public class ShowTrayNotification
+    public class ShowTrayNotification : IDomainEvent
     {
         public ShowTrayNotification(string subject, string text, string icon = null, TimeSpan? expirationTime = null,
             params TrayAction[] actions) {
