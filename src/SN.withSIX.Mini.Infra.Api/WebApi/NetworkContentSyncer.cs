@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
-using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
@@ -21,7 +20,6 @@ using SN.withSIX.Mini.Core.Social;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
-using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
@@ -29,6 +27,7 @@ using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 
 namespace SN.withSIX.Mini.Infra.Api.WebApi
 {
+    // TODO: optimize synchronizing collection with group/repo content dependencies.
     public class NetworkContentSyncer : IInfrastructureService, INetworkContentSyncer
     {
         private readonly CollectionSyncer _collectionSyncer;
@@ -175,7 +174,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return GetTheDesiredMods(game, new ContentQuery {Ids = ids.ToList()}, onlineContent);
         }
 
-        private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(Game game, ContentQuery filterFunc,
+        private static Dictionary<Guid, ModClientApiJsonV3WithGameId> GetTheDesiredMods(Game game,
+            ContentQuery filterFunc,
             IDictionary<Guid, ModClientApiJsonV3WithGameId> onlineContent) {
             var desired = onlineContent.Where(x => filterFunc.IsMatch(x.Value));
             var dependencyChain = new Dictionary<Guid, ModClientApiJsonV3WithGameId>();
@@ -209,7 +209,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                         onlineContent.Values.FirstOrDefault(
                             x => x.PackageName.Equals(m, StringComparison.CurrentCultureIgnoreCase));
                     if (theM != null && c.Dependencies.All(x => x.Id != theM.Id))
-                        c.Dependencies.Add(new ContentGuidSpec { Id = theM.Id });
+                        c.Dependencies.Add(new ContentGuidSpec {Id = theM.Id});
                 }
             }
             GetRelatedContent(game, c.Dependencies.Select(x => onlineContent[x.Id]), dependencyChain, onlineContent);
@@ -219,9 +219,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
         static void HandleDependencies(Game game, Dictionary<ModClientApiJsonV3WithGameId, ModNetworkContent> content) {
             var c = content.Values.ToDictionary(x => x.Id, x => x);
-            foreach (var nc in content) {
+            foreach (var nc in content)
                 HandleDependencies(nc, c);
-            }
         }
 
         // TODO: catch frigging circular reference mayhem!
@@ -253,7 +252,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 _networkContentSyncer = networkContentSyncer;
             }
 
-            public async Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections, bool countCheck = true) {
+            public async Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections,
+                bool countCheck = true) {
                 var contents =
                     await
                         DownloadCollections(
@@ -300,12 +300,14 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 var collectionSpecs = await ProcessEmbeddedCollections(c, collections).ConfigureAwait(false);
                 var modSpecs =
                     await
-                        ProcessMods(col, c, await _locator.GetGameContext().Games.FindOrThrowAsync(col.GameId).ConfigureAwait(false))
+                        ProcessMods(col, c,
+                            await _locator.GetGameContext().Games.FindOrThrowAsync(col.GameId).ConfigureAwait(false))
                             .ConfigureAwait(false);
                 col.ReplaceContent(modSpecs.Concat(collectionSpecs));
             }
 
-            private async Task<IReadOnlyCollection<ContentSpec>> ProcessMods(NetworkCollection col, CollectionModelWithLatestVersion c, Game game) {
+            private async Task<IReadOnlyCollection<ContentSpec>> ProcessMods(NetworkCollection col,
+                CollectionModelWithLatestVersion c, Game game) {
                 var customRepos = await GetRepositories(col).ConfigureAwait(false);
                 var groupContent = await GetGroupContent(col).ConfigureAwait(false);
                 var deps = c.LatestVersion
@@ -363,7 +365,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 return buildCollections;
             }
 
-            private async Task<ContentSpec> GetContentSpec(List<NetworkCollection> collections, CollectionVersionDependencyModel[] todoCols,
+            private async Task<ContentSpec> GetContentSpec(List<NetworkCollection> collections,
+                CollectionVersionDependencyModel[] todoCols,
                 CollectionVersionDependencyModel ec, IEnumerable<CollectionModelWithLatestVersion> cols) {
                 if (todoCols.Contains(ec)) {
                     return
@@ -373,7 +376,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     ec.Constraint);
             }
 
-            private async Task<ContentSpec> ProcessEmbeddedCollection(IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec,
+            private async Task<ContentSpec> ProcessEmbeddedCollection(
+                IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec,
                 List<NetworkCollection> collections) {
                 var rc = cols.First(c2 => c2.Id == ec.CollectionDependencyId.Value);
                 var conv = rc.MapTo<SubscribedCollection>();
@@ -395,7 +399,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 return await HandleRepoContent(x, col, customRepos, game).ConfigureAwait(false);
             }
 
-            private async Task<Content> HandleRepoContent(CollectionVersionDependencyModel x, Collection col, IReadOnlyCollection<CustomRepo> customRepos, Game game) {
+            private async Task<Content> HandleRepoContent(CollectionVersionDependencyModel x, Collection col,
+                IReadOnlyCollection<CustomRepo> customRepos, Game game) {
                 var repo = customRepos.FirstOrDefault(r => r.HasMod(x.Dependency));
                 if (repo == null)
                     return null;
@@ -406,7 +411,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 return mod;
             }
 
-            private async Task<List<string>> GetDependencyTree(KeyValuePair<string, SixRepoModDto> repoContent, IReadOnlyCollection<CustomRepo> customRepos, Game game) {
+            private async Task<List<string>> GetDependencyTree(KeyValuePair<string, SixRepoModDto> repoContent,
+                IReadOnlyCollection<CustomRepo> customRepos, Game game) {
                 var dependencies = new List<string>();
                 var name = repoContent.Key.ToLower();
                 // TODO: Would be better to build the dependency tree from actual objects instead of strings??
@@ -425,10 +431,12 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 if (repoContent.Value.Dependencies == null)
                     return;
 
-                var theC = repoContent.Value.Dependencies.ToDictionary(x => x.ToLower(), x => customRepos.FirstOrDefault(r => r.HasMod(x)));
+                var theC = repoContent.Value.Dependencies.ToDictionary(x => x.ToLower(),
+                    x => customRepos.FirstOrDefault(r => r.HasMod(x)));
 
                 var notFound = theC.Where(x => x.Value == null).Select(x => x.Key).ToList();
-                if (notFound.Any()) await SynchronizeContent(game, notFound).ConfigureAwait(false);
+                if (notFound.Any())
+                    await SynchronizeContent(game, notFound).ConfigureAwait(false);
 
                 foreach (var d in repoContent.Value.Dependencies) {
                     var n = d.ToLower();
