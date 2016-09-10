@@ -70,12 +70,15 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         private void HandleModDirectory(string[] packages) {
             var md = GetModInstallationDirectory();
-            foreach (var f in md.DirectoryInfo.EnumerateFiles("*.pak"))
+            var di = md.DirectoryInfo;
+            foreach (var f in GetPaksAndModPaks(di))
                 HandleFileBasedMod(f, packages);
         }
 
-        private static void HandleFileBasedMod(FileInfo f, IEnumerable<string> packages) {
-            var pak = f.ToAbsoluteFilePath();
+        private static IEnumerable<IAbsoluteFilePath> GetPaksAndModPaks(DirectoryInfo di) => di.EnumerateFiles("*.pak")
+            .Select(x => x.ToAbsoluteFilePath());
+
+        private static void HandleFileBasedMod(IAbsoluteFilePath pak, IEnumerable<string> packages) {
             var pakBak = pak.GetBrotherFileWithName(pak.FileNameWithoutExtension + ".bak");
             if (packages.Contains(pak.FileNameWithoutExtension)) {
                 if (!pak.Exists && pakBak.Exists)
