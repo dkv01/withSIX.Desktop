@@ -97,19 +97,8 @@ namespace SN.withSIX.Mini.Applications.Services
                         .ConfigureAwait(false);
                 }
 
-                foreach (var c in steamContent)
-                    await c.Key.PreUninstall(this, cancelToken, true).ConfigureAwait(false);
-                var s =
-                    CreateSteamSession(
-                        steamContent.ToDictionary(
-                            x => Convert.ToUInt64(((IContentWithPackageName) x.Key).GetSource(_action.Game).PublisherId),
-                            x => new ProgressLeaf(((IContentWithPackageName)x.Key).PackageName)));
-                await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
-
-                foreach (var c in steamContent)
-                    c.Key.Uninstalled();
-
-                //await WaitForUninstalled(steamContent).ConfigureAwait(false);
+                if (steamContent.Any())
+                    await ProcessSteamContent(cancelToken, steamContent).ConfigureAwait(false);
 
                 if (content.IsInstalled()) {
                     _action.Status.Collections.Uninstall.Add(content.Id);
@@ -119,6 +108,22 @@ namespace SN.withSIX.Mini.Applications.Services
             } finally {
                 await new ContentStatusChanged(content, finalState).Raise().ConfigureAwait(false);
             }
+        }
+
+        private async Task ProcessSteamContent(CancellationToken cancelToken, Dictionary<Content, string> steamContent) {
+            foreach (var c in steamContent)
+                await c.Key.PreUninstall(this, cancelToken, true).ConfigureAwait(false);
+            var s =
+                CreateSteamSession(
+                    steamContent.ToDictionary(
+                        x =>
+                            Convert.ToUInt64(
+                                ((IContentWithPackageName) x.Key).GetSource(_action.Game).PublisherId),
+                        x => new ProgressLeaf(((IContentWithPackageName) x.Key).PackageName)));
+            await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
+            foreach (var c in steamContent)
+                c.Key.Uninstalled();
+            //await WaitForUninstalled(steamContent).ConfigureAwait(false);
         }
 
         private async Task WaitForUninstalled(Dictionary<Content, string> steamContent) {
