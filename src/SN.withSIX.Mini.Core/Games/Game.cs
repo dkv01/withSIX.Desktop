@@ -251,12 +251,10 @@ namespace SN.withSIX.Mini.Core.Games
             if (existing != null)
                 return existing;
             var isNotUpdateAll = action.Name != "Update all" && action.Name != "Available updates";
-            /*
             var name = isNotUpdateAll
                 ? $"{action.Name ?? "Playlist"} {DateTime.UtcNow.ToString(Tools.GenericTools.DefaultDateFormat)}"
                 : action.Name;
-                */
-            var localCollection = new LocalCollection(Id, contents);
+            var localCollection = new LocalCollection(Id, name, contents);
             if (isNotUpdateAll)
                 Contents.Add(localCollection);
             return localCollection;

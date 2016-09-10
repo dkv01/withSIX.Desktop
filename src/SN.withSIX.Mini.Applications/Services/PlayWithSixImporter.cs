@@ -99,7 +99,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var exists = game.SubscribedCollections.Any(x => x.Id == p0.CollectionID);
             if (exists)
                 return;
-            game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.CollectionID, game.Id));
+            game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.CollectionID, game.Id, GetName(p0)));
         }
 
         void ConvertToCollection(CustomCollection p0, Game game) {
@@ -112,7 +112,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
             // TODO: We can only support Private Published Collections once we have a stable Bearer token to use...
             if (isPublished)
-                game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.PublishedId.Value, game.Id));
+                game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.PublishedId.Value, game.Id, GetName(p0)));
             else {
                 // TODO: If published, the collection should become a SubscribedCollection? Perhaps with IsOwner flag??
                 var modNames = p0.AdditionalMods.Concat(p0.OptionalMods).Concat(p0.Mods).Where(x => x != null)
@@ -123,11 +123,13 @@ namespace SN.withSIX.Mini.Applications.Services
                         packagedContents.FirstOrDefault(
                             c => c.PackageName.Equals(x, StringComparison.CurrentCultureIgnoreCase)) ??
                         CreateLocal(game, x));
-                game.Contents.Add(new LocalCollection(game.Id,
+                game.Contents.Add(new LocalCollection(game.Id, GetName(p0),
                     contentDict.Values.Select(x => new ContentSpec((Content) x)).ToList()));
             }
             // TODO: We should synchronize the network again before executing actions..
         }
+
+        private static string GetName(SyncBase p0) => p0.Name ?? "Unnamed imported collection";
 
         static ModLocalContent CreateLocal(Game game, string x) {
             var modLocalContent = new ModLocalContent(x.ToLower(), game.Id, new BasicInstallInfo());

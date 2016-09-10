@@ -53,7 +53,7 @@ namespace SN.withSIX.Mini.Tests
             var mod2 = new ModNetworkContent("@test-mod-2", GameGuids.Arma3);
             mod1.Dependencies.Add(new NetworkContentSpec(mod2, "1.0.0"));
 
-            var collection = new LocalCollection(GameGuids.Arma3, new[] {
+            var collection = new LocalCollection(GameGuids.Arma3, "Test collection", new[] {
                 new ContentSpec(mod1),
                 new ContentSpec(mod2)
             });
@@ -67,7 +67,7 @@ namespace SN.withSIX.Mini.Tests
             var mod2 = new ModNetworkContent("@test-mod-2", GameGuids.Arma3);
             mod1.Dependencies.Add(new NetworkContentSpec(mod2, "1.0.0"));
 
-            var collection = new LocalCollection(GameGuids.Arma3, new [] {
+            var collection = new LocalCollection(GameGuids.Arma3, "Test collection", new [] {
                 new ContentSpec(mod1), 
                 new ContentSpec(mod2, "2.0.0")
             });

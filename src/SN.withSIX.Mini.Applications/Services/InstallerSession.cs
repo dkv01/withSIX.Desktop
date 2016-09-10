@@ -404,7 +404,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         LocalCollection ConvertToTemporaryCollection()
             =>
-                new LocalCollection(_action.Game.Id,
+                new LocalCollection(_action.Game.Id, "Temp collection",
                     _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
 
         Task TryInstallContent() => TaskExtExt.Create(

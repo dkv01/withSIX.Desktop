@@ -19,8 +19,13 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class Collection : InstallableContent, ICollectionContent, IUninstallableContent
     {
-        protected Collection() {}
-        protected Collection(Guid gameId) : base(gameId) {}
+        protected Collection(Guid gameId, string name) : base(gameId) {
+            Name = name;
+        }
+
+        [DataMember]
+        public string Name { get; protected set; }
+
         // TODO: Handle circular?
         [DataMember]
         public virtual ICollection<CollectionContentSpec> Dependencies { get; protected set; } =
@@ -119,7 +124,10 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class LocalCollection : Collection
     {
-        public LocalCollection(Guid gameId, ICollection<ContentSpec> contents) : base(gameId) {
+        [Obsolete]
+        public LocalCollection(Guid gameId, ICollection<ContentSpec> contents) : this(gameId, "Nameless collection", contents) {}
+
+        public LocalCollection(Guid gameId, string name, ICollection<ContentSpec> contents) : base(gameId, name) {
             Contract.Requires<ArgumentNullException>(contents != null);
             //Author = "You"; // better assume null author = you?
             Contents = contents;
@@ -144,9 +152,8 @@ namespace SN.withSIX.Mini.Core.Games
     public abstract class NetworkCollection : Collection, IHaveRepositories, IHaveServers, ILaunchableContent, IHavePath
         // Hmm ILaunchableContent.. (is to allow SErvers to be collected from this collection, not sure if best)
     {
-        protected NetworkCollection(Guid id, Guid gameId) {
+        protected NetworkCollection(Guid id, Guid gameId, string name) : base(gameId, name) {
             Id = id;
-            GameId = gameId;
         }
 
         public override bool IsNetworkContent { get; } = true;
@@ -167,7 +174,9 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class SubscribedCollection : NetworkCollection, IHaveGroup
     {
-        public SubscribedCollection(Guid id, Guid gameId) : base(id, gameId) {}
+        public SubscribedCollection(Guid id, Guid gameId, string name) : base(id, gameId, name) {}
+        [Obsolete]
+        public SubscribedCollection(Guid id, Guid gameId) : this(id, gameId, "Nameless collection") {}
     }
 
     [DataContract]
