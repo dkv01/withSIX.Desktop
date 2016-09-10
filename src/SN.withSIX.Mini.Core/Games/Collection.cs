@@ -124,9 +124,6 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public class LocalCollection : Collection
     {
-        [Obsolete]
-        public LocalCollection(Guid gameId, ICollection<ContentSpec> contents) : this(gameId, "Nameless collection", contents) {}
-
         public LocalCollection(Guid gameId, string name, ICollection<ContentSpec> contents) : base(gameId, name) {
             Contract.Requires<ArgumentNullException>(contents != null);
             //Author = "You"; // better assume null author = you?
@@ -175,8 +172,6 @@ namespace SN.withSIX.Mini.Core.Games
     public class SubscribedCollection : NetworkCollection, IHaveGroup
     {
         public SubscribedCollection(Guid id, Guid gameId, string name) : base(id, gameId, name) {}
-        [Obsolete]
-        public SubscribedCollection(Guid id, Guid gameId) : this(id, gameId, "Nameless collection") {}
     }
 
     [DataContract]
