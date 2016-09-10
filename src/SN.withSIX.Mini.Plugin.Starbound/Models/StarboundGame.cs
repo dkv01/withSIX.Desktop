@@ -79,15 +79,14 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             .Select(x => x.ToAbsoluteFilePath());
 
         private static void HandleFileBasedMod(IAbsoluteFilePath pak, IEnumerable<string> packages) {
-            var pakBak = pak.GetBrotherFileWithName(pak.FileNameWithoutExtension + ".bak");
+            var pakBak = GetBackupFile(pak);
             if (packages.Contains(pak.FileNameWithoutExtension)) {
                 if (!pak.Exists && pakBak.Exists)
                     pakBak.Move(pak);
             } else {
                 if (!pak.Exists)
                     return;
-                if (pakBak.Exists)
-                    pakBak.Delete();
+                pakBak.DeleteIfExists();
                 pak.Move(pakBak);
             }
         }
@@ -177,6 +176,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 } else
                     sourcePakPath = sourcePak;
                 await sourcePakPath.CopyAsync(destPakFile).ConfigureAwait(false);
+                var bak = GetBackupFile(destPakFile);
+                bak.DeleteIfExists();
             }
 
             private async Task<IAbsoluteFilePath> PackModInfoMod(IAbsoluteFilePath modInfoPath) {

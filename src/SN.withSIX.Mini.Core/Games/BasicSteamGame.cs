@@ -94,6 +94,8 @@ namespace SN.withSIX.Mini.Core.Games
                 }
             });
 
+        protected static IAbsoluteFilePath GetBackupFile(IAbsoluteFilePath destPakFile) => destPakFile.GetBrotherFileWithName(destPakFile.FileNameWithoutExtension + ".bak");
+
         protected abstract class SteamMod
         {
             protected readonly IModContent Mod;

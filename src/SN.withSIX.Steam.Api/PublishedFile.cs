@@ -75,12 +75,10 @@ namespace SN.withSIX.Steam.Api
                 await api.UnsubscribeAndConfirm(Pid).ConfigureAwait(false);
                 // We delete the path anyway, because Steam will normally wait until the program exits otherwise
                 // and since we're a tool and not the game, we don't have to wait!
-                if (path.Exists)
-                    path.Delete(true);
+                path.DeleteIfExists(true);
                 return true;
             }
-            if (path.Exists)
-                path.Delete();
+            path.DeleteIfExists(true);
             return false;
         }
 
