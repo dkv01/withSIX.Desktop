@@ -11,7 +11,7 @@ namespace SN.withSIX.Core.Infra.Services
     public class ResourceService : IResourceService
     {
         const string SourceAssemblyName = "SN.withSIX.Core.Infra";
-        readonly Assembly _sourceAssembly = typeof (Initializer).Assembly;
+        readonly Assembly _sourceAssembly = typeof (ResourceService).Assembly;
 
         static ResourceService() {
             ComponentPath = "/" + SourceAssemblyName + ";component";
