@@ -9,7 +9,8 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {
-    public class Shutdown : IAsyncVoidCommand {}
+    // We don't want a DB scope+save
+    public class Shutdown : IAsyncRequest<Unit> {}
 
     public class ShutdownCommandHandler : IAsyncVoidCommandHandler<Shutdown>
     {

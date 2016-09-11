@@ -662,14 +662,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected Task End() => TaskExt.StartLongRunningTask(EndInternal);
 
         private async Task EndInternal() {
-            // This creates an ambient context when shutdown is called from a usecase.
-            // so we suppress it
-            var dbContextFactory = Container.GetInstance<IDbContextFactory>();
-            using (dbContextFactory.SuppressAmbientContext())
-            using (var scope = dbContextFactory.Create()) {
-                await RunDeinitializers().ConfigureAwait(false);
-                await scope.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await RunDeinitializers().ConfigureAwait(false);
             Cheat.SteamSession?.Dispose();
         }
 

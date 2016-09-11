@@ -6,11 +6,11 @@ using MediatR;
 
 namespace SN.withSIX.Core.Applications.Services
 {
-    public interface IQuery<T> : IRead, IRequest<T> {}
+    public interface IQuery<out T> : IRead, IRequest<T> {}
 
     public interface IRead {}
 
-    public interface ICommand<T> : IWrite, IRequest<T> {}
+    public interface ICommand<out T> : IWrite, IRequest<T> {}
 
     public interface IWrite {}
 
@@ -19,9 +19,9 @@ namespace SN.withSIX.Core.Applications.Services
     public interface IVoidCommandHandler<in TCommand> : IRequestHandler<TCommand, Unit>
         where TCommand : IRequest<Unit> {}
 
-    public interface IAsyncQuery<T> : IRead, IAsyncRequest<T> {}
+    public interface IAsyncQuery<out T> : IRead, IAsyncRequest<T> {}
 
-    public interface IAsyncCommand<T> : IWrite, IAsyncRequest<T> {}
+    public interface IAsyncCommand<out T> : IWrite, IAsyncRequest<T> {}
 
     public interface IAsyncVoidCommand : IAsyncCommand<Unit> {}
 
