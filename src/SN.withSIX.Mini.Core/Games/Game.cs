@@ -178,6 +178,8 @@ namespace SN.withSIX.Mini.Core.Games
         public void CleanupContent() {
             var toRemove = Contents
                 .Except(AllAvailableContent
+                    .Concat(Collections)
+                    .Distinct()
                     .SelectMany(x => x.GetRelatedContent())
                     .Select(x => x.Content).Distinct())
                 .ToList();
