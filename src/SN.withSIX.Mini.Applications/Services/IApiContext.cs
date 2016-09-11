@@ -17,6 +17,11 @@ namespace SN.withSIX.Mini.Applications.Services
         Task<ApiHashes> GetHashes(Guid gameId);
     }
 
+    public static class ApiExtensions
+    {
+        public static string GetVersion(this ModClientApiJson This) => This.LatestStableVersion ?? This.Version;
+    }
+
     public class ModClientApiJsonV3WithGameId : ModClientApiJson, IHaveId<Guid>
     {
         private Guid _gameId;

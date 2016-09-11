@@ -148,7 +148,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     content[dto] = nc;
                     game.Contents.Add(nc);
                 } else {
-                    c.Existing.UpdateVersionInfo(dto.LatestStableVersion, dto.UpdatedVersion);
+                    c.Existing.UpdateVersionInfo(dto.GetVersion(), dto.UpdatedVersion);
                     dto.MapTo(c.Existing);
                     content[dto] = c.Existing;
                 }

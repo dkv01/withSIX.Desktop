@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 .BeforeMap((json, content) => {
                     content?.Publishers.Clear();
                 })
-                .ForMember(x => x.Version, opt => opt.MapFrom(src => src.LatestStableVersion ?? src.Version))
+                .ForMember(x => x.Version, opt => opt.ResolveUsing(src => src.GetVersion()))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
             // Does not get inherited?!
@@ -33,7 +33,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 .BeforeMap((json, content) => {
                     content?.Publishers.Clear();
                 })
-                .ForMember(x => x.Version, opt => opt.MapFrom(src => src.LatestStableVersion ?? src.Version))
+                .ForMember(x => x.Version, opt => opt.ResolveUsing(src => src.GetVersion()))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
@@ -58,7 +58,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
-                .ForMember(x => x.Version, opt => opt.MapFrom(src => src.GetVersion()));
+                .ForMember(x => x.Version, opt => opt.ResolveUsing(src => src.GetVersion()));
             cfg.CreateMap<MissionDtoV2, MissionNetworkContent>()
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
