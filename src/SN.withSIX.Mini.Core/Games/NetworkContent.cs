@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using MoreLinq;
@@ -107,6 +108,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public void UpdateVersionInfo(string version, DateTime updatedVersion) {
+            Contract.Requires<ArgumentNullException>(version != null);
             if (Version == version)
                 return;
             Version = version;
