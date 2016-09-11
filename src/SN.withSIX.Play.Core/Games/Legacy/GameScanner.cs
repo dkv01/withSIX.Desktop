@@ -12,6 +12,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Core.Glue.Helpers;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {
@@ -52,7 +53,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             IsSkipTree = true;
         }
 
-        public Task<bool> ScanForGames() => TaskExtExt.StartLongRunningTask(() => ScanAllDrives());
+        public Task<bool> ScanForGames() => TaskExt.StartLongRunningTask(() => ScanAllDrives());
 
         bool ScanAllDrives() {
             lock (_busyLock) {

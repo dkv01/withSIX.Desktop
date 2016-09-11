@@ -106,7 +106,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 
         public async Task<T> QueueSend<T>(ISendMessage command) => (T)await QueueSend(command).ConfigureAwait(false);
 
-        public Task ReadLoop() => TaskExtExt.StartLongRunningTask(ReadLoopInternal, _token);
+        public Task ReadLoop() => TaskExt.StartLongRunningTask(ReadLoopInternal, _token);
 
         async Task ReadLoopInternal() {
             while (_isConnected) {

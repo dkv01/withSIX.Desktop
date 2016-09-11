@@ -13,6 +13,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Extensions;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
@@ -51,7 +52,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             _settings.GameOptions.RecentGameSet = x == null ? null : new RecentGameSet(x);
             OnPropertyChanged(nameof(ActiveGame));
             await
-                TaskExtExt.StartLongRunningTask(() => TryActiveGameChanged(x))
+                TaskExt.StartLongRunningTask(() => TryActiveGameChanged(x))
                     .ConfigureAwait(false);
         }
 

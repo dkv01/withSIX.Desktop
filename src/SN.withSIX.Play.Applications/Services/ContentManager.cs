@@ -1366,7 +1366,7 @@ namespace SN.withSIX.Play.Applications.Services
             var game = Game;
             if (game.SupportsMods()) {
                 var modding = game.Modding();
-                await TaskExtExt.StartLongRunningTask(() => {
+                await TaskExt.StartLongRunningTask(() => {
                     lock (_updateAllModsLock)
                         modding.UpdateModStates(game.Lists.Mods);
                 }).ConfigureAwait(false);
@@ -1374,7 +1374,7 @@ namespace SN.withSIX.Play.Applications.Services
 
             if (game.SupportsMissions()) {
                 var missions = game.Missions();
-                await TaskExtExt.StartLongRunningTask(() => {
+                await TaskExt.StartLongRunningTask(() => {
                     lock (_updateAllModsLock)
                         missions.UpdateMissionStates(game.Lists.Missions);
                 }).ConfigureAwait(false);

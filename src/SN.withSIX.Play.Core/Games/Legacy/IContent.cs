@@ -12,6 +12,7 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Options;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {

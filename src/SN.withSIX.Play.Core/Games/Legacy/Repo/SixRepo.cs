@@ -25,6 +25,7 @@ using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
@@ -194,7 +195,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
             GetMissionsToDownload(
             IEnumerable<Mission> missions,
             IAbsoluteDirectoryPath destination, StatusRepo repo)
-            => TaskExtExt.StartLongRunningTask(() => SumMissions(destination, missions.ToDictionary(x => x,
+            => TaskExt.StartLongRunningTask(() => SumMissions(destination, missions.ToDictionary(x => x,
                 x => (ITransferStatus) new Status(x.FileName, repo))));
 
         static IDictionary<FileFetchInfo, ITransferStatus> SumMissions(

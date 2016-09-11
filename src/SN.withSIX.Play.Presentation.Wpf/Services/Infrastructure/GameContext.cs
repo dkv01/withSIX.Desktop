@@ -24,6 +24,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services.Infrastructure

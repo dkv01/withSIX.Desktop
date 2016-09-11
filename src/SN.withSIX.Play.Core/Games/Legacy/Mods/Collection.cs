@@ -24,6 +24,7 @@ using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Glue.Helpers;
 using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 

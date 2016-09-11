@@ -27,6 +27,7 @@ using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Play.Core.Games.Entities
 {

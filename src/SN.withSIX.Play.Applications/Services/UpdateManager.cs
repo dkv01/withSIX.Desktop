@@ -217,7 +217,7 @@ namespace SN.withSIX.Play.Applications.Services
                             statusRepo,
                             "Migrating mod data",
                             () =>
-                                TaskExtExt.StartLongRunningTask(
+                                TaskExt.StartLongRunningTask(
                                     () => _pathMover.MoveModFolders(sourcePath, destinationPath))).ConfigureAwait(false);
                 }
             }
@@ -233,7 +233,7 @@ namespace SN.withSIX.Play.Applications.Services
                             statusRepo,
                             "Migrating synq data",
                             () =>
-                                TaskExtExt.StartLongRunningTask(
+                                TaskExt.StartLongRunningTask(
                                     () =>
                                         Tools.FileUtil.Ops.MoveDirectory(sourcePath, destinationPath)))
                             .ConfigureAwait(false);
@@ -689,7 +689,7 @@ namespace SN.withSIX.Play.Applications.Services
                 return;
 
             await
-                TaskExtExt.StartLongRunningTask(() => Uninstall())
+                TaskExt.StartLongRunningTask(() => Uninstall())
                     .ConfigureAwait(false);
         }
 
@@ -717,7 +717,7 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        Task StartMessagePump() => _messagePump = TaskExtExt.StartLongRunningTask(Run);
+        Task StartMessagePump() => _messagePump = TaskExt.StartLongRunningTask(Run);
 
         async Task Run() {
             while (true) {
