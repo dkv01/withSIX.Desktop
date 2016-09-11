@@ -99,7 +99,7 @@ namespace SN.withSIX.Sync.Core.Packages
         public PackageProgress Progress { get; set; } = SetupSynqProgress();
 
         public PackageManagerSettings Settings { get; }
-        public StatusRepo StatusRepo { get; }
+        public StatusRepo StatusRepo { get; set; } // set is obsolete/bwc
         public IAbsoluteDirectoryPath WorkDir { get; }
 
         [Obsolete("Workaround for classic callers")]

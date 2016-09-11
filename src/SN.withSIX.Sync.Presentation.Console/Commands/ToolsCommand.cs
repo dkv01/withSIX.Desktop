@@ -21,7 +21,7 @@ namespace SN.withSIX.Sync.Presentation.Console.Commands
         }
 
         protected override async Task<int> RunAsync(params string[] remainingArguments) {
-            using (var statusRepo = new StatusRepo())
+            var statusRepo = new StatusRepo();
             using (new ConsoleProgress(statusRepo))
                 await _toolsInstaller.DownloadAndInstallTools(statusRepo).ConfigureAwait(false);
 
