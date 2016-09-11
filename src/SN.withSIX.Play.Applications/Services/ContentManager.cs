@@ -15,6 +15,7 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MoreLinq;
@@ -840,7 +841,7 @@ namespace SN.withSIX.Play.Applications.Services
             await yas.DownloadConfig(url.Split('/').Last()).ConfigureAwait(false);
             yas.UnpackConfig();
             yas.ParseConfig();
-            await yas.Download().ConfigureAwait(false);
+            await yas.Download(CancellationToken.None).ConfigureAwait(false);
             yas.UnpackMod();
         }
 
