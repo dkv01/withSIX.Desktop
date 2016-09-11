@@ -13,9 +13,11 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
 
 namespace SN.withSIX.Play.Applications.Services
 {
@@ -42,8 +44,8 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         public void PerformStatusAction(string actionText, Action<StatusRepo> act) {
-            using (var repo = new StatusRepo())
-                PerformStatusAction(actionText, () => act(repo), repo);
+            var repo = new StatusRepo();
+            PerformStatusAction(actionText, () => act(repo), repo);
         }
 
         public async Task PerformStatusActionWithBusyHandlingAsync(StatusRepo repo, string actionText, Func<Task> act) {
@@ -52,8 +54,8 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         public async Task PerformStatusActionAsync(string actionText, Func<StatusRepo, Task> act) {
-            using (var repo = new StatusRepo())
-                await PerformStatusActionAsync(actionText, () => act(repo), repo).ConfigureAwait(false);
+            var repo = new StatusRepo();
+            await PerformStatusActionAsync(actionText, () => act(repo), repo).ConfigureAwait(false);
         }
 
         public async Task PerformUpdaterActionSuspendedAsync(string actionText, Func<Task> act) {

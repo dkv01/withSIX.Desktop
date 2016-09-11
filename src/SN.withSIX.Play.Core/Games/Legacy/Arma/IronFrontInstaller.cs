@@ -20,6 +20,7 @@ using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
+using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {

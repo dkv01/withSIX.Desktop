@@ -37,6 +37,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Legacy.Status;
@@ -47,6 +48,7 @@ using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
+using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
 
 namespace SN.withSIX.Play.Applications.Services
 {
@@ -211,15 +213,14 @@ namespace SN.withSIX.Play.Applications.Services
         public async Task MoveModFoldersIfValidAndExists(IAbsoluteDirectoryPath sourcePath,
             IAbsoluteDirectoryPath destinationPath) {
             if (sourcePath != null && sourcePath.Exists) {
-                using (var statusRepo = new StatusRepo {Action = RepoStatus.Moving}) {
-                    await
-                        _repoActionHandler.PerformStatusActionWithBusyHandlingAsync(
-                            statusRepo,
-                            "Migrating mod data",
-                            () =>
-                                TaskExt.StartLongRunningTask(
-                                    () => _pathMover.MoveModFolders(sourcePath, destinationPath))).ConfigureAwait(false);
-                }
+                var statusRepo = new StatusRepo {Action = RepoStatus.Moving};
+                await
+                    _repoActionHandler.PerformStatusActionWithBusyHandlingAsync(
+                        statusRepo,
+                        "Migrating mod data",
+                        () =>
+                            TaskExt.StartLongRunningTask(
+                                () => _pathMover.MoveModFolders(sourcePath, destinationPath))).ConfigureAwait(false);
             }
         }
 
@@ -227,17 +228,16 @@ namespace SN.withSIX.Play.Applications.Services
             IAbsoluteDirectoryPath destinationPath) {
             if (sourcePath != null && sourcePath.Exists
                 && destinationPath != null && !destinationPath.Exists) {
-                using (var statusRepo = new StatusRepo {Action = RepoStatus.Moving}) {
-                    await
-                        _repoActionHandler.PerformStatusActionWithBusyHandlingAsync(
-                            statusRepo,
-                            "Migrating synq data",
-                            () =>
-                                TaskExt.StartLongRunningTask(
-                                    () =>
-                                        Tools.FileUtil.Ops.MoveDirectory(sourcePath, destinationPath)))
-                            .ConfigureAwait(false);
-                }
+                var statusRepo = new StatusRepo {Action = RepoStatus.Moving};
+                await
+                    _repoActionHandler.PerformStatusActionWithBusyHandlingAsync(
+                        statusRepo,
+                        "Migrating synq data",
+                        () =>
+                            TaskExt.StartLongRunningTask(
+                                () =>
+                                    Tools.FileUtil.Ops.MoveDirectory(sourcePath, destinationPath)))
+                        .ConfigureAwait(false);
             }
         }
 

@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
 

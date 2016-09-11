@@ -31,10 +31,10 @@ using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api;
 using SN.withSIX.Play.Infra.Server;
-using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
@@ -381,10 +381,9 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             if (await _toolsInstaller.ConfirmToolsInstalled(true).ConfigureAwait(false))
                 return;
 
-            using (var repo = new StatusRepo {Action = RepoStatus.Downloading}) {
-                await _repoActionHandler.PerformStatusActionWithBusyHandlingAsync(repo, "Tools",
-                    () => _toolsInstaller.DownloadAndInstallTools(repo)).ConfigureAwait(false);
-            }
+            var repo = new StatusRepo {Action = RepoStatus.Downloading};
+            await _repoActionHandler.PerformStatusActionWithBusyHandlingAsync(repo, "Tools",
+                () => _toolsInstaller.DownloadAndInstallTools(repo)).ConfigureAwait(false);
         }
     }
 }

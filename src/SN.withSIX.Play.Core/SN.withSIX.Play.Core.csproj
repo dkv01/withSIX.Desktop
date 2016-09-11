@@ -510,6 +510,8 @@
     <Compile Include="Games\Services\GameServerQueryHandler.cs" />
     <Compile Include="Games\Services\Infrastructure\IContentApiHandler.cs" />
     <Compile Include="Games\Services\GameLauncher\LaunchGameInfo.cs" />
+    <Compile Include="Games\Services\StatusMod.cs" />
+    <Compile Include="Games\Services\StatusRepo.cs" />
     <Compile Include="Glue\Helpers\HaveReactiveItems.cs" />
     <Compile Include="Glue\Helpers\IHaveReactiveItems.cs" />
     <Compile Include="Glue\Helpers\IHaveSelectedItem.cs" />

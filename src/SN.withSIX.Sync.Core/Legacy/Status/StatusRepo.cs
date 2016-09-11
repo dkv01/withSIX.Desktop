@@ -24,7 +24,6 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         long _fileSize;
         long _fileSizeNew;
         long _fileSizeTransfered;
-        StatusMod _owner;
         StatusInfo _statusInfo;
         int _total = -1;
 
@@ -35,7 +34,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
             Info = new StatusInfo(RepoStatus.Waiting, 0, 0, 0, 0);
         }
 
-        public CancellationToken CancelToken { get; }
+        public CancellationToken CancelToken { get; protected set; }
         public StatusInfo Info
         {
             get { return _statusInfo; }
@@ -133,18 +132,6 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         }
 
         #region StatusRepo Members
-
-        public StatusMod Owner
-        {
-            get { return _owner; }
-            set
-            {
-                SetProperty(ref _owner, value);
-                if (value != null)
-                    value.Repo = this;
-            }
-        }
-
         public ObservableCollection<IStatus> Items { get; } = new ObservableCollection<IStatus>();
 
         public int Total

@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using SN.withSIX.Sync.Core.Legacy.Status;
+using SN.withSIX.Play.Core.Games.Services;
 
 namespace SN.withSIX.Play.Applications.Services
 {

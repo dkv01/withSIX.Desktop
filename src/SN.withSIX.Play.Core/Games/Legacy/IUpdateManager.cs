@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Sync.Core.Legacy.Status;
 
 namespace SN.withSIX.Play.Core.Games.Legacy

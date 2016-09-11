@@ -371,7 +371,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
         void MinimizeToTray(Action<bool> callback) {
             if (UserSettings.AppOptions.FirstTimeMinimizedToTray) {
-                _mediator.Notify(new MinimizedEvent());
+                _mediator.Publish(new MinimizedEvent());
                 UserSettings.AppOptions.FirstTimeMinimizedToTray = false;
             }
             Hide();
