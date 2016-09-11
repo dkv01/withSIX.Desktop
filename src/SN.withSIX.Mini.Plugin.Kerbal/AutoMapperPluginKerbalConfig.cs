@@ -8,10 +8,10 @@ using SN.withSIX.Mini.Plugin.Kerbal.Models;
 
 namespace SN.withSIX.Mini.Plugin.Kerbal
 {
-    public class AutoMapperPluginKerbalConfig
+    public class AutoMapperPluginKerbalConfig : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            SetupApiModels(cfg);
+        public AutoMapperPluginKerbalConfig() {
+            SetupApiModels(this);
         }
 
         static void SetupApiModels(IProfileExpression cfg) {

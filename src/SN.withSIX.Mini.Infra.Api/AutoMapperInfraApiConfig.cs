@@ -17,10 +17,10 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
 {
-    public class AutoMapperInfraApiConfig
+    public class AutoMapperInfraApiConfig : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            cfg.CreateMap<ModClientApiJson, ModNetworkContent>()
+        public AutoMapperInfraApiConfig() {
+            CreateMap<ModClientApiJson, ModNetworkContent>()
                 .Include<ModClientApiJsonV3WithGameId, ModNetworkContent>()
                 .BeforeMap((json, content) => {
                     content?.Publishers.Clear();
@@ -29,7 +29,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
             // Does not get inherited?!
-            cfg.CreateMap<ModClientApiJsonV3WithGameId, ModNetworkContent>()
+            CreateMap<ModClientApiJsonV3WithGameId, ModNetworkContent>()
                 .BeforeMap((json, content) => {
                     content?.Publishers.Clear();
                 })
@@ -37,14 +37,14 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
-            cfg.CreateMap<ModClientApiJsonV3WithGameId, ModClientApiJsonV3WithGameId>();
+            CreateMap<ModClientApiJsonV3WithGameId, ModClientApiJsonV3WithGameId>();
 
-            cfg.CreateMap<ContentPublisherApiJson, ContentPublisher>()
+            CreateMap<ContentPublisherApiJson, ContentPublisher>()
                 .ConstructUsing(src => new ContentPublisher(src.Type, src.Id))
                 .ForMember(x => x.Publisher, opt => opt.MapFrom(src => src.Type))
                 .ForMember(x => x.PublisherId, opt => opt.MapFrom(src => src.Id));
 
-            cfg.CreateMap<ContentDtoV2, NetworkContent>()
+            CreateMap<ContentDtoV2, NetworkContent>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
@@ -54,28 +54,28 @@ namespace SN.withSIX.Mini.Infra.Api
                 .Include<MissionDtoV2, MissionNetworkContent>();
 
             // TODO: Why do the above includes not work??
-            cfg.CreateMap<ModDtoV2, ModNetworkContent>()
+            CreateMap<ModDtoV2, ModNetworkContent>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
                 .ForMember(x => x.Version, opt => opt.ResolveUsing(src => src.GetVersion()));
-            cfg.CreateMap<MissionDtoV2, MissionNetworkContent>()
+            CreateMap<MissionDtoV2, MissionNetworkContent>()
                 //.ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
 
-            cfg.CreateMap<CollectionVersionModel, SubscribedCollection>()
+            CreateMap<CollectionVersionModel, SubscribedCollection>()
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.Id, opt => opt.Ignore());
-            cfg.CreateMap<CollectionModelWithLatestVersion, SubscribedCollection>()
+            CreateMap<CollectionModelWithLatestVersion, SubscribedCollection>()
                 .AfterMap((src, dst) => src.LatestVersion.MapTo(dst))
                 .ForMember(x => x.IsOwner,
                     opt => opt.ResolveUsing((src, dst, b, ctx) => src.AuthorId == (Guid) ctx.Items["user-id"]));
 
-            cfg.CreateMap<CollectionServer, CollectionVersionServerModel>();
-            cfg.CreateMap<CollectionVersionServerModel, CollectionServer>();
+            CreateMap<CollectionServer, CollectionVersionServerModel>();
+            CreateMap<CollectionVersionServerModel, CollectionServer>();
 
-            cfg.CreateMap<ModDtoV2, ModDtoV2>();
+            CreateMap<ModDtoV2, ModDtoV2>();
         }
         /*
         static IEnumerable<string> ResolveAliases(ModDto arg) {

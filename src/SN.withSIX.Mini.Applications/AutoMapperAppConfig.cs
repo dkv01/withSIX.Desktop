@@ -17,15 +17,15 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications
 {
-    public class AutoMapperAppConfig
+    public class AutoMapperAppConfig : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            SetupSettingsTabs(cfg);
-            SetupApi(cfg);
+        public AutoMapperAppConfig() {
+            SetupSettingsTabs(this);
+            SetupApi(this);
 
-            cfg.CreateMap<ProgressComponent, FlatProgressInfo>();
-            cfg.CreateMap<ProgressLeaf, FlatProgressInfo>();
-            cfg.CreateMap<ProgressContainer, FlatProgressInfo>();
+            CreateMap<ProgressComponent, FlatProgressInfo>();
+            CreateMap<ProgressLeaf, FlatProgressInfo>();
+            CreateMap<ProgressContainer, FlatProgressInfo>();
         }
 
         static void SetupApi(IProfileExpression cfg) {

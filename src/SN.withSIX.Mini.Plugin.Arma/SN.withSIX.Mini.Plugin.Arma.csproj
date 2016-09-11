@@ -202,7 +202,6 @@
     <Compile Include="ArmaExceptionHandler.cs" />
     <Compile Include="Attributes\RvProfileInfo.cs" />
     <Compile Include="AutoMapperPluginArmaConfig.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="Models\Arma1Game.cs" />
     <Compile Include="Models\Arma1GameSettings.cs" />
     <Compile Include="Models\Arma1StartupParameters.cs" />

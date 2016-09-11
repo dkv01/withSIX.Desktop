@@ -8,10 +8,10 @@ using SN.withSIX.Mini.Plugin.GTA.Models;
 
 namespace SN.withSIX.Mini.Plugin.GTA
 {
-    public class AutoMapperPluginGTAConfig
+    public class AutoMapperPluginGTAConfig : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            SetupApiModels(cfg);
+        public AutoMapperPluginGTAConfig() {
+            SetupApiModels(this);
         }
 
         static void SetupApiModels(IProfileExpression cfg) {

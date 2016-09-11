@@ -207,6 +207,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                     () =>
                         new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()));
             } catch (SQLiteException ex) {
+                MainLog.Logger.FormattedErrorException(ex, "A problem was found with a database");
                 var message =
                     $"There appears to be a problem with your database. If the problem persists, you can delete the databases from:\n{Common.Paths.LocalDataPath} and {Common.Paths.DataPath}" +
                     "\nError message: " + ex.Message;
@@ -242,9 +243,8 @@ namespace SN.withSIX.Mini.Presentation.Core
                 cfg.SetupConverters();
                 foreach (var p in Container.GetAllInstances<Profile>())
                     cfg.AddProfile(p);
-                foreach (var i in _initializers.OfType<IAMInitializer>())
-                    i.ConfigureAutoMapper(cfg);
             }).CreateMapper();
+
             await RunInitializers().ConfigureAwait(false);
         }
 
@@ -438,6 +438,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             //  .Where(x => !x.FullName.Contains("edge") && x.FullName.Contains("SN.withSIX"))
             //.Concat(new[] {typeof (App).Assembly}).Distinct();
             Container.RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
+            Container.RegisterPlugins<IExceptionHandlerHandle>(assemblies, Lifestyle.Singleton);
             Container.RegisterPlugins<Profile>(assemblies);
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(

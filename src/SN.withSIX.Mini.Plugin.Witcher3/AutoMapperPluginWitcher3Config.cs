@@ -8,10 +8,10 @@ using SN.withSIX.Mini.Plugin.Witcher3.Models;
 
 namespace SN.withSIX.Mini.Plugin.Witcher3
 {
-    public class AutoMapperPluginWitcher3Config
+    public class AutoMapperPluginWitcher3Config : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            SetupApiModels(cfg);
+        public AutoMapperPluginWitcher3Config() {
+            SetupApiModels(this);
         }
 
         static void SetupApiModels(IProfileExpression cfg) {

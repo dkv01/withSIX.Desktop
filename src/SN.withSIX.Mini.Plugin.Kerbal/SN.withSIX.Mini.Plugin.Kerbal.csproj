@@ -182,7 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperPluginKerbalConfig.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="Models\KerbalSPGame.cs" />
     <Compile Include="Models\KerbalSPGameSettings.cs" />
     <Compile Include="Models\KerbalSPStartupParameters.cs" />

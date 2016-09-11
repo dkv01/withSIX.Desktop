@@ -9,9 +9,7 @@ using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using ReactiveUI;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -20,7 +18,6 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Infra.Api.Messengers;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
@@ -33,21 +30,17 @@ namespace SN.withSIX.Mini.Infra.Api
         private static string ToProto(IPEndPoint ep, string scheme) => scheme + "://" + ep;
     }
 
-    public class Initializer : IInitializer, IInitializeAfterUI, IAMInitializer
+    public class Initializer : IInitializer, IInitializeAfterUI
     {
         static IDisposable _webServer;
         private readonly IWebApiErrorHandler _errorHandler;
         private readonly IDbContextFactory _factory;
-        private readonly IStateMessengerBus _messenger;
         private IDisposable _ErrorReg;
 
-        public Initializer(IStateMessengerBus messenger, IWebApiErrorHandler errorHandler, IDbContextFactory factory) {
-            _messenger = messenger; // because we need to listen to events..
+        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory) {
             _errorHandler = errorHandler;
             _factory = factory;
         }
-
-        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperInfraApiConfig.Setup(cfg);
 
         public async Task InitializeAfterUI() {
             // We have to run this outside of a DB scope
@@ -109,7 +102,7 @@ namespace SN.withSIX.Mini.Infra.Api
                     https = null;
             }
 
-        retry:
+            retry:
             try {
                 _webServer = Startup.Start(http, https);
             } catch (TargetInvocationException ex) {

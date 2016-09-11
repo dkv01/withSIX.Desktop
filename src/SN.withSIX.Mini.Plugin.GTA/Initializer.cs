@@ -3,22 +3,15 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using AutoMapper;
 using RpfGeneratorTool;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.GTA
 {
-    public class Initializer : IInitializer, IAMInitializer
+    public class Initializer : IInitializer
     {
-        public void ConfigureAutoMapper(IProfileExpression cfg) => AutoMapperPluginGTAConfig.Setup(cfg);
-
         public Task Initialize() {
-            // TODO: Register auto through container??
-            ErrorHandlerr.RegisterHandler(new GTAExceptionHandler());
             var p = new Package();
 
             return TaskExt.Default;

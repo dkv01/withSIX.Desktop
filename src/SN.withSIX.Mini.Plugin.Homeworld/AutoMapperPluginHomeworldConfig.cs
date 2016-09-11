@@ -8,10 +8,10 @@ using SN.withSIX.Mini.Plugin.Homeworld.Models;
 
 namespace SN.withSIX.Mini.Plugin.Homeworld
 {
-    public class AutoMapperPluginHomeworldConfig
+    public class AutoMapperPluginHomeworldConfig : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            SetupApiModels(cfg);
+        public AutoMapperPluginHomeworldConfig() {
+            SetupApiModels(this);
         }
 
         static void SetupApiModels(IProfileExpression cfg) {

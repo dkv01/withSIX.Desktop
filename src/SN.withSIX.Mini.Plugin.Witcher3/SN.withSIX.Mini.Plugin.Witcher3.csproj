@@ -99,7 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperPluginWitcher3Config.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="Models\Witcher3Game.cs" />
     <Compile Include="Models\Witcher3GameSettings.cs" />
     <Compile Include="Models\Witcher3StartupParameters.cs" />

@@ -5,10 +5,8 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Win32;
-using System.Linq;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
 using withSIX.Api.Models.Extensions;

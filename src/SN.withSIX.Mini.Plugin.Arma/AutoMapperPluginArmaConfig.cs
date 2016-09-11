@@ -8,10 +8,10 @@ using SN.withSIX.Mini.Plugin.Arma.Models;
 
 namespace SN.withSIX.Mini.Plugin.Arma
 {
-    public class AutoMapperPluginArmaConfig
+    public class AutoMapperPluginArmaConfig : Profile
     {
-        public static void Setup(IProfileExpression cfg) {
-            SetupApiModels(cfg);
+        public AutoMapperPluginArmaConfig() {
+            SetupApiModels(this);
         }
 
         static void SetupApiModels(IProfileExpression cfg) {

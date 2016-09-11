@@ -36,7 +36,7 @@ namespace SN.withSIX.Mini.Tests
         public void Setup() {
             MappingExtensions.Mapper = new MapperConfiguration(cfg => {
                 cfg.SetupConverters();
-                AutoMapperAppConfig.Setup(cfg);
+                cfg.AddProfile<AutoMapperAppConfig>();
             }).CreateMapper();
         }
 

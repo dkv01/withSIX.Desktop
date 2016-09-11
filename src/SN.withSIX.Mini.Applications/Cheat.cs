@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -183,11 +184,13 @@ namespace SN.withSIX.Mini.Applications
     public class CheatImpl : ICheatImpl, IApplicationService
     {
         public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler, IMessageBus messageBus,
-            IDbContextFactory dbContextFactory) {
+            IDbContextFactory dbContextFactory, IEnumerable<IExceptionHandlerHandle> ehs) {
             Mediator = mediator;
             MessageBus = messageBus;
             DbContextFactory = dbContextFactory;
             ErrorHandlerr.SetExceptionHandler(exceptionHandler);
+            foreach (var eh in ehs)
+                exceptionHandler.RegisterHandler(eh);
         }
 
         public IActionDispatcher Mediator { get; }
