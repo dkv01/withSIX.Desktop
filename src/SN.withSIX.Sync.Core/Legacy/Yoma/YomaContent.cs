@@ -91,10 +91,10 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
                             x.Md5))
                 .Select(x => x.Url);
 
-            var statusRepo = new StatusRepo(token);
-            await _downloader.DownloadFilesAsync(new[] {Url}, statusRepo,
-                remoteFiles.ToDictionary(x => new FileFetchInfo(x),
-                    x => (ITransferStatus) null), FilesDir).ConfigureAwait(false);
+            using (var statusRepo = new StatusRepo(token))
+                await _downloader.DownloadFilesAsync(new[] { Url }, statusRepo,
+                    remoteFiles.ToDictionary(x => new FileFetchInfo(x),
+                        x => (ITransferStatus)null), FilesDir).ConfigureAwait(false);
         }
 
         public virtual void UnpackAddon(YomaConfig.YomaAddon addon) {

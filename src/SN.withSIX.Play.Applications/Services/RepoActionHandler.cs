@@ -44,8 +44,8 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         public void PerformStatusAction(string actionText, Action<StatusRepo> act) {
-            var repo = new StatusRepo();
-            PerformStatusAction(actionText, () => act(repo), repo);
+            using (var repo = new StatusRepo())
+                PerformStatusAction(actionText, () => act(repo), repo);
         }
 
         public async Task PerformStatusActionWithBusyHandlingAsync(StatusRepo repo, string actionText, Func<Task> act) {
@@ -54,8 +54,8 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         public async Task PerformStatusActionAsync(string actionText, Func<StatusRepo, Task> act) {
-            var repo = new StatusRepo();
-            await PerformStatusActionAsync(actionText, () => act(repo), repo).ConfigureAwait(false);
+            using (var repo = new StatusRepo())
+                await PerformStatusActionAsync(actionText, () => act(repo), repo).ConfigureAwait(false);
         }
 
         public async Task PerformUpdaterActionSuspendedAsync(string actionText, Func<Task> act) {
