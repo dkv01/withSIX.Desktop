@@ -23,8 +23,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
     {
         private IDisposable _stateSetter;
 
-        public ElectronAppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver, string[] args)
-            : base(container, dependencyResolver, args) {}
+        public ElectronAppBootstrapper(IMutableDependencyResolver dependencyResolver, string[] args)
+            : base(dependencyResolver, args) {}
 
         protected override void Dispose(bool d) {
             base.Dispose(d);

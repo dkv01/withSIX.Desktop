@@ -99,8 +99,8 @@ namespace SN.withSIX.Mini.Presentation.Core
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
 
-        protected AppBootstrapper(Container container, IMutableDependencyResolver dependencyResolver, string[] args) {
-            Container = container;
+        protected AppBootstrapper(IMutableDependencyResolver dependencyResolver, string[] args) {
+            Container = new Container();
             DependencyResolver = dependencyResolver;
             _args = args;
             CommandMode = DetermineCommandMode();
@@ -126,6 +126,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected virtual void Dispose(bool d) {
             if (!CommandMode)
                 EndOv();
+            Container.Dispose();
         }
 
         protected virtual void EndOv() => End().WaitAndUnwrapException();
@@ -664,6 +665,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         private async Task EndInternal() {
             await RunDeinitializers().ConfigureAwait(false);
             Cheat.SteamSession?.Dispose();
+            await Container.GetInstance<ICacheManager>().Shutdown().ConfigureAwait(false);
         }
 
         async Task RunDeinitializers() {

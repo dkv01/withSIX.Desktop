@@ -40,7 +40,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         private static Task LaunchAppThread() => TaskExt.StartLongRunningTask(async () => {
             await LaunchWithNode().ConfigureAwait(false);
-            _bootstrapper = new ElectronAppBootstrapper(new Container(), Locator.CurrentMutable, _args);
+            _bootstrapper = new ElectronAppBootstrapper(Locator.CurrentMutable, _args);
             await StartupInternal().ConfigureAwait(false);
         });
 

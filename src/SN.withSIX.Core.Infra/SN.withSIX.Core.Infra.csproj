@@ -266,7 +266,6 @@
     <Compile Include="Cache\SecureCache.cs" />
     <Compile Include="Cache\SecureCacheManager.cs" />
     <Compile Include="Cache\UserCache.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthProvider.cs" />
     <Compile Include="Services\AutoMapperWrapper.cs" />

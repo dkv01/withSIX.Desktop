@@ -55,8 +55,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
         }
 
         protected virtual async Task ExitI() {
-            await _cacheManager.Vacuum().ConfigureAwait(false);
             // TODO: Or should we do this on startup, or even periodically?
+            //await _cacheManager.Vacuum().ConfigureAwait(false);
             await _cacheManager.Shutdown().ConfigureAwait(false);
         }
 
