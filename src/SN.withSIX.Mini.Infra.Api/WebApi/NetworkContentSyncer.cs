@@ -264,11 +264,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 if (countCheck && contents.Count < collections.Count)
                     throw new NotFoundException("Could not find all requested collections");
 
-                foreach (var c in contents.Select(x => new {x, Col = collections.FindOrThrow(x.Id)})) {
-                    c.x.MapTo(c.Col);
-                    await HandleContent(c.Col, c.x).ConfigureAwait(false);
-                    c.Col.UpdateState();
-                }
+                foreach (var c in contents.Select(x => new {x, Col = collections.FindOrThrow(x.Id)}))
+                    await MapExistingCollection(c.x, c.Col).ConfigureAwait(false);
             }
 
             private async Task<IReadOnlyCollection<GroupContent>> GetGroupContent(Content col) {
@@ -374,12 +371,32 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 IEnumerable<CollectionModelWithLatestVersion> cols, CollectionVersionDependencyModel ec,
                 List<NetworkCollection> collections) {
                 var rc = cols.First(c2 => c2.Id == ec.CollectionDependencyId.Value);
-                var conv = rc.MapTo<SubscribedCollection>();
+                var conv = await MapCollection(rc, collections).ConfigureAwait(false);
                 collections.Add(conv);
+                return new ContentSpec(conv, ec.Constraint);
+            }
+
+            private async Task MapExistingCollection(CollectionModelWithLatestVersion rc, SubscribedCollection collection) {
+                var userId = await GetUserId().ConfigureAwait(false);
+                var conv = rc.MapTo(collection, opts => opts.Items["user-id"] = userId);
+                // TODO: Allow parent repos to be used for children etc? :-)
+                await HandleContent(conv, rc).ConfigureAwait(false);
+                conv.UpdateState();
+            }
+
+            private async Task<SubscribedCollection> MapCollection(CollectionModelWithLatestVersion rc, List<NetworkCollection> collections = null) {
+                var userId = await GetUserId().ConfigureAwait(false);
+                var conv = rc.MapTo<SubscribedCollection>(opts => opts.Items["user-id"] = userId);
                 // TODO: Allow parent repos to be used for children etc? :-)
                 await HandleContent(conv, rc, collections).ConfigureAwait(false);
                 conv.UpdateState();
-                return new ContentSpec(conv, ec.Constraint);
+                return conv;
+            }
+
+            private async Task<Guid> GetUserId() {
+                var settings = await _locator.GetSettingsContext().GetSettings().ConfigureAwait(false);
+                var userId = settings.Secure.Login.IsLoggedIn ? settings.Secure.Login.Account.Id : Guid.Empty;
+                return userId;
             }
 
             private async Task<Content> ConvertToGroupOrRepoContent(CollectionVersionDependencyModel x, Collection col,
@@ -501,12 +518,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 if (contents.Count < collectionIds.Count)
                     throw new NotFoundException("Could not find all requested collections");
                 var collections = new List<SubscribedCollection>();
-                foreach (var c in contents) {
-                    var col = c.MapTo<SubscribedCollection>();
-                    await HandleContent(col, c).ConfigureAwait(false);
-                    col.UpdateState();
-                    collections.Add(col);
-                }
+                foreach (var c in contents)
+                    collections.Add(await MapCollection(c).ConfigureAwait(false));
                 return collections;
             }
         }

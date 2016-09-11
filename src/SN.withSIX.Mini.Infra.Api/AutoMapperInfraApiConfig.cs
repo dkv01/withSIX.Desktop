@@ -68,7 +68,9 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.Id, opt => opt.Ignore());
             cfg.CreateMap<CollectionModelWithLatestVersion, SubscribedCollection>()
-                .AfterMap((src, dst) => src.LatestVersion.MapTo(dst));
+                .AfterMap((src, dst) => src.LatestVersion.MapTo(dst))
+                .ForMember(x => x.IsOwner,
+                    opt => opt.ResolveUsing((src, dst, b, ctx) => src.AuthorId == (Guid) ctx.Items["user-id"]));
 
             cfg.CreateMap<CollectionServer, CollectionVersionServerModel>();
             cfg.CreateMap<CollectionVersionServerModel, CollectionServer>();

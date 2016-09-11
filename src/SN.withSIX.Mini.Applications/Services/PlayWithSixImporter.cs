@@ -76,7 +76,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 var ss = pwsSettings.GameOptions.GameSettingsController.Profiles.FirstOrDefault()?.GameSettings;
                 if (ss != null && ss.ContainsKey(g.Id))
                     HandleGameSettings(pwsSettings, g);
-                //HandleGameContent(pwsSettings, g);
+                HandleGameContent(pwsSettings, g);
             }
 
             // TODO
@@ -88,18 +88,9 @@ namespace SN.withSIX.Mini.Applications.Services
         void HandleGameContent(UserSettings pwsSettings, Game game) {
             foreach (var c in pwsSettings.ModOptions.CustomModSets.Where(x => x.GameId == game.Id))
                 ConvertToCollection(c, game);
-            foreach (var c in pwsSettings.ModOptions.SubscribedModSets.Where(x => x.GameId == game.Id))
-                ConvertToCollection(c, game);
             /*            foreach (var c in pwsSettings.ModOptions.Favorites) {
                             var existing = game.Collections.FirstOrDefault(x => x.Id == c.)
                         }*/
-        }
-
-        static void ConvertToCollection(SubscribedCollection p0, Game game) {
-            var exists = game.SubscribedCollections.Any(x => x.Id == p0.CollectionID);
-            if (exists)
-                return;
-            game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.CollectionID, game.Id, GetName(p0)));
         }
 
         void ConvertToCollection(CustomCollection p0, Game game) {
@@ -107,25 +98,18 @@ namespace SN.withSIX.Mini.Applications.Services
             var exists = isPublished
                 ? game.SubscribedCollections.Any(x => x.Id == p0.PublishedId.Value)
                 : game.LocalCollections.Any(x => x.Id == p0.ID);
-            if (exists)
+            if (exists || isPublished)
                 return;
-
-            // TODO: We can only support Private Published Collections once we have a stable Bearer token to use...
-            if (isPublished)
-                game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.PublishedId.Value, game.Id, GetName(p0)));
-            else {
-                // TODO: If published, the collection should become a SubscribedCollection? Perhaps with IsOwner flag??
-                var modNames = p0.AdditionalMods.Concat(p0.OptionalMods).Concat(p0.Mods).Where(x => x != null)
-                    .DistinctBy(x => x.ToLower());
-                var packagedContents = game.Contents.OfType<IHavePackageName>();
-                var contentDict = modNames.ToDictionary(x => x,
-                    x =>
-                        packagedContents.FirstOrDefault(
-                            c => c.PackageName.Equals(x, StringComparison.CurrentCultureIgnoreCase)) ??
-                        CreateLocal(game, x));
-                game.Contents.Add(new LocalCollection(game.Id, GetName(p0),
-                    contentDict.Values.Select(x => new ContentSpec((Content) x)).ToList()));
-            }
+            var modNames = p0.AdditionalMods.Concat(p0.OptionalMods).Concat(p0.Mods).Where(x => x != null)
+                .DistinctBy(x => x.ToLower());
+            var packagedContents = game.Contents.OfType<IHavePackageName>();
+            var contentDict = modNames.ToDictionary(x => x,
+                x =>
+                    packagedContents.FirstOrDefault(
+                        c => c.PackageName.Equals(x, StringComparison.CurrentCultureIgnoreCase)) ??
+                    CreateLocal(game, x));
+            game.Contents.Add(new LocalCollection(game.Id, GetName(p0),
+                contentDict.Values.Select(x => new ContentSpec((Content)x)).ToList()));
             // TODO: We should synchronize the network again before executing actions..
         }
 

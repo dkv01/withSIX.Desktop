@@ -12,6 +12,7 @@ using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
@@ -56,13 +57,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public CollectionScope Scope { get; set; }
         public long Size { get; set; }
         public long SizePacked { get; set; }
-    }
-
-    public enum TypeScope
-    {
-        Local,
-        Subscribed,
-        Published
     }
 
     public abstract class GameApiModelBase

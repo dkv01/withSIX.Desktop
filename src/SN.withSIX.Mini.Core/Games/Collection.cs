@@ -122,6 +122,17 @@ namespace SN.withSIX.Mini.Core.Games
             Contents.Remove(existing);
             Contents.Add(new ContentSpec(n, existing.Constraint));
         }
+
+        [IgnoreDataMember]
+        public abstract TypeScope TypeScope { get; }
+    }
+
+
+    public enum TypeScope
+    {
+        Local,
+        Subscribed,
+        Published
     }
 
     [DataContract]
@@ -146,6 +157,8 @@ namespace SN.withSIX.Mini.Core.Games
             Size = ag.Item1;
             SizePacked = ag.Item2;
         }
+
+        public override TypeScope TypeScope => TypeScope.Local;
     }
 
     [DataContract]
@@ -175,6 +188,10 @@ namespace SN.withSIX.Mini.Core.Games
     public class SubscribedCollection : NetworkCollection, IHaveGroup
     {
         public SubscribedCollection(Guid id, Guid gameId, string name) : base(id, gameId, name) {}
+        public override TypeScope TypeScope => IsOwner ? TypeScope.Published : TypeScope.Subscribed;
+
+        [DataMember]
+        public bool IsOwner { get; protected set; }
     }
 
     [DataContract]
