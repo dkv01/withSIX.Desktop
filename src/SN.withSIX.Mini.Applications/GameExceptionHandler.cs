@@ -80,10 +80,11 @@ namespace SN.withSIX.Mini.Applications
             => new InformationalUserError(ex, "Please reconfigure the Sync directory", ex.Message);
 
         protected static RecoverableUserError Handle(HostListExhausted ex, string action)
-            => new RecoverableUserError(ex, @"There was an issue downloading the content.
+            => new RecoverableUserError(ex, "Download error",
+                @"There was an issue downloading the content.
 Network or connection issues might prevent the download to succeed.
 
-Please confirm your internet connection, and try again", "Download error");
+Please confirm your internet connection, and try again");
     }
 
     public class ConfigureGameFirstUserError : RecoverableUserError
