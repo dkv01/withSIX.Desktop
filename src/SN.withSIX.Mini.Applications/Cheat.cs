@@ -152,7 +152,7 @@ namespace SN.withSIX.Mini.Applications
         private static readonly Lazy<IPEndPoint> httpsAddress =
             new Lazy<IPEndPoint>(() => new IPEndPoint(srvAddress, ApiPort));
         public static IPEndPoint HttpsAddress => httpsAddress.Value;
-        public const int SyncVersion = 11;
+        public const int SyncVersion = 14;
 
         public static string InternalVersion { get; set; }
         public static string ProductVersion { get; set; }
