@@ -192,17 +192,23 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 var sourcePakPath =
                     Path.GetTempPath().ToAbsoluteDirectoryPath().GetChildFileWithName($"{Mod.PackageName}.pak");
                 // TODO: Delete after usage
+                var toolDir = _gameDir.GetChildDirectoryWithName("win32");
+                await CreatePakFile(sourceDir, toolDir, sourcePakPath).ConfigureAwait(false);
+                return sourcePakPath;
+            }
+
+            private static async Task CreatePakFile(IAbsoluteDirectoryPath sourceDir, IAbsoluteDirectoryPath toolDir,
+                IAbsoluteFilePath sourcePakPath) {
                 var r = await
                     Tools.ProcessManager.LaunchAndGrabAsync(
                         new BasicLaunchInfo(new ProcessStartInfo(
-                            _gameDir.GetChildFileWithName(@"win32\asset_packer.exe").ToString(),
+                            toolDir.GetChildFileWithName(@"asset_packer.exe").ToString(),
                             new[] {sourceDir.ToString(), sourcePakPath.ToString()}
                                 .CombineParameters()))).ConfigureAwait(false);
                 if (r.ExitCode != 0) {
                     throw new Exception(
                         $"Failed creating a pak file for the mod. Code: {r.ExitCode} Output: {r.StandardOutput} Error: {r.StandardError}");
                 }
-                return sourcePakPath;
             }
 
             protected override async Task UninstallImpl() {
