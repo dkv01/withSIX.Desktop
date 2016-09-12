@@ -5,9 +5,9 @@ namespace SN.withSIX.Play.Core.Games.Services
 {
     public class StatusRepo : SN.withSIX.Sync.Core.Legacy.Status.StatusRepo, IDisposable
     {
-        private CancellationTokenSource _cts;
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public StatusRepo() : base() {
+        public StatusRepo() {
             CancelToken = _cts.Token;
         }
 
