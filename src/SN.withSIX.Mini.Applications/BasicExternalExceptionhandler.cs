@@ -8,7 +8,7 @@ using SN.withSIX.Core.Applications.Errors;
 
 namespace SN.withSIX.Mini.Applications
 {
-    public abstract class BasicExternalExceptionhandler : IExceptionHandlerHandle
+    public abstract class BasicExternalExceptionhandler : IHandleExceptionPlugin
     {
         public abstract UserError HandleException(Exception ex, string action = "Action");
 

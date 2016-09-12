@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ReactiveUI;
 
@@ -16,6 +17,7 @@ namespace SN.withSIX.Core.Applications.Errors
     public interface IExceptionHandler : IExceptionHandlerHandle
     {
         Task<bool> TryExecuteAction(Func<Task> action, string message = null);
-        void RegisterHandler(IExceptionHandlerHandle exceptionHandlerHandle);
     }
+
+    public interface IHandleExceptionPlugin : IExceptionHandlerHandle {}
 }

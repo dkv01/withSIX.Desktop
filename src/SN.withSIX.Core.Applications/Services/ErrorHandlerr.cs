@@ -47,8 +47,5 @@ namespace SN.withSIX.Core.Applications.Services
 
         public static UserError HandleException(Exception ex, string action = "Action")
             => _exceptionHandler.HandleException(ex, action);
-
-
-        public static void RegisterHandler(IExceptionHandlerHandle exceptionHandlerHandle) => _exceptionHandler.RegisterHandler(exceptionHandlerHandle);
     }
 }

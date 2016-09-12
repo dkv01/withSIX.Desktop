@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using ReactiveUI;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Services;
 
@@ -16,5 +18,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }
+
+        public UnhandledExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
     }
 }

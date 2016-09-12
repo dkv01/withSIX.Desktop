@@ -426,20 +426,14 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterRegisteredServices();
 
             Container.RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
-            //_container.RegisterSingleton<IDomainEventHandlerGrabber, DomainEventHandlerGrabber>();
-
-            //_container.Register<IDepResolver, DepResolver>();
             var assemblies =
                 new[] {
                     pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies,
                     coreAssemblies
                 }
-                    .SelectMany(x => x).ToArray();
-            //AppDomain.CurrentDomain.GetAssemblies()
-            //  .Where(x => !x.FullName.Contains("edge") && x.FullName.Contains("SN.withSIX"))
-            //.Concat(new[] {typeof (App).Assembly}).Distinct();
+                    .SelectMany(x => x).Distinct().ToArray();
             Container.RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
-            Container.RegisterPlugins<IExceptionHandlerHandle>(assemblies, Lifestyle.Singleton);
+            Container.RegisterPlugins<IHandleExceptionPlugin>(assemblies, Lifestyle.Singleton);
             Container.RegisterPlugins<Profile>(assemblies);
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(

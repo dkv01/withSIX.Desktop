@@ -184,13 +184,11 @@ namespace SN.withSIX.Mini.Applications
     public class CheatImpl : ICheatImpl, IApplicationService
     {
         public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler, IMessageBus messageBus,
-            IDbContextFactory dbContextFactory, IEnumerable<IExceptionHandlerHandle> ehs) {
+            IDbContextFactory dbContextFactory) {
             Mediator = mediator;
             MessageBus = messageBus;
             DbContextFactory = dbContextFactory;
             ErrorHandlerr.SetExceptionHandler(exceptionHandler);
-            foreach (var eh in ehs)
-                exceptionHandler.RegisterHandler(eh);
         }
 
         public IActionDispatcher Mediator { get; }

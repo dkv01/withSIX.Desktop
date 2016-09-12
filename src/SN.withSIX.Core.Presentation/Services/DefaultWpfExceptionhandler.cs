@@ -18,9 +18,13 @@ using SN.withSIX.Sync.Core.Repositories.Internals;
 
 namespace SN.withSIX.Core.Presentation.Services
 {
-    public class DefaultExceptionHandler : IExceptionHandler
+    public abstract class DefaultExceptionHandler : IExceptionHandler
     {
-        readonly ICollection<IExceptionHandlerHandle> _handlers = new List<IExceptionHandlerHandle>();
+        private readonly ICollection<IHandleExceptionPlugin> _handlers;
+
+        protected DefaultExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) {
+            _handlers = ehs.ToList();
+        }
 
         public UserError HandleException(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
@@ -43,9 +47,6 @@ namespace SN.withSIX.Core.Presentation.Services
             return await UserError.Throw(HandleException(e)) != RecoveryOptionResult.FailOperation;
             //return false;
         }
-
-        public void RegisterHandler(IExceptionHandlerHandle exceptionHandlerHandle)
-            => _handlers.Add(exceptionHandlerHandle);
 
         protected virtual UserError HandleExceptionInternal(Exception ex, string action = "Action")
             => Handle((dynamic) ex, action);
