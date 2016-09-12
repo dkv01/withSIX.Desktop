@@ -50,9 +50,10 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected ModNetworkGroupContent() {}
 
-        public ModNetworkGroupContent(Guid id, string packageName, Guid gameId)
+        public ModNetworkGroupContent(Guid id, string packageName, Guid gameId, string version)
             : base(packageName, gameId) {
             Id = id;
+            Version = version;
         }
     }
 }

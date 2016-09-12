@@ -406,7 +406,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                         c => c.PackageName.Equals(x.Dependency, StringComparison.CurrentCultureIgnoreCase));
                 if (gc != null)
                     // TODO: dependencies etc
-                    return new ModNetworkGroupContent(gc.Id, gc.PackageName, gc.GameId);
+                    return new ModNetworkGroupContent(gc.Id, gc.PackageName, gc.GameId, gc.Version);
                 return await HandleRepoContent(x, col, customRepos, game).ConfigureAwait(false);
             }
 

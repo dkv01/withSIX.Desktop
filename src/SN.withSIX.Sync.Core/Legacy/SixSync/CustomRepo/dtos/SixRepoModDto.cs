@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using SN.withSIX.Core.Extensions;
 using YamlDotNet.Serialization;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
@@ -55,6 +56,8 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
         [YamlMember(Alias = ":type")]
         public string Type { get; set; }
 
-        public string GetVersionInfo() => ModVersion ?? $"{Version}-{Guid}";
+        string GetVersionPart() => Guid == null ? null : new Guid(Guid).ToShortId().ToString();
+
+        public string GetVersionInfo() => ModVersion ?? $"{Version}-{GetVersionPart()}";
     }
 }
