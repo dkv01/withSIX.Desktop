@@ -13,6 +13,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
@@ -66,33 +67,45 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             } catch (OperationCanceledException e) {
                 _fileOps.DeleteIfExists(tmpFile.ToString());
                 throw CreateTimeoutException(spec, e);
-            } catch (WebException e) {
+            } catch (WebException ex) {
                 _fileOps.DeleteIfExists(tmpFile.ToString());
-                var cancelledEx = e.InnerException as OperationCanceledException;
+                var cancelledEx = ex.InnerException as OperationCanceledException;
                 if (cancelledEx != null)
                     throw CreateTimeoutException(spec, cancelledEx);
-                if (e.Status == WebExceptionStatus.RequestCanceled)
-                    throw CreateTimeoutException(spec, e);
+                if (ex.Status == WebExceptionStatus.RequestCanceled)
+                    throw CreateTimeoutException(spec, ex);
 
-                GenerateDownloadException(spec, e);
+                var response = ex.Response as HttpWebResponse;
+                if (response == null)
+                    throw GenerateDownloadException(spec, ex);
+
+                switch (response.StatusCode) {
+                case HttpStatusCode.NotFound:
+                    throw new RequestFailedException("Received a 404: NotFound response", ex);
+                case HttpStatusCode.Forbidden:
+                    throw new RequestFailedException("Received a 403: Forbidden response", ex);
+                case HttpStatusCode.Unauthorized:
+                    throw new RequestFailedException("Received a 401: Unauthorized response", ex);
+                }
+                throw GenerateDownloadException(spec, ex);
             }
         }
 
-        static void GenerateDownloadException(TransferSpec spec, WebException e) {
+        static Exception GenerateDownloadException(TransferSpec spec, WebException e) {
             // TODO: Or should we rather abstract this away into the downloader exceptions instead?
             var r = e.Response as HttpWebResponse;
             if (r != null) {
-                throw new HttpDownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e) {
+                return new HttpDownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e) {
                     StatusCode = r.StatusCode
                 };
             }
             var r2 = e.Response as FtpWebResponse;
             if (r2 != null) {
-                throw new FtpDownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e) {
+                return new FtpDownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e) {
                     StatusCode = r2.StatusCode
                 };
             }
-            throw new DownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e);
+            return new DownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e);
         }
 
         static Timer SetupTransferProgress(IWebClient webClient, ITransferProgress transferProgress) {

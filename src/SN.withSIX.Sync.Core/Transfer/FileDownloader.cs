@@ -78,7 +78,11 @@ namespace SN.withSIX.Sync.Core.Transfer
         public ProtocolNotSupported(string scheme) : base(scheme) {}
     }
 
-    
+    public class RequestFailedException : Exception {
+        public RequestFailedException(string message, Exception ex) : base(message, ex) {}
+    }
+
+
     public class DownloadException : TransferException
     {
         public DownloadException() {}

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NDepend.Path;
 
@@ -12,6 +13,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
 {
@@ -120,9 +122,24 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                     $"Connection reset (PID: {result.Id}, Status: {result.ExitCode}). {CreateTransferExceptionMessage(spec)}",
                     result.StandardOutput + result.StandardError, result.StartInfo.Arguments);
             case 3:
-                throw new ZsyncSoftException(
-                    $"Could not retrieve file (PID: {result.Id}, Status: {result.ExitCode}). {CreateTransferExceptionMessage(spec)}",
-                    result.StandardOutput + result.StandardError, result.StartInfo.Arguments);
+                var statusCode = FindStatusCode("" + result.StandardOutput + result.StandardError);
+                try {
+                    throw new ZsyncSoftException(
+                        $"Could not retrieve file (PID: {result.Id}, Status: {result.ExitCode}). {CreateTransferExceptionMessage(spec)}",
+                        result.StandardOutput + result.StandardError, result.StartInfo.Arguments);
+                } catch (ZsyncSoftException ex) {
+                    switch (statusCode) {
+                    case -1:
+                        throw;
+                    case 404:
+                        throw new RequestFailedException("Received a 404: NotFound response", ex);
+                    case 403:
+                        throw new RequestFailedException("Received a 403: Forbidden response", ex);
+                    case 401:
+                        throw new RequestFailedException("Received a 401: Unauthorized response", ex);
+                    }
+                    throw;
+                }
             case 21:
                 throw new ZsyncSoftProgramException(
                     $"Retrieved file but could not rename (PID: {result.Id}, Status: {result.ExitCode}). {CreateTransferExceptionMessage(spec)}",
@@ -145,6 +162,16 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         static string FixUrl(Uri uri) => uri.Scheme == "zsync" || uri.Scheme == "zsyncs"
             ? uri.ReplaceZsyncProtocol() + ".zsync"
             : uri + ".zsync";
+
+        private static readonly Regex rx = new Regex(@"Got HTTP (\d+) (expected \d+)");
+        static int FindStatusCode(string output) {
+            if (output == null)
+                return -1;
+            var m = rx.Match(output);
+            if (m.Success)
+                return Convert.ToInt32(m.Groups[1].Value);
+            return -1;
+        }
     }
 
     public class ZsyncCygwinProgramException : ZsyncSoftProgramException, IProgramError, ICygwinProgramError
