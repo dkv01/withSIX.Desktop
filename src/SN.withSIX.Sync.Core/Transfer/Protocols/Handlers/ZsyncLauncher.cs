@@ -30,6 +30,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
         public IAbsoluteFilePath File { get; }
         public CancellationToken CancelToken { get; set; }
         public IAbsoluteFilePath ExistingFile { get; set; }
+        public bool Verbose { get; set; }
     }
 
     public interface IZsyncLauncher
@@ -148,10 +149,10 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
             : GetArgsWithoutAuthInfo(p);
 
         static string GetArgsWithoutAuthInfo(ZsyncParams p) =>
-            $"{GetInputFile(p)}{GetDebugInfo()}-o \"{HandlePath(p.File)}\" \"{p.Uri.EscapedUri()}\"";
+            $"{GetInputFile(p)}{GetDebugInfo(p)}-o \"{HandlePath(p.File)}\" \"{p.Uri.EscapedUri()}\"";
 
         string GetArgsWithAuthInfo(ZsyncParams p) =>
-            $"{GetInputFile(p)}{GetAuthInfo(p.Uri)}{GetDebugInfo()}-o \"{HandlePath(p.File)}\" \"{GetUri(p.Uri).EscapedUri()}\"";
+            $"{GetInputFile(p)}{GetAuthInfo(p.Uri)}{GetDebugInfo(p)}-o \"{HandlePath(p.File)}\" \"{GetUri(p.Uri).EscapedUri()}\"";
 
         string GetAuthInfo(Uri uri) {
             var hostname = uri.Host;
@@ -162,7 +163,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
             return $"-A {hostname}={authInfo.Username}:{authInfo.Password} ";
         }
 
-        static string GetDebugInfo() => Common.Flags.Verbose ? "-v " : null;
+        static string GetDebugInfo(ZsyncParams p) => p.Verbose ? "-v " : null;
 
         Uri GetUri(Uri uri) => !string.IsNullOrWhiteSpace(uri.UserInfo) ? _authProvider.HandleUriAuth(uri) : uri;
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NDepend.Path;
-
+using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -71,7 +71,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         private static ZsyncParams GetParams(TransferSpec spec) => new ZsyncParams(spec.Progress,
             new Uri(FixUrl(spec.Uri)), spec.LocalFile) {
                 CancelToken = spec.CancellationToken,
-                ExistingFile = spec.ExistingFile
+                ExistingFile = spec.ExistingFile,
+                Verbose = Common.Flags.Verbose
             };
 
         public override void Download(TransferSpec spec) {
