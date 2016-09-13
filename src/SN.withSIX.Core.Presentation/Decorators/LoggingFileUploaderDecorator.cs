@@ -36,7 +36,11 @@ namespace SN.withSIX.Core.Presentation.Decorators
         }
 
         protected override void OnError(TransferSpec spec, Exception e) {
-            this.Logger().Error("Failed upload of {0} to {1} ({2})", spec.LocalFile, spec.Uri, e.Message);
+            var msg = $"Failed upload of {spec.LocalFile} to {spec.Uri} ({e.Message})";
+            if (spec.Progress.Tries <= 1)
+                this.Logger().Error(msg);
+            else
+                this.Logger().Warn(msg);
         }
     }
 }

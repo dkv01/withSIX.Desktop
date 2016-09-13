@@ -31,8 +31,11 @@ namespace SN.withSIX.Core.Presentation.Decorators
         protected override void OnFinished(TransferSpec spec)
             => this.Logger().Info("Finished download of {0} to {1}", spec.Uri, spec.LocalFile);
 
-        protected override void OnError(TransferSpec spec, Exception e) => this.Logger()
-            .Error("Failed download of {0} to {1}, try {2} ({3})\nOutput: {4}\n\nError report: {5}", spec.Uri,
-                spec.LocalFile, spec.Progress.Tries, e.Message, spec.Progress.Output, e.Format(1));
+        protected override void OnError(TransferSpec spec, Exception e) {
+            var msg =
+                $"Failed download of {spec.Uri} to {spec.LocalFile}, try {spec.Progress.Tries} ({e.Message})\nOutput: {spec.Progress.Output}\n\nError report: {e.Format(1)}";
+            if (spec.Progress.Tries <= 1) this.Logger().Error(msg);
+            else this.Logger().Warn(msg);
+        }
     }
 }
