@@ -62,7 +62,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public Dictionary<Guid, ContentStatus> Content { get; set; }
         public bool GameLock { get; set; }
         public bool IsRunning { get; set; }
-        public bool GlobalLock { get; set; }
         public bool CanAbort { get; set; }
         public ActionTabState ActionInfo { get; set; }
         public List<UserErrorModel> UserErrors { get; set; }

@@ -22,19 +22,8 @@ namespace SN.withSIX.Mini.Applications.Services
 {
     public class Excecutor : IUsecaseExecutor
     {
-        public async Task<TResponse> ApiAction<TResponse>(Func<Task<TResponse>> action, object command, Func<string, Exception, Exception> createException) {
-            //var isUserAction = command.GetType().GetAttribute<ApiUserActionAttribute>() != null;
-            var isCommand = command is IWrite;
-
-            if (isCommand)
-                await new GlobalLocked().Raise().ConfigureAwait(false);
-            try {
-                return await ExecuteCommand(action, command, createException).ConfigureAwait(false);
-            } finally {
-                if (isCommand)
-                    await new GlobalUnlocked().Raise().ConfigureAwait(false);
-            }
-        }
+        public Task<TResponse> ApiAction<TResponse>(Func<Task<TResponse>> action, object command,
+            Func<string, Exception, Exception> createException) => ExecuteCommand(action, command, createException);
 
         public async Task<TResponse> ExecuteCommand<TResponse>(Func<Task<TResponse>> action, object command, Func<string, Exception, Exception> createException) {
             retry:
@@ -90,7 +79,4 @@ namespace SN.withSIX.Mini.Applications.Services
         private static NotEnoughFreeDiskSpaceException GetException(int error, Exception ex)
             => new NotEnoughFreeDiskSpaceException(WindowsAPIErrorCodes.ToString(error), ex);
     }
-    public class GlobalLocked : ISyncDomainEvent { }
-
-    public class GlobalUnlocked : ISyncDomainEvent { }
 }

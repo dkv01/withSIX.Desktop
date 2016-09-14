@@ -488,27 +488,14 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterNotificationHandlers(typeof (INotificationHandler<>),
                 typeof (IAsyncNotificationHandler<>));
 
+            // Decorators execute in reverse-order. So the last one executes first, and so forth.
             Container.RegisterDecorator<IMediator, ActionNotifierDecorator>(Lifestyle.Singleton);
-            Container.RegisterDecorator<IMediator, GameWriteLockDecorator>(Lifestyle.Singleton);
             Container.RegisterDecorator<IMediator, DbScopeDecorator>(Lifestyle.Singleton);
-
-            SimpleInjectorContainerExtensions.RegisterMediatorDecorators(Container);
-
-            // We now handle this over the WriteLock decorator instead..
-            /*
-            //var t = typeof (INeedGameContents);
-            _container.RegisterDecorator(typeof (IRequestHandler<,>),
-                typeof (RequestHandlerRequireGameContentDecorator<,>),
-                Lifestyle.Singleton); //  context => t.IsAssignableFrom(context.ServiceType)
-            _container.RegisterDecorator(typeof (IAsyncRequestHandler<,>),
-                typeof (AsyncRequestHandlerRequireGameContentDecorator<,>), Lifestyle.Singleton); // context => t.IsAssignableFrom(context.ServiceType)
-            */
-
-            //_container.RegisterDecorator(typeof (IRequestHandler<,>), typeof (RequestHandlerWriteLockDecorator<,>), Lifestyle.Singleton);
-            //_container.RegisterDecorator(typeof (IAsyncRequestHandler<,>), typeof (AsyncRequestHandlerWriteLockDecorator<,>), Lifestyle.Singleton);
-
-            // DOesnt help ;-D
-            Container.RegisterDecorator<IMediator, RequestMemoryDecorator>(Lifestyle.Singleton);
+            Container.RegisterDecorator<IMediator, MediatorValidationDecorator>(Lifestyle.Singleton);
+            Container.RegisterDecorator<IMediator, GameWriteLockDecorator>(Lifestyle.Singleton);
+            if (Common.AppCommon.Type < ReleaseType.Beta)
+                Container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
+            //Container.RegisterDecorator<IMediator, RequestMemoryDecorator>(Lifestyle.Singleton);
         }
 
         static Tuple<IWebClient, Action> OnExportLifetimeContextCreator() {

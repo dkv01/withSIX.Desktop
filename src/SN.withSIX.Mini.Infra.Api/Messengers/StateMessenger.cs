@@ -56,7 +56,6 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<ContentStatusChanged>, INotificationHandler<ActionTabStateUpdate>,
         INotificationHandler<UninstallActionCompleted>, INotificationHandler<GameLaunched>,
         INotificationHandler<GameTerminated>,
-        INotificationHandler<GlobalLocked>, INotificationHandler<GlobalUnlocked>,
         IAsyncNotificationHandler<ActionNotification>
     {
         readonly IHubContext<IStatusClientHub> _hubContext =
@@ -82,10 +81,6 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         public void Handle(GameLaunched notification) => _hubContext.Clients.All.LaunchedGame(notification.Game.Id);
 
         public void Handle(GameTerminated notification) => _hubContext.Clients.All.TerminatedGame(notification.Game.Id);
-
-        public void Handle(GlobalLocked notification) => _hubContext.Clients.All.Locked();
-
-        public void Handle(GlobalUnlocked notification) => _hubContext.Clients.All.Unlocked();
 
         public void Handle(UninstallActionCompleted notification) {
             _hubContext.Clients.All.ContentStateChanged(new ContentStateChange {
