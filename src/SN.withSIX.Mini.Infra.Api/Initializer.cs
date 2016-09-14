@@ -18,6 +18,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Infra.Api.Messengers;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
@@ -35,11 +36,13 @@ namespace SN.withSIX.Mini.Infra.Api
         static IDisposable _webServer;
         private readonly IWebApiErrorHandler _errorHandler;
         private readonly IDbContextFactory _factory;
+        private readonly IStateMessengerBus _stateMessenger;
         private IDisposable _ErrorReg;
 
-        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory) {
+        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory, IStateMessengerBus stateMessenger) {
             _errorHandler = errorHandler;
             _factory = factory;
+            _stateMessenger = stateMessenger;
         }
 
         public async Task InitializeAfterUI() {
@@ -53,6 +56,7 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
         public Task Initialize() {
+            _stateMessenger.Initialize();
             // TODO: ON startup or at other times too??
             return TaskExt.Default;
         }

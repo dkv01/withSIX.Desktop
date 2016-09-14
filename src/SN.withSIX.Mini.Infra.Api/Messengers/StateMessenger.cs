@@ -5,9 +5,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNet.SignalR;
 using ReactiveUI;
-using MediatR;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
@@ -21,17 +21,23 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api.Messengers
 {
-    public interface IStateMessengerBus {}
+    public interface IStateMessengerBus
+    {
+        void Initialize();
+    }
 
-    public class StateMessengerBus : IStateMessengerBus, IInfrastructureService
+    public class StateMessengerBus : IStateMessengerBus, IInfrastructureService, IDisposable
     {
         private readonly IHubContext<IStatusClientHub> _hubContext =
             GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
-        private readonly IMessageBus _messageBus;
+        private readonly IDisposable _subscription;
 
         public StateMessengerBus(IMessageBus messageBus) {
-            _messageBus = messageBus;
-            messageBus.Listen<GameLockChanged>().Subscribe(Handle);
+            _subscription = messageBus.Listen<GameLockChanged>().Subscribe(Handle);
+        }
+
+        public void Dispose() {
+            _subscription.Dispose();
         }
 
         private void Handle(GameLockChanged notification) {
@@ -39,6 +45,10 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 _hubContext.Clients.All.LockedGame(notification.GameId, notification.CanAbort);
             else
                 _hubContext.Clients.All.UnlockedGame(notification.GameId);
+        }
+
+        public void Initialize() {
+            // Dummy because we need to setup this listener..
         }
     }
 
