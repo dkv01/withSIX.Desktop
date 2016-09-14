@@ -107,9 +107,7 @@ namespace SN.withSIX.Mini.Applications
             var gc = _locator.GetGameContext();
             await HandleMissingGames(gc).ConfigureAwait(false);
             var migrated = await gc.Migrate(GetMigrations()).ConfigureAwait(false);
-            if (migrated) {
-                await _cacheMan.Vacuum().ConfigureAwait(false);
-            }
+            //if (migrated) await _cacheMan.Vacuum().ConfigureAwait(false);
             //await Task.Run(() => gc.Migrate()).ConfigureAwait(false);
         }
 
