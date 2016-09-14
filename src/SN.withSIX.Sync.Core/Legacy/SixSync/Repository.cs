@@ -103,11 +103,11 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 : new RepoMainConfig();
         }
 
-        public virtual void CreatePackZsyncFile(string fileName) {
+        public virtual void CreateZsyncFile(string fileName) {
             Contract.Requires<ArgumentNullException>(fileName != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(fileName));
 
-            _zsyncMake.CreateZsyncFile(GetPackFile(fileName));
+            _zsyncMake.CreateZsyncFile(GetPackFile(fileName), ZsyncMakeOptions.Overwrite);
         }
 
         protected virtual IAbsoluteFilePath GetPackFile(string fileName) => PackFolder.GetChildFileWithName(fileName);
@@ -351,7 +351,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             Pack(file, dstFile);
 
             if (createZsyncFiles && ArchiveFormat != ".7z")
-                CreatePackZsyncFile(gz);
+                CreateZsyncFile(gz);
 
             WdVersion.Pack[gz] = RepoTools.TryGetChecksum(dstFile, gz);
         }
@@ -362,10 +362,10 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         protected virtual void FixMissingZsyncFiles() {
             if (!File.Exists(GetPackFile(VersionFileName) + ".zsync"))
-                CreatePackZsyncFile(VersionFileName);
+                CreateZsyncFile(VersionFileName);
 
             foreach (var pair in WdVersion.Pack.Where(pair => !File.Exists(GetPackFile(pair.Key) + ".zsync")))
-                CreatePackZsyncFile(pair.Key);
+                CreateZsyncFile(pair.Key);
 
             foreach (var zs in Directory.EnumerateFiles(PackFolder.ToString(), "*.zsync", SearchOption.AllDirectories)
                 .Where(zs => !File.Exists(Tools.FileUtil.RemoveExtension(zs, ".zsync")))) {
@@ -388,7 +388,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             SaveVersions();
 
             if (ArchiveFormat != ".7z")
-                CreatePackZsyncFile(VersionFileName);
+                CreateZsyncFile(VersionFileName);
 
             if (pushIfChanged)
                 Push();
@@ -949,7 +949,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             if (save) {
                 SaveVersions();
                 if (createZsyncFiles && ArchiveFormat != ".7z")
-                    CreatePackZsyncFile(VersionFileName);
+                    CreateZsyncFile(VersionFileName);
             }
 
             if (createZsyncFiles && ArchiveFormat != ".7z") {
@@ -990,7 +990,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             Pack(file, dstFile);
 
             if (createZsyncFiles && ArchiveFormat != ".7z")
-                CreatePackZsyncFile(gz);
+                CreateZsyncFile(gz);
 
             WdVersion.WD[change] = RepoTools.TryGetChecksum(file, change);
             WdVersion.Pack[gz] = RepoTools.TryGetChecksum(dstFile, gz);
