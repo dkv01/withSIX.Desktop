@@ -14,6 +14,7 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
+    // TODO: Include online network content?
     public class RvContentScanner
     {
         readonly RealVirtualityGame _realVirtualityGame;

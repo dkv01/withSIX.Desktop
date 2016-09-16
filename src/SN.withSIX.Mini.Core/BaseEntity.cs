@@ -25,6 +25,7 @@ namespace SN.withSIX.Mini.Core
         [DataMember]
         public TId Id { get; protected set; }
 
+        // TODO: Of the same type?!
         public bool Equals(BaseEntity<TId> other) => other != null
                                                      &&
                                                      (ReferenceEquals(this, other) ||
