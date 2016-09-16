@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
@@ -14,6 +15,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
 {
     public class PlayExceptionHandler : DefaultExceptionHandler
     {
+        public PlayExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
+
         protected override UserError HandleExceptionInternal(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
 
