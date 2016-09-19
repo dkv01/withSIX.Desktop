@@ -16,21 +16,6 @@ namespace SN.withSIX.Core.Extensions
 {
     public static class NDependPathHelpers
     {
-        public static void DeleteIfExists(this IAbsolutePath src, bool recursive = false) {
-            if (src.IsFilePath)
-                ((IAbsoluteFilePath)src).DeleteIfExists();
-            else
-                ((IAbsoluteDirectoryPath)src).DeleteIfExists(recursive);
-        }
-
-        public static void DeleteIfExists(this IAbsoluteDirectoryPath src, bool recursive = false) {
-            if (src.Exists) src.Delete(recursive);
-        }
-
-        public static void DeleteIfExists(this IAbsoluteFilePath src) {
-            if (src.Exists) src.Delete();
-        }
-
         // TODO: Why not use FileInfo/DirectoryInfo?
         public static void Copy(this IAbsoluteFilePath src, IAbsoluteFilePath destination, bool overwrite = true,
             bool checkMd5 = false) => Tools.FileUtil.Ops.Copy(src, destination, overwrite, checkMd5);

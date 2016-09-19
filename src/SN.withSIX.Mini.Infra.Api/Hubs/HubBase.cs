@@ -10,6 +10,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
@@ -21,7 +22,8 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             _excecutor.ApiAction(() => UsecaseExecutorExtensions.SendAsync(this, command), command,
                 CreateException);
 
-        private Exception CreateException(string msg, Exception inner) => new HubException(msg, inner);
+        // TODO: We need to actually Create a dictionary from the error data instead, so we can drop the crappy Serializing stuf
+        private Exception CreateException(string msg, Exception inner) => new HubException(msg, (inner as UserException).GetObjectData() : null);
 
         protected Task<TResponse> SendAsync<TResponse>(IAsyncRequest<TResponse> command)
             =>

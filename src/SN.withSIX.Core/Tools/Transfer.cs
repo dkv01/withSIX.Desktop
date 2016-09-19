@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -46,13 +47,13 @@ namespace SN.withSIX.Core
             public Task<T> GetJson<T>(Uri uri, string token = null) => uri.GetJson<T>(token);
 
             // TODO: Missing serializersettings?
-            public Task<HttpResponseMessage> PostJson(object model, Uri uri, string token = null)
-                => DownloaderExtensions.PostJson(model, uri, token);
+            public Task<string> PostJson(object model, Uri uri, string token = null)
+                => model.PostJson(uri, token);
 
-            public Task<T> GetYaml<T>(Uri uri, string token = null) => DownloaderExtensions.GetYaml<T>(uri, token);
+            public Task<T> GetYaml<T>(Uri uri, string token = null) => uri.GetYaml<T>(token);
 
-            public Task<HttpResponseMessage> PostYaml(object model, Uri uri, string token = null)
-                => DownloaderExtensions.PostYaml(model, uri, token);
+            public Task<string> PostYaml(object model, Uri uri, string token = null)
+                => model.PostYaml(uri, token);
 
             public Uri JoinUri(Uri host, params object[] remotePaths) {
                 Contract.Requires<ArgumentNullException>(host != null);
@@ -97,97 +98,34 @@ namespace SN.withSIX.Core
         #endregion
     }
 
-    public static class DownloaderExtensions
+    public static class W6DownloaderExtensions
     {
-        static readonly DataAnnotationsValidator.DataAnnotationsValidator _validator =
-            new DataAnnotationsValidator.DataAnnotationsValidator();
+        public static Task<T> GetJson<T>(this Uri uri, string token = null)
+            => uri.GetJson<T>(client => Setup(client, uri, token));
 
-        public static async Task<T> GetJson<T>(this Uri uri, string token = null) {
-            var r = await uri.GetJsonText(token).ConfigureAwait(false);
-            return r.FromJson<T>();
+        public static Task<string> GetJsonText(this Uri uri, string token = null)
+            => uri.GetJsonText(client => Setup(client, uri, token));
+
+        public static Task<string> PostJson(this object model, Uri uri, string token = null)
+            => model.PostJson(uri, client => Setup(client, uri, token));
+
+        public static Task<T> GetYaml<T>(this Uri uri, string token = null)
+            => uri.GetYaml<T>(client => Setup(client, uri, token));
+
+        public static Task<string> GetYamlText(this Uri uri, string token = null)
+            => uri.GetYamlText(client => Setup(client, uri, token));
+
+        public static Task<string> PostYaml(this object model, Uri uri, string token = null)
+            => model.PostJson(uri, client => Setup(client, uri, token));
+
+        static void Setup(HttpClient client, Uri uri, string token) {
+            DownloaderExtensions.HandleUserInfo(client, uri.UserInfo);
+            AddTokenIfWithsix(client, uri, token);
         }
 
-        public static async Task<string> GetJsonText(this Uri uri, string token = null) {
-            using (var client = GetHttpClient()) {
-                client.Setup(uri, token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                return await client.GetStringAsync(uri).ConfigureAwait(false);
-            }
-        }
-
-        // TODO: Missing serializersettings?
-        public static async Task<HttpResponseMessage> PostJson(object model, Uri uri, string token = null) {
-            _validator.ValidateObject(model);
-            using (var client = new HttpClient()) {
-                client.Setup(uri, token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                using (
-                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8,
-                        "application/json"))
-                    return await client.PostAsync(uri, content).ConfigureAwait(false);
-            }
-        }
-
-        public static async Task<T> GetYaml<T>(Uri uri, string token = null) {
-            using (var client = GetHttpClient()) {
-                client.Setup(uri, token);
-                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/yaml"));
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Accept",
-                    "text/html,application/xhtml+xml,application/xml,text/yaml,text/x-yaml,application/yaml,application/x-yaml");
-
-                var r = await client.GetStringAsync(uri).ConfigureAwait(false);
-                return
-                    new Deserializer(ignoreUnmatched: true).Deserialize<T>(
-                        new StringReader(r));
-            }
-        }
-
-        public static async Task<HttpResponseMessage> PostYaml(object model, Uri uri, string token = null) {
-            _validator.ValidateObject(model);
-            using (var client = new HttpClient()) {
-                client.Setup(uri, token);
-                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/yaml"));
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Accept",
-                    "text/html,application/xhtml+xml,application/xml,text/yaml,text/x-yaml,application/yaml,application/x-yaml");
-                using (
-                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8,
-                        "text/yaml"))
-                    return await client.PostAsync(uri, content).ConfigureAwait(false);
-            }
-        }
-
-        static void Setup(this HttpClient client, Uri uri, string token) {
-            HandleUserInfo(client, uri.UserInfo);
-            if (token != null && CommonUrls.IsWithSixUrl(uri))
+        static void AddTokenIfWithsix(HttpClient client, Uri uri, string token) {
+            if ((token != null) && CommonUrls.IsWithSixUrl(uri))
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        static void HandleUserInfo(HttpClient client, string userInfo) {
-            if (string.IsNullOrWhiteSpace(userInfo))
-                return;
-            var byteArray = Encoding.ASCII.GetBytes(userInfo);
-            var authorizationString = Convert.ToBase64String(byteArray);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authorizationString);
-        }
-
-        static HttpClient GetHttpClient() {
-            var client = new HttpClient(
-                new HttpClientHandler {
-                    AutomaticDecompression = DecompressionMethods.GZip
-                                             | DecompressionMethods.Deflate
-                });
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Encoding", "gzip, deflate");
-            return client;
-        }
-
-        public sealed class CustomCamelCaseNamingConvention : INamingConvention
-        {
-            readonly CamelCaseNamingConvention convention = new CamelCaseNamingConvention();
-
-            public string Apply(string value) {
-                var s = value == null || !value.StartsWith(":") ? value : value.Substring(1);
-                return convention.Apply(s);
-            }
         }
     }
 }

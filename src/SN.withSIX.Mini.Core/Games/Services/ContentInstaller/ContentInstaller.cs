@@ -102,7 +102,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 
         // TODO: Post this to an async Queue that processes and retries in the background instead? (and perhaps merges queued items etc??)
         // And make the errors non fatal..
-        static Task<HttpResponseMessage> PostInstallStatusOverview(InstallStatusOverview statusOverview)
+        static Task PostInstallStatusOverview(InstallStatusOverview statusOverview)
             => Tools.Transfer.PostJson(statusOverview, new Uri(CommonUrls.SocialApiUrl, "/api/stats"));
 
         Task StatusChange(Status status, ProgressInfo info) => _eventRaiser(new StatusChanged(status, info));
