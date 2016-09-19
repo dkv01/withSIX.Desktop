@@ -13,7 +13,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
-using YamlDotNet.Core;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
 {
@@ -40,7 +39,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
 
         public async Task Load(IStringDownloader downloader, Uri uri) {
             Uri = uri;
-            var config = await Tools.Transfer.GetYaml<SixRepoConfigDto>(Uri).ConfigureAwait(false);
+            var config = await SyncEvilGlobal.Yaml.GetYaml<SixRepoConfigDto>(uri, (string) null).ConfigureAwait(false);
             Mods = config.Mods;
             Hosts = config.Hosts.ToList();
             Loaded = true;
@@ -107,11 +106,8 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
         [Obsolete("Convert to new Yaml Deserializer")]
         RepoVersion TryReadRepoFile(IAbsoluteFilePath path) {
             try {
-                return YamlExtensions.NewFromYamlFile<RepoVersion>(path);
+                return SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(path);
             } catch (YamlParseException e) {
-                //this.Logger().FormattedWarnException(e, _mod.Name);
-                return new RepoVersion();
-            } catch (YamlException e) {
                 //this.Logger().FormattedWarnException(e, _mod.Name);
                 return new RepoVersion();
             } catch (YamlExpectedOtherNodeTypeException e) {

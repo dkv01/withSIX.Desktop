@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Collections.Generic;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
@@ -37,39 +36,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 {":pack", Pack},
                 {":wd", WD}
             };
-            return graph._ToYaml();
-        }
-
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":archive_format":
-                    ArchiveFormat = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":format_version":
-                    FormatVersion = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":guid":
-                    Guid = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":version":
-                    Version = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":pack_size":
-                    PackSize = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":wd_size":
-                    WdSize = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":pack":
-                    Pack = YamlExtensions.GetStringDictionary(entry.Value);
-                    break;
-                case ":wd":
-                    WD = YamlExtensions.GetStringDictionary(entry.Value);
-                    break;
-                }
-            }
+            return SyncEvilGlobal.Yaml.ToYaml(graph);
         }
 
         public string PrettyPrint() => string.Format(

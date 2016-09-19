@@ -17,38 +17,29 @@ namespace SN.withSIX.Sync.Presentation.Console.Services
     public class PublishingApi : IPublishingApi, IInfrastructureService
     {
         public async Task<Guid> Publish(PublishModModel model, string registerKey) {
-            using (var r =
-                await
-                    Tools.Transfer.PostJson(model,
+            var r = await
+                Tools.Transfer.PostJson(model,
                         Tools.Transfer.JoinUri(CommonUrls.PublishApiUrl,
                             "api/v2/publishing/mods?registerKey=" + Uri.EscapeDataString(registerKey)))
-                        .ConfigureAwait(false)) {
-                r.EnsureSuccessStatusCode();
+                    .ConfigureAwait(false);
 
-                return
-                    JsonConvert.DeserializeObject<Guid>(
-                        await r.Content.ReadAsStringAsync().ConfigureAwait(false));
-            }
+            return JsonConvert.DeserializeObject<Guid>(r);
         }
 
         public async Task Signal(string registerKey) {
-            using (var r =
-                await
-                    Tools.Transfer.PostJson(new {},
+            await
+                Tools.Transfer.PostJson(new {},
                         Tools.Transfer.JoinUri(CommonUrls.PublishApiUrl,
                             "api/v2/publishing/signal?registerKey=" + Uri.EscapeDataString(registerKey)))
-                        .ConfigureAwait(false))
-                r.EnsureSuccessStatusCode();
+                    .ConfigureAwait(false);
         }
 
         public async Task Deversion(SpecificVersion nextInline, string registerKey) {
-            using (var r =
-                await
-                    Tools.Transfer.PostJson(new {nextInline.Name, nextInline.VersionData},
+            await
+                Tools.Transfer.PostJson(new {nextInline.Name, nextInline.VersionData},
                         Tools.Transfer.JoinUri(CommonUrls.PublishApiUrl,
                             "api/v2/publishing/mods_deversion?registerKey=" + Uri.EscapeDataString(registerKey)))
-                        .ConfigureAwait(false))
-                r.EnsureSuccessStatusCode();
+                    .ConfigureAwait(false);
         }
     }
 }

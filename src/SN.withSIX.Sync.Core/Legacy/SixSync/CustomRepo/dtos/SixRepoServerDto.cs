@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
 {
@@ -19,45 +18,45 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
             MPMissions = new List<string>();
         }
 
-        [YamlMember(Alias = ":game")]
+        // [YamlMember(Alias = ":game")]
         public string Game { get; set; }
-        [YamlMember(Alias = ":image")]
+        // [YamlMember(Alias = ":image")]
         public string Image { get; set; }
-        [YamlMember(Alias = ":image_large")]
+        // [YamlMember(Alias = ":image_large")]
         public string ImageLarge { get; set; }
-        [YamlMember(Alias = ":name")]
+        // [YamlMember(Alias = ":name")]
         public string Name { get; set; }
-        [YamlMember(Alias = ":uuid")]
+        // [YamlMember(Alias = ":uuid")]
         public string Uuid { get; set; }
-        [YamlMember(Alias = ":ip")]
+        // [YamlMember(Alias = ":ip")]
         public string Ip { get; set; }
-        [YamlMember(Alias = ":port")]
+        // [YamlMember(Alias = ":port")]
         public int Port { get; set; }
-        [YamlMember(Alias = ":info")]
+        // [YamlMember(Alias = ":info")]
         public string Info { get; set; }
-        [YamlMember(Alias = ":password")]
+        // [YamlMember(Alias = ":password")]
         public string Password { get; set; }
-        [YamlMember(Alias = ":motd")]
+        // [YamlMember(Alias = ":motd")]
         public List<string> Motd { get; set; }
-        [YamlMember(Alias = ":rules")]
+        // [YamlMember(Alias = ":rules")]
         public List<string> Rules { get; set; }
-        [YamlMember(Alias = ":required_mods")]
+        // [YamlMember(Alias = ":required_mods")]
         public List<string> RequiredMods { get; set; }
-        [YamlMember(Alias = ":allowed_mods")]
+        // [YamlMember(Alias = ":allowed_mods")]
         public List<string> AllowedMods { get; set; }
-        [YamlMember(Alias = ":apps")]
+        // [YamlMember(Alias = ":apps")]
         public List<string> Apps { get; set; }
-        [YamlMember(Alias = ":missions")]
+        // [YamlMember(Alias = ":missions")]
         public List<string> Missions { get; set; }
-        [YamlMember(Alias = ":mpmissions")]
+        // [YamlMember(Alias = ":mpmissions")]
         public List<string> MPMissions { get; set; }
-        [YamlMember(Alias = ":open")]
-        public bool IsOpen { get; set; }
-        [YamlMember(Alias = ":hidden")]
-        public bool IsHidden { get; set; }
-        [YamlMember(Alias = ":force_mod_update")]
+        // [YamlMember(Alias = ":open")]
+        public bool Open { get; set; }
+        // [YamlMember(Alias = ":hidden")]
+        public bool Hidden { get; set; }
+        // [YamlMember(Alias = ":force_mod_update")]
         public bool ForceModUpdate { get; set; }
-        [YamlMember(Alias = ":force_server_name")]
+        // [YamlMember(Alias = ":force_server_name")]
         public bool ForceServerName { get; set; }
     }
 }

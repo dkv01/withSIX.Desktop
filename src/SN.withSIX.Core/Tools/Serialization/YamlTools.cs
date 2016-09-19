@@ -3,33 +3,9 @@
 // </copyright>
 
 using System;
-using System.Diagnostics.Contracts;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Core
 {
-    public partial class Tools
-    {
-        public class YamlTools
-        {
-            public virtual void PrintMapping(YamlMappingNode mapping) {
-                Contract.Requires<ArgumentNullException>(mapping != null);
-
-                foreach (var entry in mapping.Children) {
-                    var key = ((YamlScalarNode) entry.Key).Value;
-                    var value = string.Empty;
-
-                    try {
-                        value = ((YamlScalarNode) entry.Value).Value;
-                    } catch (Exception) {}
-
-                    Console.WriteLine("{0}: {1}", key, value);
-                }
-            }
-        }
-    }
-
-    
     public class YamlExpectedOtherNodeTypeException : Exception
     {
         public YamlExpectedOtherNodeTypeException(string message) : base(message) {}
@@ -39,5 +15,8 @@ namespace SN.withSIX.Core
     public class YamlParseException : Exception
     {
         public YamlParseException(string message) : base(message) {}
+
+        public YamlParseException(string message, Exception innerException) : base(message, innerException) {
+        }
     }
 }

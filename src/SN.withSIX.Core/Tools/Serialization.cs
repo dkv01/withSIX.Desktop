@@ -12,7 +12,6 @@ namespace SN.withSIX.Core
         {
             public JsonTools Json = new JsonTools();
             public XmlTools Xml = new XmlTools();
-            public YamlTools Yaml = new YamlTools();
         }
     }
 }

@@ -5,19 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SN.withSIX.Core.Logging;
 using withSIX.Api.Models;
-using withSIX.Api.Models.Extensions;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace SN.withSIX.Core
 {
@@ -49,11 +42,6 @@ namespace SN.withSIX.Core
             // TODO: Missing serializersettings?
             public Task<string> PostJson(object model, Uri uri, string token = null)
                 => model.PostJson(uri, token);
-
-            public Task<T> GetYaml<T>(Uri uri, string token = null) => uri.GetYaml<T>(token);
-
-            public Task<string> PostYaml(object model, Uri uri, string token = null)
-                => model.PostYaml(uri, token);
 
             public Uri JoinUri(Uri host, params object[] remotePaths) {
                 Contract.Requires<ArgumentNullException>(host != null);
@@ -109,16 +97,7 @@ namespace SN.withSIX.Core
         public static Task<string> PostJson(this object model, Uri uri, string token = null)
             => model.PostJson(uri, client => Setup(client, uri, token));
 
-        public static Task<T> GetYaml<T>(this Uri uri, string token = null)
-            => uri.GetYaml<T>(client => Setup(client, uri, token));
-
-        public static Task<string> GetYamlText(this Uri uri, string token = null)
-            => uri.GetYamlText(client => Setup(client, uri, token));
-
-        public static Task<string> PostYaml(this object model, Uri uri, string token = null)
-            => model.PostJson(uri, client => Setup(client, uri, token));
-
-        static void Setup(HttpClient client, Uri uri, string token) {
+        public static void Setup(HttpClient client, Uri uri, string token) {
             DownloaderExtensions.HandleUserInfo(client, uri.UserInfo);
             AddTokenIfWithsix(client, uri, token);
         }

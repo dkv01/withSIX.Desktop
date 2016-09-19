@@ -51,6 +51,8 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
                     LoadConsts(ms);
             }
 
+            throw new NotImplementedException("RPFGenerator needs updating");
+            /*
             var packager = new Packager(_gameDir,
                 _gameDir.GetChildDirectoryWithName("mods"),
                 tempPath,
@@ -61,6 +63,7 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
 
             foreach (var p in packages)
                 packager.PackageMod(p.FullName.ToAbsoluteDirectoryPath());
+                */
         }
 
         static void LoadConsts(Stream fs) {

@@ -8,8 +8,8 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
-using YamlDotNet.Core;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
@@ -109,11 +109,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
         RepoConfig TryReadRepoConfig() {
             try {
-                return YamlExtensions.NewFromYamlFile<RepoConfig>(_repoConfigYamlFile);
+                return SyncEvilGlobal.Yaml.NewFromYamlFile<RepoConfig>(_repoConfigYamlFile);
             } catch (YamlParseException e) {
-                this.Logger().FormattedWarnException(e);
-                return new RepoConfig();
-            } catch (YamlException e) {
                 this.Logger().FormattedWarnException(e);
                 return new RepoConfig();
             } catch (YamlExpectedOtherNodeTypeException e) {
@@ -213,11 +210,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
         RepoVersion TryReadRepoFile(IAbsoluteFilePath path) {
             try {
-                return YamlExtensions.NewFromYamlFile<RepoVersion>(path);
+                return SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(path);
             } catch (YamlParseException e) {
-                this.Logger().FormattedWarnException(e, _mod.Name);
-                return new RepoVersion();
-            } catch (YamlException e) {
                 this.Logger().FormattedWarnException(e, _mod.Name);
                 return new RepoVersion();
             } catch (YamlExpectedOtherNodeTypeException e) {

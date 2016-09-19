@@ -6,12 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
 using withSIX.Api.Models.Games;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
@@ -156,76 +154,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
                 {":missions", Missions},
                 {":mpmissions", MPMissions}
             };
-            return graph._ToYaml();
-        }
-
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":name":
-                    Name = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":uuid":
-                    Uuid = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":game":
-                    Game = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":ip":
-                    Ip = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":port":
-                    Port = YamlExtensions.GetIntOrDefault(entry.Value);
-                    break;
-                case ":open":
-                    IsOpen = YamlExtensions.GetIntOrDefault(entry.Value) >= 1
-                             || YamlExtensions.GetBoolOrDefault(entry.Value);
-                    break;
-                case ":force_server_name":
-                    ForceServerName = YamlExtensions.GetBoolOrDefault(entry.Value);
-                    break;
-                case ":hidden":
-                    IsHidden = YamlExtensions.GetBoolOrDefault(entry.Value);
-                    break;
-                case ":force_mod_update":
-                    ForceModUpdate = YamlExtensions.GetBoolOrDefault(entry.Value);
-                    break;
-                case ":info":
-                    Info = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":password":
-                    Password = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":motd":
-                    Motd = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":rules":
-                    Rules = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":image":
-                    Image = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":image_large":
-                    ImageLarge = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":required_mods":
-                    RequiredMods = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":allowed_mods":
-                    AllowedMods = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":missions":
-                    Missions = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":mpmissions":
-                    MPMissions = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":apps":
-                    Apps = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                }
-            }
+            return SyncEvilGlobal.Yaml.ToYaml(graph);
         }
 
         public Guid GetGameUuid() {
@@ -235,10 +164,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 
             var key = game.ToLower();
             return new Guid(mapping.ContainsKey(key) ? mapping[key] : game);
-        }
-
-        public string PrettyPrint() {
-            throw new NotImplementedException();
         }
 
         ServerAddress GetAddy() => SAStuff.GetAddy($"{_ip}:{(_port == 0 ? 2302 : _port)}");

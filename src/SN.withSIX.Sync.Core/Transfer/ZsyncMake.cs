@@ -53,9 +53,10 @@ namespace SN.withSIX.Sync.Core.Transfer
             var fileInfo = fileName.FileInfo;
             if (!options.HasFlag(ZsyncMakeOptions.Overwrite)) {
                 var zsFile = (fileInfo.FullName + ".zsync").ToAbsoluteFilePath();
-                if (zsFile.Exists) {
+                if (zsFile.Exists) { // exists check is probably slow on Azure disks :S
                     var thorough = options.HasFlag(ZsyncMakeOptions.Thorough) ||
                                    (options.HasFlag(ZsyncMakeOptions.Smart) && thoroughFiles.Contains(fileName.FileName));
+                    // For Smart, it would be better to check if the .zsync mtime >= target mtime
                     if (!thorough)
                         return;
 

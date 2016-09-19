@@ -10,8 +10,6 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
@@ -59,71 +57,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         public DateTime UpdatedVersion { get; set; }
         [DataMember]
         public string ModVersion { get; set; }
-
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":version":
-                    Version = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":dependencies":
-                    Dependencies = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":categories":
-                    Categories = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":author":
-                    Author = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":size":
-                    Size = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":wd_size":
-                    WdSize = YamlExtensions.GetLongOrDefault(entry.Value);
-                    break;
-                case ":type":
-                    Type = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":aliases":
-                    Aliases = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":full_name":
-                    FullName = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":cpp_name":
-                    CppName = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":mod_version":
-                    ModVersion = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":description":
-                    Description = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":homepage":
-                    Homepage = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":image":
-                    Image = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":image_large":
-                    ImageLarge = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":guid":
-                    Guid = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":license":
-                    License = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":license_url":
-                    LicenseUrl = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":updated_version":
-                    UpdatedVersion = YamlExtensions.GetDateTimeOrDefault(entry.Value);
-                    break;
-                }
-            }
-        }
 
         public string ToYaml() {
             throw new NotImplementedException();

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
@@ -29,27 +28,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 {":include", Include},
                 {":hosts", Hosts.Select(x => x.ToString())}
             };
-            return graph._ToYaml();
-        }
-
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":pack_path":
-                    PackPath = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":hosts":
-                    Hosts = YamlExtensions.GetStringArray(entry.Value).Select(x => new Uri(x)).ToArray();
-                    break;
-                case ":exclude":
-                    Exclude = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":include":
-                    Include = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                }
-            }
+            return SyncEvilGlobal.Yaml.ToYaml(graph);
         }
 
         public string PrettyPrint() =>

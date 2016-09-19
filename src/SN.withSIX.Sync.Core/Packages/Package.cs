@@ -161,7 +161,7 @@ namespace SN.withSIX.Sync.Core.Packages
             return new PublishModModel {
                 PackageName = MetaData.Name,
                 Revision = yml.Exists
-                    ? (int) YamlExtensions.NewFromYamlFile<RepoVersion>(yml).Version
+                    ? (int) SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(yml).Version
                     : 0,
                 Version = MetaData.GetVersionInfo(),
                 Size = MetaData.SizePacked,

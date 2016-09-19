@@ -4,19 +4,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
+using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
-        )]
+     )]
     public class SixRepoConfig : IBaseYaml
     {
         public SixRepoConfig() {
@@ -75,68 +70,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
                 {":mods", Mods},
                 {":apps", Apps}
             };
-            return graph._ToYaml();
-        }
-
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":name":
-                    Name = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":max_threads":
-                    MaxThreads = YamlExtensions.GetIntOrDefault(entry.Value);
-                    break;
-                case ":uuid":
-                    Uuid = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":homepage":
-                    Homepage = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":server_mods_path":
-                    ServerModsPath = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":archive_format":
-                    ArchiveFormat = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":hosts":
-                    var hosts = YamlExtensions.GetStringArray(entry.Value);
-                    var invalidHost =
-                        hosts.FirstOrDefault(x => x == null || !Uri.IsWellFormedUriString(x, UriKind.Absolute));
-                    if (invalidHost != null) {
-                        throw new InvalidHostFoundException(
-                            $"Malformed host found, does it contain valid protocol like 'http://'?\n{invalidHost}");
-                    }
-                    Hosts = hosts.Select(x => x.ToUri()).ToArray();
-                    break;
-                case ":missions":
-                    Missions = YamlExtensions.GetStringDictionary(entry.Value);
-                    break;
-                case ":mpmissions":
-                    MPMissions = YamlExtensions.GetStringDictionary(entry.Value);
-                    break;
-                case ":image":
-                    Image = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":image_large":
-                    ImageLarge = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":servers":
-                    Servers = YamlExtensions.GetStringArray(entry.Value);
-                    break;
-                case ":mods":
-                    Mods = GetModDictionary(entry.Value) ?? new Dictionary<string, SixRepoMod>();
-                    break;
-                case ":apps":
-                    Apps = GetAppDictionary(entry.Value) ?? new Dictionary<string, SixRepoApp>();
-                    break;
-                }
-            }
-        }
-
-        public string PrettyPrint() {
-            throw new NotImplementedException();
+            return SyncEvilGlobal.Yaml.ToYaml(graph);
         }
 
         [OnDeserialized]
@@ -152,44 +86,10 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
             if (Hosts == null)
                 Hosts = new Uri[0];
         }
-
-        public static Dictionary<string, SixRepoApp> GetAppDictionary(YamlNode node) {
-            var mapping = node as YamlMappingNode;
-            if (mapping == null) {
-                var mapping2 = node as YamlScalarNode;
-                if (mapping2 != null && String.IsNullOrEmpty(mapping2.Value))
-                    return null;
-
-                throw new YamlExpectedOtherNodeTypeException("Expected YamlMappingNode");
-            }
-
-            return mapping
-                .Select(
-                    x => {
-                        var newFromYaml = YamlExtensions.NewFromYaml<SixRepoApp>((YamlMappingNode) x.Value);
-                        newFromYaml.Name = x.Key.ToString();
-                        return new KeyValuePair<string, SixRepoApp>(x.Key.ToString(),
-                            newFromYaml);
-                    })
-                .ToDictionary(x => x.Key, x => x.Value);
-        }
-
-        public static Dictionary<string, SixRepoMod> GetModDictionary(YamlNode node) {
-            var mapping = node as YamlMappingNode;
-            if (mapping == null) {
-                var mapping2 = node as YamlScalarNode;
-                if (mapping2 != null && String.IsNullOrEmpty(mapping2.Value))
-                    return null;
-
-                throw new YamlExpectedOtherNodeTypeException("Expected YamlMappingNode");
-            }
-
-            return mapping.ToDictionary(x => x.Key.ToString(),
-                x => YamlExtensions.NewFromYaml<SixRepoMod>((YamlMappingNode) x.Value));
-        }
     }
 
-    
+
+
     public class InvalidHostFoundException : Exception
     {
         public InvalidHostFoundException(string message) : base(message) {}

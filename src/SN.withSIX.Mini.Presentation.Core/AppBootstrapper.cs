@@ -637,7 +637,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton(() => Tools.Serialization);
             Container.RegisterSingleton(() => Tools.Serialization.Json);
             Container.RegisterSingleton(() => Tools.Serialization.Xml);
-            Container.RegisterSingleton(() => Tools.Serialization.Yaml);
             Container.RegisterSingleton(() => Tools.Transfer);
         }
 

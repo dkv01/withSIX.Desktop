@@ -6,8 +6,6 @@ using System;
 using System.Runtime.Serialization;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
@@ -58,44 +56,12 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         [DataMember]
         public string Password { get; set; }
 
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":type":
-                    var type = YamlExtensions.GetStringOrDefault(entry.Value);
-                    Type = string.IsNullOrWhiteSpace(type)
-                        ? AppType.Teamspeak3
-                        : (AppType) Enum.Parse(typeof (AppType), type);
-                    break;
-                case ":ip":
-                    Ip = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":port":
-                    Port = YamlExtensions.GetIntOrDefault(entry.Value);
-                    break;
-                case ":channel":
-                    Channel = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":channel_password":
-                    ChannelPassword = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":password":
-                    Password = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":hidden":
-                    IsHidden = YamlExtensions.GetBoolOrDefault(entry.Value);
-                    break;
-                }
-            }
-        }
-
         public string ToYaml() {
             throw new NotImplementedException();
         }
 
         [DataMember]
-        public AppType Type { get; set; }
+        public AppType Type { get; set; } = AppType.Teamspeak3;
 
         public string GetDisplayName() => $"{Type}: {Name}";
     }

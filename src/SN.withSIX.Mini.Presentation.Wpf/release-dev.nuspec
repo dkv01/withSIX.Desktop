@@ -61,6 +61,20 @@
         <file src="bin\release\logentriesnlog.dll" target="lib\net45\logentriesnlog.dll" />
         <file src="bin\release\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
 
+        <file src="bin\release\NDepend.Path.PCL.dll" target="lib\net45\NDepend.Path.PCL.dll" />
+        <file src="bin\release\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
+        <file src="bin\release\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
+        <file src="bin\release\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
+        <file src="bin\release\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
+        <file src="bin\release\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
+        <file src="bin\release\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
+        <file src="bin\release\System.Runtime.Serialization.Formatters.dll" target="lib\net45\System.Runtime.Serialization.Formatters.dll" />
+        <file src="bin\release\System.Runtime.Serialization.Primitives.dll" target="lib\net45\System.Runtime.Serialization.Primitives.dll" />
+        <file src="bin\release\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
+        <file src="bin\release\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
+        <file src="bin\release\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
+        <file src="bin\release\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
+		
         <file src="bin\release\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
         <file src="bin\release\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
         <file src="bin\release\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
@@ -96,7 +110,6 @@
         <file src="bin\release\ImpromptuInterface.dll" target="lib\net45\ImpromptuInterface.dll" />
         <file src="bin\release\MahApps.Metro.dll" target="lib\net45\MahApps.Metro.dll" />
         <file src="bin\release\MoreLinq.dll" target="lib\net45\MoreLinq.dll" />
-        <file src="bin\release\NDepend.Path.dll" target="lib\net45\NDepend.Path.dll" />
         <file src="bin\release\Newtonsoft.Json.dll" target="lib\net45\Newtonsoft.Json.dll" />
         <file src="bin\release\NLog.dll" target="lib\net45\NLog.dll" />
         <file src="bin\release\Ookii.Dialogs.Wpf.dll" target="lib\net45\Ookii.Dialogs.Wpf.dll" />

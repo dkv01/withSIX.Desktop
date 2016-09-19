@@ -23,7 +23,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
                 CreateException);
 
         // TODO: We need to actually Create a dictionary from the error data instead, so we can drop the crappy Serializing stuf
-        private Exception CreateException(string msg, Exception inner) => new HubException(msg, (inner as UserException).GetObjectData() : null);
+        private Exception CreateException(string msg, Exception inner) => new HubException(msg, (inner as UserException)?.GetObjectData());
 
         protected Task<TResponse> SendAsync<TResponse>(IAsyncRequest<TResponse> command)
             =>

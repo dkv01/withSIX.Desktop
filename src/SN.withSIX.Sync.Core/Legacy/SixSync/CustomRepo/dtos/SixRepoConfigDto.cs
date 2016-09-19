@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
 {
@@ -14,41 +13,41 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
             Apps = new Dictionary<string, SixRepoAppDto>();
             Mods = new Dictionary<string, SixRepoModDto>();
             Missions = new Dictionary<string, string>();
-            MPMissions = new Dictionary<string, string>();
+            Mpmissions = new Dictionary<string, string>();
             Servers = new List<string>();
             Include = new List<string>();
             Hosts = new List<Uri>();
         }
 
-        [YamlMember(Alias = ":apps")]
+        // [YamlMember(Alias = ":apps")]
         public Dictionary<string, SixRepoAppDto> Apps { get; set; }
-        [YamlMember(Alias = ":mpmissions")]
-        public Dictionary<string, string> MPMissions { get; set; }
-        [YamlMember(Alias = ":missions")]
+        // [YamlMember(Alias = ":mpmissions")]
+        public Dictionary<string, string> Mpmissions { get; set; }
+        // [YamlMember(Alias = ":missions")]
         public Dictionary<string, string> Missions { get; set; }
-        [YamlMember(Alias = ":mods")]
+        // [YamlMember(Alias = ":mods")]
         public Dictionary<string, SixRepoModDto> Mods { get; set; }
-        [YamlMember(Alias = ":name")]
+        // [YamlMember(Alias = ":name")]
         public string Name { get; set; }
-        [YamlMember(Alias = ":homepage")]
+        // [YamlMember(Alias = ":homepage")]
         public string Homepage { get; set; }
-        [YamlMember(Alias = ":image")]
+        // [YamlMember(Alias = ":image")]
         public string Image { get; set; }
-        [YamlMember(Alias = ":uuid")]
+        // [YamlMember(Alias = ":uuid")]
         public string Uuid { get; set; }
-        [YamlMember(Alias = ":image_large")]
+        // [YamlMember(Alias = ":image_large")]
         public string ImageLarge { get; set; }
-        [YamlMember(Alias = ":server_mods_path")]
+        // [YamlMember(Alias = ":server_mods_path")]
         public string ServerModsPath { get; set; }
-        [YamlMember(Alias = ":archive_format")]
+        // [YamlMember(Alias = ":archive_format")]
         public string ArchiveFormat { get; set; }
-        [YamlMember(Alias = ":hosts")]
+        // [YamlMember(Alias = ":hosts")]
         public List<Uri> Hosts { get; set; }
-        [YamlMember(Alias = ":servers")]
+        // [YamlMember(Alias = ":servers")]
         public List<string> Servers { get; set; }
-        [YamlMember(Alias = ":include")]
+        // [YamlMember(Alias = ":include")]
         public List<string> Include { get; set; }
-        [YamlMember(Alias = ":max_threads")]
+        // [YamlMember(Alias = ":max_threads")]
         public int? MaxThreads { get; set; }
     }
 }

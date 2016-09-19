@@ -249,7 +249,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 _container.RegisterSingleton(() => Tools.Serialization);
                 _container.RegisterSingleton(() => Tools.Serialization.Json);
                 _container.RegisterSingleton(() => Tools.Serialization.Xml);
-                _container.RegisterSingleton(() => Tools.Serialization.Yaml);
                 _container.RegisterSingleton(() => Tools.Transfer);
             }
 

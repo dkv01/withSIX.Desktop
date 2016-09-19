@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Collections.Generic;
-using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
@@ -28,24 +27,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 {":secure_ssh", SecureSsh},
                 {":override_downcase", OverrideDowncase}
             };
-            return graph._ToYaml();
-        }
-
-        public void FromYaml(YamlMappingNode mapping) {
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode) entry.Key).Value;
-                switch (key) {
-                case ":key":
-                    Key = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":default_host":
-                    DefaultHost = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                case ":default_host_path":
-                    DefaultHostPath = YamlExtensions.GetStringOrDefault(entry.Value);
-                    break;
-                }
-            }
+            return SyncEvilGlobal.Yaml.ToYaml(graph);
         }
     }
 }

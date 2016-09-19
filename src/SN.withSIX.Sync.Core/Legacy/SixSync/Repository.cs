@@ -99,7 +99,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         public static void InitializeConfig(IAbsoluteDirectoryPath path) {
             var configFile = path.GetChildFileWithName(ConfigFileName);
             MainConfig = configFile.Exists
-                ? YamlExtensions.NewFromYamlFile<RepoMainConfig>(configFile)
+                ? SyncEvilGlobal.Yaml.NewFromYamlFile<RepoMainConfig>(configFile)
                 : new RepoMainConfig();
         }
 
@@ -130,7 +130,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         void TryLoadConfig(bool fallback) {
             try {
-                Config = YamlExtensions.NewFromYamlFile<RepoConfig>(ConfigFile);
+                Config = SyncEvilGlobal.Yaml.NewFromYamlFile<RepoConfig>(ConfigFile);
             } catch (FileNotFoundException) {
                 Config = new RepoConfig();
             } catch (Exception e) {
@@ -164,18 +164,18 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         void TryLoadPackVersion(bool allowPFailure) {
             try {
-                PackVersion = YamlExtensions.NewFromYamlFile<RepoVersion>(PackVersionFile);
+                PackVersion = SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(PackVersionFile);
             } catch (Exception e) {
                 this.Logger().FormattedWarnException(e);
                 if (!allowPFailure)
                     throw new Exception("Remote repository.yml malformed, cannot process");
-                PackVersion = YamlExtensions.NewFromYaml<RepoVersion>(WdVersion.ToYaml());
+                PackVersion = SyncEvilGlobal.Yaml.NewFromYaml<RepoVersion>(WdVersion.ToYaml());
             }
         }
 
         void TryLoadWDVersion() {
             try {
-                WdVersion = YamlExtensions.NewFromYamlFile<RepoVersion>(WdVersionFile);
+                WdVersion = SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(WdVersionFile);
             } catch (Exception e) {
                 this.Logger().FormattedWarnException(e);
                 WdVersion = new RepoVersion();
@@ -462,13 +462,13 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         }
 
         protected virtual void SaveAndReloadConfig(bool fallback = false) {
-            Config.SaveYaml(ConfigFile);
+            SyncEvilGlobal.Yaml.ToYamlFile(Config, ConfigFile);
             LoadConfig(fallback);
         }
 
         protected virtual void SaveVersions() {
-            WdVersion.SaveYaml(WdVersionFile);
-            PackVersion.SaveYaml(PackVersionFile);
+            SyncEvilGlobal.Yaml.ToYamlFile(WdVersion, WdVersionFile);
+            SyncEvilGlobal.Yaml.ToYamlFile(PackVersion, PackVersionFile);
         }
 
         protected virtual void UpdateRepoInfo() {
@@ -532,7 +532,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                     WdVersion.WdSize*1024);
             }
 
-            WdVersion.SaveYaml(WdVersionFile);
+            SyncEvilGlobal.Yaml.ToYamlFile(WdVersion, WdVersionFile);
             StatusRepo.Finish();
         }
 
@@ -540,7 +540,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             try {
                 ConfirmChecksumValidity(localOnly);
             } catch (ChecksumException) {
-                WdVersion.SaveYaml(WdVersionFile);
+                SyncEvilGlobal.Yaml.ToYamlFile(WdVersion, WdVersionFile);
                 throw;
             }
         }
@@ -633,7 +633,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         bool ConfirmMatch() {
             try {
-                var repo = YamlExtensions.NewFromYamlFile<RepoVersion>(GetPackFile(VersionFileName));
+                var repo = SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(GetPackFile(VersionFileName));
                 if ((RequiredVersion == null && RequiredGuid == null)
                     || ((RequiredVersion == null || repo.Version == RequiredVersion)
                         && (RequiredGuid == null || repo.Guid == RequiredGuid)))

@@ -2,8 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using YamlDotNet.Serialization;
-
 namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
 {
     public enum AppType
@@ -14,21 +12,21 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
 
     public class SixRepoAppDto
     {
-        [YamlMember(Alias = ":channel")]
+        // [YamlMember(Alias = ":channel")]
         public string Channel { get; set; }
-        [YamlMember(Alias = ":channel_password")]
+        // [YamlMember(Alias = ":channel_password")]
         public string ChannelPassword { get; set; }
-        [YamlMember(Alias = ":name")]
+        // [YamlMember(Alias = ":name")]
         public string Name { get; set; }
-        [YamlMember(Alias = ":hidden")]
-        public bool IsHidden { get; set; }
-        [YamlMember(Alias = ":ip")]
+        // [YamlMember(Alias = ":hidden")]
+        public bool Hidden { get; set; }
+        // [YamlMember(Alias = ":ip")]
         public string Ip { get; set; }
-        [YamlMember(Alias = ":port")]
+        // [YamlMember(Alias = ":port")]
         public int Port { get; set; }
-        [YamlMember(Alias = ":password")]
+        // [YamlMember(Alias = ":password")]
         public string Password { get; set; }
-        [YamlMember(Alias = ":type")]
+        // [YamlMember(Alias = ":type")]
         public AppType Type { get; set; }
     }
 }
