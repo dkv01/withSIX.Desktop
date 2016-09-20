@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Logging;
@@ -18,6 +19,7 @@ namespace SN.withSIX.Steam.Presentation
     {
         static void Main(string[] args) {
             try {
+                Common.Flags = new Common.StartupFlags(args);
                 SetupNlog.Initialize("SteamHelper");
                 Environment.Exit(new CommandRunner(BuildCommands()).RunCommandsAndLog(args));
             } catch (SteamNotFoundException ex) {
