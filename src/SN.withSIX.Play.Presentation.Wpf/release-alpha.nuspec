@@ -118,8 +118,8 @@
         <!-- <file src="..\..\..\bin\Telerik.Windows.Controls.dll" target="lib\net45\Telerik.Windows.Controls.dll" /> -->
 
         <file src="..\..\..\bin\ClearScript.dll" target="lib\net45\ClearScript.dll" />
-		    <file src="..\..\..\bin\x86\ClearScriptV8-32.dll" target="lib\net45\ClearScriptV8-32.dll" />
-		    <file src="..\..\..\bin\x86\v8-ia32.dll" target="lib\net45\v8-ia32.dll" />
+		    <file src="..\..\..\bin\ClearScriptV8-32.dll" target="lib\net45\ClearScriptV8-32.dll" />
+		    <file src="..\..\..\bin\v8-ia32.dll" target="lib\net45\v8-ia32.dll" />
 
         <file src="..\..\..\bin\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
         <file src="..\..\..\bin\x86\steam_api.dll" target="lib\net45\x86\steam_api.dll" />
