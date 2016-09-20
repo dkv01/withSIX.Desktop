@@ -18,7 +18,6 @@ namespace SN.withSIX.Core.Helpers
             : this(time.TotalMilliseconds, onElapsed, onDisposed) {}
     }
 
-    [Obsolete("TODO!")]
     public abstract class Timer : IDisposable
     {
         public void Dispose() {

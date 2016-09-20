@@ -23,6 +23,8 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
 
         [Obsolete("Only here because of half-assed custom JSON ORM :)")]
         Task LoadAll(bool skip = false);
+
+        Task<bool> GameExists(Guid gameId);
     }
 
     public static class GCExtensions

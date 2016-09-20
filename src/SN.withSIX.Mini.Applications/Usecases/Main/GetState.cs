@@ -64,13 +64,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public List<UserErrorModel2> UserErrors { get; set; }
     }
 
+    [Obsolete("Convert from original UserErrorModel?")]
     public class UserErrorModel2 : IHaveId<Guid>
     {
         public UserErrorModel2(dynamic error, List<RecoveryOptionModel> recoveryOptions) {
             ErrorMessage = error.ErrorMessage;
             ErrorCauseOrResolution = error.ErrorCauseOrResolution;
             RecoveryOptions = recoveryOptions;
-            Type = error.GetType().ToString();
+            Type = error.ContextInfo?["$$$Type"] ?? error.GetType().ToString();
             UserError = error;
             Data = error.ContextInfo;
         }

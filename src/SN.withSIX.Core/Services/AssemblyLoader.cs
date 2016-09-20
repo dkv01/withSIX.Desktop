@@ -43,19 +43,11 @@ namespace SN.withSIX.Core.Services
 
         public Version GetEntryVersion() => _entryVersion;
 
-        [Obsolete("TODO")]
         public string GetProductVersion() {
-            return "1.0.0"; // TODO
-            /*
-            var attr = Attribute
-                .GetCustomAttribute(
-                    _entryAssembly,
-                    typeof (AssemblyInformationalVersionAttribute))
+            var attr = _entryAssembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute))
                 as AssemblyInformationalVersionAttribute;
             return attr.InformationalVersion;
-            */
         }
-
 
         public string GetEntryAssemblyName() => _entryAssemblyName;
 

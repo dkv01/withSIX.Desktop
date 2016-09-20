@@ -43,9 +43,6 @@ namespace SN.withSIX.Mini.Core.Games
         public CheckoutType CheckoutType { get; set; } = CheckoutType.NormalCheckout;
         public InstallStatusOverview Status { get; } = CreateInstallStatusOverview();
         public InstallerType InstallerType { get; }
-        [Obsolete(
-            "Should no longer be needed once we refactor all to install packages to a certain folder, and then use symlinks when needed"
-            )]
         public IAbsoluteDirectoryPath GlobalWorkingPath { get; set; }
         public ContentCleaningAttribute Cleaning { get; set; } = ContentCleaningAttribute.Default;
 

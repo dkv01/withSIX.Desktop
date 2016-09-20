@@ -16,7 +16,8 @@ namespace SN.withSIX.Core.Applications.Errors
             ErrorMessage = errorMessage;
             ErrorCauseOrResolution = errorCauseOrResolution;
             RecoveryOptions = recoveryOptions ?? Enumerable.Empty<RecoveryCommandModel>();
-            ContextInfo = contextInfo;
+            ContextInfo = contextInfo ?? new Dictionary<string, object>();
+            ContextInfo["$$$Type"] = GetType().ToString();
             InnerException = innerException;
         }
 

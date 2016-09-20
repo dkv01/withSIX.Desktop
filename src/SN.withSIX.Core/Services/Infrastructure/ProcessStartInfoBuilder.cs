@@ -34,8 +34,6 @@ namespace SN.withSIX.Core.Services.Infrastructure
         }
 
         public IAbsoluteDirectoryPath WorkingDirectory { get; set; }
-        [Obsolete("Do not use until we find a better approach", true)]
-        public bool AsAdministrator { get; set; }
         public bool Redirect { get; set; }
         public string ExePath { get; set; }
         public string Arguments { get; set; }

@@ -103,7 +103,6 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
 
         public bool HasMod(string name) => Mods.Keys.ContainsIgnoreCase(name);
 
-        [Obsolete("Convert to new Yaml Deserializer")]
         RepoVersion TryReadRepoFile(IAbsoluteFilePath path) {
             try {
                 return SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(path);

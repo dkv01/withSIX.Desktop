@@ -27,9 +27,6 @@ namespace SN.withSIX.Sync.Core.Packages
 {
     public class PackageManagerSettings
     {
-        [Obsolete(
-            "Should no longer be needed once we refactor all to install packages to a certain folder, and then use symlinks when needed"
-            )]
         public IAbsoluteDirectoryPath GlobalWorkingPath { get; set; }
         public CheckoutType CheckoutType { get; set; } = CheckoutType.NormalCheckout;
     }

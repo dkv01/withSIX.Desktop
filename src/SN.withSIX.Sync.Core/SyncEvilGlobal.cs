@@ -20,10 +20,7 @@ namespace SN.withSIX.Sync.Core
         public static IFileDownloader FileDownloader { get; private set; }
         public static IStringDownloader StringDownloader { get; private set; }
         public static Func<ExportLifetimeContext<IHostChecker>> GetHostChecker { get; private set; }
-
         public static IYamlUtil Yaml { get; private set; }
-
-        // pff
         public static Func<int> Limiter { get; private set; }
 
         public static void Setup(EvilGlobalServices services, Func<int> limiter) {
