@@ -4,7 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Reactive.Disposables;
+using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SN.withSIX.Core;
@@ -13,7 +13,6 @@ using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
@@ -99,8 +98,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             => action.GetActionInfo()?.NameOverride ?? action.GetType().Name;
 
         private static ApiUserActionAttribute GetActionInfo<T>(this T successAction) where T : IRequestBase
-            => (ApiUserActionAttribute) Attribute.GetCustomAttribute(successAction.GetType(),
-                typeof (ApiUserActionAttribute));
+            => (ApiUserActionAttribute) successAction.GetType().GetTypeInfo().GetCustomAttribute(typeof (ApiUserActionAttribute));
 
         private static Tuple<NextActionInfo, IAsyncVoidCommandBase> CreateNextActionFromRequest<T>(this T request,
             string text = null, Uri href = null,
@@ -114,7 +112,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         private static NotifyingActionOverrideAttribute GetInfo<T>(this T request) where T : IRequestBase
             => (NotifyingActionOverrideAttribute)
-                Attribute.GetCustomAttribute(request.GetType(), typeof (NotifyingActionOverrideAttribute)) ??
+                request.GetType().GetTypeInfo().GetCustomAttribute(typeof (NotifyingActionOverrideAttribute)) ??
                new NotifyingActionOverrideAttribute(GetActionName(request));
 
         private static ActionNotification FromRequest<T>(this T request, string title, string text, Uri href = null,

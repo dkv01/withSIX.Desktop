@@ -129,7 +129,12 @@ namespace SN.withSIX.Mini.Applications.Models
         [DataMember]
         public Guid ClientId { get; protected set; } = Guid.NewGuid();
         [DataMember]
-        public Credentials SteamCredentials { get; protected internal set; }
+        public Credentials SteamCredentials { get; set; }
+    }
+
+    public interface IHaveSteamCredentials
+    {
+        Credentials SteamCredentials { get; set; }
     }
 
     [DataContract]

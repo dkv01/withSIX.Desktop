@@ -6,12 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ReactiveUI;
 using MediatR;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services;
@@ -44,7 +41,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         private async Task<ClientContentInfo> BuildClientContentInfo(GetState request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
-            var gameLock = await _monitor.GetObservable(request.Id).FirstAsync();
+            var gameLock = await _monitor.GetObservable(request.Id).ConfigureAwait(false);
             var gameStateHandler = _stateHandler.Games[game.Id];
             return new ClientContentInfo {
                 GameLock = gameLock.IsLocked,
@@ -64,27 +61,22 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public bool IsRunning { get; set; }
         public bool CanAbort { get; set; }
         public ActionTabState ActionInfo { get; set; }
-        public List<UserErrorModel> UserErrors { get; set; }
+        public List<UserErrorModel2> UserErrors { get; set; }
     }
 
-    public class UserErrorModel : IHaveId<Guid>
+    public class UserErrorModel2 : IHaveId<Guid>
     {
-        public UserErrorModel(UserError error) {
+        public UserErrorModel2(dynamic error, List<RecoveryOptionModel> recoveryOptions) {
             ErrorMessage = error.ErrorMessage;
             ErrorCauseOrResolution = error.ErrorCauseOrResolution;
-            RecoveryOptions =
-                error.RecoveryOptions.Select(
-                    x =>
-                        new RecoveryOptionModel {
-                            CommandName = x.CommandName
-                        }).ToList();
+            RecoveryOptions = recoveryOptions;
             Type = error.GetType().ToString();
             UserError = error;
             Data = error.ContextInfo;
         }
 
         [JsonIgnore]
-        public UserError UserError { get; }
+        public object UserError { get; }
 
         public Dictionary<string, object> Data { get; set; }
         public string ErrorMessage { get; }

@@ -15,6 +15,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using Timer = SN.withSIX.Core.Helpers.Timer;
 
 namespace SN.withSIX.Play.Applications.Services
 {

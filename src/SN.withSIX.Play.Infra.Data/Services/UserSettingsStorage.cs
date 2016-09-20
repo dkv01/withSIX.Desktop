@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -177,7 +178,7 @@ namespace SN.withSIX.Play.Infra.Data.Services
         async Task SaveNowInternal() {
             this.Logger().Info("Saving Settings");
             lock (_saveLock)
-                Tools.Serialization.Xml.SaveXmlToDiskThroughMemory(DomainEvilGlobal.Settings,
+                new XmlTools().SaveXmlToDiskThroughMemory(DomainEvilGlobal.Settings,
                     _currentVersionSettingsPath);
             await DomainEvilGlobal.SecretData.Save().ConfigureAwait(false);
         }
@@ -185,14 +186,14 @@ namespace SN.withSIX.Play.Infra.Data.Services
         UserSettings Load() {
             MigrateOldSettingsIfExists();
             PrepareSettingsPath();
-            return Tools.FileUtil.Ops.AddIORetryDialog(() => TryLoadUserSettings(),
+            return Tools.FileUtil.Ops.AddIORetryDialog(TryLoadUserSettings,
                 _currentVersionSettingsPath.ToString());
         }
 
         UserSettings TryLoadUserSettings() {
             try {
                 return
-                    Tools.Serialization.Xml.LoadXmlFromFile<UserSettings>(_currentVersionSettingsPath.ToString()) ??
+                    new XmlTools().LoadXmlFromFile<UserSettings>(_currentVersionSettingsPath.ToString()) ??
                     new UserSettings();
             } catch (FileNotFoundException) {
                 return new UserSettings();

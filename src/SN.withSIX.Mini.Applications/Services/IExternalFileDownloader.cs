@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Steam.Api.Services;
-using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {

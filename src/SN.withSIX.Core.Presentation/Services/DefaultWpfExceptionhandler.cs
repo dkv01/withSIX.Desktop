@@ -26,7 +26,7 @@ namespace SN.withSIX.Core.Presentation.Services
             _handlers = ehs.ToList();
         }
 
-        public UserError HandleException(Exception ex, string action = "Action") {
+        public UserErrorModel HandleException(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
 
             var unwrapped = UnwrapExceptionIfNeeded(ex);
@@ -44,23 +44,23 @@ namespace SN.withSIX.Core.Presentation.Services
             } catch (Exception ex) {
                 e = ex;
             }
-            return await UserError.Throw(HandleException(e)) != RecoveryOptionResult.FailOperation;
+            return await UserErrorHandler.HandleUserError(HandleException(e)) != RecoveryOptionResultModel.FailOperation;
             //return false;
         }
 
-        protected virtual UserError HandleExceptionInternal(Exception ex, string action = "Action")
+        protected virtual UserErrorModel HandleExceptionInternal(Exception ex, string action = "Action")
             => Handle((dynamic) ex, action);
 
-        protected static UserError Handle(RepositoryLockException ex, string action) =>
+        protected static UserErrorModel Handle(RepositoryLockException ex, string action) =>
             new BasicUserError("It seems another program is locking the repository",
                 "Please close other applications, like Play withSIX, and try again", innerException: ex);
 
-        protected static UserError Handle(ChecksumException ex, string action) => HandleCorruptionException(ex, action);
+        protected static UserErrorModel Handle(ChecksumException ex, string action) => HandleCorruptionException(ex, action);
 
-        protected static UserError Handle(CompressedFileException ex, string action)
+        protected static UserErrorModel Handle(CompressedFileException ex, string action)
             => HandleCorruptionException(ex, action);
 
-        private static UserError HandleCorruptionException(Exception ex, string action)
+        private static UserErrorModel HandleCorruptionException(Exception ex, string action)
             => new BasicUserError("An error has occured while trying to '" + action + "'",
                 @"Files appear to be corrupted.
 
@@ -70,14 +70,14 @@ namespace SN.withSIX.Core.Presentation.Services
 
 More info: " + ex.Message, innerException: ex);
 
-        protected static UserError Handle(OperationCanceledException ex, string action)
+        protected static UserErrorModel Handle(OperationCanceledException ex, string action)
             => new CanceledUserError(action, innerException: ex);
 
 
-        protected static UserError Handle(UnauthorizedAccessException ex, string action)
+        protected static UserErrorModel Handle(UnauthorizedAccessException ex, string action)
             => new RecoverableUserError(ex, "Access denied", "Please make sure the path is writable and not in use by a running game or otherwise\n\nError info: " + ex.Message);
 
-        protected static UserError Handle(HttpRequestException ex)
+        protected static UserErrorModel Handle(HttpRequestException ex)
             =>
                 new RecoverableUserError(ex, "Could not connect",
                     "A http request has failed, is your internet connected? Are the DNS servers configured correctly?\n\nError info: " + ex.Message);
@@ -88,19 +88,19 @@ More info: " + ex.Message, innerException: ex);
         //                : Handle((Exception) ex, action);
         //        }
 
-        protected static UserError Handle(SQLiteException ex, string action) {
+        protected static UserErrorModel Handle(SQLiteException ex, string action) {
             var message =
                 $"There appears to be a problem with your database. If the problem persists, you can delete the databases from:\n{Common.Paths.LocalDataPath} and {Common.Paths.DataPath}" +
                 "\nError message: " + ex.Message;
             var title = "An error has occured while trying to '" + action + "'";
-            return new UserError(title, message, innerException: ex);
+            return new UserErrorModel(title, message, innerException: ex);
         }
 
-        protected static UserError Handle(Exception ex, string action) {
+        protected static UserErrorModel Handle(Exception ex, string action) {
             var message = "An unexpected error has occurred while trying to execute the requested action:" +
                           "\n" + ex.Message;
             var title = "An error has occured while trying to '" + action + "'";
-            return new UserError(title, message, innerException: ex);
+            return new UserErrorModel(title, message, innerException: ex);
         }
 
         protected static string GetHumanReadableActionName(string action) => action.Split('.').Last();

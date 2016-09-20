@@ -6,12 +6,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Steam.Core.SteamKit.Utils;
-using SN.withSIX.Steam.Core.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1.Models;
 using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
+    /*
     public interface ISteamDownloader
     {
         Task Download(DownloadDetails info, IAbsoluteDirectoryPath location, LoginDetails login, Action<long?, double> action = null, CancellationToken ct = default(CancellationToken));
@@ -54,4 +53,5 @@ namespace SN.withSIX.Mini.Applications.Services
                     login, action, ct).ConfigureAwait(false);
         }
     }
+    */
 }

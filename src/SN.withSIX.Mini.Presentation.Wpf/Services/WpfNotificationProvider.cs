@@ -4,9 +4,8 @@
 
 using System;
 using System.Threading.Tasks;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Services

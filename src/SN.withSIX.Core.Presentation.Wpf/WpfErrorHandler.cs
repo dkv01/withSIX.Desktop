@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -41,7 +42,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
             var settings = new Dictionary<string, object>();
             if (window != null)
                 settings["Owner"] = window;
-            var t2 = RecoveryCommandImmediate.GetTask(error.RecoveryOptions);
+            var t2 = error.RecoveryOptions.GetTask();
             await _specialDialogManager.ShowDialog(new UserErrorViewModel(error), settings).ConfigureAwait(false);
             return await t2.ConfigureAwait(false);
         }

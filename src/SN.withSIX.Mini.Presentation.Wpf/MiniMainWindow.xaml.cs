@@ -14,6 +14,9 @@ using System.Windows.Shell;
 using MahApps.Metro.Controls;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels;
@@ -61,7 +64,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 d(this.OneWayBind(ViewModel, vm => vm.TaskbarToolTip, v => v.TaskbarIcon.ToolTipText));
                 d(this.OneWayBind(ViewModel, vm => vm.Status.Status.Type, v => v.TaskbarIcon.IconSource,
                     b => b == ActionType.Start ? busyimg : notBusyImage));
-                d(Cheat.MessageBus.Listen<ScreenOpened>().InvokeCommand(ViewModel, vm => vm.Deactivate));
+                d(UiCheat.MessageBus.Listen<ScreenOpened>().InvokeCommand(ViewModel, vm => vm.Deactivate));
                 d(this.Events().Deactivated.InvokeCommand(ViewModel, vm => vm.Deactivate));
             });
             TaskbarIcon.TrayLeftMouseUp += (sender, args) => ViewModel.OpenPopup.Execute(null);

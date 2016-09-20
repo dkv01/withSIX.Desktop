@@ -5,13 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ReactiveUI;
 
 namespace SN.withSIX.Core.Applications.Errors
 {
     public interface IExceptionHandlerHandle
     {
-        UserError HandleException(Exception ex, string action = "Action");
+        UserErrorModel HandleException(Exception ex, string action = "Action");
     }
 
     public interface IExceptionHandler : IExceptionHandlerHandle

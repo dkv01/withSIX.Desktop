@@ -44,11 +44,11 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         public StarboundGame(Guid id, StarboundGameSettings settings) : base(id, settings) {
             _executables =
-                new Lazy<IRelativeFilePath[]>(() => Environment.Is64BitOperatingSystem
+                new Lazy<IRelativeFilePath[]>(() => Common.Flags.Is64BitOperatingSystem
                     ? Metadata.GetExecutables().ToArray()
                     : Metadata.GetExecutables().Skip(1).ToArray());
             _serverExecutables =
-                new Lazy<IRelativeFilePath[]>(() => Environment.Is64BitOperatingSystem
+                new Lazy<IRelativeFilePath[]>(() => Common.Flags.Is64BitOperatingSystem
                     ? Metadata.GetServerExecutables().ToArray()
                     : Metadata.GetServerExecutables().Skip(1).ToArray());
         }
@@ -217,13 +217,14 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 }
             }
 
-            protected override async Task UninstallImpl() {
+            protected override Task UninstallImpl() {
                 if (!_modDir.Exists)
-                    return;
+                    return TaskExt.Default;
                 new[] {
                     _modDir.GetChildFileWithName($"{Mod.PackageName}.pak"),
                     _modDir.GetChildFileWithName($"{Mod.PackageName}.modpak")
                 }.Where(x => x.Exists).ForEach(x => x.Delete());
+                return TaskExt.Default;
             }
         }
 

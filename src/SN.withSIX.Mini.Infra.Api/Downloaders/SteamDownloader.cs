@@ -17,6 +17,7 @@ using SN.withSIX.Steam.Core.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFile
 
 namespace SN.withSIX.Mini.Infra.Api.Downloaders
 {
+    /*
     public class SteamDownloader : ISteamDownloader, IInfrastructureService
     {
         private readonly AsyncLock _l = new AsyncLock();
@@ -63,4 +64,5 @@ namespace SN.withSIX.Mini.Infra.Api.Downloaders
             return config;
         }
     }
+    */
 }

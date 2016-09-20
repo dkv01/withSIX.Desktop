@@ -48,8 +48,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 // ThrownExceptions does not listen to Subscribe errors, but only in async task errors!
                 command.ThrownExceptions
                     .Select(x => ErrorHandlerr.HandleException(x, action))
-                    .SelectMany(UserError.Throw)
-                    .Where(x => x == RecoveryOptionResult.RetryOperation)
+                    .SelectMany(UserErrorHandler.HandleUserError)
+                    .Where(x => x == RecoveryOptionResultModel.RetryOperation)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .InvokeCommand(command);
             };

@@ -10,9 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using MoreLinq;
 using ReactiveUI;
-
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
 using SN.withSIX.Core;

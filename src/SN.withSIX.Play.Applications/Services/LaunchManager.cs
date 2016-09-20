@@ -36,6 +36,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Servers;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Core.Options.Entries;
+using Timer = SN.withSIX.Core.Helpers.Timer;
 
 namespace SN.withSIX.Play.Applications.Services
 {
@@ -158,7 +159,7 @@ namespace SN.withSIX.Play.Applications.Services
             if (!installedState.IsInstalled)
                 return new Tuple<Process, ServerAddress>(null, null);
 
-            var processes = Tools.Processes.GetCommandlineArgs(installedState.Executable.ToString());
+            var processes = Tools.ProcessManager.Management.GetCommandlineArgs(installedState.Executable.ToString());
             try {
                 var procs = processes
                     .Where((kvp, i) => !string.IsNullOrWhiteSpace(kvp.Value))
@@ -329,7 +330,7 @@ namespace SN.withSIX.Play.Applications.Services
         protected virtual void Dispose(bool disposing) {
             if (disposing) {
                 // dispose managed resources
-                _listTimer.Close();
+                _listTimer.Dispose();
             }
             // free native resources
         }

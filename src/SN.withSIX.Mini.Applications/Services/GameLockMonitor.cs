@@ -3,63 +3,23 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Core.Games.Services;
+using System.Threading.Tasks;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
     public interface IGameLockMonitor
     {
-        IObservable<GameLockMonitor.GameLockState> GetObservable(Guid id);
+        Task<GameLockState> GetObservable(Guid id);
     }
 
-    public class GameLockMonitor : IGameLockMonitor, IApplicationService
+    public class GameLockState
     {
-        readonly Dictionary<Guid, GameLockState> _currentValues = new Dictionary<Guid, GameLockState>();
-        readonly Dictionary<Guid, Subject<GameLockState>> _observables = new Dictionary<Guid, Subject<GameLockState>>();
-
-        public GameLockMonitor(IMessageBus messageBus) {
-            messageBus.Listen<GameLockChanged>()
-                .Subscribe(Handle);
+        public GameLockState(bool isLocked, bool canAbort) {
+            IsLocked = isLocked;
+            CanAbort = canAbort;
         }
 
-        public IObservable<GameLockState> GetObservable(Guid gameId) {
-            var result = GetOrAdd(gameId);
-            return result.Item1.StartWith(result.Item2);
-        }
-
-        Tuple<Subject<GameLockState>, GameLockState> GetOrAdd(Guid gameId) {
-            lock (_observables) {
-                if (!_observables.ContainsKey(gameId)) {
-                    _observables[gameId] = new Subject<GameLockState>();
-                    _currentValues[gameId] = new GameLockState(false, false);
-                }
-                return Tuple.Create(_observables[gameId], _currentValues[gameId]);
-            }
-        }
-
-        void Handle(GameLockChanged gameLockChanged) {
-            var obs = GetOrAdd(gameLockChanged.GameId);
-            lock (obs) {
-                var state = new GameLockState(gameLockChanged.IsLocked, gameLockChanged.CanAbort);
-                _currentValues[gameLockChanged.GameId] = state;
-                obs.Item1.OnNext(state);
-            }
-        }
-
-        public class GameLockState
-        {
-            public GameLockState(bool isLocked, bool canAbort) {
-                IsLocked = isLocked;
-                CanAbort = canAbort;
-            }
-
-            public bool IsLocked { get; }
-            public bool CanAbort { get; }
-        }
+        public bool IsLocked { get; }
+        public bool CanAbort { get; }
     }
 }

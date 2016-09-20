@@ -6,10 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +18,7 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI
 {
+    /*
     public class CommandAPI : IDisposable, IEnableLogging
     {
         const int DefaultBufferSize = 1*FileSizeUnits.KB;
@@ -284,4 +282,5 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI
             public InvalidCommandNoSpaceException(string message) : base(message) {}
         }
     }
+    */
 }

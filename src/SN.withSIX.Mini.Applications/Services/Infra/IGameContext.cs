@@ -46,17 +46,6 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
         public abstract Task Migrate(IGameContext gc);
     }
 
-    class Migration1 : Migration
-    {
-        public override async Task Migrate(IGameContext gc) {
-            await gc.LoadAll().ConfigureAwait(false);
-            foreach (var g in gc.Games) {
-                g.CleanupContent();
-                g.MigrateContents();
-            }
-        }
-    }
-
     public static class GameContextExtensions
     {
         static async Task<Game> Wrap(Func<Task<Game>> act, Guid id) {

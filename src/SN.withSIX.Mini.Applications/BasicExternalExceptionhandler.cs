@@ -3,15 +3,14 @@
 // </copyright>
 
 using System;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 
 namespace SN.withSIX.Mini.Applications
 {
     public abstract class BasicExternalExceptionhandler : IHandleExceptionPlugin
     {
-        public abstract UserError HandleException(Exception ex, string action = "Action");
+        public abstract UserErrorModel HandleException(Exception ex, string action = "Action");
 
-        protected static UserError Handle(Exception exception, string action) => null;
+        protected static UserErrorModel Handle(Exception exception, string action) => null;
     }
 }

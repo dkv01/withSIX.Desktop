@@ -7,7 +7,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Applications.Extensions
+namespace SN.withSIX.Core.Applications.MVVM
 {
     public static class ObservableExtensions
     {

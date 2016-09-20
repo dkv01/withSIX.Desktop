@@ -124,10 +124,10 @@ namespace SN.withSIX.Core.Applications.Services
         }
 
         static Version GetDesiredToolsVersion() {
-            var customAttribute =
-                (ToolsVersionAttribute)
-                    typeof (ToolsInstaller).Assembly.GetCustomAttribute(typeof (ToolsVersionAttribute));
-            return customAttribute.Version.ToVersion();
+            // TODO
+            //var customAttribute = (ToolsVersionAttribute)typeof (ToolsInstaller).Assembly.GetCustomAttribute(typeof (ToolsVersionAttribute));
+            //return customAttribute.Version.ToVersion();
+            return new Version(3,2);
             /*_settings.AppOptions.EnableBetaUpdates
                            ? GetVersionInfoRoot().Beta
                            : GetVersionInfoRoot().Stable;*/

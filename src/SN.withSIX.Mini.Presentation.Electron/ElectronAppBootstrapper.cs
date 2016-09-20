@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using SimpleInjector;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications.Services;

@@ -186,10 +186,6 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -199,6 +195,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Win32.Registry, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.4.0.0\lib\net46\Microsoft.Win32.Registry.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NDepend.Path.PCL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NDepend.Path.PCL.1.0.2-pre\lib\netstandard1.3\NDepend.Path.PCL.dll</HintPath>
       <Private>True</Private>
@@ -330,14 +330,19 @@
     <Compile Include="Services\AutoMapperWrapper.cs" />
     <Compile Include="Services\FileWriter.cs" />
     <Compile Include="Services\GeoIpService.cs" />
+    <Compile Include="Services\IApiLocalObjectCacheManager.cs" />
+    <Compile Include="Services\IDownloadCacheManager.cs" />
     <Compile Include="Services\IInfrastructureService.cs" />
     <Compile Include="Services\InMemoryDbSet.cs" />
+    <Compile Include="Services\IObjectCacheManager.cs" />
+    <Compile Include="Services\ISecureCacheManager.cs" />
     <Compile Include="Services\PingProvider.cs" />
     <Compile Include="Services\ProcessManager.cs" />
     <Compile Include="Services\ReactiveProcess.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\ResourceService.cs" />
+    <Compile Include="Services\VersionRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoIP\GeoIP.csproj">

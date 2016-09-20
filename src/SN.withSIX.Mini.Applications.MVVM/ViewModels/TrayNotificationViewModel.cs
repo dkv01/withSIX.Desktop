@@ -27,8 +27,16 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
             CloseIn = closeIn;
             Actions = actions;
             if (actions != null) {
-                foreach (var a in actions)
-                    a.Command.Subscribe(x => Close.Execute(null));
+                foreach (var a in actions) {
+                    var cmd = a.Command;
+                    a.Command = async () => {
+                        try {
+                            await cmd();
+                        } finally {
+                            Close.Execute(null);
+                        }
+                    };
+                }
             }
         }
 

@@ -65,8 +65,8 @@ namespace SN.withSIX.Core.Infra.Services
                 throw new InvalidOperationException("Not redirected error");
 
             // we terminate the observables so we dont have to dispose these subscriptions
-            process.StandardOutputObservable.Subscribe(() => state.UpdateStamp());
-            process.StandardErrorObservable.Subscribe(() => state.UpdateStamp());
+            process.StandardOutputObservable.Subscribe(_ => state.UpdateStamp());
+            process.StandardErrorObservable.Subscribe(_ => state.UpdateStamp());
             return state;
         }
     }
@@ -416,6 +416,20 @@ namespace SN.withSIX.Core.Infra.Services
         public void StartAndForget(ProcessStartInfo startInfo) {
             using (Start(startInfo)) {}
         }
+
+        public Process StartElevated(ProcessStartInfo startInfo) {
+            startInfo.Validate();
+            startInfo.Verb = "runas";
+            var process = Process.Start(startInfo);
+            _launched.OnNext(Tuple.Create(startInfo, process?.Id ?? -1));
+            return process;
+        }
+
+        public void StartAndForgetElevated(ProcessStartInfo startInfo) {
+            startInfo.Verb = "runas";
+            using (Start(startInfo)) { }
+        }
+
 
         public ProcessExitResult Launch(BasicLaunchInfo info) {
             ProcessBLI(info);

@@ -183,12 +183,13 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             TryMinimize();
         }
 
+        [Obsolete("TODO")]
         void TryMinimize() {
             try {
                 var proc = Process;
                 if (proc == null || proc.SafeHasExited())
                     return;
-                Tools.ProcessesTools.NativeMethods.MinimizeWindow(proc);
+                //Tools.ProcessesTools.NativeMethods.MinimizeWindow(proc);
             } catch (Exception e) {
                 this.Logger().FormattedWarnException(e);
             }
@@ -198,13 +199,15 @@ namespace SN.withSIX.Play.Core.Games.Legacy
         public void SwitchTo() {
             TrySwitchTo();
         }
-
+        
+        [Obsolete("TODO")]
         void TrySwitchTo() {
             try {
                 var proc = Process;
                 if (proc == null || proc.SafeHasExited())
                     return;
-                Tools.ProcessesTools.NativeMethods.SetForeground(proc);
+                // TODO
+                //Tools.ProcessesTools.NativeMethods.SetForeground(proc);
             } catch (Exception e) {
                 this.Logger().FormattedWarnException(e);
             }

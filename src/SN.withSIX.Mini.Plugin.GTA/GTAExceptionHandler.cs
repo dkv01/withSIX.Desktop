@@ -5,13 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Plugin.GTA.Models;
 
@@ -32,11 +28,13 @@ OpenIV is currently available for manual download exclusively on the authors Hom
 
 Please install it from: http://openiv.com then press 'Retry'";
 
-        public override UserError HandleException(Exception ex, string action = "Action") {
+        public override UserErrorModel HandleException(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }
 
+        // TODO
+        /*
         DependencyMissingUserError Handle(OpenIvMissingException ex, string action) {
             var webBrowserCommand = new NonRecoveryCommand("Get OpenIV");
             webBrowserCommand.MergeTask(
@@ -84,6 +82,7 @@ Please install it from: http://openiv.com then press 'Retry'";
                 }
             }
         }
+        */
 
         static string GetMultiText(MultiGameRequirementMissingException multiGameRequirementMissingException) {
             var text = new List<string>();
@@ -98,10 +97,10 @@ Please install it from: http://openiv.com then press 'Retry'";
         }
     }
 
-    public class DependencyMissingUserError : UserError
+    public class DependencyMissingUserError : UserErrorModel
     {
         public DependencyMissingUserError(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
+            IEnumerable<RecoveryCommandModel> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
             : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
     }

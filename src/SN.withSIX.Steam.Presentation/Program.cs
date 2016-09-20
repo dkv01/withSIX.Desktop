@@ -19,7 +19,7 @@ namespace SN.withSIX.Steam.Presentation
     {
         static void Main(string[] args) {
             try {
-                Common.Flags = new Common.StartupFlags(args);
+                Common.Flags = new Common.StartupFlags(args, Environment.Is64BitOperatingSystem);
                 SetupNlog.Initialize("SteamHelper");
                 Environment.Exit(new CommandRunner(BuildCommands()).RunCommandsAndLog(args));
             } catch (SteamNotFoundException ex) {

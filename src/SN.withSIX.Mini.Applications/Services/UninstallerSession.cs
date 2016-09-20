@@ -5,8 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -125,13 +123,13 @@ namespace SN.withSIX.Mini.Applications.Services
                 c.Key.Uninstalled();
             //await WaitForUninstalled(steamContent).ConfigureAwait(false);
         }
-
+        /*
         private async Task WaitForUninstalled(Dictionary<Content, string> steamContent) {
             using (var cts = new CancellationTokenSource()) {
                 cts.CancelAfter(TimeSpan.FromSeconds(60));
                 // TODO: Or would we better ping steam?
                 await
-                    Observable.Interval(TimeSpan.FromMilliseconds(500) /*, api.Scheduler */)
+                    Observable.Interval(TimeSpan.FromMilliseconds(500)) // apiScheduler
                         .TakeWhile(
                             _ =>
                                 steamContent.Select(
@@ -141,6 +139,7 @@ namespace SN.withSIX.Mini.Applications.Services
                         .ConfigureAwait(false);
             }
         }
+*/
 
         private InstallerSession.SteamExternalInstallerSession CreateSteamSession(
             Dictionary<ulong, ProgressLeaf> progressLeaves)

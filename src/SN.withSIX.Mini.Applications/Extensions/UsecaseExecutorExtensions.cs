@@ -10,8 +10,6 @@ using SN.withSIX.Mini.Applications.Usecases;
 
 namespace SN.withSIX.Mini.Applications.Extensions
 {
-    public interface IUsecaseExecutor {}
-
     public static class UsecaseExecutorExtensions
     {
         public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
@@ -22,11 +20,6 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static Task<Unit> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId)
             => Cheat.Mediator.DispatchNextAction(message => SendAsync(executor, message), requestId);
-
-        public static IObservable<T> Listen<T>(this IUsecaseExecutor _) => Cheat.MessageBus.Listen<T>();
-
-        public static IObservable<T> ListenIncludeLatest<T>(this IUsecaseExecutor _)
-            => Cheat.MessageBus.ListenIncludeLatest<T>();
 
         /*
         public static Task<T> OpenScreenAsync<T>(this IUsecaseExecutor executor, IAsyncQuery<T> query) where T : class, IScreenViewModel

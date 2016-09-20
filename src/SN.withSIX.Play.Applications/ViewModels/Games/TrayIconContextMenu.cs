@@ -4,8 +4,6 @@
 
 using System;
 using System.Diagnostics;
-using MoreLinq;
-
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.Extensions;

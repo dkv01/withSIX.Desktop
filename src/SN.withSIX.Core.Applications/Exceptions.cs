@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Applications

@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Net;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Sync.Core.Transfer;
 
@@ -58,8 +56,8 @@ namespace SN.withSIX.Mini.Applications.Services
                     {"userName", currentAuthInfo.Username ?? ""},
                     {"password", ""} // , currentAuthInfo.Password ?? "" .. lets think about this ;-)
                 });
-            var r = await UserError.Throw(userError);
-            if (r != RecoveryOptionResult.RetryOperation)
+            var r = await UserErrorHandler.HandleUserError(userError);
+            if (r != RecoveryOptionResultModel.RetryOperation)
                 return null;
             var userName = userError.ContextInfo["userName"] as string;
             var password = userError.ContextInfo["password"] as string;

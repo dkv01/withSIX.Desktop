@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Linq;
-using System.ServiceProcess;
 
 namespace SN.withSIX.Core.Applications.Services
 {
+    /*
     public static class SixElevatedServiceMisc
     {
         public static string SixElevatedServiceName = "SixElevatedService";
@@ -25,4 +25,5 @@ namespace SN.withSIX.Core.Applications.Services
             return Controller.Status;
         }
     }
+    */
 }

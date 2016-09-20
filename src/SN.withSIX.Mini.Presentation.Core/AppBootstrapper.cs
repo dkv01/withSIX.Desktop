@@ -23,6 +23,7 @@ using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
@@ -58,6 +59,7 @@ using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using Splat;
 using withSIX.Api.Models.Extensions;
+using MediatorExtensions = SN.withSIX.Mini.Applications.Extensions.MediatorExtensions;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
@@ -120,6 +122,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 
             SetupPaths();
             SetupContainer();
+            UserErrorHandling.Setup();
         }
 
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
@@ -143,6 +146,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             RegisterToolServices();
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
+            UiCheat.MessageBus = Container.GetInstance<IMessageBus>();
+            MediatorExtensions.PublishToMessageBusDynamically = UiCheat.PublishToMessageBusDynamically;
             _initializers = Container.GetAllInstances<IInitializer>();
         }
 
@@ -151,10 +156,10 @@ namespace SN.withSIX.Mini.Presentation.Core
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
-                        UserError.Throw(new UserError(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
-                return result == RecoveryOptionResult.RetryOperation;
+                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
+                return result == RecoveryOptionResultModel.RetryOperation;
             };
-            Tools.InformUserError = (s, s1, e) => UserError.Throw(new InformationalUserError(e, s1, s)).ToTask();
+            Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
         }
 
         static IEnumerable<Assembly> DiscoverAndLoadPlatform() => DiscoverPlatformDlls()
@@ -651,7 +656,6 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         private async Task EndInternal() {
             await RunDeinitializers().ConfigureAwait(false);
-            Cheat.SteamSession?.Dispose();
             await Container.GetInstance<ICacheManager>().Shutdown().ConfigureAwait(false);
         }
 

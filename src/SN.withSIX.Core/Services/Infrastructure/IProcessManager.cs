@@ -14,6 +14,8 @@ namespace SN.withSIX.Core.Services.Infrastructure
     {
         Process Start(ProcessStartInfo startInfo);
         void StartAndForget(ProcessStartInfo startInfo);
+        Process StartElevated(ProcessStartInfo startInfo);
+        void StartAndForgetElevated(ProcessStartInfo startInfo);
         ProcessExitResult Launch(BasicLaunchInfo info);
         ProcessExitResult LaunchElevated(BasicLaunchInfo info);
         ProcessExitResultWithOutput LaunchAndGrab(BasicLaunchInfo info);

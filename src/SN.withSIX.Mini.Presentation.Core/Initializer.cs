@@ -9,6 +9,8 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
+using SN.withSIX.Mini.Core.Games;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core
@@ -23,6 +25,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         public async Task Initialize() {
+            Game.SteamHelper = SteamHelper.Create(); // TODO: Move
             RegisterUrlHandlers();
             //await SetupNotificationIcon().ConfigureAwait(false);
         }

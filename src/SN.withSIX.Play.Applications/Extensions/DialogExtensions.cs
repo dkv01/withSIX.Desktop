@@ -16,7 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using Caliburn.Micro;
-using MoreLinq;
 using SN.withSIX.Core.Extensions;
 using Action = System.Action;
 

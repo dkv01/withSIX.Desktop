@@ -13,7 +13,12 @@ using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Core.Infra.Services
 {
-    public class InMemoryDbSet<TEntity, TId> : IDbSet<TEntity, TId> where TEntity : IHaveId<TId>
+    public interface ILocalDbSet<TEntity>
+    {
+        ReactiveList<TEntity> Local { get; }
+    }
+
+    public class InMemoryDbSet<TEntity, TId> : IDbSet<TEntity, TId>, ILocalDbSet<TEntity> where TEntity : IHaveId<TId>
     {
         readonly IQueryable<TEntity> _queryable;
 

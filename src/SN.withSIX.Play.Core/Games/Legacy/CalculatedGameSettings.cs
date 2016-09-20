@@ -9,7 +9,6 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.Core;

@@ -18,6 +18,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
+using SN.withSIX.Mini.Infra.Api.Services;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 

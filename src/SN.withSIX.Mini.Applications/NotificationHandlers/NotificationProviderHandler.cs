@@ -4,9 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using ReactiveUI;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -15,7 +13,6 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.NotificationHandlers
 {
@@ -49,20 +46,13 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             if (notification.Href != null) {
                 actions.Add(new TrayAction {
                     DisplayName = "Info",
-                    Command =
-                        ReactiveCommand.CreateAsyncTask(
-                            _ =>
-                                this.SendAsync(new OpenArbWebLink(notification.Href))).DefaultSetup("Open Web Link")
+                    Command = () => this.SendAsync(new OpenArbWebLink(notification.Href))
                 });
             }
             if (notification.NextAction != null) {
                 actions.Add(new TrayAction {
                     DisplayName = notification.NextActionInfo.Title,
-                    Command =
-                        ReactiveCommand.CreateAsyncTask(
-                            _ =>
-                                _stateHandler.DispatchNextAction(this.SendAsync, notification.NextAction.RequestId))
-                            .DefaultSetup("Process Next Action")
+                    Command = () => _stateHandler.DispatchNextAction(this.SendAsync, notification.NextAction.RequestId)
                 });
             }
             return actions;
@@ -129,6 +119,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             }
         }
 
+/*
         IReactiveCommand<Unit> CreateCommand(InstallActionCompleted notification, PlayAction playAction)
             => ReactiveCommand.CreateAsyncTask(
                 async x =>
@@ -138,6 +129,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
                             action: playAction.ToLaunchAction()))
                         .ConfigureAwait(false))
                 .DefaultSetup("Play");
+                */
 
         class ActionInfo
         {

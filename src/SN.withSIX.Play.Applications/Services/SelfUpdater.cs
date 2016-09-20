@@ -134,7 +134,7 @@ namespace SN.withSIX.Play.Applications.Services
             try {
                 return await ApplyUpdateIfExists(exePath).ConfigureAwait(false);
             } catch (UnauthorizedAccessException e) {
-                if (!Tools.Processes.Uac.CheckUac()) {
+                if (!Tools.UacHelper.CheckUac()) {
                     Cleanup();
                     throw;
                 }

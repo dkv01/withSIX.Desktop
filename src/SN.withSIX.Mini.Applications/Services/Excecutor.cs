@@ -5,13 +5,11 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using ReactiveUI;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -43,8 +41,8 @@ namespace SN.withSIX.Mini.Applications.Services
             catch (Exception ex) {
                 var handleException = ErrorHandlerr.HandleException(ex, "Action: " + command.GetType().Name);
                 var result =
-                    await UserError.Throw(handleException);
-                if (result == RecoveryOptionResult.RetryOperation)
+                    await UserErrorHandler.HandleUserError(handleException);
+                if (result == RecoveryOptionResultModel.RetryOperation)
                     goto retry;
                 throw createException("Operation aborted", new CanceledException("The operation was aborted", ex));
             }

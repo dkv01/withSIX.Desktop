@@ -38,6 +38,7 @@ using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Validators;
 using SubscribedToCollection = SN.withSIX.Play.Applications.UseCases.Games.SubscribedToCollection;
 using UnsubscribedFromCollection = SN.withSIX.Play.Applications.UseCases.Games.UnsubscribedFromCollection;
 
@@ -69,8 +70,8 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
     {
         static readonly string defaultAvaImg =
             HttpUtility.UrlEncode("http://withsix-assets.s3-eu-west-1.amazonaws.com/img/avatar/placeholder_40.png");
-        static readonly DataAnnotationsValidator.DataAnnotationsValidator validator =
-            new DataAnnotationsValidator.DataAnnotationsValidator();
+        static readonly DataAnnotationsValidator validator =
+            new DataAnnotationsValidator();
         readonly IConnectionManager _connectionManager;
         readonly IExceptionHandler _exHandler;
         readonly IMapper _mappingEngine;

@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using ReactiveUI;
 using MediatR;
 
 namespace SN.withSIX.Core.Applications.Services
@@ -18,6 +17,6 @@ namespace SN.withSIX.Core.Applications.Services
     public class TrayAction
     {
         public string DisplayName { get; set; }
-        public IReactiveCommand<Unit> Command { get; set; }
+        public Func<Task> Command { get; set; }
     }
 }

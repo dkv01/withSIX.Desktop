@@ -71,7 +71,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
             // assuming you want to include nested folders
             var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
                 .OrderBy(p => p).ToList();
-
+            return Guid.Empty.ToString();
+            /*
+            // TODO
             var md5 = MD5.Create();
 
             for (var i = 0; i < files.Count; i++) {
@@ -91,6 +93,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
             }
 
             return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+            */
         }
 
         static string GetChecksum(IAbsoluteFilePath uconfigPath) {

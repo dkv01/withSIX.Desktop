@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Applications.Infrastructure
+namespace SN.withSIX.Core.Infra.Services
 {
     public interface IDownloadCacheManager
     {

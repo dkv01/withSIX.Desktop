@@ -10,10 +10,10 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Infra.Api.Downloaders;
 
 namespace SN.withSIX.Mini.Tests
 {
+    /*
     [TestFixture]
     public class SteamDownloaderTest : BaseTest<SteamDownloader>
     {
@@ -42,10 +42,8 @@ namespace SN.withSIX.Mini.Tests
             SUT = new SteamDownloader();
             var secret =
                 Tools.Serialization.Json.LoadJsonFromFile<JsonInfo>("C:\\temp\\secret.json".ToAbsoluteFilePath());
-            await
-                SUT.Download(contentId, "C:\\temp\\somewhere".ToAbsoluteDirectoryPath(),
-                    new LoginDetails(secret.UserName, secret.Password), (l, d) => Console.WriteLine($"{l}b/s {d}%"))
-                    .ConfigureAwait(false);
+            //await SUT.Download(contentId, "C:\\temp\\somewhere".ToAbsoluteDirectoryPath(), new LoginDetails(secret.UserName, secret.Password), (l, d) => Console.WriteLine($"{l}b/s {d}%")) .ConfigureAwait(false);
         }
     }
+    */
 }

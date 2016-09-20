@@ -4,24 +4,23 @@
 
 using System;
 using System.Collections.Generic;
-using ReactiveUI;
 
 namespace SN.withSIX.Core.Applications.Errors
 {
-    public class RestartAsAdministratorUserError : UserError
+    public class RestartAsAdministratorUserError : UserErrorModel
     {
-        public static readonly IRecoveryCommand Restart = new RecoveryCommandImmediate("Restart as Administrator",
-            o => RecoveryOptionResult.RetryOperation);
+        public static readonly RecoveryCommandModel Restart = new RecoveryCommandModel("Restart as Administrator",
+            o => RecoveryOptionResultModel.RetryOperation);
 
         public RestartAsAdministratorUserError(Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
             : base(
                 "The action requires admin rights, retry while running as administrator?",
                 "It seems you don't have permission",
-                new[] {Restart, RecoveryCommandImmediate.Cancel}, contextInfo, innerException) {}
+                new[] {Restart, RecoveryCommandModel.Cancel}, contextInfo, innerException) {}
     }
 
-    public class NotConnectedUserError : UserError
+    public class NotConnectedUserError : UserErrorModel
     {
         public NotConnectedUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
@@ -29,7 +28,7 @@ namespace SN.withSIX.Core.Applications.Errors
                 RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 
-    public class NotLoggedInUserError : UserError
+    public class NotLoggedInUserError : UserErrorModel
     {
         public NotLoggedInUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
@@ -37,7 +36,7 @@ namespace SN.withSIX.Core.Applications.Errors
                 RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 
-    public class BusyUserError : UserError
+    public class BusyUserError : UserErrorModel
     {
         public BusyUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
@@ -46,10 +45,10 @@ namespace SN.withSIX.Core.Applications.Errors
                 RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
     }
 
-    public class CanceledUserError : UserError
+    public class CanceledUserError : UserErrorModel
     {
         public CanceledUserError(string errorMessage, string errorCauseOrResolution = null,
-            IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
+            IEnumerable<RecoveryCommandModel> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
             OperationCanceledException innerException = null)
             : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
     }

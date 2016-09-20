@@ -56,7 +56,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         readonly IExceptionHandler _exceptionHandler;
         private readonly ISpecialDialogManager _specialDialogManager;
         readonly INotificationCenterMessageHandler _handler;
-        readonly Snow _snow;
         readonly UserSettings _userSettings;
 
         public PlayShellView(IEventAggregator eventBus, UserSettings settings,
@@ -72,7 +71,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             _exceptionHandler = exceptionHandler;
             _specialDialogManager = specialDialogManager;
 
-            _snow = new Snow(ContentCanvas, eventBus);
             WorkaroundSystemMenu_Init();
 
             this.WhenActivated(d => {
@@ -87,9 +85,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                 d(this.WhenAnyObservable(x => x.ViewModel.ActivateWindows)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => DialogHelper.ActivateWindows(x)));
-                d(_userSettings.AppOptions.WhenAnyValue(x => x.DisableEasterEggs)
-                    .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(HandleEasterEgg));
                 d(TryCreateTrayIcon());
             });
 
@@ -268,23 +263,12 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             return list;
         }
 
-        void HandleEasterEgg(bool disableEasterEggs) {
-            var dt = Tools.Generic.GetCurrentDateTime;
-            if (!disableEasterEggs
-                && dt.Month == 12
-                && dt.Day >= 24 && dt.Day <= 27)
-                _snow.Loaded();
-            else
-                _snow.Unloaded();
-        }
-
         void Help(object sender, ExecutedRoutedEventArgs e) {
             BrowserHelper.TryOpenUrlIntegrated(CommonUrls.SupportUrl);
         }
 
         void PlayShellView_OnLoaded(object sender, RoutedEventArgs e) {
             WorkaroundSystemMenu_Loaded();
-            HandleEasterEgg(_userSettings.AppOptions.DisableEasterEggs);
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 

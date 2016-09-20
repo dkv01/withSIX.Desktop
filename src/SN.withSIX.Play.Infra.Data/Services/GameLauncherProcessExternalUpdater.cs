@@ -53,17 +53,17 @@ namespace SN.withSIX.Play.Infra.Data.Services
         static ProcessStartInfo BuildProcessStartInfo(LaunchGameInfoBase spec, IEnumerable<string> args)
             => new ProcessStartInfoBuilder(Common.Paths.ServiceExePath,
                 args.CombineParameters()) {
-                    AsAdministrator = spec.LaunchAsAdministrator,
                     WorkingDirectory = spec.WorkingDirectory
                 }.Build();
 
         async Task<Process> LaunchUpdaterProcess(LaunchGameInfoBase spec, ProcessStartInfo startInfo) {
             LogGameInfo(spec);
             LogStartupInfo(startInfo);
+            var lInfo = new BasicLaunchInfo(startInfo);
             if (spec.WaitForExit)
-                await _processManager.LaunchAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
+                await (spec.LaunchAsAdministrator ? _processManager.LaunchElevatedAsync(lInfo) : _processManager.LaunchAsync(lInfo)).ConfigureAwait(false);
             else
-                using (var p = _processManager.Start(startInfo)) {}
+                using (var p = spec.LaunchAsAdministrator ? _processManager.StartElevated(startInfo) : _processManager.Start(startInfo)) { }
 
             var procName = spec.ExpectedExecutable.FileNameWithoutExtension;
             return await FindGameProcess(procName).ConfigureAwait(false);

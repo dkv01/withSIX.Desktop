@@ -4,21 +4,17 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Api.Services;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -74,12 +70,8 @@ namespace SN.withSIX.Mini.Applications
         public static IActionDispatcher Mediator => _cheat.Mediator;
         [Obsolete("// TODO: Why do we need to suppress the ambient scope?!")]
         public static IDbContextFactory DbContextFactory => _cheat.DbContextFactory;
-        public static IMessageBus MessageBus => _cheat.MessageBus;
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
         public static ArgsO Args { get; set; } = new ArgsO();
-
-        [Obsolete("This will be removed once we externalize the Steam actions")]
-        public static SteamSession SteamSession { get; set; }
 
         public static void SetServices(ICheatImpl cheat) {
             if (_cheat != null)
@@ -97,8 +89,8 @@ namespace SN.withSIX.Mini.Applications
         public void Dispose() {
             var tasks = _tasks;
             _tasks = null;
-            foreach (var t in tasks)
-                t.Dispose();
+            //foreach (var t in tasks)
+              //  t.Dispose();
         }
 
         public void RegisterTask(Task task) {
@@ -177,22 +169,19 @@ namespace SN.withSIX.Mini.Applications
     public interface ICheatImpl
     {
         IActionDispatcher Mediator { get; }
-        IMessageBus MessageBus { get; }
         IDbContextFactory DbContextFactory { get; }
     }
 
     public class CheatImpl : ICheatImpl, IApplicationService
     {
-        public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler, IMessageBus messageBus,
+        public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler,
             IDbContextFactory dbContextFactory) {
             Mediator = mediator;
-            MessageBus = messageBus;
             DbContextFactory = dbContextFactory;
             ErrorHandlerr.SetExceptionHandler(exceptionHandler);
         }
 
         public IActionDispatcher Mediator { get; }
-        public IMessageBus MessageBus { get; }
         public IDbContextFactory DbContextFactory { get; }
     }
 }

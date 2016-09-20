@@ -8,18 +8,14 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
-using MoreLinq;
 using ReactiveUI;
 using MediatR;
-
-
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
@@ -30,7 +26,6 @@ using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications.Extensions;
 using SN.withSIX.Play.Applications.Helpers;

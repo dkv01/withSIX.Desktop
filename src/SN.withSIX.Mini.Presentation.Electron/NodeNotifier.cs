@@ -19,7 +19,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var r = await _api.ShowNotification(subject, text).ConfigureAwait(false);
             if (r.GetValueOrDefault(false)) {
                 if (actions.Any())
-                    await actions.First().Command.ExecuteAsync(null);
+                    await actions.First().Command();
             }
             return r;
         }

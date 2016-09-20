@@ -42,7 +42,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         public async Task<IAbsoluteFilePath> WriteParFile(WriteParFileInfo info) {
             var filePath = GetFilePath(info);
             this.Logger().Info("Writing par file at: {0}, with:\n{1}", filePath, info.Content);
-            await _writer.WriteFileAsync(filePath.ToString(), info.Content, Encoding.Default).ConfigureAwait(false);
+            await _writer.WriteFileAsync(filePath.ToString(), info.Content, Encoding.UTF8).ConfigureAwait(false); // Encoding.Default :S
             return filePath;
         }
 

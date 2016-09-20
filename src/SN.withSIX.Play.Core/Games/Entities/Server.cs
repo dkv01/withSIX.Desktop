@@ -13,7 +13,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MoreLinq;
 using ReactiveUI;
 
 using SN.withSIX.Core;

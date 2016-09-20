@@ -8,9 +8,11 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
+using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace SN.withSIX.Core.Applications.MVVM.Services
 {
     public static class UiTaskHandler
     {
@@ -19,8 +21,8 @@ namespace SN.withSIX.Core.Applications.Services
             // ThrownExceptions does not listen to Subscribe errors, but only in async task errors!
             command.ThrownExceptions
                 .Select(x => ErrorHandlerr.HandleException(x, action))
-                .SelectMany(UserError.Throw)
-                .Where(x => x == RecoveryOptionResult.RetryOperation)
+                .SelectMany(UserErrorHandler.HandleUserError)
+                .Where(x => x == RecoveryOptionResultModel.RetryOperation)
                 .InvokeCommand(command);
         };
 
@@ -59,5 +61,20 @@ namespace SN.withSIX.Core.Applications.Services
                 subscription?.Dispose();
             }
         }
+    }
+
+    public static class UiCheat
+    {
+        public static IMessageBus MessageBus { get; set; }
+
+        public static IObservable<T> Listen<T>(this IUsecaseExecutor _) => MessageBus.Listen<T>();
+
+        public static IObservable<T> ListenIncludeLatest<T>(this IUsecaseExecutor _)
+            => MessageBus.ListenIncludeLatest<T>();
+
+        public static void PublishToMessageBus<T>(this T message) => MessageBus.SendMessage(message);
+        // We are using dynamic here because the messagebus relies on generic typing
+        public static void PublishToMessageBusDynamically(this IDomainEvent message) => MessageBus.SendMessage((dynamic)message);
+
     }
 }

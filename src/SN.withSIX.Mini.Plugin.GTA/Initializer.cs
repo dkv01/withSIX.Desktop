@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using RpfGeneratorTool;
 using SN.withSIX.Core.Applications.Services;
 using withSIX.Api.Models.Extensions;
 
@@ -12,7 +11,7 @@ namespace SN.withSIX.Mini.Plugin.GTA
     public class Initializer : IInitializer
     {
         public Task Initialize() {
-            var p = new Package();
+            //var p = new Package();
 
             return TaskExt.Default;
         }

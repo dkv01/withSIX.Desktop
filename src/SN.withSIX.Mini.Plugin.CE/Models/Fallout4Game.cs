@@ -30,7 +30,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
         public Fallout4Game(Guid id, Fallout4GameSettings settings) : base(id, settings) {}
 
         IAbsoluteDirectoryPath GetLocalAppDataFolder()
-            => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+            => PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.LocalApplicationData)
                 .ToAbsoluteDirectoryPath()
                 .GetChildDirectoryWithName("Fallout4");
 
@@ -54,7 +54,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             return m.Uninstall();
         }
 
-        protected override async Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
+        protected override Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             var pluginList = GetLocalAppDataFolder().GetChildFileWithName("plugins.txt");
             var loadOrder = GetLocalAppDataFolder().GetChildFileWithName("loadorder.txt");
             var contentList =
@@ -68,6 +68,7 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             // todo; backup and keep load order
             pluginList.WriteText(string.Join(Environment.NewLine, contentList));
             loadOrder.WriteText(string.Join(Environment.NewLine, contentList));
+            return TaskExt.Default;
         }
 
         private Fallout4Mod CreateMod(IModContent x)

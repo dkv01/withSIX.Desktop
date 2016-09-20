@@ -5,155 +5,49 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using ReactiveUI;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Applications.Errors
 {
-    public interface IRxClose
-    {
-        ReactiveCommand<bool?> Close { get; set; }
-    }
-
-    public class NonRecoveryCommand : RecoveryCommandImmediate, IDontRecover
+    public class NonRecoveryCommand : RecoveryCommandModel, IDontRecover
     {
         public NonRecoveryCommand(string commandName) : base(commandName) {}
     }
 
-    public enum RecoveryOptionResultBackup
-    {
-        RetryOperation,
-        CancelOperation,
-        FailedOperation
-    }
-
     public static class UserErrorHandler
     {
-        public static Task<RecoveryOptionResultBackup> InformationalUserError(Exception exception, string title,
+        public static Task<RecoveryOptionResultModel> GeneralUserError(Exception exception, string title,
+            string message) => HandleUserError(new UserErrorModel(title, message, new[] { RecoveryCommandModel.Ok }, null, exception));
+
+        public static Task<RecoveryOptionResultModel> InformationalUserError(Exception exception, string title,
             string message) => HandleUserError(new InformationalUserError(exception, title, message));
 
-        public static Task<RecoveryOptionResultBackup> RecoverableUserError(Exception exception, string title,
+        public static Task<RecoveryOptionResultModel> RecoverableUserError(Exception exception, string title,
             string message) => HandleUserError(new RecoverableUserError(exception, title, message));
 
-        private static async Task<RecoveryOptionResultBackup> HandleUserError(UserError informationalUserError) {
-            var r = await UserError.Throw(informationalUserError);
-            return (RecoveryOptionResultBackup) Enum.Parse(typeof(RecoveryOptionResultBackup), r.ToString());
-        }
+        public static Func<UserErrorModel, Task<RecoveryOptionResultModel>> HandleUserError { get; set; }
     }
-
-    /*
-public static class RecoveryCommands
-{
-    public static readonly IRecoveryCommand> retry = new RecoveryCommand("Retry",
-        o => RecoveryOptionResult.RetryOperation);
-    public static IRecoveryCommand[] YesNoCommands = {RecoveryCommand.Yes, RecoveryCommand.No};
-    public static IRecoveryCommand[] RetryCommands = {Retry, RecoveryCommand.Cancel};
-}
-*/
 
     public static class RecoveryCommandsImmediate
     {
-        public static readonly IRecoveryCommand Retry = new RecoveryCommandImmediate("Retry", o => RecoveryOptionResult.RetryOperation);
-        public static IRecoveryCommand[] YesNoCommands = { RecoveryCommandImmediate.Yes, RecoveryCommandImmediate.No };
-        public static IRecoveryCommand[] RetryCommands = { Retry, RecoveryCommandImmediate.Cancel };
-    }
-
-    public class RecoveryCommandImmediate : ReactiveCommand<Unit>, IRecoveryCommand
-    {
-        public bool IsDefault { get; set; }
-        public bool IsCancel { get; set; }
-        public string CommandName { get; protected set; }
-        public RecoveryOptionResult? RecoveryResult { get; set; }
-
-        public static Task<RecoveryOptionResult> GetTask(
-            IReadOnlyCollection<IRecoveryCommand> commands)
-            => GetTask2<RecoveryCommand>(commands).Concat(GetTask2<RecoveryCommandImmediate>(commands))
-                .Merge()
-                .Select(x => x.GetValueOrDefault(RecoveryOptionResult.FailOperation))
-                .FirstAsync()
-                .ToTask();
-
-        static IEnumerable<IObservable<RecoveryOptionResult?>> GetTask2<T>(IEnumerable<IRecoveryCommand> commands)
-            where T : IRecoveryCommand, IObservable<Unit> => commands.OfType<T>()
-                .Select(x => x.Select(_ => x.RecoveryResult));
-        
-        /// <summary>
-        /// Constructs a RecoveryCommand.
-        /// </summary>
-        /// <param name="commandName">The user-visible name of this Command.</param>
-        /// <param name="handler">A convenience handler - equivalent to
-        /// Subscribing to the command and setting the RecoveryResult.</param>
-        public RecoveryCommandImmediate(string commandName, Func<object, RecoveryOptionResult> handler = null)
-            : base(Observable.Return(true), _ => Observable.Return(Unit.Default), Scheduler.Immediate) {
-            CommandName = commandName;
-
-            if (handler != null) {
-                this.Subscribe(x => RecoveryResult = handler(x));
-            }
-        }
-
-        /// <summary>
-        /// A default command whose caption is "Ok"
-        /// </summary>
-        /// <value>RetryOperation</value>
-        public static IRecoveryCommand Ok
-        {
-            get { var ret = new RecoveryCommandImmediate("Ok") { IsDefault = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.RetryOperation); return ret; }
-        }
-
-        /// <summary>
-        /// A default command whose caption is "Continue"
-        /// </summary>
-        /// <value>RetryOperation</value>
-        public static IRecoveryCommand Continue
-        {
-            get { var ret = new RecoveryCommandImmediate("Continue") { IsDefault = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.RetryOperation); return ret; }
-        }
-
-        /// <summary>
-        /// A default command whose caption is "Cancel"
-        /// </summary>
-        /// <value>FailOperation</value>
-        public static IRecoveryCommand Cancel
-        {
-            get { var ret = new RecoveryCommandImmediate("Cancel") { IsCancel = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.CancelOperation); return ret; }
-        }
-
-        /// <summary>
-        /// A default command whose caption is "Yes"
-        /// </summary>
-        /// <value>RetryOperation</value>
-        public static IRecoveryCommand Yes
-        {
-            get { var ret = new RecoveryCommandImmediate("Yes") { IsDefault = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.RetryOperation); return ret; }
-        }
-
-        /// <summary>
-        /// A default command whose caption is "No"
-        /// </summary>
-        /// <value>FailOperation</value>
-        public static IRecoveryCommand No
-        {
-            get { var ret = new RecoveryCommandImmediate("No") { IsCancel = true }; ret.Subscribe(_ => ret.RecoveryResult = RecoveryOptionResult.CancelOperation); return ret; }
-        }
+        public static readonly RecoveryCommandModel Retry = new RecoveryCommandModel("Retry", o => RecoveryOptionResultModel.RetryOperation);
+        public static RecoveryCommandModel[] YesNoCommands = { RecoveryCommandModel.Yes, RecoveryCommandModel.No };
+        public static RecoveryCommandModel[] RetryCommands = { Retry, RecoveryCommandModel.Cancel };
     }
 
 
     public interface IDontRecover {}
 
-    public class BasicUserError : UserError
+    public class BasicUserError : UserErrorModel
     {
         public BasicUserError(string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, new [] {RecoveryCommandImmediate.Cancel}, contextInfo, innerException) {}
+            : base(errorMessage, errorCauseOrResolution, new [] {RecoveryCommandModel.Cancel}, contextInfo, innerException) {}
     }
 
-    public class RecoverableUserError : UserError
+    public class RecoverableUserError : UserErrorModel
     {
         public RecoverableUserError(Exception innerException, string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null)
             : base(errorMessage, errorCauseOrResolution, RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) { }

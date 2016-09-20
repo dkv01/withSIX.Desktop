@@ -10,21 +10,21 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using ReactiveUI;
 using MediatR;
+using ReactiveUI;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using Disposable = SN.withSIX.Core.Helpers.Disposable;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace SN.withSIX.Mini.Infra.Api.Services
 {
     // TODO: Fix this retarded implementation!!!
-    public class GameLocker : IDisposable, IGameLocker, IApplicationService
+    public class GameLocker : IDisposable, IGameLocker, IInfrastructureService
     {
         private readonly CompositeDisposable _dsp;
         readonly IDictionary<Guid, CancellationTokenSource> _list = new Dictionary<Guid, CancellationTokenSource>();

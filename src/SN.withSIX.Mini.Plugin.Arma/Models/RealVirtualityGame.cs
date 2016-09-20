@@ -379,7 +379,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 //if (_supportsMissions)
                 //AddMissionArgs();
 
-                AddCommandArgs();
+                //AddCommandArgs();
                 AddGameArgs();
 
                 return Tuple.Create(_arguments.Distinct().ToArray(), _par.Distinct().ToArray());
@@ -485,10 +485,11 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             }
 
             bool ShouldBeOnStartupLine(string arg)
-                => _doesNotSupportPar.Any(x => arg.StartsWith(x, StringComparison.InvariantCultureIgnoreCase));
+                => _doesNotSupportPar.Any(x => arg.StartsWith(x, StringComparison.OrdinalIgnoreCase));
 
             bool ShouldBeOnParLine(string arg) => !ShouldBeOnStartupLine(arg);
 
+            /*
             void AddCommandArgs() {
                 var gv = _spec.GameVersion;
                 if (gv == null || gv.Revision < 100399)
@@ -499,6 +500,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 else
                     _arguments.Add(arg);
             }
+            */
 
             void AddModArgs() {
                 var modStr = string.Join(";", _modListBuilder.ProcessModList(new ModListBuilderSpec {
@@ -531,6 +533,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                     _arguments.AddRange(args);
             }
 
+            /*
             static IEnumerable<IPAddress> GetSystemIpAddresses()
                 => from netInterface in NetworkInterface.GetAllNetworkInterfaces()
                     select netInterface.GetIPProperties()
@@ -546,6 +549,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                     return new IPAddress[0];
                 }
             }
+            */
 
             IEnumerable<string> GetServerArgs() {
                 var sa = new ServerAddress(_spec.Server.Address);
@@ -559,7 +563,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 return args;
             }
 
-            IPAddress GetServerIP(IPAddress ip) => TryGetSystemIpAddresses().Contains(ip) ? GetLoopbackIP(ip) : ip;
+            IPAddress GetServerIP(IPAddress ip) => ip; //TryGetSystemIpAddresses().Contains(ip) ? GetLoopbackIP(ip) : ip;
 
             static IPAddress GetLoopbackIP(IPAddress ip)
                 => ip.AddressFamily == AddressFamily.InterNetworkV6 ? IPAddress.IPv6Loopback : IPAddress.Loopback;

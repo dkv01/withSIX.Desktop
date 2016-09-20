@@ -6,6 +6,8 @@ using MediatR;
 
 namespace SN.withSIX.Core.Applications.Services
 {
+    public interface IUsecaseExecutor { }
+
     public interface IQuery<out T> : IRead, IRequest<T> {}
 
     public interface IRead {}

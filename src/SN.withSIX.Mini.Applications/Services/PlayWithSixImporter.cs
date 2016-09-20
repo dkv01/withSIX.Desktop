@@ -10,11 +10,9 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
@@ -273,12 +271,12 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         [DataMember] List<FavoriteMod> _favoriteMods = new List<FavoriteMod>();
         [DataMember] List<FavoriteCollection> _favorites = new List<FavoriteCollection>();
         //[DataMember] List<LocalModsContainer> _localMods = new List<LocalModsContainer>();
-        [DataMember] ReactiveList<RecentCollection> _recentModSets = new ReactiveList<RecentCollection>();
+        [DataMember] List<RecentCollection> _recentModSets = new List<RecentCollection>();
         [DataMember] List<SubscribedCollection> _subscribedModSets = new List<SubscribedCollection>();
         public List<CustomCollection> CustomModSets => _customModSets;
         public List<FavoriteMod> FavoriteMods => _favoriteMods;
         public List<FavoriteCollection> Favorites => _favorites;
-        public ReactiveList<RecentCollection> RecentModSets => _recentModSets;
+        public List<RecentCollection> RecentModSets => _recentModSets;
         public List<SubscribedCollection> SubscribedModSets => _subscribedModSets;
     }
 
@@ -390,8 +388,8 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     {
         [DataMember] Guid? _activeProfileGuid;
         //List<GameSettings> _gameSettings = new List<GameSettings>();
-        [DataMember] ReactiveList<GameSettingsProfileBase> _profiles;
-        public ReactiveList<GameSettingsProfileBase> Profiles => _profiles;
+        [DataMember] List<GameSettingsProfileBase> _profiles;
+        public List<GameSettingsProfileBase> Profiles => _profiles;
         public Guid? ActiveProfileGuid => _activeProfileGuid;
         public GameSettingsProfileBase ActiveProfile { get; set; }
 
@@ -518,7 +516,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             Contract.Requires<ArgumentNullException>(parent != null);
             _parent = parent;
 
-            SetupRefresh();
+            //SetupRefresh();
         }
 
         public GameSettingsProfile(string name, string color, GameSettingsProfileBase parent)
@@ -531,21 +529,21 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             get { return _parent; }
             set { SetProperty(ref _parent, value); }
         }
-
+        /*
         void SetupRefresh() {
             this.WhenAnyValue(x => x.Parent)
                 .Skip(1)
                 .Subscribe(x => Refresh());
-        }
+        }*/
 
         [OnSerializing]
         void OnSerializing(StreamingContext context) {
-            ParentId = Parent == null ? (Guid?) null : Parent.Id;
+            ParentId = Parent?.Id;
         }
 
         [OnDeserialized]
         void OnDeserialized(StreamingContext context) {
-            SetupRefresh();
+            //SetupRefresh();
         }
     }
 }

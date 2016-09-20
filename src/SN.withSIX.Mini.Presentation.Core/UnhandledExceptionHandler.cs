@@ -14,7 +14,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 {
     public class UnhandledExceptionHandler : DefaultExceptionHandler, IPresentationService
     {
-        protected override UserError HandleExceptionInternal(Exception ex, string action = "Action") {
+        protected override UserErrorModel HandleExceptionInternal(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }

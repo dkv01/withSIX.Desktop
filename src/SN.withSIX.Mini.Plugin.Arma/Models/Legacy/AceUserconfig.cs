@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Helpers;
@@ -20,6 +19,7 @@ using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
 {
+    /*
     [Obsolete("Convert to ContentEngine")]
     public abstract class Userconfig : PropertyChangedBase
     {
@@ -163,14 +163,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
 
         bool TryReadFromFile(string file) {
             try {
-                using (var sr = new StreamReader(file, Encoding.UTF8)) {
+                using (var s = new FileStream(file, FileMode.Open))
+                using (var sr = new StreamReader(s, Encoding.UTF8)) {
                     string line;
                     var curlinenr = 0;
                     while ((line = sr.ReadLine()) != null) {
                         CheckLineClientConfig(line, _trimchar, curlinenr);
                         curlinenr++;
                     }
-                    sr.Close();
                 }
                 return true;
             } catch (Exception e) {
@@ -237,11 +237,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
 
         void TryWriteNewConfig(string file2) {
             try {
+                using (var s = new FileStream(file2, FileMode.OpenOrCreate))
                 using (
                     var tw =
-                        new StreamWriter(
-                            file2,
-                            false, Encoding.UTF8)) {
+                        new StreamWriter(s, Encoding.UTF8)) {
                     tw.WriteLine("class ace_server_settings {");
                     tw.WriteLine("check_pbos = 1;");
                     tw.WriteLine("check_all_ace_pbos = 1;");
@@ -299,4 +298,5 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
             return true;
         }
     }
+    */
 }

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {

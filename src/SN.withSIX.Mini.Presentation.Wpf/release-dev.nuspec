@@ -63,53 +63,8 @@
 
         <file src="bin\release\logentriescore.dll" target="lib\net45\logentriescore.dll" />
         <file src="bin\release\logentriesnlog.dll" target="lib\net45\logentriesnlog.dll" />
-        <file src="bin\release\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
 
         <file src="bin\release\NDepend.Path.PCL.dll" target="lib\net45\NDepend.Path.PCL.dll" />
-
-		<!-- TODO: Auto generate -->
-        <file src="bin\release\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
-        <file src="bin\release\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
-        <file src="bin\release\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
-        <file src="bin\release\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
-        <file src="bin\release\System.Security.Claims.dll" target="lib\net45\System.Security.Claims.dll" />
-        <file src="bin\release\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
-        <file src="bin\release\System.Security.AccessControl.dll" target="lib\net45\System.Security.AccessControl.dll" />
-        <file src="bin\release\System.Runtime.Serialization.Formatters.dll" target="lib\net45\System.Runtime.Serialization.Formatters.dll" />
-        <file src="bin\release\System.Runtime.Serialization.Primitives.dll" target="lib\net45\System.Runtime.Serialization.Primitives.dll" />
-        <file src="bin\release\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
-        <file src="bin\release\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
-        <file src="bin\release\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
-        <file src="bin\release\System.IO.FileSystem.AccessControl.dll" target="lib\net45\System.IO.FileSystem.AccessControl.dll" />
-        <file src="bin\release\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
-        <file src="bin\release\System.IO.Compression.dll" target="lib\net45\System.IO.Compression.dll" />
-        <file src="bin\release\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
-        <file src="bin\release\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
-        <file src="bin\release\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
-        <file src="bin\release\System.Diagnostics.Process.dll" target="lib\net45\System.Diagnostics.Process.dll" />
-        <file src="bin\release\Microsoft.Win32.Primitives.dll" target="lib\net45\Microsoft.Win32.Primitives.dll" />
-        <file src="bin\release\System.Diagnostics.FileVersionInfo.dll" target="lib\net45\System.Diagnostics.FileVersionInfo.dll" />
-        <file src="bin\release\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
-        <file src="bin\release\System.Console.dll" target="lib\net45\System.Console.dll" />
-        <file src="bin\release\System.ComponentModel.Primitives.dll" target="lib\net45\System.ComponentModel.Primitives.dll" />
-        <file src="bin\release\System.AppContext.dll" target="lib\net45\System.AppContext.dll" />
-        <file src="bin\release\Microsoft.Win32.Registry.dll" target="lib\net45\Microsoft.Win32.Registry.dll" />
-
-        <file src="bin\release\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
-        <file src="bin\release\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
-        <file src="bin\release\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
-        <file src="bin\release\System.Reactive.PlatformServices.dll" target="lib\net45\System.Reactive.PlatformServices.dll" />
-        <file src="bin\release\System.Reactive.Windows.Threading.dll" target="lib\net45\System.Reactive.Windows.Threading.dll" />
-        <!-- <file src="bin\release\Microsoft.AspNet.SignalR.Client.dll" target="lib\net45\Microsoft.AspNet.SignalR.Client.dll" /> -->
-        <file src="bin\release\Microsoft.AspNet.SignalR.Core.dll" target="lib\net45\Microsoft.AspNet.SignalR.Core.dll" />
-        <file src="bin\release\Microsoft.Owin.Cors.dll" target="lib\net45\Microsoft.Owin.Cors.dll" />
-        <file src="bin\release\Microsoft.Owin.dll" target="lib\net45\Microsoft.Owin.dll" />
-        <file src="bin\release\Microsoft.Owin.Hosting.dll" target="lib\net45\Microsoft.Owin.Hosting.dll" />
-        <file src="bin\release\Microsoft.Owin.Host.HttpListener.dll" target="lib\net45\Microsoft.Owin.Host.HttpListener.dll" />
-        <file src="bin\release\Microsoft.Owin.Security.dll" target="lib\net45\Microsoft.Owin.Security.dll" />
-        <file src="bin\release\System.Web.Cors.dll" target="lib\net45\System.Web.Cors.dll" />
-        <file src="bin\release\System.Windows.Interactivity.dll" target="lib\net45\System.Windows.Interactivity.dll" />
-        <file src="bin\release\Owin.dll" target="lib\net45\Owin.dll" />
 
        <file src="bin\release\ManyConsole.dll" target="lib\net45\ManyConsole.dll" />
        <file src="bin\release\NDesk.Options.dll" target="lib\net45\NDesk.Options.dll" />
@@ -161,5 +116,50 @@
         <file src="bin\release\NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
         <file src="bin\release\Mono.Cecil.dll" target="lib\net45\Mono.Cecil.dll" />
         <file src="..\packages\squirrel.windows.1.4.4\tools\Squirrel.exe" target="lib\net45\Squirrel.exe" />
+		
+		<!-- AUTOGEN -->
+<file src="bin\release\Microsoft.AspNet.SignalR.Core.dll" target="lib\net45\Microsoft.AspNet.SignalR.Core.dll" />
+<file src="bin\release\Microsoft.Owin.Cors.dll" target="lib\net45\Microsoft.Owin.Cors.dll" />
+<file src="bin\release\Microsoft.Owin.dll" target="lib\net45\Microsoft.Owin.dll" />
+<file src="bin\release\Microsoft.Owin.Host.HttpListener.dll" target="lib\net45\Microsoft.Owin.Host.HttpListener.dll" />
+<file src="bin\release\Microsoft.Owin.Hosting.dll" target="lib\net45\Microsoft.Owin.Hosting.dll" />
+<file src="bin\release\Microsoft.Owin.Security.dll" target="lib\net45\Microsoft.Owin.Security.dll" />
+<file src="bin\release\Microsoft.Win32.Primitives.dll" target="lib\net45\Microsoft.Win32.Primitives.dll" />
+<file src="bin\release\Microsoft.Win32.Registry.dll" target="lib\net45\Microsoft.Win32.Registry.dll" />
+<file src="bin\release\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
+<file src="bin\release\Owin.dll" target="lib\net45\Owin.dll" />
+<file src="bin\release\System.AppContext.dll" target="lib\net45\System.AppContext.dll" />
+<file src="bin\release\System.ComponentModel.Primitives.dll" target="lib\net45\System.ComponentModel.Primitives.dll" />
+<file src="bin\release\System.Console.dll" target="lib\net45\System.Console.dll" />
+<file src="bin\release\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
+<file src="bin\release\System.Diagnostics.FileVersionInfo.dll" target="lib\net45\System.Diagnostics.FileVersionInfo.dll" />
+<file src="bin\release\System.Diagnostics.Process.dll" target="lib\net45\System.Diagnostics.Process.dll" />
+<file src="bin\release\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
+<file src="bin\release\System.IO.Compression.dll" target="lib\net45\System.IO.Compression.dll" />
+<file src="bin\release\System.IO.FileSystem.AccessControl.dll" target="lib\net45\System.IO.FileSystem.AccessControl.dll" />
+<file src="bin\release\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
+<file src="bin\release\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
+<file src="bin\release\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
+<file src="bin\release\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
+<file src="bin\release\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
+<file src="bin\release\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
+<file src="bin\release\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
+<file src="bin\release\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
+<file src="bin\release\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
+<file src="bin\release\System.Reactive.PlatformServices.dll" target="lib\net45\System.Reactive.PlatformServices.dll" />
+<file src="bin\release\System.Reactive.Windows.Threading.dll" target="lib\net45\System.Reactive.Windows.Threading.dll" />
+<file src="bin\release\System.Runtime.Serialization.Formatters.dll" target="lib\net45\System.Runtime.Serialization.Formatters.dll" />
+<file src="bin\release\System.Runtime.Serialization.Primitives.dll" target="lib\net45\System.Runtime.Serialization.Primitives.dll" />
+<file src="bin\release\System.Runtime.Serialization.Xml.dll" target="lib\net45\System.Runtime.Serialization.Xml.dll" />
+<file src="bin\release\System.Security.AccessControl.dll" target="lib\net45\System.Security.AccessControl.dll" />
+<file src="bin\release\System.Security.Claims.dll" target="lib\net45\System.Security.Claims.dll" />
+<file src="bin\release\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
+<file src="bin\release\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
+<file src="bin\release\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
+<file src="bin\release\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
+<file src="bin\release\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
+<file src="bin\release\System.Web.Cors.dll" target="lib\net45\System.Web.Cors.dll" />
+<file src="bin\release\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />
+		<!-- AUTOGEN -->
     </files>
 </package>

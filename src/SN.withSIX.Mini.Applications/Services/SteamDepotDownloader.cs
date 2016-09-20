@@ -4,39 +4,33 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Steam.Core.SteamKit.DepotDownloader;
 using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
-{
+{/*
     public class SteamDepotDownloader
     {
-        private readonly IDbContextLocator _contextLocator;
         private readonly ISteamDownloader _steamDownloader;
 
-        public SteamDepotDownloader(ISteamDownloader steamDownloader, IDbContextLocator contextLocator) {
+        public SteamDepotDownloader(ISteamDownloader steamDownloader) {
             _steamDownloader = steamDownloader;
-            _contextLocator = contextLocator;
         }
 
         public async Task PerformSteamDepotDownloaderAction(ITProgress progress, ulong publisherId,
-            IAbsoluteDirectoryPath destination, CancellationToken cancelToken) {
-            var settings = await _contextLocator.GetReadOnlySettingsContext().GetSettings().ConfigureAwait(false);
-            var creds = settings.Secure.SteamCredentials;
+            IAbsoluteDirectoryPath destination, CancellationToken cancelToken, IHaveSteamCredentials credsSource) {
+            var creds = credsSource.SteamCredentials;
             if (creds == null)
-                settings.Secure.SteamCredentials = creds = await RequestSteamCredentials(creds).ConfigureAwait(false);
+                credsSource.SteamCredentials = creds = await RequestSteamCredentials(creds).ConfigureAwait(false);
 
+            // TODO
             ContentDownloader.GetDetails = msg => RequestSteamGuardCode();
             ContentDownloader.Log = msg => {
                 MainLog.Logger.Info(msg);
@@ -51,7 +45,7 @@ namespace SN.withSIX.Mini.Applications.Services
                         .ConfigureAwait(false);
             } catch (UnauthorizedException ex) {
                 MainLog.Logger.FormattedWarnException(ex, "Steam download failed auth");
-                settings.Secure.SteamCredentials = creds = await RequestSteamCredentials(creds).ConfigureAwait(false);
+                credsSource.SteamCredentials = creds = await RequestSteamCredentials(creds).ConfigureAwait(false);
                 goto try1;
             }
         }
@@ -64,8 +58,8 @@ namespace SN.withSIX.Mini.Applications.Services
                     {"password", ""} // , currentAuthInfo.Password ?? "" .. lets think about this ;-)
                 });
             if (await
-                UserError.Throw(uer) !=
-                RecoveryOptionResult.RetryOperation)
+                UserErrorHandler.HandleUserError(uer) !=
+                RecoveryOptionResultModel.RetryOperation)
                 throw new OperationCanceledException("Steam credentials not provided");
             return new Credentials((uer.ContextInfo["userName"] as string).Trim(),
                 (uer.ContextInfo["password"] as string).Trim());
@@ -79,10 +73,11 @@ namespace SN.withSIX.Mini.Applications.Services
                     {"input", ""}
                 });
             if (await
-                UserError.Throw(uer) !=
-                RecoveryOptionResult.RetryOperation)
+                UserErrorHandler.HandleUserError(uer).ConfigureAwait(false) !=
+                RecoveryOptionResultModel.RetryOperation)
                 throw new OperationCanceledException("SteamGuard code not provided");
             return (uer.ContextInfo["input"] as string).Trim();
         }
     }
+    */
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -45,8 +46,13 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
         async Task<RecoveryOptionResult> HandleUserError(UserError error) {
-            var t2 = RecoveryCommandImmediate.GetTask(error.RecoveryOptions);
-            await _api.AddUserError(new UserErrorModel(error)).ConfigureAwait(false);
+            var t2 = error.RecoveryOptions.GetTask();
+            await _api.AddUserError(new Applications.Usecases.Main.UserErrorModel2(error,
+                error.RecoveryOptions.Select(
+                    x =>
+                        new RecoveryOptionModel {
+                            CommandName = x.CommandName
+                        }).ToList())).ConfigureAwait(false);
             //error.RecoveryOptions.First(x => x.CommandName == r).Execute(null);
             return await t2;
             //return error.RecoveryOptions.First(x => x.RecoveryResult.HasValue).RecoveryResult.Value;

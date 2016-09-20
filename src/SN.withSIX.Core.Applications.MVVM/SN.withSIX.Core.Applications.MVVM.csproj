@@ -220,6 +220,10 @@
       <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.0.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Diagnostics.Process, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Process.4.1.0\lib\net46\System.Diagnostics.Process.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Globalization.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Extensions.4.0.1\lib\net46\System.Globalization.Extensions.dll</HintPath>
       <Private>True</Private>
@@ -300,6 +304,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MenuItemAttribute.cs" />
+    <Compile Include="AutoMapperProfile.cs" />
+    <Compile Include="Extensions\CommandExtensions.cs" />
     <Compile Include="Extensions\ReactiveUIExtensions.cs" />
     <Compile Include="Extensions\RxExtensions.cs" />
     <Compile Include="Helpers\HaveReactiveItems.cs" />
@@ -310,8 +316,12 @@
     <Compile Include="Helpers\SelectionList.cs" />
     <Compile Include="Helpers\SixReactiveList.cs" />
     <Compile Include="IWpfStartupManager.cs" />
+    <Compile Include="ObservableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMetroDialog.cs" />
+    <Compile Include="Services\UiTaskHandler.cs" />
     <Compile Include="Services\UiTaskHandlerLegacy.cs" />
+    <Compile Include="Services\UserErrorHandling.cs" />
     <Compile Include="UiHelper.cs" />
     <Compile Include="ViewModels\DataModel.cs" />
     <Compile Include="ViewModels\Dialogs\DialogViewModel.cs" />

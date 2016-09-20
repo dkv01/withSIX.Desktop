@@ -129,7 +129,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
                     GetDrive(message.GamePath).AvailableFreeSpace, message.GamePath);
             }
 
-            if (Tools.Processes.Uac.CheckUac())
+            if (Tools.UacHelper.CheckUac())
                 throw new ElevationRequiredException();
         }
 

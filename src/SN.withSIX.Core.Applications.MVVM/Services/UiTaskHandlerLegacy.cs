@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 

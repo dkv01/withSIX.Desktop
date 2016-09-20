@@ -156,8 +156,9 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
 
             private async Task HandleAsModInfoBasedMod(IAbsoluteFilePath modInfo) {
                 var doc = new XmlDocument();
-                doc.Load(modInfo.ToString());
-                var el = doc.SelectSingleNode("ModInfo/FilesAdded");
+                using (var fs = new FileStream(modInfo.ToString(), FileMode.Open))
+                    doc.Load(fs);
+                var el = doc["ModInfo"]?["FilesAdded"];
                 if (el == null)
                     throw new ValidationException("The included modinfo is invalid");
                 foreach (var filePath in el.ChildNodes.Cast<XmlNode>().Select(n => n.InnerText)) {

@@ -254,7 +254,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             void HandleA3Mp() {
                 foreach (var a3Mp in Arma2TerrainPacks.Select(m => InputMods
-                    .FirstOrDefault(x => x.PackageName.Equals(m, StringComparison.InvariantCultureIgnoreCase)))
+                    .FirstOrDefault(x => x.PackageName.Equals(m, StringComparison.OrdinalIgnoreCase)))
                     .Where(a3Mp => a3Mp != null))
                     OutputMods.AddRange(GetModPaths(a3Mp));
             }

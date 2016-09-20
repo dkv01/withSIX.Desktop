@@ -13,6 +13,7 @@ using System.Threading;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SteamWrapper;
 using Syringe;
@@ -224,7 +225,7 @@ namespace SN.withSIX.Updater.Presentation.Wpf.Services
             try {
                 _launchedGame = Launch(_gameStartInfo);
             } catch (Win32Exception) {
-                if (!Tools.Processes.Uac.CheckUac())
+                if (!Tools.UacHelper.CheckUac())
                     throw;
                 _restarter.RestartWithUacInclEnvironmentCommandLine();
                 _launchedGame = null;
@@ -233,7 +234,7 @@ namespace SN.withSIX.Updater.Presentation.Wpf.Services
 
         static void TrySetForeground(Process launchedGame) {
             try {
-                Tools.ProcessesTools.NativeMethods.SetForeground(launchedGame);
+                NativeMethods.SetForeground(launchedGame);
             } catch (Exception e) {
                 MainLog.Logger.FormattedWarnException(e);
             }

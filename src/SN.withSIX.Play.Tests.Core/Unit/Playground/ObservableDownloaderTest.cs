@@ -25,7 +25,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
 
         public abstract Task DownloadAsync(TransferSpec spec, Action<int, double, int> progressReporting);
     }
-
+    /*
     public class HttpDownloadProtocol2 : DownloadProtocol2
     {
         static readonly TimeSpan timeout = TimeSpan.FromSeconds(60);
@@ -102,7 +102,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
             throw new DownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e);
         }
 
-        static Timer SetupTransferProgress(IWebClient webClient, ITransferProgress transferProgress) {
+        static IDisposable SetupTransferProgress(IWebClient webClient, ITransferProgress transferProgress) {
             var lastTime = Tools.Generic.GetCurrentUtcDateTime;
             long lastBytes = 0;
             transferProgress.Update(null, 0);
@@ -143,7 +143,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
             return timer;
         }
     }
-
+    */
     public class TransferStatus2 : ITransferStatus2
     {
         public TransferStatus2(double progress, long bytesReceived, int speedInBytes) {

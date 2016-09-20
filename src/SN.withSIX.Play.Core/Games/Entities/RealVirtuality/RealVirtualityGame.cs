@@ -13,7 +13,6 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MoreLinq;
 using NDepend.Path;
 using withSIX.Api.Models;
 using SN.withSIX.Core;

@@ -5,14 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ReactiveUI;
+using SN.withSIX.Core.Applications.Errors;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Sync.Core.Legacy.Status;
 
@@ -193,13 +191,13 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private async Task<bool> HandleError(QueueItem item, Exception ex) {
             var result =
-                await UserError.Throw(ErrorHandlerr.HandleException(ex, "Queue action: " + item.Title));
+                await UserErrorHandler.HandleUserError(ErrorHandlerr.HandleException(ex, "Queue action: " + item.Title));
             switch (result) {
-            case RecoveryOptionResult.RetryOperation:
+            case RecoveryOptionResultModel.RetryOperation:
                 item.Retry(() => _messenger.Update(item));
                 BuildContinuation(item);
                 return true;
-            case RecoveryOptionResult.CancelOperation:
+            case RecoveryOptionResultModel.CancelOperation:
                 item.UpdateState(CompletionState.Canceled);
                 await Update(item).ConfigureAwait(false);
                 return true;

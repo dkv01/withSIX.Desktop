@@ -5,18 +5,15 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using ReactiveUI;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications
 {
@@ -28,14 +25,13 @@ namespace SN.withSIX.Mini.Applications
         private const string CouldNotFindTheDesiredContent =
             "This might indicate a synchronization failure, the content might've been deleted, or you might not have access to the content";
 
-        public override UserError HandleException(Exception ex, string action = "Action") {
+        public override UserErrorModel HandleException(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }
 
-        protected static RecoverableUserError Handle(SetupException ex, string action) =>
-            new RecoverableUserError(ex, "Configuration error", ex.Message);
-
+        // TODO: Move to Steam area?
+        /*
         protected static RecoverableUserError Handle(SteamNotFoundException ex, string action)
             => new RecoverableUserError(ex, "Requires the Steam Client", ex.Message);
 
@@ -44,16 +40,23 @@ namespace SN.withSIX.Mini.Applications
 
         protected static RecoverableUserError Handle(NotDetectedAsSteamGame ex, string action)
             => new RecoverableUserError(ex, "Requires a Steam version of the game", ex.Message);
+            */
+        protected static RecoverableUserError Handle(SetupException ex, string action) =>
+            new RecoverableUserError(ex, "Configuration error", ex.Message);
 
         protected static RecoverableUserError Handle(GameIsRunningException ex, string action)
             => new RecoverableUserError(ex, "Please close the game and try again", ex.Message);
 
         // TODO: Better handler where we guide the user to go to the settings, and configure the game, then retry?
         protected static RecoverableUserError Handle(GameNotInstalledException ex, string action)
-            => new ConfigureGameFirstUserError(ex, ex.Message, "Please configure the game first in the Settings, then retry");
+            =>
+            new ConfigureGameFirstUserError(ex, ex.Message,
+                "Please configure the game first in the Settings, then retry");
 
         protected static RecoverableUserError Handle(AlreadyLockedException ex, string action)
-            => new RecoverableUserError(ex, "Unsupported", "Currently only one action per game is supported. Wait until the action is finished and try again");
+            =>
+            new RecoverableUserError(ex, "Unsupported",
+                "Currently only one action per game is supported. Wait until the action is finished and try again");
 
         protected static RecoverableUserError Handle(QueueProcessingError ex, string action)
             => new RecoverableUserError(ex,
@@ -63,9 +66,9 @@ namespace SN.withSIX.Mini.Applications
 
         protected static InformationalUserError Handle(NoSourceFoundException ex, string action)
             =>
-                new InformationalUserError(ex,
-                    "Could not find the desired content",
-                    CurrentlyNotAvailable);
+            new InformationalUserError(ex,
+                "Could not find the desired content",
+                CurrentlyNotAvailable);
 
         protected static InformationalUserError Handle(RequestedResourceNotFoundException ex, string action)
             => new InformationalUserError(ex,
@@ -75,7 +78,7 @@ namespace SN.withSIX.Mini.Applications
         protected static InformationalUserError Handle(NotFoundException ex, string action)
             => new InformationalUserError(ex, "Could not find the desired content", CouldNotFindTheDesiredContent);
 
-        
+
         protected static InformationalUserError Handle(SynqPathException ex, string action)
             => new InformationalUserError(ex, "Please reconfigure the Sync directory", ex.Message);
 
@@ -90,6 +93,6 @@ Please confirm your internet connection, and try again");
     public class ConfigureGameFirstUserError : RecoverableUserError
     {
         public ConfigureGameFirstUserError(Exception exception, string message, string title = null)
-            : base(exception, title, message) { }
+            : base(exception, title, message) {}
     }
 }

@@ -73,7 +73,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var exe = cla.First();
             if (!exe.EndsWith(".exe"))
                 exe = exe + ".exe";
-            Common.Flags = new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray());
+            Common.Flags = new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray(), Environment.Is64BitOperatingSystem);
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));

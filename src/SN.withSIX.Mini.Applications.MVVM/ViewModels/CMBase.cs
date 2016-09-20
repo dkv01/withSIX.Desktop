@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Mini.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
 {

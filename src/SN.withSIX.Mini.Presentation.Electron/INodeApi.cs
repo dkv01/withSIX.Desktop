@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Mini.Applications;
 
 namespace SN.withSIX.Mini.Presentation.Electron

@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using ReactiveUI;
+using SN.withSIX.Core.Applications.Errors;
 
 namespace SN.withSIX.Core.Presentation.Services
 {

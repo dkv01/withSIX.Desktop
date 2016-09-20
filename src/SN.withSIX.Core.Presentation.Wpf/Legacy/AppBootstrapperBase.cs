@@ -125,10 +125,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
-                        UserError.Throw(new UserError(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
-                return result == RecoveryOptionResult.RetryOperation;
+                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
+                return result == RecoveryOptionResultModel.RetryOperation;
             };
-            Tools.InformUserError = (s, s1, e) => UserError.Throw(new InformationalUserError(e, s1, s)).ToTask();
+            Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
         }
 
         void SetupCaches() {

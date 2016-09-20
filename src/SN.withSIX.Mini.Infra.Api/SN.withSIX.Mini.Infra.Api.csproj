@@ -305,7 +305,11 @@
     <Compile Include="Messengers\QueueHubMessenger.cs" />
     <Compile Include="Messengers\StateMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GameLocker.cs" />
+    <Compile Include="Services\GameLockMonitor.cs" />
+    <Compile Include="Services\SetupGameStuff.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="StateHandler.cs" />
     <Compile Include="WebApiErrorHandler.cs" />
     <Compile Include="WebApi\ContentDto.cs" />
     <Compile Include="WebApi\NetworkContentSyncer.cs" />
@@ -316,6 +320,10 @@
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
       <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
       <Name>SN.withSIX.ContentEngine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
+      <Project>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</Project>
+      <Name>SN.withSIX.Core.Applications.MVVM</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>

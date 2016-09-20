@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 
 namespace SN.withSIX.Core.Applications.Services
@@ -32,7 +31,7 @@ namespace SN.withSIX.Core.Applications.Services
 
         public static void SetExceptionHandler(IExceptionHandler handler) => _exceptionHandler = handler;
 
-        public static UserError HandleException(Exception ex, string action = "Action")
+        public static UserErrorModel HandleException(Exception ex, string action = "Action")
             => _exceptionHandler.HandleException(ex, action);
     }
 }

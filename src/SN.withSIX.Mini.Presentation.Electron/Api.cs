@@ -11,6 +11,8 @@ using MediatR;
 using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications;
@@ -22,6 +24,7 @@ using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Applications.Usecases.Settings;
 using SN.withSIX.Mini.Presentation.Core;
 using withSIX.Api.Models.Extensions;
+using UserErrorModel = SN.withSIX.Core.Applications.Errors.UserErrorModel;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -65,9 +68,14 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public string Version { get; }
 
         public async Task<RecoveryOptionResult> HandleUserError(UserError error) {
-            var t2 = RecoveryCommandImmediate.GetTask(error.RecoveryOptions);
+            var t2 = error.RecoveryOptions.GetTask();
             Console.WriteLine("Handling error" + error);
-            var r = (string) await _handleUserError(new UserErrorModel(error)).ConfigureAwait(false);
+            var r = (string) await _handleUserError(new UserErrorModel2(error,
+                error.RecoveryOptions.Select(
+                    x =>
+                        new RecoveryOptionModel {
+                            CommandName = x.CommandName
+                        }).ToList())).ConfigureAwait(false);
             Console.WriteLine("got response" + r + r.GetType());
             var cmd = error.RecoveryOptions.First(x => x.CommandName == r);
             //cmd.RecoveryResult = RecoveryOptionResult.RetryOperation;

@@ -55,7 +55,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         public static void Main() {
             AttachConsole(-1);
 
-            Common.Flags = new Common.StartupFlags(_args = Environment.GetCommandLineArgs().Skip(1).ToArray());
+            Common.Flags = new Common.StartupFlags(_args = Environment.GetCommandLineArgs().Skip(1).ToArray(), Environment.Is64BitOperatingSystem);
             SetupRegistry();
             new RuntimeCheckWpf().Check();
 

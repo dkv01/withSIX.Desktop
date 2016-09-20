@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Services;
@@ -47,7 +48,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var title = userError.ErrorMessage ?? "An error has occured while trying to process the action";
             return
                 _api.HandleUserError(new UserError(title, message,
-                    new[] { new RecoveryCommandImmediate("OK", x => RecoveryOptionResult.CancelOperation) },
+                    new[] {new RecoveryCommandImmediate("OK", x => RecoveryOptionResult.CancelOperation)},
                     userError.ContextInfo, userError.InnerException));
         }
     }

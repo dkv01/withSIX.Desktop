@@ -7,18 +7,15 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using NDepend.Path;
-using RageLib.GTA5.Cryptography;
-using RpfGeneratorTool;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
+    /*
     public class GtaPackager
     {
         readonly IAbsoluteDirectoryPath _gameDir;
@@ -64,7 +61,7 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
 
             foreach (var p in packages)
                 packager.PackageMod(p.FullName.ToAbsoluteDirectoryPath());
-                */
+                 * /
         }
 
         static void LoadConsts(Stream fs) {
@@ -92,4 +89,5 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
             }
         }
     }
+*/
 }

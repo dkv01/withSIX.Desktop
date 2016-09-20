@@ -8,7 +8,9 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -16,7 +18,7 @@ using SN.withSIX.Mini.Applications.Usecases;
 
 namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
 {
-    public class TrayMainWindowMenu : CMBase
+    public class TrayMainWindowMenu : CMBase, IUsecaseExecutor
     {
         readonly IMenuItem _login;
         readonly IMenuItem _loginInfo;
@@ -31,7 +33,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
             // TODO: Activation doesnt work atm :S
             // this.WhenActivated(d => d(ListenIncludeLatest<LoginChanged>().Select(x => x == null ? null : x.LoginInfo).ObserveOnMainThread().Subscribe(UpdateLogin)));
             this.Listen<LoginChanged>()
-                .Select(x => x.LoginInfo).ObserveOnMainThread<LoginInfo>()
+                .Select(x => x.LoginInfo).ObserveOnMainThread()
                 .Subscribe(UpdateLogin);
         }
 

@@ -4,17 +4,16 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Plugin.Arma.Models;
 
 namespace SN.withSIX.Mini.Plugin.Arma
 {
     public class ArmaExceptionHandler : BasicExternalExceptionhandler, IUsecaseExecutor
     {
-        public override UserError HandleException(Exception ex, string action = "Action") {
+        public override UserErrorModel HandleException(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }

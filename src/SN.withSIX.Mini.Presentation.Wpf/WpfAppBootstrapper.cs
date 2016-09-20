@@ -14,7 +14,9 @@ using Caliburn.Micro;
 using ReactiveUI;
 using SimpleInjector;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -126,8 +128,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 // ThrownExceptions does not listen to Subscribe errors, but only in async task errors!
                 command.ThrownExceptions
                     .Select(x => ErrorHandlerr.HandleException(x, action))
-                    .SelectMany(UserError.Throw)
-                    .Where(x => x == RecoveryOptionResult.RetryOperation)
+                    .SelectMany(UserErrorHandler.HandleUserError)
+                    .Where(x => x == RecoveryOptionResultModel.RetryOperation)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .InvokeCommand(command);
             };

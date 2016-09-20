@@ -354,6 +354,10 @@
       <Project>{D3D354E1-919F-4135-9496-ACD2C39806D3}</Project>
       <Name>SN.withSIX.ContentEngine.Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
+      <Project>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</Project>
+      <Name>SN.withSIX.Core.Applications.MVVM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>SN.withSIX.Core.Applications</Name>
@@ -389,6 +393,10 @@
     <ProjectReference Include="..\SN.withSIX.Steam.Api\SN.withSIX.Steam.Api.csproj">
       <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
       <Name>SN.withSIX.Steam.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
+      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
+      <Name>SN.withSIX.Steam.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>

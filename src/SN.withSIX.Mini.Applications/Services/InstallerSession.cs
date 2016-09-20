@@ -8,17 +8,14 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
@@ -28,7 +25,6 @@ using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
@@ -132,9 +128,8 @@ namespace SN.withSIX.Mini.Applications.Services
                 await ProcessStates().ConfigureAwait(false);
                 if (_notInstallable.Any()) {
                     await
-                        UserError.Throw(new UserError("Some content is not installable",
-                            string.Join(", ", _notInstallable.Select(x => x.Message)),
-                            new[] {RecoveryCommandImmediate.Ok}));
+                        UserErrorHandler.GeneralUserError(null, "Some content is not installable",
+                            string.Join(", ", _notInstallable.Select(x => x.Message))).ConfigureAwait(false);
                 }
             }
         }
@@ -163,9 +158,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private async Task PerformInstallation() {
             try {
-                using (Observable.Interval(TimeSpan.FromMilliseconds(500))
-                    .ConcatTask(TryStatusChange)
-                    .Subscribe()) {
+                using (new TimerWithElapsedCancellationAsync(500, () => TryStatusChange())) {
                     await _sixSyncInstaller.PrepareGroupsAndRepositories().ConfigureAwait(false);
                     await InstallContent().ConfigureAwait(false);
                 }
@@ -427,12 +420,12 @@ namespace SN.withSIX.Mini.Applications.Services
             if (!_externalContentToInstall.Any())
                 return;
             var result = await ConfirmUser();
-            if (result == RecoveryOptionResult.CancelOperation)
+            if (result == RecoveryOptionResultModel.CancelOperation)
                 throw new OperationCanceledException("The user cancelled the operation");
         }
 
-        private IObservable<RecoveryOptionResult> ConfirmUser()
-            => UserError.Throw(new UserError("Some content is hosted externally",
+        private Task<RecoveryOptionResultModel> ConfirmUser()
+            => UserErrorHandler.HandleUserError(new UserErrorModel("Some content is hosted externally",
                 @"To start the automatic installation, initiate the download on the external website.
 
 Click CONTINUE to open the download page and follow the instructions until the download starts. 
@@ -440,7 +433,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 //"The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
                 //string.Join(", ", _externalContentToInstall.Select(x => x.Key.PackageName)) +
                 //"\n\nPress OK to Continue",
-                new[] { RecoveryCommandImmediate.Continue, RecoveryCommandImmediate.Cancel }));
+                new[] { RecoveryCommandModel.Continue, RecoveryCommandModel.Cancel }));
 
         private void MarkContentStates() {
             // TODO: How about marking this content at the start, much like .Use() for RecentItems
@@ -683,6 +676,14 @@ Click CONTINUE to open the download page and follow the instructions until the d
                             x => _contentProgress[i++]));
                 await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             }
+        }
+
+
+        public class NotDetectedAsSteamGame : DidNotStartException
+        {
+            public NotDetectedAsSteamGame() : base("The current game does not appear to be detected as a Steam game") { }
+            public NotDetectedAsSteamGame(string message) : base(message) { }
+            public NotDetectedAsSteamGame(string message, Exception inner) : base(message, inner) { }
         }
 
         class PostInstaller : SessionBase<IContent, SpecificVersion>
@@ -972,10 +973,11 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private static void ProcessExitResult(ProcessExitResult r) {
                 switch (r.ExitCode) {
                 case 3:
-                    throw new SteamInitializationException(
+                        // TODO
+                    throw new Exception( //SteamInitializationException(
                         "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
                 case 4:
-                    throw new SteamNotFoundException(
+                    throw new Exception( // SteamNotFoundException(
                         "The Steam client does not appear to be running, nor was Steam found");
                 case 9:
                     throw new TimeoutException("The operation timed out waiting for a response from the Steam client");

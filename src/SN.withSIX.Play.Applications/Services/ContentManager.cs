@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.IO;
@@ -18,7 +17,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
 using MediatR;
@@ -58,12 +56,11 @@ using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Sync.Core.ExternalTools;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Legacy.Yoma;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
-using Timer = System.Timers.Timer;
+using Timer = SN.withSIX.Core.Helpers.Timer;
 
 namespace SN.withSIX.Play.Applications.Services
 {
@@ -123,7 +120,7 @@ namespace SN.withSIX.Play.Applications.Services
             ContentEngine = contentEngine;
             _resources = resources;
             _specialDialogManager = specialDialogManager;
-            _listTimer = new TimerWithElapsedCancellationAsync(timeLoop, ListTimerElapsed, null, false);
+            _listTimer = new TimerWithElapsedCancellationAsync(timeLoop, ListTimerElapsed);
             _eventBus = ea;
             _apiHandler = apiHandler;
             _context = context;
@@ -270,10 +267,12 @@ namespace SN.withSIX.Play.Applications.Services
                 // TODO: Or should we rather abstract this away into the downloader exceptions instead?
                 if (e.StatusCode != HttpStatusCode.Unauthorized)
                     throw;
+                /*
             } catch (FtpDownloadException e) {
                 if (e.StatusCode != FtpStatusCode.NotLoggedIn && e.StatusCode != FtpStatusCode.AccountNeeded &&
                     e.StatusCode != FtpStatusCode.NeedLoginAccount)
                     throw;
+                    */
             }
 
             uri = await GetNewUri(uri);
@@ -503,7 +502,6 @@ namespace SN.withSIX.Play.Applications.Services
             using (await _apiSyncLock.LockAsync().ConfigureAwait(false)) {
                 try {
                     _isSyncingApi = true;
-                    _listTimer.Stop();
                     ExceptionDispatchInfo ex = null;
                     try {
                         var changed = await
@@ -521,8 +519,6 @@ namespace SN.withSIX.Play.Applications.Services
                     ex?.Throw();
                 } finally {
                     _isSyncingApi = false;
-                    _listTimer.Stop();
-                    _listTimer.Start();
                 }
             }
         }
@@ -665,11 +661,11 @@ namespace SN.withSIX.Play.Applications.Services
                 return;
             }
 
-            if (state.Uri.AbsolutePath.EndsWith(".7z", StringComparison.OrdinalIgnoreCase)) {
-                this.Logger().Info("Processing YASRepo");
-                await HandleYasRepo(state.Uri).ConfigureAwait(false);
-                return;
-            }
+            //if (state.Uri.AbsolutePath.EndsWith(".7z", StringComparison.OrdinalIgnoreCase)) {
+              //  this.Logger().Info("Processing YASRepo");
+                //await HandleYasRepo(state.Uri).ConfigureAwait(false);
+                //return;
+            //}
 
             if (!string.IsNullOrWhiteSpace(state.Uri.DnsSafeHost) && !string.IsNullOrWhiteSpace(state.Uri.AbsolutePath)) {
                 await
@@ -833,7 +829,7 @@ namespace SN.withSIX.Play.Applications.Services
             await _dialogManager.MessageBox(new MessageBoxDialogParams("Tried to publish " + fn +
                                                                             ". But could not find the mission"));
         }
-
+        /*
         async Task HandleYasRepo(Uri uri) {
             var url = uri.GetCleanuri().ToString();
             var yas = new YomaContent(Game.Modding().ModPaths.Path, url.GetParentUri(), _downloader);
@@ -843,7 +839,7 @@ namespace SN.withSIX.Play.Applications.Services
             yas.ParseConfig();
             await yas.Download(CancellationToken.None).ConfigureAwait(false);
             yas.UnpackMod();
-        }
+        }*/
 
         Task AfterSync() => RefreshContentInfo();
 

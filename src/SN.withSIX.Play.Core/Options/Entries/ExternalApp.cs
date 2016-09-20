@@ -61,7 +61,7 @@ namespace SN.withSIX.Play.Core.Options.Entries
             //if (!UserSettings.Current.AppOptions.UseElevatedService) {
             var startInfo = new ProcessStartInfoBuilder(Path, Parameters) {
                 WorkingDirectory = Path.ToAbsoluteFilePath().ParentDirectoryPath,
-                AsAdministrator = RunAsAdmin
+                //AsAdministrator = RunAsAdmin
             }.Build();
 
             MainLog.Logger.Info("Launching external app: " + startInfo.Format());

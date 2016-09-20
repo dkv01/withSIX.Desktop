@@ -49,7 +49,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Popups
                     new MessageBoxDialogParams("Restarting the client in diagnostic logging mode, are you sure?",
                         "Restart to enable diagnostics?", SixMessageBoxButton.YesNo)).WaitSpecial().IsYes()) {
                 _restarter.RestartWithoutElevation(
-                    Tools.Generic.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
+                    Environment.GetCommandLineArgs().Skip(1).Concat(new[] {"--verbose"}).ToArray());
             }
         }
 

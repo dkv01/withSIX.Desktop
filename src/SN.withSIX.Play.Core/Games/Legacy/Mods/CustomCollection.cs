@@ -9,9 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
-
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;

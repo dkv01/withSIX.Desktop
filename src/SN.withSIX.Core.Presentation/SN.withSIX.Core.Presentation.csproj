@@ -377,6 +377,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ShutdownHandler.cs" />
+    <Compile Include="UserErrorHandling.cs" />
     <Compile Include="YamlUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -386,6 +387,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
+      <Project>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</Project>
+      <Name>SN.withSIX.Core.Applications.MVVM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{b7406381-1d29-4e9b-851e-d086c29c34e4}</Project>
       <Name>SN.withSIX.Core.Applications</Name>

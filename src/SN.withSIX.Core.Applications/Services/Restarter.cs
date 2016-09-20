@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -94,9 +92,9 @@ namespace SN.withSIX.Core.Applications.Services
                 return false;
             }
 
-            var report = await UserError.Throw(new UserError("Restart the application elevated?",
+            var report = await UserErrorHandler.HandleUserError(new UserErrorModel("Restart the application elevated?",
                 $"The application failed to write to the path, probably indicating permission issues\nWould you like to restart the application Elevated?\n\n {mp}",
-                RecoveryCommandsImmediate.YesNoCommands, null, ex)) == RecoveryOptionResult.RetryOperation;
+                RecoveryCommandsImmediate.YesNoCommands, null, ex)) == RecoveryOptionResultModel.RetryOperation;
 
             if (!report)
                 return false;
@@ -106,8 +104,9 @@ namespace SN.withSIX.Core.Applications.Services
 
         void Restart(bool elevated = false, bool exit = false, params string[] args) {
             var ps = GetSquirrelRestart(args);
-            if (elevated)
-                ps.Verb = "runas";
+            // TODO
+            //if (elevated)
+              //  ps.Verb = "runas";
 
             Common.OnExit = () => { using (Process.Start(ps)) {} };
 
@@ -125,7 +124,7 @@ namespace SN.withSIX.Core.Applications.Services
         static ProcessStartInfo GetSquirrelRestart(IEnumerable<string> args) => new ProcessStartInfo {
             FileName = Common.Paths.AppPath.ParentDirectoryPath.GetChildFileWithName("Update.exe").ToString(),
             Arguments =
-                BuildUpdateExeArguments(args, Environment.GetCommandLineArgs()[0]).CombineParameters()
+                BuildUpdateExeArguments(args, Common.Flags.FullStartupParameters[0]).CombineParameters()
         };
 
         public static string[] BuildUpdateExeArguments(IEnumerable<string> args, string executable) => new[] {

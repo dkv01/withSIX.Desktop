@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Caliburn.Micro;
-using MoreLinq;
 using ReactiveUI;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
@@ -304,7 +303,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 var a3 = _game as Arma3Game;
                 if (a3 != null && a3.CalculatedSettings.HasAllInArmaLegacy) {
                     _aIa.Children.AddRange(a3.GetSubGamesLocalMods()
-                        .DistinctBy(x => x.Path, StringComparer.CurrentCultureIgnoreCase)
+                        .DistinctBy(x => x.Path.ToLower())
                         .Select(x => CreateLocalItem(x, true)));
                 }
 

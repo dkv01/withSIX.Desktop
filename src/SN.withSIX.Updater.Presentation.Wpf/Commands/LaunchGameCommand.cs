@@ -13,6 +13,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Updater.Presentation.Wpf.Services;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Updater.Presentation.Wpf.Commands
 {
@@ -47,7 +48,7 @@ namespace SN.withSIX.Updater.Presentation.Wpf.Commands
         }
 
         public override int Run(params string[] remainingArguments) {
-            this.Logger().Info(_spec.Inspect().PrettyPrint());
+            this.Logger().Info(_spec.ToJson(true));
             var shutdownHandler = new WpfShutdownHandler(new ExitHandler());
             ProcessID =
                 new GameLauncher(shutdownHandler,

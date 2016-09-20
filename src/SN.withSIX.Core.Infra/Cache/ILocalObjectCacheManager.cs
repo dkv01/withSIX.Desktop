@@ -3,6 +3,7 @@
 // </copyright>
 
 using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Infra.Services;
 
 namespace SN.withSIX.Core.Infra.Cache
 {

@@ -10,7 +10,6 @@ using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MoreLinq;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Extensions;
@@ -56,7 +55,7 @@ namespace SN.withSIX.Play.Applications.Services
             _queryHandler = queryHandler;
             _gameContext = gameContext;
             _settings = settings;
-            _listTimer = new TimerWithElapsedCancellationAsync(GetTimerValue(), ListTimerElapsed, null, false);
+            _listTimer = new TimerWithElapsedCancellationAsync(GetTimerValue(), ListTimerElapsed, null);
             _serverTimer = new TimerWithElapsedCancellationAsync(ServerUpdateFrequency, ServerTimerElapsed);
             Game = game;
             Filter = Game.GetServerFilter();
@@ -178,7 +177,7 @@ namespace SN.withSIX.Play.Applications.Services
                 if (_isUpdating)
                     return false;
                 try {
-                    _listTimer.Stop();
+                    //_listTimer.Stop();
                 } catch (ObjectDisposedException) {
                     return false;
                 }
@@ -218,7 +217,7 @@ namespace SN.withSIX.Play.Applications.Services
                 this.Logger().FormattedErrorException(e);
             } finally {
                 SynchronizedAt = Tools.Generic.GetCurrentUtcDateTime;
-                UpdateInterval();
+                //UpdateInterval();
                 IsUpdating = false;
             }
         }
@@ -229,8 +228,7 @@ namespace SN.withSIX.Play.Applications.Services
             if (server == null || IsUpdating)
                 return true;
             var timer = _serverTimer;
-            if (timer != null)
-                timer.Stop();
+            //timer?.Stop();
 
             await server.TryUpdateAsync().ConfigureAwait(false);
 
@@ -390,10 +388,10 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         void TryUpdateInterval() {
-            _listTimer.Stop();
+            //_listTimer.Stop();
             var i = GetTimerValue();
-            _listTimer.Interval = i;
-            _listTimer.Start();
+            //_listTimer.Interval = i;
+            //_listTimer.Start();
         }
     }
 }

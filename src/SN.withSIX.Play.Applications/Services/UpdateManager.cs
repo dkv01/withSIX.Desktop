@@ -13,7 +13,6 @@ using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
 
@@ -612,7 +611,7 @@ namespace SN.withSIX.Play.Applications.Services
 
         void TryKillChildren(int pid, string exe) {
             try {
-                Tools.Processes.KillNamedProcessChildren(exe, pid);
+                Tools.ProcessManager.Management.KillNamedProcessChildren(exe, pid);
             } catch (Exception e) {
                 this.Logger().FormattedErrorException(e, "Error during killing of processes: " + exe);
             }

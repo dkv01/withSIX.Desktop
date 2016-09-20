@@ -256,13 +256,14 @@ namespace SN.withSIX.Core
 
         public class StartupFlags
         {
-            public StartupFlags(string[] args) {
+            public StartupFlags(string[] args, bool is64BitOperatingSystem) {
                 var staging = false;
                 var verbose = true;
                 var selfUpdateSupported = true;
                 var autoUpdateEnabled = true;
                 var lockDown = false;
                 FullStartupParameters = args;
+                Is64BitOperatingSystem = is64BitOperatingSystem;
                 if (args.Contains("--staging")) {
                     staging = true;
                     args = args.Where(x => !x.Equals("--staging")).ToArray();
@@ -345,6 +346,7 @@ namespace SN.withSIX.Core
                 SelfUpdateSupported = selfUpdateSupported;
             }
 
+            public bool Is64BitOperatingSystem { get; }
             bool UseProduction { get; }
             public bool Public { get; set; }
             public bool SkipExecutionConfirmation { get; }

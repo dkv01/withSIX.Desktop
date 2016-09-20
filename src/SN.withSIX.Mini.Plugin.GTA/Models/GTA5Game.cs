@@ -56,7 +56,8 @@ In order to ensure a save and working mod experience, For now Sync will automati
         protected override async Task InstallImpl(IContentInstallationService installationService,
             IDownloadContentAction<IInstallableContent> action) {
             await base.InstallImpl(installationService, action).ConfigureAwait(false);
-            await new GtaPackager(InstalledState.Directory).HandlePackages().ConfigureAwait(false);
+            // TODO
+            //await new GtaPackager(InstalledState.Directory).HandlePackages().ConfigureAwait(false);
             HandleBackups();
         }
 
@@ -88,7 +89,7 @@ In order to ensure a save and working mod experience, For now Sync will automati
                 if (dir.Exists)
                     return dir;
             }
-            dir = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
+            dir = PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.ProgramFilesX86)
                 .ToAbsoluteDirectoryPath()
                 .GetChildDirectoryWithName("Rockstar Games")
                 .GetChildDirectoryWithName("Grand Theft Auto V");
@@ -203,7 +204,7 @@ In order to ensure a save and working mod experience, For now Sync will automati
 
                 void TryToInstallOpenIV() {
                     var localDataPath =
-                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                        PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.LocalApplicationData)
                             .ToAbsoluteDirectoryPath()
                             .GetChildDirectoryWithName(@"New Technology Studio\Apps\OpenIV\Games\Five\x64");
                     if (!localDataPath.Exists)
