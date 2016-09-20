@@ -244,14 +244,6 @@
     <Compile Include="SteamLauncher.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CSteamworks.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="steam_api.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -264,6 +256,16 @@
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>SN.withSIX.Steam.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\dll\x86\CSteamworks.dll">
+      <Link>CSteamworks.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dll\x86\steam_api.dll">
+      <Link>steam_api.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

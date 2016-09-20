@@ -276,13 +276,23 @@
     <!--<Content Include="TSScripts\ACRE.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>-->
-    <Content Include="ClearScriptV8-32.dll">
+    <Content Include="..\packages\ClearScript.Installer.5.4.1.23392\content\ClearScriptV8-32.dll">
+      <Link>ClearScriptV8-32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\packages\ClearScript.Installer.5.4.1.23392\content\ClearScriptV8-64.dll">
+      <Link>ClearScriptV8-64.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\packages\ClearScript.Installer.5.4.1.23392\content\v8-ia32.dll">
+      <Link>v8-ia32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\packages\ClearScript.Installer.5.4.1.23392\content\v8-x64.dll">
+      <Link>v8-x64.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ClearScriptV8-32.pdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ClearScriptV8-64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ClearScriptV8-64.pdb">
@@ -292,13 +302,7 @@
     <EmbeddedResource Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.js" />
     <EmbeddedResource Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.js" />
     <EmbeddedResource Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.js" />
-    <Content Include="v8-ia32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="v8-ia32.pdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="v8-x64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="v8-x64.pdb">
