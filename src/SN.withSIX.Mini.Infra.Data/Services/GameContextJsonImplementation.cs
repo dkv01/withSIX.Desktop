@@ -90,6 +90,11 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         private static IEnumerable<Guid> GetSupportedGameIds() => SetupGameStuff.GameSpecs
             .Select(x => x.Value.Id);
 
+        public override async Task<bool> GameExists(Guid gameId) {
+            var r = await _cache.GetCreatedAt(GetCacheKey(gameId));
+            return r != null;
+        }
+
         async Task<Game> RetrieveGame(Guid gameId, bool skip = false) {
             Game game;
             try {

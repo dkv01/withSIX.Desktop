@@ -97,11 +97,11 @@ namespace SN.withSIX.Mini.Infra.Api.Services
         private static List<Migration> GetMigrations() => new List<Migration> {new Migration1()};
 
         async Task HandleMissingGames(IGameContext gc) {
-            await gc.LoadAll(true).ConfigureAwait(false);
-            var newGames = GameSpecs
-                .Where(x => !gc.Games.Select(g => g.Id).Contains(x.Value.Id))
-                .Select(x => GameFactory.CreateGame(x.Key, x.Value))
-                .ToArray();
+            var newGames = new List<Game>();
+            foreach (var g in GameSpecs) {
+                if (!await gc.GameExists(g.Value.Id).ConfigureAwait(false))
+                    newGames.Add(GameFactory.CreateGame(g.Key, g.Value));
+            }
             foreach (var ng in newGames)
                 gc.Games.Add(ng);
             if (newGames.Any())
@@ -141,7 +141,7 @@ namespace SN.withSIX.Mini.Infra.Api.Services
 
         static class GameFactory
         {
-            static readonly Type gameType = typeof (Game);
+            static readonly TypeInfo gameType = typeof (Game).GetTypeInfo();
 
             public static Game CreateGame(Type type, GameAttribute attr)
                 => (Game) Activator.CreateInstance(type, attr.Id, CreateGameSettings(type));
@@ -160,14 +160,15 @@ namespace SN.withSIX.Mini.Infra.Api.Services
             static string MapToSettingsType(Type x) => x.FullName.Replace("Game", "GameSettings");
 
             public static IDictionary<Type, GameAttribute> GetGameTypesWithAttribute()
-                => FindGameTypes().ToDictionary(x => x, x => x.GetCustomAttribute<GameAttribute>());
+                => FindGameTypes().ToDictionary(x => x, x => x.GetTypeInfo().GetCustomAttribute<GameAttribute>());
 
             static IEnumerable<Type> FindGameTypes() => AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
+                .Select(x => x.GetTypeInfo())
                 .Where(IsGameType);
 
-            static bool IsGameType(Type x) => !x.IsInterface && !x.IsAbstract && SystemExtensions.IsAssignableFrom(gameType, x) &&
-                                              x.GetCustomAttribute<GameAttribute>() != null;
+            static bool IsGameType(TypeInfo x) => !x.IsInterface && !x.IsAbstract && gameType.IsAssignableFrom(x) &&
+                                                  x.GetCustomAttribute<GameAttribute>() != null;
         }
     }
 

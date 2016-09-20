@@ -5,11 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
-using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
 {
@@ -23,6 +20,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         //public virtual ICollection<Group> Groups { get; protected set; } = new List<Group>();
         public abstract Task Load(Guid gameId);
         public abstract Task LoadAll(bool skip = false);
+        public abstract Task<bool> GameExists(Guid gameId);
         // Instead we use Games as the aggregate root and therefore also spare us some Persistence plumbing right now...
         //        public virtual ICollection<Content> Contents { get; } = new List<Content>();
         //        public virtual ICollection<RecentItem> Recents { get; } = new List<RecentItem>();
