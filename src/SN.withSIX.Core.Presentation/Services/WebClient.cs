@@ -4,6 +4,7 @@
 
 using System;
 using System.Net;
+using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Core.Presentation.Services
@@ -14,6 +15,84 @@ namespace SN.withSIX.Core.Presentation.Services
 
         protected WebClient(int timeout) {
             Timeout = timeout;
+        }
+
+        public IDisposable SetupDownloadTransferProgress(ITransferProgress transferProgress, TimeSpan timeout) {
+            var lastTime = Tools.Generic.GetCurrentUtcDateTime;
+            long lastBytes = 0;
+
+            transferProgress.Update(null, 0);
+            transferProgress.FileSizeTransfered = 0;
+            DownloadProgressChanged +=
+                (sender, args) => {
+                    var bytes = args.BytesReceived;
+                    var now = Tools.Generic.GetCurrentUtcDateTime;
+
+                    transferProgress.FileSizeTransfered = bytes;
+
+                    long? speed = null;
+
+                    if (lastBytes != 0) {
+                        var timeSpan = now - lastTime;
+                        var bytesChange = bytes - lastBytes;
+
+                        if (timeSpan.TotalMilliseconds > 0)
+                            speed = (long) (bytesChange/(timeSpan.TotalMilliseconds/1000.0));
+                    }
+                    transferProgress.Update(speed, args.ProgressPercentage);
+
+                    lastBytes = bytes;
+                    lastTime = now;
+                };
+
+            DownloadFileCompleted += (sender, args) => { transferProgress.Completed = true; };
+
+            var timer = new TimerWithElapsedCancellation(500, () => {
+                if (!transferProgress.Completed
+                    && Tools.Generic.LongerAgoThan(lastTime, timeout)) {
+                    CancelAsync();
+                    return false;
+                }
+                return !transferProgress.Completed;
+            });
+            return timer;
+        }
+
+
+        public IDisposable SetupUploadTransferProgress(ITransferProgress transferProgress, TimeSpan timeout) {
+            var lastTime = Tools.Generic.GetCurrentUtcDateTime;
+            long lastBytes = 0;
+
+            UploadProgressChanged +=
+                (sender, args) => {
+                    var bytes = args.BytesReceived;
+                    var now = Tools.Generic.GetCurrentUtcDateTime;
+
+                    transferProgress.FileSizeTransfered = bytes;
+                    long? speed = null;
+                    if (lastBytes != 0) {
+                        var timeSpan = now - lastTime;
+                        var bytesChange = bytes - lastBytes;
+
+                        if (timeSpan.TotalMilliseconds > 0)
+                            speed = (long) (bytesChange/(timeSpan.TotalMilliseconds/1000.0));
+                    }
+                    transferProgress.Update(speed, args.ProgressPercentage);
+                    lastTime = now;
+                    lastBytes = bytes;
+                };
+
+            UploadFileCompleted += (sender, args) => { transferProgress.Completed = true; };
+
+            var timer = new TimerWithElapsedCancellation(500, () => {
+                if (!transferProgress.Completed
+                    && Tools.Generic.LongerAgoThan(lastTime, timeout)) {
+                    CancelAsync();
+                    return false;
+                }
+                return !transferProgress.Completed;
+            });
+            return timer;
         }
 
         public int Timeout { get; set; }

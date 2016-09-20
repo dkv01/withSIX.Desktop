@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.ComponentModel;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +21,8 @@ namespace SN.withSIX.Sync.Core.Transfer
         Task DownloadFileTaskAsync(string url, string fileName);
         Task<byte[]> UploadFileTaskAsync(Uri uri, string fileName);
         Task<byte[]> UploadFileTaskAsync(string url, string fileName);
+        IDisposable SetupDownloadTransferProgress(ITransferProgress transferProgress, TimeSpan timeout);
+        IDisposable SetupUploadTransferProgress(ITransferProgress transferProgress, TimeSpan timeout);
         void CancelAsync();
         //event AsyncCompletedEventHandler DownloadFileCompleted;
         //event DownloadProgressChangedEventHandler DownloadProgressChanged;

@@ -42,7 +42,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             spec.Progress.Tries++;
             ConfirmSchemeSupported(spec.Uri.Scheme);
             using (var webClient = _webClientFactory())
-            using (SetupTransferProgress(webClient.Value, spec.Progress))
+            using (webClient.Value.SetupDownloadTransferProgress(spec.Progress, timeout))
                 await TryDownloadAsync(spec, webClient.Value, GetTmpFile(spec)).ConfigureAwait(false);
         }
 
@@ -105,49 +105,6 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             }
             */
             return new DownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e);
-        }
-
-        static Timer SetupTransferProgress(IWebClient webClient, ITransferProgress transferProgress) {
-            var lastTime = Tools.Generic.GetCurrentUtcDateTime;
-            long lastBytes = 0;
-
-            transferProgress.Update(null, 0);
-            transferProgress.FileSizeTransfered = 0;
-            /*
-            webClient.DownloadProgressChanged +=
-                (sender, args) => {
-                    var bytes = args.BytesReceived;
-                    var now = Tools.Generic.GetCurrentUtcDateTime;
-
-                    transferProgress.FileSizeTransfered = bytes;
-
-                    long? speed = null;
-
-                    if (lastBytes != 0) {
-                        var timeSpan = now - lastTime;
-                        var bytesChange = bytes - lastBytes;
-
-                        if (timeSpan.TotalMilliseconds > 0)
-                            speed = (long) (bytesChange/(timeSpan.TotalMilliseconds/1000.0));
-                    }
-                    transferProgress.Update(speed, args.ProgressPercentage);
-
-                    lastBytes = bytes;
-                    lastTime = now;
-                };
-
-            webClient.DownloadFileCompleted += (sender, args) => { transferProgress.Completed = true; };
-            */
-
-            var timer = new TimerWithElapsedCancellation(500, () => {
-                if (!transferProgress.Completed
-                    && Tools.Generic.LongerAgoThan(lastTime, timeout)) {
-                    webClient.CancelAsync();
-                    return false;
-                }
-                return !transferProgress.Completed;
-            });
-            return timer;
         }
     }
 }
