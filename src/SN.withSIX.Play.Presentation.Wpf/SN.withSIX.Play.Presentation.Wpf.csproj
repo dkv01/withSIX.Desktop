@@ -1523,7 +1523,6 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="AfterBuild" Condition="$(Configuration.Contains('Release'))">
     <PropertyGroup>
       <ReferenceLib>$(AssemblyName).exe</ReferenceLib>

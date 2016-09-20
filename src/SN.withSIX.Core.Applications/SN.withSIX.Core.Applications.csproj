@@ -434,7 +434,6 @@
       <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="ReadToolsVersion" Condition="'$(Configuration)' == 'Release'">
     <ReadLinesFromFile File="..\Tools\Version.txt">
       <Output TaskParameter="Lines" ItemName="Ver" />
