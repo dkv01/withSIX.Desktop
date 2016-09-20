@@ -76,6 +76,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
         public TimeSpan? MonitorOutput { get; set; }
         public TimeSpan? MonitorResponding { get; set; }
         public CancellationToken CancellationToken { get; set; }
+        public bool StartMinimized { get; set; }
     }
 
     public class LaunchAndProcessInfo : BasicLaunchInfo

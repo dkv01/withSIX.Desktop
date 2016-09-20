@@ -89,8 +89,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                     //WindowStyle = ProcessWindowStyle.Minimized
                 }.Build();
                 pInfo.CreateNoWindow = true;
-                var basicLaunchInfo = new BasicLaunchInfo(pInfo);
-
+                var basicLaunchInfo = new BasicLaunchInfo(pInfo) {StartMinimized = true};
                 var r = asAdministrator ? pm.LaunchElevated(basicLaunchInfo) : pm.Launch(basicLaunchInfo);
                 if (r.ExitCode != 0)
                     throw new Exception($"Error during handling {r.ExitCode}");

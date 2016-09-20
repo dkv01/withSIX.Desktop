@@ -201,7 +201,9 @@ namespace SN.withSIX.Core
                         new BasicLaunchInfo(
                             new ProcessStartInfo(Common.Paths.ServiceExePath.ToString(), parameters) {
                                 CreateNoWindow = true
-                            }));
+                            }) {
+                            StartMinimized = true
+                        });
                 if (outInfo.ExitCode != 0) {
                     throw new UpdaterTaskException(string.Format("Failed to execute (code: {1}): {0}", parameters,
                         outInfo.ExitCode));

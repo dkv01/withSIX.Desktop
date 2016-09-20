@@ -304,6 +304,7 @@ namespace SN.withSIX.Core.Infra.Services
         #region Async variants
 
         public async Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info) {
+            ProcessBLI(info);
             using (var process = new ReactiveProcess {StartInfo = info.StartInfo}) {
                 return
                     await
@@ -314,9 +315,9 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         public async Task<ProcessExitResult> LaunchElevatedAsync(BasicLaunchInfo info) {
-            var processStartInfo = info.StartInfo;
-            processStartInfo.EnableRunAsAdministrator();
-            using (var process = new ReactiveProcess { StartInfo = processStartInfo }) {
+            info.StartInfo.EnableRunAsAdministrator();
+            ProcessBLI(info);
+            using (var process = new ReactiveProcess { StartInfo = info.StartInfo }) {
                 return
                     await
                         LaunchAndWaitForExitAsync(process, info.MonitorOutput, info.MonitorResponding,
@@ -361,6 +362,7 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         public async Task<ProcessExitResultWithOutput> LaunchAndGrabAsync(BasicLaunchInfo info) {
+            ProcessBLI(info);
             var outputBuilder = new StringBuilder();
             var errorBuilder = new StringBuilder();
             var outInfo =
@@ -416,6 +418,7 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         public ProcessExitResult Launch(BasicLaunchInfo info) {
+            ProcessBLI(info);
             using (var process = new Process {StartInfo = info.StartInfo}) {
                 LaunchAndWaitForExit(process, info.MonitorOutput, info.MonitorResponding);
                 return new ProcessExitResult(process.ExitCode, process.Id, info.StartInfo);
@@ -423,14 +426,21 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         public ProcessExitResult LaunchElevated(BasicLaunchInfo info) {
-            info.StartInfo.EnableRunAsAdministrator(); // does this work??
+            info.StartInfo.EnableRunAsAdministrator();
+            ProcessBLI(info);
             using (var process = new Process { StartInfo = info.StartInfo }) {
                 LaunchAndWaitForExit(process, info.MonitorOutput, info.MonitorResponding);
                 return new ProcessExitResult(process.ExitCode, process.Id, info.StartInfo);
             }
         }
 
+        private static void ProcessBLI(BasicLaunchInfo info) {
+            if (info.StartMinimized)
+                info.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+        }
+
         public ProcessExitResultWithOutput LaunchAndGrab(BasicLaunchInfo info) {
+            ProcessBLI(info);
             var outputBuilder = new StringBuilder();
             var errorBuilder = new StringBuilder();
             var outInfo = LaunchAndProcess(new LaunchAndProcessInfo(info.StartInfo.EnableRedirect()) {
