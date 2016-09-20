@@ -6,7 +6,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
@@ -72,7 +71,7 @@ namespace SN.withSIX.Core.Extensions
                 AddPrefix($"Type: {e.GetType()}", level),
                 AddPrefix($"Message:\n{AddPrefix(e.Message, 1)}", level),
                 AddPrefix($"Source: {e.Source}", level),
-                AddPrefix($"TargetSite: {e.TargetSite}", level)
+                //AddPrefix($"TargetSite: {e.TargetSite}", level)
             };
 
                 ProcessAdditionalExceptionInformation(e, str);
@@ -89,9 +88,9 @@ namespace SN.withSIX.Core.Extensions
             }
 
             private static void ProcessAdditionalExceptionInformation(Exception e, ICollection<string> str) {
-                var ee = e as ExternalException;
-                if (ee != null)
-                    str.Add(AddPrefix($"ErrorCode: {ee.ErrorCode}"));
+                //var ee = e as ExternalException;
+                //if (ee != null)
+                  //  str.Add(AddPrefix($"ErrorCode: {ee.ErrorCode}"));
 
                 var w32 = e as Win32Exception;
                 if (w32 != null)
@@ -114,7 +113,7 @@ namespace SN.withSIX.Core.Extensions
                     str.AddRange(rle.LoaderExceptions.Select(
                         a => AddPrefix("Inner Exception:\n" + FormatException(a, 1), level)));
                 }
-
+/*
                 var ce = e as CompositionException;
                 if (ce != null
                     && ce.Errors != null) {
@@ -122,7 +121,7 @@ namespace SN.withSIX.Core.Extensions
                         error => AddPrefix(
                             $"CompositionError Description: {error.Description}, Element: {error.Element}, Exception: {(error.Exception == null ? null : FormatException(error.Exception, 1))}",
                             level)));
-                }
+                }*/
             }
         }
     }

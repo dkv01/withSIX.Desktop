@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 
 using SN.withSIX.Core;
@@ -24,6 +23,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
         public InvalidFileHash(string message) : base(message) {}
     }
 
+    /*
     public class YomaContent
     {
         static readonly string ArchiveExtension = ".archive";
@@ -132,4 +132,5 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
                 TmpPath.GetChildFileWithName(YomaConfigFiles[2]));
         }
     }
+    */
 }

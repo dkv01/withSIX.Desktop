@@ -1,12 +1,12 @@
-﻿// <copyright company="SIX Networks GmbH" file="SteamDirectories.cs">
-//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
-// </copyright>
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NDepend.Path;
 
-namespace SN.withSIX.Steam.Core
+namespace SN.withSIX.Core
 {
     public class SteamDirectories
     {
@@ -39,7 +39,7 @@ namespace SN.withSIX.Steam.Core
         private class NullSteamDirectories : SteamDirectories
         {
             protected internal NullSteamDirectories()
-                : base(SteamGameDirectories.Default, SteamWorkshopDirectories.Default) {}
+                : base(SteamGameDirectories.Default, SteamWorkshopDirectories.Default) { }
 
             public override bool IsValid => false;
         }
@@ -47,7 +47,7 @@ namespace SN.withSIX.Steam.Core
 
     public class SteamWorkshopDirectories
     {
-        protected SteamWorkshopDirectories() {}
+        protected SteamWorkshopDirectories() { }
 
         public SteamWorkshopDirectories(uint appId, IAbsoluteDirectoryPath rootPath) {
             RootPath = rootPath.GetChildDirectoryWithName("workshop");
@@ -62,7 +62,7 @@ namespace SN.withSIX.Steam.Core
 
     public class SteamGameDirectories
     {
-        protected SteamGameDirectories() {}
+        protected SteamGameDirectories() { }
 
         public SteamGameDirectories(string folder, IAbsoluteDirectoryPath rootPath) {
             RootPath = rootPath.GetChildDirectoryWithName("common");
@@ -73,5 +73,22 @@ namespace SN.withSIX.Steam.Core
 
         public IAbsoluteDirectoryPath RootPath { get; }
         public IAbsoluteDirectoryPath ContentPath { get; }
+    }
+
+    public interface ISteamHelper
+    {
+        bool SteamFound { get; }
+        ISteamApp TryGetSteamAppById(uint appId, bool noCache = false);
+        IAbsoluteDirectoryPath SteamPath { get; }
+    }
+
+
+    public interface ISteamApp
+    {
+        uint AppId { get; }
+        IAbsoluteDirectoryPath InstallBase { get; }
+        IAbsoluteDirectoryPath AppPath { get; }
+        bool IsValid { get; }
+        string GetInstallDir();
     }
 }

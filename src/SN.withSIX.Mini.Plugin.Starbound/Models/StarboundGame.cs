@@ -14,7 +14,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Parsers;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;

@@ -3,277 +3,101 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Helpers
 {
-    public class TimerWithElapsedCancellation : Timer
+    public class TimerWithElapsedCancellation : TimerWithElapsedCancellationAsync
     {
-        volatile bool _disposed;
-        protected Func<bool> OnElapsedFunc;
+        public TimerWithElapsedCancellation(double time, Func<bool> onElapsed, Action onDisposed = null)
+            : base(time, async () => onElapsed(), onDisposed) {}
 
-        public TimerWithElapsedCancellation(double time, Func<bool> onElapsed,
-            Action<object, EventArgs> onDisposed = null,
-            bool startImmediately = true)
-            : base(time) {
-            AutoReset = false;
-            if (onDisposed != null)
-                Disposed += (obj, args) => onDisposed(obj, args);
-            OnElapsedFunc = onElapsed;
-            Elapsed += OnElapsed;
-
-            if (startImmediately)
-                Start();
-        }
-
-        public TimerWithElapsedCancellation(TimeSpan time, Func<bool> onElapsed,
-            Action<object, EventArgs> onDisposed = null, bool startImmediately = true)
-            : this(time.TotalMilliseconds, onElapsed, onDisposed, startImmediately) {}
-
-        void OnElapsed(object sender, ElapsedEventArgs elapsedEventArgs) {
-            if (_disposed)
-                return;
-            Stop();
-
-            var shouldContinue = TryShouldContinue();
-
-            lock (this) {
-                if (_disposed)
-                    return;
-                if (shouldContinue)
-                    Start();
-                else
-                    Dispose();
-            }
-        }
-
-        bool TryShouldContinue() {
-            try {
-                return OnElapsedFunc();
-            } catch (Exception ex) {
-                MainLog.Logger.FormattedWarnException(ex, "Unhandled exception in Timer!");
-                return false;
-            }
-        }
-
-        protected override void Dispose(bool disposing) {
-            lock (this) {
-                if (_disposed)
-                    return;
-                _disposed = true;
-            }
-
-            if (disposing) {
-                Elapsed -= OnElapsed;
-                OnElapsedFunc = null;
-            }
-
-            base.Dispose(disposing);
-        }
+        public TimerWithElapsedCancellation(TimeSpan time, Func<bool> onElapsed, Action onDisposed = null)
+            : this(time.TotalMilliseconds, onElapsed, onDisposed) {}
     }
 
-    public class TimerWithElapsedCancellationOnExceptionOnly : Timer
+    [Obsolete("TODO!")]
+    public abstract class Timer : IDisposable
     {
-        volatile bool _disposed;
-        protected Action OnElapsedFunc;
-
-        public TimerWithElapsedCancellationOnExceptionOnly(double time, Action onElapsed,
-            Action<object, EventArgs> onDisposed = null,
-            bool startImmediately = true)
-            : base(time) {
-            AutoReset = false;
-            if (onDisposed != null)
-                Disposed += (obj, args) => onDisposed(obj, args);
-            OnElapsedFunc = onElapsed;
-            Elapsed += OnElapsed;
-
-            if (startImmediately)
-                Start();
+        public void Dispose() {
+            Dispose(true);
         }
 
-        public TimerWithElapsedCancellationOnExceptionOnly(TimeSpan time, Action onElapsed,
-            Action<object, EventArgs> onDisposed = null, bool startImmediately = true)
-            : this(time.TotalMilliseconds, onElapsed, onDisposed, startImmediately) {}
-
-        void OnElapsed(object sender, ElapsedEventArgs elapsedEventArgs) {
-            if (_disposed)
-                return;
-            Stop();
-
-            var shouldContinue = TryShouldContinue();
-
-            lock (this) {
-                if (_disposed)
-                    return;
-
-                if (shouldContinue)
-                    Start();
-                else
-                    Dispose();
-            }
-        }
-
-        bool TryShouldContinue() {
-            try {
-                OnElapsedFunc();
-                return true;
-            } catch (Exception ex) {
-                MainLog.Logger.FormattedWarnException(ex, "Unhandled exception in Timer!");
-                return false;
-            }
-        }
-
-        protected override void Dispose(bool disposing) {
-            lock (this) {
-                if (_disposed)
-                    return;
-                _disposed = true;
-            }
-
-            if (disposing) {
-                Elapsed -= OnElapsed;
-                OnElapsedFunc = null;
-            }
-
-            base.Dispose(disposing);
-        }
+        protected virtual void Dispose(bool v) {}
     }
 
-    public class TimerWithoutOverlap : Timer
+    public class ElapsedEventArgs {}
+
+    public class TimerWithElapsedCancellationOnExceptionOnly : TimerWithElapsedCancellationAsync
     {
-        volatile bool _disposed;
-        protected Action OnElapsedFunc;
+        public TimerWithElapsedCancellationOnExceptionOnly(double time, Action onElapsed)
+            : base(time, async () => onElapsed()) {}
 
-        public TimerWithoutOverlap(double time, Action onElapsed,
-            Action<object, EventArgs> onDisposed = null,
-            bool startImmediately = true)
-            : base(time) {
-            AutoReset = false;
-            if (onDisposed != null)
-                Disposed += (obj, args) => onDisposed(obj, args);
-            OnElapsedFunc = onElapsed;
-            Elapsed += OnElapsed;
-
-            if (startImmediately)
-                Start();
-        }
-
-        public TimerWithoutOverlap(TimeSpan time, Action onElapsed,
-            Action<object, EventArgs> onDisposed = null, bool startImmediately = true)
-            : this(time.TotalMilliseconds, onElapsed, onDisposed, startImmediately) {}
-
-        void OnElapsed(object sender, ElapsedEventArgs elapsedEventArgs) {
-            if (_disposed)
-                return;
-            Stop();
-
-            try {
-                OnElapsedFunc();
-            } finally {
-                lock (this) {
-                    if (!_disposed)
-                        Start();
-                }
-            }
-        }
-
-        protected override void Dispose(bool disposing) {
-            lock (this) {
-                if (_disposed)
-                    return;
-                _disposed = true;
-            }
-
-            if (disposing) {
-                Elapsed -= OnElapsed;
-                OnElapsedFunc = null;
-            }
-
-            base.Dispose(disposing);
-        }
+        public TimerWithElapsedCancellationOnExceptionOnly(TimeSpan time, Action onElapsed)
+            : this(time.TotalMilliseconds, onElapsed) {}
     }
 
+    public class TimerWithoutOverlap : TimerWithElapsedCancellationAsync
+    {
+        public TimerWithoutOverlap(double time, Action onElapsed)
+            : base(time, async () => onElapsed()) {}
+
+        public TimerWithoutOverlap(TimeSpan time, Action onElapsed)
+            : base(time, async () => onElapsed()) {}
+    }
 
     public class TimerWithElapsedCancellationAsync : Timer
     {
-        volatile bool _disposed;
+        private readonly Action _onDisposed;
+        private CancellationTokenSource _cts;
+
+        private bool _disposed;
+        private Task _task;
         protected Func<Task<bool>> OnElapsedFunc;
 
-        public TimerWithElapsedCancellationAsync(double time, Func<Task<bool>> onElapsed,
-            Func<object, EventArgs, Task> onDisposed = null,
-            bool startImmediately = true)
-            : base(time) {
-            AutoReset = false;
-            if (onDisposed != null)
-                Disposed += (obj, args) => onDisposed(obj, args).WaitAndUnwrapException();
-
-            OnElapsedFunc = onElapsed;
-
-            Elapsed += OnElapsed;
-
-            if (startImmediately)
-                Start();
+        public TimerWithElapsedCancellationAsync(double time, Func<Task<bool>> onElapsed, Action onDisposed = null) {
+            _onDisposed = onDisposed;
+            _cts = new CancellationTokenSource();
+            _task = Task.Run(async () => {
+                while (!_cts.IsCancellationRequested) {
+                    await Task.Delay(TimeSpan.FromMilliseconds(time), _cts.Token).ConfigureAwait(false);
+                    try {
+                        if (!await onElapsed().ConfigureAwait(false)) {
+                            break;
+                        }
+                    } catch (Exception ex) {
+                        MainLog.Logger.Warn("Unhandled Ex in timer", ex);
+                        break;
+                    }
+                }
+            }, _cts.Token);
         }
 
-        public TimerWithElapsedCancellationAsync(TimeSpan time, Func<Task<bool>> onElapsed,
-            Func<object, EventArgs, Task> onDisposed = null,
-            bool startImmediately = true) : this(time.TotalMilliseconds, onElapsed, onDisposed, startImmediately) {}
+        public TimerWithElapsedCancellationAsync(TimeSpan time, Func<Task<bool>> onElapsed, Action onDisposed = null)
+            : this(time.TotalMilliseconds, onElapsed, onDisposed) {}
 
-        public TimerWithElapsedCancellationAsync(double time, Func<Task> onElapsedNonBool,
-            Func<object, EventArgs, Task> onDisposed = null,
-            bool startImmediately = true) : this(time, () => Wrap(onElapsedNonBool), onDisposed, startImmediately) {}
+        public TimerWithElapsedCancellationAsync(double time, Func<Task> onElapsedNonBool, Action onDisposed = null)
+            : this(time, () => Wrap(onElapsedNonBool), onDisposed) {}
 
-        public TimerWithElapsedCancellationAsync(TimeSpan time, Func<Task> onElapsedNonBool,
-            Func<object, EventArgs, Task> onDisposed = null,
-            bool startImmediately = true) : this(time.TotalMilliseconds, onElapsedNonBool, onDisposed, startImmediately) {}
+        public TimerWithElapsedCancellationAsync(TimeSpan time, Func<Task> onElapsedNonBool, Action onDisposed = null)
+            : this(time.TotalMilliseconds, onElapsedNonBool, onDisposed) {}
+
+        protected override void Dispose(bool disposing) {
+            if (_disposed)
+                return;
+            _disposed = true;
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+            _task = null;
+            _onDisposed?.Invoke();
+        }
 
         static async Task<bool> Wrap(Func<Task> task) {
             await task().ConfigureAwait(false);
             return true;
-        }
-
-        async void OnElapsed(object sender, ElapsedEventArgs elapsedEventArgs) {
-            if (_disposed)
-                return;
-            Stop();
-
-            var shouldContinue = await TryShouldContinue().ConfigureAwait(false);
-
-            lock (this) {
-                if (_disposed)
-                    return;
-                if (shouldContinue)
-                    Start();
-                else
-                    Dispose();
-            }
-        }
-
-        async Task<bool> TryShouldContinue() {
-            try {
-                return await OnElapsedFunc().ConfigureAwait(false);
-            } catch (Exception ex) {
-                MainLog.Logger.FormattedWarnException(ex, "Unhandled exception in Timer!");
-                return false;
-            }
-        }
-
-        protected override void Dispose(bool disposing) {
-            lock (this) {
-                if (_disposed)
-                    return;
-                _disposed = true;
-            }
-            if (disposing) {
-                Elapsed -= OnElapsed;
-                OnElapsedFunc = null;
-            }
-
-            base.Dispose(disposing);
         }
     }
 }

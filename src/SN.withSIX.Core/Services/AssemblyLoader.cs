@@ -19,29 +19,41 @@ namespace SN.withSIX.Core.Services
         readonly Version _entryVersion;
         readonly IAbsoluteDirectoryPath _netEntryPath;
 
-        public AssemblyLoader(Assembly assembly, IAbsoluteFilePath locationOverride = null) {
+        public AssemblyLoader(Assembly assembly, IAbsoluteFilePath locationOverride = null, IAbsoluteDirectoryPath netEntryPath = null) {
             if (assembly == null)
                 throw new Exception("Entry Assembly is null!");
             _entryAssembly = assembly;
-            var netEntryFilePath = _entryAssembly.Location.ToAbsoluteFilePath();
+            var asName = _entryAssembly.GetName().Name;
+            var netEntryFilePath = GetNetEntryFilePath(netEntryPath, asName);
             _netEntryPath = netEntryFilePath.ParentDirectoryPath;
             _entryLocation = locationOverride ?? netEntryFilePath;
             _entryPath = _entryLocation.ParentDirectoryPath;
             _entryVersion = _entryAssembly.GetName().Version;
-            _entryAssemblyName = _entryAssembly.GetName().Name;
+            _entryAssemblyName = asName;
+        }
+
+        private static IAbsoluteFilePath GetNetEntryFilePath(IAbsoluteDirectoryPath netEntryPath, string asName) {
+            var en = netEntryPath ?? AppContext.BaseDirectory.ToAbsoluteDirectoryPath();
+            var dll = en.GetChildFileWithName(asName + ".dll");
+            var netEntryFilePath = dll.Exists ? dll : en.GetChildFileWithName(asName + ".exe"); //_entryAssembly.Location.ToAbsoluteFilePath();
+            return netEntryFilePath;
         }
 
         #region IAssemblyLoader Members
 
         public Version GetEntryVersion() => _entryVersion;
 
+        [Obsolete("TODO")]
         public string GetProductVersion() {
+            return "1.0.0"; // TODO
+            /*
             var attr = Attribute
                 .GetCustomAttribute(
                     _entryAssembly,
                     typeof (AssemblyInformationalVersionAttribute))
                 as AssemblyInformationalVersionAttribute;
             return attr.InformationalVersion;
+            */
         }
 
 
@@ -53,14 +65,8 @@ namespace SN.withSIX.Core.Services
 
         public IAbsoluteFilePath GetEntryLocation() => _entryLocation;
 
-        public string GetInformationalVersion() => _entryAssembly.GetInformationalVersion();
+        public string GetInformationalVersion() => FileVersionInfo.GetVersionInfo(_entryLocation.ToString())?.ProductVersion;
 
         #endregion
-    }
-
-    public static class AssemblyExtensions
-    {
-        public static string GetInformationalVersion(this Assembly assembly)
-            => FileVersionInfo.GetVersionInfo(assembly.Location)?.ProductVersion;
     }
 }

@@ -17,7 +17,7 @@ namespace SN.withSIX.Core.Extensions
             => BitConverter.ToString(Sha256(password, rotations)).Replace("-", string.Empty);
 
         public static byte[] Sha256(this string password, int rotations = 1) {
-            using (var sha256CryptoServiceProvider = new SHA256CryptoServiceProvider()) {
+            using (var sha256CryptoServiceProvider = SHA256.Create()) {
                 var hash = Encoding.UTF8.GetBytes(password);
 
                 for (byte iterator = 0; iterator < rotations; ++iterator)
@@ -39,7 +39,7 @@ namespace SN.withSIX.Core.Extensions
 
         public static byte[] Sha1(this FileStream stream, int rotations = 1) {
             Contract.Requires<ArgumentNullException>(rotations > 0);
-            using (var sha1CryptoServiceProvider = new SHA1CryptoServiceProvider()) {
+            using (var sha1CryptoServiceProvider = SHA1.Create()) {
                 byte[] hash = null;
                 for (byte iterator = 0; iterator < rotations; ++iterator)
                     hash = sha1CryptoServiceProvider.ComputeHash(stream);
@@ -49,7 +49,7 @@ namespace SN.withSIX.Core.Extensions
 
         public static byte[] Sha1(this string password, int rotations = 1) {
             Contract.Requires<ArgumentNullException>(rotations > 0);
-            using (var sha1CryptoServiceProvider = new SHA1CryptoServiceProvider()) {
+            using (var sha1CryptoServiceProvider = SHA1.Create()) {
                 var hash = Encoding.UTF8.GetBytes(password);
 
                 for (byte iterator = 0; iterator < rotations; ++iterator)
@@ -61,7 +61,7 @@ namespace SN.withSIX.Core.Extensions
 
         public static byte[] Sha1(this byte[] hash, int rotations = 1) {
             Contract.Requires<ArgumentNullException>(rotations > 0);
-            using (var sha1CryptoServiceProvider = new SHA1CryptoServiceProvider()) {
+            using (var sha1CryptoServiceProvider = SHA1.Create()) {
                 for (byte iterator = 0; iterator < rotations; ++iterator)
                     hash = sha1CryptoServiceProvider.ComputeHash(hash);
                 return hash;
@@ -74,19 +74,19 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static string GetMd5HasFromStream(Stream stream) {
-            using (var md5CryptoServiceProvider = new MD5CryptoServiceProvider())
+            using (var md5CryptoServiceProvider = System.Security.Cryptography.MD5.Create())
                 return BitConverter.ToString(md5CryptoServiceProvider.ComputeHash(stream)).Replace("-", string.Empty);
         }
 
         public static string GetMd5HashFromFile(IAbsoluteFilePath path) {
-            using (var md5CryptoServiceProvider = new MD5CryptoServiceProvider())
+            using (var md5CryptoServiceProvider = System.Security.Cryptography.MD5.Create())
             using (var stream = new FileStream(path.ToString(), FileMode.Open, FileAccess.Read))
                 return BitConverter.ToString(md5CryptoServiceProvider.ComputeHash(stream)).Replace("-", string.Empty);
         }
 
         public static byte[] MD5(this string password, int rotations = 1) {
             Contract.Requires<ArgumentNullException>(rotations > 0);
-            using (var md5CryptoServiceProvider = new MD5CryptoServiceProvider()) {
+            using (var md5CryptoServiceProvider = System.Security.Cryptography.MD5.Create()) {
                 var hash = Encoding.UTF8.GetBytes(password);
 
                 for (byte iterator = 0; iterator < rotations; ++iterator)
@@ -109,7 +109,7 @@ namespace SN.withSIX.Core.Extensions
 
         public static byte[] Sha512(this string password, int rotations = 1) {
             Contract.Requires<ArgumentNullException>(rotations > 0);
-            using (var sha512CryptoServiceProvider = new SHA512CryptoServiceProvider()) {
+            using (var sha512CryptoServiceProvider = SHA512.Create()) {
                 var hash = Encoding.UTF8.GetBytes(password);
 
                 for (byte iterator = 0; iterator < rotations; ++iterator)

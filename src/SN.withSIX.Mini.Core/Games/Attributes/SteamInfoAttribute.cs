@@ -4,7 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Steam.Core;
+using SN.withSIX.Core;
 using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Core.Games.Attributes
@@ -38,20 +38,20 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         public virtual uint AppId { get; }
         public bool DRM { get; set; }
 
-        public virtual SteamDirectories GetDirectories(SteamHelper helper) {
+        public virtual SteamDirectories GetDirectories(ISteamHelper helper) {
             if (!helper.SteamFound)
                 return SteamDirectories.Default;
 
             var si = helper.TryGetSteamAppById(AppId);
             return new SteamDirectories(AppId, si?.GetInstallDir() ?? _folderFallback,
-                si?.InstallBase ?? SteamPathHelper.SteamPath);
+                si?.InstallBase ?? helper.SteamPath);
         }
 
         class NullSteamInfo : SteamInfoAttribute
         {
             public override uint AppId => 0;
             public override bool IsValid => false;
-            public override SteamDirectories GetDirectories(SteamHelper helper) => SteamDirectories.Default;
+            public override SteamDirectories GetDirectories(ISteamHelper helper) => SteamDirectories.Default;
         }
     }
 }

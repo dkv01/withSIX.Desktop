@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core;
@@ -640,7 +639,7 @@ namespace SN.withSIX.Sync.Core.Packages
                 .Where(
                     paths =>
                         paths.src != paths.dst &&
-                        paths.src.Equals(paths.dst, StringComparison.InvariantCultureIgnoreCase))) {
+                        paths.src.Equals(paths.dst, StringComparison.OrdinalIgnoreCase))) {
                 Tools.FileUtil.Ops.MoveDirectory(paths.src.ToAbsoluteDirectoryPath(),
                     paths.dst.ToAbsoluteDirectoryPath());
             }
@@ -849,7 +848,7 @@ namespace SN.withSIX.Sync.Core.Packages
             }
 
             void ProcessFoundByChecksum(FileObjectMapping file, string found) {
-                if (found.Equals(file.FilePath, StringComparison.InvariantCultureIgnoreCase))
+                if (found.Equals(file.FilePath, StringComparison.OrdinalIgnoreCase))
                     ChangedCase.Add(found, file.FilePath);
                 else if (Copy.ContainsKey(found))
                     Copy[found].Add(file.FilePath);

@@ -21,15 +21,6 @@ namespace SN.withSIX.Core.Logging
                 ? new Bencher(message, caller)
                 : null;
 
-        public static void CurrentDomainOnUnhandledException(object sender,
-            UnhandledExceptionEventArgs unhandledExceptionEventArgs) {
-            var ex = unhandledExceptionEventArgs.ExceptionObject as Exception;
-            if (ex == null)
-                Logger.Error("Catched unhandled exception in appdomain, but exception object is not of type Exception!");
-            else
-                Logger.FormattedErrorException(ex, "Catched unhandled exception in appdomain");
-        }
-
         public static void BenchLog(string message) {
             var time = Tools.Generic.GetCurrentUtcDateTime - startTime;
             Logger.Debug("::BENCH:: (" + time.ToString("mm':'ss':'fff") + ") " + message);

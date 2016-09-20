@@ -37,6 +37,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     throw new OperationCanceledException("The user did not enter the requested info", e);
                 uri = r;
                 goto retry;
+                /*
             } catch (FtpDownloadException e) {
                 if (e.StatusCode != FtpStatusCode.NotLoggedIn && e.StatusCode != FtpStatusCode.AccountNeeded &&
                     e.StatusCode != FtpStatusCode.NeedLoginAccount)
@@ -46,6 +47,7 @@ namespace SN.withSIX.Mini.Applications.Services
                     throw new OperationCanceledException("The user did not enter the requested info", e);
                 uri = r;
                 goto retry;
+                */
             }
         }
 

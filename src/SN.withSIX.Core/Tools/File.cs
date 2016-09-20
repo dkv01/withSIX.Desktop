@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -82,12 +81,12 @@ namespace SN.withSIX.Core
                 var dirs = di.EnumerateDirectories("*.*", SearchOption.TopDirectoryOnly);
                 if (dirRootExclusions != null) {
                     dirs =
-                        dirs.Where(x => !dirRootExclusions.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase));
+                        dirs.Where(x => !dirRootExclusions.Contains(x.Name, StringComparer.OrdinalIgnoreCase));
                 }
                 var files = di.EnumerateFiles(fileMask, SearchOption.TopDirectoryOnly);
                 if (fileRootExclusions != null) {
                     files =
-                        files.Where(x => !fileRootExclusions.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase));
+                        files.Where(x => !fileRootExclusions.Contains(x.Name, StringComparer.OrdinalIgnoreCase));
                 }
                 return files
                     .Concat(dirs.SelectMany(x => x.EnumerateFiles(fileMask, SearchOption.AllDirectories)));
@@ -144,7 +143,7 @@ namespace SN.withSIX.Core
                 var parent = path;
                 while (parent.HasParentDirectory) {
                     parent = parent.ParentDirectoryPath;
-                    if (parent.DirectoryName.Equals(key, StringComparison.InvariantCultureIgnoreCase))
+                    if (parent.DirectoryName.Equals(key, StringComparison.OrdinalIgnoreCase))
                         return parent;
                 }
                 return null;

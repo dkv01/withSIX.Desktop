@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -103,12 +102,20 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container = new Container();
             DependencyResolver = dependencyResolver;
             _args = args;
+
             CommandMode = DetermineCommandMode();
 
             _applicationAssemblies = GetApplicationAssemblies().ToArray();
             _presentationAssemblies = GetPresentationAssemblies().ToArray();
-            _paths = new Paths();
 
+            PathConfiguration.GetFolderPath =
+                x =>
+                    Environment.GetFolderPath(
+                        (Environment.SpecialFolder) Enum.Parse(typeof(Environment.SpecialFolder), x.ToString()));
+
+
+            _paths = new Paths();
+            Common.Paths = new PathConfiguration();
             Common.Paths.SetPaths(null, _paths.RoamingDataPath, _paths.LocalDataPath, toolPath: _paths.ToolPath);
 
             SetupPaths();
@@ -455,7 +462,6 @@ namespace SN.withSIX.Mini.Presentation.Core
 
             // LEGACY
             Container.RegisterSingleton<IPathConfiguration>(() => Common.Paths);
-            Container.RegisterSingleton(() => new ExportFactory<IWebClient>(OnExportLifetimeContextCreator));
 
             Container.RegisterInitializer<IProcessManager>(ConfigureProcessManager);
 
@@ -496,11 +502,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             if (Common.AppCommon.Type < ReleaseType.Beta)
                 Container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
             //Container.RegisterDecorator<IMediator, RequestMemoryDecorator>(Lifestyle.Singleton);
-        }
-
-        static Tuple<IWebClient, Action> OnExportLifetimeContextCreator() {
-            var wc = new WebClient();
-            return new Tuple<IWebClient, Action>(wc, wc.Dispose);
         }
 
         void RegisterRequestHandlers(params Type[] types) {
@@ -594,6 +595,14 @@ namespace SN.withSIX.Mini.Presentation.Core
                     : Container.GetInstance<IHostChecker>();
                 return new ExportLifetimeContext<IHostChecker>(hostChecker, TaskExt.NullAction);
             });
+
+            Container.Register<IWebClient, WebClient>();
+
+            Container.RegisterSingleton<Func<ExportLifetimeContext<IWebClient>>>(() => {
+                var wc = Container.GetInstance<Func<IWebClient>>();
+                var webClient = wc();
+                return new ExportLifetimeContext<IWebClient>(webClient, webClient.Dispose);
+            });
         }
 
         static void ConfigureProcessManager(IProcessManager processMan) {
@@ -633,10 +642,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton(() => Tools.Compression.Gzip);
             Container.RegisterSingleton(() => Tools.HashEncryption);
             Container.RegisterSingleton(() => Tools.Processes);
-            Container.RegisterSingleton(() => Tools.Processes.Uac);
             Container.RegisterSingleton(() => Tools.Serialization);
             Container.RegisterSingleton(() => Tools.Serialization.Json);
-            Container.RegisterSingleton(() => Tools.Serialization.Xml);
             Container.RegisterSingleton(() => Tools.Transfer);
         }
 

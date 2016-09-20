@@ -162,7 +162,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class CachedImageWithAnimatedGifSupport : CachedImage
     {
         ImageSource _image;
-        Timer _timer;
+        SN.withSIX.Core.Helpers.Timer _timer;
 
         protected override void SetImage(string url, ImageSource image) {
             if (!string.IsNullOrWhiteSpace(url) && url.Contains(".gif")) {

@@ -15,6 +15,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
         Process Start(ProcessStartInfo startInfo);
         void StartAndForget(ProcessStartInfo startInfo);
         ProcessExitResult Launch(BasicLaunchInfo info);
+        ProcessExitResult LaunchElevated(BasicLaunchInfo info);
         ProcessExitResultWithOutput LaunchAndGrab(BasicLaunchInfo info);
         ProcessExitResultWithOutput LaunchAndGrabTool(ProcessStartInfo info, string tool = null);
         ProcessExitResultWithOutput LaunchAndGrabToolCmd(ProcessStartInfo info, string tool);
@@ -25,12 +26,14 @@ namespace SN.withSIX.Core.Services.Infrastructure
     public interface IProcessManagerAsync
     {
         Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info);
+        Task<ProcessExitResult> LaunchElevatedAsync(BasicLaunchInfo info);
         Task<ProcessExitResultWithOutput> LaunchAndGrabAsync(BasicLaunchInfo info);
         Task<ProcessExitResult> LaunchAndProcessAsync(LaunchAndProcessInfo info);
     }
 
     public interface IProcessManager : IProcessManagerSync, IProcessManagerAsync
     {
+        IManagement Management { get; }
         TimeSpan DefaultMonitorOutputTimeOut { get; }
         TimeSpan DefaultMonitorRespondingTimeOut { get; }
         IObservable<Tuple<ProcessStartInfo, int>> Launched { get; }
@@ -47,6 +50,8 @@ namespace SN.withSIX.Core.Services.Infrastructure
             Contract.Requires<ArgumentNullException>(info != null);
             return default(Task<ProcessExitResult>);
         }
+
+        public abstract Task<ProcessExitResult> LaunchElevatedAsync(BasicLaunchInfo info);
 
         public Task<ProcessExitResultWithOutput> LaunchAndGrabAsync(BasicLaunchInfo info) {
             Contract.Requires<ArgumentNullException>(info != null);

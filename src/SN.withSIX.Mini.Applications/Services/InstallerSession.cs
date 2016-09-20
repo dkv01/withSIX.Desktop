@@ -13,7 +13,6 @@ using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
 using SN.withSIX.ContentEngine.Core;

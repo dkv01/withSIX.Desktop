@@ -60,8 +60,5 @@ namespace SN.withSIX.Core.Extensions
         public static void Unpack(this IAbsoluteFilePath src, IAbsoluteDirectoryPath outputFolder,
             bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true, ITProgress progress = null)
             => Tools.Compression.Unpack(src, outputFolder, overwrite, fullPath, checkFileIntegrity, progress);
-
-        public static T LoadXml<T>(this IAbsoluteFilePath src)
-            => Tools.Serialization.Xml.LoadXmlFromFile<T>(src.ToString());
     }
 }

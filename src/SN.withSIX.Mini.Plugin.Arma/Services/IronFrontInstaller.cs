@@ -129,7 +129,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
                     GetDrive(message.GamePath).AvailableFreeSpace, message.GamePath);
             }
 
-            if (Tools.Processes.Uac.CheckUac())
+            if (Tools.UacHelper.CheckUac())
                 throw new ElevationRequiredException();
         }
 

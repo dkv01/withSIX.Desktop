@@ -14,6 +14,7 @@
 #endif
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
@@ -44,7 +45,7 @@ namespace SN.withSIX.Core
         public const string ClientHeader = "X-Six-Client";
         public const string ClientHeaderV = ClientHeader + "-V";
         public static AppCommon App;
-        public static StartupFlags Flags { get; } = new StartupFlags();
+        public static StartupFlags Flags { get; set; }
         public static DateTime StartTime { get; } = Process.GetCurrentProcess().StartTime.ToUniversalTime();
         public static readonly string[] DefaultHosts = {
             "c1-de.sixmirror.com",
@@ -63,7 +64,7 @@ namespace SN.withSIX.Core
             App = new AppCommon();
         }
 
-        public static PathConfiguration Paths { get; set; } = new PathConfiguration();
+        public static PathConfiguration Paths { get; set; }
         public static Action OnExit { get; set; }
         public static bool IsMini { get; set; }
         public static string ReleaseTitle { get; set; } = "DEV";
@@ -210,7 +211,9 @@ namespace SN.withSIX.Core
                 Paths.TempPath.MakeSurePathExists();
             }
 
+            [Obsolete]
             void ShowInfo() {
+                /*
                 var elevated = TryGetElevatedStatus();
 
                 this.Logger().Info("{0}, {1}, DEBUG: {2}, TRACE: {3}\n"
@@ -226,12 +229,13 @@ namespace SN.withSIX.Core
                     Tools.FileUtil.FilterPath(Paths.AppPath), Tools.FileUtil.FilterPath(Paths.DataPath),
                     Tools.FileUtil.FilterPath(Paths.LocalDataPath),
                     Tools.FileUtil.FilterPath(Flags.FullStartupParameters.CombineParameters()));
+                    */
             }
 
             bool TryGetElevatedStatus() {
                 var elevated = false;
                 try {
-                    elevated = Tools.Processes.Uac.IsProcessElevated();
+                    elevated = Tools.UacHelper.IsProcessElevated();
                 } catch (Exception e) {
                     this.Logger().FormattedDebugException(e);
                 }
@@ -252,60 +256,59 @@ namespace SN.withSIX.Core
 
         public class StartupFlags
         {
-            public StartupFlags() {
+            public StartupFlags(string[] args) {
                 var staging = false;
                 var verbose = true;
                 var selfUpdateSupported = true;
                 var autoUpdateEnabled = true;
                 var lockDown = false;
-                var pars = Tools.Generic.GetStartupParameters().ToArray();
-                FullStartupParameters = pars;
-                if (pars.Contains("--staging")) {
+                FullStartupParameters = args;
+                if (args.Contains("--staging")) {
                     staging = true;
-                    pars = pars.Where(x => !x.Equals("--staging")).ToArray();
+                    args = args.Where(x => !x.Equals("--staging")).ToArray();
                 }
 
-                if (pars.Contains("--portable")) {
+                if (args.Contains("--portable")) {
                     Portable = true;
-                    pars = pars.Where(x => !x.Equals("--portable")).ToArray();
+                    args = args.Where(x => !x.Equals("--portable")).ToArray();
                 }
 
-                if (pars.Contains("--verbose")) {
+                if (args.Contains("--verbose")) {
                     verbose = true;
-                    pars = pars.Where(x => !x.Equals("--verbose")).ToArray();
+                    args = args.Where(x => !x.Equals("--verbose")).ToArray();
                 }
 
-                if (pars.Contains("--public"))
+                if (args.Contains("--public"))
                     Public = true;
 
-                if (pars.Contains("--production"))
+                if (args.Contains("--production"))
                     UseProduction = true;
 
-                if (pars.Contains("--skip-autoupdate")) {
+                if (args.Contains("--skip-autoupdate")) {
                     autoUpdateEnabled = false;
-                    pars = pars.Where(x => !x.Equals("--skip-autoupdate")).ToArray();
+                    args = args.Where(x => !x.Equals("--skip-autoupdate")).ToArray();
                 }
 
-                if (pars.Contains("--ignore-error-dialogs")) {
+                if (args.Contains("--ignore-error-dialogs")) {
                     IgnoreErrorDialogs = true;
-                    pars = pars.Where(x => !x.Equals("--ignore-error-dialogs")).ToArray();
+                    args = args.Where(x => !x.Equals("--ignore-error-dialogs")).ToArray();
                 }
 
-                if (pars.Contains("--skip-execution-confirmation")) {
+                if (args.Contains("--skip-execution-confirmation")) {
                     SkipExecutionConfirmation = true;
-                    pars = pars.Where(x => !x.Equals("--skip-execution-confirmation")).ToArray();
+                    args = args.Where(x => !x.Equals("--skip-execution-confirmation")).ToArray();
                 }
 
                 string lockDownModSet = null;
-                var ld = pars.FirstOrDefault(x => x.Contains("lockdown=true"));
+                var ld = args.FirstOrDefault(x => x.Contains("lockdown=true"));
                 if (ld != null) {
-                    pars = pars.Where(x => !x.Equals(ld)).ToArray();
+                    args = args.Where(x => !x.Equals(ld)).ToArray();
                     var dic = Tools.Transfer.GetDictionaryFromQueryString(ld);
                     lockDown = true;
                     lockDownModSet = dic["mod_set"];
                 }
 
-                StartupParameters = pars;
+                StartupParameters = args;
 
                 /*
 #if DEBUG

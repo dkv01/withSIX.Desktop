@@ -11,6 +11,7 @@ namespace SN.withSIX.Core.Extensions
 {
     public static class SocketExtensions
     {
+        /*
         public static async Task<int> SendWithTimeoutAfter(this UdpClient client, byte[] list, int delay) {
             using (var token = new CancellationTokenSource())
                 return await SendWithTimeoutAfter(client, list, delay, token).ConfigureAwait(false);
@@ -43,6 +44,7 @@ namespace SN.withSIX.Core.Extensions
             cancel.Cancel(); // Cancel the timer! 
             return await task.ConfigureAwait(false);
         }
+        */
 
         public static async Task<UdpReceiveResult> ReceiveWithTimeoutAfter(this UdpClient client, int milliSecondsDelay) {
             using (var token = new CancellationTokenSource())
@@ -62,7 +64,7 @@ namespace SN.withSIX.Core.Extensions
             await Task.WhenAny(task, Task.Delay(milliSecondsDelay, cancel.Token)).ConfigureAwait(false);
 
             if (!task.IsCompleted) {
-                client.Close();
+                client.Dispose();
                 try {
                     return await task.ConfigureAwait(false);
                 } catch (ObjectDisposedException) {

@@ -126,15 +126,15 @@ namespace SN.withSIX.Core.Presentation.Wpf.Helpers
             public static void RestoreWindow(Process process) {
                 Contract.Requires<ArgumentNullException>(process != null);
 
-                Tools.ProcessesTools.NativeMethods.ShowWindow(process.MainWindowHandle,
-                    Tools.ProcessesTools.NativeMethods.SW_RESTORE);
+                SN.withSIX.Core.Presentation.NativeMethods.ShowWindow(process.MainWindowHandle,
+                    SN.withSIX.Core.Presentation.NativeMethods.SW_RESTORE);
             }
 
             public static void RestoreWindow(Window window) {
                 Contract.Requires<ArgumentNullException>(window != null);
-                Tools.ProcessesTools.NativeMethods.ShowWindow(
+                SN.withSIX.Core.Presentation.NativeMethods.ShowWindow(
                     (PresentationSource.FromVisual(window) as HwndSource).Handle,
-                    Tools.ProcessesTools.NativeMethods.SW_RESTORE);
+                    SN.withSIX.Core.Presentation.NativeMethods.SW_RESTORE);
             }
 
             public static void RestoreWindow() {

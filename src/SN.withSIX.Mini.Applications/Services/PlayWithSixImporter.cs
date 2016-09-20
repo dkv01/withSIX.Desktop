@@ -13,11 +13,11 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -25,7 +25,6 @@ using SN.withSIX.Mini.Applications.Services.Dtos;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Sync.Core.Legacy.Status;
-using SubscribedCollection = SN.withSIX.Mini.Applications.Services.Dtos.SubscribedCollection;
 
 namespace SN.withSIX.Mini.Applications.Services
 {

@@ -240,7 +240,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Archive
             n = n.TrimStart(trimStartChars);
             n = n.TrimEnd(trimEndChars);
 
-            if (n.StartsWith("dayz", StringComparison.InvariantCultureIgnoreCase)) {
+            if (n.StartsWith("dayz", StringComparison.OrdinalIgnoreCase)) {
                 if (!n.Contains("dayz_"))
                     n = n.Replace("dayz", "dayz_");
             }

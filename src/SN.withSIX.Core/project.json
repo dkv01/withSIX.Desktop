@@ -1,0 +1,24 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "MediatR": "2.1.0",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "Microsoft.Win32.Registry": "4.0.0",
+    "NETStandard.Library": "1.6.0",
+    "System.AppContext": "4.1.0",
+    "System.Diagnostics.FileVersionInfo": "4.0.0",
+    "System.Diagnostics.Process": "4.1.0",
+    "System.IO.Compression": "4.1.0",
+    "System.IO.FileSystem": "4.0.1",
+    "System.IO.FileSystem.AccessControl": "4.0.0",
+    "System.IO.FileSystem.Watcher": "4.0.0",
+    "System.Runtime.Extensions": "4.1.0",
+    "System.Security.Cryptography.Algorithms": "4.2.0",
+    "System.Threading": "4.0.11",
+    "System.Threading.Thread": "4.0.0",
+    "withSIX.Api.Models": "2.0.1-pre"
+  },
+  "frameworks": {
+    "netstandard1.3": {}
+  }
+}

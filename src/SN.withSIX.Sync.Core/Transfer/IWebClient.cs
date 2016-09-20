@@ -23,10 +23,10 @@ namespace SN.withSIX.Sync.Core.Transfer
         Task<byte[]> UploadFileTaskAsync(Uri uri, string fileName);
         Task<byte[]> UploadFileTaskAsync(string url, string fileName);
         void CancelAsync();
-        event AsyncCompletedEventHandler DownloadFileCompleted;
-        event DownloadProgressChangedEventHandler DownloadProgressChanged;
-        event UploadFileCompletedEventHandler UploadFileCompleted;
-        event UploadProgressChangedEventHandler UploadProgressChanged;
+        //event AsyncCompletedEventHandler DownloadFileCompleted;
+        //event DownloadProgressChangedEventHandler DownloadProgressChanged;
+        //event UploadFileCompletedEventHandler UploadFileCompleted;
+        //event UploadProgressChangedEventHandler UploadProgressChanged;
         string DownloadString(string url);
         Task<string> DownloadStringTaskAsync(Uri uri);
         Task<string> DownloadStringTaskAsync(string url);

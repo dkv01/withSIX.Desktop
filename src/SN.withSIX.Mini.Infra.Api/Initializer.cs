@@ -75,11 +75,10 @@ namespace SN.withSIX.Mini.Infra.Api
                 SetupWebServer();
             } catch (CannotOpenApiPortException ex) {
                 var r = await
-                    UserError.Throw(new UserError("Unable to open required ports",
-                        "We were unable to open the required port for the website to communicate with the client.\nAre there other instances already running on your system?\n\nIf you continue to experience this problem please contact support @ https://community.withsix.com",
-                        RecoveryCommandsImmediate.RetryCommands,
-                        innerException: ex));
-                if (r == RecoveryOptionResult.RetryOperation)
+                    UserErrorHandler.RecoverableUserError(ex, "Unable to open required ports",
+                            "We were unable to open the required port for the website to communicate with the client.\nAre there other instances already running on your system?\n\nIf you continue to experience this problem please contact support @ https://community.withsix.com")
+                        .ConfigureAwait(false);
+                if (r == RecoveryOptionResultBackup.RetryOperation)
                     goto retry;
                 throw;
             }

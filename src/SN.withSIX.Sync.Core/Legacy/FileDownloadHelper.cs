@@ -4,11 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Transfer;

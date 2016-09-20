@@ -77,7 +77,7 @@ namespace SN.withSIX.Core
 
             public virtual string GzipAuto(IAbsoluteFilePath inputFile, IAbsoluteFilePath outputFile = null,
                 bool preserveFileNameAndModificationTime = true, ITProgress status = null) {
-                if (inputFile.ToString().EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
+                if (inputFile.ToString().EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
                     return GzipStdOut(inputFile, outputFile, preserveFileNameAndModificationTime, status);
                 return Gzip(inputFile, outputFile, preserveFileNameAndModificationTime, status);
             }
@@ -109,7 +109,7 @@ namespace SN.withSIX.Core
                     try {
                         UnpackSingleGzip(sourceFile, destFile);
                     } catch (UnauthorizedAccessException) {
-                        if (!Processes.Uac.CheckUac())
+                        if (!UacHelper.CheckUac())
                             throw;
                         UnpackSingleZipWithUpdaters(sourceFile, destFile);
                     }

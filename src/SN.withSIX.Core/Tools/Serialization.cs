@@ -11,7 +11,6 @@ namespace SN.withSIX.Core
         public class SerializationTools
         {
             public JsonTools Json = new JsonTools();
-            public XmlTools Xml = new XmlTools();
         }
     }
 }

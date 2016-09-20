@@ -14,8 +14,8 @@ namespace SN.withSIX.ContentEngine.Infra.Attributes
         public CEServiceAttribute(string name, Type queryType) {
             if (name.IsBlankOrWhiteSpace())
                 throw new ArgumentNullException("The Service must have a name!");
-            if (!queryType.IsSubclassOfRawGeneric(typeof (GetContentEngineService<>)))
-                throw new ArgumentException("The queryType does not inherit the Base Query for Content Engine Services");
+            //if (!queryType.IsSubclassOfRawGeneric(typeof (GetContentEngineService<>)))
+              //  throw new ArgumentException("The queryType does not inherit the Base Query for Content Engine Services");
             //if (queryType.GetConstructor(new[] { typeof(RegisteredMod) }) == null)
             //    throw new ArgumentException("The query type does not have a valid construtor of (RegisteredMod)");
 

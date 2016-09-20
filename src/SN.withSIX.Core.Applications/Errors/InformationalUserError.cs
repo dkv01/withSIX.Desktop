@@ -25,6 +25,27 @@ namespace SN.withSIX.Core.Applications.Errors
         public NonRecoveryCommand(string commandName) : base(commandName) {}
     }
 
+    public enum RecoveryOptionResultBackup
+    {
+        RetryOperation,
+        CancelOperation,
+        FailedOperation
+    }
+
+    public static class UserErrorHandler
+    {
+        public static Task<RecoveryOptionResultBackup> InformationalUserError(Exception exception, string title,
+            string message) => HandleUserError(new InformationalUserError(exception, title, message));
+
+        public static Task<RecoveryOptionResultBackup> RecoverableUserError(Exception exception, string title,
+            string message) => HandleUserError(new RecoverableUserError(exception, title, message));
+
+        private static async Task<RecoveryOptionResultBackup> HandleUserError(UserError informationalUserError) {
+            var r = await UserError.Throw(informationalUserError);
+            return (RecoveryOptionResultBackup) Enum.Parse(typeof(RecoveryOptionResultBackup), r.ToString());
+        }
+    }
+
     /*
 public static class RecoveryCommands
 {

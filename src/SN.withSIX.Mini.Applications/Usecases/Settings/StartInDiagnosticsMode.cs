@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
@@ -46,7 +47,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
         public async Task<Unit> Handle(StartInDiagnosticsMode request) {
             Common.Flags.Verbose = true;
             _restarter.RestartWithoutElevation(
-                Tools.Generic.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
+                Tools.UacHelper.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
             return Unit.Value;
         }
     }

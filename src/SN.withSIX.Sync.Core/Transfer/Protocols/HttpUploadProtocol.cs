@@ -4,13 +4,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Net;
 using System.Threading.Tasks;
-using System.Timers;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
 
@@ -20,9 +19,9 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
     {
         static readonly IEnumerable<string> schemes = new[] {"ftp", "http", "https"};
         static readonly TimeSpan timeout = TimeSpan.FromSeconds(60);
-        readonly ExportFactory<IWebClient> _webClientFactory;
+        readonly Func<ExportLifetimeContext<IWebClient>> _webClientFactory;
 
-        public HttpUploadProtocol(ExportFactory<IWebClient> webClientFactory) {
+        public HttpUploadProtocol(Func<ExportLifetimeContext<IWebClient>> webClientFactory) {
             _webClientFactory = webClientFactory;
         }
 
@@ -37,7 +36,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         public override async Task UploadAsync(TransferSpec spec) {
             spec.Progress.Tries++;
             ConfirmSchemeSupported(spec.Uri.Scheme);
-            using (var webClient = _webClientFactory.CreateExport())
+            using (var webClient = _webClientFactory())
             using (SetupTransferProgress(webClient.Value, spec.Progress))
                 await TryUploadAsync(spec, webClient.Value).ConfigureAwait(false);
         }
@@ -73,12 +72,14 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                     StatusCode = r.StatusCode
                 };
             }
+            /*
             var r2 = e.Response as FtpWebResponse;
             if (r2 != null) {
                 throw new FtpUploadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e) {
                     StatusCode = r2.StatusCode
                 };
             }
+            */
             throw new UploadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e);
         }
 
@@ -86,6 +87,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             var lastTime = Tools.Generic.GetCurrentUtcDateTime;
             long lastBytes = 0;
 
+            /*
             webClient.UploadProgressChanged +=
                 (sender, args) => {
                     var bytes = args.BytesReceived;
@@ -106,6 +108,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                 };
 
             webClient.UploadFileCompleted += (sender, args) => { transferProgress.Completed = true; };
+            */
 
             var timer = new TimerWithElapsedCancellation(500, () => {
                 if (!transferProgress.Completed

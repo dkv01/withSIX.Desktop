@@ -4,14 +4,15 @@
 
 using System;
 using System.Net;
+using SN.withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace SN.withSIX.Core.Presentation.Services
 {
     public class WebClient : System.Net.WebClient, IWebClient
     {
         public WebClient() : this(100*1000) {}
 
-        public WebClient(int timeout) {
+        protected WebClient(int timeout) {
             Timeout = timeout;
         }
 

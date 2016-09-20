@@ -5,12 +5,12 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SN.withSIX.Core.Extensions
 {
     public static class DeepCloneExtension
     {
+        /*
         public static T DeepClone<T>(T source) where T : class {
             Contract.Requires<ArgumentNullException>(source != null);
 
@@ -21,5 +21,6 @@ namespace SN.withSIX.Core.Extensions
                 return (T) formatter.Deserialize(ms);
             }
         }
+        */
     }
 }

@@ -12,9 +12,12 @@ namespace SN.withSIX.Core.Extensions
     public static class ProcessValidationExtensions
     {
         public static void Validate(this ProcessStartInfo startInfo) {
+            // TODO
+            /*
             if ((startInfo.Verb == "runas")
                 && !startInfo.UseShellExecute)
                 throw new NotSupportedException("Cannot use verb: runas, when shellExecute is disabled");
+                */
 
             if ((startInfo.RedirectStandardError || startInfo.RedirectStandardInput || startInfo.RedirectStandardOutput)
                 && startInfo.UseShellExecute)
@@ -59,13 +62,6 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static string Format(this ProcessStartInfo startInfo) =>
-            $"{startInfo.FileName}, from: {startInfo.WorkingDirectory}, with: {startInfo.Arguments}, verb: {startInfo.Verb}";
-
-        public static ProcessStartInfo EnableRunAsAdministrator(this ProcessStartInfo arg) {
-            if (Environment.OSVersion.Version.Major >= 6)
-                arg.Verb = "runas";
-
-            return arg;
-        }
+            $"{startInfo.FileName}, from: {startInfo.WorkingDirectory}, with: {startInfo.Arguments}"; // , verb: {startInfo.Verb}
     }
 }

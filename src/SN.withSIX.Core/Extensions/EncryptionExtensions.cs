@@ -10,7 +10,7 @@ using System.Text;
 namespace SN.withSIX.Core.Extensions
 {
     public static class EncryptionExtensions
-    {
+    {/*
         const DataProtectionScope DataProtectionScope = System.Security.Cryptography.DataProtectionScope.CurrentUser;
         const string EncryptionSalt = "j8RlPSi0OKfvDrbT";
 
@@ -34,5 +34,6 @@ namespace SN.withSIX.Core.Extensions
             var decryptedByteData = ProtectedData.Unprotect(byteData, encryptionSaltByteData, DataProtectionScope);
             return Encoding.UTF8.GetString(decryptedByteData);
         }
+        */
     }
 }

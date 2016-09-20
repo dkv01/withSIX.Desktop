@@ -21,8 +21,18 @@ namespace SN.withSIX.Core.Presentation.Logging
             var loggingConfiguration = LogManager.Configuration;
             if (loggingConfiguration == null)
                 LogManager.Configuration = CreateDefaultConfig(appName);
-            AppDomain.CurrentDomain.UnhandledException += MainLog.CurrentDomainOnUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             DefaultLogManager.Factory = new LogFactory(LogManager.Configuration);
+        }
+
+
+        public static void CurrentDomainOnUnhandledException(object sender,
+            UnhandledExceptionEventArgs unhandledExceptionEventArgs) {
+            var ex = unhandledExceptionEventArgs.ExceptionObject as Exception;
+            if (ex == null)
+                MainLog.Logger.Error("Catched unhandled exception in appdomain, but exception object is not of type Exception!");
+            else
+                MainLog.Logger.FormattedErrorException(ex, "Catched unhandled exception in appdomain");
         }
 
         static LoggingConfiguration CreateDefaultConfig(string appName) {

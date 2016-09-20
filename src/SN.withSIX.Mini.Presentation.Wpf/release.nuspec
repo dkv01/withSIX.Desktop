@@ -63,19 +63,35 @@
         <file src="..\..\..\bin\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
 		
         <file src="..\..\..\bin\NDepend.Path.PCL.dll" target="lib\net45\NDepend.Path.PCL.dll" />
-        <file src="..\..\..\bin\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
-        <file src="..\..\..\bin\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
-        <file src="..\..\..\bin\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
-        <file src="..\..\..\bin\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
-        <file src="..\..\..\bin\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
-        <file src="..\..\..\bin\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
+		
+		<!-- TODO: Auto generate -->
+        <file src="..\..\..\bin\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
+        <file src="..\..\..\bin\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
+        <file src="..\..\..\bin\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
+        <file src="..\..\..\bin\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
+        <file src="..\..\..\bin\System.Security.Claims.dll" target="lib\net45\System.Security.Claims.dll" />
+        <file src="..\..\..\bin\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
+        <file src="..\..\..\bin\System.Security.AccessControl.dll" target="lib\net45\System.Security.AccessControl.dll" />
         <file src="..\..\..\bin\System.Runtime.Serialization.Formatters.dll" target="lib\net45\System.Runtime.Serialization.Formatters.dll" />
         <file src="..\..\..\bin\System.Runtime.Serialization.Primitives.dll" target="lib\net45\System.Runtime.Serialization.Primitives.dll" />
-        <file src="..\..\..\bin\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
-        <file src="..\..\..\bin\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
-        <file src="..\..\..\bin\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
-        <file src="..\..\..\bin\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
-
+        <file src="..\..\..\bin\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
+        <file src="..\..\..\bin\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
+        <file src="..\..\..\bin\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
+        <file src="..\..\..\bin\System.IO.FileSystem.AccessControl.dll" target="lib\net45\System.IO.FileSystem.AccessControl.dll" />
+        <file src="..\..\..\bin\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
+        <file src="..\..\..\bin\System.IO.Compression.dll" target="lib\net45\System.IO.Compression.dll" />
+        <file src="..\..\..\bin\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
+        <file src="..\..\..\bin\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
+        <file src="..\..\..\bin\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
+        <file src="..\..\..\bin\System.Diagnostics.Process.dll" target="lib\net45\System.Diagnostics.Process.dll" />
+        <file src="..\..\..\bin\Microsoft.Win32.Primitives.dll" target="lib\net45\Microsoft.Win32.Primitives.dll" />
+        <file src="..\..\..\bin\System.Diagnostics.FileVersionInfo.dll" target="lib\net45\System.Diagnostics.FileVersionInfo.dll" />
+        <file src="..\..\..\bin\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
+        <file src="..\..\..\bin\System.Console.dll" target="lib\net45\System.Console.dll" />
+        <file src="..\..\..\bin\System.ComponentModel.Primitives.dll" target="lib\net45\System.ComponentModel.Primitives.dll" />
+        <file src="..\..\..\bin\System.AppContext.dll" target="lib\net45\System.AppContext.dll" />
+        <file src="..\..\..\bin\Microsoft.Win32.Registry.dll" target="lib\net45\Microsoft.Win32.Registry.dll" />
+		
         <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
         <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
         <file src="..\..\..\bin\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />

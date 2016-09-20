@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -149,6 +150,18 @@ namespace SN.withSIX.Core.Presentation.Services
             }
             entry.WriteToFile(destFile.ToString());
             progress?.Update(null, 100);
+        }
+
+        public void PackFiles(IEnumerable<KeyValuePair<string, string>> items, IAbsoluteFilePath path) {
+            using (var arc = ZipArchive.Create()) {
+                foreach (var f in items)
+                    arc.AddEntry(f.Key, f.Value);
+                arc.SaveTo(path.ToString(),
+                    new CompressionInfo {
+                        DeflateCompressionLevel = CompressionLevel.BestCompression,
+                        Type = CompressionType.Deflate
+                    });
+            }
         }
     }
 }

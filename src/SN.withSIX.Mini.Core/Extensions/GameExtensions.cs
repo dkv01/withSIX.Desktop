@@ -9,7 +9,6 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Content;
 
 namespace SN.withSIX.Mini.Core.Extensions
@@ -35,12 +34,12 @@ namespace SN.withSIX.Mini.Core.Extensions
 
         public static IAbsoluteDirectoryPath TryGetDefaultDirectory(this SteamInfoAttribute steamInfo) {
             var steamApp = TryGetSteamApp(steamInfo);
-            return steamApp.IsValid ? steamApp.AppPath : null;
+            return steamApp != null && steamApp.IsValid ? steamApp.AppPath : null;
         }
 
-        public static SteamApp TryGetSteamApp(this SteamInfoAttribute steamInfo) {
+        public static ISteamApp TryGetSteamApp(this SteamInfoAttribute steamInfo) {
             if (steamInfo.AppId <= 0 || !Game.SteamHelper.SteamFound)
-                return SteamApp.Default;
+                return null; // SteamApp.Default; // TODO
             return Game.SteamHelper.TryGetSteamAppById(steamInfo.AppId);
         }
 

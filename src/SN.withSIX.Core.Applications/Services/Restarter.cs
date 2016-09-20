@@ -37,7 +37,7 @@ namespace SN.withSIX.Core.Applications.Services
             _dialogManager = dialogManager;
         }
 
-        public async Task<bool> CheckUac(IAbsoluteDirectoryPath mp) => Tools.Processes.Uac.CheckUac() &&
+        public async Task<bool> CheckUac(IAbsoluteDirectoryPath mp) => Tools.UacHelper.CheckUac() &&
                                                                        await
                                                                            TryCheckUac(mp,
                                                                                mp.GetChildFileWithName(
@@ -45,7 +45,7 @@ namespace SN.withSIX.Core.Applications.Services
                                                                                .ConfigureAwait(false);
 
         public async Task<bool> TryWithUacFallback(Task task, string info) {
-            if (!Tools.Processes.Uac.CheckUac()) {
+            if (!Tools.UacHelper.CheckUac()) {
                 await task.ConfigureAwait(false);
                 return false;
             }
@@ -73,10 +73,10 @@ namespace SN.withSIX.Core.Applications.Services
         public void RestartWithoutElevation(params string[] args) => Restart(false, true, args);
 
         public void RestartInclEnvironmentCommandLine()
-            => Restart(false, true, Tools.Generic.GetStartupParameters().ToArray());
+            => Restart(false, true, Tools.UacHelper.GetStartupParameters().ToArray());
 
         public void RestartWithUacInclEnvironmentCommandLine()
-            => Restart(true, true, Tools.Generic.GetStartupParameters().ToArray());
+            => Restart(true, true, Tools.UacHelper.GetStartupParameters().ToArray());
 
         async Task<bool> TryCheckUac(IAbsoluteDirectoryPath mp, IAbsoluteFilePath path) {
             Exception ex;

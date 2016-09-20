@@ -6,11 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
-using System.Management;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -27,8 +23,6 @@ namespace SN.withSIX.Core
 
         public class ProcessesTools : IEnableLogging
         {
-            public UacHelper Uac = new UacHelper();
-
             public virtual Process[] FindProcess(string name, string path = null) {
                 Contract.Requires<ArgumentNullException>(name != null);
                 return Process.GetProcessesByName(name.Replace(".exe", string.Empty));
@@ -59,14 +53,14 @@ namespace SN.withSIX.Core
             }
 
             public void SetAffinity(Process process, IEnumerable<int> usedProcessors) {
-                var newAffinity = usedProcessors.Aggregate(0, (current, item) => current | (1 << item - 1));
+                var newAffinity = usedProcessors.Aggregate(0, (current, item) => current | (1 << (item - 1)));
                 process.ProcessorAffinity = (IntPtr) newAffinity;
             }
 
             public virtual void KillProcess(Process p, bool gracefully = false) {
                 Contract.Requires<ArgumentNullException>(p != null);
                 if (gracefully) {
-                    p.CloseMainWindow();
+                    //p.CloseMainWindow();
                     var i = 0;
                     while (!p.SafeHasExited()) {
                         i++;
@@ -107,83 +101,6 @@ namespace SN.withSIX.Core
                 }
             }
 
-            public virtual void KillProcessChildren(int pid, bool gracefully = false) {
-                var processes = GetWmiProcessesByParentId(pid);
-
-                using (processes) {
-                    foreach (var p in processes) {
-                        using (p) {
-                            try {
-                                KillProcessInclChildren((int) (uint) p["ProcessId"]);
-                            } catch (Exception e) {
-                                this.Logger().FormattedErrorException(e);
-                            }
-                        }
-                    }
-                }
-            }
-
-            public virtual void KillNamedProcessChildren(string name, int pid, bool gracefully = false) {
-                var processes = GetNamedWmiProcessesByParentId(name, pid);
-
-                using (processes) {
-                    foreach (var p in processes) {
-                        using (p) {
-                            try {
-                                KillProcessInclChildren((int) (uint) p["ProcessId"]);
-                            } catch (Exception e) {
-                                this.Logger().FormattedErrorException(e);
-                            }
-                        }
-                    }
-                }
-            }
-
-            public virtual ManagementObjectCollection GetWmiProcessesByParentId(int pid)
-                => new ManagementObjectSearcher(
-                    $"Select * From Win32_Process Where ParentProcessID={pid}")
-                    .Get();
-
-            public virtual ManagementObjectCollection GetNamedWmiProcessesByParentId(string name, int pid)
-                => new ManagementObjectSearcher(
-                    $"Select * From Win32_Process Where ParentProcessID={pid} And Name=\"{name}\"")
-                    .Get();
-
-            public virtual ManagementObjectCollection GetWmiProcessesById(int pid)
-                => new ManagementObjectSearcher("Select * From Win32_Process Where ProcessID=#{id}").Get();
-
-            public virtual string GetCommandlineArgs(Process process) {
-                Contract.Requires<ArgumentNullException>(process != null);
-                return GetCommandlineArgs(process.Id);
-            }
-
-            public virtual string GetCommandlineArgs(int id) {
-                var wmiQuery = $"select CommandLine from Win32_Process where ProcessId='{id}'";
-                using (var searcher = new ManagementObjectSearcher(wmiQuery))
-                using (var retObjectCollection = searcher.Get()) {
-                    if (retObjectCollection.Count == 0)
-                        return null;
-
-                    foreach (ManagementObject retObject in retObjectCollection) {
-                        using (retObject)
-                            return (string) retObject["CommandLine"];
-                    }
-                }
-                return null;
-            }
-
-            public virtual Dictionary<Process, string> GetCommandlineArgs(string name) {
-                Contract.Requires<ArgumentNullException>(name != null);
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
-
-                var parsedName = name.EndsWith(".exe") ? Path.GetFileNameWithoutExtension(name) : name;
-                var procs = FindProcess(parsedName);
-                if (procs == null || !procs.Any())
-                    return new Dictionary<Process, string>();
-
-                return procs
-                    .ToDictionary(proc => proc, GetCommandlineArgs);
-            }
 
             public virtual bool Running(string exe) {
                 Contract.Requires<ArgumentNullException>(exe != null);
@@ -195,105 +112,22 @@ namespace SN.withSIX.Core
             public Process[] GetRunningProcesses(string exe)
                 => Process.GetProcessesByName(exe.Replace(".exe", string.Empty));
 
-            public IAbsoluteFilePath GetProcessPath(int processId) {
-                var query = "SELECT ExecutablePath FROM Win32_Process WHERE ProcessId = " + processId;
-
-                using (var mos = new ManagementObjectSearcher(query)) {
-                    using (var moc = mos.Get()) {
-                        var executablePath =
-                            (from mo in moc.Cast<ManagementObject>() select mo["ExecutablePath"]).FirstOrDefault(
-                                x => x != null);
-                        var s = executablePath as string;
-                        return s?.ToAbsoluteFilePath();
-                    }
-                }
-            }
-
-            public IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetExecuteablePaths(string exe)
-                => GetRunningProcesses(exe.Replace(".exe", string.Empty))
-                    .Select(x => Tuple.Create(x, GetProcessPath(x.Id)));
-
-            #region Nested type: NativeMethods
-
-            public class NativeMethods
-            {
-                public const int SW_SHOWNORMAL = 1;
-                public const int SW_SHOWMINIMIZED = 2;
-                public const int SW_SHOWMAXIMIZED = 3;
-                public const int SW_RESTORE = 9;
-
-                [DllImport("user32", CharSet = CharSet.Auto, SetLastError = true)]
-                static extern int EnumWindows(Action<int, int> x, int y);
-
-                [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-                static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-                [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-                static extern int GetWindowTextLength(IntPtr hWnd);
-
-                [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-                public static extern bool ShowWindow(IntPtr hwnd, int nCmdShow);
-
-                [DllImport("user32.dll", SetLastError = true)]
-                static extern bool SetForegroundWindow(IntPtr hwnd);
-
-                [DllImport("user32.dll")]
-                static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-
-                static void SetForeground(string process) {
-                    Contract.Requires<ArgumentNullException>(process != null);
-                    Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(process));
-
-                    SetForeground(Processes.FindProcess(process));
-                }
-
-                public static void SetForeground(Process process, int cmdShow = SW_SHOWNORMAL) {
-                    Contract.Requires<ArgumentNullException>(process != null);
-
-                    ShowWindow(process.MainWindowHandle, cmdShow);
-                    SetForegroundWindow(process.MainWindowHandle);
-                }
-
-                public static void MinimizeWindow(Process process) {
-                    Contract.Requires<ArgumentNullException>(process != null);
-
-                    ShowWindow(process.MainWindowHandle, SW_SHOWMINIMIZED);
-                }
-
-                static void MaximizeWindow(Process process) {
-                    Contract.Requires<ArgumentNullException>(process != null);
-
-                    ShowWindow(process.MainWindowHandle, SW_SHOWMAXIMIZED);
-                }
-
-                static void ShowWindow(Process process) {
-                    Contract.Requires<ArgumentNullException>(process != null);
-                    ShowWindow(process.MainWindowHandle, SW_SHOWNORMAL);
-                }
-
-                static void SetForeground(Process[] processes) {
-                    Contract.Requires<ArgumentNullException>(processes != null);
-
-                    foreach (var p in processes)
-                        SetForeground(p);
-                }
-            }
-
-            #endregion
-
-            sealed class Win32
-            {
-                [DllImport("user32.dll")]
-                static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-                public static void HideConsoleWindow() {
-                    var hWnd = Process.GetCurrentProcess().MainWindowHandle;
-                    if (hWnd != IntPtr.Zero)
-                        ShowWindow(hWnd, 0); // 0 = SW_HIDE
-                }
+            public virtual void KillProcessChildren(int pid, bool gracefully = false) {
+                ProcessManager.Management.KillProcessChildren(pid, gracefully);
             }
         }
 
         #endregion
+    }
+
+    public interface IManagement
+    {
+        void KillProcessChildren(int pid, bool gracefully = false);
+        void KillNamedProcessChildren(string name, int pid, bool gracefully = false);
+        string GetCommandlineArgs(Process process);
+        string GetCommandlineArgs(int id);
+        Dictionary<Process, string> GetCommandlineArgs(string name);
+        IAbsoluteFilePath GetProcessPath(int processId);
+        IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetExecuteablePaths(string exe);
     }
 }

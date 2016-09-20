@@ -49,7 +49,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Commands
         }
 
         public override int Run(params string[] remainingArguments) {
-            this.Logger().Info(_spec.Inspect().PrettyPrint());
+            this.Logger().Info(_spec.ToJson(true));
             ProcessId =
                 new GameLauncherProcessInternal.GameLauncher(_restarter)
                     .LaunchGame(_spec);

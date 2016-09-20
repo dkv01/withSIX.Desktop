@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -32,6 +31,26 @@ namespace SN.withSIX.Sync.Core.Legacy
         Ftp,
         Ssh,
         Local
+    }
+
+    public class ExportLifetimeContext<T> : IDisposable
+    {
+        private readonly T _value;
+        private readonly Action _dispose;
+
+        public ExportLifetimeContext(T value, Action dispose) {
+            this._value = value;
+            this._dispose = dispose;
+        }
+
+        public T Value
+        {
+            get { return this._value; }
+        }
+
+        public void Dispose() {
+            this._dispose();
+        }
     }
 
     public class HostPicker : IEnableLogging

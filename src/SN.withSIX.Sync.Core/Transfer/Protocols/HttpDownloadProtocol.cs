@@ -4,16 +4,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Net;
 using System.Threading.Tasks;
-using System.Timers;
 using NDepend.Path;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Transfer.Specs;
-using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
@@ -25,9 +22,9 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         static readonly TimeSpan timeout = TimeSpan.FromSeconds(60);
         static readonly IEnumerable<string> schemes = new[] {"http", "https", "ftp"};
         readonly Tools.FileTools.IFileOps _fileOps;
-        readonly ExportFactory<IWebClient> _webClientFactory;
+        private readonly Func<ExportLifetimeContext<IWebClient>> _webClientFactory;
 
-        public HttpDownloadProtocol(ExportFactory<IWebClient> webClientFactory, Tools.FileTools.IFileOps fileOps) {
+        public HttpDownloadProtocol(Func<ExportLifetimeContext<IWebClient>> webClientFactory, Tools.FileTools.IFileOps fileOps) {
             _webClientFactory = webClientFactory;
             _fileOps = fileOps;
         }
@@ -44,7 +41,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         public override async Task DownloadAsync(TransferSpec spec) {
             spec.Progress.Tries++;
             ConfirmSchemeSupported(spec.Uri.Scheme);
-            using (var webClient = _webClientFactory.CreateExport())
+            using (var webClient = _webClientFactory())
             using (SetupTransferProgress(webClient.Value, spec.Progress))
                 await TryDownloadAsync(spec, webClient.Value, GetTmpFile(spec)).ConfigureAwait(false);
         }
@@ -99,12 +96,14 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                     StatusCode = r.StatusCode
                 };
             }
+            /*
             var r2 = e.Response as FtpWebResponse;
             if (r2 != null) {
                 return new FtpDownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e) {
                     StatusCode = r2.StatusCode
                 };
             }
+            */
             return new DownloadException(e.Message + ". " + CreateTransferExceptionMessage(spec), e);
         }
 
@@ -114,7 +113,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
 
             transferProgress.Update(null, 0);
             transferProgress.FileSizeTransfered = 0;
-
+            /*
             webClient.DownloadProgressChanged +=
                 (sender, args) => {
                     var bytes = args.BytesReceived;
@@ -138,6 +137,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                 };
 
             webClient.DownloadFileCompleted += (sender, args) => { transferProgress.Completed = true; };
+            */
 
             var timer = new TimerWithElapsedCancellation(500, () => {
                 if (!transferProgress.Completed

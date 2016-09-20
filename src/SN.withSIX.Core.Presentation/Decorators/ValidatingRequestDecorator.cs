@@ -7,13 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
+using withSIX.Api.Models.Validators;
 
 namespace SN.withSIX.Core.Presentation.Decorators
 {
     public class MediatorValidationDecorator : MediatorDecoratorBase
     {
-        readonly DataAnnotationsValidator.DataAnnotationsValidator _validator =
-            new DataAnnotationsValidator.DataAnnotationsValidator();
+        readonly DataAnnotationsValidator _validator = new DataAnnotationsValidator();
 
         public MediatorValidationDecorator(IMediator decorated) : base(decorated) {}
 

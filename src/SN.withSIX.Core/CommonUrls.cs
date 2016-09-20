@@ -34,7 +34,7 @@ namespace SN.withSIX.Core
         ///     below this causes to bypass errors caused by SLL-Errors.
         /// </summary>
         public static void IgnoreBadCertificates() {
-            ServicePointManager.ServerCertificateValidationCallback = AcceptAllCertifications;
+            //ServicePointManager.ServerCertificateValidationCallback = AcceptAllCertifications;
         }
 
         /// <summary>
@@ -320,8 +320,8 @@ namespace SN.withSIX.Core
             Host = GetHost();
             Origins = GetOrigins().ToArray();
             CdnUrl = GetCdnUrl();
-            if (Common.Flags.Staging)
-                Bla.IgnoreBadCertificates();
+            //if (Common.Flags.Staging)
+              //  Bla.IgnoreBadCertificates();
         }
 
         public static string[] Origins { get; }

@@ -5,10 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SharpCompress.Archive;
-using SharpCompress.Archive.Zip;
-using SharpCompress.Common;
-using SharpCompress.Compressor.Deflate;
 using SN.withSIX.Core.Applications.Errors;
 
 namespace SN.withSIX.Core.Applications.Services
@@ -17,24 +13,15 @@ namespace SN.withSIX.Core.Applications.Services
     {
         private static IExceptionHandler _exceptionHandler;
 
-
         public static Task GenerateDiagnosticZip(IAbsoluteFilePath path) {
             var d = GetLogFilesDictionary(Common.Paths.LocalDataRootPath);
             return
                 Task.Run(
                     () => {
-                        using (var arc = ZipArchive.Create()) {
-                            foreach (var f in d.Where(x => !x.Value.EndsWith("cef.log", StringComparison.CurrentCultureIgnoreCase)))
-                                arc.AddEntry(f.Key, f.Value);
-                            arc.SaveTo(path.ToString(),
-                                new CompressionInfo {
-                                    DeflateCompressionLevel = CompressionLevel.BestCompression,
-                                    Type = CompressionType.Deflate
-                                });
-                        }
+                        var items = d.Where(x => !x.Value.EndsWith("cef.log", StringComparison.CurrentCultureIgnoreCase));
+                        Tools.CompressionUtil.PackFiles(items, path);
                     });
         }
-
 
         static Dictionary<string, string> GetLogFilesDictionary(IAbsoluteDirectoryPath path)
             => path.DirectoryInfo.GetFiles("*.log", SearchOption.AllDirectories)

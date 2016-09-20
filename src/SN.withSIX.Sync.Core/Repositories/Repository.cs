@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using MoreLinq;
 using NDepend.Path;
 using Newtonsoft.Json;
 using SN.withSIX.Core;
@@ -265,27 +264,27 @@ namespace SN.withSIX.Sync.Core.Repositories
             mappingConfig.CreateMap<RepositoryStore, RepositoryStorePackagesDto>()
                 .ForMember(x => x.PackagesContentTypes,
                     opt =>
-                        opt.MapFrom(src => src.PackagesContentTypes.OrderBy(x => x.Key, StringComparer.InvariantCulture)
+                        opt.MapFrom(src => src.PackagesContentTypes.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
                             .ToDictionary(x => x.Key,
                                 x => x.Value.OrderBy(y => y).ToList())))
                 .ForMember(x => x.Packages,
-                    opt => opt.MapFrom(src => src.Packages.OrderBy(x => x.Key, StringComparer.InvariantCulture)
+                    opt => opt.MapFrom(src => src.Packages.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
                         .ToDictionary(x => x.Key, x => x.Value.OrderBy(y => new SpecificVersionInfo(y)).ToList())))
                 .ForMember(x => x.PackagesCustomConfigs,
                     opt =>
                         opt.MapFrom(
-                            src => src.PackagesCustomConfigs.OrderBy(x => x.Key, StringComparer.InvariantCulture)
+                            src => src.PackagesCustomConfigs.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
                                 .ToDictionary(x => x.Key,
                                     x => x.Value)));
 
             mappingConfig.CreateMap<RepositoryStore, RepositoryStoreObjectsDto>()
                 .ForMember(x => x.Objects,
-                    opt => opt.MapFrom(src => src.Objects.OrderBy(x => x.Key, StringComparer.InvariantCulture)
+                    opt => opt.MapFrom(src => src.Objects.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
                         .ToDictionary(x => x.Key, x => x.Value)));
 
             mappingConfig.CreateMap<RepositoryStore, RepositoryStoreBundlesDto>()
                 .ForMember(x => x.Bundles,
-                    opt => opt.MapFrom(src => src.Bundles.OrderBy(x => x.Key, StringComparer.InvariantCulture)
+                    opt => opt.MapFrom(src => src.Bundles.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
                         .ToDictionary(x => x.Key,
                             x => x.Value.OrderBy(y => new SpecificVersion(x.Key, y).Version).ToList())));
 
@@ -727,7 +726,8 @@ namespace SN.withSIX.Sync.Core.Repositories
 
         public async Task ReAddObjectLocked(params string[] hashes) {
             using (await _writeLock.LockAsync().ConfigureAwait(false)) {
-                hashes.ForEach(ReAddObject);
+                foreach (var x in hashes)
+                    ReAddObject(x);
                 await Task.Run(() => SaveIndex()).ConfigureAwait(false);
             }
         }
@@ -735,7 +735,8 @@ namespace SN.withSIX.Sync.Core.Repositories
         public void ReAddObject(params string[] hashes) {
             if (!hashes.Any())
                 return;
-            hashes.ForEach(ReAddObject);
+            foreach (var x in hashes)
+                ReAddObject(x);
             SaveIndex();
         }
 

@@ -43,11 +43,11 @@ namespace SN.withSIX.Core
                     try {
                         Unpack(sourceFile, outputFolder, overwrite, fullPath);
                     } catch (UnauthorizedAccessException) {
-                        if (!Processes.Uac.CheckUac())
+                        if (!UacHelper.CheckUac())
                             throw;
                         UnpackUpdater(sourceFile, outputFolder, overwrite, fullPath);
                     } catch (IOException) {
-                        if (!Processes.Uac.CheckUac())
+                        if (!UacHelper.CheckUac())
                             throw;
                         UnpackUpdater(sourceFile, outputFolder, overwrite, fullPath);
                     }

@@ -91,7 +91,7 @@ namespace SN.withSIX.Sync.Core.Transfer
 
     public class FtpUploadException : UploadException
     {
-        public FtpStatusCode StatusCode;
+        //public FtpStatusCode StatusCode;
         public FtpUploadException(string message, WebException webException) : base(message, webException) {}
     }
 }

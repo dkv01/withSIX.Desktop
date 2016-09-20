@@ -16,7 +16,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core.Logging;
 using withSIX.Api.Models;
@@ -144,7 +143,7 @@ namespace SN.withSIX.Core.Extensions
             => t.GetType().GetMetaData(def);
 
         public static T GetMetaData<T>(this Type t, T def = default(T)) where T : Attribute
-            => t.GetCustomAttribute<T>() ?? def;
+            => t.GetTypeInfo().GetCustomAttribute<T>() ?? def;
 
         public static IEnumerable<string> GetFiles(this DirectoryInfo path,
             string searchPatternExpression = "",
@@ -169,7 +168,7 @@ namespace SN.withSIX.Core.Extensions
         // Takes same patterns, and executes in parallel
         public static IEnumerable<string> GetFiles(string path,
             IEnumerable<string> searchPatterns,
-            SearchOption searchOption = SearchOption.TopDirectoryOnly) => searchPatterns.AsParallel()
+            SearchOption searchOption = SearchOption.TopDirectoryOnly) => searchPatterns //.AsParallel()
                 .SelectMany(searchPattern =>
                     Directory.EnumerateFiles(path, searchPattern, searchOption));
 
@@ -196,7 +195,7 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static Uri GetParentUri(this Uri uri) {
-            var parts = uri.GetLeftPart(UriPartial.Path).Split('/');
+            var parts = uri.ToString().Split('/');
             return new Uri(string.Join("/", parts.Take(parts.Length - 1)));
         }
 
@@ -219,20 +218,21 @@ namespace SN.withSIX.Core.Extensions
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(
             this IEnumerable<KeyValuePair<TKey, TValue>> defaults, IEnumerable<KeyValuePair<TKey, TValue>> overrides) {
             Contract.Requires<ArgumentNullException>(overrides != null);
-            return overrides.Concat(defaults).DistinctBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+            return overrides.Concat(defaults).GroupBy(x => x.Key).Select(g => g.First()).ToDictionary(x => x.Key, x => x.Value);
         }
 
         public static IDictionary<TKey, TValue> MergeIfOverrides<TKey, TValue>(
             this IDictionary<TKey, TValue> defaults, IEnumerable<KeyValuePair<TKey, TValue>> overrides)
             => overrides == null
                 ? defaults
-                : overrides.Concat(defaults).DistinctBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+                : overrides.Concat(defaults).GroupBy(x => x.Key).Select(g => g.First()).ToDictionary(x => x.Key, x => x.Value);
 
         public static string OrEmpty(this string str) => str ?? string.Empty;
-
+        
+        /*
         public static IDictionary<string, object> Inspect(this object obj) => InspectPublicProperties(obj)
             .Concat(InspectPublicFields(obj))
-            .DistinctBy(x => x.Key)
+            .GroupBy(x => x.Key).Select(g => g.First())
             .ToDictionary(x => x.Key, x => x.Value);
 
         static Dictionary<string, object> InspectPublicProperties(object obj)
@@ -242,7 +242,7 @@ namespace SN.withSIX.Core.Extensions
         static Dictionary<string, object> InspectPublicFields(object obj) => obj.GetType()
             .GetFields(BindingFlags.Instance | BindingFlags.Public)
             .ToDictionary(x => x.Name, x => x.GetValue(obj));
-
+            */
         public static bool TryBool(this string boolAsString) {
             bool b;
             return boolAsString != null && bool.TryParse(boolAsString.ToLower(), out b) && b;
@@ -607,7 +607,7 @@ namespace SN.withSIX.Core.Extensions
             => source.Contains(toCheck, StringComparison.CurrentCultureIgnoreCase);
 
         public static bool ContainsIgnoreCase(this IEnumerable<string> source, string toCheck)
-            => source.Contains(toCheck, StringComparer.InvariantCultureIgnoreCase);
+            => source.Contains(toCheck, StringComparer.OrdinalIgnoreCase);
 
         public static bool NullSafeContains(this IEnumerable<string> value, string toCheck,
             StringComparer comp = null) {
@@ -637,7 +637,7 @@ namespace SN.withSIX.Core.Extensions
         public static int NullSafeIndexOfIgnoreCase(this string value, string toCheck) {
             if (value == null)
                 return -1;
-            return value.IndexOf(toCheck, StringComparison.InvariantCultureIgnoreCase);
+            return value.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase);
         }
 
         public static int NullSafeIndex(this string value, string toCheck) {

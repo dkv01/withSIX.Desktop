@@ -110,16 +110,16 @@ namespace SN.withSIX.Sync.Core.ExternalTools
         }
 
         static bool MatchesKey(BiKeyFile biKeyFile, BiSignFile biSignFile)
-            => biSignFile.KeyName.Equals(biKeyFile.KeyName, StringComparison.InvariantCultureIgnoreCase);
+            => biSignFile.KeyName.Equals(biKeyFile.KeyName, StringComparison.OrdinalIgnoreCase);
 
         static bool MatchesBiSign(BiSignFile s, FileInfo f) {
             var projectedBisign = f.FullName + "." + s.KeyName + ".bisign";
-            return projectedBisign.Equals(s.FilePath.ToString(), StringComparison.InvariantCultureIgnoreCase);
+            return projectedBisign.Equals(s.FilePath.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
-        static bool MatchesBiSign(string s, string f) => s.StartsWith(f, StringComparison.InvariantCultureIgnoreCase) &&
+        static bool MatchesBiSign(string s, string f) => s.StartsWith(f, StringComparison.OrdinalIgnoreCase) &&
                                                          s.EndsWith(".bisign",
-                                                             StringComparison.InvariantCultureIgnoreCase);
+                                                             StringComparison.OrdinalIgnoreCase);
 
         void ProcessFile(ProcessDirectoryOrFileParams spec, IAbsoluteFilePath filePath) {
             if (spec.OnlyWhenMissing &&

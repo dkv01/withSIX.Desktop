@@ -75,8 +75,8 @@ namespace SN.withSIX.Steam.Core
             return v;
         }
     }
-
-    public class SteamHelper
+    
+    public class SteamHelper : ISteamHelper
     {
         readonly Dictionary<uint, SteamApp> _appCache;
         readonly IEnumerable<IAbsoluteDirectoryPath> _baseInstallPaths;
@@ -86,6 +86,9 @@ namespace SN.withSIX.Steam.Core
         public static SteamHelper Create()
             => new SteamHelper(new SteamStuff(SteamPathHelper.SteamPath).TryReadSteamConfig(),
                 SteamPathHelper.SteamPath);
+
+
+        public IAbsoluteDirectoryPath SteamPath => _steamPath;
 
         public SteamHelper(KeyValue steamConfig, IAbsoluteDirectoryPath steamPath, bool cache = true) {
             _cache = cache;
@@ -115,7 +118,7 @@ namespace SN.withSIX.Steam.Core
             }
         }
 
-        public SteamApp TryGetSteamAppById(uint appId, bool noCache = false) {
+        public ISteamApp TryGetSteamAppById(uint appId, bool noCache = false) {
             if (!SteamFound)
                 throw new InvalidOperationException("Unable to get Steam App, Steam was not found.");
             try {
@@ -166,7 +169,7 @@ namespace SN.withSIX.Steam.Core
 
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class SteamApp
+    public class SteamApp : ISteamApp
     {
         protected SteamApp() {}
 

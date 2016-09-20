@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Collections.Generic;
 using NDepend.Path;
 using SN.withSIX.Core.Helpers;
 
@@ -16,5 +17,6 @@ namespace SN.withSIX.Core
         void CreateZip(IAbsoluteDirectoryPath directory, IAbsoluteFilePath outputFile);
         void UnpackSingleInternal(string sourceFile, string destFile);
         void UnpackGzip(IAbsoluteFilePath sourceFile, IAbsoluteFilePath destFile, ITProgress progress = null);
+        void PackFiles(IEnumerable<KeyValuePair<string, string>> items, IAbsoluteFilePath path);
     }
 }

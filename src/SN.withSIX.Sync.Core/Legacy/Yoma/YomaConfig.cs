@@ -12,6 +12,7 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Sync.Core.Legacy.Yoma
 {
+    /*
     public class YomaConfig
     {
         const string Namespace = "http://tempuri.org/DSServer.xsd";
@@ -122,4 +123,5 @@ namespace SN.withSIX.Sync.Core.Legacy.Yoma
             public string MessageOfTheDay { get; set; }
         }
     }
+    */
 }

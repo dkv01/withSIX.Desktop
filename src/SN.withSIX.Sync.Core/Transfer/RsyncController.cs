@@ -64,7 +64,7 @@ namespace SN.withSIX.Sync.Core.Transfer
         private RsyncOptions BuildOptions() => new RsyncOptions {Key = Key};
 
         void CreateSshFolder() {
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".ssh").MakeSurePathExists();
+            Path.Combine(PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.UserProfile), ".ssh").MakeSurePathExists();
         }
 
         protected void HandleRsyncResponse(ProcessExitResultWithOutput response) {

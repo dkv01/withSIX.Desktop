@@ -9,7 +9,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -390,7 +389,7 @@ namespace SN.withSIX.Sync.Core.Packages
                 objects.AddRange(package.GetNeededObjects(skipWhenFileMatches));
             }
 
-            return objects.DistinctBy(x => x.FO.Checksum).ToArray();
+            return objects.GroupBy(x => x.FO.Checksum).Select(x => x.First()).ToArray();
         }
 
         private async Task ProcessCheck(bool noCheckout, bool skipWhenFileMatches, IReadOnlyCollection<Package> packages,

@@ -3,8 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Services;

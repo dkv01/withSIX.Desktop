@@ -84,14 +84,16 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                 MainLog.Logger.Info("install.bat content:\n" + commandBat);
 
             try {
-                using (var p =
-                    pm.Start(
-                        new ProcessStartInfoBuilder(batFile) {
-                            AsAdministrator = asAdministrator,
-                            WorkingDirectory = tmpFolder,
-                            WindowStyle = ProcessWindowStyle.Minimized
-                        }.Build()))
-                    p.WaitForExit();
+                var pInfo = new ProcessStartInfoBuilder(batFile) {
+                    WorkingDirectory = tmpFolder,
+                    //WindowStyle = ProcessWindowStyle.Minimized
+                }.Build();
+                pInfo.CreateNoWindow = true;
+                var basicLaunchInfo = new BasicLaunchInfo(pInfo);
+
+                var r = asAdministrator ? pm.LaunchElevated(basicLaunchInfo) : pm.Launch(basicLaunchInfo);
+                if (r.ExitCode != 0)
+                    throw new Exception($"Error during handling {r.ExitCode}");
             } catch (Win32Exception ex) {
                 if (ex.IsElevationCancelled())
                     throw ex.HandleUserCancelled();

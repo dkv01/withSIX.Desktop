@@ -191,7 +191,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                     _launchedGame = _gameStartInfo.Launch();
                 } catch (Win32Exception ex) {
                     if (ex.ErrorCode == 740) {
-                        if (!Tools.Processes.Uac.CheckUac())
+                        if (!Tools.UacHelper.CheckUac())
                             throw;
                         _restarter.RestartWithUacInclEnvironmentCommandLine();
                         _launchedGame = null;
@@ -202,7 +202,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             static void TrySetForeground(Process launchedGame) {
                 try {
-                    Tools.ProcessesTools.NativeMethods.SetForeground(launchedGame);
+                    throw new NotImplementedException();
+                    //Tools.ProcessesTools.NativeMethods.SetForeground(launchedGame);
                 } catch (Exception e) {
                     MainLog.Logger.FormattedWarnException(e);
                 }

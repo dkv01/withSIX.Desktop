@@ -109,7 +109,7 @@ namespace SN.withSIX.Sync.Core.Transfer
 
     public class FtpDownloadException : DownloadException
     {
-        public FtpStatusCode StatusCode;
+        //public FtpStatusCode StatusCode;
         public FtpDownloadException(string message, WebException webException) : base(message, webException) {}
     }
 

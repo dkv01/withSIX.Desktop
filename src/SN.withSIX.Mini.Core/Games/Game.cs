@@ -9,7 +9,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core;
@@ -19,7 +18,6 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
@@ -39,7 +37,7 @@ namespace SN.withSIX.Mini.Core.Games
     public abstract class Game : BaseEntity<Guid>, IContentEngineGame, IHaveSourcePaths
     {
         // TODO: Extract
-        public static SteamHelper SteamHelper { get; set; }
+        public static ISteamHelper SteamHelper { get; set; }
 
         static readonly string[] getCompatibilityMods = new string[0];
 
@@ -113,7 +111,7 @@ namespace SN.withSIX.Mini.Core.Games
                 .OfType<NetworkContent>();
 
         public void MigrateContents() {
-            Contents = Contents.ToHashSet();
+            Contents = new HashSet<Content>(Contents);
         }
 
         [IgnoreDataMember]
@@ -423,7 +421,7 @@ namespace SN.withSIX.Mini.Core.Games
 
             // TODO: Find galaxy client
             var galaxy =
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
+                PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.ProgramFilesX86)
                     .ToAbsoluteDirectoryPath()
                     .GetChildDirectoryWithName(@"GalaxyClient")
                     .GetChildDirectoryWithName("Games");
@@ -444,7 +442,7 @@ namespace SN.withSIX.Mini.Core.Games
         public bool IsSteamEdition() {
             var gameDir = InstalledState.Directory;
             var steamApp = SteamInfo.TryGetSteamApp();
-            if (steamApp.IsValid)
+            if (steamApp != null  && steamApp.IsValid)
                 return gameDir.Equals(steamApp.AppPath);// || HasSteamApiDlls();
             return false;
         }
@@ -490,7 +488,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         // TODO: Optimize
         private IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetRunningInstances()
-            => Metadata.Executables.SelectMany(x => Tools.Processes.GetExecuteablePaths(x))
+            => Metadata.Executables.SelectMany(x => Tools.ProcessManager.Management.GetExecuteablePaths(x))
                 .Where(x => x != null && (x.Item2 == null || ExecutablePath.Equals(x.Item2.ParentDirectoryPath)));
 
         public async Task UpdateSettings(GameSettings settings) {
@@ -541,7 +539,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         public void Close() {
             ConfirmInstalled();
-            GetRunningInstances().ForEach(x => x.Item1.TryKill());
+            foreach (var x in GetRunningInstances())
+                x.Item1.TryKill();
         }
 
         public bool IsSteamGame() => steamGames.Contains(Id);

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
@@ -21,7 +20,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
     {
         public virtual Dictionary<string, string> DowncaseDictionary(Dictionary<string, string> dict) {
             Contract.Requires<ArgumentNullException>(dict != null);
-            return dict.DistinctBy(x => x.Key.ToLower())
+            return dict.GroupBy(x => x.Key.ToLower()).Select(x => x.First())
                 .ToDictionary(x => x.Key.ToLower(), x => x.Value);
         }
 

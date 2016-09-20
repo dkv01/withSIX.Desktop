@@ -4,15 +4,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MoreLinq;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content.v3;
+using System.Diagnostics.Contracts;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -51,6 +50,14 @@ namespace SN.withSIX.Core.Extensions
 
     public static class CollectionExtensions
     {
+        public static void ForEach<T>(this IEnumerable<T> This, Action<T> act) {
+            foreach (var x in This)
+                act(x);
+        }
+
+        public static IEnumerable<T> DistinctBy<T, T2>(this IEnumerable<T> This, Func<T, T2> act)
+            => This.GroupBy(act).Select(x => x.First());
+
         /// <summary>
         ///     Probably doing it wrong (TM) - why not just replace the whole collection?
         /// </summary>
@@ -498,7 +505,8 @@ namespace SN.withSIX.Core.Extensions
                 // This is the reason why we take items as ICollection - otherwise it would re-iterate the items all the time.
                 l.RemoveAll(items.Contains);
             else {
-                items.ForEach(x => list.Remove(x));
+                foreach (var x in items)
+                    list.Remove(x);
             }
         }
 

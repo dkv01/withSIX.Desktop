@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -200,7 +199,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 _container.RegisterInitializer<IProcessManager>(ConfigureProcessManager);
 
                 _container.RegisterSingleton<Func<HostCheckerType>>(() => HostCheckerType.WithPing);
-                _container.RegisterSingleton(() => new ExportFactory<IWebClient>(OnExportLifetimeContextCreator));
                 _container.RegisterSingleAllInterfacesAndType<IDomainService>(_assemblies);
                 _container.RegisterSingleAllInterfaces<IApplicationService>(_assemblies);
                 _container.RegisterSingleAllInterfaces<IInfrastructureService>(_assemblies);
@@ -245,16 +243,9 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 _container.RegisterSingleton(() => Tools.Compression.Gzip);
                 _container.RegisterSingleton(() => Tools.HashEncryption);
                 _container.RegisterSingleton(() => Tools.Processes);
-                _container.RegisterSingleton(() => Tools.Processes.Uac);
                 _container.RegisterSingleton(() => Tools.Serialization);
                 _container.RegisterSingleton(() => Tools.Serialization.Json);
-                _container.RegisterSingleton(() => Tools.Serialization.Xml);
                 _container.RegisterSingleton(() => Tools.Transfer);
-            }
-
-            static Tuple<IWebClient, Action> OnExportLifetimeContextCreator() {
-                var wc = new WebClient();
-                return new Tuple<IWebClient, Action>(wc, wc.Dispose);
             }
 
             void RegisterMediator() {

@@ -56,6 +56,7 @@ namespace SN.withSIX.Core.Extensions
 
         public static TAct CallGeneric<TAct>(TAct act, params Type[] types) => CallGeneric(null, act, types);
 
+        /*
         // Query.
         public static IEnumerable<Type> GetTypeParameters(this Type type, Type searchType)
             => from interfaceType in type.GetInterfaces()
@@ -73,6 +74,7 @@ namespace SN.withSIX.Core.Extensions
             }
             return false;
         }
+        */
     }
 
     public class MethodOf<T>
@@ -82,7 +84,7 @@ namespace SN.withSIX.Core.Extensions
             if (del == null)
                 throw new ArgumentException("Cannot convert func to Delegate.", nameof(func));
 
-            Method = del.Method;
+            Method = del.GetMethodInfo();
         }
 
         MethodInfo Method { get; }

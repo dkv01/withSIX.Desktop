@@ -122,7 +122,7 @@ namespace SN.withSIX.Core
                             this.Logger()
                                 .FormattedWarnException(ex,
                                     "Exception during copy file, trying through updater if not elevated");
-                            if (!Processes.Uac.CheckUac())
+                            if (!UacHelper.CheckUac())
                                 throw;
                             CopyWithUpdater(source, destination, overwrite);
                         }
@@ -138,7 +138,7 @@ namespace SN.withSIX.Core
                             this.Logger()
                                 .FormattedWarnException(ex,
                                     "Exception during move file, trying through updater if not elevated");
-                            if (!Processes.Uac.CheckUac())
+                            if (!UacHelper.CheckUac())
                                 throw;
                             MoveWithUpdater(source, destination, overwrite);
                         }
@@ -184,7 +184,7 @@ namespace SN.withSIX.Core
                             this.Logger()
                                 .FormattedWarnException(ex,
                                     "Exception during delete, trying through updater if not elevated");
-                            if (!Processes.Uac.CheckUac())
+                            if (!UacHelper.CheckUac())
                                 throw;
                             DeleteWithUpdater(source);
                         }
@@ -280,11 +280,11 @@ namespace SN.withSIX.Core
                             this.Logger()
                                 .FormattedWarnException(ex,
                                     "Exception during copy directory, trying through updater if not elevated");
-                            if (!Processes.Uac.CheckUac())
+                            if (!UacHelper.CheckUac())
                                 throw;
                             CopyDirectoryWithUpdater(sourceFolder, outputFolder, overwrite);
                         } catch (IOException) {
-                            if (!Processes.Uac.CheckUac())
+                            if (!UacHelper.CheckUac())
                                 throw;
                             CopyDirectoryWithUpdater(sourceFolder, outputFolder, overwrite);
                         }
@@ -404,7 +404,7 @@ namespace SN.withSIX.Core
                                 this.Logger()
                                     .FormattedWarnException(ex,
                                         "Exception during move directory, trying through updater if not elevated");
-                                if (!Processes.Uac.CheckUac())
+                                if (!UacHelper.CheckUac())
                                     throw;
                                 MoveDirectoryWithUpdater(source, destination);
                             }
@@ -417,7 +417,7 @@ namespace SN.withSIX.Core
                                 this.Logger()
                                     .FormattedWarnException(ex,
                                         "Exception during move directory, trying through updater if not elevated");
-                                if (!Processes.Uac.CheckUac())
+                                if (!UacHelper.CheckUac())
                                     throw;
                                 MoveDirectoryWithUpdater(source, destination);
                             }

@@ -253,7 +253,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
                     tw.WriteLine();
                 }
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, null, "Failed to write userconfig"));
+                UserErrorHandler.InformationalUserError(e, null, "Failed to write userconfig");
             }
         }
 
@@ -284,7 +284,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
                 }
                 return true;
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, null, "Failed to write userconfig"));
+                UserErrorHandler.InformationalUserError(e, null, "Failed to write userconfig");
                 return false;
             }
         }
@@ -293,7 +293,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
             try {
                 acePath.MakeSurePathExists();
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, null, "Failed to create userconfig directory"));
+                UserErrorHandler.InformationalUserError(e, null, "Failed to create userconfig directory");
                 return false;
             }
             return true;

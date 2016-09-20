@@ -55,13 +55,14 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         public static void Main() {
             AttachConsole(-1);
 
+            Common.Flags = new Common.StartupFlags(_args = Environment.GetCommandLineArgs().Skip(1).ToArray());
             SetupRegistry();
             new RuntimeCheckWpf().Check();
+
             SetupAssemblyLoader();
             SetupLogging();
             new AssemblyHandler().Register();
             SetupVersion();
-            _args = Environment.GetCommandLineArgs().Skip(1).ToArray();
             Init();
             //Cheat.Args = new ArgsO { Port =, WorkingDirectory = Directory.GetCurrentDirectory() } // todo;
             try {

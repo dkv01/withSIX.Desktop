@@ -9,9 +9,9 @@ using System.Linq;
 using System.Threading;
 using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using withSIX.Api.Models.Extensions;
-using Timer = System.Timers.Timer;
 
 namespace SN.withSIX.Sync.Core.Repositories
 {
@@ -57,42 +57,31 @@ namespace SN.withSIX.Sync.Core.Repositories
                     };
 
                 while (true) {
-                    using (var timer = UnlockTimer(lockFile, autoResetEvent)) {
-                        try {
-                            return new Repository(path, createWhenNotExisting);
-                        } catch (RepositoryLockException) {
-                            if (failAction != null)
-                                failAction();
-                            timer.Start();
+                    try {
+                        return new Repository(path, createWhenNotExisting);
+                    } catch (RepositoryLockException) {
+                        failAction?.Invoke();
+                        using (UnlockTimer(lockFile, autoResetEvent))
                             autoResetEvent.WaitOne();
-                            lock (timer)
-                                timer.Stop();
-                            autoResetEvent.Reset();
-                        }
+                        autoResetEvent.Reset();
                     }
                 }
             }
         }
 
-        Timer UnlockTimer(IAbsoluteFilePath path, EventWaitHandle autoResetEvent) {
-            var timer = new Timer();
+        withSIX.Core.Helpers.Timer UnlockTimer(IAbsoluteFilePath path, EventWaitHandle autoResetEvent) {
             var pathS = path.ToString();
-            timer.Elapsed += delegate {
-                lock (timer) {
-                    if (timer.Enabled) {
-                        var unlocked = CheckFileClosed(pathS);
-                        if (unlocked) {
-                            // disable timer as soon as file is unlocked, to raise event only once!
-                            timer.Enabled = false;
-                            autoResetEvent.Set();
-                        }
+            if (!ShouldContinueChecking(autoResetEvent, pathS)) return null;
+            return new TimerWithElapsedCancellation(1000, () => ShouldContinueChecking(autoResetEvent, pathS));
+        }
 
-                        // set interval to 1 second after first elapse
-                        timer.Interval = 1000;
-                    }
-                }
-            };
-            return timer;
+        private bool ShouldContinueChecking(EventWaitHandle autoResetEvent, string pathS) {
+            var unlocked = CheckFileClosed(pathS);
+            if (!unlocked)
+                return true;
+            // disable timer as soon as file is unlocked, to raise event only once!
+            autoResetEvent.Set();
+            return false;
         }
 
         bool CheckFileClosed(string path) {

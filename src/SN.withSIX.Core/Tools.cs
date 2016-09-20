@@ -11,15 +11,17 @@ namespace SN.withSIX.Core
 {
     public class ToolsServices : IDomainService
     {
-        public ToolsServices(IProcessManager pm, Lazy<IWCFClient> wcfClient, Lazy<IGeoIpService> geoService, ICompressionUtil compression) {
+        public ToolsServices(IProcessManager pm, Lazy<IWCFClient> wcfClient, Lazy<IGeoIpService> geoService, ICompressionUtil compression, IUacHelper uacHelper) {
             GeoService = geoService;
             Compression = compression;
+            UacHelper = uacHelper;
             ProcessManager = pm;
             WCFClient = wcfClient;
         }
 
         public Lazy<IGeoIpService> GeoService { get; }
         public ICompressionUtil Compression { get; }
+        public IUacHelper UacHelper { get; }
         public IProcessManager ProcessManager { get; }
         public Lazy<IWCFClient> WCFClient { get; }
     }
@@ -31,15 +33,19 @@ namespace SN.withSIX.Core
         public static IProcessManager ProcessManager { get; private set; }
         public static Lazy<IGeoIpService> Geo { get; private set; }
 
+        public static IUacHelper UacHelper { get; private set; }
+
         public static Func<string, string, Exception, Task> InformUserError { get; set; }
 
         private static ICompressionUtil _compressionUtil { get; set; }
+        public static ICompressionUtil CompressionUtil => _compressionUtil;
 
         public static void RegisterServices(ToolsServices services) {
             ProcessManager = services.ProcessManager;
             _wcfClient = services.WCFClient;
             _compressionUtil = services.Compression;
             Geo = services.GeoService;
+            UacHelper = services.UacHelper;
         }
     }
 }

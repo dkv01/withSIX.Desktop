@@ -54,7 +54,9 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public static void ExitForNode() => _bootstrapper.Dispose();
 
         static void SetupAssemblyLoader(IAbsoluteFilePath locationOverride = null) {
-            CommonBase.AssemblyLoader = new AssemblyLoader(typeof (Entrypoint).Assembly, locationOverride);
+            var entryAssembly = typeof (Entrypoint).Assembly;
+            CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, locationOverride,
+                entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath);
         }
 
         static void SetupRegistry() {
@@ -66,9 +68,12 @@ namespace SN.withSIX.Mini.Presentation.Electron
             await new RuntimeCheckNode().Check().ConfigureAwait(false);
 
             SetupRegistry();
-            var exe = Environment.GetCommandLineArgs().First();
+
+            var cla = Environment.GetCommandLineArgs();
+            var exe = cla.First();
             if (!exe.EndsWith(".exe"))
                 exe = exe + ".exe";
+            Common.Flags = new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray());
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));
@@ -79,7 +84,6 @@ namespace SN.withSIX.Mini.Presentation.Electron
             SetupVersion();
             Consts.InternalVersion += $" (runtime: {Api.Version}, engine: {Consts.ProductVersion})";
             Consts.ProductVersion = Api.Version;
-            _args = Environment.GetCommandLineArgs().Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray();
             Init();
             if (Api.Args != null)
                 Cheat.Args = Api.Args;
@@ -91,7 +95,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             Common.AppCommon.SetAppName(Consts.InternalTitle); // Used in temp path too.
             MainLog.Logger.Info(
                 $"Initializing {Common.AppCommon.ApplicationName} {Consts.ProductVersion} ({Consts.InternalVersion}). Arguments: " +
-                ParameterExtensions.CombineParameters((IEnumerable<string>) _args));
+                _args.CombineParameters());
             Common.IsMini = true;
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }

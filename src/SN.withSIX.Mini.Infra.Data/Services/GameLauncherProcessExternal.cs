@@ -55,7 +55,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         static ProcessStartInfo BuildProcessStartInfo(LaunchGameInfoBase spec, IEnumerable<string> args)
             => new ProcessStartInfoBuilder(Common.Paths.ServiceExePath,
                 args.CombineParameters()) {
-                    AsAdministrator = spec.LaunchAsAdministrator,
+                    //AsAdministrator = spec.LaunchAsAdministrator,
                     WorkingDirectory = Common.Paths.ServiceExePath.ParentDirectoryPath
                 }.Build();
 
@@ -70,7 +70,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                     var lResult = await LaunchNormally(startInfo).ConfigureAwait(false);
                     try {
                         var p = Process.GetProcessById(lResult.ProcessId);
-                        var path = Tools.Processes.GetProcessPath(lResult.ProcessId);
+                        var path = Tools.ProcessManager.Management.GetProcessPath(lResult.ProcessId);
                         if (path != null && path.Equals(spec.ExpectedExecutable))
                             return p;
                     } catch (ArgumentException) {}
@@ -91,7 +91,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         private async Task LaunchAsAdmin(ProcessStartInfo startInfo) {
-            var info = await _processManager.LaunchAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
+            var info = await _processManager.LaunchElevatedAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
             if (info.ExitCode != 0)
                 throw new Exception("Launching failed with error code " + info.ExitCode);
         }

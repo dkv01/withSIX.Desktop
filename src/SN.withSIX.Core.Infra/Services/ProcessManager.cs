@@ -3,20 +3,23 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using NDepend.Path;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Extensions;
 using Timer = System.Timers.Timer;
@@ -25,6 +28,13 @@ namespace SN.withSIX.Core.Infra.Services
 {
     public static class ProcessExtensions
     {
+        public static ProcessStartInfo EnableRunAsAdministrator(this ProcessStartInfo arg) {
+            if (Environment.OSVersion.Version.Major >= 6)
+                arg.Verb = "runas";
+
+            return arg;
+        }
+
         public static ProcessManager.ProcessState MonitorProcessOutput(this Process process) {
             Contract.Requires<ArgumentNullException>(process != null);
 
@@ -76,6 +86,8 @@ namespace SN.withSIX.Core.Infra.Services
         readonly CompositeDisposable _subjects = new CompositeDisposable();
         readonly ISubject<Tuple<ProcessStartInfo, int, int>, Tuple<ProcessStartInfo, int, int>> _terminated;
 
+        public IManagement Management { get; }
+
         public ProcessManager() {
             var launched = new Subject<Tuple<ProcessStartInfo, int>>();
             _launched = Subject.Synchronize(launched);
@@ -101,6 +113,8 @@ namespace SN.withSIX.Core.Infra.Services
             _terminated = Subject.Synchronize(terminated);
             Terminated = _terminated.AsObservable();
             _subjects.Add(terminated);
+
+            Management = new ManagementInternal();
         }
 
         public void Dispose() {
@@ -159,7 +173,7 @@ namespace SN.withSIX.Core.Infra.Services
 
         #region Monitor
 
-        Timer MonitorProcessOutput(ReactiveProcess process, TimeSpan timeout) {
+        SN.withSIX.Core.Helpers.Timer MonitorProcessOutput(ReactiveProcess process, TimeSpan timeout) {
             Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(timeout != null);
 
@@ -167,10 +181,10 @@ namespace SN.withSIX.Core.Infra.Services
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output"));
             return new TimerWithElapsedCancellation(monitorInterval,
                 () => OnOutputMonitorElapsed(process, state, timeout),
-                (o, args) => _monitorStopped.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output")));
+                () => _monitorStopped.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output")));
         }
 
-        Timer MonitorProcessOutput(Process process, TimeSpan timeout) {
+        SN.withSIX.Core.Helpers.Timer MonitorProcessOutput(Process process, TimeSpan timeout) {
             Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(timeout != null);
 
@@ -178,7 +192,7 @@ namespace SN.withSIX.Core.Infra.Services
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output"));
             return new TimerWithElapsedCancellation(monitorInterval,
                 () => OnOutputMonitorElapsed(process, state, timeout),
-                (o, args) => _monitorStopped.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output")));
+                () => _monitorStopped.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output")));
         }
 
         bool OnOutputMonitorElapsed(Process process, ProcessState state, TimeSpan timeout) {
@@ -226,7 +240,7 @@ namespace SN.withSIX.Core.Infra.Services
             }
         }
 
-        Timer MonitorProcessResponding(Process process, TimeSpan timeout) {
+        SN.withSIX.Core.Helpers.Timer MonitorProcessResponding(Process process, TimeSpan timeout) {
             Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(timeout != null);
 
@@ -235,7 +249,7 @@ namespace SN.withSIX.Core.Infra.Services
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Responding"));
 
             return new TimerWithElapsedCancellation(monitorInterval, () => OnMonitorElapsed(process, state, timeout),
-                (o, args) => _monitorStopped.OnNext(Tuple.Create(process.StartInfo, process.Id, "Responding")));
+                () => _monitorStopped.OnNext(Tuple.Create(process.StartInfo, process.Id, "Responding")));
         }
 
         bool OnMonitorElapsed(Process process, ProcessState state, TimeSpan timeout) {
@@ -291,6 +305,18 @@ namespace SN.withSIX.Core.Infra.Services
 
         public async Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info) {
             using (var process = new ReactiveProcess {StartInfo = info.StartInfo}) {
+                return
+                    await
+                        LaunchAndWaitForExitAsync(process, info.MonitorOutput, info.MonitorResponding,
+                            info.CancellationToken)
+                            .ConfigureAwait(false);
+            }
+        }
+
+        public async Task<ProcessExitResult> LaunchElevatedAsync(BasicLaunchInfo info) {
+            var processStartInfo = info.StartInfo;
+            processStartInfo.EnableRunAsAdministrator();
+            using (var process = new ReactiveProcess { StartInfo = processStartInfo }) {
                 return
                     await
                         LaunchAndWaitForExitAsync(process, info.MonitorOutput, info.MonitorResponding,
@@ -391,6 +417,14 @@ namespace SN.withSIX.Core.Infra.Services
 
         public ProcessExitResult Launch(BasicLaunchInfo info) {
             using (var process = new Process {StartInfo = info.StartInfo}) {
+                LaunchAndWaitForExit(process, info.MonitorOutput, info.MonitorResponding);
+                return new ProcessExitResult(process.ExitCode, process.Id, info.StartInfo);
+            }
+        }
+
+        public ProcessExitResult LaunchElevated(BasicLaunchInfo info) {
+            info.StartInfo.EnableRunAsAdministrator(); // does this work??
+            using (var process = new Process { StartInfo = info.StartInfo }) {
                 LaunchAndWaitForExit(process, info.MonitorOutput, info.MonitorResponding);
                 return new ProcessExitResult(process.ExitCode, process.Id, info.StartInfo);
             }
@@ -578,5 +612,105 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         #endregion
+
+        public class ManagementInternal : IManagement
+        {
+
+            public virtual void KillProcessChildren(int pid, bool gracefully = false) {
+                var processes = GetWmiProcessesByParentId(pid);
+                using (processes) {
+                    foreach (var p in processes) {
+                        using (p) {
+                            try {
+                                Tools.Processes.KillProcessInclChildren((int)(uint)p["ProcessId"]);
+                            } catch (Exception e) {
+                                Tools.Processes.Logger().FormattedErrorException(e);
+                            }
+                        }
+                    }
+                }
+            }
+            public virtual void KillNamedProcessChildren(string name, int pid, bool gracefully = false) {
+                var processes = GetNamedWmiProcessesByParentId(name, pid);
+
+                using (processes) {
+                    foreach (var p in processes) {
+                        using (p) {
+                            try {
+                                Tools.Processes.KillProcessInclChildren((int)(uint)p["ProcessId"]);
+                            } catch (Exception e) {
+                                Tools.Processes.Logger().FormattedErrorException(e);
+                            }
+                        }
+                    }
+                }
+            }
+
+            public virtual ManagementObjectCollection GetWmiProcessesByParentId(int pid)
+                => new ManagementObjectSearcher(
+                    $"Select * From Win32_Process Where ParentProcessID={pid}")
+                    .Get();
+
+            public virtual ManagementObjectCollection GetNamedWmiProcessesByParentId(string name, int pid)
+                => new ManagementObjectSearcher(
+                    $"Select * From Win32_Process Where ParentProcessID={pid} And Name=\"{name}\"")
+                    .Get();
+
+            public virtual ManagementObjectCollection GetWmiProcessesById(int pid)
+                => new ManagementObjectSearcher("Select * From Win32_Process Where ProcessID=#{id}").Get();
+
+            public virtual string GetCommandlineArgs(Process process) {
+                Contract.Requires<ArgumentNullException>(process != null);
+                return GetCommandlineArgs(process.Id);
+            }
+
+            public virtual string GetCommandlineArgs(int id) {
+                var wmiQuery = $"select CommandLine from Win32_Process where ProcessId='{id}'";
+                using (var searcher = new ManagementObjectSearcher(wmiQuery))
+                using (var retObjectCollection = searcher.Get()) {
+                    if (retObjectCollection.Count == 0)
+                        return null;
+
+                    foreach (ManagementObject retObject in retObjectCollection) {
+                        using (retObject)
+                            return (string)retObject["CommandLine"];
+                    }
+                }
+                return null;
+            }
+
+            public virtual Dictionary<Process, string> GetCommandlineArgs(string name) {
+                Contract.Requires<ArgumentNullException>(name != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+
+                var parsedName = name.EndsWith(".exe") ? Path.GetFileNameWithoutExtension(name) : name;
+                var procs = Tools.Processes.FindProcess(parsedName);
+                if (procs == null || !procs.Any())
+                    return new Dictionary<Process, string>();
+
+                return procs
+                    .ToDictionary(proc => proc, GetCommandlineArgs);
+            }
+
+
+            public IAbsoluteFilePath GetProcessPath(int processId) {
+                var query = "SELECT ExecutablePath FROM Win32_Process WHERE ProcessId = " + processId;
+
+                using (var mos = new ManagementObjectSearcher(query)) {
+                    using (var moc = mos.Get()) {
+                        var executablePath =
+                            (from mo in moc.Cast<ManagementObject>() select mo["ExecutablePath"]).FirstOrDefault(
+                                x => x != null);
+                        var s = executablePath as string;
+                        return s?.ToAbsoluteFilePath();
+                    }
+                }
+            }
+
+            public IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetExecuteablePaths(string exe)
+                => Tools.Processes.GetRunningProcesses(exe.Replace(".exe", string.Empty))
+                    .Select(x => Tuple.Create(x, GetProcessPath(x.Id)));
+
+        }
     }
 }

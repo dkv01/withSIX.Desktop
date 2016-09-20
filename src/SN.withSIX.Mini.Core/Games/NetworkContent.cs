@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
-using MoreLinq;
 using NDepend.Path;
 using SN.withSIX.Mini.Core.Extensions;
 using withSIX.Api.Models.Content;
@@ -102,9 +101,8 @@ namespace SN.withSIX.Mini.Core.Games
         [OnSerialized]
         void OnSerialized(StreamingContext context) {
             InternalDependencies =
-                Dependencies.DistinctBy(x => x.Content.Id)
-                    .Select(x => new ContentGuidSpec(x.Content.Id, x.Constraint))
-                    .ToHashSet();
+                new HashSet<ContentGuidSpec>(Dependencies.GroupBy(x => x.Content.Id).Select(x => x.First())
+                    .Select(x => new ContentGuidSpec(x.Content.Id, x.Constraint)));
         }
 
         public void UpdateVersionInfo(string version, DateTime updatedVersion) {

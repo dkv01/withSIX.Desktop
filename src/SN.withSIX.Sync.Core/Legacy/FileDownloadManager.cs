@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -170,7 +169,7 @@ namespace SN.withSIX.Sync.Core.Legacy
                 this.Logger().FormattedWarnException(e);
                 this.Logger()
                     .Warn("Failed transfer of {0} from {1}: {2} (ErrorCode: {3}, Native: {4}, Socket: {5})", spec.File,
-                        spec.CurrentHost, e.Message, e.ErrorCode, e.NativeErrorCode, e.SocketErrorCode);
+                        spec.CurrentHost, e.Message, -1, /*e.ErrorCode, e.NativeErrorCode,*/ -1, e.SocketErrorCode);
             } catch (WebException e) {
                 spec.LastException = e;
                 this.Logger()

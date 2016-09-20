@@ -36,12 +36,14 @@ namespace SN.withSIX.Core
             {
                 get
                 {
+                    /*
                     var tickCount = Environment.TickCount;
                     if (tickCount == _lastTicks)
                         return _lastDateTime;
+                        */
                     var dt = DateTime.Now;
-                    _lastTicks = tickCount;
-                    _lastDateTime = dt;
+                    //_lastTicks = tickCount;
+                    //_lastDateTime = dt;
                     return dt;
                 }
             }
@@ -49,12 +51,14 @@ namespace SN.withSIX.Core
             {
                 get
                 {
+                    /*
                     var tickCount = Environment.TickCount;
                     if (tickCount == _lastUtcTicks)
                         return _lastUtcDateTime;
+                        */
                     var dt = DateTime.UtcNow;
-                    _lastUtcTicks = tickCount;
-                    _lastUtcDateTime = dt;
+                    //_lastUtcTicks = tickCount;
+                    //_lastUtcDateTime = dt;
                     return dt;
                 }
             }
@@ -75,9 +79,7 @@ namespace SN.withSIX.Core
 
             public bool LongerAgoThan(DateTime lastTime, TimeSpan span) => GetCurrentUtcDateTime - lastTime > span;
 
-            public string GetCombinedStartupParameters() => GetStartupParameters().CombineParameters();
-
-            public IEnumerable<string> GetStartupParameters() => Environment.GetCommandLineArgs().Skip(1);
+            public string GetCombinedStartupParameters() => UacHelper.GetStartupParameters().CombineParameters();
 
             public virtual double NormalizeProgressValue(double progress) {
                 if (progress < 0.0)
@@ -195,11 +197,11 @@ namespace SN.withSIX.Core
             static void RunElevatedCommandlineOp(params string[] args) {
                 var parameters = args.CombineParameters();
                 var outInfo =
-                    ProcessManager.Launch(
+                    ProcessManager.LaunchElevated(
                         new BasicLaunchInfo(
                             new ProcessStartInfo(Common.Paths.ServiceExePath.ToString(), parameters) {
                                 CreateNoWindow = true
-                            }.EnableRunAsAdministrator()));
+                            }));
                 if (outInfo.ExitCode != 0) {
                     throw new UpdaterTaskException(string.Format("Failed to execute (code: {1}): {0}", parameters,
                         outInfo.ExitCode));
@@ -213,7 +215,7 @@ namespace SN.withSIX.Core
                         throw new UpdaterServiceTaskException(string.Format("Failed to execute (code: {1}): {0}",
                             args.CombineParameters(), exitCode));
                     }
-                } catch (FaultException e) {
+                } catch (Exception e) { // FaultException
                     throw new UpdaterServiceTaskException(
                         $"Failed to execute: {args.CombineParameters()}\nInfo: {e.Message}");
                 }
