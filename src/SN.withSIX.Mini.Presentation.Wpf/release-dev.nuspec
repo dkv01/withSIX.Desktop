@@ -38,12 +38,16 @@
 		<file src="bin\release\SN.withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Starbound.dll" />
         <file src="bin\release\SN.withSIX.Mini.Presentation.Core.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Core.dll" />
         <file src="bin\release\SN.withSIX.Mini.Presentation.Electron.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll" />
+		<file src="..\SN.withSIX.Mini.Presentation.Electron\bin\Release\SN.withSIX.Mini.Presentation.Electron.dll.config" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll.config" />
+
         <file src="bin\release\SN.withSIX.Mini.Presentation.Shell.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Shell.dll" />
 		<file src="bin\release\SN.withSIX.Steam.Core.dll" target="lib\net45\SN.withSIX.Steam.Core.dll" />
 		<file src="bin\release\SN.withSIX.Steam.Api.dll" target="lib\net45\SN.withSIX.Steam.Api.dll" />
         <file src="bin\release\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
 		
 		<file src="bin\release\SteamHelper.exe" target="lib\net45\SteamHelper.exe" />
+		<file src="..\SN.withSIX.Steam.Presentation\bin\Release\SteamHelper.exe.config" target="lib\net45\SteamHelper.exe.config" />
+
 		<file src="bin\release\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
 		<file src="bin\release\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 		<file src="bin\release\steam_api.dll" target="lib\net45\steam_api.dll" />
