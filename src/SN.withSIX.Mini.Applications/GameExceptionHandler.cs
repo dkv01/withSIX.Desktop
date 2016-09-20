@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -30,8 +31,6 @@ namespace SN.withSIX.Mini.Applications
             return Handle((dynamic) ex, action);
         }
 
-        // TODO: Move to Steam area?
-        /*
         protected static RecoverableUserError Handle(SteamNotFoundException ex, string action)
             => new RecoverableUserError(ex, "Requires the Steam Client", ex.Message);
 
@@ -40,7 +39,6 @@ namespace SN.withSIX.Mini.Applications
 
         protected static RecoverableUserError Handle(NotDetectedAsSteamGame ex, string action)
             => new RecoverableUserError(ex, "Requires a Steam version of the game", ex.Message);
-            */
         protected static RecoverableUserError Handle(SetupException ex, string action) =>
             new RecoverableUserError(ex, "Configuration error", ex.Message);
 

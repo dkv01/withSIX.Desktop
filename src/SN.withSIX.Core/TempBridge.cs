@@ -91,4 +91,15 @@ namespace SN.withSIX.Core
         bool IsValid { get; }
         string GetInstallDir();
     }
+
+
+    public class SteamInitializationException : DidNotStartException
+    {
+        public SteamInitializationException(string message) : base(message) { }
+    }
+
+    public class SteamNotFoundException : DidNotStartException
+    {
+        public SteamNotFoundException(string message) : base(message) { }
+    }
 }

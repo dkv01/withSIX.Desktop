@@ -91,8 +91,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                 pInfo.CreateNoWindow = true;
                 var basicLaunchInfo = new BasicLaunchInfo(pInfo) {StartMinimized = true};
                 var r = asAdministrator ? pm.LaunchElevated(basicLaunchInfo) : pm.Launch(basicLaunchInfo);
-                if (r.ExitCode != 0)
-                    throw new Exception($"Error during handling {r.ExitCode}");
+                r.ConfirmSuccess();
             } catch (Win32Exception ex) {
                 if (ex.IsElevationCancelled())
                     throw ex.HandleUserCancelled();

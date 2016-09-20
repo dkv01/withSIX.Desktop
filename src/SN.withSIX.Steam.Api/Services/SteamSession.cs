@@ -152,14 +152,4 @@ namespace SN.withSIX.Steam.Api.Services
     {
         Task<SteamSession> Start(uint appId, IAbsoluteDirectoryPath steamPath);
     }
-
-    public class SteamInitializationException : DidNotStartException
-    {
-        public SteamInitializationException(string message) : base(message) {}
-    }
-
-    public class SteamNotFoundException : DidNotStartException
-    {
-        public SteamNotFoundException(string message) : base(message) {}
-    }
 }

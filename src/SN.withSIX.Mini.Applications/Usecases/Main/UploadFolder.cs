@@ -13,6 +13,7 @@ using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -124,8 +125,7 @@ client.prepareFolder()
                         // , WorkingDirectory = request.Folder
                         .ConfigureAwait(false);
                 MainLog.Logger.Debug("Output" + result.StandardOutput + "\nError " + result.StandardError);
-                if (result.ExitCode > 0)
-                    throw new Exception("error while executing " + result.ExitCode);
+                result.ConfirmSuccess();
             }
         }
 

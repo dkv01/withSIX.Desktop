@@ -678,14 +678,6 @@ Click CONTINUE to open the download page and follow the instructions until the d
             }
         }
 
-
-        public class NotDetectedAsSteamGame : DidNotStartException
-        {
-            public NotDetectedAsSteamGame() : base("The current game does not appear to be detected as a Steam game") { }
-            public NotDetectedAsSteamGame(string message) : base(message) { }
-            public NotDetectedAsSteamGame(string message, Exception inner) : base(message, inner) { }
-        }
-
         class PostInstaller : SessionBase<IContent, SpecificVersion>
         {
             private readonly IInstallerSession _installerSession;
@@ -974,10 +966,10 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 switch (r.ExitCode) {
                 case 3:
                         // TODO
-                    throw new Exception( //SteamInitializationException(
+                    throw new SteamInitializationException(
                         "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
                 case 4:
-                    throw new Exception( // SteamNotFoundException(
+                    throw new SteamNotFoundException(
                         "The Steam client does not appear to be running, nor was Steam found");
                 case 9:
                     throw new TimeoutException("The operation timed out waiting for a response from the Steam client");
@@ -1159,5 +1151,12 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 }
             }
         }
+    }
+
+    public class NotDetectedAsSteamGame : DidNotStartException
+    {
+        public NotDetectedAsSteamGame() : base("The current game does not appear to be detected as a Steam game") { }
+        public NotDetectedAsSteamGame(string message) : base(message) { }
+        public NotDetectedAsSteamGame(string message, Exception inner) : base(message, inner) { }
     }
 }

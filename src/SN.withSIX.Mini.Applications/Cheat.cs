@@ -68,8 +68,6 @@ namespace SN.withSIX.Mini.Applications
     {
         static ICheatImpl _cheat;
         public static IActionDispatcher Mediator => _cheat.Mediator;
-        [Obsolete("// TODO: Why do we need to suppress the ambient scope?!")]
-        public static IDbContextFactory DbContextFactory => _cheat.DbContextFactory;
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
         public static ArgsO Args { get; set; } = new ArgsO();
 
@@ -169,19 +167,15 @@ namespace SN.withSIX.Mini.Applications
     public interface ICheatImpl
     {
         IActionDispatcher Mediator { get; }
-        IDbContextFactory DbContextFactory { get; }
     }
 
     public class CheatImpl : ICheatImpl, IApplicationService
     {
-        public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler,
-            IDbContextFactory dbContextFactory) {
+        public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler) {
             Mediator = mediator;
-            DbContextFactory = dbContextFactory;
             ErrorHandlerr.SetExceptionHandler(exceptionHandler);
         }
 
         public IActionDispatcher Mediator { get; }
-        public IDbContextFactory DbContextFactory { get; }
     }
 }

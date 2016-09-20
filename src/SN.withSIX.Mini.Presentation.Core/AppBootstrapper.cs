@@ -256,6 +256,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 cfg.SetupConverters();
                 foreach (var p in Container.GetAllInstances<Profile>())
                     cfg.AddProfile(p);
+                cfg.AddProfile<SN.withSIX.Core.Applications.MVVM.AutoMapperProfile>();
             }).CreateMapper();
 
             await RunInitializers().ConfigureAwait(false);

@@ -84,16 +84,14 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         private async Task<LaunchResult> LaunchNormally(ProcessStartInfo startInfo) {
             var info =
                 await _processManager.LaunchAndGrabAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
-            if (info.ExitCode != 0)
-                throw new Exception("Launching failed with error code " + info.ExitCode);
+            info.ConfirmSuccess();
             var results = info.StandardOutput.Split(new[] {Environment.NewLine, "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
             return results.Last().FromJson<LaunchResult>();
         }
 
         private async Task LaunchAsAdmin(ProcessStartInfo startInfo) {
             var info = await _processManager.LaunchElevatedAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
-            if (info.ExitCode != 0)
-                throw new Exception("Launching failed with error code " + info.ExitCode);
+            info.ConfirmSuccess();
         }
 
         public class LaunchResult
