@@ -54,7 +54,9 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     : Metadata.GetServerExecutables().Skip(1).ToArray());
         }
 
-        protected override bool ShouldLaunchWithSteam(LaunchState ls) => false;
+        // Temporary disabled because of server join testing
+        // Don't launch with Steam because we don't want the Steam workshop mods supported
+        //protected override bool ShouldLaunchWithSteam(LaunchState ls) => false;
 
         protected override Task EnableMods(ILaunchContentAction<IContent> launchContentAction) {
             // TODO: PublisherId
@@ -104,11 +106,19 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         private IEnumerable<string> GetAdvancedStartupParameters(ILaunchContentAction<IContent> action) {
             var launchables = action.GetLaunchables();
-            var server = GetServer(launchables, action.Action);
+            var server = GetServerOverride(action) ?? GetServer(launchables, action.Action);
             if (server != null) {
                 // join friend would be :steamid_{id}
                 yield return $"+platform:connect:address_{server.Address}"; // TODO: PW
             }
+        }
+
+        private CollectionServer GetServerOverride(ILaunchContentAction<IContent> action) {
+            if (action.Action == LaunchAction.Default)
+                return action.ServerAddress == null ? null : new CollectionServer {Address = action.ServerAddress};
+            return action.Action == LaunchAction.Join
+                ? new CollectionServer {Address = action.ServerAddress}
+                : null;
         }
 
         CollectionServer GetServer(IEnumerable<ILaunchableContent> content, LaunchAction launchAction) {

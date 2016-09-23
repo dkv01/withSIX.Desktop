@@ -29,10 +29,18 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         public CancellationToken CancelToken { get; set; }
         public Guid GameId => Id;
 
+        public LaunchAction Action { get; set; }
+
+        public string ServerAddress { get; set; }
+
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public ILaunchContentAction<Content> GetAction(Game game)
-            => new LaunchContentAction(LaunchType, CancelToken) {Name = game.Metadata.Name};
+            => new LaunchContentAction(LaunchType, CancelToken) {
+                Action = Action,
+                Name = game.Metadata.Name,
+                ServerAddress = ServerAddress,
+            };
     }
 
     public class LaunchGameHandler : DbCommandBase, IAsyncVoidCommandHandler<LaunchGame>

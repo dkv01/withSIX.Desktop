@@ -15,6 +15,8 @@ namespace SN.withSIX.Mini.Core.Games
             LaunchType = launchType;
         }
 
+        public string ServerAddress { get; set; }
+
         public LaunchType LaunchType { get; }
         public LaunchAction Action { get; set; }
     }
@@ -36,6 +38,7 @@ namespace SN.withSIX.Mini.Core.Games
     {
         LaunchType LaunchType { get; }
         LaunchAction Action { get; }
+        string ServerAddress { get; }
     }
 
     public enum LaunchAction
