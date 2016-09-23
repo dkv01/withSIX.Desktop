@@ -116,14 +116,16 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
                     await f.ToAbsoluteFilePath().CopyAsync(_installPath).ConfigureAwait(false);
             }
 
-            public async Task Uninstall() {
+            public Task Uninstall() {
                 if (!_installPath.Exists || !_sourceDir.Exists)
-                    return;
+                    return TaskExt.Default;
                 foreach (var df in
                     _sourceDir.DirectoryInfo.EnumerateFiles()
                         .Select(f => _installPath.GetChildFileWithName(f.Name))
                         .Where(df => df.Exists))
                     df.Delete();
+
+                return TaskExt.Default;
             }
         }
     }
