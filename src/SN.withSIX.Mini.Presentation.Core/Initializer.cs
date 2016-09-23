@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using SN.withSIX.Core;
@@ -34,7 +35,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         async Task SetupNotificationIcon() {
             var ps1 = Path.GetTempFileName() + ".ps1";
-            var assembly = GetType().Assembly; // Executing assembly??
+            var assembly = GetType().GetTypeInfo().Assembly; // Executing assembly??
             using (var fs = new FileStream(ps1, FileMode.Create))
             using (
                 var s =

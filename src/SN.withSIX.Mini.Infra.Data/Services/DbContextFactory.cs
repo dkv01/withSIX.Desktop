@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Services;

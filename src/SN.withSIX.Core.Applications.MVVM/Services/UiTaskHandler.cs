@@ -61,20 +61,14 @@ namespace SN.withSIX.Core.Applications.MVVM.Services
                 subscription?.Dispose();
             }
         }
-    }
 
-    public static class UiCheat
-    {
-        public static IMessageBus MessageBus { get; set; }
+        /*
+public static Task<T> OpenScreen<T>(this IAsyncQuery<T> query) where T : class, IScreenViewModel
+    => Cheat.ScreenOpener.OpenAsyncQuery(query);
 
-        public static IObservable<T> Listen<T>(this IUsecaseExecutor _) => MessageBus.Listen<T>();
-
-        public static IObservable<T> ListenIncludeLatest<T>(this IUsecaseExecutor _)
-            => MessageBus.ListenIncludeLatest<T>();
-
-        public static void PublishToMessageBus<T>(this T message) => MessageBus.SendMessage(message);
-        // We are using dynamic here because the messagebus relies on generic typing
-        public static void PublishToMessageBusDynamically(this IDomainEvent message) => MessageBus.SendMessage((dynamic)message);
+public static Task<T> OpenScreenCached<T>(this IAsyncQuery<T> query) where T : class, IScreenViewModel
+    => Cheat.ScreenOpener.OpenAsyncQueryCached(query);
+    */
 
     }
 }

@@ -3,13 +3,11 @@
 // </copyright>
 
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;

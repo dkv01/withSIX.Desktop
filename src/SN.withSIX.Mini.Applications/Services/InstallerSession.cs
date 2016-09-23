@@ -142,11 +142,11 @@ namespace SN.withSIX.Mini.Applications.Services
             await PerformInstallation().ConfigureAwait(false);
         }
 
-        public void RunCE(IPackagedContent content) {
+        public async Task RunCE(IPackagedContent content) {
             if (_contentEngine.ModHasScript(content.Id)) {
-                _contentEngine.LoadModS(new ContentEngineContent(content.Id, content.Id, true,
+                await _contentEngine.LoadModS(new ContentEngineContent(content.Id, content.Id, true,
                     _action.Paths.Path.GetChildDirectoryWithName(content.PackageName),
-                    content.GameId)).processMod();
+                    content.GameId), _action.Game).ConfigureAwait(false);
             }
         }
 

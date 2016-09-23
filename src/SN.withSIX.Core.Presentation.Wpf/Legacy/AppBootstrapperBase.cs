@@ -125,7 +125,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
-                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
+                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommands.YesNoCommands, null, e));
                 return result == RecoveryOptionResultModel.RetryOperation;
             };
             Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
@@ -189,7 +189,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 _container.Options.LifestyleSelectionBehavior = new CustomLifestyleSelectionBehavior();
                 _container.AllowResolvingFuncFactories();
                 _container.AllowResolvingLazyFactories();
-                _container.AllowResolvingExportFactories();
+                //_container.AllowResolvingExportFactories();
                 Register();
             }
 

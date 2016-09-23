@@ -1,0 +1,9 @@
+﻿[
+  {
+    "command": "installDll",
+    "source": [ "make_file.dll" ],
+    "options":  {
+      "force": true 
+    }
+  }
+]

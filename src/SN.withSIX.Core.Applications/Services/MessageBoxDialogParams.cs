@@ -10,14 +10,14 @@ namespace SN.withSIX.Core.Applications.Services
     public class MessageBoxDialogParams
     {
         public MessageBoxDialogParams(string message) {
-            Contract.Requires<ArgumentNullException>(message != null);
+            // Contract.Requires<ArgumentNullException>(message != null);
             Message = message;
             IgnoreContent = true;
         }
 
         public MessageBoxDialogParams(string message, string title)
             : this(message) {
-            Contract.Requires<ArgumentNullException>(title != null);
+            // Contract.Requires<ArgumentNullException>(title != null);
             Title = title;
         }
 

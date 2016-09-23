@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -24,7 +22,6 @@ using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Applications.Usecases.Settings;
 using SN.withSIX.Mini.Presentation.Core;
 using withSIX.Api.Models.Extensions;
-using UserErrorModel = SN.withSIX.Core.Applications.Errors.UserErrorModel;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {

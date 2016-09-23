@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Services;

@@ -25,7 +25,7 @@ namespace SN.withSIX.Core.Applications.Errors
         public NotConnectedUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
                 "The action requires connection to withSIX, retry?", "It seems you've lost connection to withSIX",
-                RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
+                RecoveryCommands.RetryCommands, contextInfo, innerException) {}
     }
 
     public class NotLoggedInUserError : UserErrorModel
@@ -33,7 +33,7 @@ namespace SN.withSIX.Core.Applications.Errors
         public NotLoggedInUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
             : base(
                 "The action requires login to withSIX, retry?", "It seems you're not logged in to withSIX",
-                RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
+                RecoveryCommands.RetryCommands, contextInfo, innerException) {}
     }
 
     public class BusyUserError : UserErrorModel
@@ -42,7 +42,7 @@ namespace SN.withSIX.Core.Applications.Errors
             : base(
                 "The system is currently busy. Retry?",
                 "You cannot perform the selected action until the system is no longer busy.",
-                RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
+                RecoveryCommands.RetryCommands, contextInfo, innerException) {}
     }
 
     public class CanceledUserError : UserErrorModel

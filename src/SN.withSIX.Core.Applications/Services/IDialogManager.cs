@@ -44,7 +44,7 @@ namespace SN.withSIX.Core.Applications.Services
     public abstract class SpecialDialogManagerContract : ISpecialDialogManager
     {
         public Task<bool?> ShowDialog(object vm, IDictionary<string, object> overrideSettings = null) {
-            Contract.Requires<ArgumentNullException>(vm != null);
+            // Contract.Requires<ArgumentNullException>(vm != null);
             return default(Task<bool?>);
         }
 
@@ -55,22 +55,22 @@ namespace SN.withSIX.Core.Applications.Services
             => default(Task<Tuple<SixMessageBoxResult, string>>);
 
         public Task<SixMessageBoxResult> MessageBox(MessageBoxDialogParams dialogParams) {
-            Contract.Requires<ArgumentNullException>(dialogParams != null);
+            // Contract.Requires<ArgumentNullException>(dialogParams != null);
             return default(Task<SixMessageBoxResult>);
         }
 
         public Task ShowPopup(object vm, IDictionary<string, object> overrideSettings = null) {
-            Contract.Requires<ArgumentNullException>(vm != null);
+            // Contract.Requires<ArgumentNullException>(vm != null);
             return default(Task);
         }
 
         public Task ShowWindow(object vm, IDictionary<string, object> overrideSettings = null) {
-            Contract.Requires<ArgumentNullException>(vm != null);
+            // Contract.Requires<ArgumentNullException>(vm != null);
             return default(Task);
         }
 
         public Task<bool> ExceptionDialog(Exception e, string message, string title = null, object window = null) {
-            Contract.Requires<ArgumentNullException>(e != null);
+            // Contract.Requires<ArgumentNullException>(e != null);
             return default(Task<bool>);
         }
     }
@@ -86,19 +86,19 @@ namespace SN.withSIX.Core.Applications.Services
 
         /*
         public SixMessageBoxResult MessageBoxSync(MessageBoxDialogParams dialogParams) {
-            Contract.Requires<ArgumentNullException>(dialogParams != null);
+            // Contract.Requires<ArgumentNullException>(dialogParams != null);
             return default(SixMessageBoxResult);
         }
 */
 
         public Task<SixMessageBoxResult> MessageBox(MessageBoxDialogParams dialogParams) {
-            Contract.Requires<ArgumentNullException>(dialogParams != null);
+            // Contract.Requires<ArgumentNullException>(dialogParams != null);
             return default(Task<SixMessageBoxResult>);
         }
 
         public Task<bool> ExceptionDialog(Exception e, string message, string title = null, object owner = null) {
-            Contract.Requires<ArgumentNullException>(e != null);
-            Contract.Requires<ArgumentNullException>(message != null);
+            // Contract.Requires<ArgumentNullException>(e != null);
+            // Contract.Requires<ArgumentNullException>(message != null);
             return default(Task<bool>);
         }
     }

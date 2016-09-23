@@ -6,6 +6,8 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Process": "4.1.0",
+    "System.ObjectModel": "4.0.12",
+    "System.Reactive": "3.0.0",
     "System.Runtime.Serialization.Xml": "4.1.1",
     "withSIX.Api.Models": "2.0.1-pre"
   },

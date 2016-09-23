@@ -9,9 +9,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases.Main;
@@ -78,6 +80,17 @@ namespace SN.withSIX.Mini.Applications
         }
 
         public static string WindowDisplayName(string title) => title; //+ " - " + Consts.ProductTitle;
+
+        public static IMessageBus MessageBus => _cheat.MessageBus;
+
+        public static IObservable<T> Listen<T>(this IUsecaseExecutor _) => MessageBus.Listen<T>();
+
+        public static IObservable<T> ListenIncludeLatest<T>(this IUsecaseExecutor _)
+            => MessageBus.ListenIncludeLatest<T>();
+
+        public static void PublishToMessageBus<T>(this T message) => MessageBus.SendMessage(message);
+        // We are using dynamic here because the messagebus relies on generic typing
+        public static void PublishToMessageBusDynamically(this IDomainEvent message) => MessageBus.SendMessage((dynamic)message);
     }
 
     public class BackgroundTasks : IDisposable
@@ -167,15 +180,18 @@ namespace SN.withSIX.Mini.Applications
     public interface ICheatImpl
     {
         IActionDispatcher Mediator { get; }
+        IMessageBus MessageBus { get; }
     }
 
     public class CheatImpl : ICheatImpl, IApplicationService
     {
-        public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler) {
+        public CheatImpl(IActionDispatcher mediator, IExceptionHandler exceptionHandler, IMessageBus messageBus) {
             Mediator = mediator;
+            MessageBus = messageBus;
             ErrorHandlerr.SetExceptionHandler(exceptionHandler);
         }
 
         public IActionDispatcher Mediator { get; }
+        public IMessageBus MessageBus { get; }
     }
 }

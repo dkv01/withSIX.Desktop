@@ -94,7 +94,7 @@ namespace SN.withSIX.Core.Applications.Services
 
             var report = await UserErrorHandler.HandleUserError(new UserErrorModel("Restart the application elevated?",
                 $"The application failed to write to the path, probably indicating permission issues\nWould you like to restart the application Elevated?\n\n {mp}",
-                RecoveryCommandsImmediate.YesNoCommands, null, ex)) == RecoveryOptionResultModel.RetryOperation;
+                RecoveryCommands.YesNoCommands, null, ex)) == RecoveryOptionResultModel.RetryOperation;
 
             if (!report)
                 return false;

@@ -125,7 +125,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
 
             static bool Predicate(AssemblyName requestedAssemblyName, AssemblyName assembly) {
                 if (assembly.Version == null ||
-                    !assembly.Name.Equals(requestedAssemblyName.Name, StringComparison.InvariantCultureIgnoreCase))
+                    !assembly.Name.Equals(requestedAssemblyName.Name, StringComparison.OrdinalIgnoreCase))
                     return false;
 
                 // Do not use >= or we end up in StackOverflow :)

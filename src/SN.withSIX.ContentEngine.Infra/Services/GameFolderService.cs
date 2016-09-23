@@ -7,31 +7,21 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.ContentEngine.Infra.Attributes;
-using SN.withSIX.ContentEngine.Infra.UseCases;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.ContentEngine.Infra.Services
 {
-    [CEService("GameFolderService", typeof (GetGameFolderServiceQuery))]
-    public interface IGameFolderService : IContentEngineService
+    public interface IGameFolderService
     {
-        void InstallDllPlugin(string plugin, bool force = false);
+        void InstallDllPlugin(IContentEngineGame game, IContentEngineContent content, string plugin, bool force = false);
     }
 
-    public class GameFolderService : RestrictedContentEngineService, IGameFolderService
+    public class GameFolderService : IGameFolderService
     {
-        readonly IContentEngineGame _game;
-
-        public GameFolderService(RegisteredMod mod, IContentEngineGame game)
-            : base(mod) {
-            _game = game;
-        }
-
-        public void InstallDllPlugin(string plugin, bool force = false) {
-            var success = TryInstallPlugin(_game.WorkingDirectory, Mod.Mod, plugin, force);
+        public void InstallDllPlugin(IContentEngineGame game, IContentEngineContent content, string plugin, bool force = false) {
+            var success = TryInstallPlugin(game.WorkingDirectory, content, plugin, force);
 
             MainLog.Logger.Info("Install Success?: " + success);
         }

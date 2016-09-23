@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using MediatR;
 using ReactiveUI;
 using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;

@@ -5,8 +5,8 @@
 using System;
 using System.Windows.Media;
 using Caliburn.Micro;
-using SN.withSIX.Core.Presentation.Resources.Services;
 using SN.withSIX.Core.Presentation.Services;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
 {

@@ -20,7 +20,7 @@ namespace SN.withSIX.Core.Presentation.Services
             IEnumerable<Assembly> assemblies, Func<Type, Type, bool> predicate) {
             var ifaceType = typeof (T);
             foreach (var s in assemblies.GetTypes<T>()) {
-                foreach (var i in s.GetInterfaces().Where(x => predicate(x, ifaceType))) {
+                foreach (var i in s.GetTypeInfo().GetInterfaces().Where(x => predicate(x, ifaceType))) {
                     var contract = s.GetCustomAttribute<ViewContractAttribute>();
                     resolver.Register(() => Activator.CreateInstance(s), i, contract?.Contract);
                 }

@@ -12,17 +12,14 @@ namespace SN.withSIX.Core.Presentation.Assemblies
     {
         public static string SHA1FileHash(string fileName) {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var bufferedStream = GetBufferedStream(fs))
-                return SHA1StreamHash(bufferedStream);
+            //using (var bufferedStream = GetBufferedStream(fs))
+                return SHA1StreamHash(fs);
         }
 
-        public static string SHA1StreamHash(BufferedStream stream) {
-            using (var md5 = new SHA1CryptoServiceProvider())
+        public static string SHA1StreamHash(Stream stream) {
+            using (var md5 = SHA1.Create())
                 return GetHash(md5.ComputeHash(stream));
         }
-
-        public static BufferedStream GetBufferedStream(Stream stream)
-            => new BufferedStream(stream, GetBufferSize(stream));
 
         static string GetHash(byte[] hash) => BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
 

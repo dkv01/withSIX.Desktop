@@ -32,17 +32,7 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static async Task Raise(this IDomainEvent message) {
             await message.PublishToMediatorDynamically().ConfigureAwait(false);
-            PublishToMessageBusDynamically(message);
+            message.PublishToMessageBusDynamically();
         }
-
-        public static Action<IDomainEvent> PublishToMessageBusDynamically { get; set; } = _ => { };
-
-        /*
-        public static Task<T> OpenScreen<T>(this IAsyncQuery<T> query) where T : class, IScreenViewModel
-            => Cheat.ScreenOpener.OpenAsyncQuery(query);
-
-        public static Task<T> OpenScreenCached<T>(this IAsyncQuery<T> query) where T : class, IScreenViewModel
-            => Cheat.ScreenOpener.OpenAsyncQueryCached(query);
-            */
     }
 }

@@ -21,11 +21,10 @@ using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -69,22 +68,22 @@ namespace SN.withSIX.Mini.Presentation.Core
             CommonBase.AssemblyLoader.GetNetEntryPath();
         // = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
         static readonly Assembly[] coreAssemblies = new[] {
-            typeof (Game).Assembly, typeof (IDomainService).Assembly,
-            typeof (Tools).Assembly, typeof (Package).Assembly,
-            typeof (IContentEngine).Assembly
+            typeof (Game).GetTypeInfo().Assembly, typeof (IDomainService).GetTypeInfo().Assembly,
+            typeof (Tools).GetTypeInfo().Assembly, typeof (Package).GetTypeInfo().Assembly,
+            typeof (IContentEngine).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] infraAssemblies = new[] {
-            typeof (AutoMapperInfraApiConfig).Assembly, typeof (GameContext).Assembly,
-            typeof (ImageCacheManager).Assembly,
-            typeof (IContentEngineGameContext).Assembly
+            typeof (AutoMapperInfraApiConfig).GetTypeInfo().Assembly, typeof (GameContext).GetTypeInfo().Assembly,
+            typeof (ImageCacheManager).GetTypeInfo().Assembly,
+            typeof (IContentEngineGameContext).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] globalPresentationAssemblies = new[] {
-            typeof (ApiPortHandler).Assembly,
-            typeof (IPresentationService).Assembly
+            typeof (ApiPortHandler).GetTypeInfo().Assembly,
+            typeof (IPresentationService).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] globalApplicationAssemblies = new[] {
-            typeof (GameSettingsApiModel).Assembly,
-            typeof (IDialogManager).Assembly
+            typeof (GameSettingsApiModel).GetTypeInfo().Assembly,
+            typeof (IDialogManager).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
         private static readonly Assembly[] platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
@@ -111,9 +110,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             _presentationAssemblies = GetPresentationAssemblies().ToArray();
 
             PathConfiguration.GetFolderPath =
-                x =>
-                    Environment.GetFolderPath(
-                        (Environment.SpecialFolder) Enum.Parse(typeof(Environment.SpecialFolder), x.ToString()));
+                x => Environment.GetFolderPath(
+                    (Environment.SpecialFolder) Enum.Parse(typeof(Environment.SpecialFolder), x.ToString()));
 
 
             _paths = new Paths();
@@ -146,8 +144,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             RegisterToolServices();
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
-            UiCheat.MessageBus = Container.GetInstance<IMessageBus>();
-            MediatorExtensions.PublishToMessageBusDynamically = UiCheat.PublishToMessageBusDynamically;
             _initializers = Container.GetAllInstances<IInitializer>();
         }
 
@@ -156,7 +152,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
-                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommandsImmediate.YesNoCommands, null, e));
+                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommands.YesNoCommands, null, e));
                 return result == RecoveryOptionResultModel.RetryOperation;
             };
             Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
@@ -218,7 +214,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 // TODO: call from node?
                 var task = TaskExt.StartLongRunningTask(
                     () =>
-                        new SIHandler().HandleSingleInstanceCall(Environment.GetCommandLineArgs().Skip(1).ToList()));
+                        new SIHandler().HandleSingleInstanceCall(Common.Flags.FullStartupParameters.ToList()));
             } catch (SQLiteException ex) {
                 MainLog.Logger.FormattedErrorException(ex, "A problem was found with a database");
                 var message =
@@ -256,7 +252,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 cfg.SetupConverters();
                 foreach (var p in Container.GetAllInstances<Profile>())
                     cfg.AddProfile(p);
-                cfg.AddProfile<SN.withSIX.Core.Applications.MVVM.AutoMapperProfile>();
+                cfg.AddProfile<AutoMapperProfile>();
             }).CreateMapper();
 
             await RunInitializers().ConfigureAwait(false);

@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using Microsoft.Win32;
+using SN.withSIX.Core.Presentation.Services;
+using WebClient = SN.withSIX.Core.Presentation.Services.WebClient;
 
 
 namespace SN.withSIX.Core.Presentation.Assemblies

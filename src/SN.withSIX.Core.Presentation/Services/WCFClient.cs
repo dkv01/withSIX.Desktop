@@ -5,14 +5,13 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.ServiceModel;
 
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 
 namespace SN.withSIX.Core.Presentation.Services
 {
-    
+    /*
     public class WCFClient : IDomainService, IWCFClient
     {
         readonly ChannelFactory<IUpdaterWCF> _pipeFactory;
@@ -55,4 +54,5 @@ namespace SN.withSIX.Core.Presentation.Services
             }
         }
     }
+    */
 }

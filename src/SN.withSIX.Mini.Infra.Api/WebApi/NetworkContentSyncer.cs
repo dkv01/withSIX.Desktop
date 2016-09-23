@@ -455,7 +455,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     if (repo == null) {
                         var nc =
                             game.NetworkContent.FirstOrDefault(
-                                x => x.PackageName.Equals(d, StringComparison.InvariantCultureIgnoreCase));
+                                x => x.PackageName.Equals(d, StringComparison.OrdinalIgnoreCase));
                         if (nc != null) {
                             var deps =
                                 nc.GetRelatedContent()

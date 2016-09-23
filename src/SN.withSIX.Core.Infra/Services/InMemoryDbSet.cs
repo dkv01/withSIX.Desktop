@@ -7,12 +7,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Infrastructure;
 using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Core.Infra.Services
 {
+    /*
+     *  MOVE TO .PLAY!
     public interface ILocalDbSet<TEntity>
     {
         ReactiveList<TEntity> Local { get; }
@@ -39,4 +40,5 @@ namespace SN.withSIX.Core.Infra.Services
 
         public TEntity Find(TId id) => _queryable.FirstOrDefault(x => EqualityComparer<TId>.Default.Equals(x.Id, id));
     }
+    */
 }

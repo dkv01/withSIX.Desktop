@@ -9,7 +9,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Presentation.Services;
 using withSIX.Api.Models.Extensions;
+using WebClient = SN.withSIX.Core.Presentation.Services.WebClient;
 
 namespace SN.withSIX.Core.Presentation.Assemblies
 {

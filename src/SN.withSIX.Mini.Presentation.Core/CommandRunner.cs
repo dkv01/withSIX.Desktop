@@ -64,10 +64,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             return;
         }
 
-        public override void Close() {
-            base.Close();
-        }
-
         protected override void Dispose(bool disposing) {
             this.Flush();
             base.Dispose(disposing);

@@ -9,11 +9,8 @@ using NDepend.Path;
 using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Steam.Core.SteamKit.DepotDownloader;
-using SN.withSIX.Steam.Core.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1;
-using SN.withSIX.Steam.Core.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1.Models;
+
 
 namespace SN.withSIX.Mini.Infra.Api.Downloaders
 {

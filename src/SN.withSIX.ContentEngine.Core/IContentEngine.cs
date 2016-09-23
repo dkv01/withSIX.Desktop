@@ -3,13 +3,14 @@
 // </copyright>
 
 using System;
+using System.Threading.Tasks;
 
 namespace SN.withSIX.ContentEngine.Core
 {
     public interface IContentEngine
     {
         bool ModHasScript(Guid guid);
-        IModS LoadModS(IContentEngineContent mod, bool overrideMod = false);
+        Task LoadModS(IContentEngineContent mod, IContentEngineGame game, bool overrideMod = false);
         bool ModHasScript(IContentEngineContent mod);
     }
 }

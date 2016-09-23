@@ -30,7 +30,7 @@ namespace SN.withSIX.Core.Applications.Errors
         public static Func<UserErrorModel, Task<RecoveryOptionResultModel>> HandleUserError { get; set; }
     }
 
-    public static class RecoveryCommandsImmediate
+    public static class RecoveryCommands
     {
         public static readonly RecoveryCommandModel Retry = new RecoveryCommandModel("Retry", o => RecoveryOptionResultModel.RetryOperation);
         public static RecoveryCommandModel[] YesNoCommands = { RecoveryCommandModel.Yes, RecoveryCommandModel.No };
@@ -50,7 +50,7 @@ namespace SN.withSIX.Core.Applications.Errors
     public class RecoverableUserError : UserErrorModel
     {
         public RecoverableUserError(Exception innerException, string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null)
-            : base(errorMessage, errorCauseOrResolution, RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) { }
+            : base(errorMessage, errorCauseOrResolution, RecoveryCommands.RetryCommands, contextInfo, innerException) { }
     }
 
     public class InformationalUserError : BasicUserError

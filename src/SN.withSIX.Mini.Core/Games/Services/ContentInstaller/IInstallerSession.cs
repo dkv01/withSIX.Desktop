@@ -11,6 +11,6 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
     {
         Task Install(IReadOnlyCollection<IContentSpec<IPackagedContent>> content);
         Task Synchronize();
-        void RunCE(IPackagedContent content);
+        Task RunCE(IPackagedContent content);
     }
 }

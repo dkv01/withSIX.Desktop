@@ -1,0 +1,18 @@
+﻿[
+  {
+    "command": "installTeamspeakPlugin",
+    "files": [
+      {
+        "source": [ "acre_win64.dll" ],
+        "type": "x64"
+      },
+      {
+        "source": [ "acre_win32.dll" ],
+        "type": "x86"
+      }
+    ],
+    "options": {
+      "force": true
+    }
+  }
+]

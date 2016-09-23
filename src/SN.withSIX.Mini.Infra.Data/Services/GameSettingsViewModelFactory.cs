@@ -33,7 +33,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         // We expect a convention where the settings exist in the same assembly as the game, but in the ViewModels namespace, and are {GameSettingsClassName}ViewModel
         static Type GetViewModelType(Type x) {
             var typeName = MapToViewModelTypeName(x);
-            var type = x.Assembly.GetType(typeName);
+            var type = x.GetTypeInfo().Assembly.GetType(typeName);
             if (type == null)
                 throw new InvalidOperationException("Cannot find the ViewModelType required for " + x);
             return type;
@@ -41,7 +41,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
         static Type GetApiModelType(Type x) {
             var typeName = MapToApiModelTypeName(x);
-            var type = x.Assembly.GetType(typeName);
+            var type = x.GetTypeInfo().Assembly.GetType(typeName);
             if (type == null)
                 throw new InvalidOperationException("Cannot find the ViewModelType required for " + x);
             return type;
@@ -68,7 +68,9 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             }
         }
 
-        static bool IsGameSettingsType(Type x)
-            => !x.IsInterface && !x.IsAbstract && SystemExtensions.IsAssignableFrom(gameSettingsType, x);
+        static bool IsGameSettingsType(Type x) {
+            var ti = x.GetTypeInfo();
+            return !ti.IsInterface && !ti.IsAbstract && gameSettingsType.IsAssignableFrom(x);
+        }
     }
 }

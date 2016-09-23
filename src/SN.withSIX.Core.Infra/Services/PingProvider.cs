@@ -46,7 +46,7 @@ namespace SN.withSIX.Core.Infra.Services
 
         bool TryPing(string hostName, Ping p, ICollection<long> pings) {
             try {
-                var reply = p.Send(hostName, DefaultTimeout);
+                var reply = p.SendPingAsync(hostName, DefaultTimeout).Result;
                 if (reply != null && reply.Status == IPStatus.Success)
                     pings.Add(reply.RoundtripTime);
                 return true;

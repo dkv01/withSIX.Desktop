@@ -124,7 +124,7 @@ public class LookupService : IDisposable
             file = database;
             dboptions = options;
             init();
-        } catch (SystemException) {
+        } catch (Exception) {
             Console.Write("cannot open file stream\n");
             throw;
         }
@@ -135,7 +135,7 @@ public class LookupService : IDisposable
             file = new FileStream(databaseFile, FileMode.Open, FileAccess.Read, FileShare.Read);
             dboptions = options;
             init();
-        } catch (SystemException) {
+        } catch (Exception) {
             Console.Write("cannot open file " + databaseFile + "\n");
             throw;
         }
@@ -219,7 +219,7 @@ public class LookupService : IDisposable
 
     public void close() {
         try {
-            file.Close();
+            file.Dispose();
             file = null;
         } catch (Exception) {}
     }
@@ -338,7 +338,7 @@ public class LookupService : IDisposable
         return getRegion(bytestoLong(addr.GetAddressBytes()));
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
+    //[MethodImpl(MethodImplOptions.Synchronized)]
     public Region getRegion(long ipnum) {
         var record = new Region();
         var seek_region = 0;
@@ -398,7 +398,7 @@ public class LookupService : IDisposable
         return getLocation(bytestoLong(addr.GetAddressBytes()));
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
+    //[MethodImpl(MethodImplOptions.Synchronized)]
     public Location getLocation(long ipnum) {
         int record_pointer;
         var record_buf = new byte[FULL_RECORD_LENGTH];
@@ -501,7 +501,7 @@ public class LookupService : IDisposable
         return getOrg(bytestoLong(addr.GetAddressBytes()));
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
+    //[MethodImpl(MethodImplOptions.Synchronized)]
     public string getOrg(long ipnum) {
         int Seek_org;
         int record_pointer;
@@ -539,7 +539,7 @@ public class LookupService : IDisposable
         }
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
+    //[MethodImpl(MethodImplOptions.Synchronized)]
     int SeekCountry(long ipAddress) {
         var buf = new byte[2*MAX_RECORD_LENGTH];
         var x = new int[2];

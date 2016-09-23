@@ -3,12 +3,11 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -22,6 +21,7 @@ using SN.withSIX.Mini.Presentation.Core;
 using Splat;
 using withSIX.Api.Models.Extensions;
 using ILogger = Splat.ILogger;
+using LogLevel = Splat.LogLevel;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -54,7 +54,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public static void ExitForNode() => _bootstrapper.Dispose();
 
         static void SetupAssemblyLoader(IAbsoluteFilePath locationOverride = null) {
-            var entryAssembly = typeof (Entrypoint).Assembly;
+            var entryAssembly = typeof (Entrypoint).GetTypeInfo().Assembly;
             CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, locationOverride,
                 entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath);
         }

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -186,7 +185,8 @@ namespace SN.withSIX.Core.Presentation.Extensions
 
     public static class ResolvingFactoriesExtensions
     {
-        public static void AllowResolvingExportFactories(this Container container) {
+        /*
+                 public static void AllowResolvingExportFactories(this Container container) {
             container.ResolveUnregisteredType += (s, e) => {
                 var type = e.UnregisteredServiceType;
                 if (!type.IsGenericType ||
@@ -202,7 +202,6 @@ namespace SN.withSIX.Core.Presentation.Extensions
             };
         }
 
-        
         public static ExportFactory<T> CreateEF<T>(Container container) where T : class {
             ConfirmTransient(container, typeof (T));
             return new ExportFactory<T>(() => {
@@ -215,7 +214,7 @@ namespace SN.withSIX.Core.Presentation.Extensions
                     : TaskExt.NullAction;
                 return new Tuple<T, Action>(instance.Value, act);
             });
-        }
+        }*/
 
         static void ConfirmTransient(Container container, Type serviceType) {
             var registration = container.GetRegistration(serviceType);

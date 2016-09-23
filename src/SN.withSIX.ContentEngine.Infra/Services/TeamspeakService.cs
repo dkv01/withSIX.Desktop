@@ -9,33 +9,30 @@ using System.IO;
 using Microsoft.Win32;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.ContentEngine.Infra.Attributes;
-using SN.withSIX.ContentEngine.Infra.UseCases;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.ContentEngine.Infra.Services
 {
-    [CEService("TeamspeakService", typeof (GetTeamspeakServiceQuery))]
-    public interface ITeamspeakService : IRestrictedContentEngineService
+    public interface ITeamspeakService
     {
         bool IsX86Installed();
         bool IsX64Installed();
-        void InstallX86Plugin(string plugin, bool force = false);
-        void InstallX64Plugin(string plugin, bool force = false);
-        void InstallX86PluginFolder(string plugin, bool force = false);
-        void InstallX64PluginFolder(string plugin, bool force = false);
+        void InstallX86Plugin(IContentEngineContent content, string plugin, bool force = false);
+        void InstallX64Plugin(IContentEngineContent content, string plugin, bool force = false);
+        void InstallX86PluginFolder(IContentEngineContent content, string plugin, bool force = false);
+        void InstallX64PluginFolder(IContentEngineContent content, string plugin, bool force = false);
     }
 
-    public class TeamspeakService : RestrictedContentEngineService, ITeamspeakService
+    public class TeamspeakService : ITeamspeakService
     {
         const string Ts3SubPath = "plugins";
         const string ts3Registry = @"SOFTWARE\Teamspeak 3 Client";
         readonly IAbsoluteDirectoryPath TS3_32_Path;
         readonly IAbsoluteDirectoryPath TS3_64_Path;
 
-        public TeamspeakService(RegisteredMod mod) : base(mod) {
+        public TeamspeakService() {
             TS3_32_Path = GetUserOrLmPath(ts3Registry).ToAbsoluteDirectoryPathNullSafe();
             TS3_64_Path =
                 GetUserOrLmPath(ts3Registry, string.Empty, RegistryView.Registry64).ToAbsoluteDirectoryPathNullSafe();
@@ -45,26 +42,26 @@ namespace SN.withSIX.ContentEngine.Infra.Services
 
         public bool IsX64Installed() => TS3_64_Path.IsNotNullAndExists();
 
-        public void InstallX86Plugin(string plugin, bool force = false) {
-            var success = TryInstallPlugin(TS3_32_Path, Mod.Mod, plugin, force);
+        public void InstallX86Plugin(IContentEngineContent content, string plugin, bool force = false) {
+            var success = TryInstallPlugin(TS3_32_Path, content, plugin, force);
 
             MainLog.Logger.Info("Install Success?: " + success);
         }
 
-        public void InstallX64Plugin(string plugin, bool force = false) {
-            var success = TryInstallPlugin(TS3_64_Path, Mod.Mod, plugin, force);
+        public void InstallX64Plugin(IContentEngineContent content, string plugin, bool force = false) {
+            var success = TryInstallPlugin(TS3_64_Path, content, plugin, force);
 
             MainLog.Logger.Info("Install Success?: " + success);
         }
 
-        public void InstallX86PluginFolder(string plugin, bool force = false) {
-            var success = TryInstallPluginFolder(TS3_32_Path, Mod.Mod, plugin, force);
+        public void InstallX86PluginFolder(IContentEngineContent content, string plugin, bool force = false) {
+            var success = TryInstallPluginFolder(TS3_32_Path, content, plugin, force);
 
             MainLog.Logger.Info("Install Success?: " + success);
         }
 
-        public void InstallX64PluginFolder(string plugin, bool force = false) {
-            var success = TryInstallPluginFolder(TS3_64_Path, Mod.Mod, plugin, force);
+        public void InstallX64PluginFolder(IContentEngineContent content, string plugin, bool force = false) {
+            var success = TryInstallPluginFolder(TS3_64_Path, content, plugin, force);
 
             MainLog.Logger.Info("Install Success?: " + success);
         }
