@@ -192,9 +192,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             };
         }
 
-        protected virtual IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
-            => action.GetLaunchables().ToArray();
-
         CollectionServer GetServer(IEnumerable<ILaunchableContent> content, LaunchAction launchAction) {
             if (launchAction == LaunchAction.Default)
                 return content.OfType<IHaveServers>().FirstOrDefault()?.Servers.FirstOrDefault();

@@ -19,6 +19,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
@@ -99,7 +100,24 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         //private static readonly string[] defaultStartupParameters = {"-noworkshop"};
 
-        //protected override IEnumerable<string> GetStartupParameters() => defaultStartupParameters.Concat(base.GetStartupParameters());
+        protected override IEnumerable<string> GetStartupParameters(ILaunchContentAction<IContent> action) => GetAdvancedStartupParameters(action).Concat(base.GetStartupParameters(action));
+
+        private IEnumerable<string> GetAdvancedStartupParameters(ILaunchContentAction<IContent> action) {
+            var launchables = action.GetLaunchables();
+            var server = GetServer(launchables, action.Action);
+            if (server != null) {
+                // join friend would be :steamid_{id}
+                yield return $"+platform:connect:address_{server.Address}"; // TODO: PW
+            }
+        }
+
+        CollectionServer GetServer(IEnumerable<ILaunchableContent> content, LaunchAction launchAction) {
+            if (launchAction == LaunchAction.Default)
+                return content.OfType<IHaveServers>().FirstOrDefault()?.Servers.FirstOrDefault();
+            return launchAction == LaunchAction.Join
+                ? content.OfType<IHaveServers>().First().Servers.First()
+                : null;
+        }
 
         IAbsoluteDirectoryPath GetModInstallationDirectory()
             => InstalledState.Directory.GetChildDirectoryWithName("mods");

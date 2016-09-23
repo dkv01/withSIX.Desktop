@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Extensions;
@@ -64,7 +65,7 @@ namespace SN.withSIX.Mini.Core.Games
             ILaunchContentAction<IContent> action) {
             var launcher = factory.Create(this);
             return InitiateLaunch(launcher,
-                new LaunchState(GetLaunchExecutable(action.Action), GetExecutable(action.Action), GetStartupParameters().ToArray(), action.Action));
+                new LaunchState(GetLaunchExecutable(action.Action), GetExecutable(action.Action), GetStartupParameters(action).ToArray(), action.Action));
         }
 
         protected Task<Process> InitiateLaunch<T>(T launcher, LaunchState ls)
@@ -84,7 +85,11 @@ namespace SN.withSIX.Mini.Core.Games
                     launcher.Launch(await GetSteamLaunchInfo(ls).ConfigureAwait(false))
                         .ConfigureAwait(false);
 
-        protected virtual IEnumerable<string> GetStartupParameters() => Settings.StartupParameters.Get();
+        protected virtual IEnumerable<string> GetStartupParameters(ILaunchContentAction<IContent> action) => Settings.StartupParameters.Get();
+
+
+        protected virtual IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
+            => action.GetLaunchables().ToArray();
 
         // TODO
         protected override async Task ScanForLocalContentImpl() {}
