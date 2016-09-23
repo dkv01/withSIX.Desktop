@@ -545,10 +545,6 @@
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>SN.withSIX.Core.Infra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Assemblies\SN.withSIX.Core.Presentation.Assemblies.csproj">
-      <Project>{8c0b69bb-0e7c-4ebf-ace1-7cfeec682822}</Project>
-      <Name>SN.withSIX.Core.Presentation.Assemblies</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.Resources\SN.withSIX.Core.Presentation.Resources.csproj">
       <Project>{69cfcb4f-5e81-4dae-adfe-d94e63989c1c}</Project>
       <Name>SN.withSIX.Core.Presentation.Resources</Name>
