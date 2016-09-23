@@ -56,9 +56,12 @@
         <file src="..\..\..\bin\SharpShell.dll" target="lib\net45\SharpShell.dll" />
         <file src="..\..\..\bin\srm.exe" target="lib\net45\srm.exe" />
         <file src="..\..\..\bin\GameServerQuery.dll" target="lib\net45\GameServerQuery.dll" />
+		
+<!--
         <file src="..\..\..\bin\RageLib.dll" target="lib\net45\RageLib.dll" />
         <file src="..\..\..\bin\RageLib.GTA5.dll" target="lib\net45\RageLib.GTA5.dll" />
         <file src="..\..\..\bin\RpfGeneratorTool.exe" target="lib\net45\RpfGeneratorTool.exe" />
+-->
 
         <file src="..\..\..\bin\logentriescore.dll" target="lib\net45\logentriescore.dll" />
         <file src="..\..\..\bin\logentriesnlog.dll" target="lib\net45\logentriesnlog.dll" />
@@ -79,16 +82,13 @@
         <!-- <file src="..\..\..\bin\AWSSDK.dll" target="lib\net45\AWSSDK.dll" /> -->
         <file src="..\..\..\bin\Caliburn.Micro.dll" target="lib\net45\Caliburn.Micro.dll" />
         <file src="..\..\..\bin\Caliburn.Micro.Platform.dll" target="lib\net45\Caliburn.Micro.Platform.dll" />
-        <file src="..\..\..\bin\Castle.Core.dll" target="lib\net45\Castle.Core.dll" />
         <file src="..\..\..\bin\Hardcodet.Wpf.TaskbarNotification.dll" target="lib\net45\Hardcodet.Wpf.TaskbarNotification.dll" />
-        <file src="..\..\..\bin\ImpromptuInterface.dll" target="lib\net45\ImpromptuInterface.dll" />
         <file src="..\..\..\bin\MahApps.Metro.dll" target="lib\net45\MahApps.Metro.dll" />
 
         <file src="..\..\..\bin\Newtonsoft.Json.dll" target="lib\net45\Newtonsoft.Json.dll" />
         <file src="..\..\..\bin\NLog.dll" target="lib\net45\NLog.dll" />
         <file src="..\..\..\bin\Ookii.Dialogs.Wpf.dll" target="lib\net45\Ookii.Dialogs.Wpf.dll" />
         <file src="..\..\..\bin\ReactiveUI.dll" target="lib\net45\ReactiveUI.dll" />
-        <file src="..\..\..\bin\ReactiveUI.Blend.dll" target="lib\net45\ReactiveUI.Blend.dll" />
         <file src="..\..\..\bin\ReactiveUI.Events.dll" target="lib\net45\ReactiveUI.Events.dll" />
         <file src="..\..\..\bin\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="..\..\..\bin\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
@@ -98,9 +98,6 @@
         <file src="..\..\..\bin\WpfAnimatedGif.dll" target="lib\net45\WpfAnimatedGif.dll" />
         <file src="..\..\..\bin\YamlDotNet.dll" target="lib\net45\YamlDotNet.dll" />
 
-        <file src="..\..\..\bin\ClearScript.dll" target="lib\net45\ClearScript.dll" />
-        <file src="..\..\..\bin\ClearScriptV8-32.dll" target="lib\net45\ClearScriptV8-32.dll" />
-        <file src="..\..\..\bin\v8-ia32.dll" target="lib\net45\v8-ia32.dll" />
         <file src="..\..\..\bin\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
 
         <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
