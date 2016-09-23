@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9E3D288-2AA7-48BA-B99B-4EAE4283AC34}</ProjectGuid>
+    <ProjectGuid>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Presentation.Electron</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Presentation.Electron</AssemblyName>
+    <RootNamespace>SN.withSIX.Core.Applications.MVVM</RootNamespace>
+    <AssemblyName>SN.withSIX.Core.Applications.MVVM</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -118,15 +119,77 @@
     <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Staging|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;STAGING</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akavache">
-      <HintPath>..\dll\Akavache.dll</HintPath>
-    </Reference>
-    <Reference Include="Akavache.Sqlite3">
-      <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -137,26 +200,6 @@
       <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.4.0.0\lib\net46\Microsoft.Win32.Registry.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NDepend.Path.PCL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NDepend.Path.PCL.1.0.2-pre\lib\netstandard1.3\NDepend.Path.PCL.dll</HintPath>
       <Private>True</Private>
@@ -165,45 +208,17 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="ReactiveUI">
       <HintPath>..\dll\ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=3.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.3.2.2\lib\net45\SimpleInjector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCL.raw, Version=0.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCL.raw_basic.0.8.6\lib\net45\SQLitePCL.raw.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.AppContext.4.1.0\lib\net46\System.AppContext.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.ComponentModel.Primitives, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Primitives.4.1.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Console, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Console.4.0.0\lib\net46\System.Console.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.0.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
       <Private>True</Private>
@@ -214,10 +229,6 @@
     </Reference>
     <Reference Include="System.Globalization.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Extensions.4.0.1\lib\net46\System.Globalization.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Compression.4.1.0\lib\net46\System.IO.Compression.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.IO.FileSystem, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -234,18 +245,6 @@
     </Reference>
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Http.4.1.0\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.NameResolution, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.NameResolution.4.0.0\lib\net46\System.Net.NameResolution.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Sockets, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Sockets.4.1.0\lib\net46\System.Net.Sockets.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
@@ -268,17 +267,15 @@
       <HintPath>..\packages\System.Reactive.Windows.Threading.3.0.0\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Runtime.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization.Formatters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.Serialization.Formatters.4.0.0-rc3-24212-01\lib\net46\System.Runtime.Serialization.Formatters.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.1.1\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization.Xml, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.Serialization.Xml.4.1.1\lib\net46\System.Runtime.Serialization.Xml.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.AccessControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -293,183 +290,108 @@
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.2.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.0.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Primitives.4.0.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.1.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Principal.Windows, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Principal.Windows.4.0.0\lib\net46\System.Security.Principal.Windows.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.XmlDocument, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Xml.XmlDocument.4.0.1\lib\net46\System.Xml.XmlDocument.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="withSIX.Api.Models, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\withSIX.Api.Models.2.0.1-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YamlDotNet.4.0.0\lib\net35\YamlDotNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api.cs" />
-    <Compile Include="ElectronAppBootstrapper.cs" />
-    <Compile Include="Entrypoint.cs" />
-    <Compile Include="ExternalFileDownloader.cs" />
-    <Compile Include="INodeApi.cs" />
-    <Compile Include="NodeDialogManager.cs" />
-    <Compile Include="NodeErrorHandler.cs" />
-    <Compile Include="NodeNotifier.cs" />
+    <Compile Include="Attributes\MenuItemAttribute.cs" />
+    <Compile Include="Extensions\CommandExtensions.cs" />
+    <Compile Include="Extensions\ReactiveUIExtensions.cs" />
+    <Compile Include="Extensions\RxExtensions.cs" />
+    <Compile Include="Helpers\HaveReactiveItems.cs" />
+    <Compile Include="Helpers\IHaveReactiveItems.cs" />
+    <Compile Include="Helpers\IHaveSelectedItem.cs" />
+    <Compile Include="Helpers\IHaveShutdownTask.cs" />
+    <Compile Include="Helpers\ISelectionList.cs" />
+    <Compile Include="Helpers\SelectionList.cs" />
+    <Compile Include="Helpers\SixReactiveList.cs" />
+    <Compile Include="IWpfStartupManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
-    <Compile Include="Teardown.cs" />
-    <Compile Include="UpdateAvailable.cs" />
-    <Compile Include="UpdateHandler.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeoIP\GeoIP.csproj">
-      <Project>{a041945d-1251-4799-9e31-66ee924761ab}</Project>
-      <Name>GeoIP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
-      <Project>{20290456-e7cd-4b44-acea-a9f4b5b55367}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.ContentEngine.Infra\SN.withSIX.ContentEngine.Infra.csproj">
-      <Project>{d3d354e1-919f-4135-9496-acd2c39806d3}</Project>
-      <Name>SN.withSIX.ContentEngine.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
-      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
-      <Project>{131b6a51-5385-4fee-9e91-2911c936d200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Assemblies\SN.withSIX.Core.Presentation.Assemblies.csproj">
-      <Project>{8c0b69bb-0e7c-4ebf-ace1-7cfeec682822}</Project>
-      <Name>SN.withSIX.Core.Presentation.Assemblies</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
-      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>SN.withSIX.Core.Presentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Applications\SN.withSIX.Mini.Applications.csproj">
-      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
-      <Name>SN.withSIX.Mini.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
-      <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
-      <Name>SN.withSIX.Mini.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\SN.withSIX.Mini.Infra.Api.csproj">
-      <Project>{80c8f542-5bc1-4bbe-9c5a-0e0ca244a3f0}</Project>
-      <Name>SN.withSIX.Mini.Infra.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\SN.withSIX.Mini.Infra.Data.csproj">
-      <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>
-      <Name>SN.withSIX.Mini.Infra.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Arma\SN.withSIX.Mini.Plugin.Arma.csproj">
-      <Project>{8caca11d-f26b-4d9a-8fdd-4cae9133813e}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Arma</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.CE\SN.withSIX.Mini.Plugin.CE.csproj">
-      <Project>{e649badd-e3dc-4dce-a7c7-bbb2612255ef}</Project>
-      <Name>SN.withSIX.Mini.Plugin.CE</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Firaxis\SN.withSIX.Mini.Plugin.Firaxis.csproj">
-      <Project>{d94020b4-8cb9-4e1e-9211-5780e74676b7}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Firaxis</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.GTA\SN.withSIX.Mini.Plugin.GTA.csproj">
-      <Project>{5a250859-12a8-4f9f-8a76-41bb1cb1e082}</Project>
-      <Name>SN.withSIX.Mini.Plugin.GTA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Homeworld\SN.withSIX.Mini.Plugin.Homeworld.csproj">
-      <Project>{f711c10c-1e23-4ee2-8c26-4524d7d468f1}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Homeworld</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Kerbal\SN.withSIX.Mini.Plugin.Kerbal.csproj">
-      <Project>{c048fe9d-ce82-456b-933f-51dd5d7318f0}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Kerbal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.NMS\SN.withSIX.Mini.Plugin.NMS.csproj">
-      <Project>{a76a5640-cafd-4f80-9cc8-dd136618fbcb}</Project>
-      <Name>SN.withSIX.Mini.Plugin.NMS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Starbound\SN.withSIX.Mini.Plugin.Starbound.csproj">
-      <Project>{e58aeeb7-ea2a-4bed-850a-357bb019e218}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Starbound</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Stellaris\SN.withSIX.Mini.Plugin.Stellaris.csproj">
-      <Project>{14361088-c7fb-41da-ba1f-7420d40e8a99}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Stellaris</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Witcher3\SN.withSIX.Mini.Plugin.Witcher3.csproj">
-      <Project>{8a5bb322-d0fd-4fc3-b2fa-4ed1eccc089d}</Project>
-      <Name>SN.withSIX.Mini.Plugin.Witcher3</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\SN.withSIX.Mini.Presentation.Core.csproj">
-      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
-      <Name>SN.withSIX.Mini.Presentation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Shell\SN.withSIX.Mini.Presentation.Shell.csproj">
-      <Project>{956504fb-6cae-4857-8802-d6c24336ec15}</Project>
-      <Name>SN.withSIX.Mini.Presentation.Shell</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Api\SN.withSIX.Steam.Api.csproj">
-      <Project>{fede9ebc-c0a2-49c7-a780-4a44544508b8}</Project>
-      <Name>SN.withSIX.Steam.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
-      <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
-      <Name>SN.withSIX.Steam.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Presentation\SN.withSIX.Steam.Presentation.csproj">
-      <Project>{6580bd2f-3745-4c20-996e-1b12ffc7b242}</Project>
-      <Name>SN.withSIX.Steam.Presentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
-      <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
-    </ProjectReference>
+    <Compile Include="Services\IMetroDialog.cs" />
+    <Compile Include="Services\UiTaskHandler.cs" />
+    <Compile Include="Services\UiTaskHandlerLegacy.cs" />
+    <Compile Include="UiHelper.cs" />
+    <Compile Include="ViewModels\DataModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EnterConfirmViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EnterUserNamePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\FirstTimeRunDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\MessageBoxViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\UserDialog.cs" />
+    <Compile Include="ViewModels\Dialogs\UserErrorViewModel.cs" />
+    <Compile Include="ViewModels\IDashboardViewModelBase.cs" />
+    <Compile Include="ViewModels\IDesignTimeViewModel.cs" />
+    <Compile Include="ViewModels\ILibraryViewModel.cs" />
+    <Compile Include="ViewModels\IModalScreen.cs" />
+    <Compile Include="ViewModels\IModalShell.cs" />
+    <Compile Include="ViewModels\ISelectable.cs" />
+    <Compile Include="ViewModels\ISelectionCollectionHelper.cs" />
+    <Compile Include="ViewModels\IShellViewModel.cs" />
+    <Compile Include="ViewModels\IShellViewModelBase.cs" />
+    <Compile Include="ViewModels\IShellViewModelFullBase.cs" />
+    <Compile Include="ViewModels\ISingleInstanceApp.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
+    <Compile Include="ViewModels\LicensesViewModel.cs" />
+    <Compile Include="ViewModels\MenuBase.cs" />
+    <Compile Include="ViewModels\MenuItem.cs" />
+    <Compile Include="ViewModels\ObservablePropertyChangedBase.cs" />
+    <Compile Include="ViewModels\Popups\RequirementsPopupViewModel.cs" />
+    <Compile Include="ViewModels\ReactiveConductor.cs" />
+    <Compile Include="ViewModels\ReactiveConductorBase.cs" />
+    <Compile Include="ViewModels\ReactiveConductorBaseWithActiveItem.cs" />
+    <Compile Include="ViewModels\ReactiveConductorWithCollectionAllActive.cs" />
+    <Compile Include="ViewModels\ReactiveConductorWithCollectionOneActive.cs" />
+    <Compile Include="ViewModels\ReactiveScreen.cs" />
+    <Compile Include="ViewModels\ReactiveValidatableObject.cs" />
+    <Compile Include="ViewModels\ReactiveValidatableObjectBase.cs" />
+    <Compile Include="ViewModels\ReactiveViewAware.cs" />
+    <Compile Include="ViewModels\ScreenBase.cs" />
+    <Compile Include="ViewModels\SelectionCollectionHelper.cs" />
+    <Compile Include="ViewModels\ShellViewModelBase.cs" />
+    <Compile Include="ViewModels\SortData.cs" />
+    <Compile Include="ViewModels\SortViewModel.cs" />
+    <Compile Include="ViewModels\ValidatorBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\Dialogs\IEnterConfirmView.cs" />
+    <Compile Include="Views\Dialogs\IEnterUserNamePasswordView.cs" />
+    <Compile Include="Views\Dialogs\IMessageBoxView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj">
+      <Project>{b7406381-1d29-4e9b-851e-d086c29c34e4}</Project>
+      <Name>withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
+      <Name>withSIX.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

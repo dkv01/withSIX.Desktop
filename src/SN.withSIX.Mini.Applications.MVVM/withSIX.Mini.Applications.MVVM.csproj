@@ -2,20 +2,15 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{33427535-B280-4504-B1CE-02E14C086D1E}</ProjectGuid>
+    <ProjectGuid>{D9525060-5D5C-4B28-A593-147D75F0680C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Core</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Core</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <RootNamespace>SN.withSIX.Mini.Applications.MVVM</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Applications.MVVM</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -118,89 +113,138 @@
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BaseEntity.cs" />
-    <Compile Include="CoreCheat.cs" />
-    <Compile Include="Extensions\ContentActionExtensions.cs" />
-    <Compile Include="Extensions\GameExtensions.cs" />
-    <Compile Include="Games\Attributes\GameAttribute.cs" />
-    <Compile Include="Games\Attributes\RegistryInfoAttribute.cs" />
-    <Compile Include="Games\Attributes\SteamInfoAttribute.cs" />
-    <Compile Include="Games\Attributes\SynqRemoteInfoAttribute.cs" />
-    <Compile Include="Games\BasicAltGameStartupParameters.cs" />
-    <Compile Include="Games\BasicGame.cs" />
-    <Compile Include="Games\BasicGameStartupParameters.cs" />
-    <Compile Include="Games\BasicSteamGame.cs" />
-    <Compile Include="Games\Collection.cs" />
-    <Compile Include="Games\Content.cs" />
-    <Compile Include="Games\ContentAction.cs" />
-    <Compile Include="Games\ContentFolderLink.cs" />
-    <Compile Include="Games\ContentPaths.cs" />
-    <Compile Include="Games\ContentSpec.cs" />
-    <Compile Include="Games\Game.cs" />
-    <Compile Include="Games\GameInstalledState.cs" />
-    <Compile Include="Games\GameSettingCategories.cs" />
-    <Compile Include="Games\GameSettings.cs" />
-    <Compile Include="Games\GameStartupParameters.cs" />
-    <Compile Include="Games\IHaveGameId.cs" />
-    <Compile Include="Games\InstallContentAction.cs" />
-    <Compile Include="Games\InstallInfo.cs" />
-    <Compile Include="Games\LaunchContentAction.cs" />
-    <Compile Include="Games\LaunchType.cs" />
-    <Compile Include="Games\LocalContent.cs" />
-    <Compile Include="Games\MissionNetworkContent.cs" />
-    <Compile Include="Games\ModNetworkContent.cs" />
-    <Compile Include="Games\NetworkContent.cs" />
-    <Compile Include="Games\PackagedContent.cs" />
-    <Compile Include="Games\PlayContentAction.cs" />
-    <Compile Include="Games\Publisher.cs" />
-    <Compile Include="Games\RecentInfo.cs" />
-    <Compile Include="Games\ServerInfo.cs" />
-    <Compile Include="Games\Services\ContentInstaller\Attributes\ContentCleaningAttribute.cs" />
-    <Compile Include="Games\Services\ContentInstaller\ContentInstaller.cs" />
-    <Compile Include="Games\Services\ContentInstaller\IInstallerSession.cs" />
-    <Compile Include="Games\Services\ContentInstaller\IINstallerSessionFactory.cs" />
-    <Compile Include="Games\Services\ContentInstaller\IUninstallSession.cs" />
-    <Compile Include="Games\Services\ContentInstaller\Status.cs" />
-    <Compile Include="Games\Services\GameLauncher\BasicGameLauncher.cs" />
-    <Compile Include="Games\Services\GameLauncher\GameLauncher.cs" />
-    <Compile Include="Games\Services\GameLauncher\IGameLauncherFactory.cs" />
-    <Compile Include="Games\Services\GameLauncher\LaunchGameInfo.cs" />
-    <Compile Include="Games\Services\GameLauncher\ScreenResolution.cs" />
-    <Compile Include="Games\Services\GameLocker.cs" />
-    <Compile Include="Games\UninstallContentAction.cs" />
-    <Compile Include="Games\UnityStartupParameters.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Social\Group.cs" />
-    <Compile Include="SteamDirectories.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
-      <Project>{417e2110-0640-4574-8bb1-18986315d83c}</Project>
-      <Name>SN.withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
-      <Project>{9175ca96-a59f-4550-9128-5021515fe872}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
-      <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Diagnostics.Contracts">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile111\System.Diagnostics.Contracts.dll</HintPath>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReactiveUI">
+      <HintPath>..\dll\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.0.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.Process, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Process.4.1.0\lib\net46\System.Diagnostics.Process.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.0.1\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.AccessControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.AccessControl.4.0.0\lib\net46\System.IO.FileSystem.AccessControl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Core.3.0.0\lib\net46\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Interfaces.3.0.0\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Linq.3.0.0\lib\net46\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.PlatformServices.3.0.0\lib\net46\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Windows.Threading.3.0.0\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security.AccessControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.0.0\lib\net46\System.Security.AccessControl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Claims, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Claims.4.0.1\lib\net46\System.Security.Claims.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.0.0\lib\net46\System.Security.Principal.Windows.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Extensions\CommandExtensions.cs" />
+    <Compile Include="Extensions\RoutingStateExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Components\IActivatableScreen.cs" />
+    <Compile Include="Services\DefaultPlatformProvider.cs" />
+    <Compile Include="Services\IFlyoutOpener.cs" />
+    <Compile Include="Services\IPlatformProvider.cs" />
+    <Compile Include="Services\IScreenOpener.cs" />
+    <Compile Include="Usecases\GetMiniMain.cs" />
+    <Compile Include="ViewModels\CMBase.cs" />
+    <Compile Include="ViewModels\FlyoutViewModel.cs" />
+    <Compile Include="ViewModels\Main\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Main\TrayMainWindowMenu.cs" />
+    <Compile Include="ViewModels\MiniMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\RoutableViewModel.cs" />
+    <Compile Include="ViewModels\ScreenViewModel.cs" />
+    <Compile Include="ViewModels\SomeViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModel.cs" />
+    <Compile Include="ViewModels\TrayNotificationViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\ITrayNotification.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\withSIX.Core.Applications.MVVM.csproj">
+      <Project>{c932f21f-0324-43ee-bbd2-ca7f0e9526c0}</Project>
+      <Name>withSIX.Core.Applications.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj">
+      <Project>{b7406381-1d29-4e9b-851e-d086c29c34e4}</Project>
+      <Name>withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>withSIX.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
+      <Project>{83c185f7-79ec-47a3-98da-07a00dff1b42}</Project>
+      <Name>withSIX.Mini.Applications</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

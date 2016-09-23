@@ -766,33 +766,33 @@
     <Compile Include="WpfErrorHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
+      <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\withSIX.Core.Applications.MVVM.csproj">
       <Project>{c932f21f-0324-43ee-bbd2-ca7f0e9526c0}</Project>
-      <Name>SN.withSIX.Core.Applications.MVVM</Name>
+      <Name>withSIX.Core.Applications.MVVM</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
+      <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Resources\SN.withSIX.Core.Presentation.Resources.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Resources\withSIX.Core.Presentation.Resources.csproj">
       <Project>{69cfcb4f-5e81-4dae-adfe-d94e63989c1c}</Project>
-      <Name>SN.withSIX.Core.Presentation.Resources</Name>
+      <Name>withSIX.Core.Presentation.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
       <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>SN.withSIX.Core.Presentation</Name>
+      <Name>withSIX.Core.Presentation</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -944,7 +944,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets')" />

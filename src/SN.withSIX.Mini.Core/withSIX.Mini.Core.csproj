@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F711C10C-1E23-4EE2-8C26-4524D7D468F1}</ProjectGuid>
+    <ProjectGuid>{33427535-B280-4504-B1CE-02E14C086D1E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Homeworld</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Homeworld</AssemblyName>
+    <RootNamespace>SN.withSIX.Mini.Core</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -118,7 +118,6 @@
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
@@ -127,26 +126,73 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiModels\Homeworld2GameSettingsApiModel.cs" />
-    <Compile Include="AutoMapperPluginHomeworldConfig.cs" />
-    <Compile Include="Models\Homeworld2Game.cs" />
-    <Compile Include="Models\Homeworld2GameSettings.cs" />
-    <Compile Include="Models\Homeworld2StartupParameters.cs" />
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="CoreCheat.cs" />
+    <Compile Include="Extensions\ContentActionExtensions.cs" />
+    <Compile Include="Extensions\GameExtensions.cs" />
+    <Compile Include="Games\Attributes\GameAttribute.cs" />
+    <Compile Include="Games\Attributes\RegistryInfoAttribute.cs" />
+    <Compile Include="Games\Attributes\SteamInfoAttribute.cs" />
+    <Compile Include="Games\Attributes\SynqRemoteInfoAttribute.cs" />
+    <Compile Include="Games\BasicAltGameStartupParameters.cs" />
+    <Compile Include="Games\BasicGame.cs" />
+    <Compile Include="Games\BasicGameStartupParameters.cs" />
+    <Compile Include="Games\BasicSteamGame.cs" />
+    <Compile Include="Games\Collection.cs" />
+    <Compile Include="Games\Content.cs" />
+    <Compile Include="Games\ContentAction.cs" />
+    <Compile Include="Games\ContentFolderLink.cs" />
+    <Compile Include="Games\ContentPaths.cs" />
+    <Compile Include="Games\ContentSpec.cs" />
+    <Compile Include="Games\Game.cs" />
+    <Compile Include="Games\GameInstalledState.cs" />
+    <Compile Include="Games\GameSettingCategories.cs" />
+    <Compile Include="Games\GameSettings.cs" />
+    <Compile Include="Games\GameStartupParameters.cs" />
+    <Compile Include="Games\IHaveGameId.cs" />
+    <Compile Include="Games\InstallContentAction.cs" />
+    <Compile Include="Games\InstallInfo.cs" />
+    <Compile Include="Games\LaunchContentAction.cs" />
+    <Compile Include="Games\LaunchType.cs" />
+    <Compile Include="Games\LocalContent.cs" />
+    <Compile Include="Games\MissionNetworkContent.cs" />
+    <Compile Include="Games\ModNetworkContent.cs" />
+    <Compile Include="Games\NetworkContent.cs" />
+    <Compile Include="Games\PackagedContent.cs" />
+    <Compile Include="Games\PlayContentAction.cs" />
+    <Compile Include="Games\Publisher.cs" />
+    <Compile Include="Games\RecentInfo.cs" />
+    <Compile Include="Games\ServerInfo.cs" />
+    <Compile Include="Games\Services\ContentInstaller\Attributes\ContentCleaningAttribute.cs" />
+    <Compile Include="Games\Services\ContentInstaller\ContentInstaller.cs" />
+    <Compile Include="Games\Services\ContentInstaller\IInstallerSession.cs" />
+    <Compile Include="Games\Services\ContentInstaller\IINstallerSessionFactory.cs" />
+    <Compile Include="Games\Services\ContentInstaller\IUninstallSession.cs" />
+    <Compile Include="Games\Services\ContentInstaller\Status.cs" />
+    <Compile Include="Games\Services\GameLauncher\BasicGameLauncher.cs" />
+    <Compile Include="Games\Services\GameLauncher\GameLauncher.cs" />
+    <Compile Include="Games\Services\GameLauncher\IGameLauncherFactory.cs" />
+    <Compile Include="Games\Services\GameLauncher\LaunchGameInfo.cs" />
+    <Compile Include="Games\Services\GameLauncher\ScreenResolution.cs" />
+    <Compile Include="Games\Services\GameLocker.cs" />
+    <Compile Include="Games\UninstallContentAction.cs" />
+    <Compile Include="Games\UnityStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Homeworld2GameLauncher.cs" />
+    <Compile Include="Social\Group.cs" />
+    <Compile Include="SteamDirectories.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Applications\SN.withSIX.Mini.Applications.csproj">
-      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
-      <Name>SN.withSIX.Mini.Applications</Name>
+    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
-      <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
-      <Name>SN.withSIX.Mini.Core</Name>
+    <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
+      <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

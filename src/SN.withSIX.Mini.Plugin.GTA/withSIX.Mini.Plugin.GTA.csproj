@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D94020B4-8CB9-4E1E-9211-5780E74676B7}</ProjectGuid>
+    <ProjectGuid>{5A250859-12A8-4F9F-8A76-41BB1CB1E082}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Firaxis</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Firaxis</AssemblyName>
+    <RootNamespace>SN.withSIX.Mini.Plugin.GTA</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Plugin.GTA</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -127,14 +127,38 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CIV5Game.cs" />
-    <Compile Include="CIV6Game.cs" />
+    <Compile Include="ApiModels\GTA4GameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\GTA5GameSettingsApiModel.cs" />
+    <Compile Include="AutoMapperPluginGTAConfig.cs" />
+    <Compile Include="GTAExceptionHandler.cs" />
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Models\GTA4Game.cs" />
+    <Compile Include="Models\GTA4GameSettings.cs" />
+    <Compile Include="Models\GTA4GameStartupParameters.cs" />
+    <Compile Include="Models\GTA5Game.cs" />
+    <Compile Include="Models\GTA5GameSettings.cs" />
+    <Compile Include="Models\GTA5StartupParameters.cs" />
+    <Compile Include="Models\GTAGame.cs" />
+    <Compile Include="Models\GtaPackager.cs" />
+    <Compile Include="Models\GTAStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj">
+      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
+      <Name>withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>withSIX.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
+      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
+      <Name>withSIX.Mini.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj">
       <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
-      <Name>SN.withSIX.Mini.Core</Name>
+      <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

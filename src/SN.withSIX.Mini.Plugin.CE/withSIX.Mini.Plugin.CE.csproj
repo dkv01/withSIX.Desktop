@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7406381-1D29-4E9B-851E-D086C29C34E4}</ProjectGuid>
+    <ProjectGuid>{E649BADD-E3DC-4DCE-A7C7-BBB2612255EF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Applications</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Applications</AssemblyName>
+    <RootNamespace>SN.withSIX.Mini.Plugin.CE</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Plugin.CE</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
@@ -77,7 +77,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
@@ -127,77 +127,36 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ToolsVersionAttribute.cs" />
+    <Compile Include="ApiModels\Fallout4GameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\SkyrimGameSettingsApiModel.cs" />
     <Compile Include="AutoMapperProfile.cs" />
-    <Compile Include="Errors\IExceptionHandler.cs" />
-    <Compile Include="Errors\InformationalUserError.cs" />
-    <Compile Include="Errors\UserErrorBase.cs" />
-    <Compile Include="Errors\UserErrorModel.cs" />
-    <Compile Include="Events\TrayNotificationEvents.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="Extensions\CollectionExtensions.cs" />
-    <Compile Include="Extensions\DecoratorBase.cs" />
-    <Compile Include="Extensions\DispatchCommand.cs" />
-    <Compile Include="Extensions\MediatorDecoratorBase.cs" />
-    <Compile Include="Extensions\MediatorExtensions.cs" />
-    <Compile Include="Extensions\ObservableExtensions.cs" />
-    <Compile Include="Extensions\SixDialogExtensions.cs" />
-    <Compile Include="Extensions\XmlTools.cs" />
-    <Compile Include="Factories\IDepResolver.cs" />
-    <Compile Include="Infrastructure\IDbSet.cs" />
-    <Compile Include="Infrastructure\IOauthConnect.cs" />
-    <Compile Include="Infrastructure\IResourceService.cs" />
-    <Compile Include="Infrastructure\ISystemInfo.cs" />
-    <Compile Include="Infrastructure\IUnitOfWork.cs" />
-    <Compile Include="Infrastructure\Rest.cs" />
+    <Compile Include="Models\Fallout4Game.cs" />
+    <Compile Include="Models\Fallout4GameSettings.cs" />
+    <Compile Include="Models\Fallout4StartupParameters.cs" />
+    <Compile Include="Models\SkyrimGame.cs" />
+    <Compile Include="Models\SkyrimGameSettings.cs" />
+    <Compile Include="Models\SkyrimStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\About.cs" />
-    <Compile Include="Services\DialogManagerTaskExtensions.cs" />
-    <Compile Include="Services\DialogManagerUiExtensions.cs" />
-    <Compile Include="Services\ErrorHandlerr.cs" />
-    <Compile Include="Services\FilesInstaller.cs" />
-    <Compile Include="Services\IAMapper.cs" />
-    <Compile Include="Services\IApplicationService.cs" />
-    <Compile Include="Services\ICompositeCommand.cs" />
-    <Compile Include="Services\IDialogManager.cs" />
-    <Compile Include="Services\IGameMapperConfig.cs" />
-    <Compile Include="Services\IInitializer.cs" />
-    <Compile Include="Services\INotificationProvider.cs" />
-    <Compile Include="Services\IShutdownHandler.cs" />
-    <Compile Include="Services\IStartupManager.cs" />
-    <Compile Include="Services\IToolsInstaller.cs" />
-    <Compile Include="Services\ITransient.cs" />
-    <Compile Include="Services\Licenses.cs" />
-    <Compile Include="Services\MessageBoxDialogParams.cs" />
-    <Compile Include="Services\Request.cs" />
-    <Compile Include="Services\Restarter.cs" />
-    <Compile Include="Services\SharedFilesInstaller.cs" />
-    <Compile Include="Services\SixElevatedServiceMisc.cs" />
-    <Compile Include="Services\SixMessageBoxButton.cs" />
-    <Compile Include="Services\SixMessageBoxResult.cs" />
-    <Compile Include="Services\ToolsInstaller.cs" />
-    <Compile Include="Services\UserErrorHandling.cs" />
-    <Compile Include="Services\VersionInfoData.cs" />
-    <Compile Include="SixColors.cs" />
-    <Compile Include="SixIconFont.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-e7cd-4b44-acea-a9f4b5b55367}</Project>
+      <Name>withSIX.ContentEngine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
-      <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
+      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
+      <Name>withSIX.Mini.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj">
+      <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
+      <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ReactiveUI">
-      <HintPath>..\dll\ReactiveUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Splat">
-      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
-    </Reference>
     <Reference Include="System.Diagnostics.Contracts">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile111\System.Diagnostics.Contracts.dll</HintPath>
     </Reference>

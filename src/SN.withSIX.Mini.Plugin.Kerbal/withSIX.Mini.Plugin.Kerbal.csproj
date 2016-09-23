@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3D354E1-919F-4135-9496-ACD2C39806D3}</ProjectGuid>
+    <ProjectGuid>{C048FE9D-CE82-456B-933F-51DD5D7318F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.ContentEngine.Infra</RootNamespace>
-    <AssemblyName>SN.withSIX.ContentEngine.Infra</AssemblyName>
+    <RootNamespace>SN.withSIX.Mini.Plugin.Kerbal</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Plugin.Kerbal</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,45 +122,35 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="project.json" />
-    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.js.map" />
-    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.json" />
-    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.js.map" />
-    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.json" />
-    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.js.map" />
-    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.json" />
-    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.js.map" />
-    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentEngine.cs" />
+    <Compile Include="ApiModels\KerbalSPGameSettingsApiModel.cs" />
+    <Compile Include="AutoMapperPluginKerbalConfig.cs" />
+    <Compile Include="Models\KerbalSPGame.cs" />
+    <Compile Include="Models\KerbalSPGameSettings.cs" />
+    <Compile Include="Models\KerbalSPStartupParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceService.cs" />
-    <Compile Include="Services\GameFolderService.cs" />
-    <Compile Include="Services\IContentEngineGameContext.cs" />
-    <Compile Include="Services\TeamspeakService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
-      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
-      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
+      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
+      <Name>withSIX.Mini.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj">
+      <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
+      <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Diagnostics.Contracts">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile259\System.Diagnostics.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="withSIX.Api.Models">
-      <HintPath>..\packages\withSIX.Api.Models.2.0.1-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile111\System.Diagnostics.Contracts.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

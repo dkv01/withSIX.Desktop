@@ -250,37 +250,37 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
+      <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Applications\SN.withSIX.Mini.Applications.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
       <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
-      <Name>SN.withSIX.Mini.Applications</Name>
+      <Name>withSIX.Mini.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj">
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
-      <Name>SN.withSIX.Mini.Core</Name>
+      <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\SN.withSIX.Mini.Infra.Api.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Infra.Api.csproj">
       <Project>{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}</Project>
-      <Name>SN.withSIX.Mini.Infra.Api</Name>
+      <Name>withSIX.Mini.Infra.Api</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\SN.withSIX.Mini.Infra.Data.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj">
       <Project>{A3556BC0-A306-4E26-85F2-37013E09D283}</Project>
-      <Name>SN.withSIX.Mini.Infra.Data</Name>
+      <Name>withSIX.Mini.Infra.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Core\SN.withSIX.Steam.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
-      <Name>SN.withSIX.Steam.Core</Name>
+      <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A250859-12A8-4F9F-8A76-41BB1CB1E082}</ProjectGuid>
+    <ProjectGuid>{8CACA11D-F26B-4D9A-8FDD-4CAE9133813E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.GTA</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.GTA</AssemblyName>
+    <RootNamespace>SN.withSIX.Mini.Plugin.Arma</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Plugin.Arma</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -127,38 +127,100 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiModels\GTA4GameSettingsApiModel.cs" />
-    <Compile Include="ApiModels\GTA5GameSettingsApiModel.cs" />
-    <Compile Include="AutoMapperPluginGTAConfig.cs" />
-    <Compile Include="GTAExceptionHandler.cs" />
-    <Compile Include="Initializer.cs" />
-    <Compile Include="Models\GTA4Game.cs" />
-    <Compile Include="Models\GTA4GameSettings.cs" />
-    <Compile Include="Models\GTA4GameStartupParameters.cs" />
-    <Compile Include="Models\GTA5Game.cs" />
-    <Compile Include="Models\GTA5GameSettings.cs" />
-    <Compile Include="Models\GTA5StartupParameters.cs" />
-    <Compile Include="Models\GTAGame.cs" />
-    <Compile Include="Models\GtaPackager.cs" />
-    <Compile Include="Models\GTAStartupParameters.cs" />
+    <Compile Include="ApiModels\Arma2COGameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\Arma3GameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\CarrierCommandGameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\DayZGameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\IronFrontGameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\RealVirtualityGameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\TakeOnHelicoptersGameSettingsApiModel.cs" />
+    <Compile Include="ApiModels\TakeOnMarsGameSettingsApiModel.cs" />
+    <Compile Include="ArmaExceptionHandler.cs" />
+    <Compile Include="Attributes\RvProfileInfo.cs" />
+    <Compile Include="AutoMapperPluginArmaConfig.cs" />
+    <Compile Include="Models\Arma1Game.cs" />
+    <Compile Include="Models\Arma1GameSettings.cs" />
+    <Compile Include="Models\Arma1StartupParameters.cs" />
+    <Compile Include="Models\Arma2COGame.cs" />
+    <Compile Include="Models\Arma2COGameSettings.cs" />
+    <Compile Include="Models\Arma2COStartupParameters.cs" />
+    <Compile Include="Models\Arma2Game.cs" />
+    <Compile Include="Models\Arma2GameSettings.cs" />
+    <Compile Include="Models\Arma2OaGame.cs" />
+    <Compile Include="Models\Arma2OaGameSettings.cs" />
+    <Compile Include="Models\Arma3Game.cs" />
+    <Compile Include="Models\Arma3GameSettings.cs" />
+    <Compile Include="Models\Arma3StartupParameters.cs" />
+    <Compile Include="Models\ArmaGame.cs" />
+    <Compile Include="Models\CarrierCommandGame.cs" />
+    <Compile Include="Models\CarrierCommandGameSettings.cs" />
+    <Compile Include="Models\CarrierCommandStartupParmeters.cs" />
+    <Compile Include="Models\DayZGame.cs" />
+    <Compile Include="Models\DayZGameSettings.cs" />
+    <Compile Include="Models\DayZStartupParameters.cs" />
+    <Compile Include="Models\IronFrontGame.cs" />
+    <Compile Include="Models\IronFrontGameSettings.cs" />
+    <Compile Include="Models\IronFrontStartupParameters.cs" />
+    <Compile Include="Models\Legacy\AceUserconfig.cs" />
+    <Compile Include="Models\RealVirtualityGame.cs" />
+    <Compile Include="Models\RealVirtualityGameSettings.cs" />
+    <Compile Include="Models\RealVirtualityStartupParameters.cs" />
+    <Compile Include="Models\RvContentScanner.cs" />
+    <Compile Include="Models\TakeOnHelicoptersGame.cs" />
+    <Compile Include="Models\TakeOnHelicoptersGameSettings.cs" />
+    <Compile Include="Models\TakeOnHelicoptersStartupParameters.cs" />
+    <Compile Include="Models\TakeOnMarsGame.cs" />
+    <Compile Include="Models\TakeOnMarsGameSettings.cs" />
+    <Compile Include="Models\TakeOnMarsStartupParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommandAPI\CommandAPI.cs" />
+    <Compile Include="Services\CommandAPI\Commands\ConnectCommand.cs" />
+    <Compile Include="Services\CommandAPI\Commands\IArmaCommand.cs" />
+    <Compile Include="Services\CommandAPI\Commands\IMessage.cs" />
+    <Compile Include="Services\CommandAPI\Commands\IReceiveMessage.cs" />
+    <Compile Include="Services\CommandAPI\Commands\IReceiveOnlyMessage.cs" />
+    <Compile Include="Services\CommandAPI\Commands\ISendMessage.cs" />
+    <Compile Include="Services\CommandAPI\Commands\ISendReceiveMessage.cs" />
+    <Compile Include="Services\CommandAPI\Commands\MessageBase.cs" />
+    <Compile Include="Services\CommandAPI\Commands\MessageCommand.cs" />
+    <Compile Include="Services\CommandAPI\Commands\MissingAddonsMessage.cs" />
+    <Compile Include="Services\CommandAPI\Commands\ReplyCommand.cs" />
+    <Compile Include="Services\CommandAPI\Commands\SentCommand.cs" />
+    <Compile Include="Services\CommandAPI\Commands\SessionCommand.cs" />
+    <Compile Include="Services\CommandAPI\Commands\ShutdownCommand.cs" />
+    <Compile Include="Services\IronFrontInstaller.cs" />
+    <Compile Include="Services\RealVirtualityLauncher.cs" />
+    <Compile Include="Services\UserconfigProcessor.cs" />
+    <Compile Include="Services\WriteParFileInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
+      <Project>{809F10CD-988D-475A-8D5A-7FD17938053E}</Project>
+      <Name>GameServerQuery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-e7cd-4b44-acea-a9f4b5b55367}</Project>
+      <Name>withSIX.ContentEngine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
+      <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Applications\SN.withSIX.Mini.Applications.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
       <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
-      <Name>SN.withSIX.Mini.Applications</Name>
+      <Name>withSIX.Mini.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
-      <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
-      <Name>SN.withSIX.Mini.Core</Name>
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj">
+      <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
+      <Name>withSIX.Mini.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
+      <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

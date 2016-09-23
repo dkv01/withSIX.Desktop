@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</ProjectGuid>
+    <ProjectGuid>{D3D354E1-919F-4135-9496-ACD2C39806D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.ContentEngine.Core</RootNamespace>
-    <AssemblyName>SN.withSIX.ContentEngine.Core</AssemblyName>
+    <RootNamespace>SN.withSIX.ContentEngine.Infra</RootNamespace>
+    <AssemblyName>SN.withSIX.ContentEngine.Infra</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -123,20 +123,45 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="project.json" />
+    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.js.map" />
+    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.json" />
+    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.js.map" />
+    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.json" />
+    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.js.map" />
+    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.json" />
+    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.js.map" />
+    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IContentEngine.cs" />
-    <Compile Include="IContentEngineContent.cs" />
-    <Compile Include="IContentEngineGame.cs" />
-    <Compile Include="IModS.cs" />
+    <Compile Include="ContentEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceService.cs" />
+    <Compile Include="Services\GameFolderService.cs" />
+    <Compile Include="Services\IContentEngineGameContext.cs" />
+    <Compile Include="Services\TeamspeakService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
-      <Project>{417e2110-0640-4574-8bb1-18986315d83c}</Project>
-      <Name>SN.withSIX.Core</Name>
+    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
+      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
+      <Name>withSIX.Core.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>withSIX.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Diagnostics.Contracts">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile259\System.Diagnostics.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="withSIX.Api.Models">
+      <HintPath>..\packages\withSIX.Api.Models.2.0.1-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
