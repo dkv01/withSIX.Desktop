@@ -172,6 +172,7 @@
     <Compile Include="Services\ISteamDownloader.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />
     <Compile Include="Services\Queue.cs" />
+    <Compile Include="Services\ServiceRegistry.cs" />
     <Compile Include="Services\StateHandler.cs" />
     <Compile Include="Services\SteamDepotDownloader.cs" />
     <Compile Include="Services\ToolsCheat.cs" />

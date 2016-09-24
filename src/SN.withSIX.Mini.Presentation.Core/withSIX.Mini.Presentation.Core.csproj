@@ -337,6 +337,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApiPortHandler.cs" />
     <Compile Include="Services\ExplorerExtensionInstaller.cs" />
+    <Compile Include="Services\ServiceRegister.cs" />
     <Compile Include="Services\UacHelper.cs" />
     <Compile Include="SIHandler.cs" />
     <Compile Include="UnhandledExceptionHandler.cs" />

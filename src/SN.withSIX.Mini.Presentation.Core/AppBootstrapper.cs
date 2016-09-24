@@ -252,7 +252,6 @@ namespace SN.withSIX.Mini.Presentation.Core
                 cfg.SetupConverters();
                 foreach (var p in Container.GetAllInstances<Profile>())
                     cfg.AddProfile(p);
-                cfg.AddProfile<AutoMapperProfile>();
             }).CreateMapper();
 
             await RunInitializers().ConfigureAwait(false);
@@ -336,6 +335,11 @@ namespace SN.withSIX.Mini.Presentation.Core
 
             if (CommandMode)
                 Container.RegisterPlugins<BaseCommand>(_presentationAssemblies);
+
+            var serviceReg = new ServiceRegisterer(Container);
+            foreach (var t in pluginAssemblies.GetTypes<ServiceRegistry>())
+                 Activator.CreateInstance(t, serviceReg);
+
             // Fix JsonSerializer..
             //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));
         }
