@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Logging;
 using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core
 {
@@ -96,6 +97,11 @@ namespace SN.withSIX.Core
 
         public static Task<string> PostJson(this object model, Uri uri, string token = null)
             => model.PostJson(uri, client => Setup(client, uri, token));
+
+        public static async Task<T> PostJson<T>(this object model, Uri uri, string token = null) {
+            var r = await model.PostJson(uri, token).ConfigureAwait(false);
+            return r.FromJson<T>();
+        }
 
         public static void Setup(HttpClient client, Uri uri, string token) {
             DownloaderExtensions.HandleUserInfo(client, uri.UserInfo);

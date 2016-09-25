@@ -922,6 +922,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private readonly Dictionary<ulong, ProgressLeaf> _content;
             private readonly SteamHelperParser _steamHelperParser;
             private readonly IAbsoluteDirectoryPath _workshopPath;
+            private readonly SteamHelperRunner _steamHelperRunner;
 
             public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath,
                 Dictionary<ulong, ProgressLeaf> content) {
@@ -930,7 +931,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 _appId = appId;
                 _workshopPath = workshopPath;
                 _content = content;
-                _steamHelperParser = new SteamHelperParser(content);
+                _steamHelperParser = new SteamExternalInstallerSession.SteamHelperParser(content);
+                _steamHelperRunner = new SteamHelperRunner();
             }
 
             public Task Install(CancellationToken cancelToken, bool force) {
@@ -945,42 +947,9 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 return RunHelper(cancelToken, "uninstall", options.ToArray());
             }
 
-            private async Task RunHelper(CancellationToken cancelToken, string cmd, params string[] options) {
-                var helperExe = GetHelperExecutable();
-                var r =
-                    await
-                        Tools.ProcessManager.LaunchAndProcessAsync(
-                            new LaunchAndProcessInfo(new ProcessStartInfo(helperExe.ToString(),
-                                GetHelperParameters(cmd, options).CombineParameters()) {
-                                    WorkingDirectory = helperExe.ParentDirectoryPath.ToString()
-                                }) {
-                                    StandardOutputAction = _steamHelperParser.ProcessProgress,
-                                    StandardErrorAction =
-                                        (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s),
-                                    CancellationToken = cancelToken
-                                }).ConfigureAwait(false);
-                ProcessExitResult(r);
-            }
-
-            private static void ProcessExitResult(ProcessExitResult r) {
-                switch (r.ExitCode) {
-                case 3:
-                        // TODO
-                    throw new SteamInitializationException(
-                        "The Steam client does not appear to be running, or runs under different (Administrator?) priviledges. Please start Steam and/or restart the withSIX client under the same priviledges");
-                case 4:
-                    throw new SteamNotFoundException(
-                        "The Steam client does not appear to be running, nor was Steam found");
-                case 9:
-                    throw new TimeoutException("The operation timed out waiting for a response from the Steam client");
-                case 10:
-                    throw new OperationCanceledException("The operation was canceled");
-                }
-                r.ConfirmSuccess();
-            }
-
-            private static IAbsoluteFilePath GetHelperExecutable() => Common.Paths.AppPath
-                .GetChildFileWithName("SteamHelper.exe");
+            private Task RunHelper(CancellationToken cancelToken, string cmd, params string[] options)
+                => _steamHelperRunner.RunHelperInternal(cancelToken, GetHelperParameters(cmd, options), _steamHelperParser.ProcessProgress,
+                    (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s));
 
             private IEnumerable<string> GetHelperParameters(string command, params string[] options) {
                 if (Common.Flags.Verbose)

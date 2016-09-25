@@ -177,7 +177,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             .Select(Assembly.LoadFrom);
 
         static IEnumerable<string> DiscoverPluginDlls()
-            => assemblyPath.DirectoryInfo.GetFiles("*.plugin.*.dll").Select(x => x.FullName);
+            => assemblyPath.DirectoryInfo.GetFiles("*.mini.plugin.*.dll").Select(x => x.FullName);
 
         void SetupPaths() {
             Directory.CreateDirectory(_paths.LocalDataPath.ToString());
@@ -647,7 +647,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton(() => Tools.Compression);
             Container.RegisterSingleton(() => Tools.Compression.Gzip);
             Container.RegisterSingleton(() => Tools.HashEncryption);
-            Container.RegisterSingleton(() => Tools.Processes);
             Container.RegisterSingleton(() => Tools.Serialization);
             Container.RegisterSingleton(() => Tools.Serialization.Json);
             Container.RegisterSingleton(() => Tools.Transfer);

@@ -46,13 +46,16 @@
 		<file src="..\..\..\bin\SN.withSIX.Steam.Api.dll" target="lib\net45\SN.withSIX.Steam.Api.dll" />
         <file src="..\..\..\bin\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
 		
-		<file src="..\..\..\bin\SteamHelper.exe" target="lib\net45\SteamHelper.exe" />
-		<file src="..\..\..\bin\SteamHelper.exe.config" target="lib\net45\SteamHelper.exe.config" />
+		<file src="..\..\..\bin\withSIX.SteamHelper.exe" target="lib\net45\withSIX.SteamHelper.exe" />
+		<file src="..\..\..\bin\withSIX.SteamHelper.exe.config" target="lib\net45\withSIX.SteamHelper.exe.config" />
+		<file src="..\..\..\bin\SN.withSIX.Steam.Plugin.Arma.dll" target="lib\net45\SN.withSIX.Steam.Plugin.Arma.dll" />
 		<file src="..\..\..\bin\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
 		<file src="..\..\..\bin\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 		<file src="..\..\..\bin\steam_api.dll" target="lib\net45\steam_api.dll" />
 		<file src="..\..\..\bin\Steamworks.NET.dll" target="lib\net45\Steamworks.NET.dll" />
 		<file src="..\..\..\bin\CSteamworks.dll" target="lib\net45\CSteamworks.dll" />
+		<file src="..\..\..\bin\SteamLayer.dll" target="lib\net45\SteamLayer.dll" />
+		<file src="..\..\..\bin\SteamLayerWrap.dll" target="lib\net45\SteamLayerWrap.dll" />
 
         <file src="..\..\..\bin\SharpShell.dll" target="lib\net45\SharpShell.dll" />
         <file src="..\..\..\bin\srm.exe" target="lib\net45\srm.exe" />
@@ -155,6 +158,7 @@
 <file src="..\..\..\bin\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
 <file src="..\..\..\bin\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
 <file src="..\..\..\bin\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
+<file src="..\..\..\bin\System.Threading.Thread.dll" target="lib\net45\System.Threading.Thread.dll" />
 <file src="..\..\..\bin\System.Web.Cors.dll" target="lib\net45\System.Web.Cors.dll" />
 <file src="..\..\..\bin\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />
 		<!-- AUTOGEN -->

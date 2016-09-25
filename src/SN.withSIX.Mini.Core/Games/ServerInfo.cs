@@ -39,6 +39,11 @@ namespace SN.withSIX.Mini.Core.Games
         public List<Player> Players { get; set; }
     }
 
+    public class ServerInfo<T> : ServerInfo
+    {
+        public T Details { get; set; }
+    }
+
     public class Player
     {
         public string Name { get; set; }
@@ -67,6 +72,6 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IQueryServers
     {
         Task<List<IPEndPoint>> GetServers();
-        Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers = false);
+        Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails = false);
     }
 }

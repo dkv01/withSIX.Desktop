@@ -9,16 +9,21 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Parsers;
+using MediatR;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using Player = SN.withSIX.Mini.Core.Games.Player;
 
@@ -68,8 +73,57 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return r.Select(x => x.Address).ToList();
         }
 
-        public async Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclPlayers = false) {
+        public Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
+            bool inclExtendedDetails = false) => inclExtendedDetails ? GetFromSteam(addresses, inclExtendedDetails) : GetFromGameServerQuery(addresses, inclExtendedDetails);
+
+        private async Task<List<ServerInfo>> GetFromSteam(IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
+            await StartSteamHelper().ConfigureAwait(false);
+            // Ports adjusted becaused it expects the Connection Port!
+            var r = await new {
+                IncludeDetails = true,
+                IncludeRules = inclExtendedDetails,
+                Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
+            }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
+            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<ServerInfo>();
+        }
+
+        private static readonly AsyncLock _l = new AsyncLock();
+        private static volatile bool _isRunning;
+
+        private async Task StartSteamHelper() {
+            using (await _l.LockAsync().ConfigureAwait(false)) {
+                if (_isRunning)
+                    return;
+                var steamH = new SteamHelperRunner();
+                var tcs = new TaskCompletionSource<Unit>();
+                using (var cts = new CancellationTokenSource()) {
+                    var t = TaskExt.StartLongRunningTask(
+                        async () => {
+                            try {
+                                await steamH.RunHelperInternal(cts.Token, new[] {"interactive"}, (process, s) => {
+                                        if (s.StartsWith("Ready"))
+                                            tcs.SetResult(Unit.Value);
+                                    }, (proces, s) => tcs.SetException(new Exception($"Error running: {s}")))
+                                    .ConfigureAwait(false);
+                            } catch (Exception ex) {
+                                throw;
+                            } finally {
+                                using (await _l.LockAsync().ConfigureAwait(false))
+                                    _isRunning = false;
+                            }
+                        }, cts.Token);
+                    await tcs.Task;
+                }
+                _isRunning = true;
+            }
+        }
+
+        class ServersInfo
+        {
+            public List<ArmaServerInfoModel> Servers { get; set; }
+        }
+
+        private static async Task<List<ServerInfo>> GetFromGameServerQuery(IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
             var infos = new List<ServerInfo>();
             // TODO: Use serverquery queue ?
             foreach (var a in addresses) {
@@ -78,7 +132,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 var server = new Server(serverInfo);
                 using (
                     var serverQueryState = new ServerQueryState(server, sourceQueryParser) {HandlePlayers = inclPlayers}
-                    ) {
+                ) {
                     var q = new SourceServerQuery(serverQueryState, "arma3");
                     await q.UpdateAsync().ConfigureAwait(false);
                     try {
@@ -107,7 +161,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         private IReadOnlyCollection<IContentSpec<IInstallableContent>> HandleAia(
             IReadOnlyCollection<IContentSpec<IInstallableContent>> content) {
-            var info = new AiaInfo(content.Select(x => x.Content).OfType<IHavePackageName>());
+            var info = new AiaInfo(content.Select(x => x.Content).OfType<IHavePackageName>().ToArray());
             var newModsList = content.ToList();
             if (info.HasAia() && info.HasCup()) {
                 //    if (aiaSpecific != null || aiaSpecificLite != null)
@@ -121,7 +175,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         private IReadOnlyCollection<ILaunchableContent> HandleAia(IReadOnlyCollection<ILaunchableContent> content) {
-            var info = new AiaInfo(content.OfType<IHavePackageName>());
+            var info = new AiaInfo(content.OfType<IHavePackageName>().ToArray());
             var newModsList = content.ToList();
             if (info.HasAia() && info.HasCup()) {
                 //    if (aiaSpecific != null || aiaSpecificLite != null)
@@ -153,7 +207,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         class AiaInfo
         {
-            public AiaInfo(IEnumerable<IHavePackageName> contentWithPackageNames) {
+            public AiaInfo(IReadOnlyCollection<IHavePackageName> contentWithPackageNames) {
                 const string allinarmaTp = "@AllInArmaTerrainPack";
                 const string allinarmaTpLite = "@AllInArmaTerrainPackLite";
                 const string cupTerrainCore = "@cup_terrains_core";
@@ -532,6 +586,244 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
                 var split = coordinates.Split('-');
                 return new Coordinates(split[0].TryDouble(), split[1].TryDouble());
             }
+        }
+    }
+
+    public class ArmaServerInfoModel
+    {
+        public ArmaServerInfoModel(IPEndPoint queryEndpoint) {
+            QueryEndPoint = queryEndpoint;
+            ConnectionEndPoint = QueryEndPoint;
+            ModList = new List<ServerModInfo>();
+            SignatureList = new HashSet<string>();
+
+        }
+
+        public AiLevel AiLevel { get; set; }
+
+        public IPEndPoint ConnectionEndPoint { get; set; }
+
+        public int CurrentPlayers { get; set; }
+
+        public Difficulty Difficulty { get; set; }
+
+        public Dlcs DownloadableContent { get; set; }
+
+        public GameTags GameTags { get; set; }
+
+        public HelicopterFlightModel HelicopterFlightModel { get; set; }
+
+        public bool IsModListOverflowed { get; set; }
+
+        public bool IsSignatureListOverflowed { get; set; }
+
+        public bool IsThirdPersonViewEnabled { get; set; }
+
+        public bool IsVacEnabled { get; set; }
+
+        public bool IsWeaponCrosshairEnabled { get; set; }
+
+        public string Map { get; set; }
+
+        public int MaxPlayers { get; set; }
+
+        public string Mission { get; set; }
+
+        public List<ServerModInfo> ModList { get; set; }
+
+        public string Name { get; set; }
+
+        public int Ping { get; set; }
+
+        public IPEndPoint QueryEndPoint { get; }
+
+        public bool RequirePassword { get; set; }
+
+        public bool RequiresExpansionTerrain { get; set; }
+
+        public int ServerVersion { get; set; }
+
+        public HashSet<string> SignatureList { get; set; }
+
+        public string Tags { get; set; }
+
+        public bool ReceivedRules { get; set; }
+    }
+
+    public class ServerModInfo
+    {
+        public int Hash { get; set; }
+        public bool IsOptionalOnServer { get; set; }
+        public bool IsRequiredByMission { get; set; }
+        public string Name { get; set; }
+        public ulong PublishedId { get; set; }
+    }
+
+    public enum AiLevel
+    {
+        Novice,
+        Normal,
+        Expert,
+        Custom
+    }
+
+    public enum Difficulty
+    {
+        Recruit,
+        Regular,
+        Veteran,
+        Custom
+    }
+
+    [Flags]
+    public enum Dlcs
+    {
+        Apex = 0x10,
+        Helicopters = 4,
+        Karts = 2,
+        Marksmen = 8,
+        None = 0,
+        Tanoa = 0x20,
+        Zeus = 1
+    }
+
+    public enum HelicopterFlightModel
+    {
+        Basic,
+        Advanced
+    }
+
+    public class GameTags
+    {
+        public int? AllowedFilePatching { get; set; }
+
+        public bool? BattlEye { get; set; }
+
+        public int? Build { get; set; }
+
+        public string Country { get; set; }
+
+        public bool? Dedicated { get; set; }
+
+        public int? Difficulty { get; set; }
+
+        public bool? EqualModRequired { get; set; }
+
+        public string GameType { get; set; }
+
+        public int? GlobalHash { get; set; }
+
+        public int? Language { get; set; }
+
+        public bool? Lock { get; set; }
+
+        public float? Param1 { get; set; }
+
+        public float? Param2 { get; set; }
+
+        public char? Platform { get; set; }
+
+        public int? ServerState { get; set; }
+
+        public int? TimeRemaining { get; set; }
+
+        public bool? VerifySignatures { get; set; }
+
+        public int? Version { get; set; }
+
+        public static GameTags Parse(string value) {
+            var tags = new GameTags();
+            foreach (var tuple in NDepend.Helpers.ExtensionMethodsSet.ToHashSet(from part in value.Split(',')
+                                   where part.Length > 0
+                                   select Tuple.Create(part[0], part.Substring(1)))) {
+                switch (tuple.Item1) {
+                    case 'b':
+                        tags.BattlEye = ReadBool(tuple.Item2);
+                        break;
+
+                    case 'd':
+                        tags.Dedicated = ReadBool(tuple.Item2);
+                        break;
+
+                    case 'e':
+                        tags.TimeRemaining = ReadInt(tuple.Item2);
+                        break;
+
+                    case 'f':
+                        tags.AllowedFilePatching = ReadInt(tuple.Item2);
+                        break;
+
+                    case 'g':
+                        tags.Language = ReadInt(tuple.Item2);
+                        break;
+
+                    case 'h':
+                        tags.GlobalHash = ReadInt(tuple.Item2);
+                        break;
+
+                    case 'l':
+                        tags.Lock = ReadBool(tuple.Item2);
+                        break;
+
+                    case 'm':
+                        tags.EqualModRequired = ReadBool(tuple.Item2);
+                        break;
+
+                    case 'n':
+                        tags.Build = ReadInt(tuple.Item2);
+                        break;
+
+                    case 'o':
+                        tags.Country = tuple.Item2;
+                        break;
+
+                    case 'p':
+                        tags.Platform = ReadChar(tuple.Item2);
+                        break;
+
+                    case 'r':
+                        tags.Version = ReadInt(tuple.Item2);
+                        break;
+
+                    case 's':
+                        tags.ServerState = ReadInt(tuple.Item2);
+                        break;
+
+                    case 't':
+                        tags.GameType = tuple.Item2;
+                        break;
+
+                    case 'v':
+                        tags.VerifySignatures = ReadBool(tuple.Item2);
+                        break;
+                }
+            }
+            return tags;
+        }
+
+        private static bool? ReadBool(string value) {
+            if (value == "t") {
+                return true;
+            }
+            if (value == "f") {
+                return false;
+            }
+            return null;
+        }
+
+        private static char? ReadChar(string value) {
+            if (!string.IsNullOrWhiteSpace(value)) {
+                return value[0];
+            }
+            return null;
+        }
+
+        private static int? ReadInt(string value) {
+            int num;
+            if (!int.TryParse(value, out num)) {
+                return null;
+            }
+            return num;
         }
     }
 }

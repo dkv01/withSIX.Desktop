@@ -46,7 +46,7 @@ namespace SN.withSIX.Steam.Api
             => p.MainModule.FileName.Equals(SteamExePath.ToString(), StringComparison.InvariantCultureIgnoreCase);
 
         static Process[] GetSteamProcesses()
-            => Tools.Processes.FindProcess(SteamInfos.SteamExecutable);
+            => Tools.ProcessManager.Management.FindProcess(SteamInfos.SteamExecutable);
 
         void TryDetectSteamRunning() {
             try {
@@ -91,7 +91,7 @@ namespace SN.withSIX.Steam.Api
         private void WaitForSteamProcess() {
             var tries = 0;
             while (!IsSteamRunning && tries < 10) {
-                if (Tools.Processes.FindProcess(SteamInfos.SteamServiceExecutable).Any())
+                if (Tools.ProcessManager.Management.FindProcess(SteamInfos.SteamServiceExecutable).Any())
                     IsSteamRunning = true;
 
                 Thread.Sleep(1000);

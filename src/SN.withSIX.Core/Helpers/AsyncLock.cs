@@ -28,7 +28,7 @@ namespace SN.withSIX.Core.Helpers
             return wait.IsCompleted
                 ? m_releaser
                 : wait.ContinueWith((_, state) => (IDisposable) state,
-                    m_releaser.Result, CancellationToken.None,
+                    _releaser, CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
         }
 
@@ -37,7 +37,7 @@ namespace SN.withSIX.Core.Helpers
             return wait.IsCompleted
                 ? m_releaser
                 : wait.ContinueWith((_, state) => (IDisposable) state,
-                    m_releaser.Result, CancellationToken.None,
+                    _releaser, CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
         }
 

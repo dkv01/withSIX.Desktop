@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright company="SIX Networks GmbH" file="ServiceRegister.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using SimpleInjector;
 using SN.withSIX.Mini.Applications.Services;
 
@@ -11,6 +10,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
     public class ServiceRegisterer : IRegisterServices
     {
         private readonly Container _container;
+
         public ServiceRegisterer(Container container) {
             _container = container;
         }

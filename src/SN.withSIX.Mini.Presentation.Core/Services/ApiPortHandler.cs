@@ -180,8 +180,8 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                 => profiles.Where(x => ShouldInstall(pm, toolLocation, tmpFolder, x)).ToArray();
 
             private static void TerminateFirefox() {
-                foreach (var p in Tools.Processes.FindProcess("firefox.exe"))
-                    Tools.Processes.KillProcess(p);
+                foreach (var p in Tools.ProcessManager.Management.FindProcess("firefox.exe"))
+                    Tools.ProcessManager.Management.KillProcess(p);
             }
 
             private static void InstallCerts(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,

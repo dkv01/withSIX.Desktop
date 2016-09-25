@@ -242,7 +242,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                 _container.RegisterSingleton(() => Tools.Compression);
                 _container.RegisterSingleton(() => Tools.Compression.Gzip);
                 _container.RegisterSingleton(() => Tools.HashEncryption);
-                _container.RegisterSingleton(() => Tools.Processes);
                 _container.RegisterSingleton(() => Tools.Serialization);
                 _container.RegisterSingleton(() => Tools.Serialization.Json);
                 _container.RegisterSingleton(() => Tools.Transfer);

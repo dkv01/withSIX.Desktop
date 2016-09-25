@@ -162,7 +162,7 @@ namespace SN.withSIX.Core.Presentation
             Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(process));
 
-            SetForeground(Tools.Processes.FindProcess(process));
+            SetForeground(Tools.ProcessManager.Management.FindProcess(process));
         }
 
         public static void SetForeground(Process process, int cmdShow = SW_SHOWNORMAL) {

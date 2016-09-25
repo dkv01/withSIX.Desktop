@@ -61,7 +61,8 @@ namespace SN.withSIX.Steam.Presentation
             var steamApi = new SteamApi(steamSessionFactory);
             return new BaseCommand[] {
                 new InstallCommand(steamSessionFactory, new SteamDownloader(steamApi), steamApi),
-                new UninstallCommand(steamSessionFactory, steamApi)
+                new UninstallCommand(steamSessionFactory, steamApi),
+                new RunInteractive()
             };
         }
     }

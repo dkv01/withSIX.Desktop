@@ -7,11 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net.Http;
-using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Akavache.Sqlite3.Internal;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Repositories.Internals;
@@ -55,7 +53,8 @@ namespace SN.withSIX.Core.Presentation.Services
             new BasicUserError("It seems another program is locking the repository",
                 "Please close other applications, like Play withSIX, and try again", innerException: ex);
 
-        protected static UserErrorModel Handle(ChecksumException ex, string action) => HandleCorruptionException(ex, action);
+        protected static UserErrorModel Handle(ChecksumException ex, string action)
+            => HandleCorruptionException(ex, action);
 
         protected static UserErrorModel Handle(CompressedFileException ex, string action)
             => HandleCorruptionException(ex, action);
@@ -75,12 +74,16 @@ More info: " + ex.Message, innerException: ex);
 
 
         protected static UserErrorModel Handle(UnauthorizedAccessException ex, string action)
-            => new RecoverableUserError(ex, "Access denied", "Please make sure the path is writable and not in use by a running game or otherwise\n\nError info: " + ex.Message);
+            =>
+            new RecoverableUserError(ex, "Access denied",
+                "Please make sure the path is writable and not in use by a running game or otherwise\n\nError info: " +
+                ex.Message);
 
         protected static UserErrorModel Handle(HttpRequestException ex)
             =>
-                new RecoverableUserError(ex, "Could not connect",
-                    "A http request has failed, is your internet connected? Are the DNS servers configured correctly?\n\nError info: " + ex.Message);
+            new RecoverableUserError(ex, "Could not connect",
+                "A http request has failed, is your internet connected? Are the DNS servers configured correctly?\n\nError info: " +
+                ex.Message);
 
         //        protected static UserError Handle(Win32Exception ex, string action) {
         //            return ex.NativeErrorCode == Win32ErrorCodes.ERROR_CANCELLED_ELEVATION
@@ -107,6 +110,6 @@ More info: " + ex.Message, innerException: ex);
 
         // TODO: ability to unwrap other exception kinds? -> Extension Method?
         protected static Exception UnwrapExceptionIfNeeded(Exception ex)
-            => ex is TargetInvocationException && ex.InnerException != null ? ex.InnerException : ex;
+            => ex is TargetInvocationException && (ex.InnerException != null) ? ex.InnerException : ex;
     }
 }

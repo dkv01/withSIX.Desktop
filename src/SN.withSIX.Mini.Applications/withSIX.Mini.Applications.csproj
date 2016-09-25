@@ -144,6 +144,7 @@
     <Compile Include="Factories\InstallerSessionFactory.cs" />
     <Compile Include="GameExceptionHandler.cs" />
     <Compile Include="GameWriteLockDecorator.cs" />
+    <Compile Include="Initializer.cs" />
     <Compile Include="Models\ContentStatus.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="NotificationHandlers\NotificationProviderHandler.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Services\ServiceRegistry.cs" />
     <Compile Include="Services\StateHandler.cs" />
     <Compile Include="Services\SteamDepotDownloader.cs" />
+    <Compile Include="Services\SteamHelperRunner.cs" />
     <Compile Include="Services\ToolsCheat.cs" />
     <Compile Include="Services\UninstallerSession.cs" />
     <Compile Include="SetupGameStuff.cs" />

@@ -13,9 +13,7 @@ using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 
 namespace SN.withSIX.Mini.Applications

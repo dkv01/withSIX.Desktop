@@ -14,7 +14,6 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {

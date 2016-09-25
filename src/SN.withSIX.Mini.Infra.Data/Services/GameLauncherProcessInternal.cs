@@ -97,7 +97,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             void SetAffinity() {
                 try {
-                    Tools.Processes.SetAffinity(_launchedGame, _spec.Affinity);
+                    Tools.ProcessManager.Management.SetAffinity(_launchedGame, _spec.Affinity);
                 } catch (Win32Exception ex) {
                     if (ex.NativeErrorCode != Win32ErrorCodes.ACCESS_DENIED)
                         throw;
@@ -203,7 +203,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             static void TrySetForeground(Process launchedGame) {
                 try {
                     throw new NotImplementedException();
-                    //Tools.ProcessesTools.NativeMethods.SetForeground(launchedGame);
+                    //Tools.ProcessManager.ManagementTools.NativeMethods.SetForeground(launchedGame);
                 } catch (Exception e) {
                     MainLog.Logger.FormattedWarnException(e);
                 }

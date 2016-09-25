@@ -265,7 +265,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
         private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
 
         public async Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclPlayers = false) {
+            bool inclExtendedDetails = false) {
             var infos = new List<ServerInfo>();
             // TODO: Use serverquery queue ?
             foreach (var a in addresses) {
@@ -273,7 +273,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 infos.Add(serverInfo);
                 var server = new Server(serverInfo);
                 using (
-                    var serverQueryState = new ServerQueryState(server, sourceQueryParser) { HandlePlayers = inclPlayers }
+                    var serverQueryState = new ServerQueryState(server, sourceQueryParser) { HandlePlayers = inclExtendedDetails }
                     ) {
                     var q = new SourceServerQuery(serverQueryState, "arma3");
                     await q.UpdateAsync().ConfigureAwait(false);
