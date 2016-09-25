@@ -55,6 +55,7 @@
 		<file src="bin\release\CSteamworks.dll" target="lib\net45\CSteamworks.dll" />
 		<file src="bin\release\SteamLayer.dll" target="lib\net45\SteamLayer.dll" />
 		<file src="bin\release\SteamLayerWrap.dll" target="lib\net45\SteamLayerWrap.dll" />
+		<file src="bin\release\log4net.dll" target="lib\net45\log4net.dll" />
 
         <file src="bin\release\GameServerQuery.dll" target="lib\net45\GameServerQuery.dll" />
         <file src="bin\release\SharpShell.dll" target="lib\net45\SharpShell.dll" />
