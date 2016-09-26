@@ -8,21 +8,20 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
-using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Owin;
 using Owin;
+using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Infra.Api;
-using withSIX.Steam.Plugin.Arma;
 using withSIX.Api.Models.Extensions;
+using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
 
 namespace SN.withSIX.Steam.Presentation
@@ -31,8 +30,22 @@ namespace SN.withSIX.Steam.Presentation
     {
         public void Configuration(IAppBuilder app) {
             app.UseCors(new MyCorsOptions());
-            app.Map("/api", api => { api.AddPath<GetServerInfo, ServerInfo>("/get-server-info"); });
+            app.Map("/api", api => {
+                api.AddPath<GetServerInfo, ServerInfo>("/get-server-info");
+                api.AddPath<GetEvents, EventsModel>("/get-events");
+            });
         }
+    }
+
+    public class GetEvents : IAsyncQuery<EventsModel> {}
+
+    public class GetEventsHandler : IAsyncRequestHandler<GetEvents, EventsModel>
+    {
+        private readonly EventStorage _eventStorage = new EventStorage();
+
+        public async Task<EventsModel> Handle(GetEvents message) => new EventsModel {
+            Events = await _eventStorage.DrainEvents().ConfigureAwait(false)
+        };
     }
 
     public class GetServerInfo : IAsyncQuery<ServerInfo>
@@ -41,6 +54,12 @@ namespace SN.withSIX.Steam.Presentation
         public List<IPEndPoint> Addresses { get; set; }
         public bool IncludeRules { get; set; }
         public bool IncludeDetails { get; set; }
+    }
+
+    public static class Raiser
+    {
+        public static IEventStorage Raiserr { get; set; }
+        public static Task Raise(this IEvent evt) => Raiserr.AddEvent(evt);
     }
 
     public class GetServerInfoHandler : IAsyncRequestHandler<GetServerInfo, ServerInfo>
@@ -55,7 +74,7 @@ namespace SN.withSIX.Steam.Presentation
             using (var sb = await SteamActions.CreateServerBrowser(_steamApi).ConfigureAwait(false)) {
                 using (var cts = new CancellationTokenSource()) {
                     var builder = ServerFilterBuilder.Build();
-                    if (message.Addresses != null && message.Addresses.Any())
+                    if ((message.Addresses != null) && message.Addresses.Any())
                         builder.FilterByAddresses(message.Addresses);
                     var filter = builder.Value;
                     var obs = await (message.IncludeDetails
@@ -64,6 +83,10 @@ namespace SN.withSIX.Steam.Presentation
                     var r =
                         await
                             obs
+                                .SelectMany(async x => {
+                                    await new ReceivedServerEvent(x).Raise().ConfigureAwait(false);
+                                    return x;
+                                })
                                 .Take(10) // todo config limit
                                 .ToList();
                     cts.Cancel();
@@ -71,6 +94,27 @@ namespace SN.withSIX.Steam.Presentation
                 }
             }
         }
+    }
+
+    public class RemoteEvent<T> where T : IEvent
+    {
+        public RemoteEvent(T evt) {
+            Data = evt;
+            Type = evt.GetType().Name;
+        }
+
+        public string Type { get; }
+
+        public T Data { get; }
+    }
+
+    public class ReceivedServerEvent : IEvent
+    {
+        public ReceivedServerEvent(ArmaServerInfo armaServerInfo) {
+            ServerInfo = armaServerInfo;
+        }
+
+        public ArmaServerInfo ServerInfo { get; }
     }
 
     public class ServerInfo

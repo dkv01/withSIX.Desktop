@@ -320,6 +320,7 @@
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\RunInteractive.cs" />
     <Compile Include="Commands\UninstallCommand.cs" />
+    <Compile Include="EventStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

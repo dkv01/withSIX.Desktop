@@ -32,6 +32,12 @@ namespace SN.withSIX.Steam.Presentation.Commands
             App.SteamHelper = SteamHelper.Create();
             LockedWrapper.callFactory = new SafeCallFactory(); // workaround for accessviolation errors
             SetupContainer(steamApi);
+            CreateInstances();
+        }
+
+        private void CreateInstances() {
+            Cheat.SetServices(_container.GetInstance<ICheatImpl>());
+            Raiser.Raiserr = new EventStorage();
         }
 
         public IEnumerable<BaseCommand> GetCommands() {
@@ -62,9 +68,9 @@ namespace SN.withSIX.Steam.Presentation.Commands
             _container.RegisterSingleton<ISteamDownloader, SteamDownloader>();
             _container.RegisterSingleton<Api.Services.ISteamApi, SteamApi>();
             _container.RegisterSingleton(steamApi);
+            _container.RegisterSingleton<IEventStorage, EventStorage>();
             RegisterRequestHandlers();
             RegisterNotificationHandlers();
-            Cheat.SetServices(_container.GetInstance<ICheatImpl>());
         }
 
         private void RegisterRequestHandlers() {
