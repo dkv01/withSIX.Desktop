@@ -14,8 +14,10 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Parsers;
 using MediatR;
+using NDepend.Helpers;
 using NDepend.Path;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
@@ -30,15 +32,15 @@ using Player = SN.withSIX.Mini.Core.Games.Player;
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.Arma3, Name = "Arma 3", Slug = "Arma-3",
-        Executables = new[] {"arma3.exe"},
-        IsPublic = true,
-        ServerExecutables = new[] {"arma3server.exe"},
-        LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-        Dlcs = new[] {"Karts", "Helicopters", "Marksmen"})]
+         Executables = new[] {"arma3.exe"},
+         IsPublic = true,
+         ServerExecutables = new[] {"arma3server.exe"},
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
+         Dlcs = new[] {"Karts", "Helicopters", "Marksmen"})]
     [SteamInfo(SteamGameIds.Arma3, "Arma 3", DRM = true)]
     [RegistryInfo(BohemiaRegistry + @"\ArmA 3", "main")]
     [RvProfileInfo("Arma 3", "Arma 3 - other profiles",
-        "Arma3Profile")]
+         "Arma3Profile")]
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb" /*GameUUids.Arma3 */)
     ]
     [DataContract]
@@ -54,6 +56,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         private static readonly string[] getCompatibilityTerrains = {"@cup_terrains_core"};
 
         static readonly string[] emptyAddons = new string[0];
+
+        private static readonly AsyncLock _l = new AsyncLock();
+        private static volatile bool _isRunning;
         readonly string[] _a3MpCategories = {"Island", "Objects (Buildings, Foliage, Trees etc)"};
         private readonly Guid[] _getCompatibleGameIds;
         readonly string[] _objectCategories = {"Objects (Buildings, Foliage, Trees etc)"};
@@ -73,22 +78,28 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return r.Select(x => x.Address).ToList();
         }
 
-        public Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclExtendedDetails = false) => inclExtendedDetails ? GetFromSteam(addresses, inclExtendedDetails) : GetFromGameServerQuery(addresses, inclExtendedDetails);
+        public Task<List<ServerInfo>> GetServerInfos(
+                System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses,
+                bool inclExtendedDetails = false)
+            =>
+            inclExtendedDetails
+                ? GetFromSteam(addresses, inclExtendedDetails)
+                : GetFromGameServerQuery(addresses, inclExtendedDetails);
 
-        private async Task<List<ServerInfo>> GetFromSteam(IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
+        private async Task<List<ServerInfo>> GetFromSteam(
+            System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
             await StartSteamHelper().ConfigureAwait(false);
             // Ports adjusted becaused it expects the Connection Port!
-            var r = await new {
-                IncludeDetails = true,
-                IncludeRules = inclExtendedDetails,
-                Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
-            }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
-            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<ServerInfo>();
+            using (var drainer = new Drainer()) {
+                var t = drainer.Drain();
+                var r = await new {
+                    IncludeDetails = true,
+                    IncludeRules = inclExtendedDetails,
+                    Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
+                }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
+                return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<ServerInfo>();
+            }
         }
-
-        private static readonly AsyncLock _l = new AsyncLock();
-        private static volatile bool _isRunning;
 
         private async Task StartSteamHelper() {
             using (await _l.LockAsync().ConfigureAwait(false)) {
@@ -121,12 +132,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             }
         }
 
-        class ServersInfo
-        {
-            public List<ArmaServerInfoModel> Servers { get; set; }
-        }
-
-        private static async Task<List<ServerInfo>> GetFromGameServerQuery(IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
+        private static async Task<List<ServerInfo>> GetFromGameServerQuery(
+            System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
             var infos = new List<ServerInfo>();
             // TODO: Use serverquery queue ?
             foreach (var a in addresses) {
@@ -162,8 +169,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             };
         }
 
-        private IReadOnlyCollection<IContentSpec<IInstallableContent>> HandleAia(
-            IReadOnlyCollection<IContentSpec<IInstallableContent>> content) {
+        private System.Collections.Generic.IReadOnlyCollection<IContentSpec<IInstallableContent>> HandleAia(
+            System.Collections.Generic.IReadOnlyCollection<IContentSpec<IInstallableContent>> content) {
             var info = new AiaInfo(content.Select(x => x.Content).OfType<IHavePackageName>().ToArray());
             var newModsList = content.ToList();
             if (info.HasAia() && info.HasCup()) {
@@ -177,7 +184,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return newModsList;
         }
 
-        private IReadOnlyCollection<ILaunchableContent> HandleAia(IReadOnlyCollection<ILaunchableContent> content) {
+        private System.Collections.Generic.IReadOnlyCollection<ILaunchableContent> HandleAia(
+            System.Collections.Generic.IReadOnlyCollection<ILaunchableContent> content) {
             var info = new AiaInfo(content.OfType<IHavePackageName>().ToArray());
             var newModsList = content.ToList();
             if (info.HasAia() && info.HasCup()) {
@@ -191,7 +199,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return newModsList;
         }
 
-        protected override IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
+        protected override System.Collections.Generic.IReadOnlyCollection<ILaunchableContent> GetLaunchables(
+                ILaunchContentAction<IContent> action)
             => HandleAia(base.GetLaunchables(action));
 
         protected override StartupBuilder GetStartupBuilder() => new StartupBuilder(this, new Arma3ModListBuilder());
@@ -199,18 +208,24 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected override IAbsoluteFilePath GetBattleEyeClientExectuable()
             => GetExecutable().GetBrotherFileWithName(BattleEyeExe);
 
-        public override IReadOnlyCollection<Guid> GetCompatibleGameIds() => _getCompatibleGameIds;
+        public override System.Collections.Generic.IReadOnlyCollection<Guid> GetCompatibleGameIds()
+            => _getCompatibleGameIds;
 
-        public override IReadOnlyCollection<string> GetCompatibilityMods(string packageName,
-            IReadOnlyCollection<string> tags)
+        public override System.Collections.Generic.IReadOnlyCollection<string> GetCompatibilityMods(string packageName,
+                System.Collections.Generic.IReadOnlyCollection<string> tags)
             => tags.Any(x => _objectCategories.ContainsIgnoreCase(x)) ? emptyAddons : TerrainsVsOther(tags);
 
         private string[] TerrainsVsOther(IEnumerable<string> tags)
             => tags.Any(x => _a3MpCategories.ContainsIgnoreCase(x)) ? getCompatibilityTerrains : getCompatibilityMods;
 
+        class ServersInfo
+        {
+            public List<ArmaServerInfoModel> Servers { get; set; }
+        }
+
         class AiaInfo
         {
-            public AiaInfo(IReadOnlyCollection<IHavePackageName> contentWithPackageNames) {
+            public AiaInfo(System.Collections.Generic.IReadOnlyCollection<IHavePackageName> contentWithPackageNames) {
                 const string allinarmaTp = "@AllInArmaTerrainPack";
                 const string allinarmaTpLite = "@AllInArmaTerrainPackLite";
                 const string cupTerrainCore = "@cup_terrains_core";
@@ -234,11 +249,11 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             static bool Matches(string packageName, string modName)
                 => packageName.Equals(modName, StringComparison.CurrentCultureIgnoreCase);
 
-            public bool HasAia() => Aia != null || AiaLite != null;
+            public bool HasAia() => (Aia != null) || (AiaLite != null);
             public bool HasCup() => Cup != null;
 
-            public bool IsCup(IContent content) => Cup == content || CupMaps == content;
-            public bool IsAia(IContent content) => Aia == content || AiaLite == content;
+            public bool IsCup(IContent content) => (Cup == content) || (CupMaps == content);
+            public bool IsAia(IContent content) => (Aia == content) || (AiaLite == content);
             public bool IsA3Mp(IContent content) => A3Mp == content;
         }
 
@@ -284,7 +299,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             List<IAbsoluteDirectoryPath> _additional;
             List<IAbsoluteDirectoryPath> _additionalAiA;
             IfaState _ifa;
-            IReadOnlyCollection<IModContent> _nonAiaMods;
+            System.Collections.Generic.IReadOnlyCollection<IModContent> _nonAiaMods;
             // we dont need to support legacy AiA anymore with standalone available..
             /*
             public Arma3ModListBuilder(AllInArmaGames aiaGames)
@@ -311,7 +326,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             void HandleA3Mp() {
                 foreach (var a3Mp in Arma2TerrainPacks.Select(m => InputMods
-                    .FirstOrDefault(x => x.PackageName.Equals(m, StringComparison.OrdinalIgnoreCase)))
+                        .FirstOrDefault(x => x.PackageName.Equals(m, StringComparison.OrdinalIgnoreCase)))
                     .Where(a3Mp => a3Mp != null))
                     OutputMods.AddRange(GetModPaths(a3Mp));
             }
@@ -383,7 +398,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             static IEnumerable<IAbsoluteDirectoryPath> ExistingMods(IAbsoluteDirectoryPath[] paths, params string[] mods)
                 => paths.Any()
                     ? mods.Select(
-                        x => paths.Select(path => path.GetChildDirectoryWithName(x)).FirstOrDefault(p => p.Exists))
+                            x => paths.Select(path => path.GetChildDirectoryWithName(x)).FirstOrDefault(p => p.Exists))
                         .Where(x => x != null)
                     : Enumerable.Empty<IAbsoluteDirectoryPath>();
 
@@ -484,7 +499,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             Info.NumPlayers = result.GetSettingOrDefault("playerCount").TryInt();
             Info.MaxPlayers = result.GetSettingOrDefault("playerMax").TryInt();
             var port = result.GetSettingOrDefault("port").TryInt();
-            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                 port = Info.Address.Port - 1;
             Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
             Info.Mods = GetList(result.Settings, "modNames").ToList();
@@ -506,10 +521,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         static IEnumerable<string> GetList(IEnumerable<KeyValuePair<string, string>> dict, string keyWord) {
             var rx = GetRx(keyWord);
             return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
-                let w = rx.Match(kvp.Key)
-                where w.Success
-                select new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
-                .OrderBy(x => x.Index).SelectMany(x => x.Value))
+                        let w = rx.Match(kvp.Key)
+                        where w.Success
+                        select new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
+                    .OrderBy(x => x.Index).SelectMany(x => x.Value))
                 .Split(';')
                 .Where(x => !string.IsNullOrWhiteSpace(x));
         }
@@ -560,7 +575,7 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
 
             static string JoinChar(IEnumerable<char> enumerable) => string.Join("", enumerable);
 
-            bool ParseBool(string key) => _settings.ContainsKey(key) && _settings[key] == "t";
+            bool ParseBool(string key) => _settings.ContainsKey(key) && (_settings[key] == "t");
 
             string ParseString(string key) => _settings.ContainsKey(key) ? _settings[key] : null;
 
@@ -599,7 +614,6 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
             ConnectionEndPoint = QueryEndPoint;
             ModList = new List<ServerModInfo>();
             SignatureList = new HashSet<string>();
-
         }
 
         public AiLevel AiLevel { get; set; }
@@ -736,69 +750,69 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
 
         public static GameTags Parse(string value) {
             var tags = new GameTags();
-            foreach (var tuple in NDepend.Helpers.ExtensionMethodsSet.ToHashSet(from part in value.Split(',')
-                                   where part.Length > 0
-                                   select Tuple.Create(part[0], part.Substring(1)))) {
+            foreach (var tuple in ExtensionMethodsSet.ToHashSet(from part in value.Split(',')
+                where part.Length > 0
+                select Tuple.Create(part[0], part.Substring(1)))) {
                 switch (tuple.Item1) {
-                    case 'b':
-                        tags.BattlEye = ReadBool(tuple.Item2);
-                        break;
+                case 'b':
+                    tags.BattlEye = ReadBool(tuple.Item2);
+                    break;
 
-                    case 'd':
-                        tags.Dedicated = ReadBool(tuple.Item2);
-                        break;
+                case 'd':
+                    tags.Dedicated = ReadBool(tuple.Item2);
+                    break;
 
-                    case 'e':
-                        tags.TimeRemaining = ReadInt(tuple.Item2);
-                        break;
+                case 'e':
+                    tags.TimeRemaining = ReadInt(tuple.Item2);
+                    break;
 
-                    case 'f':
-                        tags.AllowedFilePatching = ReadInt(tuple.Item2);
-                        break;
+                case 'f':
+                    tags.AllowedFilePatching = ReadInt(tuple.Item2);
+                    break;
 
-                    case 'g':
-                        tags.Language = ReadInt(tuple.Item2);
-                        break;
+                case 'g':
+                    tags.Language = ReadInt(tuple.Item2);
+                    break;
 
-                    case 'h':
-                        tags.GlobalHash = ReadInt(tuple.Item2);
-                        break;
+                case 'h':
+                    tags.GlobalHash = ReadInt(tuple.Item2);
+                    break;
 
-                    case 'l':
-                        tags.Lock = ReadBool(tuple.Item2);
-                        break;
+                case 'l':
+                    tags.Lock = ReadBool(tuple.Item2);
+                    break;
 
-                    case 'm':
-                        tags.EqualModRequired = ReadBool(tuple.Item2);
-                        break;
+                case 'm':
+                    tags.EqualModRequired = ReadBool(tuple.Item2);
+                    break;
 
-                    case 'n':
-                        tags.Build = ReadInt(tuple.Item2);
-                        break;
+                case 'n':
+                    tags.Build = ReadInt(tuple.Item2);
+                    break;
 
-                    case 'o':
-                        tags.Country = tuple.Item2;
-                        break;
+                case 'o':
+                    tags.Country = tuple.Item2;
+                    break;
 
-                    case 'p':
-                        tags.Platform = ReadChar(tuple.Item2);
-                        break;
+                case 'p':
+                    tags.Platform = ReadChar(tuple.Item2);
+                    break;
 
-                    case 'r':
-                        tags.Version = ReadInt(tuple.Item2);
-                        break;
+                case 'r':
+                    tags.Version = ReadInt(tuple.Item2);
+                    break;
 
-                    case 's':
-                        tags.ServerState = ReadInt(tuple.Item2);
-                        break;
+                case 's':
+                    tags.ServerState = ReadInt(tuple.Item2);
+                    break;
 
-                    case 't':
-                        tags.GameType = tuple.Item2;
-                        break;
+                case 't':
+                    tags.GameType = tuple.Item2;
+                    break;
 
-                    case 'v':
-                        tags.VerifySignatures = ReadBool(tuple.Item2);
-                        break;
+                case 'v':
+                    tags.VerifySignatures = ReadBool(tuple.Item2);
+                    break;
                 }
             }
             return tags;
