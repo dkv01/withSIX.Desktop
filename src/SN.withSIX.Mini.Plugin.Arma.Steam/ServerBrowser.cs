@@ -89,7 +89,7 @@ namespace withSIX.Steam.Plugin.Arma
 
     public class ServerInfoFetcher : IDisposable
     {
-        private LockedWrapper<MatchmakingServiceWrap> _api;
+        private readonly LockedWrapper<MatchmakingServiceWrap> _api;
 
         public ServerInfoFetcher(LockedWrapper<MatchmakingServiceWrap> a) {
             _api = a;
@@ -150,14 +150,13 @@ namespace withSIX.Steam.Plugin.Arma
         protected virtual void Dispose(bool disposing) {
             _api.Do(api => api.CancelRequest()); // hmm
             _api.DoWithoutLock(api => api.Dispose());
-            _api = null;
         }
     }
 
     public class ServerInfoRulesFetcher : ServerInfoFetcher
     {
         private readonly IPEndPoint _ep;
-        private LockedWrapper<ServerRulesServiceWrap> _srs;
+        private readonly LockedWrapper<ServerRulesServiceWrap> _srs;
 
         public ServerInfoRulesFetcher(IPEndPoint ep, LockedWrapper<ServerRulesServiceWrap> s,
             LockedWrapper<MatchmakingServiceWrap> a) : base(a) {
@@ -196,7 +195,6 @@ namespace withSIX.Steam.Plugin.Arma
             base.Dispose(disposing);
             _srs.Do(srs => srs.CancelRequest()); // hm
             _srs.DoWithoutLock(srs => srs.Dispose());
-            _srs = null;
         }
 
         public async Task<ServerDataWrap> Fetch(CancellationToken ct) {
