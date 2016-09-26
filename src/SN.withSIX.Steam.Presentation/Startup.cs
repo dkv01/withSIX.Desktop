@@ -41,10 +41,8 @@ namespace SN.withSIX.Steam.Presentation
 
     public class GetEventsHandler : IAsyncRequestHandler<GetEvents, EventsModel>
     {
-        private readonly EventStorage _eventStorage = new EventStorage();
-
         public async Task<EventsModel> Handle(GetEvents message) => new EventsModel {
-            Events = await _eventStorage.DrainEvents().ConfigureAwait(false)
+            Events = await Raiser.Raiserr.DrainEvents().ConfigureAwait(false)
         };
     }
 
@@ -58,7 +56,7 @@ namespace SN.withSIX.Steam.Presentation
 
     public static class Raiser
     {
-        public static IEventStorage Raiserr { get; set; }
+        public static IEventStorage Raiserr { get; set; } = new EventStorage();
         public static Task Raise(this IEvent evt) => Raiserr.AddEvent(evt);
     }
 
@@ -128,7 +126,7 @@ namespace SN.withSIX.Steam.Presentation
 
         public static IAppBuilder AddPath<T>(this IAppBuilder content, string path)
             where T : IAsyncRequest<Unit>
-        => content.AddPath<T, Unit>(path);
+            => content.AddPath<T, Unit>(path);
 
         public static IAppBuilder AddPath<T, TResponse>(this IAppBuilder content, string path)
             where T : IAsyncRequest<TResponse>
@@ -154,9 +152,15 @@ namespace SN.withSIX.Steam.Presentation
 
         internal static async Task ProcessRequest<T, TOut>(this IOwinContext context, Func<T, Task<TOut>> handler) {
             using (var memoryStream = new MemoryStream()) {
-                await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                var str = Encoding.UTF8.GetString(memoryStream.ToArray());
-                var request = str.FromJson<T>();
+                T request;
+                if (context.Request.Method.ToLower() == "get") {
+                    var str = context.Request.Query.ToDictionary(x => x.Key, x => x.Value).ToJson();
+                    request = str.FromJson<T>();
+                } else {
+                    await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
+                    var str = Encoding.UTF8.GetString(memoryStream.ToArray());
+                    request = str.FromJson<T>();
+                }
                 var returnValue = await handler(request).ConfigureAwait(false);
                 await context.RespondJson(returnValue).ConfigureAwait(false);
             }
