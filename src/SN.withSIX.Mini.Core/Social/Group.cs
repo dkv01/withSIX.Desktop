@@ -42,10 +42,10 @@ namespace SN.withSIX.Mini.Core.Social
         }
 
         private Task<GroupAccess> GetGroupAccess(string token)
-            => Tools.Transfer.GetJson<GroupAccess>(GetGroupUri("/access"), token);
+            => Tools.Transfer.GetJson<GroupAccess>(GetGroupUri("/access"), token: token);
 
         private Task<List<GroupContent>> GetGroupContent(string token)
-            => Tools.Transfer.GetJson<List<GroupContent>>(GetGroupUri("/contents"), token);
+            => Tools.Transfer.GetJson<List<GroupContent>>(GetGroupUri("/contents"), token: token);
 
         private Uri GetGroupUri(string subPath = null) => new Uri(CommonUrls.SocialApiUrl,
             "api/groups/" + Id + subPath);

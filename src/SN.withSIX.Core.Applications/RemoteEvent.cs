@@ -49,7 +49,7 @@ namespace SN.withSIX.Core.Applications
         public async Task Drain() {
             while (!_cts.IsCancellationRequested) {
                 var r = await new Uri("http://127.0.0.66:48667/api/get-events")
-                    .GetJson<EventsModel>(null).ConfigureAwait(false);
+                    .GetJson<EventsModel>().ConfigureAwait(false);
                 foreach (var e in r.Events) {
                     var type = Type.GetType(e.Type);
                     var evt = JsonConvert.DeserializeObject(e.Data, type, JsonSupport.DefaultSettings);

@@ -502,7 +502,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     await
                         Tools.Transfer.GetJson<List<CollectionModelWithLatestVersion>>(
                             new Uri(CommonUrls.ApiUrl + "/api/collections?gameId=" + gameId +
-                                    string.Join("", colIds.Select(x => "&ids=" + x))), token).ConfigureAwait(false);
+                                    string.Join("", colIds.Select(x => "&ids=" + x))), token: token).ConfigureAwait(false);
             }
 
             private async Task<string> GetToken() {

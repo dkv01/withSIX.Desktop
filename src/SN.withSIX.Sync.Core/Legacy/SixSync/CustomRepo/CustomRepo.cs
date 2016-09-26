@@ -39,7 +39,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
 
         public async Task Load(IStringDownloader downloader, Uri uri) {
             Uri = uri;
-            var config = await SyncEvilGlobal.Yaml.GetYaml<SixRepoConfigDto>(uri, (string) null).ConfigureAwait(false);
+            var config = await SyncEvilGlobal.Yaml.GetYaml<SixRepoConfigDto>(uri).ConfigureAwait(false);
             Mods = config.Mods;
             Hosts = config.Hosts.ToList();
             Loaded = true;
