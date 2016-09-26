@@ -1,70 +1,30 @@
-﻿// <copyright company="SIX Networks GmbH" file="Server.cs">
+﻿// <copyright company="SIX Networks GmbH" file="ServerBrowser.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using NDepend.Path;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Mini.Plugin.Arma.Models;
 using SteamLayerWrap;
-using withSIX.Api.Models.Extensions;
 using ServerModInfo = SteamLayerWrap.ServerModInfo;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
 
 namespace withSIX.Steam.Plugin.Arma
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ServerKey
-    {
-        public uint IpAddress { get; }
-        public ushort Port { get; }
-
-        public ServerKey(uint ipAddress, ushort port) {
-            this = new ServerKey();
-            IpAddress = ipAddress;
-            Port = port;
-        }
-
-        public bool Equals(ServerKey other) => (IpAddress == other.IpAddress) && (Port == other.Port);
-
-        public override bool Equals([CanBeNull] object obj) {
-            if (ReferenceEquals(null, obj)) {
-                return false;
-            }
-            return obj is ServerKey && Equals((ServerKey) obj);
-        }
-
-        public override int GetHashCode() => (int) (IpAddress*0x18d) ^ Port.GetHashCode();
-
-        public override string ToString() => string.Format("({0} {2}:{1})", IpAddress, Port, ToIpAddress());
-
-        public IPAddress ToIpAddress() => new IPAddress(ReverseBytes(IpAddress));
-        public IPEndPoint ToIpEndpoint() => new IPEndPoint(ToIpAddress(), Port);
-
-        private static uint ReverseBytes(uint value) => (uint)
-        (((value & 0xff) << 0x18) | ((value & 0xff00) << 8) | ((value & 0xff0000) >> 8) |
-         ((value & -16777216) >> 0x18));
-    }
-
     public class ServerBrowser : ServerInfoFetcher
     {
         private readonly Func<IPEndPoint, Task<ServerInfoRulesFetcher>> _fetcherFact;
 
-        public ServerBrowser(LockedWrapper<MatchmakingServiceWrap> api, Func<IPEndPoint, Task<ServerInfoRulesFetcher>> fetcherFact) : base(api) {
+        public ServerBrowser(LockedWrapper<MatchmakingServiceWrap> api,
+            Func<IPEndPoint, Task<ServerInfoRulesFetcher>> fetcherFact) : base(api) {
             _fetcherFact = fetcherFact;
         }
 
@@ -82,7 +42,8 @@ namespace withSIX.Steam.Plugin.Arma
             return obs;
         }
 
-        public async Task<IObservable<ArmaServerInfo>> GetServersInclDetails(CancellationToken ct, ServerFilterWrap filter, bool inclRules) {
+        public async Task<IObservable<ArmaServerInfo>> GetServersInclDetails(CancellationToken ct,
+            ServerFilterWrap filter, bool inclRules) {
             var dsp = new CompositeDisposable();
             var obs = PrepareListener(ct, dsp, inclRules);
             await GetServerInfoInclDetails(filter).ConfigureAwait(false);
@@ -171,7 +132,8 @@ namespace withSIX.Steam.Plugin.Arma
 
         protected Task GetServerInfo(ServerFilterWrap filter) => _api.Do(api => api.RequestInternetServerList(filter));
 
-        protected Task GetServerInfoInclDetails(ServerFilterWrap filter) => _api.Do(api => api.RequestInternetServerListWithDetails(filter));
+        protected Task GetServerInfoInclDetails(ServerFilterWrap filter)
+            => _api.Do(api => api.RequestInternetServerListWithDetails(filter));
 
         public async Task<ArmaServerInfo> GetServerInfoInclDetails1(ServerFilterWrap filter, CancellationToken ct) {
             var obs = ServerResponses
@@ -197,11 +159,13 @@ namespace withSIX.Steam.Plugin.Arma
         private readonly IPEndPoint _ep;
         private LockedWrapper<ServerRulesServiceWrap> _srs;
 
-        public ServerInfoRulesFetcher(IPEndPoint ep, LockedWrapper<ServerRulesServiceWrap> s, LockedWrapper<MatchmakingServiceWrap> a) : base(a) {
+        public ServerInfoRulesFetcher(IPEndPoint ep, LockedWrapper<ServerRulesServiceWrap> s,
+            LockedWrapper<MatchmakingServiceWrap> a) : base(a) {
             _ep = ep;
             _srs = s;
             RulesRefreshComplete =
-                Observable.FromEvent<EventHandler<ServerRulesRefreshCompletedEventArgs>, ServerRulesRefreshCompletedEventArgs>
+                Observable
+                    .FromEvent<EventHandler<ServerRulesRefreshCompletedEventArgs>, ServerRulesRefreshCompletedEventArgs>
                     (handler => {
                             EventHandler<ServerRulesRefreshCompletedEventArgs> evtHandler =
                                 (sender, e) => handler(e);
@@ -209,7 +173,7 @@ namespace withSIX.Steam.Plugin.Arma
                         },
                         evtHandler => _srs.DoWithoutLock(srs => srs.RefreshComplete += evtHandler),
                         evtHandler => _srs.DoWithoutLock(srs => srs.RefreshComplete -= evtHandler),
-                    _srs.Scheduler);
+                        _srs.Scheduler);
 
             RulesFailedToRespond =
                 Observable
@@ -221,7 +185,7 @@ namespace withSIX.Steam.Plugin.Arma
                         },
                         evtHandler => _srs.DoWithoutLock(srs => srs.ServerRulesFailedToRespond += evtHandler),
                         evtHandler => _srs.DoWithoutLock(srs => srs.ServerRulesFailedToRespond -= evtHandler),
-                    _srs.Scheduler);
+                        _srs.Scheduler);
         }
 
         public IObservable<ServerRulesFailedToRespondEventArgs> RulesFailedToRespond { get; set; }
@@ -258,150 +222,6 @@ namespace withSIX.Steam.Plugin.Arma
         }
     }
 
-    public class ServerFilterBuilder
-    {
-        private readonly ServerFilterWrap _filter;
-        private bool _isFinal;
-
-        public ServerFilterBuilder() {
-            _filter = new ServerFilterWrap();
-        }
-
-        public ServerFilterWrap Value
-        {
-            get
-            {
-                _isFinal = true;
-                return _filter;
-            }
-        }
-
-        public static ServerFilterBuilder Build() => new ServerFilterBuilder();
-
-        public ServerFilterBuilder FilterByAddresses(System.Collections.Generic.IReadOnlyCollection<IPEndPoint> list) {
-            MakeFilterStep();
-            AddOr(list, x => FilterByAddress(x));
-            return this;
-        }
-
-        void AddOr<T>(System.Collections.Generic.IReadOnlyCollection<T> list, Action<T> act) {
-            _filter.AddFilter("or", list.Count.ToString());
-            foreach (var point in list)
-                act(point);
-        }
-
-        public ServerFilterBuilder FilterByAddress(IPEndPoint point) {
-            _filter.AddFilter("gameaddr", $"{point.Address}:{point.Port}");
-            return this;
-        }
-
-        private void MakeFilterStep() {
-            if (_isFinal)
-                throw new NotSupportedException("Already obtained the value");
-        }
-    }
-
-    public interface ISteamApi
-    {
-        Task Initialize(IAbsoluteDirectoryPath gamePath, uint appId);
-        Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap();
-        Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap();
-    }
-
-    // TODO: Use the scheduler approach
-    public class SteamApi : ISteamApi
-    {
-        private readonly IScheduler _scheduler;
-        private readonly LockedWrapper<ISteamAPIWrap> _steamApi;
-
-        public SteamApi(ISteamAPIWrap apiWrap, IScheduler scheduler) {
-            _scheduler = scheduler;
-            _steamApi = new LockedWrapper<ISteamAPIWrap>(apiWrap, scheduler);
-        }
-
-        public uint AppId { get; private set; }
-
-        public Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap()
-            => _steamApi.Do(t => new LockedWrapper<MatchmakingServiceWrap>(t.CreateMatchmakingService(), _scheduler));
-
-        public Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap()
-            => _steamApi.Do(t => new LockedWrapper<ServerRulesServiceWrap>(t.CreateServerRulesService(), _scheduler));
-
-        public async Task Initialize(IAbsoluteDirectoryPath gamePath, uint appId) {
-            /*
-            if (AppId == appId)
-                return;
-            await SetupAppId(appId).ConfigureAwait(false);
-            */
-            var r = await _steamApi.Do(x => {
-                var managerConfigWrap = new ManagerConfigWrap {ConsumerAppId = appId};
-                managerConfigWrap.Load(gamePath.GetChildFileWithName(@"Launcher\config.bin").ToString());
-                return x.Init(managerConfigWrap);
-            }).ConfigureAwait(false);
-            if (r == InitResult.SteamNotRunning)
-                throw new SteamInitializationException(
-                    "Steam initialization failed. Is Steam running under the same priviledges?");
-            if (r == InitResult.APIInitFailed)
-                throw new SteamInitializationException(
-                    "Steam initialization failed. Is Steam running under the same priviledges?");
-            if (r == InitResult.ContextCreationFailed)
-                throw new SteamInitializationException(
-                    "Steam initialization failed. Is Steam running under the same priviledges?");
-            if (r == InitResult.AlreadyInitialized)
-                throw new SteamInitializationException(
-                    "Steam initialization failed. Already initialized");
-            if (r == InitResult.Disabled)
-                throw new SteamInitializationException(
-                    "Steam initialization failed. Disabled");
-        }
-
-        private async Task SetupAppId(uint appId) {
-            if (AppId > 0)
-                throw new InvalidOperationException("This session is already initialized!");
-            AppId = appId;
-            var tmp =
-                Directory.GetCurrentDirectory().ToAbsoluteDirectoryPath().GetChildFileWithName("steam_appid.txt");
-            await WriteSteamAppId(appId, tmp).ConfigureAwait(false);
-        }
-
-        private static Task WriteSteamAppId(uint appId, IAbsoluteFilePath steamAppIdFile)
-            => appId.ToString().WriteToFileAsync(steamAppIdFile);
-    }
-
-    public abstract class LockedWrapper {
-        public static ISafeCallFactory callFactory { get; set; }
-    }
-
-    public class LockedWrapper<T> : LockedWrapper where T : class
-    {
-        private readonly T _obj;
-        private readonly IScheduler _scheduler;
-        private readonly ISafeCall _safeCall;
-
-        public IScheduler Scheduler => _scheduler;
-
-        public LockedWrapper(T obj, IScheduler scheduler) {
-            if (obj == null) {
-                throw new ArgumentNullException("obj");
-            }
-            _safeCall = callFactory.Create();
-            _obj = obj;
-            _scheduler = scheduler;
-        }
-
-
-        public async Task Do(Action<T> action) => await Observable.Return(Unit.Default, _scheduler)
-            .Do(_ => _safeCall.Do(() => action(_obj)));
-
-        public async Task<TResult> Do<TResult>(Func<T, TResult> action)
-            => await Observable.Return(Unit.Default, _scheduler)
-                .Select(_ => _safeCall.Do(() => action(_obj)));
-
-        public void DoWithoutLock(Action<T> action) => _safeCall.Do(() => action(_obj));
-
-        public TResult DoWithoutLock<TResult>(Func<T, TResult> action) => _safeCall.Do(() => action(_obj));
-    }
-
     class ArmaServer : IDisposable
     {
         private readonly ServerInfoRulesFetcher _fetcher;
@@ -413,7 +233,9 @@ namespace withSIX.Steam.Plugin.Arma
             _filter = ServerFilterBuilder.Build().FilterByAddress(info.ConnectionEndPoint).Value;
         }
 
-        public ArmaServer(int index, ServerKey key, ServerInfoRulesFetcher fetcher) : this(new ArmaServerInfo(index, key), fetcher) {}
+        public ArmaServer(int index, ServerKey key, ServerInfoRulesFetcher fetcher)
+            : this(new ArmaServerInfo(index, key), fetcher) {}
+
         public ArmaServerInfo Info { get; private set; }
         public Exception LastRuleError { get; set; }
 

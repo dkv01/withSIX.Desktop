@@ -41,9 +41,13 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LockedWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="ServerBrowser.cs" />
+    <Compile Include="ServerFilterBuilder.cs" />
+    <Compile Include="ServerKey.cs" />
     <Compile Include="ServiceRegistry.cs" />
+    <Compile Include="SteamApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\dll\SteamLayer.dll">

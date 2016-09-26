@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Core;
 using SteamLayerWrap;
@@ -16,8 +17,9 @@ namespace SN.withSIX.Steam.Presentation
 {
     public class SteamActions
     {
-        public static async Task PerformArmaSteamAction(Func<ISteamApi, Task> action, uint appId,
-            ISteamSessionFactory steamSessionFactory) {}
+        public static Task PerformArmaSteamAction(Func<ISteamApi, Task> action, uint appId,
+                ISteamSessionFactory steamSessionFactory)
+            => PerformArmaSteamAction(x => action(x).Void(), appId, steamSessionFactory);
 
         public static async Task<T> PerformArmaSteamAction<T>(Func<ISteamApi, Task<T>> action, uint appId,
             ISteamSessionFactory steamSessionFactory) {
