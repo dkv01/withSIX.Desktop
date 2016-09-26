@@ -106,10 +106,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                                             (process, s) => {
                                                 if (s.StartsWith("Ready"))
                                                     tcs.SetResult(Unit.Value);
-                                            }, (proces, s) => tcs.SetException(new Exception($"Error running: {s}")))
+                                            }, (proces, s) => { })
                                         .ConfigureAwait(false);
                             } catch (Exception ex) {
-                                throw;
+                                tcs.SetException(ex);
                             } finally {
                                 using (await _l.LockAsync().ConfigureAwait(false))
                                     _isRunning = false;
