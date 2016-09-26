@@ -6,7 +6,7 @@
     "System.Diagnostics.FileVersionInfo": "4.0.0",
     "System.IO.FileSystem": "4.0.1",
     "System.IO.FileSystem.AccessControl": "4.0.0",
-    "withSIX.Api.Models": "2.0.1-pre"
+    "withSIX.Api.Models": "2.0.3-pre"
   },
   "frameworks": {
     "netstandard1.3": {}

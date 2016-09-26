@@ -1689,10 +1689,10 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.1-pre": {
+      "withSIX.Api.Models/2.0.3-pre": {
         "dependencies": {
           "AutoMapper": "5.1.1",
-          "NDepend.Path.PCL": "1.0.1-pre",
+          "NDepend.Path.PCL": "1.0.2-pre",
           "Newtonsoft.Json": "9.0.1",
           "System.ComponentModel.Annotations": "4.1.0",
           "System.Globalization.Extensions": "4.0.1",
@@ -6295,13 +6295,13 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "withSIX.Api.Models/2.0.1-pre": {
-      "sha512": "E/9275yZ6gtjZPAa+XdrY7azj7+7mSSdMU8VjqYdAWYlNN8HwPhQfNSkIFM89m0qFy8+rlj3Eq1+MRSd24OOzg==",
+    "withSIX.Api.Models/2.0.3-pre": {
+      "sha512": "xMrp0+tdM3QaDCn/mzesGEeIUrGjCggkSFa0jPShf8F1+3Ln6r+IMw9CTdqxhNEX1yOp6tim8/iD+vkHhPrrRg==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.1-pre",
+      "path": "withSIX.Api.Models/2.0.3-pre",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.1-pre.nupkg.sha512",
+        "withSIX.Api.Models.2.0.3-pre.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     }

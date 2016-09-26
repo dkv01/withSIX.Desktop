@@ -257,7 +257,7 @@ namespace SN.withSIX.Core.Presentation
         }
 
         public static async Task<string> PostYaml(object model, Uri uri, Action<HttpClient> setup = null) {
-            DownloaderExtensions.validator.ValidateObject(model);
+            DownloaderExtensions.Validator.ValidateObject(model);
             using (var client = new HttpClient()) {
                 //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(YamlMimeType));
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", YamlMimeAcceptType);
