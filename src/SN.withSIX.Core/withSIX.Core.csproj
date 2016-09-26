@@ -150,6 +150,7 @@
     <Compile Include="Extensions\SizeExtensions.cs" />
     <Compile Include="Extensions\SocketExtensions.cs" />
     <Compile Include="Extensions\SystemExtensions.cs" />
+    <Compile Include="Extensions\W6DownloaderExtensions.cs" />
     <Compile Include="Helpers\AsyncLock.cs" />
     <Compile Include="Helpers\ICopyProperties.cs" />
     <Compile Include="Helpers\IHaveItems.cs" />

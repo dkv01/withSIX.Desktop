@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using Newtonsoft.Json;
@@ -24,7 +25,8 @@ namespace SN.withSIX.Core.Presentation
     // So we want to move this out to the highest layer, and DI it.
     public class YamlUtil : IYamlUtil, IPresentationService
     {
-        public Task<T> GetYaml<T>(Uri uri, string token = null) => uri.GetYaml<T>(token);
+        [Obsolete("Use extensions")]
+        public Task<T> GetYaml<T>(Uri uri, CancellationToken ct = default(CancellationToken), string token = null) => uri.GetYaml<T>(ct, token);
 
         public void PrintMapping(YamlMappingNode mapping) {
             Contract.Requires<ArgumentNullException>(mapping != null);
@@ -214,14 +216,14 @@ namespace SN.withSIX.Core.Presentation
 
     public static class W6DownloaderYamlExtensions
     {
-        public static Task<T> GetYaml<T>(this Uri uri, string token = null)
-            => uri.GetYaml<T>(client => W6DownloaderExtensions.Setup(client, uri, token));
+        public static Task<T> GetYaml<T>(this Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+            => uri.GetYaml<T>(ct, client => W6DownloaderExtensions.Setup(client, uri, token));
 
-        public static Task<string> GetYamlText(this Uri uri, string token = null)
-            => uri.GetYamlText(client => W6DownloaderExtensions.Setup(client, uri, token));
+        public static Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+            => uri.GetYamlText(ct, client => W6DownloaderExtensions.Setup(client, uri, token));
 
-        public static Task<string> PostYaml(this object model, Uri uri, string token = null)
-            => model.PostJson(uri, client => W6DownloaderExtensions.Setup(client, uri, token));
+        public static Task<string> PostYaml(this object model, Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+            => model.PostJson(uri, ct, client => W6DownloaderExtensions.Setup(client, uri, token));
     }
 
     public static class DownloaderYamlExtensions
@@ -231,8 +233,8 @@ namespace SN.withSIX.Core.Presentation
         private const string YamlMimeAcceptType =
             "text/html,application/xhtml+xml,application/xml,text/yaml,text/x-yaml,application/yaml,application/x-yaml";
 
-        public static async Task<T> GetYaml<T>(this Uri uri, Action<HttpClient> setup = null) {
-            var c = await uri.GetYamlText(setup).ConfigureAwait(false);
+        public static async Task<T> GetYaml<T>(this Uri uri, CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
+            var c = await uri.GetYamlText(ct, setup).ConfigureAwait(false);
             return c.FromYaml<T>();
         }
 
@@ -243,20 +245,20 @@ namespace SN.withSIX.Core.Presentation
                         .Deserialize<T>(stringReader);
         }
 
-        public static async Task<string> GetYamlText(this Uri uri, Action<HttpClient> setup = null) {
+        public static async Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
             using (var client = DownloaderExtensions.GetHttpClient()) {
                 //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(YamlMimeType));
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", YamlMimeAcceptType);
                 DownloaderExtensions.HandleSetup(setup, client, uri);
 
-                using (var r = await client.GetAsync(uri).ConfigureAwait(false)) {
+                using (var r = await client.GetAsync(uri, ct).ConfigureAwait(false)) {
                     await r.EnsureSuccessStatusCodeAsync().ConfigureAwait(false);
                     return await DownloaderExtensions.TryReadStringContent(r).ConfigureAwait(false);
                 }
             }
         }
 
-        public static async Task<string> PostYaml(object model, Uri uri, Action<HttpClient> setup = null) {
+        public static async Task<string> PostYaml(object model, Uri uri, CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
             DownloaderExtensions.Validator.ValidateObject(model);
             using (var client = new HttpClient()) {
                 //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(YamlMimeType));
@@ -264,7 +266,7 @@ namespace SN.withSIX.Core.Presentation
                 DownloaderExtensions.HandleSetup(setup, client, uri);
 
                 using (var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, YamlMimeType)) {
-                    using (var r = await client.PostAsync(uri, content).ConfigureAwait(false)) {
+                    using (var r = await client.PostAsync(uri, content, ct).ConfigureAwait(false)) {
                         await r.EnsureSuccessStatusCodeAsync().ConfigureAwait(false);
                         return await DownloaderExtensions.TryReadStringContent(r).ConfigureAwait(false);
                     }

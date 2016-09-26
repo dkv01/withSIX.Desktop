@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Services;
@@ -57,7 +58,7 @@ namespace SN.withSIX.Sync.Core
 
     public interface IYamlUtil
     {
-        Task<T> GetYaml<T>(Uri uri, string token = null);
+        Task<T> GetYaml<T>(Uri uri, CancellationToken ct = default(CancellationToken), string token = null);
         string ToYaml(object graph);
         void ToYamlFile(IBaseYaml graph, IAbsoluteFilePath fileName);
 
