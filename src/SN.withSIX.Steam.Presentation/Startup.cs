@@ -111,8 +111,9 @@ namespace SN.withSIX.Steam.Presentation
         internal static async Task ProcessRequest<T, TOut>(this IOwinContext context, Func<T, Task<TOut>> handler) {
             using (var memoryStream = new MemoryStream()) {
                 await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                var requestData = Encoding.UTF8.GetString(memoryStream.ToArray()).FromJson<T>();
-                var returnValue = await handler(requestData).ConfigureAwait(false);
+                var str = Encoding.UTF8.GetString(memoryStream.ToArray());
+                var request = str.FromJson<T>();
+                var returnValue = await handler(request).ConfigureAwait(false);
                 await context.RespondJson(returnValue).ConfigureAwait(false);
             }
         }
