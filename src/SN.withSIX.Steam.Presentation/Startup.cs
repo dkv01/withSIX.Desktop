@@ -20,6 +20,7 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Infra.Api;
+using SN.withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Api.Models.Extensions;
 using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
@@ -41,9 +42,12 @@ namespace SN.withSIX.Steam.Presentation
 
     public class GetEventsHandler : IAsyncRequestHandler<GetEvents, EventsModel>
     {
-        public async Task<EventsModel> Handle(GetEvents message) => new EventsModel {
-            Events = await Raiser.Raiserr.DrainEvents().ConfigureAwait(false)
-        };
+        public async Task<EventsModel> Handle(GetEvents message) {
+            var events = await Raiser.Raiserr.DrainUntilHasEvents().ConfigureAwait(false);
+            return new EventsModel {
+                Events = events.Select(x => new RemoteEvent<IEvent>(x)).ToList<RemoteEventData>()
+            };
+        }
     }
 
     public class GetServerInfo : IAsyncQuery<ServerInfo>
@@ -94,25 +98,11 @@ namespace SN.withSIX.Steam.Presentation
         }
     }
 
-    public class RemoteEvent<T> where T : IEvent
+    public class RemoteEvent<T> : RemoteEventData where T : IEvent
     {
-        public RemoteEvent(T evt) {
-            Data = evt;
-            Type = evt.GetType().Name;
+        public RemoteEvent(T evt) : base(evt.GetType().AssemblyQualifiedName) {
+            Data = evt.ToJson();
         }
-
-        public string Type { get; }
-
-        public T Data { get; }
-    }
-
-    public class ReceivedServerEvent : IEvent
-    {
-        public ReceivedServerEvent(ArmaServerInfo armaServerInfo) {
-            ServerInfo = armaServerInfo;
-        }
-
-        public ArmaServerInfo ServerInfo { get; }
     }
 
     public class ServerInfo
@@ -126,7 +116,7 @@ namespace SN.withSIX.Steam.Presentation
 
         public static IAppBuilder AddPath<T>(this IAppBuilder content, string path)
             where T : IAsyncRequest<Unit>
-            => content.AddPath<T, Unit>(path);
+        => content.AddPath<T, Unit>(path);
 
         public static IAppBuilder AddPath<T, TResponse>(this IAppBuilder content, string path)
             where T : IAsyncRequest<TResponse>

@@ -90,15 +90,12 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
             await StartSteamHelper().ConfigureAwait(false);
             // Ports adjusted becaused it expects the Connection Port!
-            using (var drainer = new Drainer()) {
-                var t = drainer.Drain();
-                var r = await new {
-                    IncludeDetails = true,
-                    IncludeRules = inclExtendedDetails,
-                    Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
-                }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
-                return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<ServerInfo>();
-            }
+            var r = await new {
+                IncludeDetails = true,
+                IncludeRules = inclExtendedDetails,
+                Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
+            }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
+            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<ServerInfo>();
         }
 
         private async Task StartSteamHelper() {
@@ -127,6 +124,11 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                             }
                         }, cts.Token);
                     await tcs.Task;
+                    t = TaskExt.StartLongRunningTask(async () => {
+                        using (var drainer = new Drainer()) {
+                            await drainer.Drain().ConfigureAwait(false);
+                        }
+                    });
                 }
                 _isRunning = true;
             }
@@ -842,5 +844,15 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
             }
             return num;
         }
+    }
+
+
+    public class ReceivedServerEvent : IEvent
+    {
+        public ReceivedServerEvent(ArmaServerInfoModel serverInfo) {
+            ServerInfo = serverInfo;
+        }
+
+        public ArmaServerInfoModel ServerInfo { get; }
     }
 }

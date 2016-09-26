@@ -12,7 +12,7 @@ namespace SN.withSIX.Steam.Presentation
 {
     public interface IEventStorage
     {
-        Task AddEvent(IEvent evt);
+        Task AddEvent<T>(T evt) where T : IEvent;
         Task<List<IEvent>> DrainEvents();
     }
 
@@ -21,10 +21,9 @@ namespace SN.withSIX.Steam.Presentation
         private readonly AsyncLock _l = new AsyncLock();
         List<IEvent> Events { get; } = new List<IEvent>();
 
-        public async Task AddEvent(IEvent evt) {
-            using (await _l.LockAsync().ConfigureAwait(false)) {
+        public async Task AddEvent<T>(T evt) where T : IEvent {
+            using (await _l.LockAsync().ConfigureAwait(false))
                 Events.Add(evt);
-            }
         }
 
         public async Task<List<IEvent>> DrainEvents() {
@@ -32,6 +31,18 @@ namespace SN.withSIX.Steam.Presentation
                 var evt = Events.ToList();
                 Events.Clear();
                 return evt;
+            }
+        }
+    }
+
+    public static class EventStorageExtensions
+    {
+        public static async Task<List<IEvent>> DrainUntilHasEvents(this IEventStorage storage) {
+            while (true) {
+                var evt = await storage.DrainEvents().ConfigureAwait(false);
+                if (evt.Any())
+                    return evt;
+                await Task.Delay(100).ConfigureAwait(false);
             }
         }
     }
