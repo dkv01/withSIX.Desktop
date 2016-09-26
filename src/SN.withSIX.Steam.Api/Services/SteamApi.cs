@@ -60,19 +60,15 @@ namespace SN.withSIX.Steam.Api.Services
             }).ObserveOn(_sessionLocator.Session.Scheduler);
 
         private IObservable<RemoteStorageSubscribePublishedFileResult_t> SubscribeToContent(PublishedFileId_t pid)
-            =>
-                SteamUGC.SubscribeItem(pid)
-                    .CreateObservableFromCallresults<RemoteStorageSubscribePublishedFileResult_t>(
-                        _sessionLocator.Session)
-                    .Take(1);
+            => ProcessCallback<RemoteStorageSubscribePublishedFileResult_t>(SteamUGC.SubscribeItem(pid));
 
         private IObservable<RemoteStorageUnsubscribePublishedFileResult_t> UnsubscribeFromContent(
-            PublishedFileId_t pid)
-            =>
-                SteamUGC.UnsubscribeItem(pid)
-                    .CreateObservableFromCallresults<RemoteStorageUnsubscribePublishedFileResult_t>(
-                        _sessionLocator.Session)
-                    .Take(1);
+                PublishedFileId_t pid)
+            => ProcessCallback<RemoteStorageUnsubscribePublishedFileResult_t>(SteamUGC.UnsubscribeItem(pid));
+
+        private IObservable<T> ProcessCallback<T>(SteamAPICall_t call) =>
+            call.CreateObservableFromCallresults<T>(_sessionLocator.Session)
+            .Take(1);
 
         public IObservable<T> CreateObservableFromCallback<T>()
             => Observable.Create<T>(observer => {
