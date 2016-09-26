@@ -9,7 +9,7 @@
     "System.ObjectModel": "4.0.12",
     "System.Reactive": "3.0.0",
     "System.Runtime.Serialization.Xml": "4.1.1",
-    "withSIX.Api.Models": "2.0.5-pre"
+    "withSIX.Api.Models": "2.0.7-pre"
   },
   "frameworks": {
     "netstandard1.3": {}

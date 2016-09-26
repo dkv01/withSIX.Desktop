@@ -10,7 +10,7 @@
     "System.IO.FileSystem.AccessControl": "4.0.0",
     "System.Net.Requests": "4.0.11",
     "System.Xml.XmlSerializer": "4.0.11",
-    "withSIX.Api.Models": "2.0.5-pre"
+    "withSIX.Api.Models": "2.0.7-pre"
   },
   "frameworks": {
     "netstandard1.3": {}
