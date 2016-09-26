@@ -1,13 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright company="SIX Networks GmbH" file="TempBridge.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NDepend.Path;
 
 namespace SN.withSIX.Core
 {
+    public interface ISafeCall
+    {
+        void Do(Action act);
+        TResult Do<TResult>(Func<TResult> action);
+    }
+
+    public interface ISafeCallFactory
+    {
+        ISafeCall Create();
+    }
+
     public class SteamDirectories
     {
         protected SteamDirectories(SteamGameDirectories game, SteamWorkshopDirectories workshop) {
@@ -39,7 +50,7 @@ namespace SN.withSIX.Core
         private class NullSteamDirectories : SteamDirectories
         {
             protected internal NullSteamDirectories()
-                : base(SteamGameDirectories.Default, SteamWorkshopDirectories.Default) { }
+                : base(SteamGameDirectories.Default, SteamWorkshopDirectories.Default) {}
 
             public override bool IsValid => false;
         }
@@ -47,7 +58,7 @@ namespace SN.withSIX.Core
 
     public class SteamWorkshopDirectories
     {
-        protected SteamWorkshopDirectories() { }
+        protected SteamWorkshopDirectories() {}
 
         public SteamWorkshopDirectories(uint appId, IAbsoluteDirectoryPath rootPath) {
             RootPath = rootPath.GetChildDirectoryWithName("workshop");
@@ -62,7 +73,7 @@ namespace SN.withSIX.Core
 
     public class SteamGameDirectories
     {
-        protected SteamGameDirectories() { }
+        protected SteamGameDirectories() {}
 
         public SteamGameDirectories(string folder, IAbsoluteDirectoryPath rootPath) {
             RootPath = rootPath.GetChildDirectoryWithName("common");
@@ -78,8 +89,8 @@ namespace SN.withSIX.Core
     public interface ISteamHelper
     {
         bool SteamFound { get; }
-        ISteamApp TryGetSteamAppById(uint appId, bool noCache = false);
         IAbsoluteDirectoryPath SteamPath { get; }
+        ISteamApp TryGetSteamAppById(uint appId, bool noCache = false);
     }
 
 
@@ -95,11 +106,11 @@ namespace SN.withSIX.Core
 
     public class SteamInitializationException : DidNotStartException
     {
-        public SteamInitializationException(string message) : base(message) { }
+        public SteamInitializationException(string message) : base(message) {}
     }
 
     public class SteamNotFoundException : DidNotStartException
     {
-        public SteamNotFoundException(string message) : base(message) { }
+        public SteamNotFoundException(string message) : base(message) {}
     }
 }

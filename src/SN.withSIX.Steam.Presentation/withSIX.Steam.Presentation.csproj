@@ -316,12 +316,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BaseSteamCommand.cs" />
+    <Compile Include="Commands\ContainerSetup.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\RunInteractive.cs" />
     <Compile Include="Commands\UninstallCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="SteamActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

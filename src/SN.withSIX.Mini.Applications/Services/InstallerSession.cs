@@ -951,11 +951,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 => _steamHelperRunner.RunHelperInternal(cancelToken, GetHelperParameters(cmd, options), _steamHelperParser.ProcessProgress,
                     (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s));
 
-            private IEnumerable<string> GetHelperParameters(string command, params string[] options) {
-                if (Common.Flags.Verbose)
-                    options = options.Concat(new[] {"--verbose"}).ToArray();
-                return new[] {command, "-a", _appId.ToString()}.Concat(options).Concat(_content.Keys.Select(Selector));
-            }
+            public IEnumerable<string> GetHelperParameters(string command, params string[] options)
+                => _steamHelperRunner.GetHelperParameters(command, _appId, _content.Keys.Select(Selector).ToArray());
 
             private string Selector(ulong x) {
                 var xStr = x.ToString();

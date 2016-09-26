@@ -3,14 +3,11 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Core.Commands;
-using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Presentation.Commands;
 
 namespace SN.withSIX.Steam.Presentation
@@ -21,7 +18,9 @@ namespace SN.withSIX.Steam.Presentation
             try {
                 Common.Flags = new Common.StartupFlags(args, Environment.Is64BitOperatingSystem);
                 SetupNlog.Initialize("SteamHelper");
-                Environment.Exit(new CommandRunner(BuildCommands()).RunCommandsAndLog(args));
+                using (var c = new ContainerSetup(() => RunInteractive.SteamApi)) {
+                    Environment.Exit(new CommandRunner(c.GetCommands()).RunCommandsAndLog(args));
+                }
             } catch (SteamNotFoundException ex) {
                 Error(ex, 4);
             } catch (SteamInitializationException ex) {
@@ -46,7 +45,7 @@ namespace SN.withSIX.Steam.Presentation
 #else
                 ex.Message
 #endif
-                );
+            );
             Environment.Exit(exitCode);
         }
 
@@ -54,16 +53,6 @@ namespace SN.withSIX.Steam.Presentation
             MainLog.Logger.Error(msg);
             Console.Error.WriteLine(msg);
             Environment.Exit(exitCode);
-        }
-
-        private static IEnumerable<BaseCommand> BuildCommands() {
-            var steamSessionFactory = new SteamSession.SteamSessionFactory();
-            var steamApi = new SteamApi(steamSessionFactory);
-            return new BaseCommand[] {
-                new InstallCommand(steamSessionFactory, new SteamDownloader(steamApi), steamApi),
-                new UninstallCommand(steamSessionFactory, steamApi),
-                new RunInteractive()
-            };
         }
     }
 }

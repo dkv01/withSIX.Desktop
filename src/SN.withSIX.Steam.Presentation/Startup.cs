@@ -21,48 +21,12 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Infra.Api;
-using SN.withSIX.Mini.Plugin.Arma.Steam;
+using withSIX.Steam.Plugin.Arma;
 using withSIX.Api.Models.Extensions;
 using Unit = System.Reactive.Unit;
 
 namespace SN.withSIX.Steam.Presentation
 {
-    public class SafeCallFactory : ISafeCallFactory
-    {
-        public ISafeCall<T> Create<T>(T val) => new SafeCall<T>(val);
-    }
-
-    public class SafeCall<T> : ISafeCall<T>
-    {
-        private readonly T _t;
-
-        public SafeCall(T t) {
-            _t = t;
-        }
-
-        [HandleProcessCorruptedStateExceptions]
-        public void Do(Action<T> act) {
-            try {
-                act(_t);
-            } catch (Exception ex) {
-                throw new Exception("Whoops", ex);
-            } catch {
-                throw new Exception("Unmanged ex");
-            }
-        }
-
-        [HandleProcessCorruptedStateExceptions]
-        public TResult Do<TResult>(Func<T, TResult> act) {
-            try {
-                return act(_t);
-            } catch (Exception ex) {
-                throw new Exception("Whoops", ex);
-            } catch {
-                throw new Exception("Unmanged ex");
-            }
-        }
-    }
-
     class Startup
     {
         public void Configuration(IAppBuilder app) {
@@ -88,17 +52,18 @@ namespace SN.withSIX.Steam.Presentation
         }
 
         public async Task<ServerInfo> Handle(GetServerInfo message) {
-            using (var sb = new ServerBrowser(_steamApi)) {
+            using (var sb = await SteamActions.CreateServerBrowser(_steamApi).ConfigureAwait(false)) {
                 using (var cts = new CancellationTokenSource()) {
                     var builder = ServerFilterBuilder.Build();
                     if (message.Addresses != null && message.Addresses.Any())
                         builder.FilterByAddresses(message.Addresses);
                     var filter = builder.Value;
+                    var obs = await (message.IncludeDetails
+                        ? sb.GetServersInclDetails(cts.Token, filter, message.IncludeRules)
+                        : sb.GetServers(cts.Token, filter));
                     var r =
                         await
-                            (message.IncludeDetails
-                                    ? sb.GetServersInclDetails(cts.Token, filter, message.IncludeRules)
-                                    : sb.GetServers(cts.Token, filter))
+                            obs
                                 .Take(10) // todo config limit
                                 .ToList();
                     cts.Cancel();

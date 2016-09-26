@@ -4,57 +4,59 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Net;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Mini.Plugin.Arma.Steam;
+using SN.withSIX.Core.Presentation.Logging;
+using SN.withSIX.Steam.Api.Services;
+using SN.withSIX.Steam.Presentation;
 using SteamLayerWrap;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
+using withSIX.Steam.Plugin.Arma;
+using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 
 namespace SN.withSIX.Mini.Tests.Arma
 {
     [TestFixture]
     public class ServersTest
     {
-        [Test]
-        public async Task GetServers() {
-            await SBTest().ConfigureAwait(false);
+        private static async Task<IList<ArmaServerInfo>> PerformAction(ISteamApi steamApi, ServerFilterWrap filter) {
+            using (var sb = await SteamActions.CreateServerBrowser(steamApi).ConfigureAwait(false)) {
+                using (var cts = new CancellationTokenSource()) {
+                    var obs =
+                        await
+                            sb.GetServersInclDetails(cts.Token, filter, true)
+                                .ConfigureAwait(false);
+                    var s = await obs.Take(10).ToList();
+                    cts.Cancel();
+                    return s;
+                }
+            }
         }
 
-        private static async Task SBTest() {
-            using (var wrap = new SteamAPIWrap()) {
-                var steamApi = new SteamApi(wrap);
-                await steamApi.Initialize(@"C:\projects\arma3\launcher-bin".ToAbsoluteDirectoryPath())
-                        .ConfigureAwait(false);
-                var sb = new ServerBrowser(steamApi);
-                var dict = new Dictionary<IPEndPoint, ArmaServerInfo>();
-                var obs = sb.ServerResponses
-                    .Where(x => x.ServerInfo != null)
-                    .Select(x => ArmaServerInfo.FromWrap(x.ServerIndex, x.ServerInfo))
-                    .Do(async si => {
-                        dict.Add(si.QueryEndPoint, si);
-                        //Console.Write($"ServerInfo: {si.ToJson()}");
-                        try {
-                            var r = await sb.GetServerRules(si.QueryEndPoint).ConfigureAwait(false);
-                            si.ApplyServerDataToServerInfo(r);
-                            Console.Write($"ServerInfo: {si.ToJson()}");
-                        } catch (Exception ex) {}
-                    })
-                    .TakeUntil(sb.ServerResponses.Throttle(TimeSpan.FromSeconds(10)));
-                // TODO: Wait for the Rules to complete
-                sb.GetServerInfoInclDetails(ServerFilterBuilder
-                    .Build()
-                    .Value, CancellationToken.None);
-
-                await obs;
-                @"C:\temp\crawl\arma-servers.json".ToAbsoluteFilePath().WriteText(dict.ToJson(true));
-            }
+        [Test]
+        public async Task GetServers() {
+            SetupNlog.Initialize("Tests");
+            LockedWrapper.callFactory = new SafeCallFactory(); // workaround for accessviolation errors
+            var serverFilterBuilder = ServerFilterBuilder.Build();
+            serverFilterBuilder.FilterByAddresses(new[] {
+                new IPEndPoint(IPAddress.Parse("5.189.150.147"), 2302),
+                new IPEndPoint(IPAddress.Parse("5.189.136.56"), 2302),
+                new IPEndPoint(IPAddress.Parse("80.241.208.192"), 2302)
+            });
+            var s = await
+                SteamActions.PerformArmaSteamAction(
+                    steamApi => PerformAction(steamApi, serverFilterBuilder.Value), (uint) SteamGameIds.Arma3,
+                    new SteamSession.SteamSessionFactory()).ConfigureAwait(false);
+            s.Count.Should().Be(3);
+            var json = s.ToJson(true);
+            Console.WriteLine(json);
+            @"C:\temp\crawl\arma-servers.json".ToAbsoluteFilePath().WriteText(json);
         }
     }
 }

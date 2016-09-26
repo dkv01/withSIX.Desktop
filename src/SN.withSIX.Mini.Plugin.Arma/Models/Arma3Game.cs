@@ -100,11 +100,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                     var t = TaskExt.StartLongRunningTask(
                         async () => {
                             try {
-                                await steamH.RunHelperInternal(cts.Token, new[] {"interactive"}, (process, s) => {
-                                        if (s.StartsWith("Ready"))
-                                            tcs.SetResult(Unit.Value);
-                                    }, (proces, s) => tcs.SetException(new Exception($"Error running: {s}")))
-                                    .ConfigureAwait(false);
+                                await
+                                    steamH.RunHelperInternal(cts.Token,
+                                            steamH.GetHelperParameters("interactive", SteamInfo.AppId),
+                                            (process, s) => {
+                                                if (s.StartsWith("Ready"))
+                                                    tcs.SetResult(Unit.Value);
+                                            }, (proces, s) => tcs.SetException(new Exception($"Error running: {s}")))
+                                        .ConfigureAwait(false);
                             } catch (Exception ex) {
                                 throw;
                             } finally {

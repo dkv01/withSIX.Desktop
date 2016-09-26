@@ -156,6 +156,10 @@
       <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.4.0.0\lib\net46\Microsoft.Win32.Registry.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NDepend.Path.PCL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NDepend.Path.PCL.1.0.2-pre\lib\netstandard1.3\NDepend.Path.PCL.dll</HintPath>
       <Private>True</Private>
@@ -195,9 +199,17 @@
     <Reference Include="SteamLayerWrap">
       <HintPath>..\dll\SteamLayerWrap.dll</HintPath>
     </Reference>
+    <Reference Include="Steamworks.NET, Version=7.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\Steamworks.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Console, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.0.0\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Globalization.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Extensions.4.0.1\lib\net46\System.Globalization.Extensions.dll</HintPath>
@@ -289,6 +301,10 @@
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
+      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
+      <Name>withSIX.Core.Presentation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>
@@ -317,9 +333,17 @@
       <Project>{8CACA11D-F26B-4D9A-8FDD-4CAE9133813E}</Project>
       <Name>withSIX.Mini.Plugin.Arma</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Api\withSIX.Steam.Api.csproj">
+      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
+      <Name>withSIX.Steam.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>withSIX.Steam.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Presentation\withSIX.Steam.Presentation.csproj">
+      <Project>{6580BD2F-3745-4C20-996E-1B12FFC7B242}</Project>
+      <Name>withSIX.Steam.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>

@@ -35,6 +35,9 @@ namespace SN.withSIX.Core.Applications.Extensions
         public static IObservable<IObservable<T2>> SelectTask<T, T2>(this IObservable<T> obs,
             Func<T, Task<T2>> taskFactory) => obs.Select(x => Observable.FromAsync(() => taskFactory(x)));
 
+
+        public static IObservable<Unit> Void<T>(this IObservable<T> This) => This.Select(x => Unit.Default);
+
         public static IObservable<T> MergeTask<T>(this IObservable<T> obs, Func<T, Task<T>> taskFactory, int degreeOfParallism)
     => obs.SelectTask(taskFactory).Merge(degreeOfParallism); // Similar to SelectMany?
 

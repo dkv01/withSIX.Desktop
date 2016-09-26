@@ -5,7 +5,7 @@
 using SN.withSIX.Mini.Applications.Services;
 using SteamLayerWrap;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Steam
+namespace withSIX.Steam.Plugin.Arma
 {
     public class ArmaServiceRegistry : ServiceRegistry
     {

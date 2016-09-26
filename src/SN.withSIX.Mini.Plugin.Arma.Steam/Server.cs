@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -16,28 +17,16 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using NDepend.Helpers;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Mini.Plugin.Arma.Models;
 using SteamLayerWrap;
 using withSIX.Api.Models.Extensions;
-using withSIX.Api.Models.Games;
 using ServerModInfo = SteamLayerWrap.ServerModInfo;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Steam
+namespace withSIX.Steam.Plugin.Arma
 {
-    public interface ISafeCall<out T>
-    {
-        void Do(Action<T> act);
-        TResult Do<TResult>(Func<T, TResult> action);
-    }
-
-    public interface ISafeCallFactory
-    {
-        ISafeCall<T> Create<T>(T val);
-    }
-
     [StructLayout(LayoutKind.Sequential)]
     public struct ServerKey
     {
@@ -73,46 +62,30 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
 
     public class ServerBrowser : ServerInfoFetcher
     {
-        private readonly ISteamApi _steamApi;
-        private LockedWrapper<MatchmakingServiceWrap> _api;
+        private readonly Func<IPEndPoint, Task<ServerInfoRulesFetcher>> _fetcherFact;
 
-        public ServerBrowser(ISteamApi steamApi) : base(steamApi) {
-            _steamApi = steamApi;
-            _api = steamApi.CreateMatchmakingServiceWrap();
+        public ServerBrowser(LockedWrapper<MatchmakingServiceWrap> api, Func<IPEndPoint, Task<ServerInfoRulesFetcher>> fetcherFact) : base(api) {
+            _fetcherFact = fetcherFact;
         }
 
-        public async Task<ServerDataWrap> GetServerRules(IPEndPoint ep,
-            CancellationToken ct = default(CancellationToken)) {
-            using (var srs = new ServerInfoRulesFetcher(ep, _steamApi)) {
-                return await srs.Fetch(ct).ConfigureAwait(false);
-            }
-        }
-
-        protected override void Dispose(bool disposing) {
-            base.Dispose(disposing);
-            _api.Do(api => api.CancelRequest());
-            _api.DoWithoutLock(api => api.Dispose());
-            _api = null;
-        }
-
-        public IObservable<ArmaServerInfo> GetServers(CancellationToken ct, ServerFilterWrap filter) {
+        public async Task<IObservable<ArmaServerInfo>> GetServers(CancellationToken ct, ServerFilterWrap filter) {
             var dsp = new CompositeDisposable();
             // Apparently we get null ServerInfo (not even endpoints :S)
             var obs = ServerResponses
-                .Select(x => x.ServerInfo == null ? null : ArmaServerInfo.FromWrap(x.ServerIndex, x.ServerInfo))
                 .TakeUntil(RefreshComplete)
+                .Select(x => x.ServerInfo == null ? null : ArmaServerInfo.FromWrap(x.ServerIndex, x.ServerInfo))
                 .Replay();
             dsp.Add(obs.Connect());
             obs.Subscribe(_ => { }, x => dsp.Dispose(), dsp.Dispose, ct);
             ct.Register(dsp.Dispose);
-            dsp.Add(GetServerInfo(filter, ct));
+            await GetServerInfo(filter).ConfigureAwait(false);
             return obs;
         }
 
-        public IObservable<ArmaServerInfo> GetServersInclDetails(CancellationToken ct, ServerFilterWrap filter, bool inclRules) {
+        public async Task<IObservable<ArmaServerInfo>> GetServersInclDetails(CancellationToken ct, ServerFilterWrap filter, bool inclRules) {
             var dsp = new CompositeDisposable();
             var obs = PrepareListener(ct, dsp, inclRules);
-            dsp.Add(GetServerInfoInclDetails(filter, ct));
+            await GetServerInfoInclDetails(filter).ConfigureAwait(false);
             return obs;
         }
 
@@ -120,10 +93,11 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
             bool inclRules = false) {
             var obs = BuildListener(dsp);
             if (inclRules)
-                obs = obs.MergeTask<ArmaServer, ArmaServer>(async si => {
-                    await UpdateRules(si, ct).ConfigureAwait(false);
-                    return si;
-                }, 1); // 10 fails, and specifying nothing too!
+                obs = obs
+                    .SelectMany(async si => {
+                        await UpdateRules(si, ct).ConfigureAwait(false);
+                        return si;
+                    });
             var theObs = obs.Select(x => x.Info)
                 .Replay();
             dsp.Add(theObs.Connect());
@@ -133,14 +107,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
         }
 
         private IObservable<ArmaServer> BuildListener(CompositeDisposable dsp) => ServerResponses
+            .TakeUntil(RefreshComplete)
             .Where(x => x.ServerInfo != null)
-            .Select(ToServerInfo)
-            .Do(dsp.Add)
-            .TakeUntil(RefreshComplete);
+            .SelectMany(ToServerInfo)
+            .Do(dsp.Add);
 
-        private ArmaServer ToServerInfo(ServerRespondedEventArgs x) {
+        private async Task<ArmaServer> ToServerInfo(ServerRespondedEventArgs x) {
             var info = ArmaServerInfo.FromWrap(x.ServerIndex, x.ServerInfo);
-            return new ArmaServer(info, _steamApi);
+            return new ArmaServer(info, await _fetcherFact(info.QueryEndPoint).ConfigureAwait(false));
         }
 
         async Task UpdateRules(ArmaServer si, CancellationToken ct) {
@@ -156,16 +130,16 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
     {
         private LockedWrapper<MatchmakingServiceWrap> _api;
 
-        public ServerInfoFetcher(ISteamApi steamApi) {
-            _api = steamApi.CreateMatchmakingServiceWrap();
-
+        public ServerInfoFetcher(LockedWrapper<MatchmakingServiceWrap> a) {
+            _api = a;
             ServerResponses =
                 Observable.FromEvent<EventHandler<ServerRespondedEventArgs>, ServerRespondedEventArgs>(handler => {
                         EventHandler<ServerRespondedEventArgs> evtHandler = (sender, e) => handler(e);
                         return evtHandler;
                     },
                     evtHandler => _api.DoWithoutLock(api => api.ServerResponded += evtHandler),
-                    evtHandler => _api.DoWithoutLock(api => api.ServerResponded -= evtHandler));
+                    evtHandler => _api.DoWithoutLock(api => api.ServerResponded -= evtHandler),
+                    _api.Scheduler);
 
             RefreshComplete =
                 Observable.FromEvent<EventHandler<RefreshCompletedEventArgs>, RefreshCompletedEventArgs>(handler => {
@@ -173,7 +147,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
                         return evtHandler;
                     },
                     evtHandler => _api.DoWithoutLock(api => api.RefreshComplete += evtHandler),
-                    evtHandler => _api.DoWithoutLock(api => api.RefreshComplete -= evtHandler));
+                    evtHandler => _api.DoWithoutLock(api => api.RefreshComplete -= evtHandler),
+                    _api.Scheduler);
 
             ServerFailedToRespond =
                 Observable.FromEvent<EventHandler<ServerFailedToRespondEventArgs>, ServerFailedToRespondEventArgs>(
@@ -182,7 +157,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
                         return evtHandler;
                     },
                     evtHandler => _api.DoWithoutLock(api => api.ServerFailedToRespond += evtHandler),
-                    evtHandler => _api.DoWithoutLock(api => api.ServerFailedToRespond -= evtHandler));
+                    evtHandler => _api.DoWithoutLock(api => api.ServerFailedToRespond -= evtHandler),
+                    _api.Scheduler);
         }
 
         public IObservable<ServerRespondedEventArgs> ServerResponses { get; }
@@ -193,30 +169,24 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
             Dispose(true);
         }
 
-        public IDisposable GetServerInfo(ServerFilterWrap filter, CancellationToken ct) {
-            _api.Do(api => api.RequestInternetServerList(filter));
-            return ct.Register(() => _api.Do(api => api.CancelRequest()));
-        }
+        protected Task GetServerInfo(ServerFilterWrap filter) => _api.Do(api => api.RequestInternetServerList(filter));
 
-        public IDisposable GetServerInfoInclDetails(ServerFilterWrap filter, CancellationToken ct) {
-            _api.DoWithoutLock(api => api.RequestInternetServerListWithDetails(filter));
-            return ct.Register(() => _api.Do(api => api.CancelRequest()));
-        }
+        protected Task GetServerInfoInclDetails(ServerFilterWrap filter) => _api.Do(api => api.RequestInternetServerListWithDetails(filter));
 
         public async Task<ArmaServerInfo> GetServerInfoInclDetails1(ServerFilterWrap filter, CancellationToken ct) {
-            var obs = ServerResponses.Take(1)
-                .TakeUntil(RefreshComplete.Select(x => Unit.Default)
-                    .Merge(ServerFailedToRespond.Select(x => Unit.Default))
-                    .Merge(ServerResponses.Throttle(TimeSpan.FromSeconds(3))
-                        .Select(x => Unit.Default))).FirstAsync().ToTask(ct);
-            using (GetServerInfoInclDetails(filter, ct)) {
-                var r = await obs;
-                return ArmaServerInfo.FromWrap(r.ServerIndex, r.ServerInfo);
-            }
+            var obs = ServerResponses
+                .Take(1)
+                .TakeUntil(RefreshComplete.Void()
+                    .Merge(ServerFailedToRespond.Void())
+                    .Merge(Observable.Timer(TimeSpan.FromSeconds(5))
+                        .Void())).FirstAsync().ToTask(ct);
+            await GetServerInfoInclDetails(filter).ConfigureAwait(false);
+            var r = await obs;
+            return ArmaServerInfo.FromWrap(r.ServerIndex, r.ServerInfo);
         }
 
         protected virtual void Dispose(bool disposing) {
-            _api.Do(api => api.CancelRequest());
+            _api.Do(api => api.CancelRequest()); // hmm
             _api.DoWithoutLock(api => api.Dispose());
             _api = null;
         }
@@ -227,20 +197,19 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
         private readonly IPEndPoint _ep;
         private LockedWrapper<ServerRulesServiceWrap> _srs;
 
-        public ServerInfoRulesFetcher(IPEndPoint ep, ISteamApi api) : base(api) {
+        public ServerInfoRulesFetcher(IPEndPoint ep, LockedWrapper<ServerRulesServiceWrap> s, LockedWrapper<MatchmakingServiceWrap> a) : base(a) {
             _ep = ep;
-            _srs = api.CreateRulesManagerWrap();
+            _srs = s;
             RulesRefreshComplete =
-                Observable
-                    .FromEvent
-                    <EventHandler<ServerRulesRefreshCompletedEventArgs>, ServerRulesRefreshCompletedEventArgs>
+                Observable.FromEvent<EventHandler<ServerRulesRefreshCompletedEventArgs>, ServerRulesRefreshCompletedEventArgs>
                     (handler => {
                             EventHandler<ServerRulesRefreshCompletedEventArgs> evtHandler =
                                 (sender, e) => handler(e);
                             return evtHandler;
                         },
                         evtHandler => _srs.DoWithoutLock(srs => srs.RefreshComplete += evtHandler),
-                        evtHandler => _srs.DoWithoutLock(srs => srs.RefreshComplete -= evtHandler));
+                        evtHandler => _srs.DoWithoutLock(srs => srs.RefreshComplete -= evtHandler),
+                    _srs.Scheduler);
 
             RulesFailedToRespond =
                 Observable
@@ -251,7 +220,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
                             return evtHandler;
                         },
                         evtHandler => _srs.DoWithoutLock(srs => srs.ServerRulesFailedToRespond += evtHandler),
-                        evtHandler => _srs.DoWithoutLock(srs => srs.ServerRulesFailedToRespond -= evtHandler));
+                        evtHandler => _srs.DoWithoutLock(srs => srs.ServerRulesFailedToRespond -= evtHandler),
+                    _srs.Scheduler);
         }
 
         public IObservable<ServerRulesFailedToRespondEventArgs> RulesFailedToRespond { get; set; }
@@ -260,7 +230,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
 
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
-            _srs.Do(srs => srs.CancelRequest());
+            _srs.Do(srs => srs.CancelRequest()); // hm
             _srs.DoWithoutLock(srs => srs.Dispose());
             _srs = null;
         }
@@ -268,18 +238,21 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
         public async Task<ServerDataWrap> Fetch(CancellationToken ct) {
             var t = RulesRefreshComplete
                 .Take(1)
-                .TakeUntil(Observable.Timer(TimeSpan.FromSeconds(3)).Select(x => Unit.Default)
-                    .Merge(RulesFailedToRespond.Select(x => Unit.Default)).Take(1))
+                .TakeUntil(Observable.Timer(TimeSpan.FromSeconds(3)).Void()
+                    .Merge(RulesFailedToRespond.Void()).Take(1))
                 .Select(x => x.ServerData)
                 .SingleAsync()
                 .ToTask(ct);
-            _srs.Do(srs => srs.RequestServerRules(BitConverter.ToInt32(_ep.Address.GetAddressBytes().Reverse().ToArray(), 0),
-                _ep.Port));
+            await
+                _srs.Do(
+                        srs =>
+                            srs.RequestServerRules(
+                                BitConverter.ToInt32(_ep.Address.GetAddressBytes().Reverse().ToArray(), 0), _ep.Port))
+                    .ConfigureAwait(false);
             try {
-                using (ct.Register(() => _srs.Do(srs => srs.CancelRequest())))
-                    return await t;
+                return await t;
             } catch (Exception) {
-                _srs.Do(src => src.CancelRequest());
+                await _srs.Do(src => src.CancelRequest()).ConfigureAwait(false);
                 throw;
             }
         }
@@ -330,38 +303,56 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
 
     public interface ISteamApi
     {
-        LockedWrapper<MatchmakingServiceWrap> CreateMatchmakingServiceWrap();
-        LockedWrapper<ServerRulesServiceWrap> CreateRulesManagerWrap();
+        Task Initialize(IAbsoluteDirectoryPath gamePath, uint appId);
+        Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap();
+        Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap();
     }
 
     // TODO: Use the scheduler approach
     public class SteamApi : ISteamApi
     {
+        private readonly IScheduler _scheduler;
         private readonly LockedWrapper<ISteamAPIWrap> _steamApi;
 
-        public SteamApi(ISteamAPIWrap apiWrap) {
-            _steamApi = new LockedWrapper<ISteamAPIWrap>(apiWrap);
+        public SteamApi(ISteamAPIWrap apiWrap, IScheduler scheduler) {
+            _scheduler = scheduler;
+            _steamApi = new LockedWrapper<ISteamAPIWrap>(apiWrap, scheduler);
         }
 
         public uint AppId { get; private set; }
 
-        public LockedWrapper<MatchmakingServiceWrap> CreateMatchmakingServiceWrap()
-            => _steamApi.Do(t => new LockedWrapper<MatchmakingServiceWrap>(t.CreateMatchmakingService(), _steamApi.SyncRoot));
+        public Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap()
+            => _steamApi.Do(t => new LockedWrapper<MatchmakingServiceWrap>(t.CreateMatchmakingService(), _scheduler));
 
-        public LockedWrapper<ServerRulesServiceWrap> CreateRulesManagerWrap() => _steamApi.Do(t => new LockedWrapper<ServerRulesServiceWrap>(t.CreateServerRulesService()));
+        public Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap()
+            => _steamApi.Do(t => new LockedWrapper<ServerRulesServiceWrap>(t.CreateServerRulesService(), _scheduler));
 
-        public async Task Initialize(IAbsoluteDirectoryPath gamePath) {
-            var appId = (uint) SteamGameIds.Arma3;
+        public async Task Initialize(IAbsoluteDirectoryPath gamePath, uint appId) {
+            /*
             if (AppId == appId)
                 return;
             await SetupAppId(appId).ConfigureAwait(false);
-            _steamApi.Do(x => {
+            */
+            var r = await _steamApi.Do(x => {
                 var managerConfigWrap = new ManagerConfigWrap {ConsumerAppId = appId};
                 managerConfigWrap.Load(gamePath.GetChildFileWithName(@"Launcher\config.bin").ToString());
                 return x.Init(managerConfigWrap);
-            });
-            var runner = new SteamAPIRunner(_steamApi);
-            runner.Run();
+            }).ConfigureAwait(false);
+            if (r == InitResult.SteamNotRunning)
+                throw new SteamInitializationException(
+                    "Steam initialization failed. Is Steam running under the same priviledges?");
+            if (r == InitResult.APIInitFailed)
+                throw new SteamInitializationException(
+                    "Steam initialization failed. Is Steam running under the same priviledges?");
+            if (r == InitResult.ContextCreationFailed)
+                throw new SteamInitializationException(
+                    "Steam initialization failed. Is Steam running under the same priviledges?");
+            if (r == InitResult.AlreadyInitialized)
+                throw new SteamInitializationException(
+                    "Steam initialization failed. Already initialized");
+            if (r == InitResult.Disabled)
+                throw new SteamInitializationException(
+                    "Steam initialization failed. Disabled");
         }
 
         private async Task SetupAppId(uint appId) {
@@ -377,54 +368,52 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
             => appId.ToString().WriteToFileAsync(steamAppIdFile);
     }
 
-    public class LockedWrapper<T> where T : class
+    public abstract class LockedWrapper {
+        public static ISafeCallFactory callFactory { get; set; }
+    }
+
+    public class LockedWrapper<T> : LockedWrapper where T : class
     {
         private readonly T _obj;
-        private readonly ISafeCall<T> _safeCall;
+        private readonly IScheduler _scheduler;
+        private readonly ISafeCall _safeCall;
 
-        public LockedWrapper(T obj) : this(obj, new object()) {}
+        public IScheduler Scheduler => _scheduler;
 
-        public LockedWrapper(T obj, object syncRoot) {
+        public LockedWrapper(T obj, IScheduler scheduler) {
             if (obj == null) {
                 throw new ArgumentNullException("obj");
             }
-            SyncRoot = syncRoot;
-            _safeCall = SteamAPIRunner.callFactory.Create(obj);
+            _safeCall = callFactory.Create();
             _obj = obj;
+            _scheduler = scheduler;
         }
 
-        public object SyncRoot { get; }
 
-        public void Do(Action<T> action) {
-            lock (SyncRoot) {
-                _safeCall.Do(action);
-            }
-        }
+        public async Task Do(Action<T> action) => await Observable.Return(Unit.Default, _scheduler)
+            .Do(_ => _safeCall.Do(() => action(_obj)));
 
-        public TResult Do<TResult>(Func<T, TResult> action) {
-            lock (SyncRoot) {
-                return _safeCall.Do(action);
-            }
-        }
+        public async Task<TResult> Do<TResult>(Func<T, TResult> action)
+            => await Observable.Return(Unit.Default, _scheduler)
+                .Select(_ => _safeCall.Do(() => action(_obj)));
 
-        public void DoWithoutLock(Action<T> action) => _safeCall.Do(action);
+        public void DoWithoutLock(Action<T> action) => _safeCall.Do(() => action(_obj));
 
-        public TResult DoWithoutLock<TResult>(Func<T, TResult> action) => _safeCall.Do(action);
+        public TResult DoWithoutLock<TResult>(Func<T, TResult> action) => _safeCall.Do(() => action(_obj));
     }
-
 
     class ArmaServer : IDisposable
     {
         private readonly ServerInfoRulesFetcher _fetcher;
         private readonly ServerFilterWrap _filter;
 
-        public ArmaServer(ArmaServerInfo info, ISteamApi steamApi) {
+        public ArmaServer(ArmaServerInfo info, ServerInfoRulesFetcher fetcher) {
             Info = info;
-            _fetcher = new ServerInfoRulesFetcher(info.QueryEndPoint, steamApi);
+            _fetcher = fetcher;
             _filter = ServerFilterBuilder.Build().FilterByAddress(info.ConnectionEndPoint).Value;
         }
 
-        public ArmaServer(int index, ServerKey key, ISteamApi steamApi) : this(new ArmaServerInfo(index, key), steamApi) {}
+        public ArmaServer(int index, ServerKey key, ServerInfoRulesFetcher fetcher) : this(new ArmaServerInfo(index, key), fetcher) {}
         public ArmaServerInfo Info { get; private set; }
         public Exception LastRuleError { get; set; }
 
@@ -512,82 +501,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Steam
                     DownloadableContent |= pair.Value;
             }
             ReceivedRules = true;
-        }
-    }
-   
-    public class SteamAPIRunner
-    {
-        private static readonly TimeSpan UpdateIntervalDefault = TimeSpan.FromMilliseconds(50.0);
-        private static readonly TimeSpan UpdateIntervalSlow = TimeSpan.FromMilliseconds(1000.0);
-        private readonly LockedWrapper<ISteamAPIWrap> _api;
-        private TimeSpan _updateInterval = UpdateIntervalDefault;
-
-        public SteamAPIRunner([NotNull] LockedWrapper<ISteamAPIWrap> steamApi) {
-            if (steamApi == null) {
-                throw new ArgumentNullException("steamApi");
-            }
-            _api = steamApi;
-        }
-
-        public bool IsRunning { get; private set; }
-
-        public static ISafeCallFactory callFactory { get; set; }
-
-        public event EventHandler AfterTick;
-
-        public event EventHandler BeforeTick;
-
-        public void Run() {
-            if (!IsRunning) {
-                IsRunning = true;
-                var thread2 = new Thread(Start) {
-                    IsBackground = true
-                    //Priority = ThreadPriority.BelowNormal
-                };
-                thread2.Start();
-            }
-        }
-
-        public void SetNormalSpeed() {
-            _updateInterval = UpdateIntervalDefault;
-        }
-
-        public void SetSlowSpeed() {
-            _updateInterval = UpdateIntervalSlow;
-        }
-
-        private void Start() {
-            while (IsRunning) {
-                //this.BeforeTick.Raise(this, EventArgs.Empty);
-                if (!IsRunning) {
-                    return;
-                }
-                try {
-                    _api.Do(api => {
-                        var safeCall = callFactory.Create(api);
-                        safeCall.Do(a => a.Simulate());
-                    });
-                } catch (Exception ex) {
-                    Console.WriteLine("Error during SteamApiRunner " + ex);
-                } catch {
-                    Console.WriteLine("Native error during SteamApiRunner");
-                }
-
-                if (!IsRunning) {
-                    return;
-                }
-                //this.AfterTick.Raise(this, EventArgs.Empty);
-                if (!IsRunning) {
-                    return;
-                }
-                Thread.Sleep(_updateInterval);
-            }
-        }
-
-        public void Stop() {
-            if (IsRunning) {
-                IsRunning = false;
-            }
         }
     }
 }

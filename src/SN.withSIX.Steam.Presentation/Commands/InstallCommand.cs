@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Steam.Api;
@@ -32,11 +33,13 @@ namespace SN.withSIX.Steam.Presentation.Commands
                 Error("Please specify at least 1 publishedfileid");
                 return 11;
             }
-            using (await StartSession().ConfigureAwait(false)) {
-                foreach (var act in pIds.Select(ParsePid))
-                    await ProcessContent(act).ConfigureAwait(false);
-            }
+            await DoWithSteamSession(() => PerformActions(pIds)).ConfigureAwait(false);
             return 0;
+        }
+
+        private async Task PerformActions(IEnumerable<string> pIds) {
+            foreach (var act in pIds.Select(ParsePid))
+                await ProcessContent(act).ConfigureAwait(false);
         }
 
         private async Task ProcessContent(Tuple<PublishedFile, bool> act) {

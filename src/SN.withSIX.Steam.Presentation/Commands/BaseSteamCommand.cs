@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Presentation.Core.Commands;
@@ -29,10 +30,8 @@ namespace SN.withSIX.Steam.Presentation.Commands
         private readonly Lazy<App> _app;
         protected App App => _app.Value;
 
-        protected Task<SteamSession> StartSession() {
-            App.SteamHelper = SteamHelper.Create(); // TODO: Move
-            return _factory.Start(AppId, SteamPathHelper.SteamPath);
-        }
+        protected Task DoWithSteamSession<T>(Func<Task<T>> act) => _factory.Do(AppId, SteamPathHelper.SteamPath, act);
+        protected Task DoWithSteamSession(Func<Task> act) => DoWithSteamSession(() => act().Void());
 
         protected Tuple<PublishedFile, bool> ParsePid(string nfo) {
             ulong p;
