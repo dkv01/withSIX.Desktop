@@ -17,6 +17,7 @@ using AutoMapper;
 using NDepend.Path;
 using ReactiveUI;
 using MediatR;
+using Newtonsoft.Json;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -341,7 +342,8 @@ namespace SN.withSIX.Mini.Presentation.Core
                  Activator.CreateInstance(t, serviceReg);
 
             // Fix JsonSerializer..
-            //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));
+            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
+                typeof(JsonSerializerSettings));
         }
 
         void ConfigureContainer() {

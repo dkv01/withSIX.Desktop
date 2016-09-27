@@ -77,6 +77,7 @@ namespace SN.withSIX.Core.Extensions
         static readonly DateTime unixBase = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static DateTime GetAbsoluteUtc(this TimeSpan offset) => Tools.Generic.GetCurrentUtcDateTime.Add(offset);
+        public static DateTimeOffset GetAbsoluteUtcOffset(this TimeSpan offset) => Tools.Generic.GetCurrentUtcDateTime.Add(offset);
 
         public static ShortGuid ToShortId(this Guid id) => new ShortGuid(id);
 

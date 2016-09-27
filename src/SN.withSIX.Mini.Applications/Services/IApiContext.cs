@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Content.v3;
 using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
@@ -15,6 +16,7 @@ namespace SN.withSIX.Mini.Applications.Services
         Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version);
 
         Task<ApiHashes> GetHashes(Guid gameId);
+        Task<List<IPEndPoint>> GetOrAddServers(Guid gameId, Func<Task<List<IPEndPoint>>> factory);
     }
 
     public static class ApiExtensions
