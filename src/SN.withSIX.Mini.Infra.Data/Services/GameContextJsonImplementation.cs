@@ -47,7 +47,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         static void OnError(object sender, ErrorEventArgs e) {
-            e.ToString();
+            //MainLog.Logger.Warn($"Error during JSON serialization for {e.CurrentObject}, {e.ErrorContext.Path} {e.ErrorContext.Member}: {e.ErrorContext.Error.Message}");
         }
 
         //public override async Task Migrate() {}

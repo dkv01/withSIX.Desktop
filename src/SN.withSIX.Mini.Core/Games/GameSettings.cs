@@ -21,25 +21,8 @@ namespace SN.withSIX.Mini.Core.Games
         public IAbsoluteDirectoryPath GameDirectory { get; set; }
         [DataMember]
         public IAbsoluteDirectoryPath RepoDirectory { get; set; }
-        [DataMember, Obsolete("old workaround")]
-        protected string RepoDirectoryInternal { get; set; }
-        [DataMember, Obsolete("old workaround")]
-        protected string GameDirectoryInternal { get; set; }
-
         [DataMember]
         public bool? LaunchAsAdministrator { get; set; }
-
-        [OnDeserialized]
-        void OnDeserialized(StreamingContext context) {
-            if (RepoDirectoryInternal != null) {
-                RepoDirectory = RepoDirectoryInternal.ToAbsoluteDirectoryPath();
-                RepoDirectoryInternal = null;
-            }
-            if (GameDirectoryInternal != null) {
-                GameDirectory = GameDirectoryInternal.ToAbsoluteDirectoryPath();
-                GameDirectoryInternal = null;
-            }
-        }
     }
 
     public interface IHavePackageDirectory
@@ -53,17 +36,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected GameSettingsWithConfigurablePackageDirectory(GameStartupParameters startupParameters)
             : base(startupParameters) {}
 
-        [DataMember, Obsolete("old workaround")]
-        protected string PackageDirectoryInternal { get; set; }
         [DataMember]
         public IAbsoluteDirectoryPath PackageDirectory { get; set; }
-
-        [OnDeserialized]
-        void OnDeserialized(StreamingContext context) {
-            if (PackageDirectoryInternal != null) {
-                PackageDirectory = PackageDirectoryInternal.ToAbsoluteDirectoryPath();
-                PackageDirectoryInternal = null;
-            }
-        }
     }
 }
