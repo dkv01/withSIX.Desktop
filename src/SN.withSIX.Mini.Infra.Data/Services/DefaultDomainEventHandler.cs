@@ -32,6 +32,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 await RaiseEvents(obj).ConfigureAwait(false);
         }
 
+        public Task RaiseRealtimeEvent(IDomainEvent evt) => evt.Raise();
+
         async Task RaiseEvents(object obj) {
             List<IDomainEvent> list;
             if (_handlers.TryRemove(obj, out list))

@@ -4,6 +4,7 @@
 
 using System.Threading.Tasks;
 using SN.withSIX.Mini.Applications.Usecases.Main.Servers;
+using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
@@ -16,5 +17,8 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         public Task<ServersInfo> QueryServers(GetServersInfoQuery info) => SendAsync(new QueryServersInfo(info));
     }
 
-    public interface IServerHubClient {}
+    public interface IServerHubClient
+    {
+        Task ServersPageReceived(ServersPageReceived info);
+    }
 }

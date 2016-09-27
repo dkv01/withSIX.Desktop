@@ -302,6 +302,7 @@
     <Compile Include="Messengers\ClientHandler.cs" />
     <Compile Include="Messengers\ContentHandler.cs" />
     <Compile Include="Messengers\QueueHubMessenger.cs" />
+    <Compile Include="Messengers\ServerHandler.cs" />
     <Compile Include="Messengers\StateMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameLocker.cs" />

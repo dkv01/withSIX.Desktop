@@ -163,6 +163,7 @@
     <Compile Include="Games\Publisher.cs" />
     <Compile Include="Games\RecentInfo.cs" />
     <Compile Include="Games\ServerInfo.cs" />
+    <Compile Include="Games\ServersPageReceived.cs" />
     <Compile Include="Games\Services\ContentInstaller\Attributes\ContentCleaningAttribute.cs" />
     <Compile Include="Games\Services\ContentInstaller\ContentInstaller.cs" />
     <Compile Include="Games\Services\ContentInstaller\IInstallerSession.cs" />

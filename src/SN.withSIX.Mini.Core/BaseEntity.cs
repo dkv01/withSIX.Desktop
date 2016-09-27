@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Content.v3;
@@ -17,6 +18,8 @@ namespace SN.withSIX.Mini.Core
         [IgnoreDataMember] readonly IDomainEventHandler _domainEventHandler = CoreCheat.EventGrabber.Get();
 
         protected void PrepareEvent(ISyncDomainEvent evt) => _domainEventHandler.PrepareEvent(this, evt);
+
+        protected Task RaiseRealtimeEvent(IDomainEvent evt) => _domainEventHandler.RaiseRealtimeEvent(evt);
     }
 
     [DataContract]

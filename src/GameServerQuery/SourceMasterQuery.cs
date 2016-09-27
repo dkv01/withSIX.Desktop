@@ -27,7 +27,7 @@ namespace GameServerQuery
             MiddleEast = 0x06,
             Africa = 0x07,
             All = 0xFF
-        };
+        }
 
         readonly IDictionary<string, string> _filterSb;
         readonly Region _region;
@@ -44,7 +44,7 @@ namespace GameServerQuery
 
         string Filter
         {
-            get { return String.Join("", _filterSb.Select(x => String.Format(@"\{0}\{1}", x.Key, x.Value))); }
+            get { return string.Join("", _filterSb.Select(x => string.Format(@"\{0}\{1}", x.Key, x.Value))); }
         }
 
         public virtual async Task<IEnumerable<ServerQueryResult>> GetParsedServers(bool forceLocal = false,
@@ -52,6 +52,10 @@ namespace GameServerQuery
             var serversResult = await RetrieveAsync(limit).ConfigureAwait(false);
             return serversResult.Select(CreateServerDictionary);
         }
+
+        public event EventHandler<ServerPageArgs> ServerPageReceived;
+
+        void Raise(ServerPageArgs args) => ServerPageReceived?.Invoke(this, args);
 
         void SetFilter(string name, string value) {
             _filterSb[name] = value;
@@ -93,19 +97,22 @@ namespace GameServerQuery
                         (await udpClient.ReceiveWithTimeoutAfter(DefaultReceiveTimeout).ConfigureAwait(false)).Buffer;
                 } catch (TimeoutException) {
                     timedOut = true;
-                    if (cur == -1 || tried != -1 || i != 0) {
-                        throw new TimeoutException(String.Format("Received timeout on try: {0} packet: {1}",
+                    if ((cur == -1) || (tried != -1) || (i != 0)) {
+                        throw new TimeoutException(string.Format("Received timeout on try: {0} packet: {1}",
                             tried == -1 ? 1 : 2, i));
                     }
                 }
                 //only retries when remote was not passed in, on the first try, and when the first packet was never received
                 if (timedOut)
                     return await RetrieveAsync(limit, null, cur).ConfigureAwait(false);
-                seed = ParseResponse(servers, response, limit);
+                var page = new List<IPEndPoint>();
+                seed = ParseResponse(page, response, limit);
+                servers.AddRange(page);
+                Raise(new ServerPageArgs(page));
                 if (seed == null)
                     throw new Exception("Bad packet recieved.");
                 i++;
-            } while (i < maxIterations && !seed.Equals("0.0.0.0:0") && !seed.Equals(lastSeed));
+            } while ((i < maxIterations) && !seed.Equals("0.0.0.0:0") && !seed.Equals(lastSeed));
             return servers;
         }
 
@@ -126,7 +133,7 @@ namespace GameServerQuery
             if (!header.All(t => reply[pos++] == t))
                 return null;
             while (pos < reply.Length) {
-                var ip = String.Format("{0}.{1}.{2}.{3}", reply[pos++], reply[pos++], reply[pos++], reply[pos++]);
+                var ip = string.Format("{0}.{1}.{2}.{3}", reply[pos++], reply[pos++], reply[pos++], reply[pos++]);
                 byte[] b = {reply[pos + 1], reply[pos]};
                 var port = BitConverter.ToUInt16(b, 0);
                 pos += 2;
@@ -135,17 +142,25 @@ namespace GameServerQuery
                 if (seed.Equals("0.0.0.0:0"))
                     break;
                 servers.Add(seed.ToIPEndPoint());
-                if (limit > 0 && servers.Count >= limit)
+                if ((limit > 0) && (servers.Count >= limit))
                     return "0.0.0.0:0";
             }
             return seed;
         }
 
-        protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address) {
-            return new SourceMasterServerQueryResult(new Dictionary<string, string> {
+        protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address)
+            => new SourceMasterServerQueryResult(new Dictionary<string, string> {
                 {"address", address.ToString()},
                 {"folder", ServerBrowserTag}
             }) {Address = address};
+    }
+
+    public class ServerPageArgs
+    {
+        public ServerPageArgs(List<IPEndPoint> items) {
+            Items = items;
         }
+
+        public List<IPEndPoint> Items { get; }
     }
 }

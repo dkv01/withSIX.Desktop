@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -16,8 +17,8 @@ using GameServerQuery.Parsers;
 using MediatR;
 using NDepend.Helpers;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
@@ -74,9 +75,20 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         public async Task<List<IPEndPoint>> GetServers() {
             var master = new SourceMasterQuery("arma3");
-            var r = await master.GetParsedServers().ConfigureAwait(false);
-            return r.Select(x => x.Address).ToList();
+            using (BuildObservable(master)
+                .SelectMany(x => RaiseRealtimeEvent(new ServersPageReceived(Id, x.Items)).Void())
+                .Subscribe()) {
+                var r = await master.GetParsedServers().ConfigureAwait(false);
+                return r.Select(x => x.Address).ToList();
+            }
         }
+
+        private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master) => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
+                EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
+                return evtHandler;
+            },
+            evtHandler => master.ServerPageReceived += evtHandler,
+            evtHandler => master.ServerPageReceived -= evtHandler);
 
         public Task<List<ServerInfo>> GetServerInfos(
                 System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses,

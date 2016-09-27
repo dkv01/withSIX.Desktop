@@ -9,6 +9,8 @@ namespace SN.withSIX.Core.Services.Infrastructure
     public interface IDomainEventHandler
     {
         void PrepareEvent(object obj, ISyncDomainEvent evt);
+        void PrepareEvent(object obj, IAsyncDomainEvent evt);
         Task RaiseEvents();
+        Task RaiseRealtimeEvent(IDomainEvent evt);
     }
 }
