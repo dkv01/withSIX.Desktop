@@ -73,12 +73,12 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
         protected override string[] BeGameParam { get; } = {"2", "1"};
 
-        public async Task<List<IPEndPoint>> GetServers() {
+        public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
             var master = new SourceMasterQuery("arma3");
             using (BuildObservable(master)
                 .SelectMany(x => RaiseRealtimeEvent(new ServersPageReceived(Id, x.Items)).Void())
                 .Subscribe()) {
-                var r = await master.GetParsedServers().ConfigureAwait(false);
+                var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
                 return r.Select(x => x.Address).ToList();
             }
         }

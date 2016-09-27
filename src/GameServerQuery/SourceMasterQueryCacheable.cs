@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery.Extensions;
 using NDepend.Path;
@@ -24,9 +25,8 @@ namespace GameServerQuery
             _cachePath = cachePath;
         }
 
-        public override async Task<IEnumerable<ServerQueryResult>> GetParsedServers(bool forceLocal = false,
-            int limit = 0) {
-            var serversResult = forceLocal ? null : await RetrieveAsync(0).ConfigureAwait(false);
+        public override async Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken, bool forceLocal = false, int limit = 0) {
+            var serversResult = forceLocal ? null : await RetrieveAsync(cancelToken, 0).ConfigureAwait(false);
             await Task.Run(() => {
                 var cache = GetCacheFilePath();
                 if (serversResult == null || serversResult.Count == 0) {
@@ -46,7 +46,7 @@ namespace GameServerQuery
                     if (limit > 0)
                         serversResult = serversResult.Take(limit).ToList();
                 }
-            }).ConfigureAwait(false);
+            }, cancelToken).ConfigureAwait(false);
             return serversResult.Select(CreateServerDictionary);
         }
 

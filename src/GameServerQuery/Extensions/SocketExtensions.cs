@@ -45,33 +45,31 @@ namespace GameServerQuery.Extensions
             return await task.ConfigureAwait(false);
         }
 
-        public static async Task<UdpReceiveResult> ReceiveWithTimeoutAfter(this UdpClient client, int milliSecondsDelay) {
-            using (var token = new CancellationTokenSource())
-                return await ReceiveWithTimeoutAfter(client, milliSecondsDelay, token).ConfigureAwait(false);
-        }
-
         public static async Task<UdpReceiveResult> ReceiveWithTimeoutAfter(this UdpClient client, int milliSecondsDelay,
-            CancellationTokenSource cancel) {
+            CancellationToken cancel = default(CancellationToken)) {
             if (client == null)
                 throw new NullReferenceException();
 
             var task = client.ReceiveAsync();
 
             if (task.IsCompleted || (milliSecondsDelay == Timeout.Infinite))
-                return (await task.ConfigureAwait(false));
+                return await task.ConfigureAwait(false);
 
-            await Task.WhenAny(task, Task.Delay(milliSecondsDelay, cancel.Token)).ConfigureAwait(false);
+            using (var cts = new CancellationTokenSource()) {
+                using (cancel.Register(cts.Cancel)) {
+                    await Task.WhenAny(task, Task.Delay(milliSecondsDelay, cts.Token)).ConfigureAwait(false);
 
-            if (!task.IsCompleted) {
-                client.Dispose();
-                try {
-                    return await task.ConfigureAwait(false);
-                } catch (ObjectDisposedException) {
-                    throw new TimeoutException("Receive timed out.");
+                    if (!task.IsCompleted) {
+                        client.Dispose();
+                        try {
+                            return await task.ConfigureAwait(false);
+                        } catch (ObjectDisposedException) {
+                            throw new TimeoutException("Receive timed out.");
+                        }
+                    }
+                    cts.Cancel(); // Cancel the timer! 
                 }
             }
-
-            cancel.Cancel(); // Cancel the timer! 
             return await task.ConfigureAwait(false);
         }
     }

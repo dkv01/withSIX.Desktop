@@ -3,13 +3,14 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameServerQuery
 {
     public interface IMasterServerQuery
     {
-        Task<IEnumerable<ServerQueryResult>> GetParsedServers(bool forceLocal = false,
+        Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken, bool forceLocal = false,
             int limit = 0);
     }
 }

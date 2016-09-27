@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
@@ -17,6 +18,10 @@ namespace SN.withSIX.Mini.Applications.Extensions
 
         public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
             IAsyncRequest<TResponseData> message) => message.ExecuteWrapped();
+
+        public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
+                ICancellableAsyncRequest<TResponseData> message, CancellationToken cancelToken)
+            => message.ExecuteWrapped(cancelToken);
 
         public static Task<Unit> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId)
             => Cheat.Mediator.DispatchNextAction(message => SendAsync(executor, message), requestId);

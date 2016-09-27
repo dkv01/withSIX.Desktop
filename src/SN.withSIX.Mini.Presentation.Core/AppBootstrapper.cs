@@ -497,8 +497,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleton(new MultiInstanceFactory(Container.GetAllInstances));
             Container.RegisterSingleton<IMediator, Mediator>();
 
-            RegisterRequestHandlers(typeof (IAsyncRequestHandler<,>),
-                typeof (IRequestHandler<,>));
+            RegisterRequestHandlers(typeof(IAsyncRequestHandler<,>),
+                typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
             RegisterNotificationHandlers(typeof (INotificationHandler<>),
                 typeof (IAsyncNotificationHandler<>));
 

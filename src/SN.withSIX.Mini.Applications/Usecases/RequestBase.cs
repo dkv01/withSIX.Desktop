@@ -5,10 +5,14 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using Newtonsoft.Json;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Attributes;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {
@@ -54,6 +58,14 @@ namespace SN.withSIX.Mini.Applications.Usecases
     {
         [JsonIgnore]
         CancellationToken CancelToken { get; set; }
+    }
+
+    public interface ICancellable2
+    {
+        [JsonIgnore]
+        CancellationToken CancelToken { get; set; }
+        [ValidUuid]
+        Guid RequestId { get; set; }
     }
 
     public class NotifyingActionOverrideAttribute : Attribute

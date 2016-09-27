@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
@@ -15,7 +16,7 @@ using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
 {
-    public class GetServers : IAsyncQuery<BatchResult>
+    public class GetServers : ICancellableQuery<BatchResult>
     {
         public GetServers(GetServersQuery info) {
             Info = info;
@@ -24,11 +25,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
         public GetServersQuery Info { get; }
     }
 
-    public class GetServersHandler : ApiDbQueryBase, IAsyncRequestHandler<GetServers, BatchResult>
+    public class GetServersHandler : ApiDbQueryBase, ICancellableAsyncRequestHandler<GetServers, BatchResult>
     {
         public GetServersHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<BatchResult> Handle(GetServers request) {
+        public async Task<BatchResult> Handle(GetServers request, CancellationToken cancelToken) {
             var game = await GameContext.FindGameOrThrowAsync(request.Info).ConfigureAwait(false);
             var sGame = game as IQueryServers;
             if (sGame == null)
@@ -38,12 +39,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
                 DbContextLocator.GetApiContext()
                     .GetOrAddServers(game.Id, async () => {
                         fetched = true;
-                        return await sGame.GetServers().ConfigureAwait(false);
+                        return await sGame.GetServers(cancelToken).ConfigureAwait(false);
                     })
                     .ConfigureAwait(false);
             if (!fetched) {
-                foreach (var b in addresses.Batch(231))
+                foreach (var b in addresses.Batch(231)) {
+                    cancelToken.ThrowIfCancellationRequested();
                     await new ServersPageReceived(game.Id, b.ToList()).Raise().ConfigureAwait(false);
+                }
             }
             return new BatchResult(addresses.Count);
         }

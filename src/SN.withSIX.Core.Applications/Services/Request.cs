@@ -27,6 +27,13 @@ namespace SN.withSIX.Core.Applications.Services
 
     public interface IAsyncVoidCommand : IAsyncCommand<Unit> {}
 
+    public interface ICancellableQuery<out TResponse> : ICancellableAsyncRequest<TResponse>, IRead { }
+    public interface ICancellableCommand<out TResponse> : ICancellableAsyncRequest<TResponse>, IWrite { }
+    public interface ICancellableVoidCommand : ICancellableCommand<Unit> { }
+
     public interface IAsyncVoidCommandHandler<in TCommand> : IAsyncRequestHandler<TCommand, Unit>
         where TCommand : IAsyncRequest<Unit> {}
+
+    public interface IAsyncCancellableVoidCommandHandler<in TCommand> : ICancellableAsyncRequestHandler<TCommand, Unit>
+        where TCommand : ICancellableAsyncRequest<Unit> {}
 }

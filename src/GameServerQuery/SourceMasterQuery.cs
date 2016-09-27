@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery.Extensions;
 
@@ -42,14 +43,11 @@ namespace GameServerQuery
                 SetFilter("gamedir", serverBrowserTag);
         }
 
-        string Filter
-        {
-            get { return string.Join("", _filterSb.Select(x => string.Format(@"\{0}\{1}", x.Key, x.Value))); }
-        }
+        string Filter => string.Join("", _filterSb.Select(x => string.Format(@"\{0}\{1}", x.Key, x.Value)));
 
-        public virtual async Task<IEnumerable<ServerQueryResult>> GetParsedServers(bool forceLocal = false,
-            int limit = 0) {
-            var serversResult = await RetrieveAsync(limit).ConfigureAwait(false);
+        public virtual async Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken,
+            bool forceLocal = false, int limit = 0) {
+            var serversResult = await RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
             return serversResult.Select(CreateServerDictionary);
         }
 
@@ -61,7 +59,7 @@ namespace GameServerQuery
             _filterSb[name] = value;
         }
 
-        protected async Task<List<IPEndPoint>> RetrieveAsync(int limit, IPEndPoint remote = null, int tried = -1) {
+        protected async Task<List<IPEndPoint>> RetrieveAsync(CancellationToken cancelToken, int limit, IPEndPoint remote = null, int tried = -1) {
             var cur = -1;
             var servers = new List<IPEndPoint>();
             if (remote == null) {
@@ -85,6 +83,7 @@ namespace GameServerQuery
             string lastSeed;
             var seed = "0.0.0.0:0";
             do {
+                cancelToken.ThrowIfCancellationRequested();
                 lastSeed = seed;
                 var msg = BuildMessage(seed);
 
@@ -94,7 +93,7 @@ namespace GameServerQuery
                 var timedOut = false;
                 try {
                     response =
-                        (await udpClient.ReceiveWithTimeoutAfter(DefaultReceiveTimeout).ConfigureAwait(false)).Buffer;
+                        (await udpClient.ReceiveWithTimeoutAfter(DefaultReceiveTimeout, cancelToken).ConfigureAwait(false)).Buffer;
                 } catch (TimeoutException) {
                     timedOut = true;
                     if ((cur == -1) || (tried != -1) || (i != 0)) {
@@ -104,7 +103,7 @@ namespace GameServerQuery
                 }
                 //only retries when remote was not passed in, on the first try, and when the first packet was never received
                 if (timedOut)
-                    return await RetrieveAsync(limit, null, cur).ConfigureAwait(false);
+                    return await RetrieveAsync(cancelToken, limit, null, cur).ConfigureAwait(false);
                 seed = ParseResponse(servers, response, limit);
                 if (seed == null)
                     throw new Exception("Bad packet recieved.");

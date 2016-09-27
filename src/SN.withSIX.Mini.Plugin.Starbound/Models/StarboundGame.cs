@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Parsers;
@@ -256,9 +257,9 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             }
         }
 
-        public async Task<List<IPEndPoint>> GetServers() {
+        public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
             var master = new SourceMasterQuery("starbound");
-            var r = await master.GetParsedServers().ConfigureAwait(false);
+            var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
             return r.Select(x => x.Address).ToList();
         }
 

@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
@@ -35,5 +36,8 @@ namespace SN.withSIX.Core.Applications.Extensions
 
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message,
             IMediator mediator) => mediator.SendAsync(message);
+
+        public static Task<TResponseData> Execute<TResponseData>(this ICancellableAsyncRequest<TResponseData> message,
+            IMediator mediator, CancellationToken cancelToken) => mediator.SendAsync(message, cancelToken);
     }
 }
