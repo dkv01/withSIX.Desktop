@@ -61,6 +61,7 @@ namespace GameServerQuery.Extensions
 
                     if (!task.IsCompleted) {
                         client.Dispose();
+                        cancel.ThrowIfCancellationRequested();
                         try {
                             return await task.ConfigureAwait(false);
                         } catch (ObjectDisposedException) {
