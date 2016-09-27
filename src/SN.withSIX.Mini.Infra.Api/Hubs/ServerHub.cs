@@ -10,7 +10,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
     public class ServerHub : HubBase<IServerHubClient>
     {
-        public Task<ServersList> GetServers(GetServersQuery info) => SendAsync(new GetServers(info));
+        public Task<BatchResult> GetServers(GetServersQuery info) => SendAsync(new GetServers(info));
 
         public Task<ServersInfo> GetServersInfo(GetServerQuery info) => SendAsync(new GetServersInfo(info));
 

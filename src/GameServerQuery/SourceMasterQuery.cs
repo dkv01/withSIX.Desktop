@@ -105,10 +105,7 @@ namespace GameServerQuery
                 //only retries when remote was not passed in, on the first try, and when the first packet was never received
                 if (timedOut)
                     return await RetrieveAsync(limit, null, cur).ConfigureAwait(false);
-                var page = new List<IPEndPoint>();
-                seed = ParseResponse(page, response, limit);
-                servers.AddRange(page);
-                Raise(new ServerPageArgs(page));
+                seed = ParseResponse(servers, response, limit);
                 if (seed == null)
                     throw new Exception("Bad packet recieved.");
                 i++;
@@ -126,14 +123,15 @@ namespace GameServerQuery
             return mF;
         }
 
-        static string ParseResponse(ICollection<IPEndPoint> servers, byte[] reply, int limit) {
+        string ParseResponse(ICollection<IPEndPoint> servers, byte[] reply, int limit) {
             var seed = string.Empty;
             var pos = 0;
             byte[] header = {0xFF, 0xFF, 0xFF, 0xFF, 0x66, 0x0A};
             if (!header.All(t => reply[pos++] == t))
                 return null;
+            var page = new List<IPEndPoint>();
             while (pos < reply.Length) {
-                var ip = string.Format("{0}.{1}.{2}.{3}", reply[pos++], reply[pos++], reply[pos++], reply[pos++]);
+                var ip = $"{reply[pos++]}.{reply[pos++]}.{reply[pos++]}.{reply[pos++]}";
                 byte[] b = {reply[pos + 1], reply[pos]};
                 var port = BitConverter.ToUInt16(b, 0);
                 pos += 2;
@@ -141,10 +139,17 @@ namespace GameServerQuery
                 seed = ip + ":" + port;
                 if (seed.Equals("0.0.0.0:0"))
                     break;
-                servers.Add(seed.ToIPEndPoint());
-                if ((limit > 0) && (servers.Count >= limit))
-                    return "0.0.0.0:0";
+                var ep = seed.ToIPEndPoint();
+                if (servers.Contains(ep))
+                    continue;
+                servers.Add(ep);
+                page.Add(ep);
+                if ((limit <= 0) || (servers.Count < limit))
+                    continue;
+                Raise(new ServerPageArgs(page));
+                return "0.0.0.0:0";
             }
+            Raise(new ServerPageArgs(page));
             return seed;
         }
 
