@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNet.SignalR;
-using ReactiveUI;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
@@ -32,8 +31,8 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
             GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
         private readonly IDisposable _subscription;
 
-        public StateMessengerBus(IMessageBus messageBus) {
-            _subscription = messageBus.Listen<GameLockChanged>().Subscribe(Handle);
+        public StateMessengerBus(IGameLocker gameLocker) {
+            _subscription = gameLocker.LockChanged.Subscribe(Handle);
         }
 
         public void Dispose() {

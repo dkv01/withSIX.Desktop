@@ -16,6 +16,7 @@ namespace SN.withSIX.Core.Infra.Services
     {
         const int DefaultTimeout = 3000;
 
+        [Obsolete("use async")]
         public long Ping(string hostName, int count = 3) {
             using (var p = new Ping()) {
                 var pings = new List<long>();
@@ -44,17 +45,7 @@ namespace SN.withSIX.Core.Infra.Services
             }
         }
 
-        bool TryPing(string hostName, Ping p, ICollection<long> pings) {
-            try {
-                var reply = p.SendPingAsync(hostName, DefaultTimeout).Result;
-                if (reply != null && reply.Status == IPStatus.Success)
-                    pings.Add(reply.RoundtripTime);
-                return true;
-            } catch (Exception e) {
-                this.Logger().FormattedWarnException(e);
-                return false;
-            }
-        }
+        bool TryPing(string hostName, Ping p, ICollection<long> pings) => TryPingAsync(hostName, p, pings).Result;
 
         async Task<bool> TryPingAsync(string hostName, Ping p, ICollection<long> pings) {
             try {

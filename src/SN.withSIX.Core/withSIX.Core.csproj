@@ -193,7 +193,6 @@
     <Compile Include="Services\Infrastructure\ProcessStartInfoBuilder.cs" />
     <Compile Include="Services\IPathConfiguration.cs" />
     <Compile Include="Services\JsonDictionary.cs" />
-    <Compile Include="TempBridge.cs" />
     <Compile Include="TimestampedDomainEvent.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Tools\Compression.cs" />

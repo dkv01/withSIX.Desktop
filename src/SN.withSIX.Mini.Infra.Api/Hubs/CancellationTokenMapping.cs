@@ -10,25 +10,25 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
     public class CancellationTokenMapping
     {
-        private readonly Dictionary<Guid, CancellationTokenSource> Cancellation =
+        private readonly Dictionary<Guid, CancellationTokenSource> _cancellation =
             new Dictionary<Guid, CancellationTokenSource>();
 
         public CancellationToken AddToken(Guid id) {
-            lock (Cancellation) {
+            lock (_cancellation) {
                 var cts = new CancellationTokenSource();
-                Cancellation.Add(id, cts);
+                _cancellation.Add(id, cts);
                 return cts.Token;
             }
         }
 
         public void Cancel(Guid id) {
-            lock (Cancellation)
-                Cancellation[id].Cancel();
+            lock (_cancellation)
+                _cancellation[id].Cancel();
         }
 
         public void Remove(Guid id) {
-            lock (Cancellation)
-                Cancellation.Remove(id);
+            lock (_cancellation)
+                _cancellation.Remove(id);
         }
     }
 }

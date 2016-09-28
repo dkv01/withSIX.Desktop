@@ -3,26 +3,17 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using NDepend.Path;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.Logging;
+using SN.withSIX.Core.Presentation.Bridge;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
-using Splat;
 using withSIX.Api.Models.Extensions;
-using ILogger = Splat.ILogger;
 
 namespace SN.withSIX.Mini.Presentation.Wpf
 {
@@ -35,7 +26,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             Consts.ProductVersion = CommonBase.AssemblyLoader.GetInformationalVersion();
         }
 
-        static void SetupAssemblyLoader() => CommonBase.AssemblyLoader = new AssemblyLoader(typeof (Entrypoint).Assembly);
+        static void SetupAssemblyLoader() => CommonBase.AssemblyLoader = new AssemblyLoader(typeof(Entrypoint).Assembly);
 
         static void SetupRegistry() {
             var registry = new AssemblyRegistry();
@@ -55,12 +46,13 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         public static void Main() {
             AttachConsole(-1);
 
-            Common.Flags = new Common.StartupFlags(_args = Environment.GetCommandLineArgs().Skip(1).ToArray(), Environment.Is64BitOperatingSystem);
+            Common.Flags = new Common.StartupFlags(_args = Environment.GetCommandLineArgs().Skip(1).ToArray(),
+                Environment.Is64BitOperatingSystem);
             SetupRegistry();
             new RuntimeCheckWpf().Check();
 
             SetupAssemblyLoader();
-            SetupLogging();
+            LoggingSetup.Setup(Consts.ProductTitle);
             new AssemblyHandler().Register();
             SetupVersion();
             Init();
@@ -76,17 +68,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         [DllImport("Kernel32.dll")]
         public static extern bool AttachConsole(int processId);
-
-        static void SetupLogging() {
-            SetupNlog.Initialize(Consts.ProductTitle);
-            if (Common.Flags.Verbose) {
-                var splatLogger = new NLogSplatLogger();
-                Locator.CurrentMutable.Register(() => splatLogger, typeof (ILogger));
-            }
-#if DEBUG
-            LogHost.Default.Level = LogLevel.Debug;
-#endif
-        }
 
         static void HandleSquirrel() => new SquirrelUpdater().HandleStartup(_args);
 

@@ -12,6 +12,7 @@ using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Services;
 

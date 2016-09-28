@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Core.Presentation.Logging;
+using SN.withSIX.Core.Presentation;
+using SN.withSIX.Mini.Presentation.Electron;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Presentation;
 using SteamLayerWrap;
@@ -19,6 +20,7 @@ using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
+using LoggingSetup = SN.withSIX.Mini.Presentation.Electron.LoggingSetup;
 
 namespace SN.withSIX.Mini.Tests.Arma
 {
@@ -41,7 +43,7 @@ namespace SN.withSIX.Mini.Tests.Arma
 
         [Test]
         public async Task GetServers() {
-            SetupNlog.Initialize("Tests");
+            LoggingSetup.Setup("Tests");
             LockedWrapper.callFactory = new SafeCallFactory(); // workaround for accessviolation errors
             var serverFilterBuilder = ServerFilterBuilder.Build();
             serverFilterBuilder.FilterByAddresses(new[] {

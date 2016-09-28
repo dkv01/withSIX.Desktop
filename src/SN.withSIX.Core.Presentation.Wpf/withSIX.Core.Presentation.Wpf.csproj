@@ -433,8 +433,9 @@
       <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
-      <HintPath>..\dll\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
@@ -652,11 +653,14 @@
     <Compile Include="Services\FlashHandler.cs" />
     <Compile Include="Services\NlogLogger.cs" />
     <Compile Include="Services\ResourceService.cs" />
+    <Compile Include="Services\RuntimeCheck.cs" />
     <Compile Include="Services\RuntimeCheckWpf.cs" />
+    <Compile Include="Services\SimpleInjectorMutableDependencyResolver.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\WpfDialogManager.cs" />
     <Compile Include="Services\WpfFirstTimeLicense.cs" />
     <Compile Include="Services\WpfShutdownHandler.cs" />
+    <Compile Include="LoggingSetup.cs" />
     <Compile Include="TaskBarLocationProvider.cs" />
     <Compile Include="UiRoot.cs" />
     <Compile Include="Views\Controls\CachedImage.cs" />
@@ -777,6 +781,10 @@
     <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Bridge\withSIX.Core.Presentation.Bridge.csproj">
+      <Project>{777EA4EB-495C-411C-9F65-510874368861}</Project>
+      <Name>withSIX.Core.Presentation.Bridge</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
@@ -944,7 +952,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets')" />

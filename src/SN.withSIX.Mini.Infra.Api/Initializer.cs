@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics;
 using System.Net;
-using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
@@ -37,12 +35,14 @@ namespace SN.withSIX.Mini.Infra.Api
         private readonly IWebApiErrorHandler _errorHandler;
         private readonly IDbContextFactory _factory;
         private readonly IStateMessengerBus _stateMessenger;
+        private readonly IProcessManager _pm;
         private IDisposable _ErrorReg;
 
-        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory, IStateMessengerBus stateMessenger) {
+        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory, IStateMessengerBus stateMessenger, IProcessManager pm) {
             _errorHandler = errorHandler;
             _factory = factory;
             _stateMessenger = stateMessenger;
+            _pm = pm;
         }
 
         public async Task InitializeAfterUI() {
@@ -84,7 +84,7 @@ namespace SN.withSIX.Mini.Infra.Api
             }
         }
 
-        static void SetupWebServer() {
+        void SetupWebServer() {
             const int maxTries = 10;
             const int timeOut = 1500;
             var tries = 0;
@@ -92,18 +92,16 @@ namespace SN.withSIX.Mini.Infra.Api
             var http = Consts.HttpAddress;
             var https = Consts.HttpsAddress;
 
-            using (var pm = new ProcessManager()) {
-                var si = BuildSi(pm);
-                if (!si.IsHttpsPortRegistered && !si.IsHttpPortRegistered)
-                    throw new InvalidOperationException("Neither http nor https ports are registered");
-                if (si.IsHttpsPortRegistered && !si.IsCertRegistered)
-                    throw new InvalidOperationException("The certificate failed to register");
+            var si = BuildSi(_pm);
+            if (!si.IsHttpsPortRegistered && !si.IsHttpPortRegistered)
+                throw new InvalidOperationException("Neither http nor https ports are registered");
+            if (si.IsHttpsPortRegistered && !si.IsCertRegistered)
+                throw new InvalidOperationException("The certificate failed to register");
 
-                if (!si.IsHttpPortRegistered)
-                    http = null;
-                if (!si.IsSslRegistered())
-                    https = null;
-            }
+            if (!si.IsHttpPortRegistered)
+                http = null;
+            if (!si.IsSslRegistered())
+                https = null;
 
             retry:
             try {

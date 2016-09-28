@@ -279,7 +279,6 @@
       <HintPath>..\packages\Thinktecture.IdentityModel.Client.4.0.1\lib\net45\Thinktecture.IdentityModel.Client.Net45.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="WindowsBase" />
     <Reference Include="withSIX.Api.Models, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\withSIX.Api.Models.2.0.7-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -287,7 +286,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperInfraApiConfig.cs" />
-    <Compile Include="Downloaders\SteamDownloader.cs" />
     <Compile Include="Hubs\CancellationTokenMapping.cs" />
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
@@ -306,16 +304,10 @@
     <Compile Include="Messengers\ServerHandler.cs" />
     <Compile Include="Messengers\StateMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GameLocker.cs" />
-    <Compile Include="Services\GameLockMonitor.cs" />
-    <Compile Include="Services\SetupGameStuff.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StateHandler.cs" />
     <Compile Include="WebApiErrorHandler.cs" />
-    <Compile Include="WebApi\ContentDto.cs" />
     <Compile Include="WebApi\NetworkContentSyncer.cs" />
-    <Compile Include="WebApi\MissionDto.cs" />
-    <Compile Include="WebApi\ModDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
@@ -330,10 +322,6 @@
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
-      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>withSIX.Core.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>
@@ -345,6 +333,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj">
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>withSIX.Mini.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj">
+      <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>
+      <Name>withSIX.Mini.Infra.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>

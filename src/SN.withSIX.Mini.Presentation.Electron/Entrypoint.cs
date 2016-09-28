@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.Logging;
+using SN.withSIX.Core.Presentation.Bridge;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
@@ -77,9 +78,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));
-            if (ConfigurationManager.AppSettings["Logentries.Token"] == null)
-                ConfigurationManager.AppSettings["Logentries.Token"] = "e0dbaa42-f633-4df4-a6d2-a415c5e49fd0";
-            SetupLogging();
+            SetupLogging("e0dbaa42-f633-4df4-a6d2-a415c5e49fd0");
             new AssemblyHandler().Register();
             SetupVersion();
             Consts.InternalVersion += $" (runtime: {Api.Version}, engine: {Consts.ProductVersion})";
@@ -88,7 +87,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             if (Api.Args != null)
                 Cheat.Args = Api.Args;
 
-            ErrorHandler.Handler = new NodeErrorHandler(Api);
+            ErrorHandlerCheat.Handler = new NodeErrorHandler(Api);
         }
 
         private static void Init() {
@@ -100,21 +99,14 @@ namespace SN.withSIX.Mini.Presentation.Electron
             Common.ReleaseTitle = Consts.ReleaseTitle;
         }
 
-        static void SetupLogging() {
-            SetupNlog.Initialize(Consts.ProductTitle);
-            if (Common.Flags.Verbose) {
-                var splatLogger = new NLogSplatLogger();
-                Locator.CurrentMutable.Register(() => splatLogger, typeof (ILogger));
-            }
-#if DEBUG
-            LogHost.Default.Level = LogLevel.Debug;
-#endif
+        static void SetupLogging(string token) {
+            LoggingSetup.Setup(Consts.ProductTitle, token);
         }
 
         public class RuntimeCheckNode : RuntimeCheck
         {
             protected override async Task<bool> FatalErrorMessage(string message, string caption)
-                => (await Api.ShowMessageBox(caption, message, new[] {"Yes", "No"}).ConfigureAwait(false)) == "Yes";
+                => await Api.ShowMessageBox(caption, message, new[] {"Yes", "No"}).ConfigureAwait(false) == "Yes";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace SN.withSIX.Steam.Core
             if (regPath != null && regPath.Exists)
                 return regPath;
             var expectedPath =
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
+                PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.ProgramFilesX86)
                     .ToAbsoluteDirectoryPath()
                     .GetChildDirectoryWithName("Steam");
             return expectedPath.Exists ? expectedPath : null;

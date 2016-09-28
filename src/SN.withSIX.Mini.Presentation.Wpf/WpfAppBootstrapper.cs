@@ -21,7 +21,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Extensions;
+using SN.withSIX.Core.Presentation.Bridge.Extensions;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
@@ -142,6 +142,39 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void RegisterViews() {
             base.RegisterViews();
+            var viewInterfaceFilterType = typeof(IViewFor);
+            DependencyResolver.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(),
+                (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
+            //dependencyResolver.RegisterConstant(this, typeof (IScreen));
+
+            // TODO: We might still want to leverage S.I also for RXUI View resolution, so that Views may import (presentation) services?
+            //_container.RegisterPlugins<ISettingsTabViewModel>(_applicationAssemblies);
+
+            /*
+            _container.RegisterAllInterfaces<IViewFor>(_presentationAssemblies, (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
+            dependencyResolver.Register(container.GetInstance<SettingsWindow>, typeof (IViewFor<SettingsViewModel>));
+
+            //dependencyResolver.Register(container.GetInstance<SettingsView>, typeof (IViewFor<SettingsViewModel>));
+            dependencyResolver.Register(container.GetInstance<WelcomeView>, typeof (IViewFor<WelcomeViewModel>));
+            dependencyResolver.Register(container.GetInstance<NotificationsView>, typeof (IViewFor<NotificationsViewModel>));
+            dependencyResolver.Register(container.GetInstance<DownloadsView>, typeof(IViewFor<DownloadsViewModel>));
+            dependencyResolver.Register(container.GetInstance<LibraryView>, typeof (IViewFor<LibraryViewModel>));
+
+            dependencyResolver.Register(container.GetInstance<NotificationView>, typeof(IViewFor<NotificationViewModel>));
+
+            dependencyResolver.Register(container.GetInstance<GameTabView>, typeof(IViewFor<GameTabViewModel>));
+            dependencyResolver.Register(container.GetInstance<GameSettingsWindow>, typeof(IViewFor<GameSettingsViewModel>));
+            dependencyResolver.Register(container.GetInstance<GameSettingsWindow>, typeof(IViewFor<ArmaSettingsViewModel>)); // , "arma"
+
+            dependencyResolver.Register(container.GetInstance<AccountSettingsTabView>,
+                typeof(IAccountSettingsTabView));
+            dependencyResolver.Register(container.GetInstance<DownloadSettingsTabView>,
+                typeof (IViewFor<DownloadSettingsTabViewModel>));
+            dependencyResolver.Register(container.GetInstance<InterfaceSettingsTabView>,
+                typeof (IViewFor<InterfaceSettingsTabViewModel>));
+            dependencyResolver.Register(container.GetInstance<NotificationSettingsTabView>,
+                typeof (IViewFor<NotificationSettingsTabViewModel>));
+*/
             Container.RegisterSingleton(() => _mainVm);
             Container.RegisterSingleton<ReactiveUI.IScreen>(Container.GetInstance<IMiniMainWindowViewModel>);
         }

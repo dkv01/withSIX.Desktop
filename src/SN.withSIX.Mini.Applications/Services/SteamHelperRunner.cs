@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Services

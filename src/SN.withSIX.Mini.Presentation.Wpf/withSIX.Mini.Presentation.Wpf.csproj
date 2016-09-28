@@ -330,6 +330,10 @@
       <HintPath>..\packages\System.Net.NameResolution.4.0.0\lib\net46\System.Net.NameResolution.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Ping, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Ping.4.0.0\lib\net46\System.Net.Ping.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Sockets.4.1.0\lib\net46\System.Net.Sockets.dll</HintPath>
       <Private>True</Private>
@@ -551,6 +555,10 @@
     <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Bridge\withSIX.Core.Presentation.Bridge.csproj">
+      <Project>{777ea4eb-495c-411c-9f65-510874368861}</Project>
+      <Name>withSIX.Core.Presentation.Bridge</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.Resources\withSIX.Core.Presentation.Resources.csproj">
       <Project>{69cfcb4f-5e81-4dae-adfe-d94e63989c1c}</Project>

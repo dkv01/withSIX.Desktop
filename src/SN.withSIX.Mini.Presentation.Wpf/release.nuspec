@@ -22,6 +22,7 @@
         <file src="..\..\..\bin\SN.withSIX.Core.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Core.Applications.MVVM.dll" />
         <file src="..\..\..\bin\SN.withSIX.Core.Infra.dll" target="lib\net45\SN.withSIX.Core.Infra.dll" />
         <file src="..\..\..\bin\SN.withSIX.Core.Presentation.dll" target="lib\net45\SN.withSIX.Core.Presentation.dll" />
+		<file src="..\..\..\bin\SN.withSIX.Core.Presentation.Bridge.dll" target="lib\net45\SN.withSIX.Core.Presentation.Bridge.dll" />
         <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
         <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Wpf.dll" target="lib\net45\SN.withSIX.Core.Presentation.Wpf.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Applications.dll" target="lib\net45\SN.withSIX.Mini.Applications.dll" />
@@ -143,6 +144,7 @@
 <file src="..\..\..\bin\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
 <file src="..\..\..\bin\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
 <file src="..\..\..\bin\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
+<file src="..\..\..\bin\System.Net.Ping.dll" target="lib\net45\System.Net.Ping.dll" />
 <file src="..\..\..\bin\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
 <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
 <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />

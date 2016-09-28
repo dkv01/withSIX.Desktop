@@ -333,6 +333,10 @@
       <Project>{8CACA11D-F26B-4D9A-8FDD-4CAE9133813E}</Project>
       <Name>withSIX.Mini.Plugin.Arma</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Electron\withSIX.Mini.Presentation.Electron.csproj">
+      <Project>{F9E3D288-2AA7-48BA-B99B-4EAE4283AC34}</Project>
+      <Name>withSIX.Mini.Presentation.Electron</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Api\withSIX.Steam.Api.csproj">
       <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
       <Name>withSIX.Steam.Api</Name>

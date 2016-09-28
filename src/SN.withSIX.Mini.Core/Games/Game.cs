@@ -18,6 +18,7 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;

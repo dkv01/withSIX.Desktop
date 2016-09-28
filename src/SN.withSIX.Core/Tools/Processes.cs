@@ -29,5 +29,6 @@ namespace SN.withSIX.Core
         Dictionary<Process, string> GetCommandlineArgs(string name);
         IAbsoluteFilePath GetProcessPath(int processId);
         IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetExecuteablePaths(string exe);
+        void AddEnvironmentVariables(ProcessStartInfo info, IDictionary<string, string> vars);
     }
 }

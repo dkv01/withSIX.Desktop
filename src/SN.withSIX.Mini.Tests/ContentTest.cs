@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright company="SIX Networks GmbH" file="ContentTest.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Should;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Core;
 using SN.withSIX.Mini.Core.Games;
@@ -14,7 +13,6 @@ using withSIX.Api.Models.Games;
 
 namespace SN.withSIX.Mini.Tests
 {
-
     class Dummy : IDomainEventHandlerGrabber
     {
         public IDomainEventHandler Get() => new DefaultDomainEventHandler();
@@ -28,7 +26,6 @@ namespace SN.withSIX.Mini.Tests
         public void Setup() {
             CoreCheat.SetServices(new CoreCheatImpl(new Dummy()));
         }
-        
     }
 
     [TestFixture]
@@ -67,8 +64,8 @@ namespace SN.withSIX.Mini.Tests
             var mod2 = new ModNetworkContent("@test-mod-2", GameGuids.Arma3);
             mod1.Dependencies.Add(new NetworkContentSpec(mod2, "1.0.0"));
 
-            var collection = new LocalCollection(GameGuids.Arma3, "Test collection", new [] {
-                new ContentSpec(mod1), 
+            var collection = new LocalCollection(GameGuids.Arma3, "Test collection", new[] {
+                new ContentSpec(mod1),
                 new ContentSpec(mod2, "2.0.0")
             });
 

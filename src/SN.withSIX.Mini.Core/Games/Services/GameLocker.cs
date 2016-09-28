@@ -31,6 +31,7 @@ namespace SN.withSIX.Mini.Core.Games.Services
         Task<Info> ConfirmLock(Guid gameId, bool canAbort = false);
         void ReleaseLock(Guid gameId);
         Task Cancel();
+        IObservable<GameLockChanged> LockChanged { get; }
     }
 
     public class GameLockChanged

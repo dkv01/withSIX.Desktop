@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Steam.Api;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Core;
 using SteamLayerWrap;

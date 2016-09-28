@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Reflection;
 using System.Threading.Tasks;
 using Akavache;
@@ -22,7 +21,6 @@ using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -30,9 +28,9 @@ using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
+using SN.withSIX.Core.Presentation.Bridge;
+using SN.withSIX.Core.Presentation.Bridge.Extensions;
 using SN.withSIX.Core.Presentation.Decorators;
-using SN.withSIX.Core.Presentation.Extensions;
-using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
@@ -59,7 +57,6 @@ using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using Splat;
 using withSIX.Api.Models.Extensions;
-using MediatorExtensions = SN.withSIX.Mini.Applications.Extensions.MediatorExtensions;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
@@ -110,10 +107,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             _applicationAssemblies = GetApplicationAssemblies().ToArray();
             _presentationAssemblies = GetPresentationAssemblies().ToArray();
 
-            PathConfiguration.GetFolderPath =
-                x => Environment.GetFolderPath(
-                    (Environment.SpecialFolder) Enum.Parse(typeof(Environment.SpecialFolder), x.ToString()));
-
+            PathConfiguration.GetFolderPath = new LowInitializer().GetFolderPath;
 
             _paths = new Paths();
             Common.Paths = new PathConfiguration();
@@ -141,6 +135,9 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected virtual void EndOv() => End().WaitAndUnwrapException();
 
         protected virtual void ConfigureInstances() {
+            var bridge = Container.GetInstance<IBridge>();
+            GameContextJsonImplementation.Settings = bridge.GameContextSettings();
+            DataCheat.Instance = Container.GetInstance<ICallContextService>();
             CoreCheat.SetServices(Container.GetInstance<ICoreCheatImpl>());
             Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             RegisterToolServices();
@@ -201,6 +198,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         private async Task StartupUiMode(Func<Task> act) {
             try {
+                ConfigureInstances();
                 var dbContextFactory = Container.GetInstance<IDbContextFactory>();
                 using (var scope = dbContextFactory.Create()) {
                     await StartupInternal().ConfigureAwait(false);
@@ -238,8 +236,6 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private async Task StartupInternal() {
-            ConfigureInstances();
-
             var settingsStorage = Container.GetInstance<ISettingsStorage>();
             var settings = await settingsStorage.GetSettings().ConfigureAwait(false);
             await SetupApiPort(settings, settingsStorage).ConfigureAwait(false);
@@ -397,45 +393,18 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         protected virtual void RegisterViews() {
-            var viewInterfaceFilterType = typeof (IViewFor);
-            DependencyResolver.RegisterAllInterfaces<IViewFor>(_presentationAssemblies,
-                (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
-            //dependencyResolver.RegisterConstant(this, typeof (IScreen));
-
-            // TODO: We might still want to leverage S.I also for RXUI View resolution, so that Views may import (presentation) services?
-            //_container.RegisterPlugins<ISettingsTabViewModel>(_applicationAssemblies);
-
-            /*
-            _container.RegisterAllInterfaces<IViewFor>(_presentationAssemblies, (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
-            dependencyResolver.Register(container.GetInstance<SettingsWindow>, typeof (IViewFor<SettingsViewModel>));
-
-            //dependencyResolver.Register(container.GetInstance<SettingsView>, typeof (IViewFor<SettingsViewModel>));
-            dependencyResolver.Register(container.GetInstance<WelcomeView>, typeof (IViewFor<WelcomeViewModel>));
-            dependencyResolver.Register(container.GetInstance<NotificationsView>, typeof (IViewFor<NotificationsViewModel>));
-            dependencyResolver.Register(container.GetInstance<DownloadsView>, typeof(IViewFor<DownloadsViewModel>));
-            dependencyResolver.Register(container.GetInstance<LibraryView>, typeof (IViewFor<LibraryViewModel>));
-
-            dependencyResolver.Register(container.GetInstance<NotificationView>, typeof(IViewFor<NotificationViewModel>));
-
-            dependencyResolver.Register(container.GetInstance<GameTabView>, typeof(IViewFor<GameTabViewModel>));
-            dependencyResolver.Register(container.GetInstance<GameSettingsWindow>, typeof(IViewFor<GameSettingsViewModel>));
-            dependencyResolver.Register(container.GetInstance<GameSettingsWindow>, typeof(IViewFor<ArmaSettingsViewModel>)); // , "arma"
-
-            dependencyResolver.Register(container.GetInstance<AccountSettingsTabView>,
-                typeof(IAccountSettingsTabView));
-            dependencyResolver.Register(container.GetInstance<DownloadSettingsTabView>,
-                typeof (IViewFor<DownloadSettingsTabViewModel>));
-            dependencyResolver.Register(container.GetInstance<InterfaceSettingsTabView>,
-                typeof (IViewFor<InterfaceSettingsTabViewModel>));
-            dependencyResolver.Register(container.GetInstance<NotificationSettingsTabView>,
-                typeof (IViewFor<NotificationSettingsTabViewModel>));
-*/
         }
 
         void RunCommands() => Environment.Exit(Container.GetInstance<CommandRunner>().RunCommandsAndLog(_args));
 
         protected virtual IEnumerable<Assembly> GetPresentationAssemblies()
-            => pluginAssemblies.Concat(platformAssemblies).Concat(globalPresentationAssemblies);
+            =>
+            pluginAssemblies.Concat(platformAssemblies)
+                .Concat(
+                    assemblyPath.DirectoryInfo.GetFiles("SN.withSIX.Core.Presentation.Bridge.dll")
+                        .Select(x => x.FullName)
+                        .Select(Assembly.LoadFrom))
+                .Concat(globalPresentationAssemblies);
 
         protected virtual void RegisterServices() {
             RegisterRegisteredServices();
@@ -490,6 +459,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterSingleAllInterfaces<IApplicationService>(pluginAssemblies.Concat(_applicationAssemblies));
             Container.RegisterSingleAllInterfaces<IInfrastructureService>(pluginAssemblies.Concat(infraAssemblies));
             Container.RegisterSingleAllInterfaces<IPresentationService>(_presentationAssemblies);
+            Container.RegisterAllInterfaces<ITransientService>(_presentationAssemblies);
         }
 
         void RegisterMediator() {
@@ -604,8 +574,6 @@ namespace SN.withSIX.Mini.Presentation.Core
                 return new ExportLifetimeContext<IHostChecker>(hostChecker, TaskExt.NullAction);
             });
 
-            Container.Register<IWebClient, WebClient>();
-
             Container.RegisterSingleton<Func<ExportLifetimeContext<IWebClient>>>(() => {
                 var wc = Container.GetInstance<Func<IWebClient>>();
                 var webClient = wc();
@@ -667,8 +635,8 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private async Task AfterUi() {
-            if (ErrorHandler.Handler != null)
-                UserError.RegisterHandler(error => ErrorHandler.Handler.Handler(error));
+            if (ErrorHandlerCheat.Handler != null)
+                UserError.RegisterHandler(error => ErrorHandlerCheat.Handler.Handler(error));
 
             //await Container.GetInstance<ICacheManager>().VacuumIfNeeded(TimeSpan.FromDays(14)).ConfigureAwait(false);
 

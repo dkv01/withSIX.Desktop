@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Presentation.Bridge;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 {

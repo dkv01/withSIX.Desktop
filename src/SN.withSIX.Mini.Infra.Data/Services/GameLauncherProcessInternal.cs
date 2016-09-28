@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -17,7 +18,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Steam.Api;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
@@ -149,9 +149,15 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
                 if (!_isSteamValid)
                     return;
-                _gameStartInfo.UseShellExecute = false; // This breaks UAC prompts if the game is set to require UAC.
-                _gameStartInfo.EnvironmentVariables["SteamAppID"] = Convert.ToString(_spec.SteamID);
-                _gameStartInfo.EnvironmentVariables["SteamGameID"] = Convert.ToString(_spec.SteamID);
+                _gameStartInfo.UseShellExecute = false; // This breaks UAC prompts if the game is set to require UAC, in that case we should already be running as admin ourselves...
+                var steamId = Convert.ToString(_spec.SteamID);
+                Tools.ProcessManager.Management.AddEnvironmentVariables(_gameStartInfo, new Dictionary<string, string> {
+                    {
+                        "SteamAppID", steamId
+                    }, {
+                        "SteamGameID", steamId
+                    }
+                });
             }
 
             void StartSteamIfRequired() {
@@ -190,7 +196,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 try {
                     _launchedGame = _gameStartInfo.Launch();
                 } catch (Win32Exception ex) {
-                    if (ex.ErrorCode == 740) {
+                    if (ex.NativeErrorCode == 740) {
                         if (!Tools.UacHelper.CheckUac())
                             throw;
                         _restarter.RestartWithUacInclEnvironmentCommandLine();
@@ -412,7 +418,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 [DllImport("kernel32.dll")]
                 static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
 
-                [DllImport("advapi32", SetLastError = true), SuppressUnmanagedCodeSecurity]
+                [DllImport("advapi32", SetLastError = true) /*, SuppressUnmanagedCodeSecurity */]
                 static extern bool OpenProcessToken(IntPtr ProcessHandle, int DesiredAccess, ref IntPtr TokenHandle);
 
                 #endregion

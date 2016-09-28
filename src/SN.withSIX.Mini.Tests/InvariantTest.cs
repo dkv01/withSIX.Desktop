@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright company="SIX Networks GmbH" file="InvariantTest.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using FluentAssertions;
 using NUnit.Framework;
 using SN.withSIX.Mini.Core;
 using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Data.Services;
 
 namespace SN.withSIX.Mini.Tests
 {

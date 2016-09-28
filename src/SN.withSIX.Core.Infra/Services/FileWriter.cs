@@ -10,7 +10,7 @@ using SN.withSIX.Core.Services.Infrastructure;
 namespace SN.withSIX.Core.Infra.Services
 {
     // TODO: IAbsoluteFilePath etc...
-    class FileWriter : IFileWriter, IInfrastructureService
+    public class FileWriter : IFileWriter, IInfrastructureService
     {
         public void WriteFile(string fileName, string fileContent) {
             Path.GetDirectoryName(fileName).MakeSurePathExists();

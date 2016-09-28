@@ -244,6 +244,10 @@
       <HintPath>..\packages\System.Net.NameResolution.4.0.0\lib\net46\System.Net.NameResolution.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Ping, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Ping.4.0.0\lib\net46\System.Net.Ping.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Sockets.4.1.0\lib\net46\System.Net.Sockets.dll</HintPath>
       <Private>True</Private>
@@ -340,10 +344,12 @@
     <Compile Include="Commands\UninstallCommand.cs" />
     <Compile Include="Commands\UnpackCommand.cs" />
     <Compile Include="Commands\UnpackSingleGZipCommand.cs" />
+    <Compile Include="ErrorHandlerCheat.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="NLogSplatLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApiPortHandler.cs" />
+    <Compile Include="Services\AssemblyService.cs" />
+    <Compile Include="Services\CallContextService.cs" />
     <Compile Include="Services\ExplorerExtensionInstaller.cs" />
     <Compile Include="Services\ServiceRegister.cs" />
     <Compile Include="Services\UacHelper.cs" />
@@ -366,6 +372,10 @@
     <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131b6a51-5385-4fee-9e91-2911c936d200}</Project>
       <Name>withSIX.Core.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Bridge\withSIX.Core.Presentation.Bridge.csproj">
+      <Project>{777EA4EB-495C-411C-9F65-510874368861}</Project>
+      <Name>withSIX.Core.Presentation.Bridge</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
       <Project>{8e91e487-ab3c-4160-a4be-18e442664aa5}</Project>

@@ -12,7 +12,6 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Services.Infrastructure;
 
 namespace SN.withSIX.Core.Infra.Services
 {
@@ -60,7 +59,7 @@ namespace SN.withSIX.Core.Infra.Services
                 tasks.Add(ReadStreamToEnd(StandardOutput, _standardOutputObservable));
             if (StartInfo.RedirectStandardError)
                 tasks.Add(ReadStreamToEnd(StandardError, _standardErrorObservable));
-            tasks.Add(this.WaitForExitAsync());
+            tasks.Add(Core.Services.Infrastructure.ProcessExtensions.WaitForExitAsync(this));
             return tasks;
         }
 

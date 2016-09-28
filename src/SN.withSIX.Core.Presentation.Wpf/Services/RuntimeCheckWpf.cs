@@ -4,6 +4,7 @@
 
 using System.Threading.Tasks;
 using System.Windows;
+using SN.withSIX.Core.Presentation.Bridge;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Services
 {

@@ -224,6 +224,7 @@
       <HintPath>..\packages\System.Security.Principal.Windows.4.0.0\lib\net46\System.Security.Principal.Windows.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -243,9 +244,40 @@
     <Compile Include="PublishedFile.cs" />
     <Compile Include="Services\SteamApi.cs" />
     <Compile Include="Services\SteamDownloader.cs" />
+    <Compile Include="Services\SteamDownloader2.cs" />
     <Compile Include="Services\SteamSession.cs" />
     <Compile Include="Services\SteamUploader.cs" />
-    <Compile Include="SteamLauncher.cs" />
+    <Compile Include="SteamHelper.cs" />
+    <Compile Include="SteamKit\DepotDownloader\CDNClientPool.cs" />
+    <Compile Include="SteamKit\DepotDownloader\ConfigStore.cs" />
+    <Compile Include="SteamKit\DepotDownloader\ContentDownloader.cs" />
+    <Compile Include="SteamKit\DepotDownloader\DownloadConfig.cs" />
+    <Compile Include="SteamKit\DepotDownloader\ProtoManifest.cs" />
+    <Compile Include="SteamKit\DepotDownloader\Steam3Session.cs" />
+    <Compile Include="SteamKit\DepotDownloader\Util.cs" />
+    <Compile Include="SteamKit\Utils\EPublishedFileQueryType.cs" />
+    <Compile Include="SteamKit\Utils\EResponseFormatType.cs" />
+    <Compile Include="SteamKit\Utils\EResult.cs" />
+    <Compile Include="SteamKit\Utils\UnixTimestampConverter.cs" />
+    <Compile Include="SteamKit\Utils\UrlHelpers.cs" />
+    <Compile Include="SteamKit\WebApi\ApiAuthRequestBase.cs" />
+    <Compile Include="SteamKit\WebApi\ApiGetBase.cs" />
+    <Compile Include="SteamKit\WebApi\ApiRequestBase.cs" />
+    <Compile Include="SteamKit\WebApi\IApiRequest.cs" />
+    <Compile Include="SteamKit\WebApi\IPublishedFileService\QueryFiles\v1\Models\Publishedfiledetail.cs" />
+    <Compile Include="SteamKit\WebApi\IPublishedFileService\QueryFiles\v1\Models\ResponseRootObject.cs" />
+    <Compile Include="SteamKit\WebApi\IPublishedFileService\QueryFiles\v1\Models\Tag.cs" />
+    <Compile Include="SteamKit\WebApi\IPublishedFileService\QueryFiles\v1\QueryFilesMethod.cs" />
+    <Compile Include="SteamKit\WebApi\IPublishedFileService\QueryFiles\v1\Request.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamRemoteStorage\GetPublishedFileDetails\v1\GetPublishedFileDetailsMethod.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamRemoteStorage\GetPublishedFileDetails\v1\GetPublishedFileDetailsRequest.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamRemoteStorage\GetPublishedFileDetails\v1\Models\Publishedfiledetail.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamRemoteStorage\GetPublishedFileDetails\v1\Models\ResponseRootObject.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamRemoteStorage\GetPublishedFileDetails\v1\Models\Tag.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\GetPlayerSummariesMethod.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\GetPlayerSummariesRequest.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\Models\Player.cs" />
+    <Compile Include="SteamKit\WebApi\ISteamUser\GetPlayerSummaries\v2\Models\ResponseRootObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

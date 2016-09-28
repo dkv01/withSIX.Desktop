@@ -1,0 +1,13 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "sharpcompress": "0.12.4",
+    "SimpleInjector": "3.2.2",
+    "withSIX.Api.Models": "2.0.7-pre"
+  },
+  "frameworks": {
+    "netstandard1.3": {}
+  }
+}

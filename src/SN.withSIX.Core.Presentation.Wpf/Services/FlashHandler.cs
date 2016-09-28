@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Assemblies;
+using SN.withSIX.Core.Presentation.Bridge;
 using SN.withSIX.Core.Presentation.Wpf.Helpers;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Services

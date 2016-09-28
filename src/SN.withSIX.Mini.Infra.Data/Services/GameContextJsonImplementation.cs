@@ -15,10 +15,8 @@ using Newtonsoft.Json.Serialization;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Api.Services;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 
@@ -32,22 +30,11 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     public class GameContextJsonImplementation : GameContext
     {
         static readonly Encoding encoding = Encoding.UTF8;
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
-            // TODO: Very dangerous because we cant load/save when versions change?!? http://stackoverflow.com/questions/32245340/json-net-error-resolving-type-in-powershell-cmdlet
-            PreserveReferencesHandling = PreserveReferencesHandling.All,
-            TypeNameHandling = TypeNameHandling.All,
-            Error = OnError,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
-        }.SetDefaultConverters();
+        public static JsonSerializerSettings Settings { get; set; }
         readonly ILocalCache _cache;
 
         public GameContextJsonImplementation(ILocalCache cache) {
             _cache = cache;
-        }
-
-        static void OnError(object sender, ErrorEventArgs e) {
-            //MainLog.Logger.Warn($"Error during JSON serialization for {e.CurrentObject}, {e.ErrorContext.Path} {e.ErrorContext.Member}: {e.ErrorContext.Error.Message}");
         }
 
         //public override async Task Migrate() {}

@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Infra.Cache;
@@ -18,11 +17,12 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 {
     public class DbContextFactory : IDbContextFactory, IInfrastructureService
     {
-        readonly Lazy<ILocalCache> _cache;
         private readonly Lazy<IApiLocalCache> _apiCache;
+        readonly Lazy<ILocalCache> _cache;
         readonly Lazy<ISettingsStorage> _settingsContext;
 
-        public DbContextFactory(Lazy<ILocalCache> cache, Lazy<IApiLocalCache> apiCache, Lazy<ISettingsStorage> settingsContext) {
+        public DbContextFactory(Lazy<ILocalCache> cache, Lazy<IApiLocalCache> apiCache,
+            Lazy<ISettingsStorage> settingsContext) {
             _cache = cache;
             _apiCache = apiCache;
             _settingsContext = settingsContext;
@@ -103,10 +103,10 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
     public class DbContextScope : IDbContextScope
     {
-        static readonly ConditionalWeakTable<InstanceIdentifier, DbContextScope> dbContextScopeInstances =
-            new ConditionalWeakTable<InstanceIdentifier, DbContextScope>();
+        static readonly ConditionalWeakTable<object, DbContextScope> dbContextScopeInstances =
+            new ConditionalWeakTable<object, DbContextScope>();
         static readonly string ambientDbContextScopeKey = "ambientDbContextScope-" + Guid.NewGuid();
-        readonly InstanceIdentifier _instanceIdentifier = new InstanceIdentifier();
+        readonly object _instanceIdentifier = DataCheat.Instance.Create();
         readonly bool _nested;
         readonly DbContextScope _parentScope;
 
@@ -271,7 +271,7 @@ Stack Trace:
             dbContextScopeInstances.GetValue(id, key => newAmbientScope);
         }
 
-        private static void SetId(InstanceIdentifier id) => CallContext.LogicalSetData(ambientDbContextScopeKey, id);
+        private static void SetId(object id) => DataCheat.Instance.SetId(id, ambientDbContextScopeKey);
 
         /// <summary>
         ///     Clears the ambient scope from the CallContext and stops tracking its instance.
@@ -320,23 +320,19 @@ Stack Trace:
             return null;
         }
 
-        private static InstanceIdentifier GetIdentifier()
-            => CallContext.LogicalGetData(ambientDbContextScopeKey) as InstanceIdentifier;
+        private static object GetIdentifier() => DataCheat.Instance.GetIdentifier(ambientDbContextScopeKey);
 
-        public IContentFolderLinkContext ContentLinkContext()
-            => _contexts._contentLinkContext.Value;
-
-        internal class InstanceIdentifier : MarshalByRefObject {}
+        public IContentFolderLinkContext ContentLinkContext() => _contexts._contentLinkContext.Value;
     }
 
     internal class DbContexts
     {
-        private readonly ILocalCache _cache;
         private readonly IApiLocalCache _apiCache;
+        private readonly ILocalCache _cache;
         internal readonly Lazy<IContentFolderLinkContext> _contentLinkContext;
         internal readonly Lazy<ISettingsStorage> _settingsContext;
-        internal Lazy<IGameContext> _gameContext;
         internal Lazy<IApiContext> _apiContext;
+        internal Lazy<IGameContext> _gameContext;
 
         public DbContexts(ILocalCache cache, IApiLocalCache apiCache, ISettingsStorage settingsStorage) {
             _cache = cache;
@@ -347,7 +343,8 @@ Stack Trace:
             _contentLinkContext =
                 new Lazy<IContentFolderLinkContext>(
                     () =>
-                        new ContentFolderLinkContext(Common.Paths.LocalDataPath.GetChildFileWithName("folderlink.json")));
+                        new ContentFolderLinkContext(
+                            Common.Paths.LocalDataPath.GetChildFileWithName("folderlink.json")));
         }
 
         ApiContext ApiFactory() {

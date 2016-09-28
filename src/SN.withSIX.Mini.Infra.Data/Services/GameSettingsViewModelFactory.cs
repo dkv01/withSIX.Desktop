@@ -12,22 +12,28 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 {
     public class GameSettingsViewModelFactory : IGameSettingsViewModelFactory, IInfrastructureService
     {
-        static readonly Type gameSettingsType = typeof (GameSettings);
-        static readonly IDictionary<Type, Type> apiModelRegistry = GetApiModelTypeRegistry();
+        private readonly IAssemblyService _ass;
+        readonly Type _gameSettingsType = typeof (GameSettings);
+        IDictionary<Type, Type> _apiModelRegistry;
+
+        public GameSettingsViewModelFactory(IAssemblyService ass) {
+            _ass = ass;
+            _apiModelRegistry = GetApiModelTypeRegistry();
+        }
 
         public IGameSettingsApiModel CreateApiModel(Game game) {
             var sourceType = game.Settings.GetType();
             var settingsTabViewModel =
-                (GameSettingsApiModel) game.Settings.MapTo(sourceType, apiModelRegistry[sourceType]);
+                (GameSettingsApiModel) game.Settings.MapTo(sourceType, _apiModelRegistry[sourceType]);
             settingsTabViewModel.StartupLine = game.Settings.StartupParameters.StartupLine;
             settingsTabViewModel.Id = game.Id;
             return settingsTabViewModel;
         }
 
-        static IDictionary<Type, Type> GetViewModelTypeRegistry()
+        IDictionary<Type, Type> GetViewModelTypeRegistry()
             => GetGameSettingsTypes().ToDictionary(x => x, GetViewModelType);
 
-        static IDictionary<Type, Type> GetApiModelTypeRegistry()
+        IDictionary<Type, Type> GetApiModelTypeRegistry()
             => GetGameSettingsTypes().ToDictionary(x => x, GetApiModelType);
 
         // We expect a convention where the settings exist in the same assembly as the game, but in the ViewModels namespace, and are {GameSettingsClassName}ViewModel
@@ -55,22 +61,23 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             .Replace(".Models", ".ApiModels")
             .Replace("GameSettings", "GameSettingsApiModel");
 
-        static IEnumerable<Type> GetGameSettingsTypes() => AppDomain.CurrentDomain.GetAssemblies()
+        IEnumerable<Type> GetGameSettingsTypes() => _ass.GetAllAssemblies()
             .Where(x => x.GetName().Name.StartsWith("SN.withSIX.Mini.Plugin."))
-            .SelectMany(x => x.GetTypes())
+            .SelectMany(x => _ass.GetTypes(x))
             .Where(IsGameSettingsType);
 
-        static Type[] GetTypesSafe(Assembly x) {
+        Type[] GetTypesSafe(Assembly x) {
             try {
-                return x.GetTypes();
+                return _ass.GetTypes(x);
             } catch (ReflectionTypeLoadException) {
                 return new Type[0];
             }
         }
 
-        static bool IsGameSettingsType(Type x) {
+        bool IsGameSettingsType(Type x) {
             var ti = x.GetTypeInfo();
-            return !ti.IsInterface && !ti.IsAbstract && gameSettingsType.IsAssignableFrom(x);
+            return !ti.IsInterface && !ti.IsAbstract && _gameSettingsType.IsAssignableFrom(x);
         }
     }
+
 }

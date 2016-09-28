@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation;
+using SN.withSIX.Core.Presentation.Bridge;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Presentation.Core;

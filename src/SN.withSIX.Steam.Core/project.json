@@ -1,0 +1,14 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NDepend.Path.PCL": "1.0.2-pre",
+    "NETStandard.Library": "1.6.0",
+    "System.Diagnostics.Process": "4.1.0",
+    "System.Reactive": "3.0.0",
+    "System.Reactive.Interfaces": "3.0.0"
+  },
+  "frameworks": {
+    "netstandard1.3": {}
+  }
+}

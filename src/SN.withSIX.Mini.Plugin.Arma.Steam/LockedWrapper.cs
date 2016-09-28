@@ -4,6 +4,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core;
+using SN.withSIX.Steam.Core;
 
 namespace withSIX.Steam.Plugin.Arma
 {

@@ -54,10 +54,6 @@ namespace SN.withSIX.Mini.Infra.Api
                 .Subscribe(Handle);
             messageBus.Listen<ContentUsed>()
                 .Subscribe(Handle);
-
-            //this.Listen<GameLockChanged>()
-            //  .Subscribe(Handle);
-
             messageBus.Listen<ActionNotification>()
                 .Subscribe(Handle);
 

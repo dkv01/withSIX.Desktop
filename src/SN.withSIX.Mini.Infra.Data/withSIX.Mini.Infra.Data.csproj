@@ -2,6 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A3556BC0-A306-4E26-85F2-37013E09D283}</ProjectGuid>
@@ -9,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SN.withSIX.Mini.Infra.Data</RootNamespace>
     <AssemblyName>SN.withSIX.Mini.Infra.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -120,148 +122,22 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akavache">
-      <HintPath>..\dll\Akavache.dll</HintPath>
-    </Reference>
-    <Reference Include="Akavache.Sqlite3">
-      <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NDepend.Path.PCL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NDepend.Path.PCL.1.0.2-pre\lib\netstandard1.3\NDepend.Path.PCL.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCL.raw, Version=0.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCL.raw_basic.0.8.6\lib\net45\SQLitePCL.raw.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.ComponentModel.Primitives, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Primitives.4.1.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.0.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Diagnostics.Process, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.Process.4.1.0\lib\net46\System.Diagnostics.Process.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Globalization.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Globalization.Extensions.4.0.1\lib\net46\System.Globalization.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.4.0.1\lib\net46\System.IO.FileSystem.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.AccessControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.AccessControl.4.0.0\lib\net46\System.IO.FileSystem.AccessControl.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.DriveInfo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.DriveInfo.4.0.0\lib\net46\System.IO.FileSystem.DriveInfo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Management" />
-    <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Core.3.0.0\lib\net46\System.Reactive.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Interfaces.3.0.0\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Linq.3.0.0\lib\net46\System.Reactive.Linq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.PlatformServices.3.0.0\lib\net46\System.Reactive.PlatformServices.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Windows.Threading, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Windows.Threading.3.0.0\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Formatters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.Serialization.Formatters.4.0.0-rc3-24212-01\lib\net46\System.Runtime.Serialization.Formatters.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.1.1\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.AccessControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.4.0.0\lib\net46\System.Security.AccessControl.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Claims, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Claims.4.0.1\lib\net46\System.Security.Claims.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.2.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.0.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.4.0.0\lib\net46\System.Security.Principal.Windows.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="withSIX.Api.Models, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.2.0.7-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <None Include="app.config" />
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />
+    <Compile Include="ApiContext.cs" />
+    <Compile Include="ApiModels\ContentDto.cs" />
+    <Compile Include="ApiModels\MissionDto.cs" />
+    <Compile Include="ApiModels\ModDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthProviderStorage.cs" />
     <Compile Include="Services\ContentEngineGameContext.cs" />
     <Compile Include="Services\ContentFolderLinkContext.cs" />
     <Compile Include="Services\ContextBase.cs" />
+    <Compile Include="Services\DataCheat.cs" />
     <Compile Include="Services\DbContextFactory.cs" />
     <Compile Include="Services\DefaultDomainEventHandler.cs" />
     <Compile Include="Services\DomainEventHandlerGrabber.cs" />
@@ -269,13 +145,13 @@
     <Compile Include="Services\GameContextJsonImplementation.cs" />
     <Compile Include="Services\GameLauncherProcessExternal.cs" />
     <Compile Include="Services\GameLauncherProcessInternal.cs" />
+    <Compile Include="Services\GameLocker.cs" />
+    <Compile Include="Services\GameLockMonitor.cs" />
     <Compile Include="Services\GameSettingsViewModelFactory.cs" />
+    <Compile Include="Services\IAssemblyService.cs" />
+    <Compile Include="Services\ICallContextService.cs" />
     <Compile Include="Services\SettingsStorage.cs" />
-    <Compile Include="ApiContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <Compile Include="Services\SetupGameStuff.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
@@ -295,7 +171,7 @@
       <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
@@ -306,16 +182,8 @@
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Infra.Api.csproj">
-      <Project>{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}</Project>
-      <Name>withSIX.Mini.Infra.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Api\withSIX.Steam.Api.csproj">
-      <Project>{fede9ebc-c0a2-49c7-a780-4a44544508b8}</Project>
-      <Name>withSIX.Steam.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
-      <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
+      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
@@ -323,14 +191,18 @@
       <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.raw_basic.0.8.6\build\net45\SQLitePCL.raw_basic.targets'))" />
-  </Target>
+  <ItemGroup>
+    <Reference Include="Akavache">
+      <HintPath>..\dll\Akavache.dll</HintPath>
+    </Reference>
+    <Reference Include="Akavache.Sqlite3">
+      <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Contracts">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile259\System.Diagnostics.Contracts.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

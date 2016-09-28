@@ -87,6 +87,10 @@
       <Project>{8CACA11D-F26B-4D9A-8FDD-4CAE9133813E}</Project>
       <Name>withSIX.Mini.Plugin.Arma</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
+      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
+      <Name>withSIX.Steam.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

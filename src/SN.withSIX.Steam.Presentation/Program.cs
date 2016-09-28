@@ -6,8 +6,9 @@ using System;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Logging;
+using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Steam.Core;
 using SN.withSIX.Steam.Presentation.Commands;
 
 namespace SN.withSIX.Steam.Presentation
@@ -17,7 +18,7 @@ namespace SN.withSIX.Steam.Presentation
         static void Main(string[] args) {
             try {
                 Common.Flags = new Common.StartupFlags(args, Environment.Is64BitOperatingSystem);
-                SetupNlog.Initialize("SteamHelper");
+                LoggingSetup.Setup("SteamHelper");
                 using (var c = new ContainerSetup(() => RunInteractive.SteamApi)) {
                     Environment.Exit(new CommandRunner(c.GetCommands()).RunCommandsAndLog(args));
                 }

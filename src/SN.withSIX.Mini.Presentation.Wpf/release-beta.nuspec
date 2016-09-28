@@ -38,6 +38,7 @@
 		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Stellaris.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Stellaris.dll" />
 		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Starbound.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Core.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Core.dll" />
+		<file src="..\..\..\bin\SN.withSIX.Core.Presentation.Bridge.dll" target="lib\net45\SN.withSIX.Core.Presentation.Bridge.dll" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Electron.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll" />
 		<file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Electron.dll.config" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll.config" />
         <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Shell.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Shell.dll" />
@@ -142,6 +143,7 @@
 <file src="..\..\..\bin\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
 <file src="..\..\..\bin\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
 <file src="..\..\..\bin\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
+<file src="..\..\..\bin\System.Net.Ping.dll" target="lib\net45\System.Net.Ping.dll" />
 <file src="..\..\..\bin\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
 <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
 <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />

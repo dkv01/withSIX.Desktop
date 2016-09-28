@@ -5,4 +5,6 @@
 namespace SN.withSIX.Core.Presentation
 {
     public interface IPresentationService {}
+
+    public interface ITransientService {}
 }
