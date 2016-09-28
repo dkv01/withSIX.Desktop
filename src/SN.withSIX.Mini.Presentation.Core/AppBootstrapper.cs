@@ -28,6 +28,7 @@ using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Decorators;
+using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
@@ -323,10 +324,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             var serviceReg = new ServiceRegisterer(Container);
             foreach (var t in GetTypes<ServiceRegistry>(pluginAssemblies))
                 Activator.CreateInstance(t, serviceReg);
-
-            // Fix JsonSerializer..
-            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
-                typeof(JsonSerializerSettings));
         }
 
         protected abstract IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies);

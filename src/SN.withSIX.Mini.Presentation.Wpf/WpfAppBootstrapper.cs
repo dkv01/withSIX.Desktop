@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
 using SN.withSIX.Core;
@@ -78,6 +79,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             base.Configure();
             SetupRx();
             SetupCM();
+            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
+                typeof(JsonSerializerSettings));
         }
 
         internal IMiniMainWindowViewModel GetMainWindowViewModel() => Container.GetInstance<IMiniMainWindowViewModel>();

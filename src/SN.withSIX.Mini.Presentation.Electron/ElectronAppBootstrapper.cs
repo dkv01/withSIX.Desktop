@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
 using SN.withSIX.Core;
@@ -19,6 +20,8 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Presentation.Core;
+using Splat;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -59,6 +62,12 @@ namespace SN.withSIX.Mini.Presentation.Electron
             if (ErrorHandlerCheat.Handler != null)
                 UserError.RegisterHandler(error => ErrorHandlerCheat.Handler.Handler(error));
             return base.AfterUi();
+        }
+
+        public override void Configure() {
+            base.Configure();
+            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
+                typeof(JsonSerializerSettings));
         }
 
         public ElectronAppBootstrapper(string[] args)

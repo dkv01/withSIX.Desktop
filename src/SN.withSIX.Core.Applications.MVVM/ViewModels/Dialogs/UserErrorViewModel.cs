@@ -4,9 +4,9 @@
 
 using System;
 using System.Linq;
+using System.Reactive;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
@@ -18,7 +18,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
             this.WhenActivated(d => {
                 foreach (
                     var a in
-                    userError.RecoveryOptions.OfType<RecoveryCommandImmediate>().Where(x => !(x is IDontRecover)))
+                    userError.RecoveryOptions.OfType<IObservable<Unit>>().Where(x => !(x is IDontRecover)))
                     d(a.Subscribe(x => TryClose()));
             });
         }

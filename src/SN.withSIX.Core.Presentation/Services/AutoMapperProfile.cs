@@ -7,6 +7,7 @@ using AutoMapper;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Presentation.Services;
 
 namespace SN.withSIX.Core.Applications
 {

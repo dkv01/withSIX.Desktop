@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Reflection;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -18,6 +19,8 @@ namespace withSIX.Mini.Presentation.CoreHost
 
             var bs = new CoreAppBootstrapper(args, rootPath);
             bs.Configure();
+
+            Console.WriteLine("Hello world!");
         }
     }
 }

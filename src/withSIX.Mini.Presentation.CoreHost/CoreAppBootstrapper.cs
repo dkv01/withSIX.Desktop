@@ -33,8 +33,9 @@ namespace withSIX.Mini.Presentation.CoreHost
             asl = new AssemblyLoader(_rootPath.ToString());
         }
 
-        protected override IEnumerable<Assembly> GetInfraAssemblies
-            => new[] {AssemblyLoadFrom("SN.withSIX.Mini.Infra.Api")}.Concat(base.GetInfraAssemblies);
+        // We dont actually want to load the Infra.Api as it's non .NET core atm
+        //protected override IEnumerable<Assembly> GetInfraAssemblies
+          //  => new[] {AssemblyLoadFrom(_rootPath.GetChildFileWithName("SN.withSIX.Mini.Infra.Api.dll").ToString())}.Concat(base.GetInfraAssemblies);
 
         protected override void EnvironmentExit(int exitCode) {
             Environment.Exit(exitCode);
@@ -105,6 +106,12 @@ namespace withSIX.Mini.Presentation.CoreHost
                 //}
                 return Assembly.Load(assemblyName);
             }
+        }
+
+        public override void Configure() {
+            base.Configure();
+            // throws atm, we need updated Splat/RXUI :-)
+            //Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(), typeof(JsonSerializerSettings));
         }
     }
 
@@ -182,8 +189,15 @@ namespace withSIX.Mini.Presentation.CoreHost
         public static IEnumerable<Type> GetTypes(this IEnumerable<Assembly> assemblies, Type t)
             =>
             assemblies.Distinct()
-                .SelectMany(assembly => assembly.GetTypes(),
-                    (assembly, type) => new {assembly, type, ti = type.GetTypeInfo()})
+                .SelectMany(assembly => {
+                        Type[] types;
+                        try {
+                            types = assembly.GetTypes();
+                        } catch (ReflectionTypeLoadException e) {
+                            types = e.Types;
+                        }
+                    return types.Where(t2 => t2 != null);
+                }, (assembly, type) => new {assembly, type, ti = type.GetTypeInfo()})
                 .Where(t1 => SystemExtensions.IsAssignableFrom(t, t1.type))
                 .Where(t1 => !t1.ti.IsAbstract)
                 .Where(t1 => !t1.ti.IsGenericTypeDefinition)
