@@ -80,26 +80,21 @@ namespace SN.withSIX.Mini.Presentation.Core
             typeof(GameSettingsApiModel).GetTypeInfo().Assembly,
             typeof(IDialogManager).GetTypeInfo().Assembly
         }.Distinct().ToArray();
-        private readonly Assembly[] pluginAssemblies;
-        private readonly Assembly[] platformAssemblies;
-        private readonly Assembly[] _applicationAssemblies;
+        private Assembly[] pluginAssemblies;
+        private Assembly[] platformAssemblies;
+        private Assembly[] _applicationAssemblies;
         private readonly string[] _args;
-        readonly Paths _paths;
-        private readonly Assembly[] _presentationAssemblies;
+        Paths _paths;
+        private Assembly[] _presentationAssemblies;
         protected readonly Container Container;
-        protected readonly IMutableDependencyResolver DependencyResolver;
         TaskPoolScheduler _cacheScheduler;
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
 
-        protected virtual IEnumerable<Assembly> GetInfraAssemblies => infraAssemblies;
 
-        protected AppBootstrapper(string[] args) {
+        public virtual void Configure() {
             pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
             platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
-            Container = new Container();
-            DependencyResolver = Locator.CurrentMutable;
-            _args = args;
 
             CommandMode = DetermineCommandMode();
 
@@ -117,9 +112,16 @@ namespace SN.withSIX.Mini.Presentation.Core
             UserErrorHandling.Setup();
         }
 
+        protected virtual IEnumerable<Assembly> GetInfraAssemblies => infraAssemblies;
+
+        protected AppBootstrapper(string[] args) {
+            _args = args;
+            Container = new Container();
+        }
+
         protected abstract void LowInitializer();
 
-        public bool CommandMode { get; }
+        public bool CommandMode { get; set; }
 
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 

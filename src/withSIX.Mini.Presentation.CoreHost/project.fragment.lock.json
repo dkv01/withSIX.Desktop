@@ -5,14 +5,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/GameServerQuery.dll": {}
+        "bin/Debug/GameServerQuery.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/GameServerQuery.dll": {}
+        "bin/Debug/GameServerQuery.dll": {}
       },
       "contentFiles": {
-        "bin/Release/GameServerQuery.pdb": {
+        "bin/Debug/GameServerQuery.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -23,13 +23,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/GeoIP.dll": {}
+        "bin/Debug/GeoIP.dll": {}
       },
       "runtime": {
-        "bin/Release/GeoIP.dll": {}
+        "bin/Debug/GeoIP.dll": {}
       },
       "contentFiles": {
-        "bin/Release/GeoIP.pdb": {
+        "bin/Debug/GeoIP.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -40,13 +40,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.ContentEngine.Core.dll": {}
+        "bin/Debug/SN.withSIX.ContentEngine.Core.dll": {}
       },
       "runtime": {
-        "bin/Release/SN.withSIX.ContentEngine.Core.dll": {}
+        "bin/Debug/SN.withSIX.ContentEngine.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.ContentEngine.Core.pdb": {
+        "bin/Debug/SN.withSIX.ContentEngine.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -57,14 +57,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.ContentEngine.Infra.dll": {}
+        "bin/Debug/SN.withSIX.ContentEngine.Infra.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.ContentEngine.Infra.dll": {}
+        "bin/Debug/SN.withSIX.ContentEngine.Infra.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.ContentEngine.Infra.pdb": {
+        "bin/Debug/SN.withSIX.ContentEngine.Infra.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -75,16 +75,16 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Core.Applications.dll": {}
+        "bin/Debug/SN.withSIX.Core.Applications.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "../dll/ReactiveUI.dll": {},
         "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
-        "bin/Release/SN.withSIX.Core.Applications.dll": {}
+        "bin/Debug/SN.withSIX.Core.Applications.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Core.Applications.pdb": {
+        "bin/Debug/SN.withSIX.Core.Applications.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -95,7 +95,7 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Core.Infra.dll": {}
+        "bin/Debug/SN.withSIX.Core.Infra.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
@@ -105,10 +105,10 @@
         "../dll/Akavache.dll": {},
         "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
         "../packages/withSIX.Api.Models.2.0.7-pre/lib/netstandard1.3/withSIX.Api.Models.dll": {},
-        "bin/Release/SN.withSIX.Core.Infra.dll": {}
+        "bin/Debug/SN.withSIX.Core.Infra.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Core.Infra.pdb": {
+        "bin/Debug/SN.withSIX.Core.Infra.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -119,13 +119,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Core.Presentation.Resources.dll": {}
+        "bin/Debug/SN.withSIX.Core.Presentation.Resources.dll": {}
       },
       "runtime": {
-        "bin/Release/SN.withSIX.Core.Presentation.Resources.dll": {}
+        "bin/Debug/SN.withSIX.Core.Presentation.Resources.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Core.Presentation.Resources.pdb": {
+        "bin/Debug/SN.withSIX.Core.Presentation.Resources.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -136,7 +136,7 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Core.Presentation.dll": {}
+        "bin/Debug/SN.withSIX.Core.Presentation.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
@@ -144,10 +144,10 @@
         "../../../../../Users/proza/.nuget/packages/Newtonsoft.Json/9.0.1/lib/netstandard1.0/Newtonsoft.Json.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
         "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
-        "bin/Release/SN.withSIX.Core.Presentation.dll": {}
+        "bin/Debug/SN.withSIX.Core.Presentation.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Core.Presentation.pdb": {
+        "bin/Debug/SN.withSIX.Core.Presentation.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -158,15 +158,15 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Core.dll": {}
+        "bin/Debug/SN.withSIX.Core.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "../../../withSIX.Web/packages/JetBrains.Annotations.10.1.5/lib/net/JetBrains.Annotations.dll": {},
-        "bin/Release/SN.withSIX.Core.dll": {}
+        "bin/Debug/SN.withSIX.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Core.pdb": {
+        "bin/Debug/SN.withSIX.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -177,16 +177,16 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Applications.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Applications.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "../dll/ReactiveUI.dll": {},
         "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
-        "bin/Release/SN.withSIX.Mini.Applications.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Applications.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Applications.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Applications.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -197,14 +197,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Core.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Core.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Core.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Core.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -215,17 +215,17 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Infra.Data.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Infra.Data.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../dll/IdentityModel.dll": {},
-        "bin/Release/SN.withSIX.Mini.Infra.Data.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Infra.Data.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Infra.Data.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Infra.Data.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -236,14 +236,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Arma.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Arma.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Arma.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Arma.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Arma.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Arma.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -254,14 +254,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.CE.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.CE.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.CE.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.CE.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.CE.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.CE.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -272,14 +272,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Firaxis.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Firaxis.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Firaxis.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Firaxis.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Firaxis.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Firaxis.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -290,14 +290,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.GTA.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.GTA.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.GTA.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.GTA.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.GTA.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.GTA.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -308,14 +308,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Homeworld.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Homeworld.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Homeworld.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Homeworld.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Homeworld.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Homeworld.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -326,14 +326,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Kerbal.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Kerbal.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Kerbal.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Kerbal.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Kerbal.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Kerbal.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -344,14 +344,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.NMS.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.NMS.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.NMS.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.NMS.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.NMS.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.NMS.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -362,14 +362,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Starbound.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Starbound.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Starbound.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Starbound.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Starbound.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Starbound.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -380,14 +380,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Stellaris.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Stellaris.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Stellaris.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Stellaris.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Stellaris.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Stellaris.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -398,14 +398,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Witcher3.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Witcher3.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Mini.Plugin.Witcher3.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Plugin.Witcher3.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Plugin.Witcher3.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Plugin.Witcher3.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -416,7 +416,7 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Mini.Presentation.Core.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Presentation.Core.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
@@ -425,27 +425,27 @@
         "../packages/Mono.Options.4.4.0.0/lib/dnxcore/Mono.Options.dll": {},
         "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
         "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
-        "bin/Release/SN.withSIX.Mini.Presentation.Core.dll": {}
+        "bin/Debug/SN.withSIX.Mini.Presentation.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Mini.Presentation.Core.pdb": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
         },
-        "bin/Release/nss-3.11.zip": {
+        "bin/Debug/nss-3.11.zip": {
           "buildAction": "Content",
           "codeLanguage": "any",
           "copyToOutput": true,
           "outputPath": "nss-3.11.zip"
         },
-        "bin/Release/srm.exe": {
+        "bin/Debug/srm.exe": {
           "buildAction": "Content",
           "codeLanguage": "any",
           "copyToOutput": true,
           "outputPath": "srm.exe"
         },
-        "bin/Release/vcredistinstaller.exe": {
+        "bin/Debug/vcredistinstaller.exe": {
           "buildAction": "Content",
           "codeLanguage": "any",
           "copyToOutput": true,
@@ -457,14 +457,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Steam.Core.dll": {}
+        "bin/Debug/SN.withSIX.Steam.Core.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Steam.Core.dll": {}
+        "bin/Debug/SN.withSIX.Steam.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Steam.Core.pdb": {
+        "bin/Debug/SN.withSIX.Steam.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -475,14 +475,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/SN.withSIX.Sync.Core.dll": {}
+        "bin/Debug/SN.withSIX.Sync.Core.dll": {}
       },
       "runtime": {
         "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "bin/Release/SN.withSIX.Sync.Core.dll": {}
+        "bin/Debug/SN.withSIX.Sync.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/SN.withSIX.Sync.Core.pdb": {
+        "bin/Debug/SN.withSIX.Sync.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

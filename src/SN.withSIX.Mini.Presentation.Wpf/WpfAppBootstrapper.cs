@@ -72,8 +72,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     {
         IMiniMainWindowViewModel _mainVm;
 
-        internal WpfAppBootstrapper(string[] args)
-            : base(args) {
+        internal WpfAppBootstrapper(string[] args) : base(args) {}
+
+        public override void Configure() {
+            base.Configure();
             SetupRx();
             SetupCM();
         }
@@ -85,7 +87,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             var viewLocator = new DefaultViewLocator();
             // If we use the withSIX.Core.Presentation.Wpf.Services. one then we get Reactivecommands as text etc..
             //var jsonSerializerSettings = new JsonSerializerSettings() { DateTimeZoneHandling = DateTimeZoneHandling.Utc };
-            DependencyResolver.Register(() => viewLocator, typeof(IViewLocator));
+            Locator.CurrentMutable.Register(() => viewLocator, typeof(IViewLocator));
             //_dependencyResolver.Register(() => jsonSerializerSettings, typeof (JsonSerializerSettings));
         }
 
@@ -160,7 +162,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         protected override void RegisterViews() {
             base.RegisterViews();
             var viewInterfaceFilterType = typeof(IViewFor);
-            DependencyResolver.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(),
+            Locator.CurrentMutable.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(),
                 (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
             //dependencyResolver.RegisterConstant(this, typeof (IScreen));
 

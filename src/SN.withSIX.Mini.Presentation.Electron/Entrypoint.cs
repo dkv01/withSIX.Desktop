@@ -35,6 +35,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         private static Task LaunchAppThread() => TaskExt.StartLongRunningTask(async () => {
             await LaunchWithNode().ConfigureAwait(false);
             _bootstrapper = new ElectronAppBootstrapper(_args);
+            _bootstrapper.Configure();
             await StartupInternal().ConfigureAwait(false);
         });
 
