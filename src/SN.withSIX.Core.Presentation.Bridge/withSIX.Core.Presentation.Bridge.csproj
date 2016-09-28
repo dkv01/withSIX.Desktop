@@ -150,12 +150,20 @@
       <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\ReactiveUI.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleInjector, Version=3.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.2.2\lib\net45\SimpleInjector.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Synercoding.Encryption, Version=1.5.0.0, Culture=neutral, PublicKeyToken=1f3a1081aa3d936c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Synercoding.Encryption.1.5.0.0\lib\net45\Synercoding.Encryption.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -244,7 +252,9 @@
     <Compile Include="NLogSplatLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeCheck.cs" />
+    <Compile Include="Services\Decryption.cs" />
     <Compile Include="Services\ExitHandler.cs" />
+    <Compile Include="Services\MessageBusProxy.cs" />
     <Compile Include="Services\ProcessManager.cs" />
     <Compile Include="ShutdownHandler.cs" />
     <Compile Include="WCFClient.cs" />

@@ -6,11 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using MediatR;
 using Newtonsoft.Json;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -18,22 +19,37 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Sync.Core.Transfer;
-using Synercoding.Encryption.Hashing;
-using Synercoding.Encryption.Symmetrical;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Premium;
 
-namespace SN.withSIX.Mini.Infra.Api.Login
+namespace SN.withSIX.Mini.Infra.Data.Services
 {
+    public interface IOauthConnect
+    {
+        //Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType, string clientName, string clientSecret);
+
+        AuthorizeResponse GetResponse(Uri callbackUri, Uri currentUri);
+
+        Task<TokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callBackUri, string code, string clientId,
+            string clientSecret,
+            Dictionary<string, string> additionalValues = null);
+
+        Task<TokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId, string clientSecret,
+            Dictionary<string, string> additionalValues = null);
+
+        Task<UserInfoResponse> GetUserInfo(Uri userInfoEndpoint, string accessToken);
+    }
+
+
     // TODO: Don't work with storage directly?
     public class TokenRefresher : IInfrastructureService, ITokenRefresher
     {
         readonly IOauthConnect _connect;
         readonly PremiumHandler _premiumRefresher;
 
-        public TokenRefresher(IOauthConnect connect) {
+        public TokenRefresher(IOauthConnect connect, IDecryption decryption) {
             _connect = connect;
-            _premiumRefresher = new PremiumHandler();
+            _premiumRefresher = new PremiumHandler(decryption);
         }
 
         public async Task HandleLogin(AccessInfo info, Settings settings) {
@@ -70,7 +86,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             }
         }
 
-        private static string GetPremiumTokenClaim(IUserInfoResponse userInfo)
+        private static string GetPremiumTokenClaim(UserInfoResponse userInfo)
             => GetClaim(userInfo, CustomClaimTypes.PremiumToken);
 
         private Task HandleLoggedOut(Settings settings) {
@@ -78,7 +94,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             return _premiumRefresher.Logout(settings);
         }
 
-        static AccountInfo BuildAccountInfo(IUserInfoResponse userInfo) {
+        static AccountInfo BuildAccountInfo(UserInfoResponse userInfo) {
             var avatarUrl = GetAvatarUrlClaim(userInfo);
             var updatedAt = GetAvatarUpdatedAtClaim(userInfo);
             return new AccountInfo {
@@ -93,34 +109,39 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             };
         }
 
-        private static string GetEmailMd5Claim(IUserInfoResponse userInfo)
+        private static string GetEmailMd5Claim(UserInfoResponse userInfo)
             => GetClaim(userInfo, CustomClaimTypes.EmailMd5);
 
-        private static string GetHasAvatarClaim(IUserInfoResponse userInfo)
+        private static string GetHasAvatarClaim(UserInfoResponse userInfo)
             => GetClaim(userInfo, CustomClaimTypes.HasAvatar);
 
-        private static string GetUsernameClaim(IUserInfoResponse userInfo) => GetClaim(userInfo, "preferred_username");
+        private static string GetUsernameClaim(UserInfoResponse userInfo) => GetClaim(userInfo, "preferred_username");
 
-        private static string GetNicknameClaim(IUserInfoResponse userInfo) => GetClaim(userInfo, "nickname");
+        private static string GetNicknameClaim(UserInfoResponse userInfo) => GetClaim(userInfo, "nickname");
 
-        private static List<string> GetRoleClaims(IUserInfoResponse userInfo)
-            => userInfo.Claims.Where(x => x.Item1 == "role").Select(x => x.Item2).ToList();
+        private static List<string> GetRoleClaims(UserInfoResponse userInfo)
+            => userInfo.Claims.Where(x => x.Type == "role").Select(x => x.Value).ToList();
 
-        private static string GetIdClaim(IUserInfoResponse userInfo) => GetClaim(userInfo, "sub");
+        private static string GetIdClaim(UserInfoResponse userInfo) => GetClaim(userInfo, "sub");
 
-        private static string GetAvatarUpdatedAtClaim(IUserInfoResponse userInfo)
+        private static string GetAvatarUpdatedAtClaim(UserInfoResponse userInfo)
             => GetClaim(userInfo, CustomClaimTypes.AvatarUpdatedAt);
 
-        private static string GetAvatarUrlClaim(IUserInfoResponse userInfo)
+        private static string GetAvatarUrlClaim(UserInfoResponse userInfo)
             => GetClaim(userInfo, CustomClaimTypes.AvatarUrl);
 
-        static string GetClaim(IUserInfoResponse userInfo, string claimType) {
-            var claim = userInfo.Claims.FirstOrDefault(x => x.Item1 == claimType);
-            return claim?.Item2;
+        static string GetClaim(UserInfoResponse userInfo, string claimType) {
+            var claim = userInfo.Claims.FirstOrDefault(x => x.Type == claimType);
+            return claim?.Value;
         }
 
         class PremiumHandler
         {
+            private readonly IDecryption _decryption;
+            public PremiumHandler(IDecryption decryption) {
+                _decryption = decryption;
+            }
+
             bool _firstCompleted;
 
             public async Task ProcessPremium(string encryptedPremiumToken, Settings settings) {
@@ -155,12 +176,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                     var premiumCached = _firstCompleted && premiumToken.IsPremium() &&
                                         premiumToken.IsValidInNearFuture();
                     if (!premiumCached) {
-                        var aes = new Aes();
-                        var sha1 = new SHA1Hash();
-
-                        var keyHash = await sha1.GetHashAsync(apiKey).ConfigureAwait(false);
-                        var unencryptedPremiumToken =
-                            await aes.DecryptAsync(encryptedPremiumToken, keyHash).ConfigureAwait(false);
+                        var unencryptedPremiumToken = await _decryption.Decrypt(encryptedPremiumToken, apiKey).ConfigureAwait(false);
                         premiumToken = JsonConvert.DeserializeObject<PremiumAccessToken>(unencryptedPremiumToken);
                     }
                 } catch (NotPremiumUserException) {

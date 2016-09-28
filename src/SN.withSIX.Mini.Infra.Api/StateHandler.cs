@@ -40,7 +40,7 @@ namespace SN.withSIX.Mini.Infra.Api
         private AppState _state = new AppState(AppUpdateState.Uptodate, null);
         StatusModel _status = StatusModel.Default;
 
-        public StateHandler(IDbContextLocator locator, IMessageBus messageBus) {
+        public StateHandler(IDbContextLocator locator, IMessageBusProxy messageBus) {
             _locator = locator;
             messageBus.Listen<StatusChanged>()
                 .Subscribe(Handle);

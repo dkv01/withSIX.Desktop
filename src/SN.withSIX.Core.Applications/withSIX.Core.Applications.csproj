@@ -145,7 +145,6 @@
     <Compile Include="Extensions\XmlTools.cs" />
     <Compile Include="Factories\IDepResolver.cs" />
     <Compile Include="Infrastructure\IDbSet.cs" />
-    <Compile Include="Infrastructure\IOauthConnect.cs" />
     <Compile Include="Infrastructure\IResourceService.cs" />
     <Compile Include="Infrastructure\ISystemInfo.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
@@ -163,6 +162,7 @@
     <Compile Include="Services\IDialogManager.cs" />
     <Compile Include="Services\IGameMapperConfig.cs" />
     <Compile Include="Services\IInitializer.cs" />
+    <Compile Include="Services\IMessageBusProxy.cs" />
     <Compile Include="Services\INotificationProvider.cs" />
     <Compile Include="Services\IShutdownHandler.cs" />
     <Compile Include="Services\IStartupManager.cs" />

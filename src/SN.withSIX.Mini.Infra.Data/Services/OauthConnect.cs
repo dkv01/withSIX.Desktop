@@ -6,14 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Infrastructure;
+using IdentityModel.Client;
 using SN.withSIX.Core.Infra.Services;
-using Thinktecture.IdentityModel.Client;
 
-namespace SN.withSIX.Mini.Infra.Api.Login
+namespace SN.withSIX.Mini.Infra.Data.Services
 {
     public class OauthConnect : IInfrastructureService, IOauthConnect
     {
+        /*
         public Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType,
             string clientName, string clientSecret) {
             var client = GetOAuthClient(authorizationEndpoint, clientName, clientSecret);
@@ -22,25 +22,25 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                 //clientId: "implicitclient",
                 clientName, responseType, scope, callbackUri.ToString(), null, "random_nonce" /**,
                 loginHint: "alice",
-                acrValues: "idp:Google b c" **/));
-        }
+                acrValues: "idp:Google b c" **\/));
+        }*/
 
-        public async Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code,
+        public async Task<TokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code,
             string clientId, string clientSecret,
             Dictionary<string, string> additionalValues = null) {
             var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
             var response =
                 await
-                    client.RequestAuthorizationCodeAsync(code, callbackUrl.ToString(), additionalValues)
+                    client.RequestAuthorizationCodeAsync(code, callbackUrl.ToString(), extra: additionalValues)
                         .ConfigureAwait(false);
             if (response.IsError) {
                 throw new Exception(
-                    $"Error while retrieving authorization: {response.Error}. Code: {response.HttpErrorStatusCode}. Reason: {response.HttpErrorReason}");
+                    $"Error while retrieving authorization: {response.Error}. Code: {response.HttpStatusCode}. Reason: {response.HttpErrorReason}");
             }
             return new TokenResponse(response.Raw);
         }
 
-        public async Task<ITokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId,
+        public async Task<TokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId,
             string clientSecret,
             Dictionary<string, string> additionalValues = null) {
             var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
@@ -49,49 +49,32 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                 if (response.Error == "invalid_grant")
                     throw new RefreshTokenInvalidException(response.Error);
                 throw new Exception(
-                    $"Error while refreshing token: {response.Error}. Code: {response.HttpErrorStatusCode}. Reason: {response.HttpErrorReason}");
+                    $"Error while refreshing token: {response.Error}. Code: {response.HttpStatusCode}. Reason: {response.HttpErrorReason}");
             }
             return new TokenResponse(response.Raw);
         }
 
-        public async Task<IUserInfoResponse> GetUserInfo(Uri userInfoEndpoint, string accessToken) {
-            var userInfoClient = new UserInfoClient(userInfoEndpoint, accessToken);
-            var response = await userInfoClient.GetAsync().ConfigureAwait(false);
+        public async Task<UserInfoResponse> GetUserInfo(Uri userInfoEndpoint, string accessToken) {
+            var userInfoClient = new UserInfoClient(userInfoEndpoint.ToString());
+            var response = await userInfoClient.GetAsync(accessToken).ConfigureAwait(false);
             if (response.IsError || response.IsHttpError)
                 throw new Exception(
-                    $"Error while retrieving userinfo: {response.ErrorMessage} {response.HttpErrorStatusCode} {response.HttpErrorReason}");
+                    $"Error while retrieving userinfo: {response.Error} {response.HttpStatusCode} {response.HttpErrorReason}");
             return new UserInfoResponse(response.Raw);
         }
 
-        public IAuthorizeResponse GetResponse(Uri callbackUri, Uri currentUri) {
+        public AuthorizeResponse GetResponse(Uri callbackUri, Uri currentUri) {
             if (!currentUri.ToString().StartsWith(callbackUri.AbsoluteUri))
                 throw new Exception("Not valid callback uri");
             return new AuthorizeResponse(currentUri.AbsoluteUri);
         }
 
-        static OAuth2Client GetOAuthClient(Uri endpoint, string clientId, string clientSecret)
-            => new OAuth2Client(endpoint, clientId, clientSecret);
+        static TokenClient GetOAuthClient(Uri endpoint, string clientId, string clientSecret)
+            => new TokenClient(endpoint.ToString(), clientId, clientSecret);
     }
 
     public class RefreshTokenInvalidException : Exception
     {
         public RefreshTokenInvalidException(string error) : base(error) {}
-    }
-
-    public class UserInfoResponse : Thinktecture.IdentityModel.Client.UserInfoResponse, IUserInfoResponse
-    {
-        public UserInfoResponse(string raw) : base(raw) {}
-        public UserInfoResponse(HttpStatusCode statusCode, string httpErrorReason) : base(statusCode, httpErrorReason) {}
-    }
-
-    public class AuthorizeResponse : Thinktecture.IdentityModel.Client.AuthorizeResponse, IAuthorizeResponse
-    {
-        public AuthorizeResponse(string raw) : base(raw) {}
-    }
-
-    public class TokenResponse : Thinktecture.IdentityModel.Client.TokenResponse, ITokenResponse
-    {
-        public TokenResponse(string raw) : base(raw) {}
-        public TokenResponse(HttpStatusCode statusCode, string reason) : base(statusCode, reason) {}
     }
 }

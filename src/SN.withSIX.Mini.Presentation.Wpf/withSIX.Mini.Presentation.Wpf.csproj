@@ -588,9 +588,9 @@
       <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
       <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Infra.Api.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.csproj">
       <Project>{80c8f542-5bc1-4bbe-9c5a-0e0ca244a3f0}</Project>
-      <Name>withSIX.Mini.Infra.Api</Name>
+      <Name>withSIX.Mini.Presentation.Owin</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj">
       <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>

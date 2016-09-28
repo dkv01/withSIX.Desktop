@@ -150,8 +150,11 @@
     <Compile Include="Services\GameSettingsViewModelFactory.cs" />
     <Compile Include="Services\IAssemblyService.cs" />
     <Compile Include="Services\ICallContextService.cs" />
+    <Compile Include="Services\NetworkContentSyncer.cs" />
+    <Compile Include="Services\OauthConnect.cs" />
     <Compile Include="Services\SettingsStorage.cs" />
     <Compile Include="Services\SetupGameStuff.cs" />
+    <Compile Include="Services\TokenRefresher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
@@ -197,6 +200,9 @@
     </Reference>
     <Reference Include="Akavache.Sqlite3">
       <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="IdentityModel">
+      <HintPath>..\dll\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Contracts">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile259\System.Diagnostics.Contracts.dll</HintPath>

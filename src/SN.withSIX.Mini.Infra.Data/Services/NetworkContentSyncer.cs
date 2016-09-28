@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
@@ -16,16 +15,17 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Social;
-using SN.withSIX.Mini.Infra.Data.Services;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
+using CollectionExtensions = SN.withSIX.Core.Applications.Extensions.CollectionExtensions;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
+using MappingExtensions = withSIX.Api.Models.Extensions.MappingExtensions;
 
-namespace SN.withSIX.Mini.Infra.Api.WebApi
+namespace SN.withSIX.Mini.Infra.Data.Services
 {
     // TODO: optimize synchronizing collection with group/repo content dependencies.
     public class NetworkContentSyncer : IInfrastructureService, INetworkContentSyncer
@@ -144,12 +144,12 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 var dto = c.DTO;
                 var theGame = SetupGameStuff.GameSpecs.Select(x => x.Value).FindOrThrow(c.DTO.GameId);
                 if (c.Existing == null) {
-                    var nc = dto.MapTo<ModNetworkContent>();
+                    var nc = MappingExtensions.MapTo<ModNetworkContent>((object) dto);
                     content[dto] = nc;
                     game.Contents.Add(nc);
                 } else {
                     c.Existing.UpdateVersionInfo(dto.GetVersion(), dto.UpdatedVersion);
-                    dto.MapTo(c.Existing);
+                    MappingExtensions.MapTo(dto, c.Existing);
                     content[dto] = c.Existing;
                 }
                 if (c.DTO.GameId != game.Id)
@@ -201,7 +201,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
             if (c.GameId != game.Id) {
                 // Make a copy of the DTO, and clone the list, because otherwise the changes might bleed through to other games, or cached re-usages
-                c = c.MapTo<ModClientApiJsonV3WithGameId>();
+                c = MappingExtensions.MapTo<ModClientApiJsonV3WithGameId>((object) c);
                 c.Dependencies = c.Dependencies.ToList();
                 var cMods = game.GetCompatibilityMods(c.PackageName, c.Tags ?? defaultTags);
                 foreach (var m in cMods) {
@@ -298,7 +298,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 var modSpecs =
                     await
                         ProcessMods(col, c,
-                                await _locator.GetGameContext().Games.FindOrThrowAsync(col.GameId).ConfigureAwait(false))
+                                await CollectionExtensions.FindOrThrowAsync(_locator.GetGameContext().Games, col.GameId).ConfigureAwait(false))
                             .ConfigureAwait(false);
                 col.ReplaceContent(modSpecs.Concat(collectionSpecs));
             }

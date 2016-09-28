@@ -160,6 +160,7 @@
     <Compile Include="Services\FileWriter.cs" />
     <Compile Include="Services\GeoIpService.cs" />
     <Compile Include="Services\IApiLocalObjectCacheManager.cs" />
+    <Compile Include="Services\IDecryption.cs" />
     <Compile Include="Services\IDownloadCacheManager.cs" />
     <Compile Include="Services\IInfrastructureService.cs" />
     <Compile Include="Services\InMemoryDbSet.cs" />
@@ -211,9 +212,7 @@
       <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -296,8 +296,6 @@
     <Compile Include="Hubs\SettingsHub.cs" />
     <Compile Include="Hubs\StatusHub.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="Login\OauthConnect.cs" />
-    <Compile Include="Login\TokenRefresher.cs" />
     <Compile Include="Messengers\ClientHandler.cs" />
     <Compile Include="Messengers\ContentHandler.cs" />
     <Compile Include="Messengers\QueueHubMessenger.cs" />
@@ -307,7 +305,6 @@
     <Compile Include="Startup.cs" />
     <Compile Include="StateHandler.cs" />
     <Compile Include="WebApiErrorHandler.cs" />
-    <Compile Include="WebApi\NetworkContentSyncer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
