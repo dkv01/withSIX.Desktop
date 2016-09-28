@@ -200,6 +200,10 @@
       <Project>{A3556BC0-A306-4E26-85F2-37013E09D283}</Project>
       <Name>withSIX.Mini.Infra.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
+      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
+      <Name>withSIX.Steam.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>withSIX.Sync.Core</Name>
@@ -211,9 +215,6 @@
     </Reference>
     <Reference Include="Akavache.Sqlite3">
       <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
-    </Reference>
-    <Reference Include="ManyConsole.PCL">
-      <HintPath>..\packages\ManyConsole.PCL.1.0.0-pre\lib\netstandard1.3\ManyConsole.PCL.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Options">
       <HintPath>..\packages\Mono.Options.4.4.0.0\lib\dnxcore\Mono.Options.dll</HintPath>

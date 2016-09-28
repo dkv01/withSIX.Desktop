@@ -14,6 +14,7 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SteamKit2;
 using withSIX.Api.Models.Exceptions;
+using KeyValue = SN.withSIX.Steam.Core.KeyValue;
 
 namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 {

@@ -19,6 +19,7 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.Messengers;
 using SN.withSIX.Steam.Api;
+using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
@@ -61,8 +62,6 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
         public Task Initialize() {
-            Game.SteamHelper = SteamHelper.Create(); // TODO: Move
-
             _stateMessenger.Initialize();
 
             TryHandlePorts();

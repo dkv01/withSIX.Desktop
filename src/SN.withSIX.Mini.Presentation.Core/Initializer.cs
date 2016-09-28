@@ -3,14 +3,11 @@
 // </copyright>
 
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core

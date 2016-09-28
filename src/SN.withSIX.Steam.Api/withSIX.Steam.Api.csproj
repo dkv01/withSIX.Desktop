@@ -247,7 +247,6 @@
     <Compile Include="Services\SteamDownloader2.cs" />
     <Compile Include="Services\SteamSession.cs" />
     <Compile Include="Services\SteamUploader.cs" />
-    <Compile Include="SteamHelper.cs" />
     <Compile Include="SteamKit\DepotDownloader\CDNClientPool.cs" />
     <Compile Include="SteamKit\DepotDownloader\ConfigStore.cs" />
     <Compile Include="SteamKit\DepotDownloader\ContentDownloader.cs" />

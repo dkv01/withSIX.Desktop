@@ -44,6 +44,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Infra.Data.Services;
 using SN.withSIX.Mini.Presentation.Core.Commands;
 using SN.withSIX.Mini.Presentation.Core.Services;
+using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Packages;
@@ -137,6 +138,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         protected virtual void EndOv() => End().WaitAndUnwrapException();
 
         protected virtual void ConfigureInstances() {
+            Game.SteamHelper = SteamHelper.Create(); // TODO: Move
             var bridge = Container.GetInstance<IBridge>();
             GameContextJsonImplementation.Settings = bridge.GameContextSettings();
             DataCheat.Instance = Container.GetInstance<ICallContextService>();

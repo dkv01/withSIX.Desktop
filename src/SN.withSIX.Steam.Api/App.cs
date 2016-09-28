@@ -11,6 +11,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Api.SteamKit.Utils;
 using SN.withSIX.Steam.Core;
+using SN.withSIX.Steam.Core.Extensions;
 using Steamworks;
 
 namespace SN.withSIX.Steam.Api
