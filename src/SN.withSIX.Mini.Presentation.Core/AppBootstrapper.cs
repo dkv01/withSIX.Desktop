@@ -393,12 +393,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterRegisteredServices();
 
             RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
-            var assemblies =
-                new[] {
-                        pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
-                        coreAssemblies
-                    }
-                    .SelectMany(x => x).Distinct().ToArray();
+            var assemblies = GetAllAssemblies().ToArray();
             RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<IHandleExceptionPlugin>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<Profile>(assemblies);
@@ -431,6 +426,12 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterTools();
             RegisterCaches();
         }
+
+        protected IEnumerable<Assembly> GetAllAssemblies() => new[] {
+                pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
+                coreAssemblies
+            }
+            .SelectMany(x => x).Distinct();
 
         protected abstract void RegisterMessageBus();
 

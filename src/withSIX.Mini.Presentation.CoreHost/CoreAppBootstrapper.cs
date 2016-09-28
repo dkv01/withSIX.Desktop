@@ -15,10 +15,13 @@ using NDepend.Path;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
+using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Presentation.Core;
+using withSIX.Mini.Presentation.CoreHost.Services;
 using SystemExtensions = withSIX.Api.Models.Extensions.SystemExtensions;
 
 namespace withSIX.Mini.Presentation.CoreHost
@@ -41,12 +44,19 @@ namespace withSIX.Mini.Presentation.CoreHost
             Environment.Exit(exitCode);
         }
 
+        protected override IEnumerable<Assembly> GetPresentationAssemblies() => new[] {Assembly.GetEntryAssembly()}.Concat(base.GetPresentationAssemblies());
+
         protected override void ConfigureContainer() {
             // TODO: Disable this once we could disable registering inherited interfaces??
             Container.Options.LifestyleSelectionBehavior = new CustomLifestyleSelectionBehavior();
             Container.Options.AllowOverridingRegistrations = true;
             Container.AllowResolvingFuncFactories();
             Container.AllowResolvingLazyFactories();
+        }
+
+        protected override void ConfigureInstances() {
+            base.ConfigureInstances();
+            AssemblyService.AllAssemblies = GetAllAssemblies().ToArray();
         }
 
         protected override Assembly AssemblyLoadFrom(string arg) {
