@@ -457,6 +457,10 @@
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
+      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
+      <Name>withSIX.Core.Infra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.Bridge\withSIX.Core.Presentation.Bridge.csproj">
       <Project>{777EA4EB-495C-411C-9F65-510874368861}</Project>
       <Name>withSIX.Core.Presentation.Bridge</Name>

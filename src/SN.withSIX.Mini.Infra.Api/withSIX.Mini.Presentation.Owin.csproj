@@ -396,7 +396,6 @@
   <ItemGroup>
     <Compile Include="ApiPortHandler.cs" />
     <Compile Include="AutoMapperInfraApiConfig.cs" />
-    <Compile Include="Hubs\CancellationTokenMapping.cs" />
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
     <Compile Include="Hubs\HubBase.cs" />

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace SN.withSIX.Mini.Infra.Api.Hubs
+namespace SN.withSIX.Core.Infra.Services
 {
     public class CancellationTokenMapping
     {
