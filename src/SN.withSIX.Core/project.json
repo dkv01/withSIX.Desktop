@@ -6,6 +6,7 @@
     "Microsoft.Win32.Registry": "4.0.0",
     "NETStandard.Library": "1.6.0",
     "System.AppContext": "4.1.0",
+    "System.Diagnostics.Contracts": "4.0.1",
     "System.Diagnostics.FileVersionInfo": "4.0.0",
     "System.Diagnostics.Process": "4.1.0",
     "System.IO.Compression": "4.1.0",
