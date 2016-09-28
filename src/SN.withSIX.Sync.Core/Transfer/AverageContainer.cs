@@ -11,11 +11,12 @@ namespace SN.withSIX.Sync.Core.Transfer
     public class AverageContainer
     {
         private readonly int _count;
-        protected List<long> _speeds { get; } = new List<long>();
 
         public AverageContainer(int count) {
             _count = count;
         }
+
+        protected List<long> _speeds { get; } = new List<long>();
 
         public long Update(long speed) {
             lock (_speeds) {
@@ -36,7 +37,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             lock (_speeds) {
                 long? newSpeed = null;
                 if (_isZero) {
-                    if (speed.HasValue && speed.Value > 0) {
+                    if (speed.HasValue && (speed.Value > 0)) {
                         _isZero = false;
                         newSpeed = Update(speed.Value);
                     }

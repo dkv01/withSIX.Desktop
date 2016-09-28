@@ -40,7 +40,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             // * IViewFor<IFooBarViewModel>
             // * IViewFor<FooBarViewModel> (the original behavior in RxUI 3.1)
 
-            var attrs = viewModel.GetType().GetTypeInfo().GetCustomAttributes(typeof (ViewContractAttribute), true);
+            var attrs = viewModel.GetType().GetTypeInfo().GetCustomAttributes(typeof(ViewContractAttribute), true);
 
             if (attrs.Any())
                 contract = contract ?? ((ViewContractAttribute) attrs.First()).Contract;
@@ -55,15 +55,15 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             }
 
             // IViewFor<FooBarViewModel> (the original behavior in RxUI 3.1)
-            var viewType = typeof (IViewFor<>);
+            var viewType = typeof(IViewFor<>);
             try {
                 ret = attemptToResolveView(viewType.MakeGenericType(viewModel.GetType()), contract);
             } catch (Exception) {
                 throw;
             }
             // Workaround so we don't need to IViewFor each specific UserError
-            if (ret == null && viewModel is UserError)
-                ret = attemptToResolveView(viewType.MakeGenericType(typeof (UserError)), contract);
+            if ((ret == null) && viewModel is UserError)
+                ret = attemptToResolveView(viewType.MakeGenericType(typeof(UserError)), contract);
 
             if (ret != null)
                 SetupCaliburnMicro(viewModel, ret);

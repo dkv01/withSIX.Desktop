@@ -50,7 +50,7 @@ namespace SN.withSIX.Core.Infra.Services
         async Task<bool> TryPingAsync(string hostName, Ping p, ICollection<long> pings) {
             try {
                 var reply = await p.SendPingAsync(hostName, DefaultTimeout).ConfigureAwait(false);
-                if (reply != null && reply.Status == IPStatus.Success)
+                if ((reply != null) && (reply.Status == IPStatus.Success))
                     pings.Add(reply.RoundtripTime);
                 return true;
             } catch (Exception e) {

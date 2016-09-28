@@ -156,7 +156,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 
         string GetAuthInfo(Uri uri) {
             var hostname = uri.Host;
-            if (uri.Port != 80 && uri.Port != 443)
+            if ((uri.Port != 80) && (uri.Port != 443))
                 hostname += ":" + uri.Port;
 
             var authInfo = _authProvider.GetAuthInfoFromUri(uri);
@@ -168,7 +168,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
         Uri GetUri(Uri uri) => !string.IsNullOrWhiteSpace(uri.UserInfo) ? _authProvider.HandleUriAuth(uri) : uri;
 
         static string GetInputFile(ZsyncParams p)
-            => p.ExistingFile != null && p.ExistingFile.Exists ? $"-i \"{HandlePath(p.ExistingFile)}\" " : string.Empty;
+            =>
+            (p.ExistingFile != null) && p.ExistingFile.Exists ? $"-i \"{HandlePath(p.ExistingFile)}\" " : string.Empty;
 #pragma warning disable 162
         static string HandlePath(IAbsoluteFilePath path) => UseCygwinZsync
             ? path.ToString().CygwinPath()

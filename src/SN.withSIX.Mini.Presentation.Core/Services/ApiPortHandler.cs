@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,7 +31,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
         }
 
         public static void SetupApiPort(IPEndPoint http, IPEndPoint https, IProcessManager pm) {
-            if (https == null && http == null)
+            if ((https == null) && (http == null))
                 throw new ArgumentException("Both value and valueHttp are unspecified");
 
             var tmpFolder = Common.Paths.TempPath.GetChildDirectoryWithName("apisetup");
@@ -40,7 +39,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                 Directory.CreateDirectory(tmpFolder.ToString());
             try {
                 var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-                var acct = sid.Translate(typeof (NTAccount)) as NTAccount;
+                var acct = sid.Translate(typeof(NTAccount)) as NTAccount;
 
                 var commands = BuildCommands(http, https, tmpFolder, acct);
                 if (Common.Flags.Verbose)
@@ -85,7 +84,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
             try {
                 var pInfo = new ProcessStartInfoBuilder(batFile) {
-                    WorkingDirectory = tmpFolder,
+                    WorkingDirectory = tmpFolder
                     //WindowStyle = ProcessWindowStyle.Minimized
                 }.Build();
                 pInfo.CreateNoWindow = true;
@@ -106,11 +105,11 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
         private static void ExtractFile(IAbsoluteDirectoryPath tmpFolder, string fileName) {
             var destinationFile = tmpFolder.GetChildFileWithName(fileName);
-            var assembly = typeof (ApiPortHandler).Assembly;
+            var assembly = typeof(ApiPortHandler).Assembly;
             using (var s = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName)))
             using (
                 var f = new FileStream(destinationFile.ToString(), FileMode.Create, FileAccess.ReadWrite, FileShare.None)
-                )
+            )
                 s.CopyTo(f);
         }
 
@@ -155,7 +154,8 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                     // 4. add lib and bin to path, Install cert
                     InstallCerts(pm, toolLocation, tmpFolder, todoProfiles, certFileName);
                 } finally {
-                    if (tmpFolder.Exists) tmpFolder.Delete(true);
+                    if (tmpFolder.Exists)
+                        tmpFolder.Delete(true);
                 }
 
                 // 5. TODO: Restart firefox - however we do this already probably when opening the client?
@@ -176,7 +176,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
             }
 
             private IAbsoluteDirectoryPath[] GetTodos(IProcessManager pm, IAbsoluteDirectoryPath[] profiles,
-                IAbsoluteDirectoryPath toolLocation, IAbsoluteDirectoryPath tmpFolder)
+                    IAbsoluteDirectoryPath toolLocation, IAbsoluteDirectoryPath tmpFolder)
                 => profiles.Where(x => ShouldInstall(pm, toolLocation, tmpFolder, x)).ToArray();
 
             private static void TerminateFirefox() {
@@ -213,13 +213,13 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
             private static string BuildCheckCommand(IAbsoluteDirectoryPath toolLocation, IAbsoluteDirectoryPath p)
                 =>
-                    $@"""{toolLocation}\bin\certutil"" -L -n ""withSIX Sync local"" -t ""CT,C,C"" -d ""{p}""" +
-                    " > install.log";
+                $@"""{toolLocation}\bin\certutil"" -L -n ""withSIX Sync local"" -t ""CT,C,C"" -d ""{p}""" +
+                " > install.log";
 
             private static string BuildInstallCommand(IAbsoluteDirectoryPath toolLocation, IAbsoluteFilePath certFile,
-                IAbsoluteDirectoryPath p)
+                    IAbsoluteDirectoryPath p)
                 =>
-                    $@"""{toolLocation}\bin\certutil"" -A -n ""withSIX Sync local"" -t ""CT,C,C"" -i ""{certFile}"" -d ""{p}""";
+                $@"""{toolLocation}\bin\certutil"" -A -n ""withSIX Sync local"" -t ""CT,C,C"" -i ""{certFile}"" -d ""{p}""";
         }
     }
 }

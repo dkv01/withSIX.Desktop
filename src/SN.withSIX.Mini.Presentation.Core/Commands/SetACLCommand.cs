@@ -35,6 +35,6 @@ namespace SN.withSIX.Mini.Presentation.Core.Commands
         }
 
         static FileSystemRights ParseFileSystemRights(string arg)
-            => (FileSystemRights) Enum.Parse(typeof (FileSystemRights), arg);
+            => (FileSystemRights) Enum.Parse(typeof(FileSystemRights), arg);
     }
 }

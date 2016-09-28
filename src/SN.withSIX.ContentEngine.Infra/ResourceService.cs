@@ -18,7 +18,7 @@ namespace SN.withSIX.ContentEngine.Infra
     public class CEResourceService : ICEResourceService, IInfrastructureService
     {
         const string SourceAssemblyName = "SN.withSIX.ContentEngine.Infra";
-        readonly Assembly _sourceAssembly = typeof (ContentEngine).GetTypeInfo().Assembly;
+        readonly Assembly _sourceAssembly = typeof(ContentEngine).GetTypeInfo().Assembly;
 
         static CEResourceService() {
             ComponentPath = "/" + SourceAssemblyName + ";component";

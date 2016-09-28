@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
 {

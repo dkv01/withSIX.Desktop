@@ -119,7 +119,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             }
         }
 
-/*
+        /*
         IReactiveCommand<Unit> CreateCommand(InstallActionCompleted notification, PlayAction playAction)
             => ReactiveCommand.CreateAsyncTask(
                 async x =>

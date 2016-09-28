@@ -3,12 +3,9 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Net;
-using System.ServiceModel;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using SN.withSIX.Core.Extensions;
@@ -102,7 +99,7 @@ namespace SN.withSIX.Core
             }
 
             public int GetValidGameServerPort(int port) {
-                if (port < 1 || port > IPEndPoint.MaxPort)
+                if ((port < 1) || (port > IPEndPoint.MaxPort))
                     port = 2302;
                 return port;
             }
@@ -217,7 +214,8 @@ namespace SN.withSIX.Core
                         throw new UpdaterServiceTaskException(string.Format("Failed to execute (code: {1}): {0}",
                             args.CombineParameters(), exitCode));
                     }
-                } catch (Exception e) { // FaultException
+                } catch (Exception e) {
+                    // FaultException
                     throw new UpdaterServiceTaskException(
                         $"Failed to execute: {args.CombineParameters()}\nInfo: {e.Message}");
                 }

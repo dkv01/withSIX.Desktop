@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="ConfigStore.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;

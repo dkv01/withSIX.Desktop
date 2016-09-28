@@ -7,7 +7,6 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using NDepend.Path;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Sync.Core.Transfer.Specs
 {

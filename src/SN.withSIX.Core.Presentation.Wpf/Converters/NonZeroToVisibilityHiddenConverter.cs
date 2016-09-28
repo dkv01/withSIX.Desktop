@@ -15,7 +15,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Converters
         #region IValueConverter Members
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var inverse = parameter != null && ((string) parameter).TryBool();
+            var inverse = (parameter != null) && ((string) parameter).TryBool();
 
             if ((int) value > 0)
                 return inverse ? Visibility.Collapsed : Visibility.Visible;

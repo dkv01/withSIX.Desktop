@@ -79,7 +79,7 @@ namespace SN.withSIX.Sync.Core.Legacy
             .OrderBy(x => GetHostType(x) == HostType.Rsync ? 0 : 1);
 
         IOrderedEnumerable<Uri> OrderByZsync(IEnumerable<Uri> hosts) => hosts
-            .OrderBy(x => GetHostType(x) == HostType.Zsync || GetHostType(x) == HostType.Http ? 0 : 1);
+            .OrderBy(x => (GetHostType(x) == HostType.Zsync) || (GetHostType(x) == HostType.Http) ? 0 : 1);
     }
 
     public class HostCheckerWithPing : HostChecker, IHostCheckerWithPing
@@ -98,7 +98,7 @@ namespace SN.withSIX.Sync.Core.Legacy
         private void HandlePingCache() {
             lock (_lock) {
                 var now = DateTime.UtcNow;
-                if (_pingCacheDate.HasValue && _pingCacheDate.Value >= now.Subtract(TimeSpan.FromHours(1)))
+                if (_pingCacheDate.HasValue && (_pingCacheDate.Value >= now.Subtract(TimeSpan.FromHours(1))))
                     return;
                 _pingCache = new ConcurrentDictionary<string, long>();
                 _pingCacheDate = now;

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Runtime.Serialization;
 using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Applications
@@ -28,8 +27,8 @@ namespace SN.withSIX.Core.Applications
         public CanceledException(string message) : base(message) {}
         public CanceledException(string message, Exception inner) : base(message, inner) {}
         public CanceledException(Exception inner) : base(TheUserCancelledTheOperation, inner) {}
+        //protected CanceledException(SerializationInfo info, StreamingContext context) : base(info, context) {}
 
         //[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        //protected CanceledException(SerializationInfo info, StreamingContext context) : base(info, context) {}
     }
 }

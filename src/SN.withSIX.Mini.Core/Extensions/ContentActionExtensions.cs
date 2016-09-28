@@ -15,12 +15,12 @@ namespace SN.withSIX.Mini.Core.Extensions
         // TODO: Remove need to recreate Specs..
         public static IDownloadContentAction<IInstallableContent> ToInstall(
             this IPlayContentAction<IContent> action) => new DownloadContentAction(
-                action.Content.Where(x => x.Content is IInstallableContent)
-                    .Select(x => new InstallContentSpec((IInstallableContent) x.Content, x.Constraint))
-                    .ToArray(), action.CancelToken) {
-                        Force = action.Force,
-                        HideLaunchAction = action.HideLaunchAction
-                    };
+            action.Content.Where(x => x.Content is IInstallableContent)
+                .Select(x => new InstallContentSpec((IInstallableContent) x.Content, x.Constraint))
+                .ToArray(), action.CancelToken) {
+            Force = action.Force,
+            HideLaunchAction = action.HideLaunchAction
+        };
 
         public static IEnumerable<ILaunchableContent> GetLaunchables(this ILaunchContentAction<IContent> action)
             => action.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint));

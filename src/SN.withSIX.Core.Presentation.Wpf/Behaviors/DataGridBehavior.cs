@@ -15,14 +15,14 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty EnableFullRowSelectionProperty =
             DependencyProperty.RegisterAttached(
                 "EnableFullRowSelection",
-                typeof (bool),
-                typeof (DataGridBehavior),
+                typeof(bool),
+                typeof(DataGridBehavior),
                 new UIPropertyMetadata(false, OnEnableFullRowSelectionChanged));
         public static readonly DependencyProperty EnableContextMenuWorkaroundProperty =
             DependencyProperty.RegisterAttached(
                 "EnableContextMenuWorkaround",
-                typeof (bool),
-                typeof (DataGridBehavior),
+                typeof(bool),
+                typeof(DataGridBehavior),
                 new UIPropertyMetadata(false, OnEnableContextMenuWorkaroundChanged));
 
         public static bool GetEnableFullRowSelection(TreeViewItem treeViewItem)
@@ -87,7 +87,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
             var dg = (DataGrid) sender;
             var dependencyObject = (DependencyObject) e.OriginalSource;
             var row = dependencyObject.FindItem<DataGridRow>();
-            if (row != null && !row.IsSelected)
+            if ((row != null) && !row.IsSelected)
                 dg.SelectedItem = row.Item; // row.IsSelected = true;
         }
     }

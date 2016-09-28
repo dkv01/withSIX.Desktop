@@ -40,6 +40,7 @@ namespace SN.withSIX.Mini.Applications
 
         protected static RecoverableUserError Handle(NotDetectedAsSteamGame ex, string action)
             => new RecoverableUserError(ex, "Requires a Steam version of the game", ex.Message);
+
         protected static RecoverableUserError Handle(SetupException ex, string action) =>
             new RecoverableUserError(ex, "Configuration error", ex.Message);
 

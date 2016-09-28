@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
                 if (progress.Value < 0)
                     throw new ArgumentOutOfRangeException(nameof(progress), "Below 0");
             }
-            if (speed != null && speed < 0)
+            if ((speed != null) && (speed < 0))
                 throw new ArgumentOutOfRangeException(nameof(speed), "Below 0");
 
             Text = text;
@@ -53,9 +53,9 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         public double? Progress { get; }
         public long? Speed { get; }
 
-        public bool Equals(ProgressInfo other) => other != null
+        public bool Equals(ProgressInfo other) => (other != null)
                                                   && (ReferenceEquals(this, other)
-                                                      || other.GetHashCode() == GetHashCode());
+                                                      || (other.GetHashCode() == GetHashCode()));
 
         public override int GetHashCode() =>
             HashCode.Start

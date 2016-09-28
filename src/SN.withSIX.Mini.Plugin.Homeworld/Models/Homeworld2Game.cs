@@ -3,14 +3,9 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Mini.Plugin.Homeworld.Services;
 using withSIX.Api.Models.Games;

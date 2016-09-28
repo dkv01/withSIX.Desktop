@@ -7,13 +7,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
@@ -22,7 +22,8 @@ namespace SN.withSIX.Mini.Applications.Services
         public Task<TResponse> ApiAction<TResponse>(Func<Task<TResponse>> action, object command,
             Func<string, Exception, Exception> createException) => ExecuteCommand(action, command, createException);
 
-        public async Task<TResponse> ExecuteCommand<TResponse>(Func<Task<TResponse>> action, object command, Func<string, Exception, Exception> createException) {
+        public async Task<TResponse> ExecuteCommand<TResponse>(Func<Task<TResponse>> action, object command,
+            Func<string, Exception, Exception> createException) {
             retry:
             try {
                 return await TryExecuteCommand(action).ConfigureAwait(false);

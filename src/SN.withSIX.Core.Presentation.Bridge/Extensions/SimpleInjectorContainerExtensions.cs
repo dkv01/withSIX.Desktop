@@ -22,9 +22,9 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
     public class CustomLifestyleSelectionBehavior : ILifestyleSelectionBehavior
     {
         readonly Type[] _notificationHandlers = {
-            typeof (INotificationHandler<>),
-            typeof (IAsyncNotificationHandler<>),
-            typeof (ICancellableAsyncNotificationHandler<>)
+            typeof(INotificationHandler<>),
+            typeof(IAsyncNotificationHandler<>),
+            typeof(ICancellableAsyncNotificationHandler<>)
         };
         readonly Lifestyle lifestyle = Lifestyle.Transient;
 
@@ -43,8 +43,10 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
     public static class SimpleInjectorContainerExtensions
     {
         static readonly List<Type> reserved = new List<Type> {
-            typeof (INotifyPropertyChanged), typeof (INotifyPropertyChanging),
-            typeof (IEnableLogging), typeof (IDisposable)
+            typeof(INotifyPropertyChanged),
+            typeof(INotifyPropertyChanging),
+            typeof(IEnableLogging),
+            typeof(IDisposable)
         };
         static readonly List<Type> reservedRoot = new List<Type>();
 
@@ -67,7 +69,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
 
         static void HandleLifestyle<T>(Container container, Lifestyle lifestyle, IEnumerable<Type> pluginTypes)
             where T : class {
-            if (lifestyle == null || lifestyle == Lifestyle.Transient)
+            if ((lifestyle == null) || (lifestyle == Lifestyle.Transient))
                 return;
             foreach (var t in pluginTypes)
                 container.Register(t, t, lifestyle);
@@ -81,19 +83,19 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         public static IEnumerable<Type> GetTypes<T>(this IEnumerable<Assembly> assemblies)
-            => assemblies.GetTypes(typeof (T));
+            => assemblies.GetTypes(typeof(T));
 
         public static IEnumerable<Type> GetTypes(this IEnumerable<Assembly> assemblies, Type t)
             => from assembly in assemblies.Distinct()
-                from type in assembly.GetTypes()
-                where SystemExtensions.IsAssignableFrom(t, (Type) type)
-                where !type.IsAbstract
-                where !type.IsGenericTypeDefinition
-                where !type.IsInterface
-                select type;
+            from type in assembly.GetTypes()
+            where SystemExtensions.IsAssignableFrom(t, type)
+            where !type.IsAbstract
+            where !type.IsGenericTypeDefinition
+            where !type.IsInterface
+            select type;
 
         public static void RegisterAllInterfaces<T>(this Container container, IEnumerable<Assembly> assemblies) {
-            var ifaceType = typeof (T);
+            var ifaceType = typeof(T);
             foreach (var s in assemblies.GetTypes<T>()) {
                 foreach (var i in s.GetInterfaces().Where(x => Predicate(x, ifaceType)))
                     container.Register(i, s);
@@ -101,7 +103,8 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         static bool Predicate(Type x, Type ifaceType)
-            => x != ifaceType && !reserved.Contains(x) && !reservedRoot.Any(t => SystemExtensions.IsAssignableFrom((Type) t, x));
+            =>
+            (x != ifaceType) && !reserved.Contains(x) && !reservedRoot.Any(t => SystemExtensions.IsAssignableFrom(t, x));
 
         public static void RegisterAllInterfacesAndType<T>(this Container container,
             IEnumerable<Assembly> assemblies, Func<Type, bool> predicate = null) {
@@ -112,7 +115,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         public static void RegisterInterfacesAndType<T>(this Container container, IEnumerable<Type> types) {
-            var ifaceType = typeof (T);
+            var ifaceType = typeof(T);
             foreach (var s in types) {
                 container.Register(s, s);
                 foreach (var i in s.GetInterfaces().Where(x => Predicate(x, ifaceType)))
@@ -121,7 +124,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         public static void RegisterInterfaces<T>(this Container container, IEnumerable<Type> types) {
-            var ifaceType = typeof (T);
+            var ifaceType = typeof(T);
             foreach (var s in types) {
                 foreach (var i in s.GetInterfaces().Where(x => Predicate(x, ifaceType)))
                     container.Register(i, s);
@@ -129,7 +132,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         public static void RegisterSingleInterfacesAndType<T>(this Container container, IEnumerable<Type> types) {
-            var ifaceType = typeof (T);
+            var ifaceType = typeof(T);
             foreach (var s in types) {
                 container.RegisterSingleton(s, s);
                 foreach (var i in s.GetInterfaces().Where(x => Predicate(x, ifaceType)))
@@ -138,7 +141,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         public static void RegisterSingleInterfaces<T>(this Container container, IEnumerable<Type> types) {
-            var ifaceType = typeof (T);
+            var ifaceType = typeof(T);
             foreach (var s in types) {
                 foreach (var i in s.GetInterfaces().Where(x => Predicate(x, ifaceType)))
                     container.RegisterSingleton(i, s);
@@ -162,16 +165,16 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         public static void RegisterLazy(this Container container, Type serviceType) {
-            var method = typeof (SimpleInjectorContainerExtensions).GetMethod("CreateLazy")
+            var method = typeof(SimpleInjectorContainerExtensions).GetMethod("CreateLazy")
                 .MakeGenericMethod(serviceType);
 
             var lazyInstanceCreator =
                 Expression.Lambda<Func<object>>(
-                    Expression.Call(method, Expression.Constant(container)))
+                        Expression.Call(method, Expression.Constant(container)))
                     .Compile();
 
             var lazyServiceType =
-                typeof (Lazy<>).MakeGenericType(serviceType);
+                typeof(Lazy<>).MakeGenericType(serviceType);
 
             container.Register(lazyServiceType, lazyInstanceCreator);
         }
@@ -232,14 +235,14 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         public static void AllowResolvingFuncFactories(this Container container) {
             container.ResolveUnregisteredType += (sender, e) => {
                 if (!e.UnregisteredServiceType.IsGenericType ||
-                    e.UnregisteredServiceType.GetGenericTypeDefinition() != typeof (Func<>))
+                    (e.UnregisteredServiceType.GetGenericTypeDefinition() != typeof(Func<>)))
                     return;
                 var serviceType = e.UnregisteredServiceType.GetGenericArguments()[0];
 
                 var registration = container.GetRegistration(serviceType, true);
                 ConfirmTransient(registration, serviceType);
 
-                var funcType = typeof (Func<>).MakeGenericType(serviceType);
+                var funcType = typeof(Func<>).MakeGenericType(serviceType);
 
                 var factoryDelegate =
                     Expression.Lambda(funcType, registration.BuildExpression()).Compile();
@@ -256,7 +259,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         public static void AllowResolvingLazyFactories(this Container container) {
             container.ResolveUnregisteredType += (sender, e) => {
                 if (!e.UnregisteredServiceType.IsGenericType ||
-                    e.UnregisteredServiceType.GetGenericTypeDefinition() != typeof (Lazy<>))
+                    (e.UnregisteredServiceType.GetGenericTypeDefinition() != typeof(Lazy<>)))
                     return;
                 var serviceType = e.UnregisteredServiceType.GetGenericArguments()[0];
 
@@ -291,7 +294,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
             };
         }
 
-        
+
         public static Lazy<T> CreateLazy<T>(Container container)
             where T : class => new Lazy<T>(container.GetInstance<T>);
 
@@ -320,13 +323,13 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
                 //var ctorArguments = constructor.GetParameters().Select(p => p.ParameterType).ToArray();
 
                 var parameters = (
-                    from factoryArgumentType in factoryArguments
-                    select Expression.Parameter(factoryArgumentType))
+                        from factoryArgumentType in factoryArguments
+                        select Expression.Parameter(factoryArgumentType))
                     .ToArray();
 
                 var factoryDelegate = Expression.Lambda(funcType,
-                    BuildNewExpression(container, constructor, parameters),
-                    parameters)
+                        BuildNewExpression(container, constructor, parameters),
+                        parameters)
                     .Compile();
 
                 e.Register(Expression.Constant(factoryDelegate));
@@ -352,7 +355,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
             if (funcParametersIndex == -1) {
                 throw new ActivationException(
                     $"The constructor of type {constructor.DeclaringType.FullName} did not contain the sequence of the following " +
-                    $"constructor parameters: {string.Join((string) ", ", (IEnumerable<string>) funcParameterTypes.Select(t => t.Name))}.");
+                    $"constructor parameters: {string.Join(", ", funcParameterTypes.Select(t => t.Name))}.");
             }
 
             var firstCtorParameterExpressions = ctorParameterTypes
@@ -372,10 +375,18 @@ namespace SN.withSIX.Core.Presentation.Bridge.Extensions
         }
 
         static int IndexOfSubCollection(Type[] collection, Type[] subCollection) => (
-            from index in Enumerable.Range(0, collection.Length - subCollection.Length + 1)
-            let collectionPart = collection.Skip(index).Take(subCollection.Length)
-            where collectionPart.SequenceEqual(subCollection)
-            select (int?) index)
-            .FirstOrDefault() ?? -1;
+                                                                                            from index in
+                                                                                            Enumerable.Range(0,
+                                                                                                collection.Length -
+                                                                                                subCollection.Length + 1)
+                                                                                            let collectionPart =
+                                                                                            collection.Skip(index)
+                                                                                                .Take(
+                                                                                                    subCollection.Length)
+                                                                                            where
+                                                                                            collectionPart.SequenceEqual
+                                                                                                (subCollection)
+                                                                                            select (int?) index)
+                                                                                        .FirstOrDefault() ?? -1;
     }
 }

@@ -6,7 +6,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -25,13 +24,13 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
         }
 
         public LaunchType LaunchType { get; }
-        public Guid Id { get; }
-        public CancellationToken CancelToken { get; set; }
-        public Guid GameId => Id;
 
         public LaunchAction Action { get; set; }
 
         public string ServerAddress { get; set; }
+        public CancellationToken CancelToken { get; set; }
+        public Guid Id { get; }
+        public Guid GameId => Id;
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
@@ -39,7 +38,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
             => new LaunchContentAction(LaunchType, CancelToken) {
                 Action = Action,
                 Name = game.Metadata.Name,
-                ServerAddress = ServerAddress,
+                ServerAddress = ServerAddress
             };
     }
 

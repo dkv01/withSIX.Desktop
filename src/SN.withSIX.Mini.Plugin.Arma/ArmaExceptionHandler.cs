@@ -20,8 +20,8 @@ namespace SN.withSIX.Mini.Plugin.Arma
 
         protected static RecoverableUserError Handle(ParFileException ex, string action)
             =>
-                new RecoverableUserError(ex, "Please make sure the PAR path is writable",
-                    "Can't write the startup parameter file to start the game, make sure it's not running and that the path is writable\n\nError info: " +
-                    ex.Message);
+            new RecoverableUserError(ex, "Please make sure the PAR path is writable",
+                "Can't write the startup parameter file to start the game, make sure it's not running and that the path is writable\n\nError info: " +
+                ex.Message);
     }
 }

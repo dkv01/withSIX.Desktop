@@ -160,7 +160,7 @@ namespace GameServerQuery.Parsers
             if (other.GetType() != GetType())
                 return false;
 
-            return other.Name != null && other.Name.Equals(Name);
+            return (other.Name != null) && other.Name.Equals(Name);
         }
     }
 

@@ -17,7 +17,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
     {
         public static void RegisterAllInterfaces<T>(this IMutableDependencyResolver resolver,
             IEnumerable<Assembly> assemblies, Func<Type, Type, bool> predicate) {
-            var ifaceType = typeof (T);
+            var ifaceType = typeof(T);
             foreach (var s in assemblies.GetTypes<T>()) {
                 foreach (var i in s.GetTypeInfo().GetInterfaces().Where(x => predicate(x, ifaceType))) {
                     var contract = s.GetCustomAttribute<ViewContractAttribute>();

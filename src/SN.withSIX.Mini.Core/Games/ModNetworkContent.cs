@@ -35,7 +35,7 @@ namespace SN.withSIX.Mini.Core.Games
             return content;
         }
 
-        public bool IsSteam() => Publishers.Count == 1 &&
+        public bool IsSteam() => (Publishers.Count == 1) &&
                                  Publishers.Any(x => x.Publisher == Publisher.Steam);
 
         public void HandleOriginalGame(Guid originalGameId, string originalGameSlug, Guid gameId) {

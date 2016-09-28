@@ -18,7 +18,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         /// </summary>
         /// <param name="item">The item to activate.</param>
         public override void ActivateItem(T item) {
-            if (item != null && item.Equals(ActiveItem)) {
+            if ((item != null) && item.Equals(ActiveItem)) {
                 if (IsActive) {
                     ScreenExtensions.TryActivate(item);
                     OnActivationProcessed(item, true);
@@ -40,7 +40,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         /// <param name="item">The item to close.</param>
         /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>
         public override void DeactivateItem(T item, bool close) {
-            if (item == null || !item.Equals(ActiveItem))
+            if ((item == null) || !item.Equals(ActiveItem))
                 return;
 
             CloseStrategy.Execute(new[] {ActiveItem}, (canClose, items) => {

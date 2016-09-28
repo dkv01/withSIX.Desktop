@@ -68,15 +68,27 @@ namespace SN.withSIX.Core.Presentation.Services
                 try {
                     TryUnpackArchive(destFile, progress, archive);
                 } catch (ZlibException ex) {
-                    if (ex.Message == "Not a valid GZIP stream." || ex.Message == "Bad GZIP header."
-                        || ex.Message == "Unexpected end-of-file reading GZIP header."
-                        || ex.Message == "Unexpected EOF reading GZIP header.") {
+                    if ((ex.Message == "Not a valid GZIP stream.") || (ex.Message == "Bad GZIP header.")
+                        || (ex.Message == "Unexpected end-of-file reading GZIP header.")
+                        || (ex.Message == "Unexpected EOF reading GZIP header.")) {
                         var header = TryReadHeader(sourceFile);
                         throw new CompressedFileException(
                             $"The archive appears corrupt: {sourceFile}. Header:\n{header}", ex);
                     }
                     throw;
                 }
+            }
+        }
+
+        public void PackFiles(IEnumerable<KeyValuePair<string, string>> items, IAbsoluteFilePath path) {
+            using (var arc = ZipArchive.Create()) {
+                foreach (var f in items)
+                    arc.AddEntry(f.Key, f.Value);
+                arc.SaveTo(path.ToString(),
+                    new CompressionInfo {
+                        DeflateCompressionLevel = CompressionLevel.BestCompression,
+                        Type = CompressionType.Deflate
+                    });
             }
         }
 
@@ -128,7 +140,7 @@ namespace SN.withSIX.Core.Presentation.Services
         }
 
         private static string GetString(byte[] bytes) {
-            var chars = new char[bytes.Length/sizeof (char)];
+            var chars = new char[bytes.Length/sizeof(char)];
             Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
             return new string(chars);
         }
@@ -150,18 +162,6 @@ namespace SN.withSIX.Core.Presentation.Services
             }
             entry.WriteToFile(destFile.ToString());
             progress?.Update(null, 100);
-        }
-
-        public void PackFiles(IEnumerable<KeyValuePair<string, string>> items, IAbsoluteFilePath path) {
-            using (var arc = ZipArchive.Create()) {
-                foreach (var f in items)
-                    arc.AddEntry(f.Key, f.Value);
-                arc.SaveTo(path.ToString(),
-                    new CompressionInfo {
-                        DeflateCompressionLevel = CompressionLevel.BestCompression,
-                        Type = CompressionType.Deflate
-                    });
-            }
         }
     }
 }

@@ -12,8 +12,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     /// </summary>
     public partial class IconControlInheritForeground : UserControl
     {
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof (object),
-            typeof (IconControlInheritForeground), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(object),
+            typeof(IconControlInheritForeground), new PropertyMetadata(default(object)));
 
         public IconControlInheritForeground() {
             InitializeComponent();

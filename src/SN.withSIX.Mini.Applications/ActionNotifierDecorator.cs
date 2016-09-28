@@ -33,15 +33,15 @@ namespace SN.withSIX.Mini.Applications
 
         public override TResponseData Send<TResponseData>(IRequest<TResponseData> request)
             =>
-                Perform(request,
+            Perform(request,
                     () => TaskExt.StartLongRunningTask(() => base.Send(request)))
-                    .WaitAndUnwrapException();
+                .WaitAndUnwrapException();
 
         public override Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
             => Perform(request, () => base.SendAsync(request));
 
         public override Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken)
+                CancellationToken cancellationToken)
             => Perform(request, () => base.SendAsync(request, cancellationToken));
 
 
@@ -107,22 +107,23 @@ namespace SN.withSIX.Mini.Applications
             // TODO: Handle exception with an Ignore option, e.g in case internet/platform is down!
             var a = request as IHaveContent;
             if (a != null) {
-                await _gameSwitcher.UpdateGameState(gameId, new ContentQuery {Ids = {a.Content.Id}}).ConfigureAwait(false);
+                await
+                    _gameSwitcher.UpdateGameState(gameId, new ContentQuery {Ids = {a.Content.Id}}).ConfigureAwait(false);
             } else {
                 var b = request as INeedContents;
                 if (b != null) {
                     await
                         _gameSwitcher.UpdateGameState(gameId,
-                            new ContentQuery {Ids = b.Contents.Select(x => x.Id).ToList()})
+                                new ContentQuery {Ids = b.Contents.Select(x => x.Id).ToList()})
                             .ConfigureAwait(false);
                 } else {
                     var c = request as IHaveContentPublisher;
                     if (c != null) {
                         await
                             _gameSwitcher.UpdateGameState(gameId,
-                                new ContentQuery {
-                                    Publishers = {new ContentPublisherApiJson {Id = c.PubId, Type = c.Publisher}}
-                                })
+                                    new ContentQuery {
+                                        Publishers = {new ContentPublisherApiJson {Id = c.PubId, Type = c.Publisher}}
+                                    })
                                 .ConfigureAwait(false);
                     } else
                         await

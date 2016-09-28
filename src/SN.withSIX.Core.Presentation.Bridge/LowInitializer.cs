@@ -12,8 +12,11 @@ namespace SN.withSIX.Core.Presentation.Bridge
 {
     public class LowInitializer
     {
+        public Func<EnvironmentSpecial.SpecialFolder, string> GetFolderPath { get; } = x => Environment.GetFolderPath(
+            (Environment.SpecialFolder) Enum.Parse(typeof(Environment.SpecialFolder), x.ToString()));
+
         public void SetupLogging(string productTitle, string token = null) {
-            if (token != null && ConfigurationManager.AppSettings["Logentries.Token"] == null)
+            if ((token != null) && (ConfigurationManager.AppSettings["Logentries.Token"] == null))
                 ConfigurationManager.AppSettings["Logentries.Token"] = token;
             SetupNlog.Initialize(productTitle);
             if (Common.Flags.Verbose) {
@@ -24,8 +27,5 @@ namespace SN.withSIX.Core.Presentation.Bridge
             LogHost.Default.Level = LogLevel.Debug;
 #endif
         }
-
-        public Func<EnvironmentSpecial.SpecialFolder, string> GetFolderPath { get; } = x => Environment.GetFolderPath(
-            (Environment.SpecialFolder) Enum.Parse(typeof(Environment.SpecialFolder), x.ToString()));
     }
 }

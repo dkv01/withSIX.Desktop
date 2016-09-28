@@ -26,7 +26,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     {
         public ClientInfo(AppState state, bool extensionInstalled) {
             UpdateState = state.UpdateState;
-            NewVersionAvailable = state.Version?.ToString();
+            NewVersionAvailable = state.Version;
             ExtensionInstalled = extensionInstalled;
         }
 

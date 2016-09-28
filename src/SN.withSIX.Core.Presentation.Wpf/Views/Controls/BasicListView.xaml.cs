@@ -12,26 +12,26 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public partial class BasicListView : UserControl
     {
         public static readonly DependencyProperty HeaderTextProperty = DependencyProperty.Register("HeaderText",
-            typeof (string), typeof (BasicListView), new PropertyMetadata(default(string)));
+            typeof(string), typeof(BasicListView), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Items",
-            typeof (IEnumerable),
-            typeof (BasicListView), new PropertyMetadata(default(IEnumerable)));
+            typeof(IEnumerable),
+            typeof(BasicListView), new PropertyMetadata(default(IEnumerable)));
         public static readonly DependencyProperty AddItemCommandProperty = DependencyProperty.Register(
-            "AddItemCommand", typeof (ICommand), typeof (BasicListView),
+            "AddItemCommand", typeof(ICommand), typeof(BasicListView),
             new PropertyMetadata(default(ICommand)));
         public static readonly DependencyProperty ListItemTemplateSelectorProperty =
-            DependencyProperty.Register("ListItemTemplateSelector", typeof (DataTemplateSelector),
-                typeof (BasicListView), new PropertyMetadata(default(DataTemplateSelector)));
+            DependencyProperty.Register("ListItemTemplateSelector", typeof(DataTemplateSelector),
+                typeof(BasicListView), new PropertyMetadata(default(DataTemplateSelector)));
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem",
-            typeof (object), typeof (BasicListView),
+            typeof(object), typeof(BasicListView),
             new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty EnableHeaderProperty = DependencyProperty.Register("EnableHeader",
-            typeof (bool), typeof (BasicListView), new PropertyMetadata(true));
+            typeof(bool), typeof(BasicListView), new PropertyMetadata(true));
         public static readonly DependencyProperty ShowEditButtonsProperty =
-            DependencyProperty.Register("ShowEditButtons", typeof (bool), typeof (BasicListView),
+            DependencyProperty.Register("ShowEditButtons", typeof(bool), typeof(BasicListView),
                 new PropertyMetadata(default(bool)));
         public static readonly DependencyProperty FilterTextProperty = DependencyProperty.Register("FilterText",
-            typeof (string), typeof (BasicListView),
+            typeof(string), typeof(BasicListView),
             new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public BasicListView() {

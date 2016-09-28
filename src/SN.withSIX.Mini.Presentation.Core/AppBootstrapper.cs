@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
 using AutoMapper;
-using NDepend.Path;
-using ReactiveUI;
 using MediatR;
+using NDepend.Path;
 using Newtonsoft.Json;
+using ReactiveUI;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -66,29 +66,27 @@ namespace SN.withSIX.Mini.Presentation.Core
             CommonBase.AssemblyLoader.GetNetEntryPath();
         // = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
         static readonly Assembly[] coreAssemblies = new[] {
-            typeof (Game).GetTypeInfo().Assembly, typeof (IDomainService).GetTypeInfo().Assembly,
-            typeof (Tools).GetTypeInfo().Assembly, typeof (Package).GetTypeInfo().Assembly,
-            typeof (IContentEngine).GetTypeInfo().Assembly
+            typeof(Game).GetTypeInfo().Assembly, typeof(IDomainService).GetTypeInfo().Assembly,
+            typeof(Tools).GetTypeInfo().Assembly, typeof(Package).GetTypeInfo().Assembly,
+            typeof(IContentEngine).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] infraAssemblies = new[] {
-            typeof (AutoMapperInfraApiConfig).GetTypeInfo().Assembly, typeof (GameContext).GetTypeInfo().Assembly,
-            typeof (ImageCacheManager).GetTypeInfo().Assembly,
-            typeof (IContentEngineGameContext).GetTypeInfo().Assembly
+            typeof(AutoMapperInfraApiConfig).GetTypeInfo().Assembly, typeof(GameContext).GetTypeInfo().Assembly,
+            typeof(ImageCacheManager).GetTypeInfo().Assembly,
+            typeof(IContentEngineGameContext).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] globalPresentationAssemblies = new[] {
-            typeof (ApiPortHandler).GetTypeInfo().Assembly,
-            typeof (IPresentationService).GetTypeInfo().Assembly
+            typeof(ApiPortHandler).GetTypeInfo().Assembly,
+            typeof(IPresentationService).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] globalApplicationAssemblies = new[] {
-            typeof (GameSettingsApiModel).GetTypeInfo().Assembly,
-            typeof (IDialogManager).GetTypeInfo().Assembly
+            typeof(GameSettingsApiModel).GetTypeInfo().Assembly,
+            typeof(IDialogManager).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
         private static readonly Assembly[] platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
         private readonly Assembly[] _applicationAssemblies;
         private readonly string[] _args;
-
-        public bool CommandMode { get; }
         readonly Paths _paths;
         private readonly Assembly[] _presentationAssemblies;
         protected readonly Container Container;
@@ -117,6 +115,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             SetupContainer();
             UserErrorHandling.Setup();
         }
+
+        public bool CommandMode { get; }
 
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 
@@ -150,7 +150,8 @@ namespace SN.withSIX.Mini.Presentation.Core
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
-                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommands.YesNoCommands, null, e));
+                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommands.YesNoCommands, null,
+                            e));
                 return result == RecoveryOptionResultModel.RetryOperation;
             };
             Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
@@ -213,7 +214,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 // TODO: call from node?
                 var task = TaskExt.StartLongRunningTask(
                     () =>
-                        new SIHandler().HandleSingleInstanceCall(Common.Flags.FullStartupParameters.ToList()));
+                            new SIHandler().HandleSingleInstanceCall(Common.Flags.FullStartupParameters.ToList()));
             } catch (SQLiteException ex) {
                 MainLog.Logger.FormattedErrorException(ex, "A problem was found with a database");
                 var message =
@@ -255,7 +256,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private static async Task SetupApiPort(Settings settings, ISettingsStorage settingsStorage) {
-            if (Cheat.Args.Port.HasValue && settings.Local.ApiPort != Cheat.Args.Port) {
+            if (Cheat.Args.Port.HasValue && (settings.Local.ApiPort != Cheat.Args.Port)) {
                 settings.Local.ApiPort = Cheat.Args.Port;
                 await settingsStorage.SaveChanges().ConfigureAwait(false);
             }
@@ -291,8 +292,8 @@ namespace SN.withSIX.Mini.Presentation.Core
         private void HandleSystem() {
             var pm = Container.GetInstance<IProcessManager>();
             var si = Infra.Api.Initializer.BuildSi(pm);
-            if ((Consts.HttpAddress == null || si.IsHttpPortRegistered) &&
-                (Consts.HttpsAddress == null || si.IsSslRegistered()))
+            if (((Consts.HttpAddress == null) || si.IsHttpPortRegistered) &&
+                ((Consts.HttpsAddress == null) || si.IsSslRegistered()))
                 return;
             ApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm);
             si = Infra.Api.Initializer.BuildSi(pm); // to output
@@ -335,7 +336,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 
             var serviceReg = new ServiceRegisterer(Container);
             foreach (var t in pluginAssemblies.GetTypes<ServiceRegistry>())
-                 Activator.CreateInstance(t, serviceReg);
+                Activator.CreateInstance(t, serviceReg);
 
             // Fix JsonSerializer..
             Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
@@ -392,8 +393,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             cacheManager.RegisterCache(cache);
         }
 
-        protected virtual void RegisterViews() {
-        }
+        protected virtual void RegisterViews() {}
 
         void RunCommands() => Environment.Exit(Container.GetInstance<CommandRunner>().RunCommandsAndLog(_args));
 
@@ -412,9 +412,9 @@ namespace SN.withSIX.Mini.Presentation.Core
             Container.RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
             var assemblies =
                 new[] {
-                    pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies,
-                    coreAssemblies
-                }
+                        pluginAssemblies, globalPresentationAssemblies, infraAssemblies, _applicationAssemblies,
+                        coreAssemblies
+                    }
                     .SelectMany(x => x).Distinct().ToArray();
             Container.RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
             Container.RegisterPlugins<IHandleExceptionPlugin>(assemblies, Lifestyle.Singleton);
@@ -469,8 +469,8 @@ namespace SN.withSIX.Mini.Presentation.Core
 
             RegisterRequestHandlers(typeof(IAsyncRequestHandler<,>),
                 typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
-            RegisterNotificationHandlers(typeof (INotificationHandler<>),
-                typeof (IAsyncNotificationHandler<>));
+            RegisterNotificationHandlers(typeof(INotificationHandler<>),
+                typeof(IAsyncNotificationHandler<>));
 
             // Decorators execute in reverse-order. So the last one executes first, and so forth.
             Container.RegisterDecorator<IMediator, ActionNotifierDecorator>(Lifestyle.Singleton);

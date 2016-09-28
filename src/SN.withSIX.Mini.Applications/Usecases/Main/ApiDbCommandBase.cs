@@ -59,7 +59,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var abortAction = new Pause(request.GameId).CreateNextActionFromRequest(text, href, ov?.PauseTitleOverride);
             await
                 request.FromRequest(startTitle, text, href,
-                    nextAction: request is ICancelable ? abortAction : null)
+                        nextAction: request is ICancelable ? abortAction : null)
                     .Raise()
                     .ConfigureAwait(false);
             try {
@@ -76,7 +76,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             }
         }
 
-        private static async Task HandleAsPaused<T>(T request, string text, Uri href, NotifyingActionOverrideAttribute info,
+        private static async Task HandleAsPaused<T>(T request, string text, Uri href,
+            NotifyingActionOverrideAttribute info,
             Tuple<NextActionInfo, IAsyncVoidCommandBase> abortAction) where T : IHaveGameId, IAsyncVoidCommandBase {
             var nextAction = CreateNextActionFromRequest(request, text, href, "Continue");
             await
@@ -85,7 +86,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                     nextAction).Raise().ConfigureAwait(false);
         }
 
-        private static async Task HandleAsFailed<T>(T request, string text, Uri href, NotifyingActionOverrideAttribute info)
+        private static async Task HandleAsFailed<T>(T request, string text, Uri href,
+            NotifyingActionOverrideAttribute info)
             where T : IHaveGameId, IAsyncVoidCommandBase {
             var nextAction = CreateNextActionFromRequest(request, text, href, "Retry");
             await
@@ -95,39 +97,41 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         }
 
         private static string GetActionName<T>(this T action) where T : IRequestBase
-            => action.GetActionInfo()?.NameOverride ?? action.GetType().Name;
+        => action.GetActionInfo()?.NameOverride ?? action.GetType().Name;
 
         private static ApiUserActionAttribute GetActionInfo<T>(this T successAction) where T : IRequestBase
-            => (ApiUserActionAttribute) successAction.GetType().GetTypeInfo().GetCustomAttribute(typeof (ApiUserActionAttribute));
+        =>
+            (ApiUserActionAttribute)
+            successAction.GetType().GetTypeInfo().GetCustomAttribute(typeof(ApiUserActionAttribute));
 
         private static Tuple<NextActionInfo, IAsyncVoidCommandBase> CreateNextActionFromRequest<T>(this T request,
             string text = null, Uri href = null,
             string nameOverride = null) where T : IAsyncVoidCommandBase =>
-                Tuple.Create(
-                    new NextActionInfo(nameOverride ?? request.GetActionName(), text) {
-                        RequestId = request.RequestId,
-                        Href = href
-                    },
-                    (IAsyncVoidCommandBase) request);
+            Tuple.Create(
+                new NextActionInfo(nameOverride ?? request.GetActionName(), text) {
+                    RequestId = request.RequestId,
+                    Href = href
+                },
+                (IAsyncVoidCommandBase) request);
 
         private static NotifyingActionOverrideAttribute GetInfo<T>(this T request) where T : IRequestBase
-            => (NotifyingActionOverrideAttribute)
-                request.GetType().GetTypeInfo().GetCustomAttribute(typeof (NotifyingActionOverrideAttribute)) ??
-               new NotifyingActionOverrideAttribute(GetActionName(request));
+        => (NotifyingActionOverrideAttribute)
+           request.GetType().GetTypeInfo().GetCustomAttribute(typeof(NotifyingActionOverrideAttribute)) ??
+           new NotifyingActionOverrideAttribute(GetActionName(request));
 
         private static ActionNotification FromRequest<T>(this T request, string title, string text, Uri href = null,
             ActionType type = ActionType.Start, Tuple<NextActionInfo, IAsyncVoidCommandBase> nextAction = null)
             where T : IHaveGameId, IHaveClientId, IHaveRequestId
-            =>
-                new ActionNotification(request.GameId, title, text, request.ClientId, request.RequestId) {
-                    Type = type,
-                    NextAction = nextAction?.Item2,
-                    NextActionInfo = nextAction?.Item1,
-                    Href = href,
-                    DesktopNotification =
-                        type != ActionType.Start &&
-                        (type != ActionType.End || !(request is IDisableDesktopNotification))
-                };
+        =>
+            new ActionNotification(request.GameId, title, text, request.ClientId, request.RequestId) {
+                Type = type,
+                NextAction = nextAction?.Item2,
+                NextActionInfo = nextAction?.Item1,
+                Href = href,
+                DesktopNotification =
+                    (type != ActionType.Start) &&
+                    ((type != ActionType.End) || !(request is IDisableDesktopNotification))
+            };
     }
 
     // TODO: This should rather be configurable on the action attribute instead?

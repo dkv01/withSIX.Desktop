@@ -32,10 +32,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 {
     public abstract class WpfAppBootstrapper<T> : AppBootstrapperBase
     {
-        static readonly Type idontic = typeof (IDontIC);
-        static readonly Type[] _meepfaces = {typeof (IContextMenu), typeof (IDialog)};
-        static readonly Type _transient = typeof (ITransient);
-        static readonly Type _singleton = typeof (ISingleton);
+        static readonly Type idontic = typeof(IDontIC);
+        static readonly Type[] _meepfaces = {typeof(IContextMenu), typeof(IDialog)};
+        static readonly Type _transient = typeof(ITransient);
+        static readonly Type _singleton = typeof(ISingleton);
         readonly DependencyObjectObservableForProperty workaroundForSmartAssemblyReactiveXAML;
         IExceptionHandler _exceptionHandler;
         protected bool DisplayRootView = true;
@@ -61,13 +61,13 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
-            typeof (WpfAppBootstrapper<>).Assembly,
-            typeof (DummyClass).Assembly,
+            typeof(WpfAppBootstrapper<>).Assembly,
+            typeof(DummyClass).Assembly
         }.Concat(base.SelectAssemblies()).Distinct();
 
         protected virtual void SetupRx(IMutableDependencyResolver dependencyResolver) {
             var viewLocator = new DefaultViewLocator();
-            dependencyResolver.Register(() => viewLocator, typeof (IViewLocator));
+            dependencyResolver.Register(() => viewLocator, typeof(IViewLocator));
         }
 
         protected virtual void SetupViewNamespaces() {
@@ -75,7 +75,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             ViewLocator.LocateForModel = (o, dependencyObject, arg3) => {
                 var v = original(o, dependencyObject, arg3);
                 // TODO: Lacks CM's Context/target support
-                if (v == null || v is TextBlock) {
+                if ((v == null) || v is TextBlock) {
                     var rxv = (UIElement) ReactiveUI.ViewLocator.Current.ResolveView(o);
                     if (rxv != null)
                         v = rxv;

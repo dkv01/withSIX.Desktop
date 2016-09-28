@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
@@ -13,16 +12,16 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.IronFront, Name = "Iron Front", Slug = "Iron-Front",
-        Executables = new[] {"ironfront.exe"},
-        ServerExecutables = new[] {"ironfrontserver.exe"},
-        LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer})
+         Executables = new[] {"ironfront.exe"},
+         ServerExecutables = new[] {"ironfrontserver.exe"},
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer})
     ]
     [RegistryInfo(BohemiaStudioRegistry + @"\Ironfront", "main")]
     [SteamInfo(91330, "IronFront")]
     [RvProfileInfo("ironfront", "ironfront other profiles",
-        "IFProfile")]
+         "IFProfile")]
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb"
-        /*GameUUids.IronFront */)]
+         /*GameUUids.IronFront */)]
     [DataContract]
     public class IronFrontGame : RealVirtualityGame
     {

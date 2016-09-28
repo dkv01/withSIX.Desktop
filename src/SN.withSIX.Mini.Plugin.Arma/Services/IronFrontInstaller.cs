@@ -56,19 +56,19 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
                     "8856c9df9c7caacb95a5073a6fab5fc7571c8bda"),
                 // TODO: We could actually just use 'multiple source checksums' so as array ?
                 new VersionDescription("1.07", "818e6332abe89c82ae19a151222e55123bfd3d36")) {
-                    ChecksumFile = @"@LIB_DLC_1\addons\if_dlc_mpmissions.pbo"
-                },
+                ChecksumFile = @"@LIB_DLC_1\addons\if_dlc_mpmissions.pbo"
+            },
             new DlcPatch(
                 new VersionDescription("1.01", "ca3311650b5be7b44bc1fd245b598c8116654274"),
                 new VersionDescription("1.06", "84e1a3d53d75d6cdcb689d597fadd2cc41cf3c07")) {
-                    ChecksumFile = @"@LIB_DLC_1\addons\if_dlc_mpmissions.pbo"
-                },
+                ChecksumFile = @"@LIB_DLC_1\addons\if_dlc_mpmissions.pbo"
+            },
             // ARMA2CO only
             new DlcPatch(
                 new VersionDescription("1.03", "2dc86bb13c411f054b62fd761cf96a161cfa3f2d"),
                 new VersionDescription("1.06", "84e1a3d53d75d6cdcb689d597fadd2cc41cf3c07")) {
-                    ChecksumFile = @"@LIB_DLC_1\addons\if_dlc_mpmissions.pbo"
-                },
+                ChecksumFile = @"@LIB_DLC_1\addons\if_dlc_mpmissions.pbo"
+            },
             new DlcPatch(
                 new VersionDescription("1.06", "80accb516b890f550372e0b4c77d4117954d875c"),
                 dlc107Patch),
@@ -156,7 +156,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
 
             string lastVersion = null;
             foreach (var dlcPatch in communityDlcPatches.Skip(communityDlcPatches.IndexOf(first))) {
-                if (lastVersion != null && dlcPatch.From.Version != lastVersion)
+                if ((lastVersion != null) && (dlcPatch.From.Version != lastVersion))
                     continue;
                 DownloadAndInstallCommunityPatch(spec, dlcPatch.GetFileName(spec.Game, dlcEdition));
                 lastVersion = dlcPatch.To.Version;
@@ -174,7 +174,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
 
             string lastVersion = null;
             foreach (var gamePatch in communityGamePatches.Skip(communityGamePatches.IndexOf(first))) {
-                if (lastVersion != null && gamePatch.From.Version != lastVersion)
+                if ((lastVersion != null) && (gamePatch.From.Version != lastVersion))
                     continue;
                 DownloadAndInstallCommunityPatch(spec, gamePatch.GetFileName(spec.Game));
                 lastVersion = gamePatch.To.Version;
@@ -193,7 +193,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
             => ConfirmChecksum(spec.GamePath.GetChildFileWithName(file), sha);
 
         static bool ConfirmChecksum(IAbsoluteFilePath filePath, string expectedSha)
-            => filePath.Exists && Tools.HashEncryption.SHA1FileHash(filePath) == expectedSha;
+            => filePath.Exists && (Tools.HashEncryption.SHA1FileHash(filePath) == expectedSha);
 
         static bool GetGameLatestPatchedStatus(IronFrontInfo spec) {
             var latestGamePatch = communityGamePatches.Last();
@@ -203,7 +203,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         void ProcessCommunityGamePatches(IronFrontInfo spec) {
             string lastVersion = null;
             foreach (var gamePatch in communityGamePatches) {
-                if (lastVersion != null && gamePatch.From.Version != lastVersion)
+                if ((lastVersion != null) && (gamePatch.From.Version != lastVersion))
                     continue;
                 DownloadAndInstallCommunityPatch(spec, gamePatch.GetFileName(spec.Game));
                 lastVersion = gamePatch.To.Version;
@@ -266,7 +266,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
             var dlcEdition = GetDlcType(spec.IFDlcSourcePath);
             string lastVersion = null;
             foreach (var dlcPatch in communityDlcPatches) {
-                if (lastVersion != null && dlcPatch.From.Version != lastVersion)
+                if ((lastVersion != null) && (dlcPatch.From.Version != lastVersion))
                     continue;
                 DownloadAndInstallCommunityPatch(spec, dlcPatch.GetFileName(spec.Game, dlcEdition));
                 lastVersion = dlcPatch.To.Version;
@@ -366,7 +366,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         }
 
         static bool IsRequiredVersion(Version exeVersion)
-            => exeVersion.Major == requiredVersion.Major && exeVersion.Minor == requiredVersion.Minor;
+            => (exeVersion.Major == requiredVersion.Major) && (exeVersion.Minor == requiredVersion.Minor);
 
         void InstallOfficialPatch0To3(IronFrontInfo ifaSpec, bool esd) {
             InstallOfficialPatch(esd ? OfficialGameInfo.Patch0To3Esd : OfficialGameInfo.Patch0To3, ifaSpec.TempPath,
@@ -430,7 +430,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
 
         class DlcPatch : Patch
         {
-            public DlcPatch(VersionDescription from, VersionDescription to) : base(@from, to) {
+            public DlcPatch(VersionDescription from, VersionDescription to) : base(from, to) {
                 ChecksumFile = @"@LIB_DLC_1\addons\lib_dlc_core.pbo";
             }
 
@@ -444,7 +444,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         {
             readonly VersionDescriptionEdition _from;
 
-            public EditionSensitiveDlcPatch(VersionDescriptionEdition from, VersionDescription to) : base(@from, to) {
+            public EditionSensitiveDlcPatch(VersionDescriptionEdition from, VersionDescription to) : base(from, to) {
                 _from = from;
             }
 
@@ -458,7 +458,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
 
         class GamePatch : Patch
         {
-            public GamePatch(VersionDescription from, VersionDescription to) : base(@from, to) {
+            public GamePatch(VersionDescription from, VersionDescription to) : base(from, to) {
                 ChecksumFile = @"@IF\Addons\lib_core.pbo";
             }
 
@@ -484,7 +484,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         abstract class Patch
         {
             protected Patch(VersionDescription from, VersionDescription to) {
-                From = @from;
+                From = from;
                 To = to;
             }
 

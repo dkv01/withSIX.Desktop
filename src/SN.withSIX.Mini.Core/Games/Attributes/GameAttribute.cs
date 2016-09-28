@@ -3,8 +3,8 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -39,7 +39,10 @@ namespace SN.withSIX.Mini.Core.Games.Attributes
         public Guid Id { get; }
 
         public IEnumerable<IRelativeFilePath> GetExecutables() => Executables.ToRelativeFilePaths();
-        public IEnumerable<IRelativeFilePath> GetMultiplayerExecutables() => MultiplayerExecutables.ToRelativeFilePaths();
+
+        public IEnumerable<IRelativeFilePath> GetMultiplayerExecutables()
+            => MultiplayerExecutables.ToRelativeFilePaths();
+
         public IEnumerable<IRelativeFilePath> GetServerExecutables() => ServerExecutables.ToRelativeFilePaths();
 
         public IEnumerable<IRelativeFilePath> GetAllExecutables()

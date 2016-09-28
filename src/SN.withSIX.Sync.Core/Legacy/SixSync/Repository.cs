@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -19,6 +18,7 @@ using SN.withSIX.Sync.Core.Repositories.Internals;
 using SN.withSIX.Sync.Core.Services;
 using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Publishing;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
@@ -188,7 +188,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             if (string.IsNullOrWhiteSpace(PackVersion.ArchiveFormat))
                 PackVersion.ArchiveFormat = DefaultArchiveFormat;
 
-            if (checkFormat && WdVersion.ArchiveFormat != PackVersion.ArchiveFormat) {
+            if (checkFormat && (WdVersion.ArchiveFormat != PackVersion.ArchiveFormat)) {
                 throw new Exception(
                     $"Local and remote archive format does not match: {WdVersion.ArchiveFormat} vs {PackVersion.ArchiveFormat}");
             }
@@ -350,7 +350,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             this.Logger().Info("Creating missing pack file: {0}", gz);
             Pack(file, dstFile);
 
-            if (createZsyncFiles && ArchiveFormat != ".7z")
+            if (createZsyncFiles && (ArchiveFormat != ".7z"))
                 CreateZsyncFile(gz);
 
             WdVersion.Pack[gz] = RepoTools.TryGetChecksum(dstFile, gz);
@@ -525,7 +525,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             }
 
             WdVersion.Guid = PackVersion.Guid;
-            if (changeLock || WdVersion.Version != PackVersion.Version) {
+            if (changeLock || (WdVersion.Version != PackVersion.Version)) {
                 UpdateRepoInfo();
                 this.Logger().Info("New repository version: {0}, Pack Size: {1}, WD Size: {2}",
                     WdVersion.Version, WdVersion.PackSize*1024,
@@ -571,7 +571,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         void TryCleanupTmpFiles() {
             var di = PackFolder.DirectoryInfo;
             foreach (var fi in TempExtensions.SelectMany(ex => di.EnumerateFiles("*" + ex, SearchOption.AllDirectories))
-                )
+            )
                 TryDeleteFile(fi);
         }
 
@@ -606,7 +606,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 while (!match) {
                     await DownloadManager.FetchFileAsync(spec).ConfigureAwait(false);
                     match = ConfirmMatch();
-                    if (!match && spec.CurrentHost != null)
+                    if (!match && (spec.CurrentHost != null))
                         DownloadManager.HostPicker.MarkBad(spec.CurrentHost);
 
                     spec.Status.ResetZsyncLoopInfo();
@@ -634,9 +634,9 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         bool ConfirmMatch() {
             try {
                 var repo = SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(GetPackFile(VersionFileName));
-                if ((RequiredVersion == null && RequiredGuid == null)
-                    || ((RequiredVersion == null || repo.Version == RequiredVersion)
-                        && (RequiredGuid == null || repo.Guid == RequiredGuid)))
+                if (((RequiredVersion == null) && (RequiredGuid == null))
+                    || (((RequiredVersion == null) || (repo.Version == RequiredVersion))
+                        && ((RequiredGuid == null) || (repo.Guid == RequiredGuid))))
                     return true;
                 this.Logger()
                     .Warn("Failed, did not match expected version or GUID. Found: {0}@{1}", repo.Guid, repo.Version);
@@ -743,8 +743,8 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 ? MultiThreadingSettings.MaxThreads
                 : 1;
 
-            if (DownloadManager.HostPicker.HostStates.Count > 0 &&
-                DownloadManager.HostPicker.HostStates.Count*3 < maxThreads)
+            if ((DownloadManager.HostPicker.HostStates.Count > 0) &&
+                (DownloadManager.HostPicker.HostStates.Count*3 < maxThreads))
                 maxThreads = DownloadManager.HostPicker.HostStates.Count*3;
 
             StatusRepo.ProcessSize(unchanged, PackFolder, PackVersion.PackSize);
@@ -763,7 +763,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         }
 
         async Task ProcessPackChange(string item, bool changesOnly) {
-           StatusRepo.CancelToken.ThrowIfCancellationRequested();
+            StatusRepo.CancelToken.ThrowIfCancellationRequested();
             var status = CreateStatus(item);
             StartOutput(status);
             await TryProcessPackChange(status, changesOnly).ConfigureAwait(false);
@@ -808,7 +808,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             var files = Tools.FileUtil.OrderBySize(GetFiles(dir), true);
 
             if (MultiThreadingSettings.IsEnabled && MultiThreadingSettings.Checksums &&
-                MultiThreadingSettings.MaxThreads2 > 1) {
+                (MultiThreadingSettings.MaxThreads2 > 1)) {
                 if (ignoreDeleted) {
                     foreach (var file in files) {
                         if (!pv.ContainsKey(file)) {
@@ -839,8 +839,8 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 .Where(x => {
                     var ext = Path.GetExtension(x);
                     return IgnoredExtensions.None(
-                        y =>
-                            y.Equals(ext, StringComparison.OrdinalIgnoreCase))
+                               y =>
+                                       y.Equals(ext, StringComparison.OrdinalIgnoreCase))
                            &&
                            !Config.Exclude.Any(
                                y =>
@@ -853,8 +853,8 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                             .Replace("\\", "/"))
                 .Where(
                     x =>
-                        Path.GetFileName(x) == Package.SynqInfoFile || (!x.StartsWith(".") &&
-                                                                        !Path.GetFileName(x).StartsWith(".")));
+                        (Path.GetFileName(x) == Package.SynqInfoFile) || (!x.StartsWith(".") &&
+                                                                          !Path.GetFileName(x).StartsWith(".")));
         }
 
         public virtual void Commit(bool changeVersion = true, bool createZsyncFiles = true) {
@@ -948,11 +948,11 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
             if (save) {
                 SaveVersions();
-                if (createZsyncFiles && ArchiveFormat != ".7z")
+                if (createZsyncFiles && (ArchiveFormat != ".7z"))
                     CreateZsyncFile(VersionFileName);
             }
 
-            if (createZsyncFiles && ArchiveFormat != ".7z") {
+            if (createZsyncFiles && (ArchiveFormat != ".7z")) {
                 this.Logger().Info("Checking for missing zsync files...");
                 FixMissingZsyncFiles();
             }
@@ -989,7 +989,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             var dstFile = GetPackFile(gz);
             Pack(file, dstFile);
 
-            if (createZsyncFiles && ArchiveFormat != ".7z")
+            if (createZsyncFiles && (ArchiveFormat != ".7z"))
                 CreateZsyncFile(gz);
 
             WdVersion.WD[change] = RepoTools.TryGetChecksum(file, change);
@@ -1105,7 +1105,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                     continue;
                 }
 
-                if (!wdDc.ContainsKey(dc) || wdDc[dc] != pair.Value) {
+                if (!wdDc.ContainsKey(dc) || (wdDc[dc] != pair.Value)) {
                     changed.Add(pair.Key);
                     continue;
                 }
@@ -1136,7 +1136,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
         }
 
         protected virtual bool IncludeMatch(string key, RepositoryFileType type = RepositoryFileType.Wd) {
-            if (Config.Include == null || !Config.Include.Any())
+            if ((Config.Include == null) || !Config.Include.Any())
                 return true;
 
             return true;

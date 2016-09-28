@@ -6,7 +6,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -66,7 +65,8 @@ namespace SN.withSIX.Core
 
         public static Uri FlashUri { get; } =
             new Uri(
-                "https://fpdownload.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_21_ppapi.exe");
+                "https://fpdownload.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_21_ppapi.exe")
+            ;
         public static Uri UsercontentCdnProduction { get; } =
             new Uri("https://" + Buckets.WthSiUsercontentProduction.CdnHostname);
         public static string TwitterUrl { get; } = @"https://twitter.com/SixNetworks";
@@ -110,8 +110,8 @@ namespace SN.withSIX.Core
 
         public static class AuthorizationEndpoints
         {
-            public static string SyncClientName { get; } = "mini";
             static readonly Uri baseAddress = UrlBuilder.GetUri("https", "auth");
+            public static string SyncClientName { get; } = "mini";
             public static Uri AuthorizeEndpoint { get; } = new Uri(baseAddress, "/identity/connect/authorize");
             public static Uri LogoutEndpoint { get; } = new Uri(baseAddress, "/identity/connect/endsession");
             public static Uri TokenEndpoint { get; } = new Uri(baseAddress, "/identity/connect/token");
@@ -315,13 +315,13 @@ namespace SN.withSIX.Core
             Environment = Environment = Bla.GetHostType().ToString().ToLower();
             if (!environments.Contains(Environment))
                 throw new NotSupportedException("Unsupported environment: " + Environment);
-            IsLocal = Environment == Local || Environment == Local2;
+            IsLocal = (Environment == Local) || (Environment == Local2);
             localCloudHosts = GetLocalHosts();
             Host = GetHost();
             Origins = GetOrigins().ToArray();
             CdnUrl = GetCdnUrl();
             //if (Common.Flags.Staging)
-              //  Bla.IgnoreBadCertificates();
+            //  Bla.IgnoreBadCertificates();
         }
 
         public static string[] Origins { get; }

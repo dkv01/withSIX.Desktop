@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;

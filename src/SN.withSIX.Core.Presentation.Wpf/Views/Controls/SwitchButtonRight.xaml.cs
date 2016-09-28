@@ -11,15 +11,15 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public partial class SwitchButtonRight : UserControl
     {
         public static readonly DependencyProperty SwitchCommandProperty =
-            DependencyProperty.Register("SwitchCommand", typeof (ICommand), typeof (SwitchButtonRight),
+            DependencyProperty.Register("SwitchCommand", typeof(ICommand), typeof(SwitchButtonRight),
                 new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty IsSwitchEnabledProperty =
-            DependencyProperty.Register("IsSwitchEnabled", typeof (bool), typeof (SwitchButtonRight),
+            DependencyProperty.Register("IsSwitchEnabled", typeof(bool), typeof(SwitchButtonRight),
                 new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof (string),
-            typeof (SwitchButtonRight), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string),
+            typeof(SwitchButtonRight), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty ActiveItemProperty = DependencyProperty.Register("ActiveItem",
-            typeof (object), typeof (SwitchButtonRight), new PropertyMetadata(default(object)));
+            typeof(object), typeof(SwitchButtonRight), new PropertyMetadata(default(object)));
 
         public SwitchButtonRight() {
             InitializeComponent();

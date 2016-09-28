@@ -11,18 +11,18 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public partial class CloseButton : UserControl
     {
         public static readonly DependencyProperty SwitchCommandProperty =
-            DependencyProperty.Register("SwitchCommand", typeof (ICommand), typeof (CloseButton),
+            DependencyProperty.Register("SwitchCommand", typeof(ICommand), typeof(CloseButton),
                 new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof (string), typeof (CloseButton),
+            DependencyProperty.Register("Header", typeof(string), typeof(CloseButton),
                 new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty SmallHeaderProperty =
-            DependencyProperty.Register("SmallHeader", typeof (bool), typeof (CloseButton),
+            DependencyProperty.Register("SmallHeader", typeof(bool), typeof(CloseButton),
                 new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty IsCancelProperty = DependencyProperty.Register("IsCancel",
-            typeof (bool), typeof (CloseButton), new PropertyMetadata(default(bool)));
+            typeof(bool), typeof(CloseButton), new PropertyMetadata(default(bool)));
         public static readonly DependencyProperty IsDefaultProperty = DependencyProperty.Register("IsDefault",
-            typeof (bool), typeof (CloseButton), new PropertyMetadata(default(bool)));
+            typeof(bool), typeof(CloseButton), new PropertyMetadata(default(bool)));
 
         public CloseButton() {
             InitializeComponent();

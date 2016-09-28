@@ -68,7 +68,7 @@ namespace SN.withSIX.Steam.Api.Services
 
         private IObservable<T> ProcessCallback<T>(SteamAPICall_t call) =>
             call.CreateObservableFromCallresults<T>(_sessionLocator.Session)
-            .Take(1);
+                .Take(1);
 
         public IObservable<T> CreateObservableFromCallback<T>()
             => Observable.Create<T>(observer => {

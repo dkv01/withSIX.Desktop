@@ -5,8 +5,6 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;

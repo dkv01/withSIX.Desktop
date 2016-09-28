@@ -2,21 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-
 namespace SN.withSIX.Mini.Plugin.Arma.Models.Legacy
 {
     /*

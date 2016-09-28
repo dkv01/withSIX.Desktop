@@ -76,8 +76,8 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         private static IAbsoluteDirectoryPath GetPackFolder(IReadOnlyDictionary<string, object> opts,
             IAbsoluteDirectoryPath rsyncFolder) => opts.ContainsKey("pack_path")
-                ? ((string) opts["pack_path"]).ToAbsoluteDirectoryPath()
-                : rsyncFolder.GetChildDirectoryWithName(Repository.PackFolderName);
+            ? ((string) opts["pack_path"]).ToAbsoluteDirectoryPath()
+            : rsyncFolder.GetChildDirectoryWithName(Repository.PackFolderName);
 
         Repository TryGetRepository(IAbsoluteDirectoryPath folder, Dictionary<string, object> opts,
             IAbsoluteDirectoryPath rsyncFolder) {
@@ -154,7 +154,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             if (opts == null)
                 opts = new Dictionary<string, object>();
 
-            var hosts = opts.ContainsKey("hosts") && opts["hosts"] != null ? (Uri[]) opts["hosts"] : new Uri[0];
+            var hosts = opts.ContainsKey("hosts") && (opts["hosts"] != null) ? (Uri[]) opts["hosts"] : new Uri[0];
             var repo = Init(folder.ToAbsoluteDirectoryPath(), hosts, opts);
             repo.Commit(false, false);
             return repo;

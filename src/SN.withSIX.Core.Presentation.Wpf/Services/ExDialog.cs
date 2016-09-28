@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="ExDialog.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Windows;
 using System.Windows.Threading;
@@ -10,7 +14,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
     public class ExDialog
     {
         public static void SetupExceptionHandler(Application app) {
-            app.DispatcherUnhandledException += ExDialog.OnDispatcherUnhandledException;
+            app.DispatcherUnhandledException += OnDispatcherUnhandledException;
             //AppDomain.CurrentDomain.UnhandledException += ExDialog.CurrentDomainOnUnhandledException;
         }
 

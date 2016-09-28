@@ -31,16 +31,17 @@ using Player = SN.withSIX.Mini.Core.Games.Player;
 namespace SN.withSIX.Mini.Plugin.Starbound.Models
 {
     [Game(GameIds.Starbound,
-        Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"},
-        ServerExecutables = new[] { @"win64\starbound_server.exe", @"win32\starbound_server.exe" },
-        Name = "Starbound",
-        IsPublic = true,
-        Slug = "Starbound")]
+         Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"},
+         ServerExecutables = new[] {@"win64\starbound_server.exe", @"win32\starbound_server.exe"},
+         Name = "Starbound",
+         IsPublic = true,
+         Slug = "Starbound")]
     [SynqRemoteInfo(GameIds.Starbound)]
     [SteamInfo(SteamGameIds.Starbound, "Starbound")]
     [DataContract]
     public class StarboundGame : BasicSteamGame, IQueryServers
     {
+        private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
         private readonly Lazy<IRelativeFilePath[]> _executables;
         private readonly Lazy<IRelativeFilePath[]> _serverExecutables;
 
@@ -53,6 +54,37 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 new Lazy<IRelativeFilePath[]>(() => Common.Flags.Is64BitOperatingSystem
                     ? Metadata.GetServerExecutables().ToArray()
                     : Metadata.GetServerExecutables().Skip(1).ToArray());
+        }
+
+        public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
+            var master = new SourceMasterQuery("starbound");
+            var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
+            return r.Select(x => x.Address).ToList();
+        }
+
+        public async Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
+            bool inclExtendedDetails = false) {
+            var infos = new List<ServerInfo>();
+            // TODO: Use serverquery queue ?
+            foreach (var a in addresses) {
+                var serverInfo = new ServerInfo {Address = a};
+                infos.Add(serverInfo);
+                var server = new Server(serverInfo);
+                using (
+                    var serverQueryState = new ServerQueryState(server, sourceQueryParser) {
+                        HandlePlayers = inclExtendedDetails
+                    }
+                ) {
+                    var q = new SourceServerQuery(serverQueryState, "arma3");
+                    await q.UpdateAsync().ConfigureAwait(false);
+                    try {
+                        serverQueryState.UpdateServer();
+                    } catch (Exception ex) {
+                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.Address);
+                    }
+                }
+            }
+            return infos;
         }
 
         // Temporary disabled because of server join testing
@@ -103,7 +135,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         //private static readonly string[] defaultStartupParameters = {"-noworkshop"};
 
-        protected override IEnumerable<string> GetStartupParameters(ILaunchContentAction<IContent> action) => GetAdvancedStartupParameters(action).Concat(base.GetStartupParameters(action));
+        protected override IEnumerable<string> GetStartupParameters(ILaunchContentAction<IContent> action)
+            => GetAdvancedStartupParameters(action).Concat(base.GetStartupParameters(action));
 
         private IEnumerable<string> GetAdvancedStartupParameters(ILaunchContentAction<IContent> action) {
             var launchables = action.GetLaunchables();
@@ -145,8 +178,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
         private StarboundMod CreateMod(IModContent mod)
             =>
-                new StarboundMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory(),
-                    InstalledState.Directory);
+            new StarboundMod(mod, GetContentSourceDirectory(mod), GetModInstallationDirectory(),
+                InstalledState.Directory);
 
         public override Uri GetPublisherUrl(ContentPublisher c) {
             switch (c.Publisher) {
@@ -181,18 +214,18 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
             protected override async Task InstallImpl(bool force) {
                 _modDir.MakeSurePathExists();
-                var exts = new[] { ".pak", ".modpak" };
+                var exts = new[] {".pak", ".modpak"};
                 var destPakFile = _modDir.GetChildFileWithName($"{Mod.PackageName}.pak");
                 if (!force && destPakFile.Exists) // TODO: Date check
                     return;
-                
+
                 // TODO: Support mods without Paks, as folder ? Or mark as not-installable
                 var sourcePakFiles =
                     exts.SelectMany(x => SourcePath.DirectoryInfo.EnumerateFiles($"*{x}", SearchOption.AllDirectories))
                         .Select(x => x.ToAbsoluteFilePath()).ToArray();
                 var sourcePak = sourcePakFiles.FirstOrDefault();
                 IAbsoluteFilePath sourcePakPath;
-                if (sourcePak == null || !sourcePak.Exists) {
+                if ((sourcePak == null) || !sourcePak.Exists) {
                     var modInfo =
                         SourcePath.DirectoryInfo.EnumerateFiles("*.modinfo", SearchOption.AllDirectories)
                             .FirstOrDefault();
@@ -257,37 +290,6 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             }
         }
 
-        public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
-            var master = new SourceMasterQuery("starbound");
-            var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
-            return r.Select(x => x.Address).ToList();
-        }
-
-        private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
-
-        public async Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclExtendedDetails = false) {
-            var infos = new List<ServerInfo>();
-            // TODO: Use serverquery queue ?
-            foreach (var a in addresses) {
-                var serverInfo = new ServerInfo { Address = a };
-                infos.Add(serverInfo);
-                var server = new Server(serverInfo);
-                using (
-                    var serverQueryState = new ServerQueryState(server, sourceQueryParser) { HandlePlayers = inclExtendedDetails }
-                    ) {
-                    var q = new SourceServerQuery(serverQueryState, "arma3");
-                    await q.UpdateAsync().ConfigureAwait(false);
-                    try {
-                        serverQueryState.UpdateServer();
-                    } catch (Exception ex) {
-                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.Address);
-                    }
-                }
-            }
-            return infos;
-        }
-
         // TODO: Customize
         public class Server : IServer
         {
@@ -302,7 +304,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             public bool IsUpdating { get; set; }
 
             public void UpdateStatus(Status status) {
-                Info.Status = (int)status;
+                Info.Status = (int) status;
             }
 
             public void UpdateInfoFromResult(ServerQueryResult result) {
@@ -313,7 +315,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                 Info.NumPlayers = result.GetSettingOrDefault("playerCount").TryInt();
                 Info.MaxPlayers = result.GetSettingOrDefault("playerMax").TryInt();
                 var port = result.GetSettingOrDefault("port").TryInt();
-                if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+                if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                     port = Info.Address.Port - 1;
                 Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
                 Info.Mods = GetList(result.Settings, "modNames").ToList();
@@ -324,7 +326,7 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     new SourceTagParser(tags, Info).HandleTags();
                 Info.Players =
                     result.Players.OfType<SourcePlayer>()
-                        .Select(x => new Player { Name = x.Name, Score = x.Score, Duration = x.Duration })
+                        .Select(x => new Player {Name = x.Name, Score = x.Score, Duration = x.Duration})
                         .ToList();
             }
 
@@ -335,10 +337,11 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
             static IEnumerable<string> GetList(IEnumerable<KeyValuePair<string, string>> dict, string keyWord) {
                 var rx = GetRx(keyWord);
                 return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
-                                        let w = rx.Match(kvp.Key)
-                                        where w.Success
-                                        select new { Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value })
-                    .OrderBy(x => x.Index).SelectMany(x => x.Value))
+                            let w = rx.Match(kvp.Key)
+                            where w.Success
+                            select
+                            new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
+                        .OrderBy(x => x.Index).SelectMany(x => x.Value))
                     .Split(';')
                     .Where(x => !string.IsNullOrWhiteSpace(x));
             }
@@ -349,7 +352,8 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
                     return rx;
                 return
                     rxCache[keyWord] =
-                        new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$",
+                            RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
 
             class SourceTagParser
@@ -389,13 +393,14 @@ namespace SN.withSIX.Mini.Plugin.Starbound.Models
 
                 static string JoinChar(IEnumerable<char> enumerable) => string.Join("", enumerable);
 
-                bool ParseBool(string key) => _settings.ContainsKey(key) && _settings[key] == "t";
+                bool ParseBool(string key) => _settings.ContainsKey(key) && (_settings[key] == "t");
 
                 string ParseString(string key) => _settings.ContainsKey(key) ? _settings[key] : null;
 
                 int? ParseInt(string key) => _settings.ContainsKey(key) ? _settings[key].TryIntNullable() : null;
 
-                double? ParseDouble(string key) => _settings.ContainsKey(key) ? _settings[key].TryDouble() : (double?)null;
+                double? ParseDouble(string key)
+                    => _settings.ContainsKey(key) ? _settings[key].TryDouble() : (double?) null;
 
                 public void HandleTags() {
                     _server.VerifySignatures = ParseBool("v") ? 2 : 0;

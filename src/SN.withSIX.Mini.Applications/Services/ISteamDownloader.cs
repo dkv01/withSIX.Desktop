@@ -2,12 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using NDepend.Path;
-using withSIX.Api.Models.Exceptions;
-
 namespace SN.withSIX.Mini.Applications.Services
 {
     /*

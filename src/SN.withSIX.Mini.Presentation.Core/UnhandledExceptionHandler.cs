@@ -13,11 +13,11 @@ namespace SN.withSIX.Mini.Presentation.Core
 {
     public class UnhandledExceptionHandler : DefaultExceptionHandler, IPresentationService
     {
+        public UnhandledExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
+
         protected override UserErrorModel HandleExceptionInternal(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
             return Handle((dynamic) ex, action);
         }
-
-        public UnhandledExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
     }
 }

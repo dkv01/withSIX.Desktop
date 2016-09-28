@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ReactiveUI;
-using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM;
@@ -22,7 +21,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Bridge.Extensions;
-using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
@@ -68,7 +66,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             var viewLocator = new DefaultViewLocator();
             // If we use the withSIX.Core.Presentation.Wpf.Services. one then we get Reactivecommands as text etc..
             //var jsonSerializerSettings = new JsonSerializerSettings() { DateTimeZoneHandling = DateTimeZoneHandling.Utc };
-            DependencyResolver.Register(() => viewLocator, typeof (IViewLocator));
+            DependencyResolver.Register(() => viewLocator, typeof(IViewLocator));
             //_dependencyResolver.Register(() => jsonSerializerSettings, typeof (JsonSerializerSettings));
         }
 
@@ -102,7 +100,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             ViewLocator.LocateForModel = (o, dependencyObject, arg3) => {
                 var v = original(o, dependencyObject, arg3);
                 // TODO: Lacks CM's Context/target support
-                if (v == null || v is TextBlock) {
+                if ((v == null) || v is TextBlock) {
                     var rxv = (UIElement) ReactiveUI.ViewLocator.Current.ResolveView(o);
                     if (rxv != null)
                         v = rxv;
@@ -134,8 +132,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     .InvokeCommand(command);
             };
             RxApp.SupportsRangeNotifications = false; // WPF doesnt :/
-            SimpleInjectorContainerExtensions.RegisterReserved(typeof (IHandle), typeof (IScreen));
-            SimpleInjectorContainerExtensions.RegisterReservedRoot(typeof (IHandle));
+            SimpleInjectorContainerExtensions.RegisterReserved(typeof(IHandle), typeof(IScreen));
+            SimpleInjectorContainerExtensions.RegisterReservedRoot(typeof(IHandle));
         }
 
         async Task HandlemainVm() => _mainVm = await new GetMiniMain().ExecuteWrapped().ConfigureAwait(false);
@@ -189,13 +187,13 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override IEnumerable<Assembly> GetApplicationAssemblies()
             =>
-                base.GetApplicationAssemblies()
-                    .Concat(new[] {typeof (IWpfStartupManager).Assembly, typeof (GetMiniMain).Assembly});
+            base.GetApplicationAssemblies()
+                .Concat(new[] {typeof(IWpfStartupManager).Assembly, typeof(GetMiniMain).Assembly});
 
         protected override IEnumerable<Assembly> GetPresentationAssemblies()
             =>
-                new[] {typeof (App).Assembly}.Concat(
-                    base.GetPresentationAssemblies().Concat(new[] {typeof (SingleInstanceApp).Assembly}));
+            new[] {typeof(App).Assembly}.Concat(
+                base.GetPresentationAssemblies().Concat(new[] {typeof(SingleInstanceApp).Assembly}));
 
         protected override void ConfigureInstances() {
             base.ConfigureInstances();

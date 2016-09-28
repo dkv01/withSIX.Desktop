@@ -17,8 +17,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         /// </summary>
         public static readonly DependencyProperty EscapeClosesWindowProperty = DependencyProperty.RegisterAttached(
             "EscapeClosesWindow",
-            typeof (bool),
-            typeof (WindowCloseBehavior),
+            typeof(bool),
+            typeof(WindowCloseBehavior),
             new FrameworkPropertyMetadata(false, OnEscapeClosesWindowChanged));
 
         /// <summary>

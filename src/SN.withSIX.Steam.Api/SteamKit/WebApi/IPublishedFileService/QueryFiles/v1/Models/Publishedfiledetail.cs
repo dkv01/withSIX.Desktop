@@ -27,9 +27,9 @@ namespace SN.withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.
         public string hcontent_preview { get; set; }
         public string title { get; set; }
         public string file_description { get; set; }
-        [JsonConverter(typeof (UnixTimestampConverter))]
+        [JsonConverter(typeof(UnixTimestampConverter))]
         public DateTime? time_created { get; set; }
-        [JsonConverter(typeof (UnixTimestampConverter))]
+        [JsonConverter(typeof(UnixTimestampConverter))]
         public DateTime? time_updated { get; set; }
         public int visibility { get; set; }
         public int flags { get; set; }

@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -30,7 +29,8 @@ namespace SN.withSIX.Mini.Applications.Extensions
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message)
             => message.Execute(Cheat.Mediator);
 
-        public static Task<TResponseData> Execute<TResponseData>(this ICancellableAsyncRequest<TResponseData> message, CancellationToken cancelToken)
+        public static Task<TResponseData> Execute<TResponseData>(this ICancellableAsyncRequest<TResponseData> message,
+                CancellationToken cancelToken)
             => message.Execute(Cheat.Mediator, cancelToken);
 
         // We are using dynamic here because we don't want to care about Async or Sync handlers for notifications

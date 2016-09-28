@@ -23,10 +23,10 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public string PublisherId { get; }
 
-        public bool Equals(ContentPublisher other) => other != null &&
+        public bool Equals(ContentPublisher other) => (other != null) &&
                                                       (ReferenceEquals(this, other) ||
-                                                       (other.Publisher == Publisher &&
-                                                        other.PublisherId == PublisherId));
+                                                       ((other.Publisher == Publisher) &&
+                                                        (other.PublisherId == PublisherId)));
 
         public override int GetHashCode() {
             unchecked {

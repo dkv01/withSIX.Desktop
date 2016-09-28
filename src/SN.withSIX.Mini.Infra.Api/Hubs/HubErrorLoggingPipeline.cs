@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Logging;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Infra.Api.Hubs
 {
@@ -51,7 +51,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
                 .Select(x => x.Key.Name + ": (" + x.Value.GetType() + ") " + x);
 
         static IEnumerable<KeyValuePair<ParameterDescriptor, object>> GetMethodParameterInfo(
-            IHubIncomingInvokerContext invokerContext)
+                IHubIncomingInvokerContext invokerContext)
             => invokerContext.MethodDescriptor.Parameters.Zip(invokerContext.Args,
                 (descriptor, o) => new KeyValuePair<ParameterDescriptor, object>(descriptor, o));
     }

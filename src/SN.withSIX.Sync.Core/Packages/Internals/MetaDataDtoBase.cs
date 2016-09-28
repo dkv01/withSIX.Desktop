@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-
-using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Packages.Internals
@@ -19,7 +17,7 @@ namespace SN.withSIX.Sync.Core.Packages.Internals
         public string Name { get; set; }
         [DataMember, JsonProperty("version")]
         public Version Version { get; set; }
-        [DataMember, JsonProperty("date"), JsonConverter(typeof (ShortDateConverter))]
+        [DataMember, JsonProperty("date"), JsonConverter(typeof(ShortDateConverter))]
         public DateTime? Date { get; set; }
         [DataMember, JsonProperty("release_type")]
         public string ReleaseType { get; set; }

@@ -20,7 +20,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 throw;
             }
         }
-/*
+
+        /*
         public void ByDomain(string path) {
             var dom = AppDomain.CreateDomain("MyDomain", null, path, string.Empty, false);
             dom.ExecuteAssemblyByName("Sync");

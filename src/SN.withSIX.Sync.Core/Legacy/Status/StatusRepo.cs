@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using NDepend.Path;
-
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -17,7 +16,6 @@ using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Sync.Core.Legacy.Status
 {
-    
     public class StatusRepo : ModelBase, IHaveTimestamps
     {
         RepoStatus _action;
@@ -68,7 +66,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
 
         static int GetActiveItemsCount(IEnumerable<IStatus> items) => items.Count(x => {
             var inty = (int) x.Action;
-            return inty > 0 && inty < 900;
+            return (inty > 0) && (inty < 900);
         });
 
         public void Finish() {
@@ -132,6 +130,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         }
 
         #region StatusRepo Members
+
         public ObservableCollection<IStatus> Items { get; } = new ObservableCollection<IStatus>();
 
         public int Total
@@ -254,8 +253,9 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         public int Done { get; }
 
         public bool Equals(StatusInfo other)
-            => other != null && other.Action == Action && other.Progress.Equals(Progress) && other.Speed == Speed &&
-               other.Active == Active && other.Done == Done;
+            =>
+            (other != null) && (other.Action == Action) && other.Progress.Equals(Progress) && (other.Speed == Speed) &&
+            (other.Active == Active) && (other.Done == Done);
 
         public override int GetHashCode()
             => HashCode.Start.Hash(Action).Hash(Progress).Hash(Speed).Hash(Active).Hash(Done);
@@ -279,7 +279,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
             var c = EqualityComparer<T>.Default;
             var h = c.Equals(obj, default(T)) ? 0 : obj.GetHashCode();
             unchecked {
-                h += _hashCode * 31;
+                h += _hashCode*31;
             }
             return new HashCode(h);
         }
@@ -287,7 +287,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Status
         public override int GetHashCode() => _hashCode;
     }
 
-public static class StatusInfoExtensions
+    public static class StatusInfoExtensions
     {
         public static StatusInfo IncrementDone(this StatusInfo statusInfo)
             => new StatusInfo(statusInfo.Action, statusInfo.Progress, statusInfo.Speed, statusInfo.Active,
@@ -308,10 +308,14 @@ public static class StatusInfoExtensions
             return new RepoWatcher(This, current => Call(leaf, inclProgress, c, current.Speed, current.Progress));
         }
 
+        private static void Call(ProgressLeaf leaf, bool inclProgress, AverageContainer2 c, long? speed, double progress) {
+            leaf.Update(c.UpdateSpecial(speed), inclProgress ? progress : leaf.Progress);
+        }
+
         private class RepoWatcher : IDisposable
         {
-            private readonly StatusRepo _repo;
             private readonly Action<StatusInfo> _action;
+            private readonly StatusRepo _repo;
 
             public RepoWatcher(StatusRepo repo, Action<StatusInfo> action) {
                 _repo = repo;
@@ -320,16 +324,12 @@ public static class StatusInfoExtensions
                 _action(repo.Info);
             }
 
+            public void Dispose() => _repo.PropertyChanged -= RepoOnPropertyChanged;
+
             private void RepoOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) {
-                if (propertyChangedEventArgs.PropertyName == "" || propertyChangedEventArgs.PropertyName == "Info")
+                if ((propertyChangedEventArgs.PropertyName == "") || (propertyChangedEventArgs.PropertyName == "Info"))
                     _action(_repo.Info);
             }
-
-            public void Dispose() => _repo.PropertyChanged -= RepoOnPropertyChanged;
-        }
-
-        private static void Call(ProgressLeaf leaf, bool inclProgress, AverageContainer2 c, long? speed, double progress) {
-            leaf.Update(c.UpdateSpecial(speed), inclProgress ? progress : leaf.Progress);
         }
     }
 }

@@ -19,13 +19,11 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Wpf
 {
-    
     enum WM
     {
         NULL = 0x0000,
@@ -146,7 +144,6 @@ namespace SN.withSIX.Core.Presentation.Wpf
     }
 
     [SuppressUnmanagedCodeSecurity]
-    
     static class NativeMethods
     {
         #region Delegates
@@ -173,7 +170,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
                 var result = new string[numArgs];
 
                 for (var i = 0; i < numArgs; i++) {
-                    var currArg = Marshal.ReadIntPtr(argv, i*Marshal.SizeOf(typeof (IntPtr)));
+                    var currArg = Marshal.ReadIntPtr(argv, i*Marshal.SizeOf(typeof(IntPtr)));
                     result[i] = Marshal.PtrToStringUni(currArg);
                 }
 
@@ -186,7 +183,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
         }
     }
 
-    
+
     public static class SingleInstance<TApplication>
         where TApplication : Application, ISingleInstanceApp
 
@@ -234,9 +231,9 @@ namespace SN.withSIX.Core.Presentation.Wpf
                 return SingleInstance<T>.InitializeAsFirstInstance(instanceName, additionalArgs ?? new string[0]);
             } catch (RemotingException e) {
                 if (MessageBox.Show(
-                    "Another version of the application already appears to be running, would you like to close it?\n\n" +
-                    e.Message,
-                    "An older version is probably still running", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                        "Another version of the application already appears to be running, would you like to close it?\n\n" +
+                        e.Message,
+                        "An older version is probably still running", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                     throw;
 
                 return KillOtherInstancesAndRetry<T>(instanceName, executables, additionalArgs);
@@ -361,7 +358,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
 
             // Obtain a reference to the remoting service exposed by the server i.e the first instance of the application
             var firstInstanceRemoteServiceReference =
-                (IPCRemoteService) RemotingServices.Connect(typeof (IPCRemoteService), remotingServiceUrl);
+                (IPCRemoteService) RemotingServices.Connect(typeof(IPCRemoteService), remotingServiceUrl);
 
             // Check that the remote service exists, in some cases the first instance may not yet have created one, in which case
             // the second instance should just exit

@@ -4,7 +4,6 @@
 
 using System;
 
-
 namespace SN.withSIX.Core.Applications.Attributes
 {
     [AttributeUsage(AttributeTargets.Assembly)]

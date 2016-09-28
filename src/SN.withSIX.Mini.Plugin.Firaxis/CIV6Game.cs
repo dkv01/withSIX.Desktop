@@ -9,7 +9,6 @@ namespace SN.withSIX.Mini.Plugin.Firaxis
 {
     public class CIV6Game : CIV5Game
     {
-        public CIV6Game(Guid id, GameSettings settings) : base(id, settings) {
-        }
+        public CIV6Game(Guid id, GameSettings settings) : base(id, settings) {}
     }
 }

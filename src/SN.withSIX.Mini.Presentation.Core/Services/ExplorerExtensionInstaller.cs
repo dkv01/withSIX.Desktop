@@ -11,7 +11,6 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications.Models;

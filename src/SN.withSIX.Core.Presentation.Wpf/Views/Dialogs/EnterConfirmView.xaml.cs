@@ -5,18 +5,16 @@
 using System.Windows;
 using System.Windows.Navigation;
 using ReactiveUI;
-
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.MVVM.Views.Dialogs;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
-    
     public partial class EnterConfirmView : StandardDialog, IEnterConfirmView
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (IEnterConfirmViewModel), typeof (EnterConfirmView),
+            DependencyProperty.Register("ViewModel", typeof(IEnterConfirmViewModel), typeof(EnterConfirmView),
                 new PropertyMetadata(null));
 
         public EnterConfirmView() {
@@ -36,7 +34,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
         }
 
         void hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) {
-            if (e.Uri != null && string.IsNullOrEmpty(e.Uri.OriginalString) == false) {
+            if ((e.Uri != null) && (string.IsNullOrEmpty(e.Uri.OriginalString) == false)) {
                 Tools.Generic.TryOpenUrl(e.Uri);
                 e.Handled = true;
             }

@@ -3,15 +3,11 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using AutoMapper;
-using withSIX.Api.Models.Collections;
-using SN.withSIX.Core;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Api.WebApi;
 using SN.withSIX.Mini.Infra.Data.ApiModels;
+using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
@@ -23,17 +19,13 @@ namespace SN.withSIX.Mini.Infra.Api
         public AutoMapperInfraApiConfig() {
             CreateMap<ModClientApiJson, ModNetworkContent>()
                 .Include<ModClientApiJsonV3WithGameId, ModNetworkContent>()
-                .BeforeMap((json, content) => {
-                    content?.Publishers.Clear();
-                })
+                .BeforeMap((json, content) => { content?.Publishers.Clear(); })
                 .ForMember(x => x.Version, opt => opt.ResolveUsing(src => src.GetVersion()))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
             // Does not get inherited?!
             CreateMap<ModClientApiJsonV3WithGameId, ModNetworkContent>()
-                .BeforeMap((json, content) => {
-                    content?.Publishers.Clear();
-                })
+                .BeforeMap((json, content) => { content?.Publishers.Clear(); })
                 .ForMember(x => x.Version, opt => opt.ResolveUsing(src => src.GetVersion()))
                 .ForMember(x => x.Dependencies, opt => opt.Ignore())
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore());
@@ -78,6 +70,7 @@ namespace SN.withSIX.Mini.Infra.Api
 
             CreateMap<ModDtoV2, ModDtoV2>();
         }
+
         /*
         static IEnumerable<string> ResolveAliases(ModDto arg) {
             if (arg.Aliases != null) {

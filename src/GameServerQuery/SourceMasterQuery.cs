@@ -59,7 +59,8 @@ namespace GameServerQuery
             _filterSb[name] = value;
         }
 
-        protected async Task<List<IPEndPoint>> RetrieveAsync(CancellationToken cancelToken, int limit, IPEndPoint remote = null, int tried = -1) {
+        protected async Task<List<IPEndPoint>> RetrieveAsync(CancellationToken cancelToken, int limit,
+            IPEndPoint remote = null, int tried = -1) {
             var cur = -1;
             var servers = new List<IPEndPoint>();
             if (remote == null) {
@@ -93,7 +94,9 @@ namespace GameServerQuery
                 var timedOut = false;
                 try {
                     response =
-                        (await udpClient.ReceiveWithTimeoutAfter(DefaultReceiveTimeout, cancelToken).ConfigureAwait(false)).Buffer;
+                        (await
+                                udpClient.ReceiveWithTimeoutAfter(DefaultReceiveTimeout, cancelToken).ConfigureAwait(false))
+                            .Buffer;
                 } catch (TimeoutException) {
                     timedOut = true;
                     if ((cur == -1) || (tried != -1) || (i != 0)) {

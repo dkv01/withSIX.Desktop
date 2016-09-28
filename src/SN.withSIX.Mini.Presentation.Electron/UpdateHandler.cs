@@ -4,7 +4,6 @@
 
 using System.Threading.Tasks;
 using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 
 namespace SN.withSIX.Mini.Presentation.Electron

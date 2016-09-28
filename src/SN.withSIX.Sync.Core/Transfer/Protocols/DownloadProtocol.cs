@@ -21,7 +21,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         public abstract Task DownloadAsync(TransferSpec spec);
 
         protected virtual void VerifyIfNeeded(TransferSpec spec, IAbsoluteFilePath localFile) {
-            if (spec.Verification == null || spec.Verification(localFile))
+            if ((spec.Verification == null) || spec.Verification(localFile))
                 return;
             Tools.FileUtil.Ops.DeleteFile(localFile);
             throw new VerificationError(localFile.ToString());

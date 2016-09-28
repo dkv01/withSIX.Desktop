@@ -7,7 +7,6 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Extensions;
 
@@ -15,7 +14,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 {
     public class GetGameMissions : GetContentBase, IAsyncQuery<MissionsApiModel>
     {
-        public GetGameMissions(Guid id, int page = 1) : base(id, page) { }
+        public GetGameMissions(Guid id, int page = 1) : base(id, page) {}
     }
 
 

@@ -14,11 +14,11 @@ namespace SN.withSIX.Sync.Core.Transfer
     // TODO: cleanup token handling...
     public class FileQueueDownloader : IFileQueueDownloader
     {
-        protected IMultiMirrorFileDownloader Downloader { get; }
-
         public FileQueueDownloader(IMultiMirrorFileDownloader downloader) {
             Downloader = downloader;
         }
+
+        protected IMultiMirrorFileDownloader Downloader { get; }
 
         public virtual async Task DownloadAsync(FileQueueSpec spec) {
             foreach (var file in spec.Files) {
@@ -40,11 +40,11 @@ namespace SN.withSIX.Sync.Core.Transfer
             KeyValuePair<FileFetchInfo, ITransferStatus> file) {
             var dlSpec = new MultiMirrorFileDownloadSpec(file.Key.FilePath,
                 spec.Location.GetChildFileWithName(file.Key.FilePath)) {
-                    Progress = file.Value,
-                    Verification = file.Key.OnVerify,
-                    ExistingFile =
-                        file.Key.ExistingPath != null ? spec.Location.GetChildFileWithName(file.Key.ExistingPath) : null
-                };
+                Progress = file.Value,
+                Verification = file.Key.OnVerify,
+                ExistingFile =
+                    file.Key.ExistingPath != null ? spec.Location.GetChildFileWithName(file.Key.ExistingPath) : null
+            };
             dlSpec.LocalFile.MakeSureParentPathExists();
             return dlSpec;
         }

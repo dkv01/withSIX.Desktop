@@ -4,10 +4,8 @@
 
 using System;
 
-
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    
     public class TransferProgress : ITransferProgress
     {
         readonly ConsoleWriter _output = new ConsoleWriter();
@@ -16,6 +14,11 @@ namespace SN.withSIX.Sync.Core.Transfer
         public void ResetZsyncLoopInfo() {
             ZsyncLoopData = null;
             ZsyncLoopCount = 0;
+        }
+
+        public void Update(long? speed, double progress) {
+            Speed = speed;
+            Progress = progress;
         }
 
         #region ITransferProgress Members
@@ -54,10 +57,5 @@ namespace SN.withSIX.Sync.Core.Transfer
         public int ZsyncLoopCount { get; set; }
 
         #endregion
-
-        public void Update(long? speed, double progress) {
-            Speed = speed;
-            Progress = progress;
-        }
     }
 }

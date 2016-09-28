@@ -26,12 +26,12 @@ namespace SN.withSIX.Mini.Core.Games.Services
 
     public interface IGameLocker
     {
+        IObservable<GameLockChanged> LockChanged { get; }
         Task<CancellationTokenRegistration> RegisterCancel(Guid gameId, Action cancelAction);
         Task Cancel(Guid gameId);
         Task<Info> ConfirmLock(Guid gameId, bool canAbort = false);
         void ReleaseLock(Guid gameId);
         Task Cancel();
-        IObservable<GameLockChanged> LockChanged { get; }
     }
 
     public class GameLockChanged

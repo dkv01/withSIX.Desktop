@@ -25,6 +25,8 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static IAbsoluteFilePath ToAbsoluteFilePath(this FileInfo This) => This.FullName.ToAbsoluteFilePath();
-        public static IAbsoluteDirectoryPath ToAbsoluteDirectoryPath(this DirectoryInfo This) => This.FullName.ToAbsoluteDirectoryPath();
+
+        public static IAbsoluteDirectoryPath ToAbsoluteDirectoryPath(this DirectoryInfo This)
+            => This.FullName.ToAbsoluteDirectoryPath();
     }
 }

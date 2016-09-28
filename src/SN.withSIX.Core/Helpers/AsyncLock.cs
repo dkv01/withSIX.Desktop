@@ -10,9 +10,9 @@ namespace SN.withSIX.Core.Helpers
 {
     public sealed class AsyncLock : IDisposable
     {
+        private readonly IDisposable _releaser;
         private readonly Task<IDisposable> m_releaser;
         private readonly SemaphoreSlim m_semaphore = new SemaphoreSlim(1, 1);
-        private readonly IDisposable _releaser;
 
         public AsyncLock() {
             _releaser = new Releaser(this);

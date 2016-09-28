@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Extensions;
 

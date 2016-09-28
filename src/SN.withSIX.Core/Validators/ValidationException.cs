@@ -16,7 +16,8 @@ namespace SN.withSIX.Core.Validators
             if (!Uri.IsWellFormedUriString(value, UriKind.Absolute))
                 return false;
 
-            return specificSchemes == null || !specificSchemes.Any() || specificSchemes.Contains(new Uri(value).Scheme);
+            return (specificSchemes == null) || !specificSchemes.Any() ||
+                   specificSchemes.Contains(new Uri(value).Scheme);
         }
 
         public static bool IsValidUriAllowOmniProtocol(string value, params string[] specificSchemes) {

@@ -45,7 +45,7 @@ namespace SN.withSIX.Steam.Presentation.Commands
         private async Task ProcessContent(Tuple<PublishedFile, bool> act) {
             Info($"Starting {act.Item1.Pid}");
             await App.Download(_steamDownloader, _steamApi, act.Item1, (l, d) => Progress($"{l}/s {d}%"),
-                force: act.Item2 || Force)
+                    force: act.Item2 || Force)
                 .ConfigureAwait(false);
             Info($"Finished {act.Item1.Pid}");
         }

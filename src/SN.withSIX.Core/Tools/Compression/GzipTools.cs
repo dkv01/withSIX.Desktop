@@ -9,7 +9,6 @@ using System.IO.Compression;
 using NDepend.Path;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services.Infrastructure;
-using GZipStream = System.IO.Compression.GZipStream;
 
 namespace SN.withSIX.Core
 {
@@ -141,7 +140,7 @@ namespace SN.withSIX.Core
             public void Dispose() => _timer.Dispose();
 
             public static IDisposable Conditional(IAbsoluteFilePath dest, ITProgress status, long predictedSize)
-                => status == null || predictedSize == 0 ? null : new StatusProcessor(dest, status, predictedSize);
+                => (status == null) || (predictedSize == 0) ? null : new StatusProcessor(dest, status, predictedSize);
 
             private void CalculateProgressAndSpeed() {
                 if (!_dest.Exists)

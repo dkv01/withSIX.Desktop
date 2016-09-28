@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
-
 namespace SN.withSIX.Core.Applications.Services
 {
-    [ContractClass(typeof (SpecialDialogManagerContract))]
+    [ContractClass(typeof(SpecialDialogManagerContract))]
     public interface ISpecialDialogManager
     {
         Task ShowPopup(object vm, IDictionary<string, object> overrideSettings = null);
@@ -21,8 +20,8 @@ namespace SN.withSIX.Core.Applications.Services
         Task<SixMessageBoxResult> MessageBox(MessageBoxDialogParams dialogParams);
     }
 
-    
-    [ContractClass(typeof (DialogManagerContract))]
+
+    [ContractClass(typeof(DialogManagerContract))]
     /// <summary>
     /// Re-usable dialogs
     /// </summary>
@@ -40,7 +39,7 @@ namespace SN.withSIX.Core.Applications.Services
             string title = null, object owner = null);
     }
 
-    [ContractClassFor(typeof (ISpecialDialogManager))]
+    [ContractClassFor(typeof(ISpecialDialogManager))]
     public abstract class SpecialDialogManagerContract : ISpecialDialogManager
     {
         public Task<bool?> ShowDialog(object vm, IDictionary<string, object> overrideSettings = null) {
@@ -75,7 +74,7 @@ namespace SN.withSIX.Core.Applications.Services
         }
     }
 
-    [ContractClassFor(typeof (IDialogManager))]
+    [ContractClassFor(typeof(IDialogManager))]
     public abstract class DialogManagerContract : IDialogManager
     {
         public Task<string> BrowseForFolder(string selectedPath = null, string title = null) => default(Task<string>);

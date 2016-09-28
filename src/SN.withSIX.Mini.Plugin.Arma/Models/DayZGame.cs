@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using withSIX.Api.Models.Games;

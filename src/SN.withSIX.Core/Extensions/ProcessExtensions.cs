@@ -62,6 +62,8 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static string Format(this ProcessStartInfo startInfo) =>
-            $"{startInfo.FileName}, from: {startInfo.WorkingDirectory}, with: {startInfo.Arguments}"; // , verb: {startInfo.Verb}
+            $"{startInfo.FileName}, from: {startInfo.WorkingDirectory}, with: {startInfo.Arguments}";
+
+        // , verb: {startInfo.Verb}
     }
 }

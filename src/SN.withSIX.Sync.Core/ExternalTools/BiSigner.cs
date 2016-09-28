@@ -56,7 +56,7 @@ namespace SN.withSIX.Sync.Core.ExternalTools
         }
 
         static IAbsoluteFilePath GetDefaultPrivateKeyPath(IAbsoluteDirectoryPath keyPath, string prefix,
-            IAbsoluteDirectoryPath arg)
+                IAbsoluteDirectoryPath arg)
             => keyPath.GetChildFileWithName((prefix ?? string.Empty) + arg.DirectoryName.Replace("@", string.Empty) +
                                             ".biprivatekey");
 

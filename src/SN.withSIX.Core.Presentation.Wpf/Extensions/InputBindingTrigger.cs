@@ -7,14 +7,12 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-
 namespace SN.withSIX.Core.Presentation.Wpf.Extensions
 {
-    
     public class InputBindingTrigger : TriggerBase<FrameworkElement>, ICommand
     {
         public static readonly DependencyProperty InputBindingProperty = DependencyProperty.Register("InputBinding",
-            typeof (InputBinding), typeof (InputBindingTrigger), new UIPropertyMetadata(null));
+            typeof(InputBinding), typeof(InputBindingTrigger), new UIPropertyMetadata(null));
         public InputBinding InputBinding
         {
             get { return (InputBinding) GetValue(InputBindingProperty); }

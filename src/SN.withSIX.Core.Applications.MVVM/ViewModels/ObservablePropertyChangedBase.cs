@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="ObservablePropertyChangedBase.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -109,13 +113,13 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
     public class PropertyChangedInfo : PropertyInfoBase
     {
         public PropertyChangedInfo(PropertyChangedBase propertyChangedBase, string propertyName)
-            : base(propertyChangedBase, propertyName) { }
+            : base(propertyChangedBase, propertyName) {}
     }
 
     public class PropertyChangingInfo : PropertyInfoBase
     {
         public PropertyChangingInfo(PropertyChangedBase propertyChangedBase, string propertyName)
-            : base(propertyChangedBase, propertyName) { }
+            : base(propertyChangedBase, propertyName) {}
     }
 
     [DataContract]

@@ -8,7 +8,6 @@ using Microsoft.Win32;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.NotificationHandlers
@@ -31,7 +30,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
         public static IEnumerable<string> GenerateCommandLineExecution(IAbsoluteFilePath location, string executable,
             params string[] desiredParams) {
             var updateExe = GetUpdateExe(location);
-            return updateExe != null && updateExe.Exists
+            return (updateExe != null) && updateExe.Exists
                 ? new[] {updateExe.ToString()}.Concat(Restarter.BuildUpdateExeArguments(executable, desiredParams))
                 : new[] {location.ToString()}.Concat(desiredParams);
         }

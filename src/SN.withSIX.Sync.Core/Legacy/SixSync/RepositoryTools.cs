@@ -43,7 +43,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
                 Tools.Compression.Gzip.GzipAuto(file, dest);
             else
                 throw new NotSupportedException($"{archiveFormat} is not supported, use .gz");
-                //Tools.Compression.PackSevenZipNative(file, dest);
+            //Tools.Compression.PackSevenZipNative(file, dest);
         }
 
         public virtual string TryGetChecksum(IAbsoluteFilePath file, string change = null) {

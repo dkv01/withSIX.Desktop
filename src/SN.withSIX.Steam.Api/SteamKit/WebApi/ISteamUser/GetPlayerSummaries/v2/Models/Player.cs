@@ -14,7 +14,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2.
         public uint communityvisibilitystate { get; set; }
         public uint profilestate { get; set; }
         public string personaname { get; set; }
-        [JsonConverter(typeof (UnixTimestampConverter))]
+        [JsonConverter(typeof(UnixTimestampConverter))]
         public DateTime lastlogoff { get; set; }
         public string profileurl { get; set; }
         public string avatar { get; set; }
@@ -23,7 +23,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2.
         public uint personastate { get; set; }
         public string realname { get; set; }
         public string primaryclanid { get; set; }
-        [JsonConverter(typeof (UnixTimestampConverter))]
+        [JsonConverter(typeof(UnixTimestampConverter))]
         public DateTime timecreated { get; set; }
         public uint personastateflags { get; set; }
         public string gameid { get; set; }

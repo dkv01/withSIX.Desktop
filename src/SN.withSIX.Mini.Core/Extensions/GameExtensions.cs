@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Core.Extensions
         public static IAbsoluteDirectoryPath TryGetDefaultDirectory(this RegistryInfoAttribute registryInfo) {
             if (registryInfo.Path != null) {
                 var path = Tools.Generic.NullSafeGetRegKeyValue<string>(registryInfo.Path, registryInfo.Key);
-                if (path != null && path.IsValidAbsoluteDirectoryPath())
+                if ((path != null) && path.IsValidAbsoluteDirectoryPath())
                     return path.ToAbsoluteDirectoryPath();
             }
             return null;
@@ -35,20 +35,23 @@ namespace SN.withSIX.Mini.Core.Extensions
 
         public static IAbsoluteDirectoryPath TryGetDefaultDirectory(this SteamInfoAttribute steamInfo) {
             var steamApp = TryGetSteamApp(steamInfo);
-            return steamApp != null && steamApp.IsValid ? steamApp.AppPath : null;
+            return (steamApp != null) && steamApp.IsValid ? steamApp.AppPath : null;
         }
 
         public static ISteamApp TryGetSteamApp(this SteamInfoAttribute steamInfo) {
-            if (steamInfo.AppId <= 0 || !Game.SteamHelper.SteamFound)
+            if ((steamInfo.AppId <= 0) || !Game.SteamHelper.SteamFound)
                 return null; // SteamApp.Default; // TODO
             return Game.SteamHelper.TryGetSteamAppById(steamInfo.AppId);
         }
 
-        public static bool HasPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Any(p => p.Publisher == publisher);
+        public static bool HasPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher)
+            => This.Any(p => p.Publisher == publisher);
 
-        public static ContentPublisher GetPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher) => This.Single(x => x.Publisher == publisher);
+        public static ContentPublisher GetPublisher(this IEnumerable<ContentPublisher> This, Publisher publisher)
+            => This.Single(x => x.Publisher == publisher);
 
-        public static void BuildDependencies<T>(this ICollection<T> list, Func<T> createSpec, Func<ICollection<T>, bool> contains, Action<ICollection<T>> childrenFnc) {
+        public static void BuildDependencies<T>(this ICollection<T> list, Func<T> createSpec,
+            Func<ICollection<T>, bool> contains, Action<ICollection<T>> childrenFnc) {
             if (contains(list))
                 return;
 

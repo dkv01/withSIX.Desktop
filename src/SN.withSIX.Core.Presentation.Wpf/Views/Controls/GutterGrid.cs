@@ -21,21 +21,21 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
         protected static readonly GridLength DefaultGutter;
 
         static GutterGrid() {
-            NumberOfRowsProperty = DependencyProperty.Register("NumberOfRows", typeof (int), typeof (GutterGrid),
+            NumberOfRowsProperty = DependencyProperty.Register("NumberOfRows", typeof(int), typeof(GutterGrid),
                 new PropertyMetadata(1, GridLayoutChanged));
-            NumberOfColumnsProperty = DependencyProperty.Register("NumberOfColumns", typeof (int), typeof (GutterGrid),
+            NumberOfColumnsProperty = DependencyProperty.Register("NumberOfColumns", typeof(int), typeof(GutterGrid),
                 new PropertyMetadata(1, GridLayoutChanged));
-            ColumnGutterWidthProperty = DependencyProperty.Register("ColumnGutterWidth", typeof (GridLength),
-                typeof (GutterGrid), new PropertyMetadata(DefaultGutter, GridLayoutChanged));
-            RowGutterWidthProperty = DependencyProperty.Register("RowGutterWidth", typeof (GridLength),
-                typeof (GutterGrid), new PropertyMetadata(DefaultGutter, GridLayoutChanged));
-            RowProperty = DependencyProperty.RegisterAttached("Row", typeof (int), typeof (GutterGrid),
+            ColumnGutterWidthProperty = DependencyProperty.Register("ColumnGutterWidth", typeof(GridLength),
+                typeof(GutterGrid), new PropertyMetadata(DefaultGutter, GridLayoutChanged));
+            RowGutterWidthProperty = DependencyProperty.Register("RowGutterWidth", typeof(GridLength),
+                typeof(GutterGrid), new PropertyMetadata(DefaultGutter, GridLayoutChanged));
+            RowProperty = DependencyProperty.RegisterAttached("Row", typeof(int), typeof(GutterGrid),
                 new PropertyMetadata(ChildElementRowChanged));
-            ColumnProperty = DependencyProperty.RegisterAttached("Column", typeof (int), typeof (GutterGrid),
+            ColumnProperty = DependencyProperty.RegisterAttached("Column", typeof(int), typeof(GutterGrid),
                 new PropertyMetadata(ChildElementColumnChanged));
-            RowSpanProperty = DependencyProperty.RegisterAttached("RowSpan", typeof (int), typeof (GutterGrid),
+            RowSpanProperty = DependencyProperty.RegisterAttached("RowSpan", typeof(int), typeof(GutterGrid),
                 new PropertyMetadata(1, ChildElementRowSpanChanged));
-            ColumnSpanProperty = DependencyProperty.RegisterAttached("ColumnSpan", typeof (int), typeof (GutterGrid),
+            ColumnSpanProperty = DependencyProperty.RegisterAttached("ColumnSpan", typeof(int), typeof(GutterGrid),
                 new PropertyMetadata(1, ChildElementColumnSpanChanged));
 
             DefaultGutter = new GridLength(10, GridUnitType.Pixel);

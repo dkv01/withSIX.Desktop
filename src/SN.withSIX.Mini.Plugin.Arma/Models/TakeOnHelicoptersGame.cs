@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
@@ -13,16 +12,16 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.TKOH, Name = "Take On Helicopters", Slug = "Take-on-Helicopters",
-        Executables = new[] {"takeonh.exe"},
-        //IsPublic = true,
-        ServerExecutables = new[] {"takeonhserver.exe"},
-        LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer})
+         Executables = new[] {"takeonh.exe"},
+         //IsPublic = true,
+         ServerExecutables = new[] {"takeonhserver.exe"},
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer})
     ]
     [RegistryInfo(BohemiaStudioRegistry + @"\Take On Helicopters", "main")]
     [SteamInfo(65730, "Take On Helicopters")]
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb" /*GameUUids.TKOH */)]
     [RvProfileInfo("Take on Helicopters",
-        "Take on Helicopters other profiles", "TakeOnHProfile")]
+         "Take on Helicopters other profiles", "TakeOnHProfile")]
     [DataContract]
     public class TakeOnHelicoptersGame : ArmaGame
     {

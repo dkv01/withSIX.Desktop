@@ -13,7 +13,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         #region Properties
 
         public static readonly DependencyProperty AutoScrollToCurrentItemProperty =
-            DependencyProperty.RegisterAttached("AutoScrollToCurrentItem", typeof (bool), typeof (ListBoxExtenders),
+            DependencyProperty.RegisterAttached("AutoScrollToCurrentItem", typeof(bool), typeof(ListBoxExtenders),
                 new UIPropertyMetadata(default(bool), OnAutoScrollToCurrentItemChanged));
 
         public static bool GetAutoScrollToCurrentItem(DependencyObject obj)
@@ -46,7 +46,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         }
 
         public static void OnAutoScrollToCurrentItem(ListBox listBox, int index) {
-            if (listBox != null && listBox.Items != null && listBox.Items.Count > index && index >= 0)
+            if ((listBox != null) && (listBox.Items != null) && (listBox.Items.Count > index) && (index >= 0))
                 listBox.ScrollIntoView(listBox.Items[index]);
         }
 

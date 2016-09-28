@@ -15,12 +15,12 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class NonTopmostPopup : Popup
     {
         public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register("IsTopmost",
-            typeof (bool),
-            typeof (
+            typeof(bool),
+            typeof(
                 NonTopmostPopup),
             new FrameworkPropertyMetadata
-                (false,
-                    OnIsTopmostChanged));
+            (false,
+                OnIsTopmostChanged));
         bool _alreadyLoaded;
         bool? _appliedTopMost;
         Window _parentWindow;
@@ -83,7 +83,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
             if (_parentWindow == null)
                 return;
 
-            if (!_parentWindow.IsActive && IsTopmost == false) {
+            if (!_parentWindow.IsActive && (IsTopmost == false)) {
                 _parentWindow.Activate();
                 Debug.WriteLine("Activating Parent from child Left Button Down");
             }
@@ -101,7 +101,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
         }
 
         void SetTopmostState(bool isTop) {
-            if (_appliedTopMost.HasValue && _appliedTopMost == isTop)
+            if (_appliedTopMost.HasValue && (_appliedTopMost == isTop))
                 return;
 
             if (Child == null)

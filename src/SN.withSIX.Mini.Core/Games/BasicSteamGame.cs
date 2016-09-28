@@ -72,8 +72,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         private bool ContentExists(IPackagedContent x)
             =>
-                (x.GetSource(this).Publisher == Publisher.Steam && !SteamDirectories.IsValid) ||
-                !ContentExists(x.GetSourceDirectory(this));
+            ((x.GetSource(this).Publisher == Publisher.Steam) && !SteamDirectories.IsValid) ||
+            !ContentExists(x.GetSourceDirectory(this));
 
         IEnumerable<IAbsoluteDirectoryPath> GetExistingModFolders() => GetModFolders().Where(x => x.Exists);
 
@@ -94,7 +94,8 @@ namespace SN.withSIX.Mini.Core.Games
                 }
             });
 
-        protected static IAbsoluteFilePath GetBackupFile(IAbsoluteFilePath destPakFile) => destPakFile.GetBrotherFileWithName(destPakFile.FileNameWithoutExtension + ".bak");
+        protected static IAbsoluteFilePath GetBackupFile(IAbsoluteFilePath destPakFile)
+            => destPakFile.GetBrotherFileWithName(destPakFile.FileNameWithoutExtension + ".bak");
 
         protected abstract class SteamMod
         {

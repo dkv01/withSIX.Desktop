@@ -36,7 +36,7 @@ namespace SN.withSIX.Steam.Api.Services
         private static Action<DownloadInfo> HandleProgress(Action<long?, double> progressAction) {
             var processor = new Progress();
             Action<DownloadInfo> pCb = x => {
-                if (x.Total > 0 && x.Downloaded == x.Total)
+                if ((x.Total > 0) && (x.Downloaded == x.Total))
                     progressAction.Invoke(null, 100);
                 else {
                     long? speed;
@@ -65,7 +65,8 @@ namespace SN.withSIX.Steam.Api.Services
                 .Merge(CreateTimeoutSource(pf), _api.Scheduler)
                 .Take(1);
 
-        private IObservable<Unit> CreateDownloadItemResultCompletionSource(PublishedFile pf, CancellationToken cancelToken)
+        private IObservable<Unit> CreateDownloadItemResultCompletionSource(PublishedFile pf,
+                CancellationToken cancelToken)
             => ObserveDownloadItemResultForApp(pf, cancelToken)
                 .Do(x => MainLog.Logger.Info($"Received DownloadItemResult event for {pf}"))
                 .Do(x => _api.ConfirmResult(x.m_eResult))
@@ -91,17 +92,17 @@ namespace SN.withSIX.Steam.Api.Services
 
         private IDisposable ProcessDownloadInfo(PublishedFileId_t pid, Action<DownloadInfo> pCb,
             IObservable<Unit> readySignal) => ObserveDownloadInfo(pid)
-                .TakeUntil(readySignal) // So that the completion makes us emit a last 100% progress item :)
-                .Subscribe(pCb, () => pCb(new DownloadInfo(1, 1)));
+            .TakeUntil(readySignal) // So that the completion makes us emit a last 100% progress item :)
+            .Subscribe(pCb, () => pCb(new DownloadInfo(1, 1)));
 
         // however since we probably already unsubscribe before completion it doesn't really help :)
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForApp(PublishedFile pf,
-            CancellationToken cancelToken) =>
-                ObserveDownloadItemResultForApp(pf.Aid, pf.Pid, cancelToken);
+                CancellationToken cancelToken) =>
+            ObserveDownloadItemResultForApp(pf.Aid, pf.Pid, cancelToken);
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForApp(AppId_t aid, PublishedFileId_t pid,
-            CancellationToken cancelToken)
+                CancellationToken cancelToken)
             => ObserveDownloadItemResultForGame(aid, cancelToken)
                 .Where(x => x.m_nPublishedFileId == pid);
 
@@ -133,14 +134,14 @@ namespace SN.withSIX.Steam.Api.Services
             => ObserveInstalledFileForApp(pf.Aid, pf.Pid, cancelToken);
 
         private IObservable<ItemInstalled_t> ObserveInstalledFileForApp(AppId_t aid, PublishedFileId_t pid,
-            CancellationToken cancelToken)
+                CancellationToken cancelToken)
             => ObserveInstalledForGame(aid, cancelToken).Where(x => x.m_nPublishedFileId == pid);
 
         private IObservable<ItemInstalled_t> ObserveInstalledForGame(AppId_t aid, CancellationToken cancelToken)
             => _api.CreateObservableFromCallback<ItemInstalled_t>(cancelToken).Where(x => x.m_unAppID == aid);
 
         private IObservable<DownloadItemResult_t> ObserveDownloadItemResultForGame(AppId_t aid,
-            CancellationToken cancelToken)
+                CancellationToken cancelToken)
             => _api.CreateObservableFromCallback<DownloadItemResult_t>(cancelToken)
                 .Where(x => x.m_unAppID == aid);
 
@@ -153,7 +154,7 @@ namespace SN.withSIX.Steam.Api.Services
                 var now = Tools.Generic.GetCurrentUtcDateTime;
                 speed = null;
                 progress = 0;
-                if (total == 0 || bytes == 0) {
+                if ((total == 0) || (bytes == 0)) {
                     _lastTime = now;
                     return;
                 }

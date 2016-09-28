@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-
 using System.IO;
 using System.Reflection;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -13,7 +12,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
     public class ResourceService : IPresentationResourceService, IPresentationService
     {
         const string SourceAssemblyName = "SN.withSIX.Core.Presentation.Resources";
-        readonly Assembly _sourceAssembly = typeof (DummyClass).GetTypeInfo().Assembly;
+        readonly Assembly _sourceAssembly = typeof(DummyClass).GetTypeInfo().Assembly;
 
         static ResourceService() {
             ComponentPath = "/" + SourceAssemblyName + ";component";

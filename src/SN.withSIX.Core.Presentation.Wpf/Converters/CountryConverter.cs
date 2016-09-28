@@ -25,7 +25,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Converters
             if (!CountryFlagsMapping.CountryDict.TryGetValue((string) value, out result))
                 return DefaultReturn;
 
-            if (Enum.IsDefined(typeof (CountryFlags), result))
+            if (Enum.IsDefined(typeof(CountryFlags), result))
                 return result;
 
             return DefaultReturn;

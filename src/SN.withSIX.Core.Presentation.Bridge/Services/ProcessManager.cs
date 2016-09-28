@@ -344,6 +344,11 @@ namespace SN.withSIX.Core.Presentation.Services
                 => GetRunningProcesses(exe.Replace(".exe", string.Empty))
                     .Select(x => Tuple.Create(x, GetProcessPath(x.Id)));
 
+            public void AddEnvironmentVariables(ProcessStartInfo info, IDictionary<string, string> vars) {
+                foreach (var kvp in vars)
+                    info.EnvironmentVariables[kvp.Key] = kvp.Value;
+            }
+
             public virtual ManagementObjectCollection GetWmiProcessesByParentId(int pid)
                 => new ManagementObjectSearcher(
                         $"Select * From Win32_Process Where ParentProcessID={pid}")
@@ -356,11 +361,6 @@ namespace SN.withSIX.Core.Presentation.Services
 
             public virtual ManagementObjectCollection GetWmiProcessesById(int pid)
                 => new ManagementObjectSearcher("Select * From Win32_Process Where ProcessID=#{id}").Get();
-
-            public void AddEnvironmentVariables(ProcessStartInfo info, IDictionary<string, string> vars) {
-                foreach (var kvp in vars)
-                    info.EnvironmentVariables[kvp.Key] = kvp.Value;
-            }
         }
 
         #region Monitor

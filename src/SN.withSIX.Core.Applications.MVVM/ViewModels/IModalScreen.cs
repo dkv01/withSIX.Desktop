@@ -4,16 +4,14 @@
 
 using Caliburn.Micro;
 
-
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    
     public interface IShowBackButton
     {
         bool ShowBackButton { get; }
     }
 
-    
+
     public interface IModalScreen : IScreen, IShowBackButton
     {
         object Parent { get; set; }

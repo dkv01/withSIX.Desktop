@@ -4,19 +4,17 @@
 
 using System.Windows;
 using ReactiveUI;
-
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.MVVM.Views.Dialogs;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
-    
     public partial class EnterUserNamePasswordView : StandardDialog, IEnterUserNamePasswordView
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (IEnterUserNamePasswordViewModel),
-                typeof (EnterUserNamePasswordView),
+            DependencyProperty.Register("ViewModel", typeof(IEnterUserNamePasswordViewModel),
+                typeof(EnterUserNamePasswordView),
                 new PropertyMetadata(null));
 
         public EnterUserNamePasswordView() {

@@ -1,5 +1,7 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿// <copyright company="SIX Networks GmbH" file="XmlTools.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
@@ -19,7 +21,7 @@ namespace SN.withSIX.Core.Applications.Extensions
         public T LoadXmlFromFile<T>(string path) {
             var serializer = new DataContractSerializer(typeof(T));
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return (T)serializer.ReadObject(fs);
+                return (T) serializer.ReadObject(fs);
         }
 
         public virtual T Deserialize<T>(XElement doc) {
@@ -27,7 +29,7 @@ namespace SN.withSIX.Core.Applications.Extensions
 
             var xmlSerializer = new XmlSerializer(typeof(T));
             using (var reader = doc.CreateReader())
-                return (T)xmlSerializer.Deserialize(reader);
+                return (T) xmlSerializer.Deserialize(reader);
         }
 
         public virtual void SaveXmlToDiskThroughMemory(object graph, IAbsoluteFilePath filePath, bool pretty = false) {

@@ -65,9 +65,9 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
 
         public static Task<Game> FindGameFromRequestOrThrowAsync(this IGameContextReadOnly gc,
             IHaveId<Guid> request) => Wrap(async () => {
-                await gc.Load(request.Id).ConfigureAwait(false);
-                return await gc.Games.FindOrThrowFromRequestAsync(request).ConfigureAwait(false);
-            }, request.Id);
+            await gc.Load(request.Id).ConfigureAwait(false);
+            return await gc.Games.FindOrThrowFromRequestAsync(request).ConfigureAwait(false);
+        }, request.Id);
 
         public static Task<Game> FindGameOrThrowAsync(this IGameContextReadOnly gc, IHaveGameId request)
             => Wrap(async () => {

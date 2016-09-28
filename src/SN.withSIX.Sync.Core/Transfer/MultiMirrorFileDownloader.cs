@@ -5,8 +5,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Specs;
@@ -92,7 +90,8 @@ namespace SN.withSIX.Sync.Core.Transfer
             }
         }
 
-        private static void ResetSpec(MultiMirrorFileDownloadSpec spec) => spec.Progress?.Update(null, spec.Progress.Progress);
+        private static void ResetSpec(MultiMirrorFileDownloadSpec spec)
+            => spec.Progress?.Update(null, spec.Progress.Progress);
 
         bool TryDownload(MultiMirrorFileDownloadSpec spec, Uri host) {
             try {
@@ -152,7 +151,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             };
     }
 
-    
+
     public class VerificationError : Exception
     {
         public VerificationError(string message) : base(message) {}

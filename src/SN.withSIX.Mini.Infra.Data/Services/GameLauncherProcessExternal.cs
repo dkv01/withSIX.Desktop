@@ -22,8 +22,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 {
     public class GameLauncherProcessExternalUpdater : IEnableLogging, IGameLauncherProcess, IInfrastructureService
     {
-        readonly IProcessManager _processManager;
         private readonly IAbsoluteDirectoryPath _javaPath = null; // TODO
+        readonly IProcessManager _processManager;
 
         public GameLauncherProcessExternalUpdater(IProcessManager processManager) {
             _processManager = processManager;
@@ -53,9 +53,9 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         static ProcessStartInfo BuildProcessStartInfo(LaunchGameInfoBase spec, IEnumerable<string> args)
             => new ProcessStartInfoBuilder(Common.Paths.ServiceExePath,
                 args.CombineParameters()) {
-                    //AsAdministrator = spec.LaunchAsAdministrator,
-                    WorkingDirectory = Common.Paths.ServiceExePath.ParentDirectoryPath
-                }.Build();
+                //AsAdministrator = spec.LaunchAsAdministrator,
+                WorkingDirectory = Common.Paths.ServiceExePath.ParentDirectoryPath
+            }.Build();
 
         async Task<Process> LaunchUpdaterProcess(LaunchGameInfoBase spec, ProcessStartInfo startInfo) {
             LogGameInfo(spec);
@@ -69,7 +69,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                     try {
                         var p = Process.GetProcessById(lResult.ProcessId);
                         var path = Tools.ProcessManager.Management.GetProcessPath(lResult.ProcessId);
-                        if (path != null && path.Equals(spec.ExpectedExecutable))
+                        if ((path != null) && path.Equals(spec.ExpectedExecutable))
                             return p;
                     } catch (ArgumentException) {}
                 }
@@ -83,18 +83,14 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             var info =
                 await _processManager.LaunchAndGrabAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
             info.ConfirmSuccess();
-            var results = info.StandardOutput.Split(new[] {Environment.NewLine, "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+            var results = info.StandardOutput.Split(new[] {Environment.NewLine, "\r", "\n"},
+                StringSplitOptions.RemoveEmptyEntries);
             return results.Last().FromJson<LaunchResult>();
         }
 
         private async Task LaunchAsAdmin(ProcessStartInfo startInfo) {
             var info = await _processManager.LaunchElevatedAsync(new BasicLaunchInfo(startInfo)).ConfigureAwait(false);
             info.ConfirmSuccess();
-        }
-
-        public class LaunchResult
-        {
-            public int ProcessId { get; set; }
         }
 
         void LogGameInfo(LaunchGameInfoBase spec) {
@@ -124,6 +120,11 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
         IAbsoluteDirectoryPath GetAndValidateSteamPath(bool steamDrm, bool requireExeExist = true)
             => new SteamPathValidator().GetAndValidateSteamPath(steamDrm, requireExeExist);
+
+        public class LaunchResult
+        {
+            public int ProcessId { get; set; }
+        }
 
         class SteamPathValidator
         {
@@ -197,7 +198,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             GetStartupParameters()
         }.Where(x => x != null);
 
-        protected string GetAffinity() => Spec.Affinity != null && Spec.Affinity.Any()
+        protected string GetAffinity() => (Spec.Affinity != null) && Spec.Affinity.Any()
             ? "--affinity=" + string.Join(",", Spec.Affinity)
             : null;
 

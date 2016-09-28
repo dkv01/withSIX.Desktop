@@ -83,8 +83,7 @@ namespace GameServerQuery
                 _state.ReceivedPackets[1] = await GetRules().ConfigureAwait(false);
                 if (_state.HandlePlayers)
                     _state.ReceivedPackets[2] = await GetPlayers().ConfigureAwait(false);
-            }
-            finally {
+            } finally {
                 _state.TryClose();
             }
         }

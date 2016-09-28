@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Core.Packages.Internals
@@ -19,7 +18,7 @@ namespace SN.withSIX.Sync.Core.Packages.Internals
         public string MatchesConstraints(IEnumerable<string> packageVersions, string versionConstraint,
             string branch = null) {
             var doVersion = !string.IsNullOrWhiteSpace(versionConstraint);
-            var doBranch = !string.IsNullOrWhiteSpace(branch) && branch != SpecificVersionInfo.StableBranch;
+            var doBranch = !string.IsNullOrWhiteSpace(branch) && (branch != SpecificVersionInfo.StableBranch);
             packageVersions = packageVersions.OrderBy(x => new SpecificVersionInfo(x));
 
             if (doBranch) {

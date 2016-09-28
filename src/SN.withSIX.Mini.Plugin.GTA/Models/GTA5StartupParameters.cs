@@ -72,16 +72,16 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
             set { SetPropertyOrDefault(value); }
         }
         [Description(
-            "Overrides the Population Density setting, enabling you to manually specify the number of civilians. Use in concert with -vehicleLodBias to fine-tune Population Density to your tastes"
-            )]
+             "Overrides the Population Density setting, enabling you to manually specify the number of civilians. Use in concert with -vehicleLodBias to fine-tune Population Density to your tastes"
+         )]
         public string PedLodBias
         {
             get { return GetPropertyOrDefault(); }
             set { SetPropertyOrDefault(value); }
         }
         [Description(
-            "Sets Rockstar Social Club to offline mode, which helps accelerate single-player loading times, and eliminates any spoilerific pop-ups about friends' progress"
-            )]
+             "Sets Rockstar Social Club to offline mode, which helps accelerate single-player loading times, and eliminates any spoilerific pop-ups about friends' progress"
+         )]
         public bool ScOfflineOnly
         {
             get { return GetSwitchOrDefault(); }
@@ -94,8 +94,8 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
             set { SetSwitchOrDefault(value); }
         }
         [Description(
-            "Overrides the Population Density setting, enabling you to manually specify the number of vehicles. Use in concert with -pedLodBias to fine-tune Population Density to your tastes"
-            )]
+             "Overrides the Population Density setting, enabling you to manually specify the number of vehicles. Use in concert with -pedLodBias to fine-tune Population Density to your tastes"
+         )]
         public string VehicleLodBias
         {
             get { return GetPropertyOrDefault(); }

@@ -58,7 +58,8 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             var userInfoClient = new UserInfoClient(userInfoEndpoint, accessToken);
             var response = await userInfoClient.GetAsync().ConfigureAwait(false);
             if (response.IsError || response.IsHttpError)
-                throw new Exception($"Error while retrieving userinfo: {response.ErrorMessage} {response.HttpErrorStatusCode} {response.HttpErrorReason}");
+                throw new Exception(
+                    $"Error while retrieving userinfo: {response.ErrorMessage} {response.HttpErrorStatusCode} {response.HttpErrorReason}");
             return new UserInfoResponse(response.Raw);
         }
 

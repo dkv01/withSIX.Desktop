@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Sync.Core.Transfer;
@@ -14,14 +13,12 @@ using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 
 namespace SN.withSIX.Sync.Core.Legacy
 {
-    
     public class AllZsyncFailException : Exception
     {
         public AllZsyncFailException(string message) : base(message) {}
     }
 
 
-    
     public enum HostType
     {
         Unknown,
@@ -35,28 +32,23 @@ namespace SN.withSIX.Sync.Core.Legacy
 
     public class ExportLifetimeContext<T> : IDisposable
     {
-        private readonly T _value;
         private readonly Action _dispose;
 
         public ExportLifetimeContext(T value, Action dispose) {
-            this._value = value;
-            this._dispose = dispose;
+            Value = value;
+            _dispose = dispose;
         }
 
-        public T Value
-        {
-            get { return this._value; }
-        }
+        public T Value { get; }
 
         public void Dispose() {
-            this._dispose();
+            _dispose();
         }
     }
 
     public class HostPicker : IEnableLogging
     {
         readonly IHostChecker _hostChecker;
-        public Dictionary<Uri, int> HostStates { get; } = new Dictionary<Uri, int>();
 
         public HostPicker(IEnumerable<Uri> hosts, MultiThreadingSettings multiThreadingSettings,
             Func<ExportLifetimeContext<IHostChecker>> hostChecker) {
@@ -70,6 +62,8 @@ namespace SN.withSIX.Sync.Core.Legacy
             foreach (var host in hosts)
                 HostStates[host] = 0;
         }
+
+        public Dictionary<Uri, int> HostStates { get; } = new Dictionary<Uri, int>();
 
         public MultiThreadingSettings MultiThreadingSettings { get; }
         public List<Uri> ZsyncIncompatHosts { get; }
@@ -111,7 +105,7 @@ namespace SN.withSIX.Sync.Core.Legacy
             }
         }
 
-        Uri[] GetValidHosts() => SortHosts(HostStates.Where(x => x.Value < 3 && _hostChecker.ValidateHost(x.Key)))
+        Uri[] GetValidHosts() => SortHosts(HostStates.Where(x => (x.Value < 3) && _hostChecker.ValidateHost(x.Key)))
             .Select(x => x.Key)
             .ToArray();
 
@@ -156,7 +150,7 @@ namespace SN.withSIX.Sync.Core.Legacy
                 }
 
                 var left = count - hosts.Count;
-                if (hosts.Any() && left > 0) {
+                if (hosts.Any() && (left > 0)) {
                     while (left > 0) {
                         hosts.Add(hosts[0]);
                         left--;
@@ -178,7 +172,7 @@ namespace SN.withSIX.Sync.Core.Legacy
                 return hosts
                     .OrderBy(
                         x =>
-                            x.Value == 0 && GetHostType(x.Key) == HostType.Rsync
+                            (x.Value == 0) && (GetHostType(x.Key) == HostType.Rsync)
                                 ? 0
                                 : 1)
                     .ToArray();
@@ -186,7 +180,7 @@ namespace SN.withSIX.Sync.Core.Legacy
                 return hosts
                     .OrderBy(
                         x =>
-                            x.Value == 0 && GetHostType(x.Key) == HostType.Zsync
+                            (x.Value == 0) && (GetHostType(x.Key) == HostType.Zsync)
                                 ? 0
                                 : 1)
                     .ToArray();

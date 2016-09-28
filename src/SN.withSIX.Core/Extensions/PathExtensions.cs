@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,7 +32,8 @@ namespace SN.withSIX.Core.Extensions
             return dir;
         }
 
-        public static bool MatchesSub(this IRelativeFilePath path, string name) => path.ParentDirectoryPath.MatchesSub(name);
+        public static bool MatchesSub(this IRelativeFilePath path, string name)
+            => path.ParentDirectoryPath.MatchesSub(name);
 
         public static bool MatchesSub(this IRelativeDirectoryPath dir, string name) {
             while (dir.HasParentDirectory) {
@@ -44,7 +44,8 @@ namespace SN.withSIX.Core.Extensions
             return false;
         }
 
-        public static bool SubStartsWith(this IRelativeFilePath path, string name) => path.ParentDirectoryPath.SubStartsWith(name);
+        public static bool SubStartsWith(this IRelativeFilePath path, string name)
+            => path.ParentDirectoryPath.SubStartsWith(name);
 
         public static bool SubStartsWith(this IRelativeDirectoryPath dir, string name) {
             while (dir.HasParentDirectory) {

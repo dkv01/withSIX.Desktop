@@ -15,7 +15,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Converters
                 return false;
             if (values[0] == values[1])
                 return true;
-            if (values[0] == null || values[1] == null)
+            if ((values[0] == null) || (values[1] == null))
                 return false;
             return values[0].Equals(values[1]);
         }

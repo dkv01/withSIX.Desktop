@@ -38,7 +38,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Commands
             HasOption("legacyLaunch", "Launch over legacy steam", a => _spec.LegacyLaunch = a != null);
             HasOption("priority=", "Launch game with priority", a => {
                 _spec.Priority = !string.IsNullOrWhiteSpace(a)
-                    ? (ProcessPriorityClass) Enum.Parse(typeof (ProcessPriorityClass), a)
+                    ? (ProcessPriorityClass) Enum.Parse(typeof(ProcessPriorityClass), a)
                     : ProcessPriorityClass.Normal;
             });
             HasOption("affinity=", "Launch game with affinity",

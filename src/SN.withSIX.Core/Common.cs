@@ -14,19 +14,13 @@
 #endif
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
 using MediatR;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
-using Action = System.Action;
 
 namespace SN.withSIX.Core
 {
@@ -85,13 +79,6 @@ namespace SN.withSIX.Core
             public const string DefaultModResourceFileLarge = "ModsPlaceholder-full232x112.png";
             public const string DefaultModResourceFileHuge = "ModsPlaceholder-huge300x144.png";
             const string OnlineResourcePath = "https://d2l9k1uqfxdpqe.cloudfront.net/assets/mods/";
-            public static string ApplicationName { get; private set; } = "Play withSIX";
-
-            public static void SetAppName(string appName) {
-                ApplicationName = appName;
-                ApplicationRegKey = "Software\\SIX Networks\\" + ApplicationName;
-            }
-            public static string ApplicationRegKey { get; private set; } = "Software\\SIX Networks\\" + ApplicationName;
             static readonly bool debug;
             static readonly bool trace;
             public static readonly TimeSpan DefaultFilterDelay = TimeSpan.FromMilliseconds(250);
@@ -121,9 +108,17 @@ namespace SN.withSIX.Core
 #endif
             }
 
+            public static string ApplicationName { get; private set; } = "Play withSIX";
+            public static string ApplicationRegKey { get; private set; } = "Software\\SIX Networks\\" + ApplicationName;
+
             public Version ApplicationVersion { get; private set; }
             public string ProductVersion { get; private set; }
             public string AppTitle { get; private set; }
+
+            public static void SetAppName(string appName) {
+                ApplicationName = appName;
+                ApplicationRegKey = "Software\\SIX Networks\\" + ApplicationName;
+            }
 
             public void Init(string appName) {
                 if (Flags.Staging || Flags.Portable)
@@ -145,8 +140,8 @@ namespace SN.withSIX.Core
 
             static
                 Tuple
-                    <IAbsoluteDirectoryPath, IAbsoluteDirectoryPath, IAbsoluteDirectoryPath, IAbsoluteDirectoryPath,
-                        IAbsoluteDirectoryPath> GetLocalPathData(IAbsoluteDirectoryPath localBasePath) {
+                <IAbsoluteDirectoryPath, IAbsoluteDirectoryPath, IAbsoluteDirectoryPath, IAbsoluteDirectoryPath,
+                    IAbsoluteDirectoryPath> GetLocalPathData(IAbsoluteDirectoryPath localBasePath) {
                 var dataDir = localBasePath.GetChildDirectoryWithName("Data");
                 return Tuple.Create(localBasePath, dataDir.GetChildDirectoryWithName("RoamingData"),
                     dataDir.GetChildDirectoryWithName("LocalData"),
@@ -376,9 +371,11 @@ namespace SN.withSIX.Core
         }
     }
 
-    public interface IDomainEvent { }
-    public interface IAsyncDomainEvent : IDomainEvent, IAsyncNotification { }
-    public interface ISyncDomainEvent : IDomainEvent, INotification { }
+    public interface IDomainEvent {}
+
+    public interface IAsyncDomainEvent : IDomainEvent, IAsyncNotification {}
+
+    public interface ISyncDomainEvent : IDomainEvent, INotification {}
 
     public abstract class DomainEvent<T> : IDomainEvent
     {
@@ -386,6 +383,7 @@ namespace SN.withSIX.Core
             Contract.Requires<ArgumentNullException>(subject != null);
             Subject = subject;
         }
+
         public T Subject { get; }
     }
 

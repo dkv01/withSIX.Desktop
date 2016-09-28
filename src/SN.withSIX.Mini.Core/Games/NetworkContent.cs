@@ -41,7 +41,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         [DataMember]
         // Only here because of wrong dependency references... // TODO: Try to externalize this to the DTO instead..
-        public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } = new HashSet<ContentGuidSpec>();
+        public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } =
+            new HashSet<ContentGuidSpec>();
         //[DataMember]
         //public List<string> Aliases { get; protected set; } = new HashSet<string>();
         [DataMember]
@@ -67,24 +68,27 @@ namespace SN.withSIX.Mini.Core.Games
 
         public abstract string ContentSlug { get; }
 
-        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new NetworkContentSpec(this, constraint ?? Version);
+        public override void OverrideSource(Publisher publisher)
+            => _publisher = Publishers.First(x => x.Publisher == publisher);
+
+        public override ContentPublisher GetSource(IHaveSourcePaths game)
+            => _publisher ?? (_publisher = CalculatePublisher(game));
+
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint)
+            => new NetworkContentSpec(this, constraint ?? Version);
 
         protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {
             foreach (var d in Dependencies)
                 d.Content.GetRelatedContent(x, d.Constraint);
         }
 
-        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game) => GetSource(game).Publisher == Publisher.Steam
-            ? game.SteamDirectories.Workshop.ContentPath
-            : game.ContentPaths.Path;
+        private IAbsoluteDirectoryPath GetSourceRoot(IHaveSourcePaths game)
+            => GetSource(game).Publisher == Publisher.Steam
+                ? game.SteamDirectories.Workshop.ContentPath
+                : game.ContentPaths.Path;
 
         public void ReplaceDependencies(IEnumerable<NetworkContentSpec> dependencies)
             => Dependencies = dependencies.ToList();
-
-        public override void OverrideSource(Publisher publisher) => _publisher = Publishers.First(x => x.Publisher == publisher);
-
-        public override ContentPublisher GetSource(IHaveSourcePaths game)
-            => _publisher ?? (_publisher = CalculatePublisher(game));
 
         private ContentPublisher CalculatePublisher(IHaveSourcePaths game) {
             if (!Publishers.Any())
@@ -93,7 +97,7 @@ namespace SN.withSIX.Mini.Core.Games
                 return Publishers.GetPublisher(Publisher.withSIX);
 
             return Publishers.HasPublisher(Publisher.Steam) &&
-                   ((Game.SteamHelper.SteamFound && game.SteamDirectories.IsValid) || Publishers.Count == 1)
+                   ((Game.SteamHelper.SteamFound && game.SteamDirectories.IsValid) || (Publishers.Count == 1))
                 ? Publishers.GetPublisher(Publisher.Steam)
                 : Publishers.First(x => x.Publisher != Publisher.Steam);
         }

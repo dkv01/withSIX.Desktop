@@ -2,8 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System.Linq;
-
 namespace SN.withSIX.Core.Applications.Services
 {
     /*

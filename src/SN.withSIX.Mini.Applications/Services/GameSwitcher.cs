@@ -3,14 +3,10 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services;
 
 namespace SN.withSIX.Mini.Applications.Services
@@ -46,7 +42,8 @@ namespace SN.withSIX.Mini.Applications.Services
 
             var gameContext = _locator.GetGameContext();
             var game = await gameContext.FindGameOrThrowAsync(gameId).ConfigureAwait(false);
-            if (query == null) game.CleanupContent();
+            if (query == null)
+                game.CleanupContent();
 
             await _setup.HandleGameContentsWhenNeeded(query, game.Id).ConfigureAwait(false);
         }

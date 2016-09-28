@@ -71,6 +71,8 @@ namespace SN.withSIX.Mini.Applications
         public static bool IsShuttingDown => Common.Flags.ShuttingDown;
         public static ArgsO Args { get; set; } = new ArgsO();
 
+        public static IMessageBus MessageBus => _cheat.MessageBus;
+
         public static void SetServices(ICheatImpl cheat) {
             if (_cheat != null)
                 throw new NotSupportedException("Not supposed to set this twice");
@@ -79,8 +81,6 @@ namespace SN.withSIX.Mini.Applications
 
         public static string WindowDisplayName(string title) => title; //+ " - " + Consts.ProductTitle;
 
-        public static IMessageBus MessageBus => _cheat.MessageBus;
-
         public static IObservable<T> Listen<T>(this IUsecaseExecutor _) => MessageBus.Listen<T>();
 
         public static IObservable<T> ListenIncludeLatest<T>(this IUsecaseExecutor _)
@@ -88,7 +88,8 @@ namespace SN.withSIX.Mini.Applications
 
         public static void PublishToMessageBus<T>(this T message) => MessageBus.SendMessage(message);
         // We are using dynamic here because the messagebus relies on generic typing
-        public static void PublishToMessageBusDynamically(this IDomainEvent message) => MessageBus.SendMessage((dynamic)message);
+        public static void PublishToMessageBusDynamically(this IDomainEvent message)
+            => MessageBus.SendMessage((dynamic) message);
     }
 
     public class BackgroundTasks : IDisposable
@@ -99,7 +100,7 @@ namespace SN.withSIX.Mini.Applications
             var tasks = _tasks;
             _tasks = null;
             //foreach (var t in tasks)
-              //  t.Dispose();
+            //  t.Dispose();
         }
 
         public void RegisterTask(Task task) {
@@ -159,7 +160,7 @@ namespace SN.withSIX.Mini.Applications
         public static string ProductVersion { get; set; }
         public static bool IsTestVersion { get; }
 #if DEBUG || NIGHTLY_RELEASE
-            = true;
+        = true;
 #else
             = false;
 #endif

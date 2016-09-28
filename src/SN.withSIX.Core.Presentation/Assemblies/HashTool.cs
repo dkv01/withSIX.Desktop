@@ -12,7 +12,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
     {
         public static string SHA1FileHash(string fileName) {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            //using (var bufferedStream = GetBufferedStream(fs))
+                //using (var bufferedStream = GetBufferedStream(fs))
                 return SHA1StreamHash(fs);
         }
 

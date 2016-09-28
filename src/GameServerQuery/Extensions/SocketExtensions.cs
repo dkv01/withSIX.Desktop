@@ -12,12 +12,12 @@ namespace GameServerQuery.Extensions
 {
     public static class SocketExtensions
     {
-        public static async Task<int> SendWithTimeoutAfter(this UdpClient client, Byte[] list, int delay, IPEndPoint ep) {
+        public static async Task<int> SendWithTimeoutAfter(this UdpClient client, byte[] list, int delay, IPEndPoint ep) {
             using (var token = new CancellationTokenSource())
                 return await SendWithTimeoutAfter(client, list, delay, ep, token).ConfigureAwait(false);
         }
 
-        public static async Task<int> SendWithTimeoutAfter(this UdpClient client, Byte[] list, int delay, IPEndPoint ep,
+        public static async Task<int> SendWithTimeoutAfter(this UdpClient client, byte[] list, int delay, IPEndPoint ep,
             CancellationTokenSource cancel) {
             if (client == null)
                 throw new NullReferenceException();

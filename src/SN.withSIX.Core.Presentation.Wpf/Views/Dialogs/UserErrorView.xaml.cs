@@ -5,17 +5,15 @@
 using System.Windows;
 using System.Windows.Data;
 using ReactiveUI;
-
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
-    
     public partial class UserErrorView : StandardDialog, IViewFor<UserErrorViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (UserErrorViewModel), typeof (UserErrorView),
+            DependencyProperty.Register("ViewModel", typeof(UserErrorViewModel), typeof(UserErrorView),
                 new PropertyMetadata(null));
 
         public UserErrorView() {

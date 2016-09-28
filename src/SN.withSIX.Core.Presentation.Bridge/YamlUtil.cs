@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="YamlUtil.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -12,7 +16,6 @@ using Newtonsoft.Json;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy;
-using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 using YamlDotNet.Core;
 using YamlDotNet.RepresentationModel;
@@ -26,52 +29,70 @@ namespace SN.withSIX.Core.Presentation
     public class YamlUtil : IYamlUtil, IPresentationService
     {
         [Obsolete("Use extensions")]
-        public Task<T> GetYaml<T>(Uri uri, CancellationToken ct = default(CancellationToken), string token = null) => uri.GetYaml<T>(ct, token);
-
-        public void PrintMapping(YamlMappingNode mapping) {
-            Contract.Requires<ArgumentNullException>(mapping != null);
-
-            foreach (var entry in mapping.Children) {
-                var key = ((YamlScalarNode)entry.Key).Value;
-                var value = string.Empty;
-
-                try {
-                    value = ((YamlScalarNode)entry.Value).Value;
-                } catch (Exception) { }
-
-                Console.WriteLine("{0}: {1}", key, value);
-            }
-        }
+        public Task<T> GetYaml<T>(Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+            => uri.GetYaml<T>(ct, token);
 
         public T NewFromYamlFile<T>(IAbsoluteFilePath fileName) => NewFromYaml<T>(fileName.ReadAllText());
 
         public T NewFromYaml<T>(string yaml) {
-            try { 
+            try {
                 return yaml.FromYaml<T>();
             } catch (Exception ex) {
                 throw new YamlParseException(ex.Message, ex);
             }
         }
 
+        public string ToYaml(object graph) {
+            Contract.Requires<ArgumentNullException>(graph != null);
+
+            var serializer = new Serializer();
+            using (var text = new StringWriter()) {
+                text.Write("--- \r\n");
+                var emitter = new Emitter(text);
+                serializer.Serialize(emitter, graph);
+                return text.ToString();
+            }
+        }
+
+        public void ToYamlFile(IBaseYaml graph, IAbsoluteFilePath fileName)
+            => YamlIoExtensions._SaveYaml(graph.ToYaml(), fileName);
+
+        // We call the graph ToYaml() because it manually serialises..
+
+        public void PrintMapping(YamlMappingNode mapping) {
+            Contract.Requires<ArgumentNullException>(mapping != null);
+
+            foreach (var entry in mapping.Children) {
+                var key = ((YamlScalarNode) entry.Key).Value;
+                var value = string.Empty;
+
+                try {
+                    value = ((YamlScalarNode) entry.Value).Value;
+                } catch (Exception) {}
+
+                Console.WriteLine("{0}: {1}", key, value);
+            }
+        }
+
         public Dictionary<string, string> ToStringDictionary(IDictionary<YamlNode, YamlNode> list) {
             Contract.Requires<ArgumentNullException>(list != null);
 
-            return list.ToDictionary(ent => ((YamlScalarNode)ent.Key).Value,
-                ent => ((YamlScalarNode)ent.Value).Value);
+            return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
+                ent => ((YamlScalarNode) ent.Value).Value);
         }
 
         public Dictionary<string, int> ToIntDictionary(IDictionary<YamlNode, YamlNode> list) {
             Contract.Requires<ArgumentNullException>(list != null);
 
-            return list.ToDictionary(ent => ((YamlScalarNode)ent.Key).Value,
-                ent => ((YamlScalarNode)ent.Value).Value.TryInt());
+            return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
+                ent => ((YamlScalarNode) ent.Value).Value.TryInt());
         }
 
         public Dictionary<string, long> ToLongDictionary(IDictionary<YamlNode, YamlNode> list) {
             Contract.Requires<ArgumentNullException>(list != null);
 
-            return list.ToDictionary(ent => ((YamlScalarNode)ent.Key).Value,
-                ent => ((YamlScalarNode)ent.Value).Value.TryLong());
+            return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
+                ent => ((YamlScalarNode) ent.Value).Value.TryLong());
         }
 
         public Dictionary<string, string> GetStringDictionaryInternal(YamlNode node) {
@@ -80,14 +101,14 @@ namespace SN.withSIX.Core.Presentation
             var mapping = node as YamlMappingNode;
             if (mapping == null) {
                 var mapping2 = node as YamlScalarNode;
-                if (mapping2 != null && string.IsNullOrEmpty(mapping2.Value))
+                if ((mapping2 != null) && string.IsNullOrEmpty(mapping2.Value))
                     return null;
 
                 var mapping3 = node as YamlSequenceNode;
                 if (mapping3 != null) {
                     return mapping3
-                        .Select(n => ((YamlSequenceNode)n).ToArray())
-                        .ToDictionary(ar => ((YamlScalarNode)ar[0]).Value, ar => ((YamlScalarNode)ar[1]).Value);
+                        .Select(n => ((YamlSequenceNode) n).ToArray())
+                        .ToDictionary(ar => ((YamlScalarNode) ar[0]).Value, ar => ((YamlScalarNode) ar[1]).Value);
                 }
 
                 throw new YamlExpectedOtherNodeTypeException("Expected YamlMappingNode");
@@ -101,11 +122,11 @@ namespace SN.withSIX.Core.Presentation
             var mapping = node as YamlSequenceNode;
             if (mapping == null) {
                 var mapping2 = node as YamlScalarNode;
-                if (mapping2 != null && string.IsNullOrEmpty(mapping2.Value))
+                if ((mapping2 != null) && string.IsNullOrEmpty(mapping2.Value))
                     return null;
                 throw new YamlExpectedOtherNodeTypeException("Expected YamlSequenceNode");
             }
-            return mapping.Children.Select(x => ((YamlScalarNode)x).Value).ToArray();
+            return mapping.Children.Select(x => ((YamlScalarNode) x).Value).ToArray();
         }
 
         YamlNode GetRootNode(YamlStream yaml) {
@@ -129,7 +150,7 @@ namespace SN.withSIX.Core.Presentation
         public DateTime GetDateTimeOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            var val = ((YamlScalarNode)node).Value;
+            var val = ((YamlScalarNode) node).Value;
             DateTime dt;
             DateTime.TryParse(val, out dt);
             return dt;
@@ -138,46 +159,31 @@ namespace SN.withSIX.Core.Presentation
         public string GetStringOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value;
+            return ((YamlScalarNode) node).Value;
         }
 
         public long GetLongOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value.TryLong();
+            return ((YamlScalarNode) node).Value.TryLong();
         }
 
         public int GetIntOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value.TryInt();
+            return ((YamlScalarNode) node).Value.TryInt();
         }
 
         public bool GetBoolOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value.TryBool();
+            return ((YamlScalarNode) node).Value.TryBool();
         }
 
         public string[] GetStringArray(YamlNode node) => GetStringArrayInternal(node) ?? new string[0];
 
         public Dictionary<string, string> GetStringDictionary(YamlNode node)
             => GetStringDictionaryInternal(node) ?? new Dictionary<string, string>();
-
-        public string ToYaml(object graph) {
-            Contract.Requires<ArgumentNullException>(graph != null);
-
-            var serializer = new Serializer();
-            using (var text = new StringWriter()) {
-                text.Write("--- \r\n");
-                var emitter = new Emitter(text);
-                serializer.Serialize(emitter, graph);
-                return text.ToString();
-            }
-        }
-
-        public void ToYamlFile(IBaseYaml graph, IAbsoluteFilePath fileName)
-            => YamlIoExtensions._SaveYaml(graph.ToYaml(), fileName); // We call the graph ToYaml() because it manually serialises..
     }
 
     public static class YamlIoExtensions
@@ -216,24 +222,27 @@ namespace SN.withSIX.Core.Presentation
 
     public static class W6DownloaderYamlExtensions
     {
-        public static Task<T> GetYaml<T>(this Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+        public static Task<T> GetYaml<T>(this Uri uri, CancellationToken ct = default(CancellationToken),
+                string token = null)
             => uri.GetYaml<T>(ct, client => W6DownloaderExtensions.Setup(client, uri, token));
 
-        public static Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+        public static Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken),
+                string token = null)
             => uri.GetYamlText(ct, client => W6DownloaderExtensions.Setup(client, uri, token));
 
-        public static Task<string> PostYaml(this object model, Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+        public static Task<string> PostYaml(this object model, Uri uri,
+                CancellationToken ct = default(CancellationToken), string token = null)
             => model.PostJson(uri, ct, client => W6DownloaderExtensions.Setup(client, uri, token));
     }
 
     public static class DownloaderYamlExtensions
     {
-
         private const string YamlMimeType = "text/yaml";
         private const string YamlMimeAcceptType =
             "text/html,application/xhtml+xml,application/xml,text/yaml,text/x-yaml,application/yaml,application/x-yaml";
 
-        public static async Task<T> GetYaml<T>(this Uri uri, CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
+        public static async Task<T> GetYaml<T>(this Uri uri, CancellationToken ct = default(CancellationToken),
+            Action<HttpClient> setup = null) {
             var c = await uri.GetYamlText(ct, setup).ConfigureAwait(false);
             return c.FromYaml<T>();
         }
@@ -245,7 +254,8 @@ namespace SN.withSIX.Core.Presentation
                         .Deserialize<T>(stringReader);
         }
 
-        public static async Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
+        public static async Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken),
+            Action<HttpClient> setup = null) {
             using (var client = DownloaderExtensions.GetHttpClient()) {
                 //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(YamlMimeType));
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", YamlMimeAcceptType);
@@ -258,7 +268,8 @@ namespace SN.withSIX.Core.Presentation
             }
         }
 
-        public static async Task<string> PostYaml(object model, Uri uri, CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
+        public static async Task<string> PostYaml(object model, Uri uri,
+            CancellationToken ct = default(CancellationToken), Action<HttpClient> setup = null) {
             DownloaderExtensions.Validator.ValidateObject(model);
             using (var client = new HttpClient()) {
                 //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(YamlMimeType));

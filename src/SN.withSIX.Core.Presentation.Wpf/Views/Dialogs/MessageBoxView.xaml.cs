@@ -4,18 +4,16 @@
 
 using System.Windows;
 using ReactiveUI;
-
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.MVVM.Views.Dialogs;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
-    
     public partial class MessageBoxView : StandardDialog, IMessageBoxView
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (IMessageBoxViewModel), typeof (MessageBoxView),
+            DependencyProperty.Register("ViewModel", typeof(IMessageBoxViewModel), typeof(MessageBoxView),
                 new PropertyMetadata(null));
 
         public MessageBoxView() {

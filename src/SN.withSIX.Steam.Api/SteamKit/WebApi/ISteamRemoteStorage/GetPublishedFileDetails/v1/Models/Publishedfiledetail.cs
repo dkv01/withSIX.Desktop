@@ -24,9 +24,9 @@ namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedF
         public string hcontent_preview { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        [JsonConverter(typeof (UnixTimestampConverter))]
+        [JsonConverter(typeof(UnixTimestampConverter))]
         public DateTime? time_created { get; set; }
-        [JsonConverter(typeof (UnixTimestampConverter))]
+        [JsonConverter(typeof(UnixTimestampConverter))]
         public DateTime? time_updated { get; set; }
         public uint visibility { get; set; }
         public uint banned { get; set; }

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 
 namespace SN.withSIX.Mini.Applications
@@ -20,7 +19,7 @@ namespace SN.withSIX.Mini.Applications
     public static class GameStuffExtensions
     {
         public static Task HandleGameContentsWhenNeeded(this ISetupGameStuff This,
-            ContentQuery query = null, params Guid[] gameIds)
+                ContentQuery query = null, params Guid[] gameIds)
             => This.HandleGameContentsWhenNeeded(gameIds, query);
     }
 }

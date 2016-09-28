@@ -67,10 +67,6 @@ namespace SN.withSIX.Sync.Core.Repositories
         readonly IAbsoluteFilePath _serialPath;
 
         private readonly AsyncLock _writeLock = new AsyncLock();
-        public IAbsoluteDirectoryPath BundlesPath { get; }
-        public IAbsoluteDirectoryPath ObjectsPath { get; }
-        public IAbsoluteDirectoryPath PackagesPath { get; }
-        public IAbsoluteDirectoryPath RootPath { get; }
         bool _disposed;
         FileStream _lockFileStream;
 
@@ -105,26 +101,31 @@ namespace SN.withSIX.Sync.Core.Repositories
             Serial = LoadSerial();
         }
 
+        public IAbsoluteDirectoryPath BundlesPath { get; }
+        public IAbsoluteDirectoryPath ObjectsPath { get; }
+        public IAbsoluteDirectoryPath PackagesPath { get; }
+        public IAbsoluteDirectoryPath RootPath { get; }
+
         public long Serial { get; set; }
         public RepositoryConfig Config { get; protected set; }
         public RepositoryStore Index { get; protected set; }
         public RepositoryRemote[] Remotes { get; private set; }
+
+        public void Dispose() {
+            Dispose(true);
+        }
 
         public Task ClearObjectsAsync() => TaskExt.StartLongRunningTask(() => ClearObjects());
 
         private void ClearObjects() {
             foreach (
                 var d in
-                    ObjectsPath.DirectoryInfo.EnumerateDirectories()
-                        .Where(x => x.Name.ToLower() != "temp")
-                        .Select(x => x.FullName.ToAbsoluteDirectoryPath()))
+                ObjectsPath.DirectoryInfo.EnumerateDirectories()
+                    .Where(x => x.Name.ToLower() != "temp")
+                    .Select(x => x.FullName.ToAbsoluteDirectoryPath()))
                 d.Delete(true);
             Index.Objects.Clear();
             SaveIndex();
-        }
-
-        public void Dispose() {
-            Dispose(true);
         }
 
         long LoadSerial() => _serialPath.Exists ? File.ReadAllText(_serialPath.ToString()).TryLong() : 0;
@@ -264,9 +265,10 @@ namespace SN.withSIX.Sync.Core.Repositories
             mappingConfig.CreateMap<RepositoryStore, RepositoryStorePackagesDto>()
                 .ForMember(x => x.PackagesContentTypes,
                     opt =>
-                        opt.MapFrom(src => src.PackagesContentTypes.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
-                            .ToDictionary(x => x.Key,
-                                x => x.Value.OrderBy(y => y).ToList())))
+                        opt.MapFrom(
+                            src => src.PackagesContentTypes.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
+                                .ToDictionary(x => x.Key,
+                                    x => x.Value.OrderBy(y => y).ToList())))
                 .ForMember(x => x.Packages,
                     opt => opt.MapFrom(src => src.Packages.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase)
                         .ToDictionary(x => x.Key, x => x.Value.OrderBy(y => new SpecificVersionInfo(y)).ToList())))
@@ -319,8 +321,8 @@ namespace SN.withSIX.Sync.Core.Repositories
         public bool HasPackage(SpecificVersion package) => Index.HasPackage(package);
 
         public IEnumerable<SpecificVersion> DeletePackage(IEnumerable<SpecificVersion> packages,
-            bool inclWorkFiles = false,
-            bool inclDependencies = false)
+                bool inclWorkFiles = false,
+                bool inclDependencies = false)
             => packages.Where(package => DeletePackage(package, inclWorkFiles, inclDependencies)).ToArray();
 
         public bool DeletePackage(SpecificVersion package, bool inclWorkFiles = false, bool inclDependencies = false) {
@@ -401,7 +403,8 @@ namespace SN.withSIX.Sync.Core.Repositories
             return false;
         }
 
-        public async Task<IReadOnlyCollection<RepositoryRemote>> LoadRemotesAsync(string remote = null, CancellationToken token = default(CancellationToken)) {
+        public async Task<IReadOnlyCollection<RepositoryRemote>> LoadRemotesAsync(string remote = null,
+            CancellationToken token = default(CancellationToken)) {
             using (await _remoteLock.LockAsync(token).ConfigureAwait(false)) {
                 var remotes = GetRepositoryRemotes(remote).ToArray();
                 await Task.WhenAll(remotes.Select(x => x.LoadAsync(token: token))).ConfigureAwait(false);
@@ -493,7 +496,7 @@ namespace SN.withSIX.Sync.Core.Repositories
         string[] GetInvalidPackages() => (from p in GetLocalPackages()
             let depInfo = new SpecificVersion(p)
             let package = Package.TryLoad(PackagesPath.GetChildFileWithName(p + ".json"))
-            where package == null || package.GetFullName() != depInfo.GetFullName()
+            where (package == null) || (package.GetFullName() != depInfo.GetFullName())
             select p).ToArray();
 
         async Task<string[]> GetStalePackages() {
@@ -561,7 +564,7 @@ namespace SN.withSIX.Sync.Core.Repositories
             return objects
                 .Where(x => {
                     var objP = GetObjectPath(x.Key);
-                    return !objP.Exists || GetChecksum(objP) != x.Value;
+                    return !objP.Exists || (GetChecksum(objP) != x.Value);
                 })
                 .Select(x => new ObjectInfo(x.Key, x.Value))
                 .ToArray();
@@ -719,7 +722,7 @@ namespace SN.withSIX.Sync.Core.Repositories
                 throw new Exception("File not found");
             var packedHash = GetChecksum(filePath);
             var o = GetObject(hash);
-            if (o != null && o.ChecksumPack == packedHash)
+            if ((o != null) && (o.ChecksumPack == packedHash))
                 return;
             Index.AddObject(hash, packedHash);
         }
@@ -851,8 +854,8 @@ namespace SN.withSIX.Sync.Core.Repositories
             => DownloadAndConfirm<BundleDto>(GetRemoteBundlePath(collectionName), remotes, token);
 
         Task DownloadAndConfirm<TIn>(string file, IEnumerable<Uri> remotes, CancellationToken token) where TIn : class
-            => SyncEvilGlobal.DownloadHelper.DownloadFileAsync(file, RootPath, remotes.ToArray(), token, 10,
-                ConfirmValidity<TIn>);
+        => SyncEvilGlobal.DownloadHelper.DownloadFileAsync(file, RootPath, remotes.ToArray(), token, 10,
+            ConfirmValidity<TIn>);
 
         public static bool ConfirmValidity<TIn>(IAbsoluteFilePath filePath) where TIn : class {
             try {
@@ -900,11 +903,11 @@ namespace SN.withSIX.Sync.Core.Repositories
             var failed = new List<string>();
             foreach (
                 var metaData in
-                    Index.Packages.Select(
-                        package =>
-                            Package.Load(
-                                GetMetaDataPath(new SpecificVersion(package.Key, package.Value.Last()).GetFullName())))
-                ) {
+                Index.Packages.Select(
+                    package =>
+                        Package.Load(
+                            GetMetaDataPath(new SpecificVersion(package.Key, package.Value.Last()).GetFullName())))
+            ) {
                 if (string.IsNullOrWhiteSpace(metaData.ContentType))
                     failed.Add(metaData.Name);
                 else
@@ -1010,7 +1013,7 @@ namespace SN.withSIX.Sync.Core.Repositories
             => (GetPackageKeepValue(packageName) ?? GetGlobalKeepPackageValue()).GetValueOrDefault(DefaultKeepPackages);
 
         IEnumerable<SpecificVersion> CleanPackage(string packageName, IEnumerable<SpecificVersion> keepVersions,
-            int limit)
+                int limit)
             => DeletePackage(GetOlderPackages(packageName, limit).Where(x => ShouldDeletePackage(x, keepVersions)));
 
         int? GetPackageKeepValue(string packageName) {
@@ -1023,7 +1026,7 @@ namespace SN.withSIX.Sync.Core.Repositories
         int? GetGlobalKeepPackageValue() => Config.KeepVersionsPerPackage;
 
         bool ShouldDeletePackage(SpecificVersion package, IEnumerable<SpecificVersion> keepVersions = null) {
-            if (keepVersions != null && keepVersions.Contains(package))
+            if ((keepVersions != null) && keepVersions.Contains(package))
                 return false;
             if (!Index.PackagesCustomConfigs.ContainsKey(package.Name))
                 return true;
@@ -1046,7 +1049,7 @@ namespace SN.withSIX.Sync.Core.Repositories
                                                    string.Join(", ", notExistentPackages));
             }
 
-            if (limit.HasValue && limit.Value == -1)
+            if (limit.HasValue && (limit.Value == -1))
                 return cleaned;
 
             cleaned.AddRange(limit.HasValue
@@ -1156,13 +1159,13 @@ namespace SN.withSIX.Sync.Core.Repositories
         public ConfigurationException(string message) : base(message) {}
     }
 
-    
+
     class FileExistsException : Exception
     {
         public FileExistsException(string rootPath) : base(rootPath) {}
     }
 
-    
+
     public class NotARepositoryException : Exception
     {
         public NotARepositoryException(string folderDoesNotExist) : base(folderDoesNotExist) {}

@@ -11,7 +11,8 @@ namespace SN.withSIX.Core
 {
     public class ToolsServices : IDomainService
     {
-        public ToolsServices(IProcessManager pm, Lazy<IWCFClient> wcfClient, Lazy<IGeoIpService> geoService, ICompressionUtil compression, IUacHelper uacHelper) {
+        public ToolsServices(IProcessManager pm, Lazy<IWCFClient> wcfClient, Lazy<IGeoIpService> geoService,
+            ICompressionUtil compression, IUacHelper uacHelper) {
             GeoService = geoService;
             Compression = compression;
             UacHelper = uacHelper;

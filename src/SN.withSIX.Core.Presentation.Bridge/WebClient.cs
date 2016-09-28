@@ -17,6 +17,8 @@ namespace SN.withSIX.Core.Presentation.Bridge
             Timeout = timeout;
         }
 
+        public int Timeout { get; set; }
+
         public IDisposable SetupDownloadTransferProgress(ITransferProgress transferProgress, TimeSpan timeout) {
             var lastTime = Tools.Generic.GetCurrentUtcDateTime;
             long lastBytes = 0;
@@ -94,8 +96,6 @@ namespace SN.withSIX.Core.Presentation.Bridge
             });
             return timer;
         }
-
-        public int Timeout { get; set; }
 
         public void SetAuthInfo(string userInfo) {
             var splitUserInfo = userInfo.Split(':');

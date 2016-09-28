@@ -16,11 +16,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
         static BindablePasswordBox() {
             PasswordProperty = DependencyProperty.Register(
                 "Password",
-                typeof (string),
-                typeof (BindablePasswordBox),
+                typeof(string),
+                typeof(BindablePasswordBox),
                 new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     OnPasswordPropertyChanged)
-                );
+            );
         }
 
         public BindablePasswordBox() {

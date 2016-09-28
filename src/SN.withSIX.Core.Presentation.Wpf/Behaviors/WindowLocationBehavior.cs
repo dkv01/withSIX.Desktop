@@ -13,8 +13,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         /// </summary>
         public static readonly DependencyProperty TaskbarLocationProperty = DependencyProperty.RegisterAttached(
             "TaskbarLocation",
-            typeof (bool),
-            typeof (WindowLocationBehavior),
+            typeof(bool),
+            typeof(WindowLocationBehavior),
             new FrameworkPropertyMetadata(false, OnTaskbarLocationChanged));
 
         /// <summary>

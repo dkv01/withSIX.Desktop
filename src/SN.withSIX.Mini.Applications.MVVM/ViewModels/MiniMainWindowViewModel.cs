@@ -10,7 +10,6 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels.Main;
 using SN.withSIX.Mini.Applications.Services;
 
@@ -26,7 +25,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
             Menu = menu;
             _status = status;
             _taskbarToolTip = this.WhenAnyValue(x => x.DisplayName, x => x.Status.Status,
-                FormatTaskbarToolTip)
+                    FormatTaskbarToolTip)
                 .ToProperty(this, x => x.TaskbarToolTip);
             OpenPopup = ReactiveCommand.Create();
             ShowNotification = ReactiveCommand.CreateAsyncTask(async x => (ITrayNotificationViewModel) x);
@@ -37,11 +36,12 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
             /*            Listen<ApiUserActionStarted>()
                 .ObserveOnMainThread()
                 .InvokeCommand(OpenPopup);*/
-            RxExtensions.ObserveOnMainThread<ClientInfoUpdated>(this.Listen<ClientInfoUpdated>()
-                    .Where(x => x.Info.UpdateState == AppUpdateState.Updating))
+            this.Listen<ClientInfoUpdated>()
+                .Where(x => x.Info.UpdateState == AppUpdateState.Updating).ObserveOnMainThread()
                 .InvokeCommand(OpenPopup);
-            RxExtensions.ObserveOnMainThread<TrayNotificationViewModel>(this.Listen<ShowTrayNotification>()
-                    .Select(x => new TrayNotificationViewModel(x.Subject, x.Text, x.CloseIn, x.Actions)))
+            this.Listen<ShowTrayNotification>()
+                .Select(x => new TrayNotificationViewModel(x.Subject, x.Text, x.CloseIn, x.Actions))
+                .ObserveOnMainThread()
                 .InvokeCommand(ShowNotification);
         }
 

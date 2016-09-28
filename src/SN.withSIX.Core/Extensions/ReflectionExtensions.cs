@@ -13,13 +13,13 @@ namespace SN.withSIX.Core.Extensions
     public static class AttributeUtils
     {
         public static bool HasAttribute<TAttribute>(this MemberInfo member, bool inherit = true)
-            where TAttribute : Attribute => member.IsDefined(typeof (TAttribute), inherit);
+            where TAttribute : Attribute => member.IsDefined(typeof(TAttribute), inherit);
 
         public static TAttribute GetAttribute<TAttribute>(this MemberInfo member, bool inherit = true)
             where TAttribute : Attribute => member.GetAttributes<TAttribute>(inherit).FirstOrDefault();
 
         public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo member, bool inherit = true)
-            where TAttribute : Attribute => member.GetCustomAttributes(typeof (TAttribute), inherit).Cast<TAttribute>();
+            where TAttribute : Attribute => member.GetCustomAttributes(typeof(TAttribute), inherit).Cast<TAttribute>();
     }
 
     public static class ReflectionExtensions
@@ -48,10 +48,10 @@ namespace SN.withSIX.Core.Extensions
         public static MethodInfo GetGeneric<TAct>(TAct act, params Type[] types) => GetGeneric(null, act, types);
 
         static TAct CreateDelegate<TAct>(this MethodInfo methodInfo, object instance = null) {
-            Contract.Requires<ArgumentException>((!methodInfo.IsStatic && instance != null) || methodInfo.IsStatic);
+            Contract.Requires<ArgumentException>((!methodInfo.IsStatic && (instance != null)) || methodInfo.IsStatic);
             if (instance != null)
-                return (TAct) (object) methodInfo.CreateDelegate(typeof (TAct), instance);
-            return (TAct) (object) methodInfo.CreateDelegate(typeof (TAct));
+                return (TAct) (object) methodInfo.CreateDelegate(typeof(TAct), instance);
+            return (TAct) (object) methodInfo.CreateDelegate(typeof(TAct));
         }
 
         public static TAct CallGeneric<TAct>(TAct act, params Type[] types) => CallGeneric(null, act, types);

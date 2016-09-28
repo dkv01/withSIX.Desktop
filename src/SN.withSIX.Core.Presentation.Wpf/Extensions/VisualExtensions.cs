@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
-using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Extensions
@@ -130,13 +129,13 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
 
             ContextMenu cm = null;
             var fe = dep as FrameworkElement;
-            if (fe != null && fe.ContextMenu != null)
+            if ((fe != null) && (fe.ContextMenu != null))
                 cm = fe.ContextMenu;
 
             while ((dep != null) && (cm == null)) {
                 dep = VisualTreeHelper.GetParent(FindVisualTreeRoot(dep));
                 fe = dep as FrameworkElement;
-                if (fe != null && fe.ContextMenu != null)
+                if ((fe != null) && (fe.ContextMenu != null))
                     cm = fe.ContextMenu;
             }
 

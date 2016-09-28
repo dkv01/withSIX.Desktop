@@ -10,7 +10,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
     public class MarginSetter
     {
         public static readonly DependencyProperty MarginProperty =
-            DependencyProperty.RegisterAttached("Margin", typeof (Thickness), typeof (MarginSetter),
+            DependencyProperty.RegisterAttached("Margin", typeof(Thickness), typeof(MarginSetter),
                 new UIPropertyMetadata(new Thickness(), MarginChangedCallback));
 
         public static Thickness GetMargin(DependencyObject obj) => (Thickness) obj.GetValue(MarginProperty);

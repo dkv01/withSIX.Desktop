@@ -47,9 +47,9 @@ namespace SN.withSIX.Sync.Core.Packages
     public class PackageManager : IEnableLogging
     {
         readonly string _remote;
-        public Repository Repo { get; }
 
-        public PackageManager(Repository repo, IAbsoluteDirectoryPath workDir, StatusRepo statusRepo, bool createWhenNotExisting = false,
+        public PackageManager(Repository repo, IAbsoluteDirectoryPath workDir, StatusRepo statusRepo,
+            bool createWhenNotExisting = false,
             string remote = null) {
             Contract.Requires<ArgumentNullException>(repo != null);
             Contract.Requires<ArgumentNullException>(workDir != null);
@@ -80,6 +80,16 @@ namespace SN.withSIX.Sync.Core.Packages
             _remote = remote;
         }
 
+        public Repository Repo { get; }
+
+        public PackageProgress Progress { get; set; } = SetupSynqProgress();
+
+        public PackageManagerSettings Settings { get; }
+        public StatusRepo StatusRepo { get; set; } // set is obsolete/bwc
+        public IAbsoluteDirectoryPath WorkDir { get; }
+
+        public bool LegacyMode { get; set; }
+
         public static PackageProgress SetupSynqProgress(string title = "Network mods") {
             var packageFetching = new ProgressLeaf("Preparing");
             var networkModsProcessing = new ProgressContainer("Downloading", 9);
@@ -92,17 +102,13 @@ namespace SN.withSIX.Sync.Core.Packages
             };
         }
 
-        public PackageProgress Progress { get; set; } = SetupSynqProgress();
-
-        public PackageManagerSettings Settings { get; }
-        public StatusRepo StatusRepo { get; set; } // set is obsolete/bwc
-        public IAbsoluteDirectoryPath WorkDir { get; }
-
         [Obsolete("Workaround for classic callers")]
         public static async Task<PackageManager> Create(Repository repo, IAbsoluteDirectoryPath workDir,
             bool createWhenNotExisting = false,
             string remote = null) {
-            var pm = new PackageManager(repo, workDir, new StatusRepo(), createWhenNotExisting, remote) {LegacyMode = true};
+            var pm = new PackageManager(repo, workDir, new StatusRepo(), createWhenNotExisting, remote) {
+                LegacyMode = true
+            };
             await repo.RefreshRemotes().ConfigureAwait(false);
             return pm;
         }
@@ -186,16 +192,16 @@ namespace SN.withSIX.Sync.Core.Packages
         }
 
         public Task<Package[]> ProcessPackage(SpecificVersion package, bool? useFullNameOverride = null,
-            bool noCheckout = false, bool skipWhenFileMatches = true)
+                bool noCheckout = false, bool skipWhenFileMatches = true)
             => ProcessPackage(package.ToDependency(), useFullNameOverride, noCheckout, skipWhenFileMatches);
 
         public Task<Package[]> ProcessPackage(Dependency package, bool? useFullNameOverride = null,
-            bool noCheckout = false, bool skipWhenFileMatches = true)
+                bool noCheckout = false, bool skipWhenFileMatches = true)
             => ProcessPackages(new[] {package}, useFullNameOverride, noCheckout, skipWhenFileMatches);
 
         public Task<Package[]> ProcessPackages(IEnumerable<SpecificVersion> packageNames,
-            bool? useFullNameOverride = null,
-            bool noCheckout = false, bool skipWhenFileMatches = true)
+                bool? useFullNameOverride = null,
+                bool noCheckout = false, bool skipWhenFileMatches = true)
             => ProcessPackages(packageNames.Select(x => x.ToDependency()), useFullNameOverride, noCheckout,
                 skipWhenFileMatches);
 
@@ -238,8 +244,6 @@ namespace SN.withSIX.Sync.Core.Packages
             return packages.ToArray();
         }
 
-        public bool LegacyMode { get; set; }
-
         private async Task ProcessModern(bool noCheckout, Package[] packages) {
             if (noCheckout)
                 throw new NotSupportedException();
@@ -249,8 +253,8 @@ namespace SN.withSIX.Sync.Core.Packages
             var allRemotes = packages.SelectMany(x => FindRemotesWithPackage(x.GetFullName())).Distinct().ToArray();
             await
                 synqer.DownloadPackages(packages,
-                    Repo.ObjectsPath.GetChildDirectoryWithName("temp"),
-                    allRemotes, StatusRepo, doRemoval ? Progress.Cleanup : null, Progress.Processing)
+                        Repo.ObjectsPath.GetChildDirectoryWithName("temp"),
+                        allRemotes, StatusRepo, doRemoval ? Progress.Cleanup : null, Progress.Processing)
                     .ConfigureAwait(false);
             // TODO: Only when changed?
             foreach (var p in packages)
@@ -295,11 +299,14 @@ namespace SN.withSIX.Sync.Core.Packages
             var packages = new List<Package>();
 
             await
-                Progress.PackageFetching.Do(() => GetDependencyTreeInternal(dependencies, noCheckout, useFullName, list, list2, packages)).ConfigureAwait(false);
+                Progress.PackageFetching.Do(
+                        () => GetDependencyTreeInternal(dependencies, noCheckout, useFullName, list, list2, packages))
+                    .ConfigureAwait(false);
             return packages;
         }
 
-        private async Task GetDependencyTreeInternal(IReadOnlyCollection<Dependency> dependencies, bool noCheckout, bool useFullName, List<string> list,
+        private async Task GetDependencyTreeInternal(IReadOnlyCollection<Dependency> dependencies, bool noCheckout,
+            bool useFullName, List<string> list,
             List<string> list2, List<Package> packages) {
             StatusRepo.Reset(RepoStatus.Resolving, dependencies.Count);
 
@@ -329,21 +336,22 @@ namespace SN.withSIX.Sync.Core.Packages
             var i = 0;
             var totalCount = specificVersions.Count;
             var lObject = new object();
-            var allRemotes = specificVersions.SelectMany(x => FindRemotesWithPackage(x.GetFullName())).Distinct().ToArray();
+            var allRemotes =
+                specificVersions.SelectMany(x => FindRemotesWithPackage(x.GetFullName())).Distinct().ToArray();
             return
                 SyncEvilGlobal.DownloadHelper.DownloadFilesAsync(allRemotes, StatusRepo,
                     specificVersions.ToDictionary(x => new FileFetchInfo("packages/" + x.GetFullName() + ".json"),
                         x =>
                             (ITransferStatus)
-                                new Status(x.GetFullName(), StatusRepo) {
-                                    RealObject = "packages/" + x + ".json",
-                                    OnComplete =
-                                        () => {
-                                            lock (lObject)
-                                                Progress.PackageFetching.Update(null, (++i).ToProgress(totalCount));
-                                            return TaskExt.Default;
-                                        }
-                                }),
+                            new Status(x.GetFullName(), StatusRepo) {
+                                RealObject = "packages/" + x + ".json",
+                                OnComplete =
+                                    () => {
+                                        lock (lObject)
+                                            Progress.PackageFetching.Update(null, (++i).ToProgress(totalCount));
+                                        return TaskExt.Default;
+                                    }
+                            }),
                     Repo.RootPath);
         }
 
@@ -491,7 +499,7 @@ namespace SN.withSIX.Sync.Core.Packages
         SpecificVersion ResolvePackageName(string packageName) {
             var resolvePackageName = TryResolvePackageName(packageName);
             if (resolvePackageName == null)
-                    throw new NoSourceFoundException("Could not resolve package " + packageName);
+                throw new NoSourceFoundException("Could not resolve package " + packageName);
             return resolvePackageName;
         }
 
@@ -527,7 +535,9 @@ namespace SN.withSIX.Sync.Core.Packages
 
             // TODO: Higher level policy can be overwritten by dependencies (e.g specified dependency contraints). We dont want this.
             foreach (var dep in package.MetaData.GetDependencies())
-                await ResolveDependencies(list, list2, packages, ResolvePackageName(dep.GetFullName()), done, useFullName, noCheckout).ConfigureAwait(false);
+                await
+                    ResolveDependencies(list, list2, packages, ResolvePackageName(dep.GetFullName()), done, useFullName,
+                        noCheckout).ConfigureAwait(false);
 
             OrderPackageLast(list, packages, package);
         }

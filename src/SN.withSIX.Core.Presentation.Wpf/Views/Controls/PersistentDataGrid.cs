@@ -16,19 +16,19 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class PersistentDataGrid : DataGrid
     {
         public static readonly DependencyProperty ColumnInfoProperty = DependencyProperty.Register("ColumnInfo",
-            typeof (
+            typeof(
                 ObservableCollection
-                    <ColumnInfo>),
-            typeof (
+                <ColumnInfo>),
+            typeof(
                 PersistentDataGrid
-                ),
+            ),
             new FrameworkPropertyMetadata
-                (null,
-                    FrameworkPropertyMetadataOptions
-                        .
-                        BindsTwoWayByDefault,
-                    ColumnInfoChangedCallback)
-            );
+            (null,
+                FrameworkPropertyMetadataOptions
+                    .
+                    BindsTwoWayByDefault,
+                ColumnInfoChangedCallback)
+        );
         bool inWidthChange;
         bool updatingColumnInfo;
         public ObservableCollection<ColumnInfo> ColumnInfo
@@ -48,9 +48,9 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
             EventHandler sortDirectionChangedHandler = (sender, x) => UpdateColumnInfo();
             EventHandler widthPropertyChangedHandler = (sender, x) => inWidthChange = true;
             var sortDirectionPropertyDescriptor =
-                DependencyPropertyDescriptor.FromProperty(DataGridColumn.SortDirectionProperty, typeof (DataGridColumn));
+                DependencyPropertyDescriptor.FromProperty(DataGridColumn.SortDirectionProperty, typeof(DataGridColumn));
             var widthPropertyDescriptor =
-                DependencyPropertyDescriptor.FromProperty(DataGridColumn.WidthProperty, typeof (DataGridColumn));
+                DependencyPropertyDescriptor.FromProperty(DataGridColumn.WidthProperty, typeof(DataGridColumn));
 
             Loaded += (sender, x) => {
                 foreach (var column in Columns) {

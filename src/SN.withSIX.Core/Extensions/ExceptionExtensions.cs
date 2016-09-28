@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 
@@ -20,7 +19,7 @@ namespace SN.withSIX.Core.Extensions
         public static readonly Func<Exception, int, string> FormatException = PrettyExceptions.FormatException;
 
         public static Exception UnwrapExceptionIfNeeded(this Exception ex)
-            => ex is TargetInvocationException && ex.InnerException != null ? ex.InnerException : ex;
+            => ex is TargetInvocationException && (ex.InnerException != null) ? ex.InnerException : ex;
 
         public static bool IsElevationCancelled(this Win32Exception ex)
             => ex.NativeErrorCode == Win32ErrorCodes.ERROR_CANCELLED_ELEVATION;
@@ -41,13 +40,13 @@ namespace SN.withSIX.Core.Extensions
 
         public class PrettyExceptions
         {
-            private static readonly string[] separators = { "\r\n", "\n" };
+            private static readonly string[] separators = {"\r\n", "\n"};
 
             private static string AddPrefix(string msg, int level = 0) {
                 if (level == 0)
                     return msg;
-                var prefix = new string(' ', level * 4);
-                return string.Join("\n", msg.Split((string[])separators, StringSplitOptions.None).Select(x => prefix + x));
+                var prefix = new string(' ', level*4);
+                return string.Join("\n", msg.Split(separators, StringSplitOptions.None).Select(x => prefix + x));
             }
 
             private static string PrettyPrint(IDictionary dict) {
@@ -68,15 +67,15 @@ namespace SN.withSIX.Core.Extensions
                 if (e == null)
                     throw new ArgumentNullException(nameof(e), "Exception to format can't be null");
                 var str = new List<string> {
-                AddPrefix($"Type: {e.GetType()}", level),
-                AddPrefix($"Message:\n{AddPrefix(e.Message, 1)}", level),
-                AddPrefix($"Source: {e.Source}", level),
-                //AddPrefix($"TargetSite: {e.TargetSite}", level)
-            };
+                    AddPrefix($"Type: {e.GetType()}", level),
+                    AddPrefix($"Message:\n{AddPrefix(e.Message, 1)}", level),
+                    AddPrefix($"Source: {e.Source}", level)
+                    //AddPrefix($"TargetSite: {e.TargetSite}", level)
+                };
 
                 ProcessAdditionalExceptionInformation(e, str);
 
-                if (e.Data != null && e.Data.Count > 0)
+                if ((e.Data != null) && (e.Data.Count > 0))
                     str.Add(AddPrefix($"Data: {AddPrefix(PrettyPrint(e.Data), 1)}", level));
 
                 if (e.StackTrace != null)
@@ -90,7 +89,7 @@ namespace SN.withSIX.Core.Extensions
             private static void ProcessAdditionalExceptionInformation(Exception e, ICollection<string> str) {
                 //var ee = e as ExternalException;
                 //if (ee != null)
-                  //  str.Add(AddPrefix($"ErrorCode: {ee.ErrorCode}"));
+                //  str.Add(AddPrefix($"ErrorCode: {ee.ErrorCode}"));
 
                 var w32 = e as Win32Exception;
                 if (w32 != null)
@@ -108,20 +107,20 @@ namespace SN.withSIX.Core.Extensions
                 }
 
                 var rle = e as ReflectionTypeLoadException;
-                if (rle != null
-                    && rle.LoaderExceptions != null) {
+                if ((rle != null)
+                    && (rle.LoaderExceptions != null)) {
                     str.AddRange(rle.LoaderExceptions.Select(
                         a => AddPrefix("Inner Exception:\n" + FormatException(a, 1), level)));
                 }
-/*
-                var ce = e as CompositionException;
-                if (ce != null
-                    && ce.Errors != null) {
-                    str.AddRange(ce.Errors.Select(
-                        error => AddPrefix(
-                            $"CompositionError Description: {error.Description}, Element: {error.Element}, Exception: {(error.Exception == null ? null : FormatException(error.Exception, 1))}",
-                            level)));
-                }*/
+                /*
+                                var ce = e as CompositionException;
+                                if (ce != null
+                                    && ce.Errors != null) {
+                                    str.AddRange(ce.Errors.Select(
+                                        error => AddPrefix(
+                                            $"CompositionError Description: {error.Description}, Element: {error.Element}, Exception: {(error.Exception == null ? null : FormatException(error.Exception, 1))}",
+                                            level)));
+                                }*/
             }
         }
     }

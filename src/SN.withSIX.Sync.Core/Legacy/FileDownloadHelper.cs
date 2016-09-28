@@ -84,11 +84,14 @@ namespace SN.withSIX.Sync.Core.Legacy
         }
 
         public Task DownloadFileAsync(string remoteFile, IAbsoluteFilePath destinationPath,
-            IMirrorSelector selector, ITransferStatus status, CancellationToken token)
+                IMirrorSelector selector, ITransferStatus status, CancellationToken token)
             => DownloadFileAsync(remoteFile, destinationPath, selector, token, x => true, status);
 
-        public ExportLifetimeContext<IMirrorSelector> StartMirrorSession(int limit, IReadOnlyCollection<Uri> remotes) => _createMirrorSelectorWithLimit(limit, remotes);
-        public ExportLifetimeContext<IMirrorSelector> StartMirrorSession(IReadOnlyCollection<Uri> remotes) => _createMirrorSelector(remotes);
+        public ExportLifetimeContext<IMirrorSelector> StartMirrorSession(int limit, IReadOnlyCollection<Uri> remotes)
+            => _createMirrorSelectorWithLimit(limit, remotes);
+
+        public ExportLifetimeContext<IMirrorSelector> StartMirrorSession(IReadOnlyCollection<Uri> remotes)
+            => _createMirrorSelector(remotes);
 
         public async Task DownloadFileAsync(string remoteFile, IAbsoluteDirectoryPath destinationPath,
             IReadOnlyCollection<Uri> remotes, CancellationToken token, int limit,
@@ -96,7 +99,7 @@ namespace SN.withSIX.Sync.Core.Legacy
             using (var scoreMirrorSelector = _createMirrorSelectorWithLimit(limit, remotes)) {
                 await
                     DownloadFileAsync(remoteFile, destinationPath, scoreMirrorSelector.Value, token, confirmValidity,
-                        RepositoryRemote.CalculateHttpFallbackAfter(limit))
+                            RepositoryRemote.CalculateHttpFallbackAfter(limit))
                         .ConfigureAwait(false);
             }
         }
@@ -125,7 +128,7 @@ namespace SN.withSIX.Sync.Core.Legacy
         }
 
         public Task DownloadFileAsync(string remoteFile, IAbsoluteDirectoryPath destinationPath,
-            IMirrorSelector selector, int limit, CancellationToken token)
+                IMirrorSelector selector, int limit, CancellationToken token)
             => DownloadFileAsync(remoteFile, destinationPath, selector, token, x => true,
                 RepositoryRemote.CalculateHttpFallbackAfter(limit));
 
@@ -135,20 +138,20 @@ namespace SN.withSIX.Sync.Core.Legacy
             using (var dl = _createMultiMirrorFileDownloader(scoreMirrorSelector)) {
                 await
                     dl.Value.DownloadAsync(new MultiMirrorFileDownloadSpec(remoteFile,
-                        destinationPath.GetChildFileWithName(remoteFile)) {CancellationToken = token}, token)
+                            destinationPath.GetChildFileWithName(remoteFile)) {CancellationToken = token}, token)
                         .ConfigureAwait(false);
             }
         }
 
         Task DownloadFileAsync(string remoteFile, IAbsoluteDirectoryPath destinationPath,
-            IMirrorSelector scoreMirrorSelector, CancellationToken token,
-            Func<IAbsoluteFilePath, bool> confirmValidity, int zsyncHttpFallbackAfter)
+                IMirrorSelector scoreMirrorSelector, CancellationToken token,
+                Func<IAbsoluteFilePath, bool> confirmValidity, int zsyncHttpFallbackAfter)
             => DownloadFileAsync(remoteFile, destinationPath.GetChildFileWithName(remoteFile), scoreMirrorSelector,
                 token, confirmValidity, zsyncHttpFallbackAfter);
 
         Task DownloadFileAsync(string remoteFile, IAbsoluteFilePath destinationPath,
-            IMirrorSelector scoreMirrorSelector, CancellationToken token,
-            Func<IAbsoluteFilePath, bool> confirmValidity, int zsyncHttpFallbackAfter)
+                IMirrorSelector scoreMirrorSelector, CancellationToken token,
+                Func<IAbsoluteFilePath, bool> confirmValidity, int zsyncHttpFallbackAfter)
             => DownloadFileAsync(remoteFile, destinationPath, scoreMirrorSelector, token, confirmValidity,
                 new TransferStatus(remoteFile) {ZsyncHttpFallbackAfter = zsyncHttpFallbackAfter});
 
@@ -159,7 +162,7 @@ namespace SN.withSIX.Sync.Core.Legacy
             using (var dl = _createMultiMirrorFileDownloader(scoreMirrorSelector)) {
                 await
                     dl.Value.DownloadAsync(new MultiMirrorFileDownloadSpec(remoteFile,
-                        destinationPath, confirmValidity) {
+                            destinationPath, confirmValidity) {
                             CancellationToken = token,
                             Progress = status
                         },

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -84,7 +83,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
             => _cleaner.CleanAsync(action.Paths.Path, action.Cleaning.Exclusions
                 .Concat(
                     new IRelativePath[]
-                    {@".\.synq".ToRelativeDirectoryPath(), @".\.sync-backup".ToRelativeDirectoryPath()})
+                        {@".\.synq".ToRelativeDirectoryPath(), @".\.sync-backup".ToRelativeDirectoryPath()})
                 .ToArray(), action.Cleaning.FileTypes, action.Paths.Path.GetChildDirectoryWithName(SyncBackupDir));
 
         async Task Synchronize(IInstallContentAction<IInstallableContent> action) {
@@ -97,7 +96,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         }
 
         async Task<IInstallerSession> CreateSession(
-            IInstallContentAction<IInstallableContent> action)
+                IInstallContentAction<IInstallableContent> action)
             => _sessionFactory.Create(action, info => StatusChange(Status.Synchronizing, info));
 
         // TODO: Post this to an async Queue that processes and retries in the background instead? (and perhaps merges queued items etc??)
@@ -119,8 +118,8 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
             public bool BackupFiles { get; } = true;
 
             public Task CleanAsync(IAbsoluteDirectoryPath workingDirectory,
-                IReadOnlyCollection<IRelativePath> exclusions, IEnumerable<string> fileTypes,
-                IAbsoluteDirectoryPath backupPath)
+                    IReadOnlyCollection<IRelativePath> exclusions, IEnumerable<string> fileTypes,
+                    IAbsoluteDirectoryPath backupPath)
                 => TaskExt.StartLongRunningTask(() => Clean(workingDirectory, exclusions, fileTypes, backupPath));
 
             public void Clean(IAbsoluteDirectoryPath workingDirectory, IReadOnlyCollection<IRelativePath> exclusions,
@@ -187,7 +186,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
             }
 
             static bool IsNotExcluded(IFilePath x, IReadOnlyCollection<IAbsoluteDirectoryPath> excludedDirectories,
-                IEnumerable<IAbsoluteFilePath> excludedFiles)
+                    IEnumerable<IAbsoluteFilePath> excludedFiles)
                 => IsNotDirectoryExcluded(x, excludedDirectories) && !excludedFiles.Contains(x);
 
             static bool IsNotDirectoryExcluded(IFilePath x,
@@ -204,13 +203,13 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 
             static IEnumerable<IAbsoluteFilePath> GetExcludedFiles(IAbsoluteDirectoryPath workingDirectory,
                 IEnumerable<IRelativePath> exclusions) => exclusions.Where(x => x.IsFilePath)
-                    .Select(x => x.GetAbsolutePathFrom(workingDirectory))
-                    .Cast<IAbsoluteFilePath>();
+                .Select(x => x.GetAbsolutePathFrom(workingDirectory))
+                .Cast<IAbsoluteFilePath>();
 
             static IEnumerable<IAbsoluteDirectoryPath> GetExcludedDirectories(IAbsoluteDirectoryPath workingDirectory,
                 IEnumerable<IRelativePath> exclusions) => exclusions.Where(x => x.IsDirectoryPath)
-                    .Select(x => x.GetAbsolutePathFrom(workingDirectory))
-                    .Cast<IAbsoluteDirectoryPath>();
+                .Select(x => x.GetAbsolutePathFrom(workingDirectory))
+                .Cast<IAbsoluteDirectoryPath>();
         }
     }
 
@@ -276,7 +275,8 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
     public static class ItemStateExtensions
     {
         public static bool RequiresAction(this ItemState state)
-            => state == ItemState.NotInstalled || state == ItemState.UpdateAvailable || state == ItemState.Incomplete;
+            =>
+            (state == ItemState.NotInstalled) || (state == ItemState.UpdateAvailable) || (state == ItemState.Incomplete);
 
         public static bool IsBusy(this ItemState state) => state >= ItemState.Installing;
     }

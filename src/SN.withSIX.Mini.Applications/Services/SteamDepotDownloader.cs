@@ -2,20 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using NDepend.Path;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Sync.Core.Transfer;
-using withSIX.Api.Models.Exceptions;
-
 namespace SN.withSIX.Mini.Applications.Services
-{/*
+{ /*
     public class SteamDepotDownloader
     {
         private readonly ISteamDownloader _steamDownloader;

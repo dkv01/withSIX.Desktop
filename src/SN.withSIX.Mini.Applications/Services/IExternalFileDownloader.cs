@@ -25,7 +25,6 @@ namespace SN.withSIX.Mini.Applications.Services
 
     public abstract class ExternalFileDownloaderBase : IExternalFileDownloader
     {
-        protected IExternalDownloadStateHandler State { get; }
         private readonly IDictionary<Uri, IAbsoluteFilePath> _cache = new Dictionary<Uri, IAbsoluteFilePath>();
         private readonly IDictionary<Uri, TaskCompletionSource<IAbsoluteFilePath>> _tasks =
             new Dictionary<Uri, TaskCompletionSource<IAbsoluteFilePath>>();
@@ -33,6 +32,8 @@ namespace SN.withSIX.Mini.Applications.Services
         protected ExternalFileDownloaderBase(IExternalDownloadStateHandler state) {
             State = state;
         }
+
+        protected IExternalDownloadStateHandler State { get; }
 
         public async Task<IAbsoluteFilePath> DownloadFile(Uri url, IAbsoluteDirectoryPath destination,
             Action<long?, double> progressAction, CancellationToken token = default(CancellationToken)) {

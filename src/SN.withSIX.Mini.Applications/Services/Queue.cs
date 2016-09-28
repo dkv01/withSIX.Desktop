@@ -9,10 +9,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SN.withSIX.Core.Applications.Errors;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
@@ -91,11 +91,11 @@ namespace SN.withSIX.Mini.Applications.Services
         public long? Speed { get; }
         public DateTime LastUpdate { get; protected set; } = DateTime.UtcNow;
 
-        public bool Equals(ProgressState other) => other != null && other.GetHashCode() == GetHashCode();
+        public bool Equals(ProgressState other) => (other != null) && (other.GetHashCode() == GetHashCode());
 
         public override bool Equals(object other) {
             var o = other as ProgressState;
-            return o != null && Equals(o);
+            return (o != null) && Equals(o);
         }
 
         public override int GetHashCode() => HashCode.Start.Hash(Progress).Hash(Action).Hash(Speed);
@@ -175,7 +175,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 await item.Task.ConfigureAwait(false);
             } catch (OperationCanceledException) {
                 item.UpdateState(CompletionState.Canceled);
-                    // Handled by item already?? However I suppose we can have multiple sources of cancellation (user induced, or system induced etc)
+                // Handled by item already?? However I suppose we can have multiple sources of cancellation (user induced, or system induced etc)
                 await Update(item).ConfigureAwait(false); // Handled by Cancel method in manager already?
                 return;
             } catch (Exception ex) {

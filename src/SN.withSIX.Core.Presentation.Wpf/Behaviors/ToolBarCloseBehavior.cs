@@ -14,8 +14,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty IsEnabledProperty =
             DependencyProperty.RegisterAttached(
                 "IsEnabled",
-                typeof (bool),
-                typeof (ToolBarCloseBehavior),
+                typeof(bool),
+                typeof(ToolBarCloseBehavior),
                 new UIPropertyMetadata(false, OnIsEnabledChanged));
 
         public static bool GetIsEnabled(ToolBar popup) => (bool) popup.GetValue(IsEnabledProperty);
@@ -44,7 +44,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
 
             // Closes too soon??
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                if (button != null && button.ContextMenu == null)
+                if ((button != null) && (button.ContextMenu == null))
                     popup.IsOverflowOpen = false;
             }));
         }

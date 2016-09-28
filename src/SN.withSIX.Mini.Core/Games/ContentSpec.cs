@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using withSIX.Api.Models.Content.v3;
@@ -51,7 +50,7 @@ namespace SN.withSIX.Mini.Core.Games
     public static class ContentSpecExtensions
     {
         public static ItemState GetState<T>(this IContentSpec<T> spec) where T : IContent
-            => spec.Content.GetState(spec.Constraint);
+        => spec.Content.GetState(spec.Constraint);
     }
 
     [DataContract]
@@ -157,9 +156,10 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public T Id { get; }
 
-        public bool Equals(ContentIdSpec<T> other) => other != null && (ReferenceEquals(this, other) ||
-                                                                        EqualityComparer<T>.Default.Equals(other.Id, Id) &&
-                                                                        other.Constraint == Constraint);
+        public bool Equals(ContentIdSpec<T> other) => (other != null) && (ReferenceEquals(this, other) ||
+                                                                          (EqualityComparer<T>.Default.Equals(other.Id,
+                                                                               Id) &&
+                                                                           (other.Constraint == Constraint)));
 
         public override bool Equals(object obj) => Equals(obj as ContentIdSpec<T>);
 

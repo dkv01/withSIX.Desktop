@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using MediatR;
 
 namespace SN.withSIX.Core.Applications.Services
 {

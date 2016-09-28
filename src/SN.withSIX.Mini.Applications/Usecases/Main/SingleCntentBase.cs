@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core;
 using withSIX.Api.Models.Content.v3;
 using ContentGuidSpec = SN.withSIX.Mini.Core.Games.ContentGuidSpec;
 

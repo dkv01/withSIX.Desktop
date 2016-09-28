@@ -19,7 +19,6 @@ using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
@@ -172,8 +171,6 @@ namespace SN.withSIX.Mini.Applications.Services
             }
         }
 
-        public class AbortedException : OperationCanceledException {}
-
         private static Exception FilterAggregateException(AggregateException ex) {
             var errors = ex.Flatten().InnerExceptions;
             var filtered = errors.NotOfType<Exception, ExternalDownloadCancelled>().ToArray();
@@ -239,7 +236,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private void BuildInstallableContent(IEnumerable<IContentSpec<IPackagedContent>> content)
             => _installableContent = content.ToDictionary(x => x.Content,
-                x => new SpecificVersion(x.Content.GetFQN(x.Constraint)))
+                    x => new SpecificVersion(x.Content.GetFQN(x.Constraint)))
                 .Where(x => !_completed.Values.Contains(x.Value))
                 .ToDictionary(x => x.Key, x => x.Value);
 
@@ -276,8 +273,8 @@ namespace SN.withSIX.Mini.Applications.Services
 
         private Dictionary<IPackagedContent, SpecificVersion> ToProcessContent(
             Dictionary<IPackagedContent, SpecificVersion> content) => _action.Force
-                ? content
-                : OnlyWhenNewOrUpdateAvailable(content).ToDictionary(x => x.Key, x => x.Value);
+            ? content
+            : OnlyWhenNewOrUpdateAvailable(content).ToDictionary(x => x.Key, x => x.Value);
 
         private Dictionary<IPackagedContent, SpecificVersion> GetExternalContent() => _installableContent
             .Where(x => ShouldInstallFromExternal(x.Key))
@@ -396,8 +393,8 @@ namespace SN.withSIX.Mini.Applications.Services
 
         LocalCollection ConvertToTemporaryCollection()
             =>
-                new LocalCollection(_action.Game.Id, "Temp collection",
-                    _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
+            new LocalCollection(_action.Game.Id, "Temp collection",
+                _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
 
         Task TryInstallContent() => TaskExtExt.Create(
             InstallPackages,
@@ -405,7 +402,7 @@ namespace SN.withSIX.Mini.Applications.Services
             InstallExternalContent,
             InstallGroupAndRepoContent,
             PerformPostInstallTasks
-            ).RunAndThrow();
+        ).RunAndThrow();
 
         private async Task InstallGroupAndRepoContent() {
             _averageSpeed = new AverageContainer2(20);
@@ -433,7 +430,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 //"The following content will be downloaded from External websites,\nDuring the process, a window will open and you will need to click the respective Download buttons for the the following Content:\n" +
                 //string.Join(", ", _externalContentToInstall.Select(x => x.Key.PackageName)) +
                 //"\n\nPress OK to Continue",
-                new[] { RecoveryCommandModel.Continue, RecoveryCommandModel.Cancel }));
+                new[] {RecoveryCommandModel.Continue, RecoveryCommandModel.Cancel}));
 
         private void MarkContentStates() {
             // TODO: How about marking this content at the start, much like .Use() for RecentItems
@@ -459,7 +456,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
             try {
                 await
                     postInstaller.PostInstallHandler(_allInstallableContent.Except(_failed), _action.CancelToken,
-                        _completed.Values)
+                            _completed.Values)
                         .ConfigureAwait(false);
             } catch (AggregateException ex) {
                 var flatten = ex.Flatten();
@@ -560,7 +557,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
         }
 
         private static IEnumerable<KeyValuePair<IContent, SpecificVersion>> ConvertPairs(
-            IDictionary<IPackagedContent, SpecificVersion> r)
+                IDictionary<IPackagedContent, SpecificVersion> r)
             => r.Select(x => new KeyValuePair<IContent, SpecificVersion>(x.Key, x.Value));
 
         async Task InstallRepoContent() {
@@ -597,14 +594,14 @@ Click CONTINUE to open the download page and follow the instructions until the d
         }
 
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable(
-            IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
+                IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
             => dict.Where(x => x.Key.GetState(x.Value) != ItemState.Uptodate);
 
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable()
             => _packageContent.Where(x => {
                 var syncInfo = GetInstalledInfo(x);
                 // syncINfo = null: new download, VersionData not equal: new update
-                return syncInfo == null || !syncInfo.VersionData.Equals(x.Value.VersionData);
+                return (syncInfo == null) || !syncInfo.VersionData.Equals(x.Value.VersionData);
             });
 
         private Dictionary<IPackagedContent, SpecificVersion> GetRepoContentToInstallOrUpdate()
@@ -633,6 +630,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
         Task InstallContent(IContentSpec<IInstallableContent> c)
             => c.Content.Install(this, _action.CancelToken, c.Constraint);
+
+        public class AbortedException : OperationCanceledException {}
 
         class SteamSession : Session
         {
@@ -687,17 +686,17 @@ Click CONTINUE to open the download page and follow the instructions until the d
             }
 
             public Task PostInstallHandler(IEnumerable<KeyValuePair<IContent, SpecificVersion>> toPostProcess,
-                CancellationToken cancellationToken, IReadOnlyCollection<SpecificVersion> installedContent) =>
-                    RunAndThrow(toPostProcess, async c => {
-                        try {
-                            await
-                                c.Key.PostInstall(_installerSession, cancellationToken,
-                                    installedContent.Contains(c.Value)).ConfigureAwait(false);
-                        } catch (NotInstallableException) {
-                            Completed.Add(c.Key, c.Value);
-                            throw;
-                        }
-                    });
+                    CancellationToken cancellationToken, IReadOnlyCollection<SpecificVersion> installedContent) =>
+                RunAndThrow(toPostProcess, async c => {
+                    try {
+                        await
+                            c.Key.PostInstall(_installerSession, cancellationToken,
+                                installedContent.Contains(c.Value)).ConfigureAwait(false);
+                    } catch (NotInstallableException) {
+                        Completed.Add(c.Key, c.Value);
+                        throw;
+                    }
+                });
         }
 
         class SixSyncInstaller : Session
@@ -738,7 +737,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 using (new StatusRepoMonitor(_statusRepo, _tryLegacyStatusChange)) {
                     await
                         RunAndThrow(groupContentToInstall,
-                            x => InstallGroupC(x.Value, x.Key, contentProgress[i++], packPath))
+                                x => InstallGroupC(x.Value, x.Key, contentProgress[i++], packPath))
                             .ConfigureAwait(false);
                 }
             }
@@ -749,7 +748,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 var modInfo = @group.GetMod(dep.Name);
                 await
                     @group.GetMod(modInfo, _action.Paths.Path, packPath,
-                        _statusRepo, _authProvider, _action.Force)
+                            _statusRepo, _authProvider, _action.Force)
                         .ConfigureAwait(false);
                 progressComponent.Finish();
                 // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
@@ -768,7 +767,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 using (new StatusRepoMonitor(_statusRepo, _tryLegacyStatusChange)) {
                     await
                         RunAndThrow(repoContentToInstall,
-                            x => InstallRepoC(x.Value, x.Key, contentProgress[i++], packPath))
+                                x => InstallRepoC(x.Value, x.Key, contentProgress[i++], packPath))
                             .ConfigureAwait(false);
                 }
             }
@@ -779,7 +778,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 var modInfo = repo.GetMod(dep.Name);
                 await
                     repo.GetMod(dep.Name, _action.Paths.Path, packPath,
-                        _statusRepo, _action.Force)
+                            _statusRepo, _action.Force)
                         .ConfigureAwait(false);
                 progress.Finish();
                 // TODO: Incremental info update, however this is hard due to implementation of SixSync atm..
@@ -921,8 +920,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private readonly uint _appId;
             private readonly Dictionary<ulong, ProgressLeaf> _content;
             private readonly SteamHelperParser _steamHelperParser;
-            private readonly IAbsoluteDirectoryPath _workshopPath;
             private readonly SteamHelperRunner _steamHelperRunner;
+            private readonly IAbsoluteDirectoryPath _workshopPath;
 
             public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath,
                 Dictionary<ulong, ProgressLeaf> content) {
@@ -931,7 +930,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 _appId = appId;
                 _workshopPath = workshopPath;
                 _content = content;
-                _steamHelperParser = new SteamExternalInstallerSession.SteamHelperParser(content);
+                _steamHelperParser = new SteamHelperParser(content);
                 _steamHelperRunner = new SteamHelperRunner();
             }
 
@@ -948,7 +947,9 @@ Click CONTINUE to open the download page and follow the instructions until the d
             }
 
             private Task RunHelper(CancellationToken cancelToken, string cmd, params string[] options)
-                => _steamHelperRunner.RunHelperInternal(cancelToken, GetHelperParameters(cmd, options), _steamHelperParser.ProcessProgress,
+                =>
+                _steamHelperRunner.RunHelperInternal(cancelToken, GetHelperParameters(cmd, options),
+                    _steamHelperParser.ProcessProgress,
                     (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s));
 
             public IEnumerable<string> GetHelperParameters(string command, params string[] options)
@@ -1121,8 +1122,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
     public class NotDetectedAsSteamGame : DidNotStartException
     {
-        public NotDetectedAsSteamGame() : base("The current game does not appear to be detected as a Steam game") { }
-        public NotDetectedAsSteamGame(string message) : base(message) { }
-        public NotDetectedAsSteamGame(string message, Exception inner) : base(message, inner) { }
+        public NotDetectedAsSteamGame() : base("The current game does not appear to be detected as a Steam game") {}
+        public NotDetectedAsSteamGame(string message) : base(message) {}
+        public NotDetectedAsSteamGame(string message, Exception inner) : base(message, inner) {}
     }
 }

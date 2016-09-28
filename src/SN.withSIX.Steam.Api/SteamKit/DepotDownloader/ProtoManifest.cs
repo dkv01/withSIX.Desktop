@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// <copyright company="SIX Networks GmbH" file="ProtoManifest.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using NDepend.Path;

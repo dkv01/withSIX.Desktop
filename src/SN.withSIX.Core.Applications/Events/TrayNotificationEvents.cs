@@ -27,9 +27,6 @@ namespace SN.withSIX.Core.Applications.Events
 
     public class TwoChoiceTrayNotification : EventArgs, ITrayNotification
     {
-        public ICommand NoCommand { get; }
-        public ICommand YesCommand { get; }
-
         public TwoChoiceTrayNotification(string title, string message, ICommand yesCommand, ICommand noCommand) {
             Title = title;
             Message = message;
@@ -37,16 +34,15 @@ namespace SN.withSIX.Core.Applications.Events
             NoCommand = noCommand;
         }
 
+        public ICommand NoCommand { get; }
+        public ICommand YesCommand { get; }
+
         public string Message { get; }
         public string Title { get; }
     }
 
     public class ThreeChoiceTrayNotification : EventArgs, ITrayNotification
     {
-        public ICommand AcceptCommand { get; }
-        public ICommand DeclineCommand { get; }
-        public ICommand IgnoreCommand { get; }
-
         public ThreeChoiceTrayNotification(string title, string message, ICommand acceptCommand,
             ICommand declineCommand,
             ICommand ignoreCommand) {
@@ -56,6 +52,10 @@ namespace SN.withSIX.Core.Applications.Events
             DeclineCommand = declineCommand;
             IgnoreCommand = ignoreCommand;
         }
+
+        public ICommand AcceptCommand { get; }
+        public ICommand DeclineCommand { get; }
+        public ICommand IgnoreCommand { get; }
 
         public string Message { get; }
         public string Title { get; }

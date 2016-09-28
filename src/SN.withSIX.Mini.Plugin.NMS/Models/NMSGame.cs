@@ -7,13 +7,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
@@ -24,9 +21,9 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.NMS.Models
 {
     // TODO: Registry, but also auto detection scanner..
-    [Game(GameIds.NMS, Executables = new[] { @"Binaries\NMSELauncher.exe", @"Binaries\NMS.exe"}, Name = "No Man's Sky",
-        IsPublic = true,
-        Slug = "NoMansSky")]
+    [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMSELauncher.exe", @"Binaries\NMS.exe"}, Name = "No Man's Sky",
+         IsPublic = true,
+         Slug = "NoMansSky")]
     [SynqRemoteInfo(GameIds.NMS)]
     [SteamInfo(SteamGameIds.NMS, "No Man's Sky")]
     [DataContract]
@@ -55,7 +52,8 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
 
         private void HandleNMSEDirectory() {
             var nmseDir = InstalledState.Directory.GetChildDirectoryWithName(@"binaries\nmse");
-            if (!nmseDir.Exists) return;
+            if (!nmseDir.Exists)
+                return;
             foreach (var f in nmseDir.DirectoryInfo.EnumerateFiles("*.dll")
                 .Select(x => x.ToAbsoluteFilePath())) {
                 var bak = GetBackupFile(f);
@@ -78,7 +76,8 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                 yield return ContentPaths.Path;
         }
 
-        protected override IAbsoluteDirectoryPath GetDefaultDirectory() => GetGogDir("No Man's Sky") ?? base.GetDefaultDirectory();
+        protected override IAbsoluteDirectoryPath GetDefaultDirectory()
+            => GetGogDir("No Man's Sky") ?? base.GetDefaultDirectory();
 
         private static void HandleFileBasedMod(FileInfo f, IEnumerable<string> packages) {
             var pak = f.ToAbsoluteFilePath();
@@ -106,10 +105,10 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
 
         public override Uri GetPublisherUrl(Publisher c) {
             switch (c) {
-                case Publisher.NoMansSkyMods:
-                    return new Uri($"http://nomansskymods.com/mods/");
-                case Publisher.NexusMods:
-                    return new Uri($"http://www.nexusmods.com/nomanssky/mods/");
+            case Publisher.NoMansSkyMods:
+                return new Uri($"http://nomansskymods.com/mods/");
+            case Publisher.NexusMods:
+                return new Uri($"http://www.nexusmods.com/nomanssky/mods/");
             }
             throw new NotSupportedException($"The publisher is not currently supported {c} for this game");
         }
@@ -123,7 +122,8 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             private readonly IModContent _mod;
             private readonly IAbsoluteDirectoryPath _source;
 
-            public NMSMod(IModContent mod, IAbsoluteDirectoryPath source, IAbsoluteDirectoryPath destination, IAbsoluteDirectoryPath gameDir) {
+            public NMSMod(IModContent mod, IAbsoluteDirectoryPath source, IAbsoluteDirectoryPath destination,
+                IAbsoluteDirectoryPath gameDir) {
                 _mod = mod;
                 _source = source;
                 _destination = destination;
@@ -144,7 +144,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
                     c.Unpack(_source, true);
 
                 var modInfo = EnumerateMatchingFiles("modinfo.xml").FirstOrDefault();
-                if (modInfo != null && modInfo.Exists)
+                if ((modInfo != null) && modInfo.Exists)
                     await HandleAsModInfoBasedMod(modInfo).ConfigureAwait(false);
                 else
                     await HandleFileBasedMod(pakFile).ConfigureAwait(false);
@@ -194,7 +194,7 @@ namespace SN.withSIX.Mini.Plugin.NMS.Models
             private async Task HandleAsSinglePakMod(IAbsoluteFilePath pakFile) {
                 // TODO: Or each included?
                 var sourcePak = EnumerateMatchingFiles("*.pak").FirstOrDefault();
-                if (sourcePak == null || !sourcePak.Exists) {
+                if ((sourcePak == null) || !sourcePak.Exists) {
                     throw new NotInstallableException(
                         $"{_mod.PackageName} source .pak not found! You might try Diagnosing");
                 }

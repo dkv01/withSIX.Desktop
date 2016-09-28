@@ -6,14 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Reflection;
 using Akavache;
 using Caliburn.Micro;
-using Newtonsoft.Json;
-using ReactiveUI;
 using MediatR;
+using Newtonsoft.Json;
 using SimpleInjector;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Infrastructure;
@@ -33,7 +30,6 @@ using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using withSIX.Api.Models.Extensions;
-using Action = System.Action;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 {
@@ -60,12 +56,12 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 
         // TODO: Add all assemblies that implement concrete types defined in setups here
         protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
-            typeof (AppBootstrapperBase).Assembly,
-            typeof (CompressionUtil).Assembly,
-            typeof (FileWriter).Assembly,
-            typeof (Restarter).Assembly,
-            typeof (Common).Assembly,
-            typeof (Mediator).Assembly
+            typeof(AppBootstrapperBase).Assembly,
+            typeof(CompressionUtil).Assembly,
+            typeof(FileWriter).Assembly,
+            typeof(Restarter).Assembly,
+            typeof(Common).Assembly,
+            typeof(Mediator).Assembly
         }.Concat(base.SelectAssemblies()).Distinct();
 
         protected override object GetInstance(Type serviceType, string key) => Container.GetInstance(serviceType);
@@ -124,7 +120,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
-                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommands.YesNoCommands, null, e));
+                        UserErrorHandler.HandleUserError(new UserErrorModel(s, s1, RecoveryCommands.YesNoCommands, null,
+                            e));
                 return result == RecoveryOptionResultModel.RetryOperation;
             };
             Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
@@ -259,8 +256,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 
             void RegisterRequestHandlers() {
                 var requestHandlers = new[] {
-                    typeof (IAsyncRequestHandler<,>),
-                    typeof (IRequestHandler<,>)
+                    typeof(IAsyncRequestHandler<,>),
+                    typeof(IRequestHandler<,>)
                 };
 
                 foreach (var h in requestHandlers)
@@ -269,8 +266,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
 
             void RegisterNotificationHandlers() {
                 var notificationHandlers = new[] {
-                    typeof (INotificationHandler<>),
-                    typeof (IAsyncNotificationHandler<>)
+                    typeof(INotificationHandler<>),
+                    typeof(IAsyncNotificationHandler<>)
                 };
 
                 foreach (var h in notificationHandlers) {

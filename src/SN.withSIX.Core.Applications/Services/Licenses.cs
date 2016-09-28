@@ -4,7 +4,6 @@
 
 using System;
 using System.IO;
-
 using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Core.Applications.Services
@@ -14,7 +13,7 @@ namespace SN.withSIX.Core.Applications.Services
         public Licenses(IPresentationResourceService resourceService) {
             string[] licenses;
             using (var stream = resourceService.GetResource("applicenses.applicenses.lst")
-                )
+            )
             using (var reader = new StreamReader(stream))
                 licenses = reader.ReadToEnd().Split(new[] {"\r\n", "\n"}, StringSplitOptions.None);
 

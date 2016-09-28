@@ -15,8 +15,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
 
         static BindableStaticResource() {
             DummyProperty = DependencyProperty.RegisterAttached("Dummy",
-                typeof (object),
-                typeof (DependencyObject),
+                typeof(object),
+                typeof(DependencyObject),
                 new UIPropertyMetadata(null));
         }
 
@@ -29,7 +29,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         public Binding Binding { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider) {
-            var target = (IProvideValueTarget) serviceProvider.GetService(typeof (IProvideValueTarget));
+            var target = (IProvideValueTarget) serviceProvider.GetService(typeof(IProvideValueTarget));
             var targetObject = (FrameworkElement) target.TargetObject;
 
             Binding.Source = targetObject.DataContext;

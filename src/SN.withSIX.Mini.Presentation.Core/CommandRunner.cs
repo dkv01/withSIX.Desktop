@@ -36,11 +36,22 @@ namespace SN.withSIX.Mini.Presentation.Core
 
     public class LogTextWriter : TextWriter, IDisposable
     {
-        private static ILogger log = MainLog.Logger;
+        private static readonly ILogger log = MainLog.Logger;
+
+        public override void Flush() {
+            if ((buffer != null) && (buffer.Length > 0)) {
+                WriteLine();
+            }
+        }
+
+        protected override void Dispose(bool disposing) {
+            Flush();
+            base.Dispose(disposing);
+        }
 
         #region properties
 
-        private StringBuilder buffer { get; set; }
+        private StringBuilder buffer { get; }
 
         public override Encoding Encoding
         {
@@ -57,107 +68,92 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         #endregion properties ;
 
-        public override void Flush() {
-            if (this.buffer != null && this.buffer.Length > 0) {
-                this.WriteLine();
-            }
-            return;
-        }
-
-        protected override void Dispose(bool disposing) {
-            this.Flush();
-            base.Dispose(disposing);
-        }
-
         #region public constructors
 
-        public LogTextWriter() : this(null) {
-            return;
-        }
+        public LogTextWriter() : this(null) {}
 
         public LogTextWriter(IFormatProvider formatProvider) : base(formatProvider) {
-            this.buffer = new StringBuilder();
+            buffer = new StringBuilder();
         }
 
         #endregion public constructors
 
         #region public Write() overloads
+
         public override void Write(bool value) {
-            this.buffer.Append(value);
-            return;
+            buffer.Append(value);
         }
+
         public override void Write(char value) {
-            this.buffer.Append(value);
-            return;
+            buffer.Append(value);
         }
+
         public override void Write(char[] buffer) {
             this.buffer.Append(buffer);
-            return;
         }
+
         public override void Write(char[] buffer, int index, int count) {
             this.buffer.Append(buffer, index, count);
-            return;
         }
-        public override void Write(decimal value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(double value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(float value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(int value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(long value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(object value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(string format, object arg0) {
-            this.buffer.AppendFormat(this.FormatProvider, format, arg0);
-            return;
-        }
-        public override void Write(string format, object arg0, object arg1) {
-            this.buffer.AppendFormat(this.FormatProvider, format, arg0, arg1);
-            return;
-        }
-        public override void Write(string format, object arg0, object arg1, object arg2) {
-            this.buffer.AppendFormat(this.FormatProvider, format, arg0, arg1, arg2);
-            return;
-        }
-        public override void Write(string format, params object[] arg) {
-            this.buffer.AppendFormat(this.FormatProvider, format, arg);
-            return;
-        }
-        public override void Write(string value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(uint value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void Write(ulong value) {
-            this.buffer.Append(value);
-            return;
-        }
-        public override void WriteLine() {
-            string logMessage = this.buffer.ToString();
 
-            this.buffer.Length = 0;
+        public override void Write(decimal value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(double value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(float value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(int value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(long value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(object value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(string format, object arg0) {
+            buffer.AppendFormat(FormatProvider, format, arg0);
+        }
+
+        public override void Write(string format, object arg0, object arg1) {
+            buffer.AppendFormat(FormatProvider, format, arg0, arg1);
+        }
+
+        public override void Write(string format, object arg0, object arg1, object arg2) {
+            buffer.AppendFormat(FormatProvider, format, arg0, arg1, arg2);
+        }
+
+        public override void Write(string format, params object[] arg) {
+            buffer.AppendFormat(FormatProvider, format, arg);
+        }
+
+        public override void Write(string value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(uint value) {
+            buffer.Append(value);
+        }
+
+        public override void Write(ulong value) {
+            buffer.Append(value);
+        }
+
+        public override void WriteLine() {
+            var logMessage = buffer.ToString();
+
+            buffer.Length = 0;
             log.Info(logMessage);
             Console.WriteLine(logMessage);
-
-            return;
         }
 
         #endregion public Write() overloads
@@ -165,92 +161,90 @@ namespace SN.withSIX.Mini.Presentation.Core
         #region public WriteLine() overloads
 
         public override void WriteLine(bool value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(char value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(char[] buffer) {
-            this.Write(buffer);
-            this.WriteLine();
-            return;
+            Write(buffer);
+            WriteLine();
         }
+
         public override void WriteLine(char[] buffer, int index, int count) {
-            this.Write(buffer, index, count);
-            this.WriteLine();
-            return;
+            Write(buffer, index, count);
+            WriteLine();
         }
+
         public override void WriteLine(decimal value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(double value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(float value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(int value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(long value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(object value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(string format, object arg0) {
-            this.Write(format, arg0);
-            this.WriteLine();
-            return;
+            Write(format, arg0);
+            WriteLine();
         }
+
         public override void WriteLine(string format, object arg0, object arg1) {
-            this.Write(format, arg0, arg1);
-            this.WriteLine();
-            return;
+            Write(format, arg0, arg1);
+            WriteLine();
         }
+
         public override void WriteLine(string format, object arg0, object arg1, object arg2) {
-            this.Write(format, arg0, arg1, arg2);
-            this.WriteLine();
-            return;
+            Write(format, arg0, arg1, arg2);
+            WriteLine();
         }
+
         public override void WriteLine(string format, params object[] arg) {
-            this.Write(format, arg);
-            this.WriteLine();
-            return;
+            Write(format, arg);
+            WriteLine();
         }
+
         public override void WriteLine(string value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(uint value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
+
         public override void WriteLine(ulong value) {
-            this.Write(value);
-            this.WriteLine();
-            return;
+            Write(value);
+            WriteLine();
         }
 
         #endregion public WriteLine() overloads
-
     }
 }

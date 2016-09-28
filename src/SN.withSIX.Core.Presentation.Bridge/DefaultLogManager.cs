@@ -1,4 +1,4 @@
-// <copyright company="SIX Networks GmbH" file="LogManager.cs">
+// <copyright company="SIX Networks GmbH" file="DefaultLogManager.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 

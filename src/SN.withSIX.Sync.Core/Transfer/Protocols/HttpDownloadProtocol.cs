@@ -8,7 +8,6 @@ using System.Net;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
@@ -24,7 +23,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         readonly Tools.FileTools.IFileOps _fileOps;
         private readonly Func<ExportLifetimeContext<IWebClient>> _webClientFactory;
 
-        public HttpDownloadProtocol(Func<ExportLifetimeContext<IWebClient>> webClientFactory, Tools.FileTools.IFileOps fileOps) {
+        public HttpDownloadProtocol(Func<ExportLifetimeContext<IWebClient>> webClientFactory,
+            Tools.FileTools.IFileOps fileOps) {
             _webClientFactory = webClientFactory;
             _fileOps = fileOps;
         }

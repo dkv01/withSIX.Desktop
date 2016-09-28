@@ -108,8 +108,8 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
             set { SetSwitchOrDefault(value); }
         }
         [Description(
-            "Disables the ability to restore the game from minimize and changing resolutions - Reduces System Memory Footprint"
-            )]
+             "Disables the ability to restore the game from minimize and changing resolutions - Reduces System Memory Footprint"
+         )]
         public bool nominimize
         {
             get { return GetSwitchOrDefault(); }

@@ -3,26 +3,19 @@
 // </copyright>
 
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Bridge;
-using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
 using withSIX.Api.Models.Extensions;
-using ILogger = Splat.ILogger;
-using LogLevel = Splat.LogLevel;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -55,7 +48,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public static void ExitForNode() => _bootstrapper.Dispose();
 
         static void SetupAssemblyLoader(IAbsoluteFilePath locationOverride = null) {
-            var entryAssembly = typeof (Entrypoint).GetTypeInfo().Assembly;
+            var entryAssembly = typeof(Entrypoint).GetTypeInfo().Assembly;
             CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, locationOverride,
                 entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath);
         }
@@ -74,7 +67,9 @@ namespace SN.withSIX.Mini.Presentation.Electron
             var exe = cla.First();
             if (!exe.EndsWith(".exe"))
                 exe = exe + ".exe";
-            Common.Flags = new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray(), Environment.Is64BitOperatingSystem);
+            Common.Flags =
+                new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray(),
+                    Environment.Is64BitOperatingSystem);
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));

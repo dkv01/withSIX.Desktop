@@ -4,8 +4,8 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using NDepend.Path;
 using MediatR;
+using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;

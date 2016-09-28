@@ -4,10 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Logging;
-using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Core.Applications.Errors
 {
@@ -18,23 +16,25 @@ namespace SN.withSIX.Core.Applications.Errors
 
     public static class UserErrorHandler
     {
+        public static Func<UserErrorModel, Task<RecoveryOptionResultModel>> HandleUserError { get; set; }
+
         public static Task<RecoveryOptionResultModel> GeneralUserError(Exception exception, string title,
-            string message) => HandleUserError(new UserErrorModel(title, message, new[] { RecoveryCommandModel.Ok }, null, exception));
+                string message)
+            => HandleUserError(new UserErrorModel(title, message, new[] {RecoveryCommandModel.Ok}, null, exception));
 
         public static Task<RecoveryOptionResultModel> InformationalUserError(Exception exception, string title,
             string message) => HandleUserError(new InformationalUserError(exception, title, message));
 
         public static Task<RecoveryOptionResultModel> RecoverableUserError(Exception exception, string title,
             string message) => HandleUserError(new RecoverableUserError(exception, title, message));
-
-        public static Func<UserErrorModel, Task<RecoveryOptionResultModel>> HandleUserError { get; set; }
     }
 
     public static class RecoveryCommands
     {
-        public static readonly RecoveryCommandModel Retry = new RecoveryCommandModel("Retry", o => RecoveryOptionResultModel.RetryOperation);
-        public static RecoveryCommandModel[] YesNoCommands = { RecoveryCommandModel.Yes, RecoveryCommandModel.No };
-        public static RecoveryCommandModel[] RetryCommands = { Retry, RecoveryCommandModel.Cancel };
+        public static readonly RecoveryCommandModel Retry = new RecoveryCommandModel("Retry",
+            o => RecoveryOptionResultModel.RetryOperation);
+        public static RecoveryCommandModel[] YesNoCommands = {RecoveryCommandModel.Yes, RecoveryCommandModel.No};
+        public static RecoveryCommandModel[] RetryCommands = {Retry, RecoveryCommandModel.Cancel};
     }
 
 
@@ -42,15 +42,18 @@ namespace SN.withSIX.Core.Applications.Errors
 
     public class BasicUserError : UserErrorModel
     {
-        public BasicUserError(string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null,
+        public BasicUserError(string errorMessage, string errorCauseOrResolution = null,
+            Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, new [] {RecoveryCommandModel.Cancel}, contextInfo, innerException) {}
+            : base(
+                errorMessage, errorCauseOrResolution, new[] {RecoveryCommandModel.Cancel}, contextInfo, innerException) {}
     }
 
     public class RecoverableUserError : UserErrorModel
     {
-        public RecoverableUserError(Exception innerException, string errorMessage, string errorCauseOrResolution = null, Dictionary<string, object> contextInfo = null)
-            : base(errorMessage, errorCauseOrResolution, RecoveryCommands.RetryCommands, contextInfo, innerException) { }
+        public RecoverableUserError(Exception innerException, string errorMessage, string errorCauseOrResolution = null,
+            Dictionary<string, object> contextInfo = null)
+            : base(errorMessage, errorCauseOrResolution, RecoveryCommands.RetryCommands, contextInfo, innerException) {}
     }
 
     public class InformationalUserError : BasicUserError
@@ -77,6 +80,6 @@ namespace SN.withSIX.Core.Applications.Errors
         public InputUserError(Exception innerException, string errorMessage,
             string errorCauseOrResolution = null,
             Dictionary<string, object> contextInfo = null)
-            : base(innerException, errorMessage, errorCauseOrResolution, contextInfo) { }
+            : base(innerException, errorMessage, errorCauseOrResolution, contextInfo) {}
     }
 }

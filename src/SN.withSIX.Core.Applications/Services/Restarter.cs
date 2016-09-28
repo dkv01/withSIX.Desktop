@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
 
@@ -38,8 +37,8 @@ namespace SN.withSIX.Core.Applications.Services
         public async Task<bool> CheckUac(IAbsoluteDirectoryPath mp) => Tools.UacHelper.CheckUac() &&
                                                                        await
                                                                            TryCheckUac(mp,
-                                                                               mp.GetChildFileWithName(
-                                                                                   "_play_withSIX_testFile.txt"))
+                                                                                   mp.GetChildFileWithName(
+                                                                                       "_play_withSIX_testFile.txt"))
                                                                                .ConfigureAwait(false);
 
         public async Task<bool> TryWithUacFallback(Task task, string info) {
@@ -93,8 +92,8 @@ namespace SN.withSIX.Core.Applications.Services
             }
 
             var report = await UserErrorHandler.HandleUserError(new UserErrorModel("Restart the application elevated?",
-                $"The application failed to write to the path, probably indicating permission issues\nWould you like to restart the application Elevated?\n\n {mp}",
-                RecoveryCommands.YesNoCommands, null, ex)) == RecoveryOptionResultModel.RetryOperation;
+                             $"The application failed to write to the path, probably indicating permission issues\nWould you like to restart the application Elevated?\n\n {mp}",
+                             RecoveryCommands.YesNoCommands, null, ex)) == RecoveryOptionResultModel.RetryOperation;
 
             if (!report)
                 return false;
@@ -106,9 +105,11 @@ namespace SN.withSIX.Core.Applications.Services
             var ps = GetSquirrelRestart(args);
             // TODO
             //if (elevated)
-              //  ps.Verb = "runas";
+            //  ps.Verb = "runas";
 
-            Common.OnExit = () => { using (Process.Start(ps)) {} };
+            Common.OnExit = () => {
+                using (Process.Start(ps)) {}
+            };
 
             if (exit)
                 _shutdownHandler.Shutdown();

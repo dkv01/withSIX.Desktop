@@ -24,7 +24,7 @@ namespace SN.withSIX.Core.Applications
 
     public class RemoteEventData : RemoteEvent
     {
-        public RemoteEventData(string type) : base(type) { }
+        public RemoteEventData(string type) : base(type) {}
         public string Data { get; set; }
     }
 

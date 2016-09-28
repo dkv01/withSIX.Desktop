@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using MediatR;
-using withSIX.Api.Models.Exceptions;
-using withSIX.Api.Models.Premium;
+using Newtonsoft.Json;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Extensions;
@@ -22,6 +20,8 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Sync.Core.Transfer;
 using Synercoding.Encryption.Hashing;
 using Synercoding.Encryption.Symmetrical;
+using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Premium;
 
 namespace SN.withSIX.Mini.Infra.Api.Login
 {
@@ -58,7 +58,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             var userInfo =
                 await
                     _connect.GetUserInfo(CommonUrls.AuthorizationEndpoints.UserInfoEndpoint,
-                        accessInfo.AccessToken)
+                            accessInfo.AccessToken)
                         .ConfigureAwait(false);
             var login = new LoggedInInfo(BuildAccountInfo(userInfo),
                 new AuthenticationInfo {AccessToken = accessInfo.AccessToken});
@@ -141,7 +141,8 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                 var existingToken = userInfo.Authentication.PremiumToken;
                 // Always process the first time. Then on consequtive, only update on change
                 if (_firstCompleted &&
-                    (newToken != null && newToken.Equals(existingToken) || (existingToken == null && newToken == null)))
+                    (((newToken != null) && newToken.Equals(existingToken)) ||
+                     ((existingToken == null) && (newToken == null))))
                     return;
                 userInfo.Authentication.PremiumToken = newToken;
                 await new PremiumTokenUpdatedEvent(newToken).Raise().ConfigureAwait(false);

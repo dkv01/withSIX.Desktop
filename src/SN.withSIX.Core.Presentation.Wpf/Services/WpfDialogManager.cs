@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using System.Windows;
@@ -133,10 +132,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             } else {
                 ev = new MessageBoxViewModel(dialogParams.Message, dialogParams.Title,
                     GetButton(dialogParams.Buttons), dialogParams.RememberedState) {
-                        GreenButtonContent = dialogParams.GreenContent,
-                        BlueButtonContent = dialogParams.BlueContent,
-                        RedButtonContent = dialogParams.RedContent
-                    };
+                    GreenButtonContent = dialogParams.GreenContent,
+                    BlueButtonContent = dialogParams.BlueContent,
+                    RedButtonContent = dialogParams.RedContent
+                };
             }
             return ev;
         }
@@ -149,10 +148,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             } else {
                 ev = new MetroMessageBoxViewModel(dialogParams.Message, dialogParams.Title,
                     GetButton(dialogParams.Buttons), dialogParams.RememberedState) {
-                        GreenButtonContent = dialogParams.GreenContent,
-                        BlueButtonContent = dialogParams.BlueContent,
-                        RedButtonContent = dialogParams.RedContent
-                    };
+                    GreenButtonContent = dialogParams.GreenContent,
+                    BlueButtonContent = dialogParams.BlueContent,
+                    RedButtonContent = dialogParams.RedContent
+                };
             }
             return ev;
         }
@@ -198,7 +197,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
         }
 
         static MessageBoxButton GetButton(SixMessageBoxButton button)
-            => (MessageBoxButton) Enum.Parse(typeof (MessageBoxButton), button.ToString());
+            => (MessageBoxButton) Enum.Parse(typeof(MessageBoxButton), button.ToString());
     }
 
     /// <summary>
@@ -220,11 +219,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             string title = null) => WpfCustomDialogManager.Schedule(() => BrowseForFolderInternal(selectedPath, title));
 
         public Task<string> BrowseForFile(string initialDirectory = null,
-            string title = null,
-            string defaultExt = null, bool checkFileExists = true)
+                string title = null,
+                string defaultExt = null, bool checkFileExists = true)
             =>
-                WpfCustomDialogManager.Schedule(
-                    () => BrowseForFileInternal(initialDirectory, title, defaultExt, checkFileExists));
+            WpfCustomDialogManager.Schedule(
+                () => BrowseForFileInternal(initialDirectory, title, defaultExt, checkFileExists));
 
         public Task<SixMessageBoxResult> MessageBox(MessageBoxDialogParams dialogParams) => _wm.MessageBox(dialogParams);
 
@@ -242,6 +241,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
                     .ConfigureAwait(false);
             return true;
         }
+
         protected string BrowseForFolderInternal(string selectedPath = null, string title = null) {
             WpfCustomDialogManager.ConfirmAccess();
             var dialog = new VistaFolderBrowserDialog {SelectedPath = selectedPath, Description = title};

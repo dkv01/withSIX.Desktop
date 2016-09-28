@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="GameLockMonitor.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;

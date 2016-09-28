@@ -6,14 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-using withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Premium;
 
 namespace SN.withSIX.Mini.Applications.Models
 {
@@ -37,6 +36,8 @@ namespace SN.withSIX.Mini.Applications.Models
         public SecureSettings Secure { get; protected set; }
         public LocalSettings Local { get; protected set; }
 
+        public int ApiPort => Local.ApiPort.GetValueOrDefault(Consts.DefaultHttpsPort);
+
         protected void PrepareEvent(ISyncDomainEvent evt) => _domainEventHandler.PrepareEvent(this, evt);
 
         public void UpdateLogin(LoginInfo login) {
@@ -56,8 +57,6 @@ namespace SN.withSIX.Mini.Applications.Models
             PrepareEvent(new ExtensionStateChanged(state));
         }
 
-        public int ApiPort => Local.ApiPort.GetValueOrDefault(Consts.DefaultHttpsPort);
-
         public void Mapped() {
             Common.Flags.Verbose = Local.EnableDiagnosticsMode || Common.Flags.OriginalVerbose;
         }
@@ -74,12 +73,12 @@ namespace SN.withSIX.Mini.Applications.Models
 
     public static class PremiumTokenExtensions
     {
-        public static bool IsPremium(this PremiumAccessTokenV1 token) => token != null &&
-                                                                         token.PremiumUntil >
-                                                                         Tools.Generic.GetCurrentUtcDateTime;
+        public static bool IsPremium(this PremiumAccessTokenV1 token) => (token != null) &&
+                                                                         (token.PremiumUntil >
+                                                                          Tools.Generic.GetCurrentUtcDateTime);
 
         public static bool IsValidInNearFuture(this PremiumAccessTokenV1 token)
-            => token != null && token.ValidUntil > Tools.Generic.GetCurrentUtcDateTime.AddHours(6);
+            => (token != null) && (token.ValidUntil > Tools.Generic.GetCurrentUtcDateTime.AddHours(6));
     }
 
     [DataContract]
@@ -149,11 +148,11 @@ namespace SN.withSIX.Mini.Applications.Models
         }
 
         [DataMember]
-        public string Username { get;}
+        public string Username { get; }
         [DataMember]
-        public string Password { get;}
+        public string Password { get; }
         [DataMember]
-        public string Domain { get;}
+        public string Domain { get; }
     }
 
 
@@ -198,7 +197,7 @@ namespace SN.withSIX.Mini.Applications.Models
                 return true;
             if (other == null)
                 return false;
-            return other.AccessToken == AccessToken && other.PremiumKey == PremiumKey;
+            return (other.AccessToken == AccessToken) && (other.PremiumKey == PremiumKey);
         }
 
         public override int GetHashCode() => HashCode.Start.Hash(AccessToken).Hash(PremiumKey);

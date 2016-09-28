@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="SetupGameStuff.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +25,12 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     {
         private readonly IDbContextFactory _factory;
         private readonly IGameLocker _gameLocker;
-        private readonly IStateHandler _stateHandler;
         readonly IDbContextLocator _locator;
         readonly INetworkContentSyncer _networkContentSyncer;
+        private readonly IStateHandler _stateHandler;
         //private readonly ICacheManager _cacheMan;
         private readonly TimerWithElapsedCancellationAsync _timer;
-        private GameFactory _gameFactory;
+        private readonly GameFactory _gameFactory;
 
         public SetupGameStuff(IDbContextLocator locator, IDbContextFactory factory,
             INetworkContentSyncer networkContentSyncer, /* ICacheManager cacheMan, */
@@ -112,7 +116,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         Task HandleGameContents(ContentQuery query = null, params Guid[] gameIds)
             => HandleGameContents(gameIds, query);
 
-        async Task HandleGameContents(System.Collections.Generic.IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
+        async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Handling game contents for {string.Join(", ", gameIds)}");
 
@@ -142,8 +146,9 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
         class GameFactory
         {
-            static readonly TypeInfo gameType = typeof (Game).GetTypeInfo();
+            static readonly TypeInfo gameType = typeof(Game).GetTypeInfo();
             private readonly IAssemblyService _ass;
+
             public GameFactory(IAssemblyService ass) {
                 _ass = ass;
             }
@@ -174,7 +179,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             bool IsGameType(Type y) {
                 var x = y.GetTypeInfo();
                 return !x.IsInterface && !x.IsAbstract && gameType.IsAssignableFrom(x) &&
-                       x.GetCustomAttribute<GameAttribute>() != null;
+                       (x.GetCustomAttribute<GameAttribute>() != null);
             }
         }
 

@@ -5,7 +5,6 @@
 using System.Windows.Input;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.MVVM.Services.Components;
 using SN.withSIX.Mini.Applications.Usecases;
@@ -36,7 +35,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
             Close = ReactiveCommand.CreateAsyncTask(async x => x as bool?).DefaultSetup("Close");
             Help =
                 ReactiveCommand.CreateAsyncTask(
-                    async x => await this.SendAsync(new OpenWebLink(ViewType.Help)).ConfigureAwait(false))
+                        async x => await this.SendAsync(new OpenWebLink(ViewType.Help)).ConfigureAwait(false))
                     .DefaultSetup("Help");
         }
 

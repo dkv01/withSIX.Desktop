@@ -7,9 +7,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
@@ -68,7 +66,7 @@ namespace SN.withSIX.Sync.Core.Packages
                 repoDirectory = directory.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory).ToString();
                 if (!Directory.Exists(repoDirectory)) {
                     var dir = Tools.FileUtil.FindPathInParents(directory.ToString(), Repository.DefaultRepoRootDirectory);
-                    if (dir != null && Directory.Exists(dir))
+                    if ((dir != null) && Directory.Exists(dir))
                         repoDirectory = dir;
                     else if (local)
                         repoDirectory = directory.ToString();
@@ -97,7 +95,7 @@ namespace SN.withSIX.Sync.Core.Packages
         }
     }
 
-    
+
     public class PackageNotFoundException : Exception
     {
         public PackageNotFoundException(string message) : base(message) {}

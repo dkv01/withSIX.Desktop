@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="StarboundGameSettingsApiModel.cs">
+﻿// <copyright company="SIX Networks GmbH" file="Fallout4GameSettingsApiModel.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 

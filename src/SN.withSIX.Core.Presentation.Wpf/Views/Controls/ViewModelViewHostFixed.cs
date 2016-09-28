@@ -21,14 +21,14 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class ViewModelViewHostFixed : TransitioningContentControl, IViewFor, IEnableLogger
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (object), typeof (ViewModelViewHostFixed),
+            DependencyProperty.Register("ViewModel", typeof(object), typeof(ViewModelViewHostFixed),
                 new PropertyMetadata(null, somethingChanged));
         public static readonly DependencyProperty DefaultContentProperty =
-            DependencyProperty.Register("DefaultContent", typeof (object), typeof (ViewModelViewHostFixed),
+            DependencyProperty.Register("DefaultContent", typeof(object), typeof(ViewModelViewHostFixed),
                 new PropertyMetadata(null, somethingChanged));
         public static readonly DependencyProperty ViewContractObservableProperty =
-            DependencyProperty.Register("ViewContractObservable", typeof (IObservable<string>),
-                typeof (ViewModelViewHostFixed), new PropertyMetadata(Observable.Return(default(string))));
+            DependencyProperty.Register("ViewContractObservable", typeof(IObservable<string>),
+                typeof(ViewModelViewHostFixed), new PropertyMetadata(Observable.Return(default(string))));
         readonly Subject<Unit> updateViewModel = new Subject<Unit>();
 
         public ViewModelViewHostFixed() {

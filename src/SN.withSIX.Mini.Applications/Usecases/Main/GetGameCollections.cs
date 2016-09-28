@@ -6,9 +6,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
@@ -44,5 +42,5 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
     }
 
     [DataContract]
-    public class CollectionsApiModel : ContentsApiModel { }
+    public class CollectionsApiModel : ContentsApiModel {}
 }

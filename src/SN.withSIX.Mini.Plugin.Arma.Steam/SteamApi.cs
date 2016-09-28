@@ -2,12 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.IO;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Steam.Core;
 using SteamLayerWrap;
 
@@ -22,10 +19,14 @@ namespace withSIX.Steam.Plugin.Arma
         }
 
         public Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap()
-            => _steamApi.Do(t => new LockedWrapper<MatchmakingServiceWrap>(t.CreateMatchmakingService(), _steamApi.Scheduler));
+            =>
+            _steamApi.Do(
+                t => new LockedWrapper<MatchmakingServiceWrap>(t.CreateMatchmakingService(), _steamApi.Scheduler));
 
         public Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap()
-            => _steamApi.Do(t => new LockedWrapper<ServerRulesServiceWrap>(t.CreateServerRulesService(), _steamApi.Scheduler));
+            =>
+            _steamApi.Do(
+                t => new LockedWrapper<ServerRulesServiceWrap>(t.CreateServerRulesService(), _steamApi.Scheduler));
 
         public async Task Initialize(IAbsoluteDirectoryPath gamePath, uint appId) {
             var r = await _steamApi.Do(x => {

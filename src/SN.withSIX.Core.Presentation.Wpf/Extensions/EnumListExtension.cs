@@ -51,7 +51,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         string GetDescription(object enumValue) {
             var descriptionAttribute = EnumType
                 .GetField(enumValue.ToString())
-                .GetCustomAttributes(typeof (DescriptionAttribute), false)
+                .GetCustomAttributes(typeof(DescriptionAttribute), false)
                 .FirstOrDefault() as DescriptionAttribute;
 
 

@@ -7,15 +7,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using SimpleInjector;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
@@ -52,8 +48,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         void HandleNewVersion(IEnumerable<string> list) {
             if (list.Select(a => new {a, newversion = "-NewVersion="})
-                .Where(@t => @t.a.StartsWith(@t.newversion))
-                .Select(@t => @t.a.Replace(@t.newversion, ""))
+                .Where(t => t.a.StartsWith(t.newversion))
+                .Select(t => t.a.Replace(t.newversion, ""))
                 .Any(newVer => newVer != Consts.ProductVersion)) {
                 var mainWindow = MainWindow;
                 var text = "You tried to start a different version, please exit the current version and try again";
@@ -67,7 +63,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
-            _bootstrapper = new WpfAppBootstrapper(Locator.CurrentMutable, Environment.GetCommandLineArgs().Skip(1).ToArray());
+            _bootstrapper = new WpfAppBootstrapper(Locator.CurrentMutable,
+                Environment.GetCommandLineArgs().Skip(1).ToArray());
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);
@@ -76,9 +73,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         static void HandleSingleInstance() {
             if (
-                !SingleInstance<App>.TryInitializeAsFirstInstance<App>("withSIX-Sync",
-                    new[] { "-NewVersion=" + Consts.ProductVersion },
-                    Path.GetFileName(Assembly.GetEntryAssembly().Location)))
+                    !SingleInstance<App>.TryInitializeAsFirstInstance<App>("withSIX-Sync",
+                        new[] {"-NewVersion=" + Consts.ProductVersion},
+                        Path.GetFileName(Assembly.GetEntryAssembly().Location)))
                 // TODO; Deal with 'another version'
                 Environment.Exit(0);
         }

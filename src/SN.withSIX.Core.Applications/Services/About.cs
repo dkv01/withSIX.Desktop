@@ -4,10 +4,8 @@
 
 using System;
 
-
 namespace SN.withSIX.Core.Applications.Services
 {
-    
     public class About : IApplicationService
     {
         public About() {

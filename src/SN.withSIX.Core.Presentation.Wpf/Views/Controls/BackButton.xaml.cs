@@ -11,13 +11,13 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public partial class BackButton : UserControl
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
-            typeof (ICommand), typeof (BackButton), new PropertyMetadata(default(ICommand)));
+            typeof(ICommand), typeof(BackButton), new PropertyMetadata(default(ICommand)));
         public static readonly DependencyProperty HeaderTextProperty = DependencyProperty.Register("HeaderText",
-            typeof (string), typeof (BackButton), new PropertyMetadata(default(string)));
+            typeof(string), typeof(BackButton), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty SubHeaderTextProperty = DependencyProperty.Register("SubHeaderText",
-            typeof (string), typeof (BackButton), new PropertyMetadata(default(string)));
+            typeof(string), typeof(BackButton), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty BackCommandProperty = DependencyProperty.Register("BackCommand",
-            typeof (ICommand), typeof (BackButton), new PropertyMetadata(default(ICommand)));
+            typeof(ICommand), typeof(BackButton), new PropertyMetadata(default(ICommand)));
 
         public BackButton() {
             InitializeComponent();

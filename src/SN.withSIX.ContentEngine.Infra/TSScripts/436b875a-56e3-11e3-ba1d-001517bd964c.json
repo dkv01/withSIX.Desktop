@@ -3,14 +3,14 @@
     "command": "installTeamspeakPlugin",
     "files": [
       {
-        "source": [ "teamspeak 3 client\\plugins\\task_force_radio_win32.dll" ],
+        "source": ["teamspeak 3 client\\plugins\\task_force_radio_win32.dll"],
         "type": "x86"
       },
       {
-        "source": [ "teamspeak 3 client\\plugins\\radio-sounds" ]
+        "source": ["teamspeak 3 client\\plugins\\radio-sounds"]
       },
       {
-        "source": [ "teamspeak 3 client\\plugins\\task_force_radio_win64.dll" ],
+        "source": ["teamspeak 3 client\\plugins\\task_force_radio_win64.dll"],
         "type": "x64"
       }
     ],

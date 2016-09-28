@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Applications.Extensions
 {
@@ -30,16 +30,16 @@ namespace SN.withSIX.Core.Applications.Extensions
             where T : IHaveId<TId> => Task.Run(() => col.FindFromRequest(idBearer));
 
         public static Task<T> FindAsync<T, TId>(this IEnumerable<T> col, TId id) where T : IHaveId<TId>
-            => Task.Run(() => col.Find(id));
+        => Task.Run(() => col.Find(id));
 
         public static T FindFromRequest<T, TId>(this IEnumerable<T> col, IHaveId<TId> idBearer) where T : IHaveId<TId>
-            => col.FirstOrDefault(x => idBearer.Id.Equals(x.Id));
+        => col.FirstOrDefault(x => idBearer.Id.Equals(x.Id));
 
         public static Task<T> FindOrThrowFromRequestAsync<T, TId>(this IEnumerable<T> col, IHaveId<TId> idBearer)
             where T : IHaveId<TId> => Task.Run(() => col.FindOrThrowFromRequest(idBearer));
 
         public static Task<T> FindOrThrowAsync<T, TId>(this IEnumerable<T> col, TId id) where T : IHaveId<TId>
-            => Task.Run(() => col.FindOrThrow(id));
+        => Task.Run(() => col.FindOrThrow(id));
 
         public static T FindOrThrowFromRequest<T, TId>(this IEnumerable<T> col, IHaveId<TId> idBearer)
             where T : IHaveId<TId> {

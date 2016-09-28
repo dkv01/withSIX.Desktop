@@ -17,7 +17,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Converters
         #region IValueConverter Members
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-            if (values == null || values.Length < 2 || values[1] == null)
+            if ((values == null) || (values.Length < 2) || (values[1] == null))
                 return DefaultReturn;
 
             var collection = values[1] as IEnumerable<string>;

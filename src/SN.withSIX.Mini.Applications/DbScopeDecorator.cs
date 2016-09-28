@@ -54,7 +54,8 @@ namespace SN.withSIX.Mini.Applications
             }
         }
 
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
+        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) {
             using (var scope = _factory.Create()) {
                 TResponse r;
                 try {

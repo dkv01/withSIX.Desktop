@@ -73,7 +73,7 @@ namespace SN.withSIX.ContentEngine.Infra.Services
 
         static string GetUserOrLmPathInternal(string regKey, string regVal, RegistryView view)
             => GetNullIfPathEmpty(Tools.Generic.NullSafeGetRegKeyValue<string>(regKey, regVal, view,
-                RegistryHive.CurrentUser))
+                   RegistryHive.CurrentUser))
                ?? GetNullIfPathEmpty(Tools.Generic.NullSafeGetRegKeyValue<string>(regKey, regVal, view));
 
         static string GetNullIfPathEmpty(string path) => string.IsNullOrWhiteSpace(path) ? null : path;

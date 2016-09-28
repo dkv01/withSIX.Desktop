@@ -83,23 +83,23 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo
                 return false;
 
             var repoInfo = TryReadRepoFile(versionFile);
-            return repoInfo != null && repoInfo.Guid == mod.Value.Guid && repoInfo.Version == mod.Value.Version;
+            return (repoInfo != null) && (repoInfo.Guid == mod.Value.Guid) && (repoInfo.Version == mod.Value.Version);
         }
 
         static Repository GetRepo(IAbsoluteDirectoryPath rsyncDir,
             IAbsoluteDirectoryPath folder, Dictionary<string, object> opts) => rsyncDir.Exists
-                ? Repository.Factory.Open(folder.ToString(), opts)
-                : Repository.Factory.Convert(folder.ToString(), opts);
+            ? Repository.Factory.Open(folder.ToString(), opts)
+            : Repository.Factory.Convert(folder.ToString(), opts);
 
         // pff, better use a real param object!
         Dictionary<string, object> GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
             KeyValuePair<string, SixRepoModDto> mod) => new Dictionary<string, object> {
-                {"hosts", Hosts.Select(x => new Uri(x, mod.Key)).ToArray()},
-                {"required_version", mod.Value.Version},
-                {"required_guid", mod.Value.Guid},
-                {"pack_path", packPath.GetChildFileWithName(mod.Key).ToString()},
-                {"status", status}
-            };
+            {"hosts", Hosts.Select(x => new Uri(x, mod.Key)).ToArray()},
+            {"required_version", mod.Value.Version},
+            {"required_guid", mod.Value.Guid},
+            {"pack_path", packPath.GetChildFileWithName(mod.Key).ToString()},
+            {"status", status}
+        };
 
         public bool HasMod(string name) => Mods.Keys.ContainsIgnoreCase(name);
 

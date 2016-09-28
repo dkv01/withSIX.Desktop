@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="Steam3Session.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -68,10 +72,10 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
             if (authenticatedUser) {
                 var fi = new FileInfo($"{logonDetails.Username}.sentryFile");
-                if (ConfigStore.TheConfig.SentryData != null &&
+                if ((ConfigStore.TheConfig.SentryData != null) &&
                     ConfigStore.TheConfig.SentryData.ContainsKey(logonDetails.Username))
                     logonDetails.SentryFileHash = Util.SHAHash(ConfigStore.TheConfig.SentryData[logonDetails.Username]);
-                else if (fi.Exists && fi.Length > 0) {
+                else if (fi.Exists && (fi.Length > 0)) {
                     var sentryData = File.ReadAllBytes(fi.FullName);
                     logonDetails.SentryFileHash = Util.SHAHash(sentryData);
                     ConfigStore.TheConfig.SentryData[logonDetails.Username] = sentryData;
@@ -91,6 +95,8 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
         public Dictionary<uint, SteamApps.PICSProductInfoCallback.PICSProductInfo> AppInfo { get; }
         public Dictionary<uint, SteamApps.PICSProductInfoCallback.PICSProductInfo> PackageInfo { get; }
 
+        public uint CellID => logonDetails.CellID;
+
         public bool WaitUntilCallback(Action submitter, WaitCondition waiter) {
             while (!bAborted && !waiter()) {
                 submitter();
@@ -98,7 +104,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                 var seq = this.seq;
                 do {
                     WaitForCallbacks();
-                } while (!bAborted && this.seq == seq && !waiter());
+                } while (!bAborted && (this.seq == seq) && !waiter());
             }
 
             return bAborted;
@@ -166,7 +172,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
             var packages = packageIds.ToList();
             packages.RemoveAll(pid => PackageInfo.ContainsKey(pid));
 
-            if (packages.Count == 0 || bAborted)
+            if ((packages.Count == 0) || bAborted)
                 return;
 
             var completed = false;
@@ -290,7 +296,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
             var diff = DateTime.Now - connectTime;
 
-            if (diff > STEAM3_TIMEOUT && !bConnected) {
+            if ((diff > STEAM3_TIMEOUT) && !bConnected) {
                 ContentDownloader.Log("Timeout connecting to Steam3.");
                 Abort();
             }
@@ -362,8 +368,6 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                 logonDetails.CellID = loggedOn.CellID;
             }
         }
-
-        public uint CellID => logonDetails.CellID;
 
         private void SessionTokenCallback(SteamUser.SessionTokenCallback sessionToken) {
             ContentDownloader.Log("Got session token!");

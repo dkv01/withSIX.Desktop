@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -17,7 +16,7 @@ namespace SN.withSIX.Steam.Core
 
         private static IAbsoluteDirectoryPath GetSteamPathInternal() {
             var regPath = TryGetPathFromRegistry();
-            if (regPath != null && regPath.Exists)
+            if ((regPath != null) && regPath.Exists)
                 return regPath;
             var expectedPath =
                 PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.ProgramFilesX86)

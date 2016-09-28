@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
@@ -57,7 +56,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
         public IAbsoluteDirectoryPath Path { get; set; }
 
         public IEnumerable<Uri> GetRemotes() {
-            if (Config.Remotes == null || !Config.Remotes.Any())
+            if ((Config.Remotes == null) || !Config.Remotes.Any())
                 return Urls.Distinct();
             lock (Config.Remotes) {
                 return Config.Remotes.Values
@@ -65,7 +64,8 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
             }
         }
 
-        public Task LoadAsync(bool includeObjects = false, CancellationToken token = default(CancellationToken)) => Task.Run(() => Load(includeObjects));
+        public Task LoadAsync(bool includeObjects = false, CancellationToken token = default(CancellationToken))
+            => Task.Run(() => Load(includeObjects));
 
         public void Load(bool includeObjects = false) {
             LoadConfig();
@@ -107,12 +107,12 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
         public async Task Update(CancellationToken token, bool inclObjects = false) {
             await
                 DownloadFiles(inclObjects
-                    ? defaultFiles.Concat(new[] {
-                        new FileFetchInfo(Repository.ObjectIndexFile) {
-                            OnVerify = Repository.ConfirmValidity<RepositoryStoreObjectsDto>
-                        }
-                    })
-                    : defaultFiles, token)
+                        ? defaultFiles.Concat(new[] {
+                            new FileFetchInfo(Repository.ObjectIndexFile) {
+                                OnVerify = Repository.ConfirmValidity<RepositoryStoreObjectsDto>
+                            }
+                        })
+                        : defaultFiles, token)
                     .ConfigureAwait(false);
 
             await LoadAsync(inclObjects, token).ConfigureAwait(false);
@@ -127,9 +127,9 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
                 remoteFiles.ToDictionary(x => x,
                     x =>
                         (ITransferStatus)
-                            new TransferStatus(x.FilePath) {
-                                ZsyncHttpFallbackAfter = CalculateHttpFallbackAfter(retryLimit)
-                            }), Path,
+                        new TransferStatus(x.FilePath) {
+                            ZsyncHttpFallbackAfter = CalculateHttpFallbackAfter(retryLimit)
+                        }), Path,
                 retryLimit).ConfigureAwait(false);
         }
     }

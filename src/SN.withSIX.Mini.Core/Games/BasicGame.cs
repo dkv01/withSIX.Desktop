@@ -9,7 +9,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
@@ -23,11 +22,11 @@ namespace SN.withSIX.Mini.Core.Games
         protected BasicGame(Guid id, GameSettings settings) : base(id, settings) {}
 
         protected override Task InstallImpl(IContentInstallationService installationService,
-            IDownloadContentAction<IInstallableContent> action)
+                IDownloadContentAction<IInstallableContent> action)
             => installationService.Install(GetInstallAction(action));
 
         protected virtual InstallContentAction GetInstallAction(
-            IDownloadContentAction<IInstallableContent> action)
+                IDownloadContentAction<IInstallableContent> action)
             => new InstallContentAction(action.Content, action.CancelToken) {
                 RemoteInfo = RemoteInfo,
                 Paths = ContentPaths,
@@ -53,7 +52,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected static bool ContentExists(IAbsoluteDirectoryPath dir) => dir.Exists && !dir.IsEmpty();
 
         protected override Task UninstallImpl(IContentInstallationService contentInstallation,
-            IContentAction<IUninstallableContent> action)
+                IContentAction<IUninstallableContent> action)
             => contentInstallation.Uninstall(GetUninstallAction(action));
 
         UnInstallContentAction GetUninstallAction(IContentAction<IUninstallableContent> action)
@@ -65,27 +64,29 @@ namespace SN.withSIX.Mini.Core.Games
             ILaunchContentAction<IContent> action) {
             var launcher = factory.Create(this);
             return InitiateLaunch(launcher,
-                new LaunchState(GetLaunchExecutable(action.Action), GetExecutable(action.Action), GetStartupParameters(action).ToArray(), action.Action));
+                new LaunchState(GetLaunchExecutable(action.Action), GetExecutable(action.Action),
+                    GetStartupParameters(action).ToArray(), action.Action));
         }
 
         protected Task<Process> InitiateLaunch<T>(T launcher, LaunchState ls)
             where T : ILaunch, ILaunchWithSteam => ShouldLaunchWithSteam(ls)
-                ? LaunchWithSteam(launcher, ls)
-                : LaunchNormal(launcher, ls);
+            ? LaunchWithSteam(launcher, ls)
+            : LaunchNormal(launcher, ls);
 
         protected async Task<Process> LaunchNormal(ILaunch launcher, LaunchState ls)
             =>
-                await
-                    launcher.Launch(await GetDefaultLaunchInfo(ls).ConfigureAwait(false))
-                        .ConfigureAwait(false);
+            await
+                launcher.Launch(await GetDefaultLaunchInfo(ls).ConfigureAwait(false))
+                    .ConfigureAwait(false);
 
         protected async Task<Process> LaunchWithSteam(ILaunchWithSteam launcher, LaunchState ls)
             =>
-                await
-                    launcher.Launch(await GetSteamLaunchInfo(ls).ConfigureAwait(false))
-                        .ConfigureAwait(false);
+            await
+                launcher.Launch(await GetSteamLaunchInfo(ls).ConfigureAwait(false))
+                    .ConfigureAwait(false);
 
-        protected virtual IEnumerable<string> GetStartupParameters(ILaunchContentAction<IContent> action) => Settings.StartupParameters.Get();
+        protected virtual IEnumerable<string> GetStartupParameters(ILaunchContentAction<IContent> action)
+            => Settings.StartupParameters.Get();
 
 
         protected virtual IReadOnlyCollection<ILaunchableContent> GetLaunchables(ILaunchContentAction<IContent> action)
@@ -95,7 +96,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected override async Task ScanForLocalContentImpl() {}
 
         protected static IEnumerable<IContentWithPackageName> GetPackagedContent(
-            IEnumerable<IContentSpec<IInstallableContent>> content)
+                IEnumerable<IContentSpec<IInstallableContent>> content)
             => content.SelectMany(x => x.Content.GetRelatedContent(x.Constraint))
                 .Select(x => x.Content).Distinct().OfType<IContentWithPackageName>();
     }

@@ -17,8 +17,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty ItemWidthProperty =
             DependencyProperty.RegisterAttached(
                 "ItemWidth",
-                typeof (double),
-                typeof (UniformGridBehavior),
+                typeof(double),
+                typeof(UniformGridBehavior),
                 new UIPropertyMetadata(0.0, OnItemWidthChanged));
 
         public static double GetItemWidth(UniformGrid grid) => (double) grid.GetValue(ItemWidthProperty);

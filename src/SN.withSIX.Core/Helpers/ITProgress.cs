@@ -8,6 +8,7 @@ namespace SN.withSIX.Core.Helpers
     {
         long? Speed { get; }
     }
+
     public interface ISpeed : ISpeedRead
     {
         new long? Speed { get; set; }
@@ -23,9 +24,7 @@ namespace SN.withSIX.Core.Helpers
         new double Progress { get; set; }
     }
 
-    public interface ITProgress : ISpeedRead, IProgressRead, IUpdateSpeedAndProgress
-    {
-    }
+    public interface ITProgress : ISpeedRead, IProgressRead, IUpdateSpeedAndProgress {}
 
     public interface IUpdateSpeedAndProgress
     {

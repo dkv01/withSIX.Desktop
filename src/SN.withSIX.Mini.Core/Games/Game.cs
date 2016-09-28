@@ -22,8 +22,8 @@ using SN.withSIX.Steam.Core;
 using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
-using GameGuids = withSIX.Api.Models.Games.GameGuids;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Games;
 using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
 
 namespace SN.withSIX.Mini.Core.Games
@@ -37,9 +37,6 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class Game : BaseEntity<Guid>, IContentEngineGame, IHaveSourcePaths
     {
-        // TODO: Extract
-        public static ISteamHelper SteamHelper { get; set; }
-
         static readonly string[] getCompatibilityMods = new string[0];
 
         private static readonly Guid[] steamGames = {GameGuids.Starbound, GameGuids.Stellaris, GameGuids.Skyrim};
@@ -70,10 +67,8 @@ namespace SN.withSIX.Mini.Core.Games
                 SetupDefaultDirectories();
         }
 
-        private SteamDirectories GetSteamDirectories()
-            => IsSteamEdition() ? SteamInfo.GetDirectories(SteamHelper) : SteamDirectories.Default;
-
-        public SteamDirectories SteamDirectories => _steamDirectories.Value;
+        // TODO: Extract
+        public static ISteamHelper SteamHelper { get; set; }
 
         // We use this because of chicken-egg problems because of constructor inheritance load order
         // Where usually overriden behavior depends on state that is not yet available in the base class constructor
@@ -111,12 +106,9 @@ namespace SN.withSIX.Mini.Core.Games
             => InstalledContent.Where(x => x.GetState() == ItemState.UpdateAvailable)
                 .OfType<NetworkContent>();
 
-        public void MigrateContents() {
-            Contents = new HashSet<Content>(Contents);
-        }
-
         [IgnoreDataMember]
-        public IEnumerable<Content> AllAvailableContent => Contents.Where(x => x.IsInstalled() || x.IsIncompleteInstalled());
+        public IEnumerable<Content> AllAvailableContent
+            => Contents.Where(x => x.IsInstalled() || x.IsIncompleteInstalled());
 
         [DataMember]
         public DateTime? LastPlayed { get; set; }
@@ -136,8 +128,17 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: we could also choose to implement this as a wrapper/adapter class instead
         IAbsoluteDirectoryPath IContentEngineGame.WorkingDirectory => InstalledState.Directory;
 
+        public SteamDirectories SteamDirectories => _steamDirectories.Value;
+
         [IgnoreDataMember]
         public ContentPaths ContentPaths => _contentPaths.Value;
+
+        private SteamDirectories GetSteamDirectories()
+            => IsSteamEdition() ? SteamInfo.GetDirectories(SteamHelper) : SteamDirectories.Default;
+
+        public void MigrateContents() {
+            Contents = new HashSet<Content>(Contents);
+        }
 
         protected virtual IAbsoluteDirectoryPath GetContentDirectory() => InstalledState.Directory;
 
@@ -207,7 +208,7 @@ namespace SN.withSIX.Mini.Core.Games
         void SetupDefaultDirectories() {
             if (Settings.GameDirectory == null)
                 Settings.GameDirectory = GetDefaultDirectory();
-            if (Settings.RepoDirectory == null && Settings.GameDirectory != null)
+            if ((Settings.RepoDirectory == null) && (Settings.GameDirectory != null))
                 Settings.RepoDirectory = Settings.GameDirectory;
         }
 
@@ -251,7 +252,7 @@ namespace SN.withSIX.Mini.Core.Games
                 Collections.OfType<LocalCollection>().FirstOrDefault(x => x.Contents.SequenceEqual(contents));
             if (existing != null)
                 return existing;
-            var isNotUpdateAll = action.Name != "Update all" && action.Name != "Available updates";
+            var isNotUpdateAll = (action.Name != "Update all") && (action.Name != "Available updates");
             var name = isNotUpdateAll
                 ? $"{action.Name ?? "Playlist"} {DateTime.UtcNow.ToString(Tools.GenericTools.DefaultDateFormat)}"
                 : action.Name;
@@ -272,7 +273,7 @@ namespace SN.withSIX.Mini.Core.Games
             IPlayContentAction<LocalContent> action) => PlayInternal(factory, contentInstallation, action);
 
         public Task<int> Play(IGameLauncherFactory factory,
-            IContentInstallationService contentInstallation, IPlayContentAction<Content> action)
+                IContentInstallationService contentInstallation, IPlayContentAction<Content> action)
             => PlayInternal(factory, contentInstallation, action);
 
         public async Task Install(IContentInstallationService installationService,
@@ -443,45 +444,30 @@ namespace SN.withSIX.Mini.Core.Games
         public bool IsSteamEdition() {
             var gameDir = InstalledState.Directory;
             var steamApp = SteamInfo.TryGetSteamApp();
-            if (steamApp != null  && steamApp.IsValid)
-                return gameDir.Equals(steamApp.AppPath);// || HasSteamApiDlls();
+            if ((steamApp != null) && steamApp.IsValid)
+                return gameDir.Equals(steamApp.AppPath); // || HasSteamApiDlls();
             return false;
         }
 
-        protected class LaunchState
-        {
-            public LaunchState(IAbsoluteFilePath launchExecutable, IAbsoluteFilePath executable, IReadOnlyCollection<string> startupParameters, LaunchAction action) {
-                LaunchExecutable = launchExecutable;
-                Executable = executable;
-                StartupParameters = startupParameters;
-                Action = action;
-            }
-
-            public IAbsoluteFilePath Executable { get; }
-            public IAbsoluteFilePath LaunchExecutable { get; }
-            public IReadOnlyCollection<string> StartupParameters { get; }
-            public LaunchAction Action { get; }
-        }
-
         //private bool HasSteamApiDlls()
-          //  => _launchState.LaunchExecutable.ParentDirectoryPath.DirectoryInfo.EnumerateFiles("steam_api*.dll")
-                //.Any();
+        //  => _launchState.LaunchExecutable.ParentDirectoryPath.DirectoryInfo.EnumerateFiles("steam_api*.dll")
+        //.Any();
 
         protected virtual Task<LaunchGameInfo> GetDefaultLaunchInfo(LaunchState launchState)
             => Task.FromResult(new LaunchGameInfo(launchState.LaunchExecutable, launchState.Executable,
                 launchState.LaunchExecutable.ParentDirectoryPath,
                 launchState.StartupParameters) {
-                    LaunchAsAdministrator = ShouldLaunchAsAdministrator()
-                });
+                LaunchAsAdministrator = ShouldLaunchAsAdministrator()
+            });
 
         protected virtual Task<LaunchGameWithSteamInfo> GetSteamLaunchInfo(LaunchState launchState)
             => Task.FromResult(new LaunchGameWithSteamInfo(launchState.LaunchExecutable, launchState.Executable,
                 launchState.LaunchExecutable.ParentDirectoryPath,
                 launchState.StartupParameters) {
-                    SteamAppId = SteamInfo.AppId,
-                    SteamDRM = SteamInfo.DRM,
-                    LaunchAsAdministrator = ShouldLaunchAsAdministrator()
-                });
+                SteamAppId = SteamInfo.AppId,
+                SteamDRM = SteamInfo.DRM,
+                LaunchAsAdministrator = ShouldLaunchAsAdministrator()
+            });
 
         protected bool ShouldLaunchAsAdministrator() => Settings.LaunchAsAdministrator.GetValueOrDefault();
 
@@ -490,12 +476,12 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Optimize
         private IEnumerable<Tuple<Process, IAbsoluteFilePath>> GetRunningInstances()
             => Metadata.Executables.SelectMany(x => Tools.ProcessManager.Management.GetExecuteablePaths(x))
-                .Where(x => x != null && (x.Item2 == null || ExecutablePath.Equals(x.Item2.ParentDirectoryPath)));
+                .Where(x => (x != null) && ((x.Item2 == null) || ExecutablePath.Equals(x.Item2.ParentDirectoryPath)));
 
         public async Task UpdateSettings(GameSettings settings) {
             Settings = settings;
 
-            if (Settings.RepoDirectory == null && Settings.GameDirectory != null)
+            if ((Settings.RepoDirectory == null) && (Settings.GameDirectory != null))
                 Settings.RepoDirectory = Settings.GameDirectory;
 
             // We refresh the info already here because we are in background thread..
@@ -573,13 +559,13 @@ namespace SN.withSIX.Mini.Core.Games
         public void ProcessLocalContent() {
             var networkContents = NetworkContent.ToArray();
             var dict = LocalContent.Select(
-                x =>
-                    new {
-                        x,
-                        Nc =
+                    x =>
+                        new {
+                            x,
+                            Nc =
                             networkContents.FirstOrDefault(
                                 nc => nc.PackageName.Equals(x.PackageName, StringComparison.CurrentCultureIgnoreCase))
-                    })
+                        })
                 .ToDictionary(x => x.x, x => x.Nc);
 
             var gameInstalled = InstalledState.IsInstalled;
@@ -603,6 +589,22 @@ namespace SN.withSIX.Mini.Core.Games
                     continue;
                 col.Replace(existing, c.Value);
             }
+        }
+
+        protected class LaunchState
+        {
+            public LaunchState(IAbsoluteFilePath launchExecutable, IAbsoluteFilePath executable,
+                IReadOnlyCollection<string> startupParameters, LaunchAction action) {
+                LaunchExecutable = launchExecutable;
+                Executable = executable;
+                StartupParameters = startupParameters;
+                Action = action;
+            }
+
+            public IAbsoluteFilePath Executable { get; }
+            public IAbsoluteFilePath LaunchExecutable { get; }
+            public IReadOnlyCollection<string> StartupParameters { get; }
+            public LaunchAction Action { get; }
         }
     }
 
@@ -736,6 +738,6 @@ namespace SN.withSIX.Mini.Core.Games
 
     public class NotInstallableException : NotFoundException
     {
-        public NotInstallableException(string message) : base(message) { }
+        public NotInstallableException(string message) : base(message) {}
     }
 }

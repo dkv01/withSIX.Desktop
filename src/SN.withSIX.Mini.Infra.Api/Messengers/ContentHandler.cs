@@ -2,9 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using Microsoft.AspNet.SignalR;
 using MediatR;
-using SN.withSIX.Mini.Applications.Extensions;
+using Microsoft.AspNet.SignalR;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.Hubs;

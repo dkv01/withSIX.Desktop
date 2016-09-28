@@ -46,7 +46,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             lock (_buffer) {
                 var last = _buffer.LastOrDefault();
                 // Not exactly how \r works in console, but close enough for our purpose
-                if (last != null && !last.Terminated) {
+                if ((last != null) && !last.Terminated) {
                     _buffer.RemoveAt(_buffer.Count - 1);
                     // If the line didn't have any termination, we should prepend the previous line ...
                     // we still replace the line object because it might be terminated now etc ;-)

@@ -16,8 +16,8 @@ namespace SN.withSIX.Core.Infra.Cache
 {
     public class CacheManager : ICacheManager, IInfrastructureService
     {
-        readonly List<IBlobCache> _caches = new List<IBlobCache>();
         private static readonly string vacuumKey = "____last_vacuum";
+        readonly List<IBlobCache> _caches = new List<IBlobCache>();
 
         public Task Vacuum() {
             IBlobCache[] caches;
@@ -31,11 +31,6 @@ namespace SN.withSIX.Core.Infra.Cache
                 .ToTask();
         }
 
-        private static async Task Vacuum(IBlobCache x) {
-            await x.Vacuum();
-            await x.InsertObject(vacuumKey, DateTime.UtcNow);
-        }
-
         public Task VacuumIfNeeded(TimeSpan timeAgo) {
             IBlobCache[] caches;
             lock (_caches)
@@ -47,13 +42,6 @@ namespace SN.withSIX.Core.Infra.Cache
                     .Concat()
                     .Select(_ => Unit.Default)
                     .ToTask();
-        }
-
-        private async Task VacuumIfNeeded(IBlobCache x, TimeSpan timeAgo) {
-            var lastVacuum = await x.GetOrCreateObject(vacuumKey, () => new DateTime());
-            if (lastVacuum > DateTime.UtcNow.Subtract(timeAgo))
-                return;
-            await Vacuum(x);
         }
 
         public Task Shutdown() {
@@ -70,6 +58,18 @@ namespace SN.withSIX.Core.Infra.Cache
         public void RegisterCache(IBlobCache cache) {
             lock (_caches)
                 _caches.Add(cache);
+        }
+
+        private static async Task Vacuum(IBlobCache x) {
+            await x.Vacuum();
+            await x.InsertObject(vacuumKey, DateTime.UtcNow);
+        }
+
+        private async Task VacuumIfNeeded(IBlobCache x, TimeSpan timeAgo) {
+            var lastVacuum = await x.GetOrCreateObject(vacuumKey, () => new DateTime());
+            if (lastVacuum > DateTime.UtcNow.Subtract(timeAgo))
+                return;
+            await Vacuum(x);
         }
     }
 }

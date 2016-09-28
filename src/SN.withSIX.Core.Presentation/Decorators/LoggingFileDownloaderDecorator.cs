@@ -34,8 +34,10 @@ namespace SN.withSIX.Core.Presentation.Decorators
         protected override void OnError(TransferSpec spec, Exception e) {
             var msg =
                 $"Failed download of {spec.Uri} to {spec.LocalFile}, try {spec.Progress.Tries} ({e.Message})\nOutput: {spec.Progress.Output}\n\nError report: {e.Format(1)}";
-            if (spec.Progress.Tries <= 1) this.Logger().Error(msg);
-            else this.Logger().Warn(msg);
+            if (spec.Progress.Tries <= 1)
+                this.Logger().Error(msg);
+            else
+                this.Logger().Warn(msg);
         }
     }
 }

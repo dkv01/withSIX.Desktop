@@ -4,9 +4,7 @@
 
 using System;
 using ReactiveUI;
-
 using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
 using IScreen = Caliburn.Micro.IScreen;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
@@ -15,8 +13,6 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
     public abstract class ShellViewModelBase : ReactiveConductor<IScreen>.Collection.OneActive, IShellViewModelBase
         /*, IHandle<KeyEventArgs>*/
     {
-         protected ObservableAsPropertyHelper<bool> _mainContentEnabled { get; }
-         protected ObservableAsPropertyHelper<bool> _modalItemShowing { get; }
         protected IModalScreen _modalActiveItem;
         protected bool _modalViewCanCancel;
 
@@ -30,6 +26,9 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             //.ToProperty(this, x => x.MainContentEnabled, false, Scheduler.Immediate);
         }
 
+        protected ObservableAsPropertyHelper<bool> _mainContentEnabled { get; }
+        protected ObservableAsPropertyHelper<bool> _modalItemShowing { get; }
+
         public ReactiveCommand BackCommand { get; protected set; }
         public bool ModalViewCanCancel
         {
@@ -39,19 +38,19 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         public bool MainContentEnabled => _mainContentEnabled.Value;
         public abstract void ShowDashboard();
 
-        
+
         public void CancelModalView() {
             var item = ModalActiveItem;
             if (item != null)
                 item.Cancel();
         }
 
-        
+
         public void HideModalView() {
             ModalActiveItem = null;
         }
 
-        
+
         public void ShowModalView(IModalScreen viewModel) {
             viewModel.Parent = this;
             ModalViewCanCancel = viewModel.ShowBackButton;

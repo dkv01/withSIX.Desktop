@@ -1,4 +1,4 @@
-// <copyright company="SIX Networks GmbH" file="SynqUninstallerSession.cs">
+// <copyright company="SIX Networks GmbH" file="UninstallerSession.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -47,7 +47,10 @@ namespace SN.withSIX.Mini.Applications.Services
 
                 if (content.GetSource(_action.Game).Publisher == Publisher.Steam) {
                     var s = CreateSteamSession(new Dictionary<ulong, ProgressLeaf> {
-                        {Convert.ToUInt64(content.GetSource(_action.Game).PublisherId), new ProgressLeaf(content.PackageName)}
+                        {
+                            Convert.ToUInt64(content.GetSource(_action.Game).PublisherId),
+                            new ProgressLeaf(content.PackageName)
+                        }
                     });
                     await s.Uninstall(_action.CancelToken).ConfigureAwait(false);
                     _action.Game.Delete(content);
@@ -81,11 +84,11 @@ namespace SN.withSIX.Mini.Applications.Services
             await new ContentStatusChanged(content, ItemState.Uninstalling, 25).Raise().ConfigureAwait(false);
             try {
                 var contentSpecs = content.GetRelatedContent(constraint)
-                    .Where(x => x.Content is IUninstallableContent && x.Content != content).ToArray();
+                    .Where(x => x.Content is IUninstallableContent && (x.Content != content)).ToArray();
 
                 var packedContent = contentSpecs.Where(x => x.Content is IContentWithPackageName);
                 var steamContent = packedContent.Where(
-                    x => ((IContentWithPackageName) x.Content).GetSource(_action.Game).Publisher == Publisher.Steam)
+                        x => ((IContentWithPackageName) x.Content).GetSource(_action.Game).Publisher == Publisher.Steam)
                     .ToDictionary(x => x.Content, x => x.Constraint);
 
                 foreach (var c in contentSpecs.Where(x => !steamContent.ContainsKey(x.Content))) {
@@ -123,6 +126,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 c.Key.Uninstalled();
             //await WaitForUninstalled(steamContent).ConfigureAwait(false);
         }
+
         /*
         private async Task WaitForUninstalled(Dictionary<Content, string> steamContent) {
             using (var cts = new CancellationTokenSource()) {
@@ -142,10 +146,10 @@ namespace SN.withSIX.Mini.Applications.Services
 */
 
         private InstallerSession.SteamExternalInstallerSession CreateSteamSession(
-            Dictionary<ulong, ProgressLeaf> progressLeaves)
+                Dictionary<ulong, ProgressLeaf> progressLeaves)
             =>
-                new InstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
-                    _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves);
+            new InstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
+                _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves);
 
         IAbsoluteDirectoryPath GetRepositoryPath()
             => _action.Paths.RepositoryPath.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory);

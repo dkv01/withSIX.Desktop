@@ -18,7 +18,8 @@ namespace SN.withSIX.Mini.Presentation.Core.Commands
 
     public abstract class BaseCommandAsync : BaseCommand
     {
-        public override sealed int Run(string[] remainingArguments) => RunAsync(remainingArguments).WaitAndUnwrapException();
+        public sealed override int Run(string[] remainingArguments)
+            => RunAsync(remainingArguments).WaitAndUnwrapException();
 
         protected abstract Task<int> RunAsync(string[] remainingArguments);
     }

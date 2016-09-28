@@ -25,9 +25,9 @@ namespace SN.withSIX.Sync.Core.ExternalTools
             foreach (var arg in spec.Items) {
                 ProcessDirectoryOrFile(new ProcessDirectoryOrFileParams(spec.KeyPath, spec.Prefix,
                     spec.CopyKey, arg.ToString(), spec.PrivateFile) {
-                        RepackIfFailed = spec.RepackIfFailed,
-                        OnlyWhenMissing = spec.OnlyWhenMissing
-                    });
+                    RepackIfFailed = spec.RepackIfFailed,
+                    OnlyWhenMissing = spec.OnlyWhenMissing
+                });
             }
         }
 
@@ -58,9 +58,9 @@ namespace SN.withSIX.Sync.Core.ExternalTools
         }
 
         static void ConfirmValidKeyOrPath(IAbsoluteFilePath privateFile, IAbsoluteDirectoryPath keyPath) {
-            if (privateFile != null && !privateFile.Exists)
+            if ((privateFile != null) && !privateFile.Exists)
                 throw new FileNotFoundException("Could not find the key {0}".FormatWith(privateFile));
-            if (privateFile == null && (keyPath == null || !keyPath.Exists))
+            if ((privateFile == null) && ((keyPath == null) || !keyPath.Exists))
                 throw new Exception("No key specified and no valid key path set");
         }
 

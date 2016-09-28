@@ -7,7 +7,8 @@ using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    public interface IAuthInfo {
+    public interface IAuthInfo
+    {
         string Username { get; }
         string Password { get; }
         string Domain { get; }

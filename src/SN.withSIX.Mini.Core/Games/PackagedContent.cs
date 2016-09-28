@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace SN.withSIX.Mini.Core.Games
         public string GetFQN(string constraint = null) => PackageName.ToLower() + "-" + (constraint ?? Version);
 
         public virtual ContentPublisher GetSource(IHaveSourcePaths game) => _source.Value;
-        public virtual void OverrideSource(Publisher publisher) { }
+        public virtual void OverrideSource(Publisher publisher) {}
 
         public virtual IAbsoluteDirectoryPath GetSourceDirectory(IHaveSourcePaths game)
             => game.ContentPaths.Path.GetChildDirectoryWithName(PackageName);
@@ -45,7 +44,8 @@ namespace SN.withSIX.Mini.Core.Games
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
 
-        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new PackagedContentSpec(this, constraint ?? Version);
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint)
+            => new PackagedContentSpec(this, constraint ?? Version);
 
         protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {}
     }

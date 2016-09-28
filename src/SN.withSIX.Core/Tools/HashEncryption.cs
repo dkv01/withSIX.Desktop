@@ -21,7 +21,7 @@ namespace SN.withSIX.Core
             public string MD5Hash(string data) {
                 Contract.Requires<ArgumentNullException>(data != null);
 
-                using (MD5 md5 = MD5.Create())
+                using (var md5 = MD5.Create())
                     return GetHash(md5.ComputeHash(Encoding.ASCII.GetBytes(data)));
             }
 
@@ -32,8 +32,8 @@ namespace SN.withSIX.Core
 
                 return FileUtil.Ops.AddIORetryDialog(() => {
                     using (var fs = new FileStream(fileName.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
-                    //using (var stream = new BufferedStream(fs, GetBufferSize(fs)))
-                    using (MD5 md5 = MD5.Create())
+                        //using (var stream = new BufferedStream(fs, GetBufferSize(fs)))
+                    using (var md5 = MD5.Create())
                         return GetHash(md5.ComputeHash(fs));
                 }, fileName.ToString());
             }
@@ -43,7 +43,7 @@ namespace SN.withSIX.Core
 
                 return FileUtil.Ops.AddIORetryDialog(() => {
                     using (var fs = new FileStream(fileName.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
-                    //using (var stream = new BufferedStream(fs, GetBufferSize(fs)))
+                        //using (var stream = new BufferedStream(fs, GetBufferSize(fs)))
                     using (var md5 = SHA1.Create())
                         return GetHash(md5.ComputeHash(fs));
                 }, fileName.ToString());
@@ -60,7 +60,7 @@ namespace SN.withSIX.Core
 
                 return FileUtil.Ops.AddIORetryDialog(() => {
                     using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    //using (var stream = new BufferedStream(fs, GetBufferSize(fs)))
+                        //using (var stream = new BufferedStream(fs, GetBufferSize(fs)))
                     using (var md5 = SHA256.Create())
                         return GetHash(md5.ComputeHash(fs));
                 }, fileName);
@@ -69,21 +69,21 @@ namespace SN.withSIX.Core
             public string SHA256Hash(string data) {
                 Contract.Requires<ArgumentNullException>(data != null);
 
-                using (SHA256 sha = SHA256.Create())
+                using (var sha = SHA256.Create())
                     return GetHash(sha.ComputeHash(Encoding.ASCII.GetBytes(data)));
             }
 
             public string SHA384Hash(string data) {
                 Contract.Requires<ArgumentNullException>(data != null);
 
-                using (SHA384 sha = SHA384.Create())
+                using (var sha = SHA384.Create())
                     return GetHash(sha.ComputeHash(Encoding.ASCII.GetBytes(data)));
             }
 
             public string SHA512Hash(string data) {
                 Contract.Requires<ArgumentNullException>(data != null);
 
-                using (SHA512 sha = SHA512.Create())
+                using (var sha = SHA512.Create())
                     return GetHash(sha.ComputeHash(Encoding.ASCII.GetBytes(data)));
             }
         }

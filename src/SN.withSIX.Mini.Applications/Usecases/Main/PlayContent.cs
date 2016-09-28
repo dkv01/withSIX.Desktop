@@ -30,11 +30,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var hasPath = content as IHavePath;
             return new PlayContentAction(cancelToken: CancelToken,
                 content: new ContentSpec(content, Content.Constraint)) {
-                    Name = Name,
-                    Href =
-                        Href ??
-                        (hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name)))
-                };
+                Name = Name,
+                Href =
+                    Href ??
+                    (hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name)))
+            };
         }
     }
 

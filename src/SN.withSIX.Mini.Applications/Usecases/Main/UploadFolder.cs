@@ -6,10 +6,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NDepend.Path;
 using MediatR;
-using withSIX.Api.Models;
-using withSIX.Api.Models.Exceptions;
+using NDepend.Path;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
@@ -20,6 +18,8 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main
 {

@@ -15,6 +15,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         private readonly IHubContext<IServerHubClient> _hubContext =
             GlobalHost.ConnectionManager.GetHubContext<ServerHub, IServerHubClient>();
 
-        public Task Handle(ServersPageReceived notification) => _hubContext.Clients.All.ServersPageReceived(notification);
+        public Task Handle(ServersPageReceived notification)
+            => _hubContext.Clients.All.ServersPageReceived(notification);
     }
 }

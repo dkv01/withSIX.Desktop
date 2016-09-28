@@ -39,7 +39,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             // * IViewFor<IFooBarViewModel>
             // * IViewFor<FooBarViewModel> (the original behavior in RxUI 3.1)
 
-            var attrs = viewModel.GetType().GetTypeInfo().GetCustomAttributes(typeof (ViewContractAttribute), true);
+            var attrs = viewModel.GetType().GetTypeInfo().GetCustomAttributes(typeof(ViewContractAttribute), true);
 
             if (attrs.Any())
                 contract = contract ?? ((ViewContractAttribute) attrs.First()).Contract;
@@ -52,7 +52,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 return ret;
 
             // IViewFor<FooBarViewModel> (the original behavior in RxUI 3.1)
-            var viewType = typeof (IViewFor<>);
+            var viewType = typeof(IViewFor<>);
             return attemptToResolveView(viewType.MakeGenericType(viewModel.GetType()), contract);
         }
 
@@ -109,7 +109,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             // * IViewFor<IFooBarViewModel>
             // * IViewFor<FooBarViewModel> (the original behavior in RxUI 3.1)
 
-            var attrs = viewModel.GetType().GetTypeInfo().GetCustomAttributes(typeof (ViewContractAttribute), true);
+            var attrs = viewModel.GetType().GetTypeInfo().GetCustomAttributes(typeof(ViewContractAttribute), true);
 
             if (attrs.Any())
                 contract = contract ?? ((ViewContractAttribute) attrs.First()).Contract;
@@ -122,7 +122,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 return ret;
 
             // IViewFor<FooBarViewModel> (the original behavior in RxUI 3.1)
-            var viewType = typeof (IViewFor<>);
+            var viewType = typeof(IViewFor<>);
             return attemptToResolveView(viewType.MakeGenericType(viewModel.GetType()), contract);
         }
 

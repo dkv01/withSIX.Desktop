@@ -11,10 +11,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public partial class FavoriteToggleButton : UserControl
     {
         public static readonly DependencyProperty IsFavoriteProperty =
-            DependencyProperty.Register("IsFavorite", typeof (bool), typeof (FavoriteToggleButton),
+            DependencyProperty.Register("IsFavorite", typeof(bool), typeof(FavoriteToggleButton),
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
-            typeof (ICommand), typeof (FavoriteToggleButton), new PropertyMetadata(default(ICommand)));
+            typeof(ICommand), typeof(FavoriteToggleButton), new PropertyMetadata(default(ICommand)));
 
         public FavoriteToggleButton() {
             InitializeComponent();
@@ -33,7 +33,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
 
         void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
             var command = Command;
-            if (command != null && command.CanExecute(null))
+            if ((command != null) && command.CanExecute(null))
                 Command.Execute(null);
         }
     }

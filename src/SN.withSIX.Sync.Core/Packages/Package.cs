@@ -12,7 +12,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Api.Models.Publishing;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -26,6 +25,7 @@ using SN.withSIX.Sync.Core.Services;
 using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Publishing;
 using Repository = SN.withSIX.Sync.Core.Repositories.Repository;
 
 namespace SN.withSIX.Sync.Core.Packages
@@ -89,10 +89,10 @@ namespace SN.withSIX.Sync.Core.Packages
 
         public bool ComparePK(object other) {
             var o = other as Package;
-            return o != null && ComparePK(o);
+            return (o != null) && ComparePK(o);
         }
 
-        public bool ComparePK(Package other) => other != null && other.GetFullName().Equals(GetFullName());
+        public bool ComparePK(Package other) => (other != null) && other.GetFullName().Equals(GetFullName());
 
         public static async Task<SynqSpec> ReadSynqSpecAsync(IAbsoluteDirectoryPath path) {
             var specFile = path.GetChildFileWithName(SynqSpecFile);
@@ -132,8 +132,8 @@ namespace SN.withSIX.Sync.Core.Packages
 
         public static IAbsoluteDirectoryPath GetRepoPath(string repositoryDirectory,
             IAbsoluteDirectoryPath workingDirectory) => string.IsNullOrWhiteSpace(repositoryDirectory)
-                ? workingDirectory.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory)
-                : repositoryDirectory.ToAbsoluteDirectoryPath();
+            ? workingDirectory.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory)
+            : repositoryDirectory.ToAbsoluteDirectoryPath();
 
         public bool Commit(string desiredVersion, bool force = false, bool downCase = true) {
             var metaData = CreateUpdatedMetaData(desiredVersion, downCase);
@@ -362,7 +362,7 @@ namespace SN.withSIX.Sync.Core.Packages
                 .Select(x => Repository.GetObjectSubPath(x));
 
         public static Task DownloadObjects(IEnumerable<Uri> remotes, StatusRepo sr,
-            IEnumerable<FileFetchInfo> files, IAbsoluteDirectoryPath destination)
+                IEnumerable<FileFetchInfo> files, IAbsoluteDirectoryPath destination)
             => SyncEvilGlobal.DownloadHelper.DownloadFilesAsync(GetObjectRemotes(remotes).ToArray(), sr,
                 GetTransferDictionary(sr, files),
                 destination);
@@ -373,10 +373,10 @@ namespace SN.withSIX.Sync.Core.Packages
         static IDictionary<FileFetchInfo, ITransferStatus> GetTransferDictionary(
             StatusRepo sr,
             IEnumerable<FileFetchInfo> files) => files.OrderByDescending(x => Tools.FileUtil.SizePrediction(x.FilePath))
-                .ToDictionary(x => x,
-                    x =>
-                        (ITransferStatus)
-                            new Status(x.DisplayName, sr) {RealObject = x.FilePath, OnComplete = x.Complete});
+            .ToDictionary(x => x,
+                x =>
+                    (ITransferStatus)
+                    new Status(x.DisplayName, sr) {RealObject = x.FilePath, OnComplete = x.Complete});
 
         void HandleMissingObjects(List<ObjectMap> missingObjects) {
             var currentPackage = MetaData.GetFullName();
@@ -413,8 +413,8 @@ namespace SN.withSIX.Sync.Core.Packages
 
         IEnumerable<ObjectMap> GetMissingObjectMapping(IEnumerable<ObjectMap> objects)
             => objects.Select(o => new {o, f = Repository.GetObjectPath(o.FO)})
-                .Where(@t => !@t.f.Exists)
-                .Select(@t => @t.o);
+                .Where(t => !t.f.Exists)
+                .Select(t => t.o);
 
         void ProcessMissingObjects(IReadOnlyCollection<ObjectMap> missingObjects, string[] packages) {
             var cache = new Dictionary<string, PackageMetaData>();
@@ -427,7 +427,7 @@ namespace SN.withSIX.Sync.Core.Packages
         void ProcessMissingObjects(IDictionary<string, PackageMetaData> cache, string package,
             ObjectMap missing) {
             var metadata = RetrieveMetaData(cache, package);
-            if (metadata == null || !metadata.Files.ContainsKey(missing.FO.FilePath))
+            if ((metadata == null) || !metadata.Files.ContainsKey(missing.FO.FilePath))
                 return;
 
             var match = metadata.Files[missing.FO.FilePath];
@@ -638,7 +638,7 @@ namespace SN.withSIX.Sync.Core.Packages
                         })
                 .Where(
                     paths =>
-                        paths.src != paths.dst &&
+                        (paths.src != paths.dst) &&
                         paths.src.Equals(paths.dst, StringComparison.OrdinalIgnoreCase))) {
                 Tools.FileUtil.Ops.MoveDirectory(paths.src.ToAbsoluteDirectoryPath(),
                     paths.dst.ToAbsoluteDirectoryPath());
@@ -701,7 +701,7 @@ namespace SN.withSIX.Sync.Core.Packages
             modify.OrderByDescending(x => Tools.FileUtil.SizePrediction(x.FilePath))
                 .ForEach(m => {
                     ProcessModified(statusDic, m,
-                        (p, s) => progressLeaf?.Update(null,  (i + p/100).ToProgress(modify.Count)));
+                        (p, s) => progressLeaf?.Update(null, (i + p/100).ToProgress(modify.Count)));
                     StatusRepo.IncrementDone();
                     progressLeaf?.Update(null, i++.ToProgress(modify.Count));
                 });
@@ -781,14 +781,6 @@ namespace SN.withSIX.Sync.Core.Packages
 
         class ChangeList
         {
-            public IDictionary<string, string> ChangedCase { get; } = new Dictionary<string, string>();
-            public IDictionary<string, List<string>> Copy { get; } = new Dictionary<string, List<string>>();
-            public List<string> Equal { get; } = new List<string>();
-            public List<string> New { get; } = new List<string>();
-            public List<string> Remove { get; } = new List<string>();
-            public IDictionary<string, Status> StatusDic { get; } = new Dictionary<string, Status>();
-            public List<string> Update { get; } = new List<string>();
-
             public ChangeList(IReadOnlyCollection<IAbsoluteFilePath> workingPathFiles,
                 IOrderedEnumerable<FileObjectMapping> mappings,
                 Package package) {
@@ -797,6 +789,14 @@ namespace SN.withSIX.Sync.Core.Packages
                 GenerateChangeImage(workingPathFiles,
                     mappings.OrderByDescending(x => Tools.FileUtil.SizePrediction(x.FilePath)), package);
             }
+
+            public IDictionary<string, string> ChangedCase { get; } = new Dictionary<string, string>();
+            public IDictionary<string, List<string>> Copy { get; } = new Dictionary<string, List<string>>();
+            public List<string> Equal { get; } = new List<string>();
+            public List<string> New { get; } = new List<string>();
+            public List<string> Remove { get; } = new List<string>();
+            public IDictionary<string, Status> StatusDic { get; } = new Dictionary<string, Status>();
+            public List<string> Update { get; } = new List<string>();
 
             public IEnumerable<string> GetModified()
                 => New.Concat(Update).OrderByDescending(x => Tools.FileUtil.SizePrediction(x));
@@ -933,6 +933,7 @@ namespace SN.withSIX.Sync.Core.Packages
             get { return _wrapped.Tries; }
             set { _wrapped.Tries = value; }
         }
+
         public void UpdateOutput(string data) {
             _wrapped.UpdateOutput(data);
         }

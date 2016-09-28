@@ -22,8 +22,8 @@ namespace SN.withSIX.Core.Presentation.Bridge
         }
 
         public bool IsInstalled() => RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-            .OpenSubKey(
-                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{5BCB064B-9F65-4E15-BAFB-669E72E54FD9}") !=
+                                         .OpenSubKey(
+                                             @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{5BCB064B-9F65-4E15-BAFB-669E72E54FD9}") !=
                                      null;
 
         public void Install() {
@@ -51,7 +51,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
         }
     }
 
-    
+
     public class InstallationFailed : Exception {}
 
     class TmpFile : IDisposable

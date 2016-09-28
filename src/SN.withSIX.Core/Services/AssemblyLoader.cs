@@ -19,7 +19,8 @@ namespace SN.withSIX.Core.Services
         readonly Version _entryVersion;
         readonly IAbsoluteDirectoryPath _netEntryPath;
 
-        public AssemblyLoader(Assembly assembly, IAbsoluteFilePath locationOverride = null, IAbsoluteDirectoryPath netEntryPath = null) {
+        public AssemblyLoader(Assembly assembly, IAbsoluteFilePath locationOverride = null,
+            IAbsoluteDirectoryPath netEntryPath = null) {
             if (assembly == null)
                 throw new Exception("Entry Assembly is null!");
             _entryAssembly = assembly;
@@ -35,7 +36,8 @@ namespace SN.withSIX.Core.Services
         private static IAbsoluteFilePath GetNetEntryFilePath(IAbsoluteDirectoryPath netEntryPath, string asName) {
             var en = netEntryPath ?? AppContext.BaseDirectory.ToAbsoluteDirectoryPath();
             var dll = en.GetChildFileWithName(asName + ".dll");
-            var netEntryFilePath = dll.Exists ? dll : en.GetChildFileWithName(asName + ".exe"); //_entryAssembly.Location.ToAbsoluteFilePath();
+            var netEntryFilePath = dll.Exists ? dll : en.GetChildFileWithName(asName + ".exe");
+                //_entryAssembly.Location.ToAbsoluteFilePath();
             return netEntryFilePath;
         }
 
@@ -57,7 +59,8 @@ namespace SN.withSIX.Core.Services
 
         public IAbsoluteFilePath GetEntryLocation() => _entryLocation;
 
-        public string GetInformationalVersion() => FileVersionInfo.GetVersionInfo(_entryLocation.ToString())?.ProductVersion;
+        public string GetInformationalVersion()
+            => FileVersionInfo.GetVersionInfo(_entryLocation.ToString())?.ProductVersion;
 
         #endregion
     }

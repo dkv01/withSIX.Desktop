@@ -15,16 +15,16 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         public Arma3StartupParameters(string[] defaultParameters) : base(defaultParameters) {}
         public Arma3StartupParameters() {}
         [Category(GameSettingCategories.Advanced), Description(
-            "Disable logging to improve performance"
-            )]
+             "Disable logging to improve performance"
+         )]
         public bool NoLogs
         {
             get { return GetSwitchOrDefault(); }
             set { SetSwitchOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            @"Enables the use of hyper-threading CPU cores which might slightly improve performance in certain scenarios. Note that this option may be overriden by -cpuCount so if you want to use maximum number of CPU cores use -enableHT without -cpuCount."
-            )]
+             @"Enables the use of hyper-threading CPU cores which might slightly improve performance in certain scenarios. Note that this option may be overriden by -cpuCount so if you want to use maximum number of CPU cores use -enableHT without -cpuCount."
+         )]
         public bool EnableHt
         {
             get { return GetSwitchOrDefault(); }
@@ -76,39 +76,39 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             set { SetPropertyOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Defines memory allocation limit to number (in MegaBytes).\n256 is hard-coded minimum (anything lower falls backs to 256). 2047 is hard-coded maximum (anything higher falls back to 2047).\nEngine uses automatic values (512-1536 MB) w/o maxMem parameter."
-            )]
+             "Defines memory allocation limit to number (in MegaBytes).\n256 is hard-coded minimum (anything lower falls backs to 256). 2047 is hard-coded maximum (anything higher falls back to 2047).\nEngine uses automatic values (512-1536 MB) w/o maxMem parameter."
+         )]
         public string MaxMem
         {
             get { return GetPropertyOrDefault(); }
             set { SetPropertyOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Defines Video Memory allocation limit to number (in MegaBytes).\n128 is hard-coded minimum (anything lower falls backs to 128). 2047 is soft-coded maximum , any value over 2GB might result into unforseen consequences!"
-            )]
+             "Defines Video Memory allocation limit to number (in MegaBytes).\n128 is hard-coded minimum (anything lower falls backs to 128). 2047 is soft-coded maximum , any value over 2GB might result into unforseen consequences!"
+         )]
         public string MaxVram
         {
             get { return GetPropertyOrDefault(); }
             set { SetPropertyOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Select a world loaded by default. Example: -world=Utes.\nFor faster game loading (no default world loaded and world intro in the main menu, only at game start, disabled): -world=empty"
-            )]
+             "Select a world loaded by default. Example: -world=Utes.\nFor faster game loading (no default world loaded and world intro in the main menu, only at game start, disabled): -world=empty"
+         )]
         public string World
         {
             get { return GetPropertyOrDefault(); }
             set { SetPropertyOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Change to a number less or equal than numbers of available cores. This will override auto detection")]
+             "Change to a number less or equal than numbers of available cores. This will override auto detection")]
         public string CpuCount
         {
             get { return GetPropertyOrDefault(); }
-            set { SetPropertyOrDefault(value == null || value.TryInt() < 0 ? null : value); }
+            set { SetPropertyOrDefault((value == null) || (value.TryInt() < 0) ? null : value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Level of multi-treading. Higher means more multi-threading\nChange to a number 0,1,3,5,7. This will override auto detection (which use 3 for dualcore and 7 for quadcore)."
-            )]
+             "Level of multi-treading. Higher means more multi-threading\nChange to a number 0,1,3,5,7. This will override auto detection (which use 3 for dualcore and 7 for quadcore)."
+         )]
         //[ItemsSource(typeof (ExThreadsItemsSource))] // TODO
         public string ExThreads
         {
@@ -116,8 +116,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             set { SetPropertyOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Set the particular allocator to be used. Significantly affects both performance and stability of Game"
-            )
+             "Set the particular allocator to be used. Significantly affects both performance and stability of Game"
+         )
         ]
         public string Malloc
         {
@@ -173,8 +173,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             set { SetPropertyOrDefault(value); }
         }
         [Category(GameSettingCategories.Server), Description(
-            "Command to enable support for Multihome servers. Allows server process to use defined available IP address"
-            )]
+             "Command to enable support for Multihome servers. Allows server process to use defined available IP address"
+         )]
         public string Ip
         {
             get { return GetPropertyOrDefault(); }
@@ -194,15 +194,15 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             set { SetSwitchOrDefault(value); }
         }
         [Category(GameSettingCategories.Basic), Description(
-            "Displays Arma windowed instead of full screen. Screen resolution / window size are set in arma2.cfg")]
+             "Displays Arma windowed instead of full screen. Screen resolution / window size are set in arma2.cfg")]
         public bool Window
         {
             get { return GetSwitchOrDefault(); }
             set { SetSwitchOrDefault(value); }
         }
         [Category(GameSettingCategories.Compatibility), Description(
-            "Forces Game to use Direct3D version 9 only, not the extended Vista / Win7 Direct3D 9Ex\nThe most visible feature the Direct3D 9Ex version offers is a lot faster alt-tabing. May help with problems using older drivers on multi-GPU systems."
-            )]
+             "Forces Game to use Direct3D version 9 only, not the extended Vista / Win7 Direct3D 9Ex\nThe most visible feature the Direct3D 9Ex version offers is a lot faster alt-tabing. May help with problems using older drivers on multi-GPU systems."
+         )]
         public bool Winxp
         {
             get { return GetSwitchOrDefault(); }
@@ -238,8 +238,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             set { SetSwitchOrDefault(value); }
         }
         [Category(GameSettingCategories.Advanced), Description(
-            "Introduced to provide thorough test of all signatures of all loaded banks at the start game. Output is in .rpt file"
-            )]
+             "Introduced to provide thorough test of all signatures of all loaded banks at the start game. Output is in .rpt file"
+         )]
         public bool CheckSignatures
         {
             get { return GetSwitchOrDefault(); }

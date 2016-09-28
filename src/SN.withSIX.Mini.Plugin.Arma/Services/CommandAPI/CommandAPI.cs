@@ -2,20 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands;
-using withSIX.Api.Models.Extensions;
-
 namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI
 {
     /*

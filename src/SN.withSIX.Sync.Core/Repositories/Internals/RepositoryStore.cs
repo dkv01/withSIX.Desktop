@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using withSIX.Api.Models;
 
@@ -97,7 +96,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
                     return null;
                 var packages = Packages[package.Name];
 
-                if (package.Version == null && package.Branch == null)
+                if ((package.Version == null) && (package.Branch == null))
                     return GetLatest(package, packages);
 
                 if (packages.Contains(package.VersionData))
@@ -189,7 +188,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
             lock (Bundles) {
                 if (!Bundles.ContainsKey(bundle.Name))
                     return false;
-                if (bundle.Version == null && bundle.Branch == null)
+                if ((bundle.Version == null) && (bundle.Branch == null))
                     return true;
                 var bundles = Bundles[bundle.Name];
                 if (bundles.Contains(bundle.VersionData))
@@ -207,7 +206,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
                 if (!bundles.Any())
                     return null;
 
-                if (bundle.Version == null && bundle.Branch == null)
+                if ((bundle.Version == null) && (bundle.Branch == null))
                     return new SpecificVersion(bundle.Name, Dependency.FindLatestPreferNonBranched(bundles));
 
                 if (bundles.Contains(bundle.VersionData))
@@ -227,7 +226,7 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
                 if (!bundles.Any())
                     return null;
 
-                if (bundle.Version == null && bundle.Branch == null)
+                if ((bundle.Version == null) && (bundle.Branch == null))
                     return new SpecificVersion(bundle.Name, Dependency.FindLatestPreferNonBranched(bundles));
 
                 if (bundles.Contains(bundle.VersionData))
@@ -382,18 +381,18 @@ namespace SN.withSIX.Sync.Core.Repositories.Internals
 
         public static RepositoryStore FromSeparateStores(RepositoryStoreObjectsDto objects,
             RepositoryStorePackagesDto packages, RepositoryStoreBundlesDto bundles) => new RepositoryStore {
-                Objects = objects.Objects.ToDictionary(x => x.Key, x => x.Value),
-                Packages = packages.Packages.ToDictionary(x => x.Key, x => x.Value),
-                PackagesCustomConfigs =
-                    packages.PackagesCustomConfigs.ToDictionary(x => x.Key,
-                        x =>
-                            new PackagesStoreCustomConfigs {
-                                KeepLatestVersions = x.Value.KeepLatestVersions,
-                                KeepSpecificBranches = x.Value.KeepSpecificBranches,
-                                KeepSpecificVersions = x.Value.KeepSpecificVersions
-                            }),
-                PackagesContentTypes = packages.PackagesContentTypes.ToDictionary(x => x.Key, x => x.Value),
-                Bundles = bundles.Bundles.ToDictionary(x => x.Key, x => x.Value)
-            };
+            Objects = objects.Objects.ToDictionary(x => x.Key, x => x.Value),
+            Packages = packages.Packages.ToDictionary(x => x.Key, x => x.Value),
+            PackagesCustomConfigs =
+                packages.PackagesCustomConfigs.ToDictionary(x => x.Key,
+                    x =>
+                        new PackagesStoreCustomConfigs {
+                            KeepLatestVersions = x.Value.KeepLatestVersions,
+                            KeepSpecificBranches = x.Value.KeepSpecificBranches,
+                            KeepSpecificVersions = x.Value.KeepSpecificVersions
+                        }),
+            PackagesContentTypes = packages.PackagesContentTypes.ToDictionary(x => x.Key, x => x.Value),
+            Bundles = bundles.Bundles.ToDictionary(x => x.Key, x => x.Value)
+        };
     }
 }

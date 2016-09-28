@@ -17,58 +17,58 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     {
         public static readonly DependencyProperty FillProperty = DependencyProperty.Register(
             "Fill",
-            typeof (Brush),
-            typeof (OutlinedTextBlock),
+            typeof(Brush),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty StrokeProperty = DependencyProperty.Register(
             "Stroke",
-            typeof (Brush),
-            typeof (OutlinedTextBlock),
+            typeof(Brush),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register(
             "StrokeThickness",
-            typeof (double),
-            typeof (OutlinedTextBlock),
+            typeof(double),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty FontFamilyProperty = TextElement.FontFamilyProperty.AddOwner(
-            typeof (OutlinedTextBlock),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty FontSizeProperty = TextElement.FontSizeProperty.AddOwner(
-            typeof (OutlinedTextBlock),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty FontStretchProperty = TextElement.FontStretchProperty.AddOwner(
-            typeof (OutlinedTextBlock),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty FontStyleProperty = TextElement.FontStyleProperty.AddOwner(
-            typeof (OutlinedTextBlock),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty FontWeightProperty = TextElement.FontWeightProperty.AddOwner(
-            typeof (OutlinedTextBlock),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
             "Text",
-            typeof (string),
-            typeof (OutlinedTextBlock),
+            typeof(string),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextInvalidated));
         public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register(
             "TextAlignment",
-            typeof (TextAlignment),
-            typeof (OutlinedTextBlock),
+            typeof(TextAlignment),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty TextDecorationsProperty = DependencyProperty.Register(
             "TextDecorations",
-            typeof (TextDecorationCollection),
-            typeof (OutlinedTextBlock),
+            typeof(TextDecorationCollection),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty TextTrimmingProperty = DependencyProperty.Register(
             "TextTrimming",
-            typeof (TextTrimming),
-            typeof (OutlinedTextBlock),
+            typeof(TextTrimming),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated));
         public static readonly DependencyProperty TextWrappingProperty = DependencyProperty.Register(
             "TextWrapping",
-            typeof (TextWrapping),
-            typeof (OutlinedTextBlock),
+            typeof(TextWrapping),
+            typeof(OutlinedTextBlock),
             new FrameworkPropertyMetadata(TextWrapping.NoWrap, OnFormattedTextUpdated));
         FormattedText formattedText;
         Geometry textGeometry;
@@ -87,7 +87,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
             get { return (FontFamily) GetValue(FontFamilyProperty); }
             set { SetValue(FontFamilyProperty, value); }
         }
-        [TypeConverter(typeof (FontSizeConverter))]
+        [TypeConverter(typeof(FontSizeConverter))]
         public double FontSize
         {
             get { return (double) GetValue(FontSizeProperty); }
@@ -195,7 +195,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
         }
 
         void EnsureFormattedText() {
-            if (formattedText != null || Text == null)
+            if ((formattedText != null) || (Text == null))
                 return;
 
             formattedText = new FormattedText(

@@ -8,12 +8,11 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ReactiveUI;
 
-
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
     public class SelectionCollectionHelper<T> : ReactiveObject, ISelectionCollectionHelper<T>
     {
-         readonly ObservableAsPropertyHelper<bool> _isItemSelected;
+        readonly ObservableAsPropertyHelper<bool> _isItemSelected;
         readonly object _lock = new object();
         T _selectedItem;
 

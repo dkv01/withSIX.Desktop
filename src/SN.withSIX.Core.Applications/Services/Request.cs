@@ -6,7 +6,7 @@ using MediatR;
 
 namespace SN.withSIX.Core.Applications.Services
 {
-    public interface IUsecaseExecutor { }
+    public interface IUsecaseExecutor {}
 
     public interface IQuery<out T> : IRead, IRequest<T> {}
 
@@ -27,9 +27,11 @@ namespace SN.withSIX.Core.Applications.Services
 
     public interface IAsyncVoidCommand : IAsyncCommand<Unit> {}
 
-    public interface ICancellableQuery<out TResponse> : ICancellableAsyncRequest<TResponse>, IRead { }
-    public interface ICancellableCommand<out TResponse> : ICancellableAsyncRequest<TResponse>, IWrite { }
-    public interface ICancellableVoidCommand : ICancellableCommand<Unit> { }
+    public interface ICancellableQuery<out TResponse> : ICancellableAsyncRequest<TResponse>, IRead {}
+
+    public interface ICancellableCommand<out TResponse> : ICancellableAsyncRequest<TResponse>, IWrite {}
+
+    public interface ICancellableVoidCommand : ICancellableCommand<Unit> {}
 
     public interface IAsyncVoidCommandHandler<in TCommand> : IAsyncRequestHandler<TCommand, Unit>
         where TCommand : IAsyncRequest<Unit> {}

@@ -3,14 +3,11 @@
 // </copyright>
 
 using System;
-using NLog;
-using NLog.Internal;
-using NLog.Targets;
 using System.Configuration;
+using NLog;
 using NLog.Config;
+using NLog.Targets;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Services;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace SN.withSIX.Core.Presentation.Bridge.Logging
 {
@@ -31,7 +28,8 @@ namespace SN.withSIX.Core.Presentation.Bridge.Logging
             UnhandledExceptionEventArgs unhandledExceptionEventArgs) {
             var ex = unhandledExceptionEventArgs.ExceptionObject as Exception;
             if (ex == null)
-                MainLog.Logger.Error("Catched unhandled exception in appdomain, but exception object is not of type Exception!");
+                MainLog.Logger.Error(
+                    "Catched unhandled exception in appdomain, but exception object is not of type Exception!");
             else
                 MainLog.Logger.FormattedErrorException(ex, "Catched unhandled exception in appdomain");
         }
@@ -64,7 +62,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Logging
 #endif
 
 
-        static Target CreateLogEntriesTarget(string appName) => new LogentriesTarget() {
+        static Target CreateLogEntriesTarget(string appName) => new LogentriesTarget {
             Name = "logentries",
             Debug = true,
             HttpPut = false,

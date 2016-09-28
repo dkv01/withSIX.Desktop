@@ -4,10 +4,8 @@
 
 using System.Windows.Controls;
 
-
 namespace SN.withSIX.Core.Presentation.Wpf.Views
 {
-    
     public partial class LicensesView : UserControl
     {
         public LicensesView() {

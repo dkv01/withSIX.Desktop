@@ -59,7 +59,7 @@ namespace SN.withSIX.Sync.Core.Legacy.Archive
         public void Clean() {
             var dir = new DirectoryInfo(Path);
             foreach (var subDir in dir.EnumerateDirectories()
-                .Where(subDir => subDir.Name != RepoFolder
+                .Where(subDir => (subDir.Name != RepoFolder)
                                  && !subDir.Name.StartsWith(".")))
                 Tools.FileUtil.Ops.DeleteFileSystemInfo(subDir);
 

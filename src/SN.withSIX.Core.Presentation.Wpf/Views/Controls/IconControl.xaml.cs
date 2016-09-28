@@ -12,8 +12,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     /// </summary>
     public partial class IconControl : UserControl
     {
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof (object),
-            typeof (IconControl), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(object),
+            typeof(IconControl), new PropertyMetadata(default(object)));
 
         public IconControl() {
             InitializeComponent();

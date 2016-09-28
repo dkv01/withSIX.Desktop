@@ -124,7 +124,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
                 => _referencedAssemblies.FirstOrDefault(assembly => Predicate(requestedAssemblyName, assembly));
 
             static bool Predicate(AssemblyName requestedAssemblyName, AssemblyName assembly) {
-                if (assembly.Version == null ||
+                if ((assembly.Version == null) ||
                     !assembly.Name.Equals(requestedAssemblyName.Name, StringComparison.OrdinalIgnoreCase))
                     return false;
 

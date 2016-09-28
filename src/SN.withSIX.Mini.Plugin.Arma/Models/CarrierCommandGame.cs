@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
@@ -12,7 +11,7 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.CarrierCommand, Name = "Carrier Command: Gaea Mission", Slug = "Carrier-Command",
-        Executables = new[] {"carrier.exe"})]
+         Executables = new[] {"carrier.exe"})]
     [DataContract]
     public class CarrierCommandGame : BasicGame
     {

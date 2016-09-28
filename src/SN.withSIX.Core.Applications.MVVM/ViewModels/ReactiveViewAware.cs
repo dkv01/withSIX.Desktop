@@ -11,10 +11,8 @@ using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
 
-
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    
     public class ReactiveViewAware : ReactiveValidatableObjectBase, IViewAware
     {
         /// <summary>
@@ -73,7 +71,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             ViewAttached(this, new ViewAttachedEventArgs {View = nonGeneratedView, Context = context});
 
             var activatable = this as IActivate;
-            if (activatable == null || activatable.IsActive)
+            if ((activatable == null) || activatable.IsActive)
                 PlatformProvider.Current.ExecuteOnLayoutUpdated(nonGeneratedView, OnViewReady);
             else
                 AttachViewReadyOnActivated(activatable, nonGeneratedView);

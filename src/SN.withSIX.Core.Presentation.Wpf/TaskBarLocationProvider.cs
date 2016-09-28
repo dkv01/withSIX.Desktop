@@ -77,7 +77,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
                 ? screen.Bounds.X + taskBarRectangle.Width
                 : screen.Bounds.X + screen.WorkingArea.Width - windowWidth;
 
-            if (include && taskBarLocation.uEdge == (int) Dock.Right)
+            if (include && (taskBarLocation.uEdge == (int) Dock.Right))
                 left = left - taskBarRectangle.Width;
 
             left = left*96.0/dpiX;
@@ -85,7 +85,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
             top = taskBarLocation.uEdge == (int) Dock.Top
                 ? screen.Bounds.Y + taskBarRectangle.Height
                 : screen.Bounds.Y + screen.WorkingArea.Height - windowHeight;
-            if (include && taskBarLocation.uEdge == (int) Dock.Bottom)
+            if (include && (taskBarLocation.uEdge == (int) Dock.Bottom))
                 top = top - taskBarRectangle.Height;
             top = top*96.0/dpiY;
         }

@@ -69,6 +69,5 @@ public static Task<T> OpenScreen<T>(this IAsyncQuery<T> query) where T : class, 
 public static Task<T> OpenScreenCached<T>(this IAsyncQuery<T> query) where T : class, IScreenViewModel
     => Cheat.ScreenOpener.OpenAsyncQueryCached(query);
     */
-
     }
 }

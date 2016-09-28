@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;

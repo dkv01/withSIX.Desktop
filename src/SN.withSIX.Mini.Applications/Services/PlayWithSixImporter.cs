@@ -13,7 +13,6 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
@@ -23,6 +22,7 @@ using SN.withSIX.Mini.Applications.Services.Dtos;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
@@ -52,7 +52,7 @@ namespace SN.withSIX.Mini.Applications.Services
             var ctx = _locator.GetSettingsContext();
             var settings = await ctx.GetSettings().ConfigureAwait(false);
             return !settings.Local.DeclinedPlaywithSixImport &&
-                   settings.Local.PlayWithSixImportVersion != ImportVersion;
+                   (settings.Local.PlayWithSixImportVersion != ImportVersion);
         }
 
         public async Task ImportPwsSettings(IAbsoluteFilePath filePath) {
@@ -71,7 +71,7 @@ namespace SN.withSIX.Mini.Applications.Services
             await db.LoadAll().ConfigureAwait(false);
             foreach (var g in db.Games) {
                 var ss = pwsSettings.GameOptions.GameSettingsController.Profiles.FirstOrDefault()?.GameSettings;
-                if (ss != null && ss.ContainsKey(g.Id))
+                if ((ss != null) && ss.ContainsKey(g.Id))
                     HandleGameSettings(pwsSettings, g);
                 HandleGameContent(pwsSettings, g);
             }
@@ -106,7 +106,7 @@ namespace SN.withSIX.Mini.Applications.Services
                         c => c.PackageName.Equals(x, StringComparison.CurrentCultureIgnoreCase)) ??
                     CreateLocal(game, x));
             game.Contents.Add(new LocalCollection(game.Id, GetName(p0),
-                contentDict.Values.Select(x => new ContentSpec((Content)x)).ToList()));
+                contentDict.Values.Select(x => new ContentSpec((Content) x)).ToList()));
             // TODO: We should synchronize the network again before executing actions..
         }
 
@@ -121,7 +121,7 @@ namespace SN.withSIX.Mini.Applications.Services
         static void HandleGameSettings(UserSettings pwsSettings, Game g) {
             var gs = g.Settings as IHavePackageDirectory;
             var modDir = GetGameValue<string>(pwsSettings, g, "ModDirectory");
-            if (gs != null && modDir != null)
+            if ((gs != null) && (modDir != null))
                 gs.PackageDirectory = modDir.ToAbsoluteDirectoryPath();
             var repoDir = GetGameValue<string>(pwsSettings, g, "RepositoryDirectory");
             if (repoDir != null)
@@ -166,8 +166,8 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class ServerAddress : IEquatable<ServerAddress>
     {
-        [DataMember] IPAddress _ip;
-        [DataMember] int _port;
+        [DataMember] readonly IPAddress _ip;
+        [DataMember] readonly int _port;
         string _stringFormat;
 
         public ServerAddress(string address) {
@@ -176,7 +176,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
                 throw new Exception("Invalid address format: " + address);
 
             var port = TryInt(addrs.Last());
-            if (port < 1 || port > IPEndPoint.MaxPort)
+            if ((port < 1) || (port > IPEndPoint.MaxPort))
                 throw new ArgumentOutOfRangeException(port.ToString());
 
             _ip = IPAddress.Parse(string.Join(":", addrs.Take(addrs.Length - 1)));
@@ -187,7 +187,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         public ServerAddress(string ip, int port) {
             if (string.IsNullOrWhiteSpace(ip))
                 throw new ArgumentNullException(nameof(ip));
-            if (port < 1 || port > IPEndPoint.MaxPort)
+            if ((port < 1) || (port > IPEndPoint.MaxPort))
                 throw new ArgumentOutOfRangeException(port.ToString());
 
             _ip = IPAddress.Parse(ip);
@@ -199,7 +199,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         public ServerAddress(IPAddress ip, int port) {
             if (ip == null)
                 throw new ArgumentNullException(nameof(ip));
-            if (port < 1 || port > IPEndPoint.MaxPort)
+            if ((port < 1) || (port > IPEndPoint.MaxPort))
                 throw new ArgumentOutOfRangeException(port.ToString());
 
             _ip = ip;
@@ -231,14 +231,14 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            return obj.GetType() == GetType() && Equals((ServerAddress) obj);
+            return (obj.GetType() == GetType()) && Equals((ServerAddress) obj);
         }
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext context) {
             if (_ip == null)
                 throw new Exception("IP cant be null");
-            if (_port < 1 || _port > IPEndPoint.MaxPort)
+            if ((_port < 1) || (_port > IPEndPoint.MaxPort))
                 throw new ArgumentOutOfRangeException(_port.ToString());
 
             _stringFormat = GetStringFormat();
@@ -252,13 +252,13 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     ]
     public class UserSettings
     {
-        [DataMember] AccountOptions _accountOptions = new AccountOptions();
+        [DataMember] readonly AccountOptions _accountOptions = new AccountOptions();
         //[DataMember] AppOptions _appOptions = new AppOptions();
         //[DataMember] Version _appVersion;
-        [DataMember] GameOptions _gameOptions = new GameOptions();
+        [DataMember] readonly GameOptions _gameOptions = new GameOptions();
         //[DataMember] Migrations _migrations = new Migrations();
         //[DataMember] MissionOptions _missionOptions = new MissionOptions();
-        [DataMember] ModOptions _modOptions = new ModOptions();
+        [DataMember] readonly ModOptions _modOptions = new ModOptions();
         public ModOptions ModOptions => _modOptions;
         public GameOptions GameOptions => _gameOptions;
         public AccountOptions AccountOptions => _accountOptions;
@@ -267,12 +267,12 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     [DataContract(Name = "ModOptions", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class ModOptions
     {
-        [DataMember] List<CustomCollection> _customModSets = new List<CustomCollection>();
-        [DataMember] List<FavoriteMod> _favoriteMods = new List<FavoriteMod>();
-        [DataMember] List<FavoriteCollection> _favorites = new List<FavoriteCollection>();
+        [DataMember] readonly List<CustomCollection> _customModSets = new List<CustomCollection>();
+        [DataMember] readonly List<FavoriteMod> _favoriteMods = new List<FavoriteMod>();
+        [DataMember] readonly List<FavoriteCollection> _favorites = new List<FavoriteCollection>();
         //[DataMember] List<LocalModsContainer> _localMods = new List<LocalModsContainer>();
-        [DataMember] List<RecentCollection> _recentModSets = new List<RecentCollection>();
-        [DataMember] List<SubscribedCollection> _subscribedModSets = new List<SubscribedCollection>();
+        [DataMember] readonly List<RecentCollection> _recentModSets = new List<RecentCollection>();
+        [DataMember] readonly List<SubscribedCollection> _subscribedModSets = new List<SubscribedCollection>();
         public List<CustomCollection> CustomModSets => _customModSets;
         public List<FavoriteMod> FavoriteMods => _favoriteMods;
         public List<FavoriteCollection> Favorites => _favorites;
@@ -281,23 +281,23 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     }
 
     [DataContract(Name = "AccountOptions",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class AccountOptions {}
 
     [DataContract(Name = "RecentCollection",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class RecentCollection {}
 
     [DataContract(Name = "FavoriteCollection",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class FavoriteCollection {}
 
     [DataContract(Name = "FavoriteMod",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class FavoriteMod {}
 
     [DataContract(Name = "SyncBase",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class SyncBase
     {
         [DataMember] Guid _id;
@@ -311,15 +311,15 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     }
 
     [DataContract(Name = "AdvancedCollection",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class AdvancedCollection : SyncBase
     {
         [DataMember] List<string> _additionalMods;
         [DataMember] protected List<string> _Mods;
         [DataMember] List<string> _optionalMods;
         [DataMember] Guid _realGameUuid;
-        [DataMember] List<Uri> _repositories = new List<Uri>();
-        [DataMember] List<CollectionServer> _servers = new List<CollectionServer>();
+        [DataMember] readonly List<Uri> _repositories = new List<Uri>();
+        [DataMember] readonly List<CollectionServer> _servers = new List<CollectionServer>();
         public Guid GameId => _realGameUuid;
         public List<CollectionServer> Servers => _servers;
         public List<Uri> Repositories => _repositories;
@@ -329,7 +329,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     }
 
     [DataContract(Name = "SubscribedCollection",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class SubscribedCollection : AdvancedCollection
     {
         [DataMember] Guid _collectionID;
@@ -337,7 +337,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     }
 
     [DataContract(Name = "CustomModSet",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class CustomCollection : AdvancedCollection
     {
         [DataMember] string _CustomRepoUrl;
@@ -347,7 +347,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     }
 
     [DataContract(Name = "CollectionServer",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class CollectionServer
     {
         [DataMember]
@@ -359,7 +359,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     [DataContract(Name = "GameOptions", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class GameOptions
     {
-        [DataMember] GameSettingsController _gameSettingsController = new GameSettingsController();
+        [DataMember] readonly GameSettingsController _gameSettingsController = new GameSettingsController();
         public GameSettingsController GameSettingsController => _gameSettingsController;
     }
 
@@ -377,13 +377,13 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     }
 
     [DataContract(Name = "ServerFilter",
-        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
+         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
     public class ArmaServerFilter {}
 
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
-    [KnownType(typeof (GlobalGameSettingsProfile)), KnownType(typeof (GameSettingsProfile)),
-     KnownType(typeof (RecentGameSettings)), KnownType(typeof (ServerQueryMode)),
-     KnownType(typeof (ProcessPriorityClass))]
+    [KnownType(typeof(GlobalGameSettingsProfile)), KnownType(typeof(GameSettingsProfile)),
+     KnownType(typeof(RecentGameSettings)), KnownType(typeof(ServerQueryMode)),
+     KnownType(typeof(ProcessPriorityClass))]
     public class GameSettingsController
     {
         [DataMember] Guid? _activeProfileGuid;
@@ -417,7 +417,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     public class RecentGameSettings {}
 
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
-    [KnownType(typeof (ArmaServerFilter))]
+    [KnownType(typeof(ArmaServerFilter))]
     public abstract class GameSettingsProfileBase : PropertyChangedBase, IGetData
     {
         [DataMember] readonly Dictionary<Guid, ConcurrentDictionary<string, object>> _gameSettings =

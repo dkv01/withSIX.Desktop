@@ -18,11 +18,11 @@ namespace GameServerQuery
     public class ServerQueryQueue : IServerQueryQueue
     {
         const int StartPort = 50000;
+        private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
         readonly int _maxConnections;
         readonly bool _useRangedEndPoints;
         ConcurrentQueue<IPEndPoint> _endpoints;
         int _lastPort;
-        private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
 
         public ServerQueryQueue(bool useRangedEndpoints = true, int maxConnections = 60) {
             State = new ServerQueryOverallState();
@@ -80,10 +80,10 @@ namespace GameServerQuery
             try {
                 await
                     objects.StartConcurrentTaskQueue(token, async server => {
-                        var state = await SyncServer(server).ConfigureAwait(false);
-                        if (callback != null && state != null)
-                            callback(state);
-                    },
+                            var state = await SyncServer(server).ConfigureAwait(false);
+                            if ((callback != null) && (state != null))
+                                callback(state);
+                        },
                         () => _maxConnections).ConfigureAwait(false);
             } finally {
                 State.Progress = State.Maximum;
@@ -113,7 +113,7 @@ namespace GameServerQuery
                 } catch (Exception e) {
                     return null;
                 } finally {
-                    if (_useRangedEndPoints && endPoint != null && !portInUse)
+                    if (_useRangedEndPoints && (endPoint != null) && !portInUse)
                         ReleaseEndPoint(endPoint);
                 }
             }

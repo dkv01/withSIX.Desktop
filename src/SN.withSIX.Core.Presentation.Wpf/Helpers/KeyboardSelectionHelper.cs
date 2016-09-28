@@ -15,8 +15,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Helpers
 
         public static bool IsNavigatingPastBounds(this Key key, int selectedIndex, int count)
             =>
-                (count <= 0) || ((key == Key.Up) && (selectedIndex == 0)) ||
-                ((key == Key.Down) && (selectedIndex == count - 1));
+            (count <= 0) || ((key == Key.Up) && (selectedIndex == 0)) ||
+            ((key == Key.Down) && (selectedIndex == count - 1));
 
         public static void MoveDown(this Selector listBox) {
             if ((listBox.Items.Count != 0) && (listBox.Items.Count > listBox.SelectedIndex + 1))

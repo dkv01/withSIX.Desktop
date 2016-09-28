@@ -8,9 +8,6 @@ namespace SN.withSIX.Core
 {
     public class PathDoesntExistException : Exception
     {
-        public string Path { get; }
-        public string PathName { get; }
-
         public PathDoesntExistException(string path) {
             Path = path;
         }
@@ -19,18 +16,21 @@ namespace SN.withSIX.Core
             Path = path;
             PathName = pathName;
         }
+
+        public string Path { get; }
+        public string PathName { get; }
     }
 
 
     public abstract class SetupException : InvalidOperationException
     {
-        protected SetupException(string message) : base(message) { }
-        protected SetupException(string message, Exception ex) : base(message, ex) { }
+        protected SetupException(string message) : base(message) {}
+        protected SetupException(string message, Exception ex) : base(message, ex) {}
     }
 
     public class DidNotStartException : SetupException
     {
-        public DidNotStartException(string message) : base(message) { }
-        public DidNotStartException(string message, Exception ex) : base(message, ex) { }
+        public DidNotStartException(string message) : base(message) {}
+        public DidNotStartException(string message, Exception ex) : base(message, ex) {}
     }
 }

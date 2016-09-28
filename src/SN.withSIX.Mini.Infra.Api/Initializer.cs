@@ -34,11 +34,12 @@ namespace SN.withSIX.Mini.Infra.Api
         static IDisposable _webServer;
         private readonly IWebApiErrorHandler _errorHandler;
         private readonly IDbContextFactory _factory;
-        private readonly IStateMessengerBus _stateMessenger;
         private readonly IProcessManager _pm;
+        private readonly IStateMessengerBus _stateMessenger;
         private IDisposable _ErrorReg;
 
-        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory, IStateMessengerBus stateMessenger, IProcessManager pm) {
+        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory,
+            IStateMessengerBus stateMessenger, IProcessManager pm) {
             _errorHandler = errorHandler;
             _factory = factory;
             _stateMessenger = stateMessenger;
@@ -136,8 +137,8 @@ namespace SN.withSIX.Mini.Infra.Api
     public class ServerInfo
     {
         public ServerInfo(IProcessManagerSync pm, IPEndPoint http, IPEndPoint https) {
-            IsHttpPortRegistered = http != null && QueryPortRegistered(pm, http.ToHttp());
-            IsHttpsPortRegistered = https != null && QueryPortRegistered(pm, https.ToHttps());
+            IsHttpPortRegistered = (http != null) && QueryPortRegistered(pm, http.ToHttp());
+            IsHttpsPortRegistered = (https != null) && QueryPortRegistered(pm, https.ToHttps());
             IsCertRegistered = QueryCertRegistered(pm, https);
             MainLog.Logger.Info(
                 $"HttpRegistered: {IsHttpPortRegistered} ({http}), HttpsRegistered: {IsHttpsPortRegistered} ({https}), CertRegistered: {IsCertRegistered}");

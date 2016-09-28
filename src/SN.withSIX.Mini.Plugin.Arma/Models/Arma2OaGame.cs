@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
     [RegistryInfo(BohemiaStudioRegistry + @"\ArmA 2 OA", "main")]
     [RvProfileInfo("Arma 2", "Arma 2 other profiles",
-        "ArmA2OaProfile")]
+         "ArmA2OaProfile")]
     [SteamInfo(33930, "Arma 2 Operation Arrowhead")]
     [DataContract]
     public abstract class Arma2OaGame : Arma2Game
@@ -53,7 +53,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected virtual IAbsoluteFilePath GetBattleEyeClientExectuable()
             => GetExecutable().GetBrotherFileWithName(BattleEyeExe);
 
-        protected override async Task<IReadOnlyCollection<string>> GetStartupParameters(IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction) {
+        protected override async Task<IReadOnlyCollection<string>> GetStartupParameters(
+            IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction) {
             var defParams = await base.GetStartupParameters(launcher, action, launchAction).ConfigureAwait(false);
             return LaunchNormally(GetBattleEyeClientExectuable(), launchAction)
                 ? defParams
@@ -61,7 +62,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         private bool LaunchNormally(IAbsoluteFilePath beExecutable, LaunchAction launchAction)
-            => launchAction == LaunchAction.LaunchAsDedicatedServer || !_settings.LaunchThroughBattlEye || !beExecutable.Exists;
+            =>
+            (launchAction == LaunchAction.LaunchAsDedicatedServer) || !_settings.LaunchThroughBattlEye ||
+            !beExecutable.Exists;
 
         IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => BeGameParam.Concat(defParams);
 
@@ -99,7 +102,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             static IEnumerable<IAbsoluteDirectoryPath> ExistingMods(IAbsoluteDirectoryPath[] paths, params string[] mods)
                 => paths.Any()
                     ? mods.Select(
-                        x => paths.Select(path => path.GetChildDirectoryWithName(x)).FirstOrDefault(p => p.Exists))
+                            x => paths.Select(path => path.GetChildDirectoryWithName(x)).FirstOrDefault(p => p.Exists))
                         .Where(x => x != null)
                     : Enumerable.Empty<IAbsoluteDirectoryPath>();
         }

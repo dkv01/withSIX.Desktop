@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="StarboundGameSettingsApiModel.cs">
+﻿// <copyright company="SIX Networks GmbH" file="SkyrimGameSettingsApiModel.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 

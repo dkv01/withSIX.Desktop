@@ -11,13 +11,13 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class StandardDialog : ContentControl
     {
         public static readonly DependencyProperty ButtonContentProperty = DependencyProperty.Register("ButtonContent",
-            typeof (FrameworkElement), typeof (StandardDialog), new PropertyMetadata(default(FrameworkElement)));
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof (string),
-            typeof (StandardDialog), new PropertyMetadata(default(string)));
+            typeof(FrameworkElement), typeof(StandardDialog), new PropertyMetadata(default(FrameworkElement)));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string),
+            typeof(StandardDialog), new PropertyMetadata(default(string)));
 
         static StandardDialog() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (StandardDialog),
-                new FrameworkPropertyMetadata(typeof (StandardDialog)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StandardDialog),
+                new FrameworkPropertyMetadata(typeof(StandardDialog)));
         }
 
         public StandardDialog() {

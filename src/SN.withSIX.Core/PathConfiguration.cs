@@ -4,7 +4,6 @@
 
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
@@ -12,30 +11,29 @@ using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Core
 {
-
     // Licensed to the .NET Foundation under one or more agreements.
     // The .NET Foundation licenses this file to you under the MIT license.
     // See the LICENSE file in the project root for more information.
 
-        public static partial class EnvironmentSpecial
+    public static partial class EnvironmentSpecial
     {
-            public enum SpecialFolderOption
-            {
-                None = 0,
-                Create = SpecialFolderOptionValues.CSIDL_FLAG_CREATE,
-                DoNotVerify = SpecialFolderOptionValues.CSIDL_FLAG_DONT_VERIFY,
-            }
-
-            // These values are specific to Windows and are known to SHGetFolderPath, however they are
-            // also the values used in the SpecialFolderOption enum.  As such, we keep them as constants
-            // with their Win32 names, but keep them here rather than in Interop.mincore as they're
-            // used on all platforms.
-            private static class SpecialFolderOptionValues
-            {
-                internal const int CSIDL_FLAG_CREATE = 0x8000; // force folder creation in SHGetFolderPath
-                internal const int CSIDL_FLAG_DONT_VERIFY = 0x4000; // return an unverified folder path
-            }
+        public enum SpecialFolderOption
+        {
+            None = 0,
+            Create = SpecialFolderOptionValues.CSIDL_FLAG_CREATE,
+            DoNotVerify = SpecialFolderOptionValues.CSIDL_FLAG_DONT_VERIFY
         }
+
+        // These values are specific to Windows and are known to SHGetFolderPath, however they are
+        // also the values used in the SpecialFolderOption enum.  As such, we keep them as constants
+        // with their Win32 names, but keep them here rather than in Interop.mincore as they're
+        // used on all platforms.
+        private static class SpecialFolderOptionValues
+        {
+            internal const int CSIDL_FLAG_CREATE = 0x8000; // force folder creation in SHGetFolderPath
+            internal const int CSIDL_FLAG_DONT_VERIFY = 0x4000; // return an unverified folder path
+        }
+    }
 
     public static partial class EnvironmentSpecial
     {
@@ -87,7 +85,7 @@ namespace SN.withSIX.Core
             Resources = SpecialFolderValues.CSIDL_RESOURCES,
             LocalizedResources = SpecialFolderValues.CSIDL_RESOURCES_LOCALIZED,
             SystemX86 = SpecialFolderValues.CSIDL_SYSTEMX86,
-            Windows = SpecialFolderValues.CSIDL_WINDOWS,
+            Windows = SpecialFolderValues.CSIDL_WINDOWS
         }
 
         // These values are specific to Windows and are known to SHGetFolderPath, however they are
@@ -120,7 +118,8 @@ namespace SN.withSIX.Core
             internal const int CSIDL_MYPICTURES = 0x0027;
 
             internal const int CSIDL_ADMINTOOLS = 0x0030; // <user name>\Start Menu\Programs\Administrative Tools
-            internal const int CSIDL_CDBURN_AREA = 0x003b; // USERPROFILE\Local Settings\Application Data\Microsoft\CD Burning
+            internal const int CSIDL_CDBURN_AREA = 0x003b;
+                // USERPROFILE\Local Settings\Application Data\Microsoft\CD Burning
             internal const int CSIDL_COMMON_ADMINTOOLS = 0x002f; // All Users\Start Menu\Programs\Administrative Tools
             internal const int CSIDL_COMMON_DOCUMENTS = 0x002e; // All Users\Documents
             internal const int CSIDL_COMMON_MUSIC = 0x0035; // All Users\My Music
@@ -145,11 +144,11 @@ namespace SN.withSIX.Core
             internal const int CSIDL_WINDOWS = 0x0024; // GetWindowsDirectory()
         }
     }
+
     public class PathConfiguration : IPathConfiguration, IDomainService, IEnableLogging
     {
-        public static Func<EnvironmentSpecial.SpecialFolder, string> GetFolderPath { get; set; }
-
         const string CompanyPath = "SIX Networks";
+        public static Func<EnvironmentSpecial.SpecialFolder, string> GetFolderPath { get; set; }
         public IAbsoluteFilePath CmdExe { get; } =
             Path.Combine(GetFolderPath(EnvironmentSpecial.SpecialFolder.System), "cmd.exe").ToAbsoluteFilePath();
         public string SelfUpdaterExe { get; } = "withSIX-SelfUpdater.exe";

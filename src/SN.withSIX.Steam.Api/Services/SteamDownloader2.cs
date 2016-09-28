@@ -1,15 +1,6 @@
-// <copyright company="SIX Networks GmbH" file="SteamDownloader.cs">
+// <copyright company="SIX Networks GmbH" file="SteamDownloader2.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
-
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using NDepend.Path;
-using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-
 
 namespace SN.withSIX.Mini.Infra.Api.Downloaders
 {

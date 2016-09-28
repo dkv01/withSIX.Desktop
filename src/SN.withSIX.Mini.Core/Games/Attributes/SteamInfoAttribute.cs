@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core;
 using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Games;
 

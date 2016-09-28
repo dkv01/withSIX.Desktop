@@ -13,25 +13,23 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using SN.withSIX.Sync.Core.Transfer.Specs;
-using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
 {
-    
     public class ZsyncException : DownloadException
     {
         public ZsyncException(string message, string output = null, string parameters = null, Exception inner = null)
             : base(message, output, parameters, inner) {}
     }
 
-    
+
     public class ZsyncSoftException : ZsyncException
     {
         public ZsyncSoftException(string message, string output = null, string parameters = null, Exception inner = null)
             : base(message, output, parameters, inner) {}
     }
 
-    
+
     public class ZsyncLoopDetectedException : ZsyncSoftException
     {
         public ZsyncLoopDetectedException(string message, string output = null, string parameters = null,
@@ -39,7 +37,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             : base(message, output, parameters, inner) {}
     }
 
-    
+
     public class ZsyncIncompatibleException : ZsyncSoftException
     {
         public ZsyncIncompatibleException(string message, string output = null, string parameters = null,
@@ -47,10 +45,12 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             : base(message, output, parameters, inner) {}
     }
 
-    
+
     public class ZsyncDownloadProtocol : DownloadProtocol
     {
         static readonly string[] schemes = {"zsync", "zsyncs"};
+
+        private static readonly Regex rx = new Regex(@"Got HTTP (\d+) (expected \d+)");
         readonly IZsyncLauncher _zsyncLauncher;
 
         public ZsyncDownloadProtocol(IZsyncLauncher zsyncLauncher) {
@@ -70,10 +70,10 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
 
         private static ZsyncParams GetParams(TransferSpec spec) => new ZsyncParams(spec.Progress,
             new Uri(FixUrl(spec.Uri)), spec.LocalFile) {
-                CancelToken = spec.CancellationToken,
-                ExistingFile = spec.ExistingFile,
-                Verbose = Common.Flags.Verbose
-            };
+            CancelToken = spec.CancellationToken,
+            ExistingFile = spec.ExistingFile,
+            Verbose = Common.Flags.Verbose
+        };
 
         public override void Download(TransferSpec spec) {
             spec.Progress.Tries++;
@@ -160,11 +160,10 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             }
         }
 
-        static string FixUrl(Uri uri) => uri.Scheme == "zsync" || uri.Scheme == "zsyncs"
+        static string FixUrl(Uri uri) => (uri.Scheme == "zsync") || (uri.Scheme == "zsyncs")
             ? uri.ReplaceZsyncProtocol() + ".zsync"
             : uri + ".zsync";
 
-        private static readonly Regex rx = new Regex(@"Got HTTP (\d+) (expected \d+)");
         static int FindStatusCode(string output) {
             if (output == null)
                 return -1;
@@ -177,7 +176,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
 
     public class ZsyncCygwinProgramException : ZsyncSoftProgramException, IProgramError, ICygwinProgramError
     {
-        public ZsyncCygwinProgramException(string message, string output = null, string parameters = null) : base(message, output, parameters) { }
+        public ZsyncCygwinProgramException(string message, string output = null, string parameters = null)
+            : base(message, output, parameters) {}
     }
 
     public class ZsyncSoftProgramException : ZsyncSoftException, IProgramError
@@ -216,7 +216,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                 retryEx = e;
             } catch (ZsyncSoftException e) {
                 var progress = spec.Progress;
-                if (progress != null && !AllowZsyncFallback(progress))
+                if ((progress != null) && !AllowZsyncFallback(progress))
                     throw;
                 retryEx = e;
             }
@@ -225,7 +225,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
         }
 
         static bool AllowZsyncFallback(ITransferProgress progress)
-            => progress.ZsyncHttpFallback || progress.Tries > progress.ZsyncHttpFallbackAfter;
+            => progress.ZsyncHttpFallback || (progress.Tries > progress.ZsyncHttpFallbackAfter);
 
         void TryDownload(TransferSpec spec) {
             try {
@@ -236,7 +236,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
                 TryRegularHttpDownload(spec, e);
             } catch (ZsyncSoftException e) {
                 var progress = spec.Progress;
-                if (progress != null && !AllowZsyncFallback(progress))
+                if ((progress != null) && !AllowZsyncFallback(progress))
                     throw;
                 TryRegularHttpDownload(spec, e);
             }

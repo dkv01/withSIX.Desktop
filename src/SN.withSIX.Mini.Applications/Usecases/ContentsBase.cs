@@ -8,7 +8,8 @@ using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Applications.Usecases
 {
-    public interface INeedContents {
+    public interface INeedContents
+    {
         List<ContentGuidSpec> Contents { get; }
     }
 

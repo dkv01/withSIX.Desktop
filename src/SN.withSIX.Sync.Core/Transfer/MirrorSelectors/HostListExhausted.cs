@@ -4,10 +4,8 @@
 
 using System;
 
-
 namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
 {
-    
     public class HostListExhausted : TransferException
     {
         public HostListExhausted() : this("The host list was exhausted") {}
@@ -15,7 +13,7 @@ namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
         public HostListExhausted(string message, Exception inner) : base(message, inner) {}
     }
 
-    
+
     public class TooManyProgramExceptions : TransferException
     {
         public TooManyProgramExceptions() : this("Too many external program errors occurred") {}

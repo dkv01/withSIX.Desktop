@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
 
@@ -35,10 +34,10 @@ namespace SN.withSIX.Sync.Core.Packages.Internals
             if (o != null)
                 return ComparePK((PackageMetaData) other);
             var o2 = other as Dependency;
-            return o2 != null && ComparePK((Dependency) other);
+            return (o2 != null) && ComparePK((Dependency) other);
         }
 
-        public bool ComparePK(PackageMetaData other) => other != null && other.GetFullName().Equals(GetFullName());
+        public bool ComparePK(PackageMetaData other) => (other != null) && other.GetFullName().Equals(GetFullName());
 
         public IEnumerable<Dependency> GetDependencies() => Dependencies.Select(x => new Dependency(x.Key, x.Value));
 

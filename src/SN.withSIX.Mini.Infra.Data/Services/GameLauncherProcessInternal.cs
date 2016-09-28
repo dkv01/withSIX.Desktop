@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -91,7 +90,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
             void PostProcessLaunch() {
                 SetPriority();
-                if (_spec.Affinity != null && _spec.Affinity.Any())
+                if ((_spec.Affinity != null) && _spec.Affinity.Any())
                     SetAffinity();
             }
 
@@ -119,7 +118,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 }
             }
 
-            void PrepareSteamState() => _isSteamGameAndAvailable = _spec.SteamID != 0 && _steamLauncher.IsValid();
+            void PrepareSteamState() => _isSteamGameAndAvailable = (_spec.SteamID != 0) && _steamLauncher.IsValid();
 
             void LegacySteamLaunch() {
                 PrepareLegacySteamLaunch();
@@ -149,7 +148,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
 
                 if (!_isSteamValid)
                     return;
-                _gameStartInfo.UseShellExecute = false; // This breaks UAC prompts if the game is set to require UAC, in that case we should already be running as admin ourselves...
+                _gameStartInfo.UseShellExecute = false;
+                    // This breaks UAC prompts if the game is set to require UAC, in that case we should already be running as admin ourselves...
                 var steamId = Convert.ToString(_spec.SteamID);
                 Tools.ProcessManager.Management.AddEnvironmentVariables(_gameStartInfo, new Dictionary<string, string> {
                     {
@@ -303,7 +303,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                         startInfo.WorkingDirectory, // name of current directory 
                         ref si, // pointer to STARTUPINFO structure
                         out procInfo // receives information about new process
-                        );
+                    );
 
                     // invalidate the handles
                     CloseHandle(hProcess);
@@ -397,8 +397,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 static extern uint WTSGetActiveConsoleSessionId();
 
                 [DllImport("advapi32.dll", EntryPoint = "CreateProcessAsUser", SetLastError = true,
-                    CharSet = CharSet.Ansi,
-                    CallingConvention = CallingConvention.StdCall)]
+                     CharSet = CharSet.Ansi,
+                     CallingConvention = CallingConvention.StdCall)]
                 public static extern bool CreateProcessAsUser(IntPtr hToken, string lpApplicationName,
                     string lpCommandLine,
                     ref SECURITY_ATTRIBUTES lpProcessAttributes,

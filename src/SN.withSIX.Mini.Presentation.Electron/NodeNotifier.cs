@@ -1,6 +1,9 @@
+// <copyright company="SIX Networks GmbH" file="NodeNotifier.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
 

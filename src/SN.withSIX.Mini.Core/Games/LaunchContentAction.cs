@@ -53,6 +53,6 @@ namespace SN.withSIX.Mini.Core.Games
     public static class LaunchActionExtensions
     {
         public static bool IsAsServer(this LaunchAction action)
-            => action == LaunchAction.LaunchAsServer || action == LaunchAction.LaunchAsDedicatedServer;
+            => (action == LaunchAction.LaunchAsServer) || (action == LaunchAction.LaunchAsDedicatedServer);
     }
 }

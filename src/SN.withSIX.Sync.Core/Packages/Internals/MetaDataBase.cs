@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 
 namespace SN.withSIX.Sync.Core.Packages.Internals
@@ -58,7 +57,7 @@ namespace SN.withSIX.Sync.Core.Packages.Internals
         public string FullName { get; set; }
         public string Description { get; set; }
 
-        public bool ComparePK(Dependency other) => other != null && other.GetFullName().Equals(GetFullName());
+        public bool ComparePK(Dependency other) => (other != null) && other.GetFullName().Equals(GetFullName());
 
         public virtual bool ComparePK(object other) {
             var o = other as Dependency;
@@ -67,7 +66,7 @@ namespace SN.withSIX.Sync.Core.Packages.Internals
             return ComparePK((Dependency) other);
         }
 
-        public bool ComparePK(MetaDataBase other) => other != null && other.GetFullName().Equals(GetFullName());
+        public bool ComparePK(MetaDataBase other) => (other != null) && other.GetFullName().Equals(GetFullName());
 
         public SpecificVersion ToSpecificVersion() => new SpecificVersion(GetFullName());
 

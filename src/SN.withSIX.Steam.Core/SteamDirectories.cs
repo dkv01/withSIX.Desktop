@@ -47,7 +47,7 @@ namespace SN.withSIX.Steam.Core
 
     public class SteamWorkshopDirectories
     {
-        protected SteamWorkshopDirectories() { }
+        protected SteamWorkshopDirectories() {}
 
         public SteamWorkshopDirectories(uint appId, IAbsoluteDirectoryPath rootPath) {
             RootPath = rootPath.GetChildDirectoryWithName("workshop");
@@ -62,7 +62,7 @@ namespace SN.withSIX.Steam.Core
 
     public class SteamGameDirectories
     {
-        protected SteamGameDirectories() { }
+        protected SteamGameDirectories() {}
 
         public SteamGameDirectories(string folder, IAbsoluteDirectoryPath rootPath) {
             RootPath = rootPath.GetChildDirectoryWithName("common");

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SN.withSIX.Core.Applications.Errors

@@ -24,8 +24,8 @@ namespace SN.withSIX.Core.Presentation.Decorators
             using (
                 Decorated.Bench(
                     startMessage:
-                        "Writes: " + (request is IWrite) + ", Data: " +
-                        JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                    "Writes: " + (request is IWrite) + ", Data: " +
+                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
                     caller: "Request" + ": " + request.GetType()))
                 return base.Send(request);
         }
@@ -33,8 +33,8 @@ namespace SN.withSIX.Core.Presentation.Decorators
         public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             using (Decorated.Bench(
                 startMessage:
-                    "Writes: " + (request is IWrite) + ", Data: " +
-                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                "Writes: " + (request is IWrite) + ", Data: " +
+                JsonConvert.SerializeObject(request, JsonSerializerSettings),
                 caller: "RequestAsync" + ": " + request.GetType()))
                 return await base.SendAsync(request).ConfigureAwait(false);
         }
@@ -43,8 +43,8 @@ namespace SN.withSIX.Core.Presentation.Decorators
             CancellationToken cancellationToken) {
             using (Decorated.Bench(
                 startMessage:
-                    "Writes: " + (request is IWrite) + ", Data: " +
-                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                "Writes: " + (request is IWrite) + ", Data: " +
+                JsonConvert.SerializeObject(request, JsonSerializerSettings),
                 caller: "RequestAsync" + ": " + request.GetType()))
                 return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }

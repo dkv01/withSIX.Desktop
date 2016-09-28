@@ -20,7 +20,7 @@ using withSIX.Api.Models.Content.v3;
 
 namespace SN.withSIX.Mini.Core.Games
 {
-    [ContractClassFor(typeof (IContent))]
+    [ContractClassFor(typeof(IContent))]
     public abstract class IContentContract : IContent
     {
         private string _name;
@@ -51,10 +51,12 @@ namespace SN.withSIX.Mini.Core.Games
         public abstract Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
             bool processed);
 
-        public abstract Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken, bool processed);
-
         public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
         public abstract void Use(IContentAction<IContent> action);
+
+        public abstract Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken,
+            bool processed);
+
         public abstract void Use(ILaunchContentAction<IContent> action);
     }
 
@@ -66,7 +68,7 @@ namespace SN.withSIX.Mini.Core.Games
         void CancelProcessingState();
     }
 
-    [ContractClass(typeof (IContentContract))]
+    [ContractClass(typeof(IContentContract))]
     public interface IContent : IHaveGameId, IHaveId<Guid>, IPostInstallable, IProcessingState
     {
         string Version { get; }
@@ -78,14 +80,14 @@ namespace SN.withSIX.Mini.Core.Games
         void Use(IContentAction<IContent> action);
     }
 
-    [ContractClass(typeof (IHavePackageNameContract))]
+    [ContractClass(typeof(IHavePackageNameContract))]
     public interface IHavePackageName
     {
         string PackageName { get; set; }
         string GetFQN(string constraint = null);
     }
 
-    [ContractClassFor(typeof (IHavePackageName))]
+    [ContractClassFor(typeof(IHavePackageName))]
     public abstract class IHavePackageNameContract : IHavePackageName
     {
         private string _packageName;
@@ -103,8 +105,11 @@ namespace SN.withSIX.Mini.Core.Games
 
     public static class ContentExtensions
     {
-        public static ItemState GetState(this IContent This, SpecificVersionInfo constraint) => This.GetState(constraint?.ToString());
-        public static ItemState GetState(this IContent This, SpecificVersion constraint) => This.GetState(constraint?.VersionInfo);
+        public static ItemState GetState(this IContent This, SpecificVersionInfo constraint)
+            => This.GetState(constraint?.ToString());
+
+        public static ItemState GetState(this IContent This, SpecificVersion constraint)
+            => This.GetState(constraint?.VersionInfo);
     }
 
     public interface ISourcedContent
@@ -114,11 +119,9 @@ namespace SN.withSIX.Mini.Core.Games
         void OverrideSource(Publisher publisher);
     }
 
-    public interface IContentWithPackageName : IHavePackageName, IContent, ISourcedContent
-    {
-    }
+    public interface IContentWithPackageName : IHavePackageName, IContent, ISourcedContent {}
 
-    public interface IPackagedContent : IContentWithPackageName, IUninstallableContent { }
+    public interface IPackagedContent : IContentWithPackageName, IUninstallableContent {}
 
     public interface IModContent : IPackagedContent, ILaunchableContent {}
 
@@ -184,7 +187,7 @@ namespace SN.withSIX.Mini.Core.Games
             if (!IsInstalled())
                 JustInstalled(version, completed);
             else {
-                if (InstallInfo.Version != version || InstallInfo.Completed != completed)
+                if ((InstallInfo.Version != version) || (InstallInfo.Completed != completed))
                     ChangeVersion(version, completed);
             }
         }
@@ -214,21 +217,12 @@ namespace SN.withSIX.Mini.Core.Games
                 await a(processed).ConfigureAwait(false);
         }
 
-        public virtual async Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken,
-            bool processed) {
-            foreach (var a in AdditionalPreUninstallActions)
-                await a(processed).ConfigureAwait(false);
-        }
-
         public void RegisterAdditionalPostInstallTask(Func<bool, Task> task) => AdditionalPostInstallActions.Add(task);
-
-        public void RegisterAdditionalPreUninstallTask(Func<bool, Task> task)
-            => AdditionalPreUninstallActions.Add(task);
 
         public ItemState GetState() => State ?? InitialCachedState();
 
         public ItemState GetState(string constraint)
-            => constraint == null || Version == constraint ? GetState() : CalculateState(constraint);
+            => (constraint == null) || (Version == constraint) ? GetState() : CalculateState(constraint);
 
         [IgnoreDataMember]
         public ItemState ProcessingState { get; private set; }
@@ -249,24 +243,33 @@ namespace SN.withSIX.Mini.Core.Games
             ProcessingState = GetState();
         }
 
+        public void Use(IContentAction<IContent> action) {
+            RecentInfo = new RecentInfo();
+            PrepareEvent(new ContentUsed(this, action));
+        }
+
+        public virtual async Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken,
+            bool processed) {
+            foreach (var a in AdditionalPreUninstallActions)
+                await a(processed).ConfigureAwait(false);
+        }
+
+        public void RegisterAdditionalPreUninstallTask(Func<bool, Task> task)
+            => AdditionalPreUninstallActions.Add(task);
+
         ItemState GetProcessingState(string constraint, bool force) {
             if (force)
                 return ItemState.Diagnosing;
             var processState = GetState(constraint);
             switch (processState) {
-                case ItemState.NotInstalled:
-                    return ItemState.Installing;
-                case ItemState.UpdateAvailable:
-                    return ItemState.Updating;
-                case ItemState.Incomplete:
-                    return ItemState.Installing;
+            case ItemState.NotInstalled:
+                return ItemState.Installing;
+            case ItemState.UpdateAvailable:
+                return ItemState.Updating;
+            case ItemState.Incomplete:
+                return ItemState.Installing;
             }
             return processState;
-        }
-
-        public void Use(IContentAction<IContent> action) {
-            RecentInfo = new RecentInfo();
-            PrepareEvent(new ContentUsed(this, action));
         }
 
         public void Use(ILaunchContentAction<IContent> action) {
@@ -274,7 +277,7 @@ namespace SN.withSIX.Mini.Core.Games
             PrepareEvent(new ContentUsed(this, action));
         }
 
-        public bool IsInstalled() => InstallInfo != null && InstallInfo.Completed;
+        public bool IsInstalled() => (InstallInfo != null) && InstallInfo.Completed;
 
         void ChangeVersion(string version, bool completed) {
             InstallInfo.Updated(version, Size, SizePacked, completed);
@@ -302,8 +305,8 @@ namespace SN.withSIX.Mini.Core.Games
             State = CalculateState(null);
             // TODO: There should be more considerations, because on the statuschanged event
             // we carry more data, like current installed version, and such!
-            if (!force && currentState == State)
-               return;
+            if (!force && (currentState == State))
+                return;
             RaiseContentStatusChanged();
         }
 
@@ -314,7 +317,7 @@ namespace SN.withSIX.Mini.Core.Games
             return value;
         }
 
-        internal bool IsIncompleteInstalled() => InstallInfo != null && !InstallInfo.Completed;
+        internal bool IsIncompleteInstalled() => (InstallInfo != null) && !InstallInfo.Completed;
 
         private ItemState OriginalCalculateState(string desiredVersion) {
             if (IsIncompleteInstalled())
@@ -357,8 +360,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         private bool IsLatestVersion(string desiredVersion)
             =>
-                InstallInfo.Version?.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase) ??
-                InstallInfo.Version == desiredVersion;
+            InstallInfo.Version?.Equals(desiredVersion, StringComparison.CurrentCultureIgnoreCase) ??
+            InstallInfo.Version == desiredVersion;
 
         public IEnumerable<IContentSpec<Content>> GetRelatedContent(string constraint = null) {
             var l = new List<IContentSpec<Content>>();
@@ -368,8 +371,8 @@ namespace SN.withSIX.Mini.Core.Games
 
         internal void GetRelatedContent(ICollection<IContentSpec<Content>> l, string constraint)
             =>
-                l.BuildDependencies(() => CreateRelatedSpec(constraint), x => x.Select(c => c.Content).Contains(this),
-                    HandleRelatedContentChildren);
+            l.BuildDependencies(() => CreateRelatedSpec(constraint), x => x.Select(c => c.Content).Contains(this),
+                HandleRelatedContentChildren);
 
         protected abstract IContentSpec<Content> CreateRelatedSpec(string constraint);
 
@@ -395,7 +398,7 @@ namespace SN.withSIX.Mini.Core.Games
             var previousRecentInfo = RecentInfo;
             if (previousRecentInfo != null)
                 RemoveRecentInfoInternal();
-            if (previousRecentInfo != null || previousInstallInfo != null)
+            if ((previousRecentInfo != null) || (previousInstallInfo != null))
                 UpdateState();
         }
 

@@ -21,12 +21,12 @@ namespace SN.withSIX.Mini.Presentation.Electron
             => (await _api.ShowFolderDialog(title, selectedPath).ConfigureAwait(false))?[0];
 
         public async Task<string> BrowseForFile(string initialDirectory = null, string title = null,
-            string defaultExt = null,
-            bool checkFileExists = true)
+                string defaultExt = null,
+                bool checkFileExists = true)
             =>
-                checkFileExists
-                    ? (await _api.ShowFileDialog(title, initialDirectory).ConfigureAwait(false))?[0]
-                    : await _api.ShowSaveDialog(title, initialDirectory).ConfigureAwait(false);
+            checkFileExists
+                ? (await _api.ShowFileDialog(title, initialDirectory).ConfigureAwait(false))?[0]
+                : await _api.ShowSaveDialog(title, initialDirectory).ConfigureAwait(false);
 
         public async Task<bool> ExceptionDialog(Exception e, string message, string title = null, object window = null) {
             await _api.ShowMessageBox(title, message + "\n" + e.Format(), null, "error").ConfigureAwait(false);
@@ -38,7 +38,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 await
                     _api.ShowMessageBox(dialogParams.Title, dialogParams.Message, GetButtons(dialogParams))
                         .ConfigureAwait(false);
-            return (SixMessageBoxResult) Enum.Parse(typeof (SixMessageBoxResult), r);
+            return (SixMessageBoxResult) Enum.Parse(typeof(SixMessageBoxResult), r);
         }
 
         private static string[] GetButtons(MessageBoxDialogParams dialogParams) {

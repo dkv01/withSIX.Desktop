@@ -5,8 +5,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NDepend.Path;
 using MediatR;
+using NDepend.Path;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -29,8 +29,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
         public async Task<IAbsoluteDirectoryPath> Handle(GetUploadFolder request)
             =>
-                (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.FirstOrDefault(
+            (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.FirstOrDefault(
                     x => x.ContentInfo.ContentId == request.ContentId)?
-                    .Path;
+                .Path;
     }
 }

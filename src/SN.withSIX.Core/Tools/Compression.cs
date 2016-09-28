@@ -21,14 +21,20 @@ namespace SN.withSIX.Core
             public GzipTools Gzip = new GzipTools();
 
             public virtual void Unpack(IAbsoluteFilePath sourceFile, IAbsoluteDirectoryPath outputFolder,
-                bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true,
-                ITProgress progress = null) => _compressionUtil.UnpackInternal(sourceFile, outputFolder, overwrite, fullPath, checkFileIntegrity, progress);
+                    bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true,
+                    ITProgress progress = null)
+                =>
+                _compressionUtil.UnpackInternal(sourceFile, outputFolder, overwrite, fullPath, checkFileIntegrity,
+                    progress);
 
-            public void PackTar(IAbsoluteDirectoryPath directory, IAbsoluteFilePath outputFile) => _compressionUtil.CreateTar(directory, outputFile);
+            public void PackTar(IAbsoluteDirectoryPath directory, IAbsoluteFilePath outputFile)
+                => _compressionUtil.CreateTar(directory, outputFile);
 
-            public void PackZip(IAbsoluteDirectoryPath directory, IAbsoluteFilePath outputFile) => _compressionUtil.CreateZip(directory, outputFile);
+            public void PackZip(IAbsoluteDirectoryPath directory, IAbsoluteFilePath outputFile)
+                => _compressionUtil.CreateZip(directory, outputFile);
 
-            public void UnpackSingle(string sourceFile, string destFile) => _compressionUtil.UnpackSingleInternal(sourceFile, destFile);
+            public void UnpackSingle(string sourceFile, string destFile)
+                => _compressionUtil.UnpackSingleInternal(sourceFile, destFile);
 
             public void UnpackSingle(IAbsoluteFilePath sourceFile, IAbsoluteFilePath destFile)
                 => UnpackSingle(sourceFile.ToString(), destFile.ToString());

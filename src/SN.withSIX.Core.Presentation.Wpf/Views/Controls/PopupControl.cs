@@ -10,15 +10,15 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class PopupControl : ContentControl
     {
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof (string),
-                typeof (PopupControl),
+            DependencyProperty.Register("Header", typeof(string),
+                typeof(PopupControl),
                 new PropertyMetadata(null));
-        public static readonly DependencyProperty ReverseProperty = DependencyProperty.Register("Reverse", typeof (bool),
-            typeof (PopupControl), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty ReverseProperty = DependencyProperty.Register("Reverse", typeof(bool),
+            typeof(PopupControl), new PropertyMetadata(default(bool)));
 
         static PopupControl() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (PopupControl),
-                new FrameworkPropertyMetadata(typeof (PopupControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PopupControl),
+                new FrameworkPropertyMetadata(typeof(PopupControl)));
         }
 
         public string Header

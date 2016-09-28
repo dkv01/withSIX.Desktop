@@ -10,10 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 
-
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
 {
-    
     public class MyHyperlink : Hyperlink, IDisposable
     {
         public MyHyperlink() {
@@ -43,20 +41,19 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
 
     [ContentProperty("MarkupText")]
     [Localizability(LocalizationCategory.Text)]
-    
     public class MarkupTextBlock : TextBlock
     {
         public static readonly DependencyProperty MarkupTextProperty = DependencyProperty.Register(
             "MarkupText",
-            typeof (string),
-            typeof (MarkupTextBlock),
+            typeof(string),
+            typeof(MarkupTextBlock),
             new FrameworkPropertyMetadata(
                 string.Empty,
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 OnTextMarkupChanged));
         static readonly string FlowDocumentPrefix =
             "<FlowDocument xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' xmlns:controls='clr-namespace:SN.withSIX.Core.Presentation.SA.Views.Controls;assembly=" +
-            typeof (MarkupTextBlock).Assembly.GetName().Name + "'><Paragraph><Span>";
+            typeof(MarkupTextBlock).Assembly.GetName().Name + "'><Paragraph><Span>";
         static readonly string FlowDocumentSuffix = "</Span></Paragraph></FlowDocument>";
 
         public MarkupTextBlock(string markupText) {

@@ -20,6 +20,8 @@ namespace SN.withSIX.Steam.Presentation.Commands
             _steamSessionFactory = steamSessionFactory;
         }
 
+        public static ISteamApi SteamApi { get; private set; }
+
         protected override async Task<int> RunAsync(string[] remainingArguments) {
             if (AppId == (uint) SteamGameIds.Arma3) {
                 await SteamActions.PerformArmaSteamAction(async api => {
@@ -31,8 +33,6 @@ namespace SN.withSIX.Steam.Presentation.Commands
             }
             return 0;
         }
-
-        public static ISteamApi SteamApi { get; private set; }
 
         private static async Task RunWebsite() {
             WebApp.Start<Startup>("http://127.0.0.66:48667");

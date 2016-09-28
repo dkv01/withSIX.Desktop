@@ -5,15 +5,12 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    
     public class TransferStatus : ModelBase, ITransferStatus
     {
         readonly object _outputLock = new object();
@@ -92,6 +89,11 @@ namespace SN.withSIX.Sync.Core.Transfer
                 FileStatus = "Existing";
             } else
                 FileStatus = "New";
+        }
+
+        public void Update(long? speed, double progress) {
+            Speed = speed;
+            Progress = progress;
         }
 
         #region IStatus Members
@@ -242,10 +244,5 @@ namespace SN.withSIX.Sync.Core.Transfer
         //RX_NO = /^#{Regexp.escape(STR_NO)}/
 
         #endregion
-
-        public void Update(long? speed, double progress) {
-            Speed = speed;
-            Progress = progress;
-        }
     }
 }

@@ -5,7 +5,6 @@
 using System;
 using System.Windows;
 using ReactiveUI.Legacy;
-
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
@@ -17,7 +16,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 
     public interface IDontIC {}
 
-    
+
     public class MessageBoxViewModel : MetroDialogBase, IMessageBoxViewModel, IDontIC
     {
         string _blueButtonContent;
@@ -35,7 +34,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
             RememberedState = rememberedState;
 
             this.SetCommand(x => x.GreenCommand).Subscribe(x => {
-                if (Buttons == MessageBoxButton.YesNo || Buttons == MessageBoxButton.YesNoCancel) {
+                if ((Buttons == MessageBoxButton.YesNo) || (Buttons == MessageBoxButton.YesNoCancel)) {
                     Result = RememberedState.HasValue && RememberedState.Value
                         ? SixMessageBoxResult.YesRemember
                         : SixMessageBoxResult.Yes;
@@ -50,7 +49,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
             });
 
             this.SetCommand(x => x.RedCommand).Subscribe(x => {
-                if (Buttons == MessageBoxButton.YesNo || Buttons == MessageBoxButton.YesNoCancel) {
+                if ((Buttons == MessageBoxButton.YesNo) || (Buttons == MessageBoxButton.YesNoCancel)) {
                     Result = RememberedState.HasValue && RememberedState.Value
                         ? SixMessageBoxResult.NoRemember
                         : SixMessageBoxResult.No;
@@ -140,7 +139,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
         }
     }
 
-    
+
     public class MetroMessageBoxViewModel : MetroDialogBase, IMessageBoxViewModel, IDontIC
     {
         string _blueButtonContent;
@@ -160,7 +159,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 
             this.SetCommand(x => x.GreenCommand).Subscribe(x => {
                 TryClose();
-                if (Buttons == MessageBoxButton.YesNo || Buttons == MessageBoxButton.YesNoCancel) {
+                if ((Buttons == MessageBoxButton.YesNo) || (Buttons == MessageBoxButton.YesNoCancel)) {
                     Result = RememberedState.HasValue && RememberedState.Value
                         ? SixMessageBoxResult.YesRemember
                         : SixMessageBoxResult.Yes;
@@ -175,7 +174,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 
             this.SetCommand(x => x.RedCommand).Subscribe(x => {
                 TryClose();
-                if (Buttons == MessageBoxButton.YesNo || Buttons == MessageBoxButton.YesNoCancel) {
+                if ((Buttons == MessageBoxButton.YesNo) || (Buttons == MessageBoxButton.YesNoCancel)) {
                     Result = RememberedState.HasValue && RememberedState.Value
                         ? SixMessageBoxResult.NoRemember
                         : SixMessageBoxResult.No;

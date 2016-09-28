@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Transfer;
@@ -20,7 +19,7 @@ namespace SN.withSIX.Mini.Applications.Factories
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _isPremium;
         readonly IToolsCheat _toolsInstaller;
-        private IExternalFileDownloader _dl;
+        private readonly IExternalFileDownloader _dl;
 
         public InstallerSessionFactory(Func<bool> isPremium, IToolsCheat toolsInstaller,
             IContentEngine contentEngine, IAuthProvider authProvider, IExternalFileDownloader dl) {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="CDNClientPool.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +20,15 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
     class CDNClientPool : IDisposable
     {
         private const int ServerEndpointMinimumSize = 8;
+        private readonly CancellationTokenSource _monitorCts;
+
+        private readonly Steam3Session _steamSession;
         private readonly ConcurrentDictionary<CDNClient, Tuple<uint, CDNClient.Server>> activeClientAuthed;
 
         private readonly ConcurrentBag<CDNClient> activeClientPool;
         private readonly BlockingCollection<CDNClient.Server> availableServerEndpoints;
 
         private readonly AutoResetEvent populatePoolEvent;
-
-        private readonly Steam3Session _steamSession;
-        private readonly CancellationTokenSource _monitorCts;
 
         public CDNClientPool(Steam3Session steamSession) {
             _steamSession = steamSession;
@@ -64,16 +68,16 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                 populatePoolEvent.WaitOne(TimeSpan.FromSeconds(1));
 
                 // peek ahead into steam session to see if we have servers
-                if (availableServerEndpoints.Count < ServerEndpointMinimumSize &&
+                if ((availableServerEndpoints.Count < ServerEndpointMinimumSize) &&
                     _steamSession.steamClient.IsConnected &&
-                    _steamSession.steamClient.GetServersOfType(EServerType.CS).Count > 0) {
+                    (_steamSession.steamClient.GetServersOfType(EServerType.CS).Count > 0)) {
                     var servers = FetchBootstrapServerList();
 
                     var weightedCdnServers = servers.Select(x => {
                         var penalty = 0;
                         ConfigStore.TheConfig.ContentServerPenalty.TryGetValue(x.Host, out penalty);
 
-                        return Tuple.Create<CDNClient.Server, int>(x, penalty);
+                        return Tuple.Create(x, penalty);
                     }).OrderBy(x => x.Item2).ThenBy(x => x.Item1.WeightedLoad);
 
                     foreach (var endpoint in weightedCdnServers) {
@@ -136,7 +140,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
         }
 
         private bool ReauthConnection(CDNClient client, CDNClient.Server server, uint depotId, byte[] depotKey) {
-            DebugLog.Assert(server.Type == "CDN" || _steamSession.AppTickets[depotId] == null, "CDNClientPool",
+            DebugLog.Assert((server.Type == "CDN") || (_steamSession.AppTickets[depotId] == null), "CDNClientPool",
                 "Re-authing a CDN or anonymous connection");
 
             string cdnAuthToken = null;
@@ -169,11 +173,11 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                 client = BuildConnection(depotId, depotKey, null, token);
 
             // if we couldn't find the authorization data or it's not authed to this depotid, re-initialize
-            if (!activeClientAuthed.TryGetValue(client, out authData) || authData.Item1 != depotId) {
-                if (authData.Item2.Type == "CDN" && ReauthConnection(client, authData.Item2, depotId, depotKey)) {
+            if (!activeClientAuthed.TryGetValue(client, out authData) || (authData.Item1 != depotId)) {
+                if ((authData.Item2.Type == "CDN") && ReauthConnection(client, authData.Item2, depotId, depotKey)) {
                     ContentDownloader.Log(
                         $"Re-authed CDN connection to content server {authData.Item2} from {authData.Item1} to {depotId}");
-                } else if (authData.Item2.Type == "CS" && _steamSession.AppTickets[depotId] == null &&
+                } else if ((authData.Item2.Type == "CS") && (_steamSession.AppTickets[depotId] == null) &&
                            ReauthConnection(client, authData.Item2, depotId, depotKey)) {
                     ContentDownloader.Log(
                         $"Re-authed anonymous connection to content server {authData.Item2} from {authData.Item1} to {depotId}");

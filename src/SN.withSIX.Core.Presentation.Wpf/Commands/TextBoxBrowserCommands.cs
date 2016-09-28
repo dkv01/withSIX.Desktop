@@ -5,13 +5,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-
 namespace SN.withSIX.Core.Presentation.Wpf.Commands
 {
-    
     public class TextBoxBrowserCommands
     {
-        public static RoutedUICommand BrowseCommand = new RoutedUICommand("Browse", "BrowseCommand", typeof (TextBox));
-        public static RoutedUICommand ClearCommand = new RoutedUICommand("Clear", "ClearCommand", typeof (TextBox));
+        public static RoutedUICommand BrowseCommand = new RoutedUICommand("Browse", "BrowseCommand", typeof(TextBox));
+        public static RoutedUICommand ClearCommand = new RoutedUICommand("Clear", "ClearCommand", typeof(TextBox));
     }
 }

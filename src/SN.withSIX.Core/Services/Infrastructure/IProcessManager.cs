@@ -24,7 +24,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
         ProcessExitResult LaunchAndProcess(LaunchAndProcessInfo info);
     }
 
-    [ContractClass(typeof (ContractClassForIProcessManager))]
+    [ContractClass(typeof(ContractClassForIProcessManager))]
     public interface IProcessManagerAsync
     {
         Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info);
@@ -45,7 +45,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
         IObservable<Tuple<ProcessStartInfo, int, int>> Terminated { get; }
     }
 
-    [ContractClassFor(typeof (IProcessManagerAsync))]
+    [ContractClassFor(typeof(IProcessManagerAsync))]
     public abstract class ContractClassForIProcessManager : IProcessManagerAsync
     {
         public Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info) {

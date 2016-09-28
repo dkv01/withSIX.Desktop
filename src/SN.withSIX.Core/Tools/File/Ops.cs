@@ -26,6 +26,8 @@ namespace SN.withSIX.Core
         {
             public class FileOps : IEnableLogging, IFileOps
             {
+                public static Func<string, string, Exception, Task<bool>> ShouldRetry;
+
                 public void Copy(IAbsoluteFilePath source, IAbsoluteFilePath destination, bool overwrite = true,
                     bool checkMd5 = false) {
                     if (FileUtil.ComparePathsEqualCase(source.ToString(), destination.ToString()))
@@ -60,18 +62,8 @@ namespace SN.withSIX.Core
                     return OnlyCopyIfHashMisMatch(source, destination, status);
                 }
 
-                private async Task OnlyCopyIfHashMisMatch(IAbsoluteFilePath source, IAbsoluteFilePath destination, ITProgress status) {
-                    if (await TaskExt.StartLongRunningTask(() => HashEncryption.MD5FileHash(source) != HashEncryption.MD5FileHash(destination)).ConfigureAwait(false)) {
-                        await CopyAsyncInternal(source, destination, true, status).ConfigureAwait(false);
-                        return;
-                    }
-                    this.Logger()
-                        .Info("Source and destination files equal. Source: {0}, Destination: {1}", source,
-                            destination);
-                }
-
                 public Task CopyAsyncWithRetry(IAbsoluteFilePath source, IAbsoluteFilePath destination,
-                    bool overwrite = true, bool checkMd5 = false)
+                        bool overwrite = true, bool checkMd5 = false)
                     => AddIORetryDialogAsync(() => CopyAsync(source, destination, overwrite, checkMd5),
                         source.ToString(), destination.ToString());
 
@@ -358,6 +350,21 @@ namespace SN.withSIX.Core
                     }
                 }
 
+                private async Task OnlyCopyIfHashMisMatch(IAbsoluteFilePath source, IAbsoluteFilePath destination,
+                    ITProgress status) {
+                    if (
+                        await
+                            TaskExt.StartLongRunningTask(
+                                    () => HashEncryption.MD5FileHash(source) != HashEncryption.MD5FileHash(destination))
+                                .ConfigureAwait(false)) {
+                        await CopyAsyncInternal(source, destination, true, status).ConfigureAwait(false);
+                        return;
+                    }
+                    this.Logger()
+                        .Info("Source and destination files equal. Source: {0}, Destination: {1}", source,
+                            destination);
+                }
+
                 public async Task<string> ReadTextFileAsync(IAbsoluteFilePath path) {
                     using (var fs = new FileStream(path.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
                     using (var reader = new StreamReader(fs))
@@ -433,11 +440,12 @@ namespace SN.withSIX.Core
                     Generic.RunUpdater(UpdaterCommands.MoveDirectory, sourceFolder.ToString(), outputFolder.ToString());
                 }
 
-                static async Task CopyAsyncInternal(IAbsoluteFilePath source, IAbsoluteFilePath destination, bool overwrite = true, ITProgress status = null) {
+                static async Task CopyAsyncInternal(IAbsoluteFilePath source, IAbsoluteFilePath destination,
+                    bool overwrite = true, ITProgress status = null) {
                     using (
                         var sourceStream = File.Open(source.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
                     using (var destinationStream = File.Create(destination.ToString()))
-                        using (new StatusProcessor(destination, status, source.FileInfo.Length))
+                    using (new StatusProcessor(destination, status, source.FileInfo.Length))
                         await sourceStream.CopyToAsync(destinationStream).ConfigureAwait(false);
                     CopyTimestamps(source, destination);
                 }
@@ -507,10 +515,12 @@ namespace SN.withSIX.Core
                         return false;
 
                     this.Logger().FormattedDebugException(e);
-                    return await ShouldRetry("Disk operation failed. Retry?", string.Join(", ", filePath) + ": " + e.Message + "\n\n" + GetIoRetryMessage(e), e).ConfigureAwait(false);
+                    return
+                        await
+                            ShouldRetry("Disk operation failed. Retry?",
+                                    string.Join(", ", filePath) + ": " + e.Message + "\n\n" + GetIoRetryMessage(e), e)
+                                .ConfigureAwait(false);
                 }
-
-                public static Func<string, string, Exception, Task<bool>> ShouldRetry;
 
                 static string GetIoRetryMessage(Exception exception) {
                     if (exception is SecurityException || exception is UnauthorizedAccessException)
@@ -583,7 +593,7 @@ namespace SN.withSIX.Core
                 }
 
                 private static bool FindMatch(CommonObjectSecurity security, FileSystemAccessRule rule)
-                    => security.GetAccessRules(true, false, typeof (SecurityIdentifier))
+                    => security.GetAccessRules(true, false, typeof(SecurityIdentifier))
                         .OfType<FileSystemAccessRule>()
                         .Any(
                             ar =>
@@ -729,13 +739,13 @@ namespace SN.withSIX.Core
                 }
 
                 static void CreateDirectoryAndSetACLWithUpdater(IAbsolutePath location, string user,
-                    FileSystemRights rights)
+                        FileSystemRights rights)
                     => Generic.RunUpdater(UpdaterCommands.SetAcl, location.ToString(), "--user=" + user,
                         "--rights=" + rights,
                         "--createDirectory");
             }
 
-            [ContractClassFor(typeof (IFileOps))]
+            [ContractClassFor(typeof(IFileOps))]
             public abstract class FileOpsContract : IFileOps
             {
                 public void Copy(IAbsoluteFilePath source, IAbsoluteFilePath destination, bool overwrite = true,
@@ -842,7 +852,7 @@ namespace SN.withSIX.Core
                 }
             }
 
-            [ContractClass(typeof (FileOpsContract))]
+            [ContractClass(typeof(FileOpsContract))]
             public interface IFileOps
             {
                 void Copy(IAbsoluteFilePath source, IAbsoluteFilePath destination, bool overwrite = true,

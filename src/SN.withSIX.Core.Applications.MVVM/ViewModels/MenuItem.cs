@@ -7,11 +7,8 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
@@ -41,7 +38,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 
     public class MenuItem : MenuBase, IMenuItem
     {
-         readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
+        readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
         Action _action;
         Func<Task> _asyncAction;
         string _icon;
@@ -61,7 +58,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             var ena = this.WhenAnyValue(x => x.IsEnabled).ObserveOn(RxApp.MainThreadScheduler);
             _command =
                 this.WhenAnyValue(x => x.Action, v => v.AsyncAction,
-                    (act, asyncAct) => CreateCommand(act, asyncAct, ena))
+                        (act, asyncAct) => CreateCommand(act, asyncAct, ena))
                     .ToProperty(this, v => v.Command, CreateCommand(action, task, ena), Scheduler.Immediate);
 
             this.WhenAnyValue(x => x.IsSeparator)
@@ -127,7 +124,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         }
 
         IReactiveCommand CreateCommand(Action act, Func<Task> asyncAct, IObservable<bool> ena) {
-            if (act == null && asyncAct == null)
+            if ((act == null) && (asyncAct == null))
                 return null;
 
             IReactiveCommand c;
@@ -155,7 +152,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 
     public class MenuItem<T> : MenuBase<T>, IMenuItem<T> where T : class
     {
-         readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
+        readonly ObservableAsPropertyHelper<IReactiveCommand> _command;
         Action<T> _action;
         Func<T, Task> _asyncAction;
         string _icon;
@@ -174,7 +171,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             AsyncAction = task;
             var ena = this.WhenAnyValue(x => x.IsEnabled).ObserveOn(RxApp.MainThreadScheduler);
             _command = this.WhenAnyValue(x => x.Action, v => v.AsyncAction,
-                (act, asyncAct) => CreateCommand(act, asyncAct, ena))
+                    (act, asyncAct) => CreateCommand(act, asyncAct, ena))
                 .ToProperty(this, v => v.Command, null, Scheduler.Immediate);
 
             this.WhenAnyValue(x => x.IsSeparator)

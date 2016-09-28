@@ -18,9 +18,6 @@ namespace SN.withSIX.Sync.Core.Transfer
 
     public class FileQueueSpec
     {
-        public IDictionary<FileFetchInfo, ITransferStatus> Files { get; }
-        public IAbsoluteDirectoryPath Location { get; }
-
         public FileQueueSpec(IDictionary<FileFetchInfo, ITransferStatus> files,
             IAbsoluteDirectoryPath location) {
             Files = files;
@@ -29,5 +26,8 @@ namespace SN.withSIX.Sync.Core.Transfer
 
         public FileQueueSpec(IDictionary<FileFetchInfo, ITransferStatus> files,
             string location) : this(files, location.ToAbsoluteDirectoryPath()) {}
+
+        public IDictionary<FileFetchInfo, ITransferStatus> Files { get; }
+        public IAbsoluteDirectoryPath Location { get; }
     }
 }

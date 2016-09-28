@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="StarboundGameSettings.cs">
+﻿// <copyright company="SIX Networks GmbH" file="SkyrimGameSettings.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 

@@ -15,5 +15,4 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
     {
         ReactiveCommand<bool?> Close { get; set; }
     }
-
 }

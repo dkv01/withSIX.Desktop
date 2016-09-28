@@ -2,9 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-//using System.ServiceModel;
-
-
 namespace SN.withSIX.Core.Presentation.Services
 {
     /*

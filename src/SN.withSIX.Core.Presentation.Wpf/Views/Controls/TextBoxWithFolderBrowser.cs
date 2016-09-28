@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Ookii.Dialogs.Wpf;
-
 using SN.withSIX.Core.Presentation.Wpf.Commands;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
@@ -14,10 +13,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class TextBoxWithFolderBrowser : TextBox
     {
         static TextBoxWithFolderBrowser() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (TextBoxWithFolderBrowser),
-                new FrameworkPropertyMetadata(typeof (TextBoxWithFolderBrowser)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBoxWithFolderBrowser),
+                new FrameworkPropertyMetadata(typeof(TextBoxWithFolderBrowser)));
 
-            CommandManager.RegisterClassCommandBinding(typeof (TextBoxWithFolderBrowser), new CommandBinding(
+            CommandManager.RegisterClassCommandBinding(typeof(TextBoxWithFolderBrowser), new CommandBinding(
                 TextBoxBrowserCommands.BrowseCommand,
                 (obj, e) => {
                     var theObj = (TextBoxWithFolderBrowser) obj;
@@ -27,7 +26,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
                 },
                 (obj, e) => { e.CanExecute = true; }));
 
-            CommandManager.RegisterClassCommandBinding(typeof (TextBoxWithFolderBrowser), new CommandBinding(
+            CommandManager.RegisterClassCommandBinding(typeof(TextBoxWithFolderBrowser), new CommandBinding(
                 TextBoxBrowserCommands.ClearCommand,
                 (obj, e) => {
                     var theObj = (TextBoxWithFolderBrowser) obj;
@@ -43,7 +42,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
                 new RoutedEventHandler(DoubleClicked), true);
         }
 
-        
+
         void DoubleClicked(object sender, RoutedEventArgs e) {
             ShowFolderBrowser();
         }

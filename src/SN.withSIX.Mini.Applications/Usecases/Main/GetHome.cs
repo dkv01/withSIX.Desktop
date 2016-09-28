@@ -7,12 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Api.Models.Collections;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Main

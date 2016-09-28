@@ -25,15 +25,15 @@ namespace SN.withSIX.Mini.Core
     [DataContract]
     public abstract class BaseEntity<TId> : BaseEntity, IHaveId<TId>, IEquatable<BaseEntity<TId>>
     {
-        [DataMember]
-        public TId Id { get; protected set; }
-
         // TODO: Of the same type?!
-        public bool Equals(BaseEntity<TId> other) => other != null
+        public bool Equals(BaseEntity<TId> other) => (other != null)
                                                      &&
                                                      (ReferenceEquals(this, other) ||
                                                       (!EqualityComparer<TId>.Default.Equals(Id, default(TId)) &&
                                                        EqualityComparer<TId>.Default.Equals(Id, other.Id)));
+
+        [DataMember]
+        public TId Id { get; protected set; }
         public override bool Equals(object other) => Equals(other as BaseEntity<TId>);
 
         public override int GetHashCode() => EqualityComparer<TId>.Default.GetHashCode(Id);

@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="SIHandler.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,16 +9,17 @@ using System.Threading.Tasks;
 using System.Web;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
-using withSIX.Api.Models;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Core.Games;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Mini.Presentation.Core
 {
-    public class SIHandler : IUsecaseExecutor {
+    public class SIHandler : IUsecaseExecutor
+    {
         private readonly Excecutor _executor = new Excecutor();
 
         public async Task<object> HandleSingleInstanceCall(List<string> parameters) {
@@ -28,10 +33,11 @@ namespace SN.withSIX.Mini.Presentation.Core
         private async Task ProcessSyncWsUrl(Uri uri) {
             var details = HttpUtility.ParseQueryString(uri.Query);
             var s = details["task"];
-            var tasks = new[] { "launch" };
-            if (s != null) tasks = s.Split(',');
+            var tasks = new[] {"launch"};
+            if (s != null)
+                tasks = s.Split(',');
             if (!tasks.Any()) {
-                tasks = new[] { "launch" };
+                tasks = new[] {"launch"};
             }
 
             var gameId = GetGuid(uri.Host);
@@ -39,17 +45,19 @@ namespace SN.withSIX.Mini.Presentation.Core
             foreach (var t in tasks) {
                 switch (t) {
                 case "install": {
-                    await RequestAsyncExecutor(new InstallContent(gameId, new ContentGuidSpec(contentId))).ConfigureAwait(false);
+                    await
+                        RequestAsyncExecutor(new InstallContent(gameId, new ContentGuidSpec(contentId)))
+                            .ConfigureAwait(false);
                     break;
                 }
-                    /*
-            case "uninstall": {
-                await
-                    RequestAsyncExecutor(new UninstallContent(gameId, new ContentGuidSpec(contentId)))
-                        .ConfigureAwait(false);
-                break;
-            }*/
-                    case "launch": {
+                /*
+        case "uninstall": {
+            await
+                RequestAsyncExecutor(new UninstallContent(gameId, new ContentGuidSpec(contentId)))
+                    .ConfigureAwait(false);
+            break;
+        }*/
+                case "launch": {
                     await
                         RequestAsyncExecutor(new LaunchContent(gameId, new ContentGuidSpec(contentId)))
                             .ConfigureAwait(false);
@@ -68,7 +76,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private Task<TResponse> RequestAsyncExecutor<TResponse>(IAsyncRequest<TResponse> request)
-            => _executor.ApiAction<TResponse>(() => this.SendAsync(request), request, CreateException);
+            => _executor.ApiAction(() => this.SendAsync(request), request, CreateException);
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
 

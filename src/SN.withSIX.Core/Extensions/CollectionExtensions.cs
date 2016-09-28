@@ -4,14 +4,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content.v3;
-using System.Diagnostics.Contracts;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Extensions
 {
@@ -21,7 +21,8 @@ namespace SN.withSIX.Core.Extensions
 
         public static string GetPastFromVerb(this string verb) => verb + (verb.EndsWith("e") ? "d" : "ed");
 
-        public static string GetActingFromVerb(this string verb) => (verb.EndsWith("e") ? verb.Substring(0, verb.Length - 1) : verb) + "ing";
+        public static string GetActingFromVerb(this string verb)
+            => (verb.EndsWith("e") ? verb.Substring(0, verb.Length - 1) : verb) + "ing";
 
         public static string GetNounFromVerb(this string verb) {
             switch (verb) {
@@ -51,8 +52,8 @@ namespace SN.withSIX.Core.Extensions
     public static class CollectionExtensions
     {
         public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> collection, int batchSize) {
-            List<T> nextbatch = new List<T>(batchSize);
-            foreach (T item in collection) {
+            var nextbatch = new List<T>(batchSize);
+            foreach (var item in collection) {
                 nextbatch.Add(item);
                 if (nextbatch.Count == batchSize) {
                     yield return nextbatch;
@@ -63,6 +64,7 @@ namespace SN.withSIX.Core.Extensions
             if (nextbatch.Count > 0)
                 yield return nextbatch;
         }
+
         public static void ForEach<T>(this IEnumerable<T> This, Action<T> act) {
             foreach (var x in This)
                 act(x);
@@ -84,7 +86,7 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static T Find<T, TId>(this IEnumerable<T> col, TId id) where T : IHaveId<TId>
-            => col.FirstOrDefault(x => id.Equals(x.Id));
+        => col.FirstOrDefault(x => id.Equals(x.Id));
 
         public static T FindOrThrow<T, TId>(this IEnumerable<T> col, TId id) where T : IHaveId<TId> {
             var item = col.FirstOrDefault(x => id.Equals(x.Id));
@@ -97,7 +99,7 @@ namespace SN.withSIX.Core.Extensions
             => enumerable.Concat(Enumerable.Repeat(item, 1));
 
         public static IEnumerable<T> NotOfType<T, T2>(this IReadOnlyCollection<T> This) where T2 : T
-            => This.Where(x => !(x is T2)); // This.Except(This.OfType<T2>().Cast<T>());
+        => This.Where(x => !(x is T2)); // This.Except(This.OfType<T2>().Cast<T>());
 
         public static async Task<IEnumerable<TOut>> SelectAsync<TIn, TOut>(this IEnumerable<TIn> input,
             Func<TIn, Task<TOut>> doFunc) {
@@ -331,7 +333,7 @@ namespace SN.withSIX.Core.Extensions
             Contract.Requires<ArgumentNullException>(destination != null);
 
             SyncCollectionConvertCustomPK(source.ToArray(), destination,
-                x => (T2) Activator.CreateInstance(typeof (T2), x), x => true);
+                x => (T2) Activator.CreateInstance(typeof(T2), x), x => true);
         }
 
         public static void SyncCollectionConvertLocked<T, T2>(this IEnumerable<T> source, IList<T2> destination)
@@ -545,12 +547,12 @@ namespace SN.withSIX.Core.Extensions
             if (list3 != null)
                 list3.AddRange(items);
             else {
-                    foreach (var i in items) {
-                        if (reverse)
-                            list.Insert(0, i);
-                        else
-                            list.Add(i);
-                    }
+                foreach (var i in items) {
+                    if (reverse)
+                        list.Insert(0, i);
+                    else
+                        list.Add(i);
+                }
             }
         }
 

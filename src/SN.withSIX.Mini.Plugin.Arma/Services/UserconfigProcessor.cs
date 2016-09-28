@@ -8,7 +8,6 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -21,8 +20,9 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
     public class UserconfigProcessor : IEnableLogging
     {
         public Task<string> ProcessUserconfig(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
-            string exisitingChecksum, bool force = true)
-            => TaskExt.StartLongRunningTask(() => ProcessUserconfigInternal(modPath, gamePath, exisitingChecksum, force));
+                string exisitingChecksum, bool force = true)
+            =>
+            TaskExt.StartLongRunningTask(() => ProcessUserconfigInternal(modPath, gamePath, exisitingChecksum, force));
 
         string ProcessUserconfigInternal(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true) {

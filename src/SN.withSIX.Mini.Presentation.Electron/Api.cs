@@ -204,7 +204,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
         Task<object> VoidCommand<T>(object requestData) where T : IAsyncRequest<Unit>
-            => Request<T, Unit>(requestData);
+        => Request<T, Unit>(requestData);
 
         async Task<object> Request<T, T2>(object requestData) where T : IAsyncRequest<T2> {
             var request = Unpack<T>(requestData);

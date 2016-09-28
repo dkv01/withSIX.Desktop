@@ -12,9 +12,9 @@ namespace GameServerQuery
 {
     public class ServerQueryState : IDisposable
     {
-        private readonly IServerQueryParser _parser;
         public const long MagicPingValue = 9999;
         private readonly object _closedLock = new object();
+        private readonly IServerQueryParser _parser;
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private volatile bool _closed;
 

@@ -18,8 +18,8 @@ namespace SN.withSIX.Core.Extensions
             var queue = new ConcurrentQueue<T>(items);
 
             var tasks = Enumerable.Range(1, maxThreads > 0
-                ? Math.Min(maxThreads, queue.Count)
-                : 1)
+                    ? Math.Min(maxThreads, queue.Count)
+                    : 1)
                 .Select(x => TaskExt.StartLongRunningTask(() => {
                     T item;
                     while (queue.TryDequeue(out item))
@@ -32,8 +32,8 @@ namespace SN.withSIX.Core.Extensions
         public static Task RunningQueue(this BlockingCollection<Func<Task>> block, int maxThreads,
             CancellationToken token = default(CancellationToken)) {
             var tasks = Enumerable.Range(1, maxThreads > 0
-                ? maxThreads
-                : 1)
+                    ? maxThreads
+                    : 1)
                 .Select(x => TaskExt.StartLongRunningTask(async () => {
                     foreach (var item in block.GetConsumingEnumerable(token))
                         await item().ConfigureAwait(false);
@@ -45,8 +45,8 @@ namespace SN.withSIX.Core.Extensions
         public static Task RunningQueue(this BlockingCollection<Action> block, int maxThreads,
             CancellationToken token = default(CancellationToken)) {
             var tasks = Enumerable.Range(1, maxThreads > 0
-                ? maxThreads
-                : 1)
+                    ? maxThreads
+                    : 1)
                 .Select(x => TaskExt.StartLongRunningTask(() => {
                     foreach (var item in block.GetConsumingEnumerable(token))
                         item();
@@ -58,8 +58,8 @@ namespace SN.withSIX.Core.Extensions
 
         public static Task RunningQueue<T>(this BlockingCollection<T> block, int maxThreads, Action<T> act) {
             var tasks = Enumerable.Range(1, maxThreads > 0
-                ? maxThreads
-                : 1)
+                    ? maxThreads
+                    : 1)
                 .Select(x => TaskExt.StartLongRunningTask(() => {
                     foreach (var item in block.GetConsumingEnumerable())
                         act(item);
@@ -98,7 +98,7 @@ namespace SN.withSIX.Core.Extensions
             => new ConcurrentTaskQueue<T>(items, act, count).Run();
 
         public static Task StartConcurrentTaskQueue<T>(this IEnumerable<T> items, CancellationToken token,
-            Func<T, Task> act, Func<int> getMaxThreads, Func<int> count = null)
+                Func<T, Task> act, Func<int> getMaxThreads, Func<int> count = null)
             => new ConcurrentTaskQueue<T>(items, act, getMaxThreads).Run(token);
 
         class ConcurrentTaskQueue<T>

@@ -6,10 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Attributes;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
@@ -127,7 +125,7 @@ namespace SN.withSIX.Core.Applications.Services
             // TODO
             //var customAttribute = (ToolsVersionAttribute)typeof (ToolsInstaller).Assembly.GetCustomAttribute(typeof (ToolsVersionAttribute));
             //return customAttribute.Version.ToVersion();
-            return new Version(3,2);
+            return new Version(3, 2);
             /*_settings.AppOptions.EnableBetaUpdates
                            ? GetVersionInfoRoot().Beta
                            : GetVersionInfoRoot().Stable;*/

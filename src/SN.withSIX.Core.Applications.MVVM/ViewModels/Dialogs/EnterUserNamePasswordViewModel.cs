@@ -4,15 +4,13 @@
 
 using System;
 using ReactiveUI.Legacy;
-
 using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
     public interface IEnterUserNamePasswordViewModel {}
 
-    
+
     public class EnterUserNamePasswordViewModel : MetroDialogBase, IEnterUserNamePasswordViewModel
     {
         string _displayName = "Please enter username and password";

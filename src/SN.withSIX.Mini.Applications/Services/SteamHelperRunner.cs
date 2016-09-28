@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="SteamHelperRunner.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,8 +16,10 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
-    public class SteamHelperRunner {
-        public async Task RunHelperInternal(CancellationToken cancelToken, IEnumerable<string> parameters, Action<Process, string> standardOutputAction, Action<Process, string> standardErrorAction) {
+    public class SteamHelperRunner
+    {
+        public async Task RunHelperInternal(CancellationToken cancelToken, IEnumerable<string> parameters,
+            Action<Process, string> standardOutputAction, Action<Process, string> standardErrorAction) {
             var helperExe = GetHelperExecutable();
             var r =
                 await
@@ -31,8 +37,8 @@ namespace SN.withSIX.Mini.Applications.Services
 
         public IEnumerable<string> GetHelperParameters(string command, uint appId, params string[] options) {
             if (Common.Flags.Verbose)
-                options = options.Concat(new[] { "--verbose" }).ToArray();
-            return new[] { command, "-a", appId.ToString() }.Concat(options);
+                options = options.Concat(new[] {"--verbose"}).ToArray();
+            return new[] {command, "-a", appId.ToString()}.Concat(options);
         }
 
         private static void ProcessExitResult(ProcessExitResult r) {

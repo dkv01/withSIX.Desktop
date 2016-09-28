@@ -35,7 +35,7 @@ namespace SN.withSIX.Mini.Applications.Services
         private async Task SingleToolsInstallTaskInternal(CancellationToken token) {
             Task lazy;
             using (await _lock.LockAsync(token).ConfigureAwait(false)) {
-                if (_lazy == null || _lazy.IsFaulted)
+                if ((_lazy == null) || _lazy.IsFaulted)
                     _lazy = InstallToolsIfNeeded(token);
                 lazy = _lazy;
             }
@@ -46,8 +46,8 @@ namespace SN.withSIX.Mini.Applications.Services
             if (await _toolsInstaller.ConfirmToolsInstalled(true).ConfigureAwait(false))
                 return;
             var repo = new StatusRepo(token) {Action = RepoStatus.Downloading};
-                //using (new RepoWatcher(repo))
-                //using (new StatusRepoMonitor(repo, (Func<double, double, Task>)StatusChange))
+            //using (new RepoWatcher(repo))
+            //using (new StatusRepoMonitor(repo, (Func<double, double, Task>)StatusChange))
             await _toolsInstaller.DownloadAndInstallTools(repo).ConfigureAwait(false);
         }
     }

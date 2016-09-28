@@ -12,7 +12,7 @@ namespace SN.withSIX.Mini.Plugin.GTA.Models
         protected GTAGame(Guid id, GameSettings settings) : base(id, settings) {}
 
         protected override InstallContentAction GetInstallAction(
-            IDownloadContentAction<IInstallableContent> action)
+                IDownloadContentAction<IInstallableContent> action)
             => new InstallContentAction(action.Content, action.CancelToken) {
                 RemoteInfo = RemoteInfo,
                 Paths = ContentPaths,

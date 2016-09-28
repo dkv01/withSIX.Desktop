@@ -20,7 +20,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views
     public partial class TrayNotification : TrayNotificationControl, ITrayNotification
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (ITrayNotificationViewModel), typeof (TrayNotification),
+            DependencyProperty.Register("ViewModel", typeof(ITrayNotificationViewModel), typeof(TrayNotification),
                 new PropertyMetadata(null));
         bool _isClosing;
 

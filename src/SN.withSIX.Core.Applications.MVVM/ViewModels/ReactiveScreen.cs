@@ -5,13 +5,11 @@
 using System;
 using Caliburn.Micro;
 
-
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    
     public class ReactiveScreen : ReactiveViewAware, IScreen, IChild
     {
-        static readonly ILog Log = LogManager.GetLog(typeof (ReactiveScreen));
+        static readonly ILog Log = LogManager.GetLog(typeof(ReactiveScreen));
         string displayName;
         bool isActive;
         bool isInitialized;

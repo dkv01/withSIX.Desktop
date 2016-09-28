@@ -32,7 +32,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.Services
 
         public static async Task<T> OpenAsyncQueryCached<T>(this IScreenOpener opener, IAsyncQuery<T> query)
             where T : class, IScreenViewModel {
-            var t = typeof (T);
+            var t = typeof(T);
             if (cached.ContainsKey(t)) {
                 var vm = cached[t];
                 if (vm.IsOpen) {

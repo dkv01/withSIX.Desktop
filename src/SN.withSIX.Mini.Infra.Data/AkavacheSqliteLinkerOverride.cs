@@ -14,7 +14,7 @@ namespace SN.withSIX.Mini.Infra.Data
     public static class LinkerPreserve
     {
         static LinkerPreserve() {
-            throw new Exception(typeof (SQLitePersistentBlobCache).FullName);
+            throw new Exception(typeof(SQLitePersistentBlobCache).FullName);
         }
     }
 

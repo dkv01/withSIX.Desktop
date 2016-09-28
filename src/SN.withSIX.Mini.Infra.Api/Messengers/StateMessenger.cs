@@ -39,15 +39,15 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
             _subscription.Dispose();
         }
 
+        public void Initialize() {
+            // Dummy because we need to setup this listener..
+        }
+
         private void Handle(GameLockChanged notification) {
             if (notification.IsLocked)
                 _hubContext.Clients.All.LockedGame(notification.GameId, notification.CanAbort);
             else
                 _hubContext.Clients.All.UnlockedGame(notification.GameId);
-        }
-
-        public void Initialize() {
-            // Dummy because we need to setup this listener..
         }
     }
 

@@ -19,7 +19,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         static TextBlockTrimmedTooltip() {
             // Register for the SizeChanged event on all TextBlocks, even if the event was handled.
             EventManager.RegisterClassHandler(
-                typeof (TextBlock),
+                typeof(TextBlock),
                 FrameworkElement.SizeChangedEvent,
                 new SizeChangedEventHandler(OnTextBlockSizeChanged),
                 true);
@@ -36,7 +36,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
             if (null == textBlock)
                 return;
 
-            SetIsTextTrimmed(textBlock, TextTrimming.None != textBlock.TextTrimming && CalculateIsTextTrimmed(textBlock));
+            SetIsTextTrimmed(textBlock,
+                (TextTrimming.None != textBlock.TextTrimming) && CalculateIsTextTrimmed(textBlock));
         }
 
         /// <summary>
@@ -88,8 +89,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         /// </summary>
         public static readonly DependencyPropertyKey IsTextTrimmedKey = DependencyProperty.RegisterAttachedReadOnly(
             "IsTextTrimmed",
-            typeof (bool),
-            typeof (TextBlockTrimmedTooltip),
+            typeof(bool),
+            typeof(TextBlockTrimmedTooltip),
             new PropertyMetadata(false)); // defaults to false
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         /// <remarks>Invoked automatically by the framework when databound.</remarks>
         /// <param name="target"><see cref="TextBlock" /> to evaluate</param>
         /// <returns>Effective value of the IsTextTrimmed attached property</returns>
-        [AttachedPropertyBrowsableForType(typeof (TextBlock))]
+        [AttachedPropertyBrowsableForType(typeof(TextBlock))]
         public static bool GetIsTextTrimmed(TextBlock target) => (bool) target.GetValue(IsTextTrimmedProperty);
 
         #endregion (Attached Property [TextBlockService.IsTextTrimmed])
@@ -115,8 +116,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         /// </summary>
         public static readonly DependencyProperty AutomaticToolTipEnabledProperty = DependencyProperty.RegisterAttached(
             "AutomaticToolTipEnabled",
-            typeof (bool),
-            typeof (TextBlockTrimmedTooltip),
+            typeof(bool),
+            typeof(TextBlockTrimmedTooltip),
             new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.Inherits)); // defaults to true
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
         /// </summary>
         /// <param name="target"><see cref="TextBlock" /> to evaluate</param>
         /// <returns>Effective value of the AutomaticToolTipEnabled attached property</returns>
-        [AttachedPropertyBrowsableForType(typeof (DependencyObject))]
+        [AttachedPropertyBrowsableForType(typeof(DependencyObject))]
         public static bool GetAutomaticToolTipEnabled(DependencyObject element) {
             if (null == element)
                 throw new ArgumentNullException(nameof(element));

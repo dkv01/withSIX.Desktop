@@ -12,8 +12,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty IsEnabledProperty =
             DependencyProperty.RegisterAttached(
                 "IsEnabled",
-                typeof (bool),
-                typeof (PopupMenuCloseBehavior),
+                typeof(bool),
+                typeof(PopupMenuCloseBehavior),
                 new UIPropertyMetadata(false, OnIsEnabledChanged));
 
         public static bool GetIsEnabled(Popup popup) => (bool) popup.GetValue(IsEnabledProperty);
@@ -39,7 +39,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         static void OnClick(object sender, RoutedEventArgs e) {
             var popup = (Popup) sender;
             var button = e.OriginalSource as ButtonBase;
-            if (button != null && button.ContextMenu == null)
+            if ((button != null) && (button.ContextMenu == null))
                 popup.IsOpen = false;
         }
     }

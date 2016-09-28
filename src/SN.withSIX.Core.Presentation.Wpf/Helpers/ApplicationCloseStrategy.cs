@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using SN.withSIX.Core.Applications.MVVM.Helpers;
-using SN.withSIX.Core.Applications.Services;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Helpers
 {

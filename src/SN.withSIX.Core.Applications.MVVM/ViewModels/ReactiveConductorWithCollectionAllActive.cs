@@ -103,8 +103,8 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
                         GetType().GetRuntimeProperties()
                             .Where(
                                 x =>
-                                    x.Name != "Parent" &&
-                                    typeof (T).GetTypeInfo().IsAssignableFrom(x.PropertyType.GetTypeInfo()))
+                                    (x.Name != "Parent") &&
+                                    typeof(T).GetTypeInfo().IsAssignableFrom(x.PropertyType.GetTypeInfo()))
                             .Select(x => x.GetValue(this, null))
                             .Cast<T>()
                             .Apply(ActivateItem);

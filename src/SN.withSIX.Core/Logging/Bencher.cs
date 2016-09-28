@@ -11,7 +11,7 @@ namespace SN.withSIX.Core.Logging
     public static class BenchExtension
     {
         public static Bencher Bench(this object obj, string message = null, string startMessage = null,
-            [CallerMemberName] string caller = null)
+                [CallerMemberName] string caller = null)
             => Common.Flags.Verbose ? new Bencher(message, obj.GetType().Name + "." + caller, startMessage) : null;
     }
 

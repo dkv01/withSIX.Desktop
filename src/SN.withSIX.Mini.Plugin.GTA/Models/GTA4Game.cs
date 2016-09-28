@@ -15,7 +15,7 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
     [Game(GameIds.GTAIV, Name = "GTA 4", Slug = "GTA-4",
-        Executables = new[] {"GTAIV\\GTAIV.exe"})]
+         Executables = new[] {"GTAIV\\GTAIV.exe"})]
     //[GTA4ContentCleaning]
     [SteamInfo(SteamGameIds.GTA4, "Grand Theft Auto 4")]
     [SynqRemoteInfo(GameIds.GTAIV)]

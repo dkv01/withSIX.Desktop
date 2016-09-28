@@ -5,20 +5,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols
 {
-    
     public class RsyncException : DownloadException
     {
         public RsyncException(string message, string output = null, string parameters = null, Exception inner = null)
             : base(message, output, parameters, inner) {}
     }
 
-    
+
     public class RsyncSoftException : RsyncException
     {
         public RsyncSoftException(string message, string output = null, string parameters = null, Exception inner = null)
@@ -42,7 +40,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols
             ProcessExitResult(
                 await
                     _rsyncLauncher.RunAndProcessAsync(spec.Progress, spec.Uri.ToString(), spec.LocalFile.ToString(),
-                        spec.CancellationToken)
+                            spec.CancellationToken)
                         .ConfigureAwait(false), spec);
             VerifyIfNeeded(spec, spec.LocalFile);
         }

@@ -6,19 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using Akavache;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Exceptions;
-using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Data.Services
 {
@@ -30,12 +27,13 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     public class GameContextJsonImplementation : GameContext
     {
         static readonly Encoding encoding = Encoding.UTF8;
-        public static JsonSerializerSettings Settings { get; set; }
         readonly ILocalCache _cache;
 
         public GameContextJsonImplementation(ILocalCache cache) {
             _cache = cache;
         }
+
+        public static JsonSerializerSettings Settings { get; set; }
 
         //public override async Task Migrate() {}
 

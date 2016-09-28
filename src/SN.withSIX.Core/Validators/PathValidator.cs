@@ -4,8 +4,8 @@
 
 using System.IO;
 using System.Linq;
-using withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
+using withSIX.Api.Models.Exceptions;
 
 namespace SN.withSIX.Core.Validators
 {

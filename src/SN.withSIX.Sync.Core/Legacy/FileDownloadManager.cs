@@ -90,8 +90,8 @@ namespace SN.withSIX.Sync.Core.Legacy
             using (var token = new CancellationTokenSource()) {
                 await
                     ProcessAsync(files, token,
-                        x =>
-                            FetchFileAsyncWithStatus(x.DisplayName, x.FilePath, destination, token))
+                            x =>
+                                    FetchFileAsyncWithStatus(x.DisplayName, x.FilePath, destination, token))
                         .ConfigureAwait(false);
             }
         }
@@ -99,7 +99,7 @@ namespace SN.withSIX.Sync.Core.Legacy
         public async Task FetchFileAsync(Spec spec) {
             TryPickHost(spec);
             var done = false;
-            while (!done && spec.CurrentHost != null) {
+            while (!done && (spec.CurrentHost != null)) {
                 _statusRepo.CancelToken.ThrowIfCancellationRequested();
                 spec.Status.Info = spec.CurrentHost.ToString();
                 this.Logger().Info("Fetching {0} @ {1}", spec.File, spec.CurrentHost);

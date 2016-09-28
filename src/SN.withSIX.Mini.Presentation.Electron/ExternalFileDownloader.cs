@@ -24,8 +24,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         // TODO: Progress reporting
         protected override async Task<IAbsoluteFilePath> DownloadFileImpl(Uri url, IAbsoluteDirectoryPath destination,
             Action<long?, double> progressAction, CancellationToken token) {
-
-            DateTime lastTime = DateTime.UtcNow;
+            var lastTime = DateTime.UtcNow;
             uint lastBytes = 0;
             State.Clear();
             using (Observable.Interval(TimeSpan.FromMilliseconds(500)).Select(x => State.Current).Where(x => x != null)

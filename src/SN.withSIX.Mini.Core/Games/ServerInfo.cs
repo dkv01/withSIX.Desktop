@@ -73,6 +73,8 @@ namespace SN.withSIX.Mini.Core.Games
     public interface IQueryServers
     {
         Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken);
-        Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails = false);
+
+        Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
+            bool inclExtendedDetails = false);
     }
 }

@@ -4,12 +4,9 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Api.Helpers;
 using SN.withSIX.Steam.Api.Services;
@@ -84,8 +81,8 @@ namespace SN.withSIX.Steam.Api
 
         private IAbsolutePath GetPath(IAbsoluteDirectoryPath workshopPath)
             =>
-                IsLegacy()
-                    ? (IAbsolutePath) workshopPath.GetChildFileWithName(Pid.ToString())
-                    : workshopPath.GetChildDirectoryWithName(Pid.ToString());
+            IsLegacy()
+                ? (IAbsolutePath) workshopPath.GetChildFileWithName(Pid.ToString())
+                : workshopPath.GetChildDirectoryWithName(Pid.ToString());
     }
 }

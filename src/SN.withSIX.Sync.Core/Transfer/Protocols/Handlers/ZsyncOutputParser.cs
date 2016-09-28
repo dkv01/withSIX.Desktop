@@ -3,11 +3,9 @@
 // </copyright>
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 {

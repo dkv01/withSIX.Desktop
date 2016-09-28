@@ -28,7 +28,7 @@ namespace SN.withSIX.Steam.Api.Helpers
             })).ObserveOn(session.Scheduler);
 
         public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall,
-            ISteamSession session)
+                ISteamSession session)
             => Observable.Create<T>(observer => {
                 var callback = CallResult<T>.Create((cb, fail) => {
                     if (fail)
@@ -44,8 +44,8 @@ namespace SN.withSIX.Steam.Api.Helpers
             }).ObserveOn(session.Scheduler);
 
         public static IObservable<T> CreateObservableFromCallresults<T>(this SteamAPICall_t apiCall,
-            ISteamSession session,
-            CancellationToken cancelToken)
+                ISteamSession session,
+                CancellationToken cancelToken)
             => Observable.Create<T>(observer => {
                 var callback = CallResult<T>.Create((cb, fail) => {
                     if (fail)

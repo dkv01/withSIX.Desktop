@@ -14,8 +14,6 @@ using System.Windows.Shell;
 using MahApps.Metro.Controls;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -35,7 +33,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     public partial class MiniMainWindow : MetroWindow, IViewFor<IMiniMainWindowViewModel>, IUsecaseExecutor
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (IMiniMainWindowViewModel), typeof (MiniMainWindow),
+            DependencyProperty.Register("ViewModel", typeof(IMiniMainWindowViewModel), typeof(MiniMainWindow),
                 new PropertyMetadata(null));
 
         public MiniMainWindow() {

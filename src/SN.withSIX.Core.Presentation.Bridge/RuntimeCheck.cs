@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="RuntimeCheck.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -11,6 +15,8 @@ namespace SN.withSIX.Core.Presentation.Bridge
     {
         static readonly Uri net461 = new Uri("https://www.microsoft.com/en-us/download/details.aspx?id=49981");
 
+        static readonly Version seven = new Version("6.1");
+
         public async Task Check() {
             await CheckNet46().ConfigureAwait(false);
             var legacyCheck = RuntimePolicyHelper.LegacyV2RuntimeEnabledSuccessfully;
@@ -21,13 +27,20 @@ namespace SN.withSIX.Core.Presentation.Bridge
                 return;
 
             if (!IsSevenOrNewer()) {
-                await FatalErrorMessage("Windows 7 or later is required due to .NET framework 4.6 support and/or browser components.", "Windows 7 or later required").ConfigureAwait(false);
-                System.Environment.Exit(1);
+                await
+                    FatalErrorMessage(
+                        "Windows 7 or later is required due to .NET framework 4.6 support and/or browser components.",
+                        "Windows 7 or later required").ConfigureAwait(false);
+                Environment.Exit(1);
             }
 
-            if (await FatalErrorMessage(".NET framework 4.6 or later is required, but was not found.\n\nDo you want to install it now?", ".NET framework 4.6 or later required").ConfigureAwait(false))
+            if (
+                await
+                    FatalErrorMessage(
+                        ".NET framework 4.6 or later is required, but was not found.\n\nDo you want to install it now?",
+                        ".NET framework 4.6 or later required").ConfigureAwait(false))
                 TryOpenNet46Url();
-            System.Environment.Exit(1);
+            Environment.Exit(1);
         }
 
         protected virtual async Task<bool> FatalErrorMessage(string message, string caption) {
@@ -42,9 +55,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
             } catch (Exception) {}
         }
 
-        static readonly Version seven = new Version("6.1");
-
-        static bool IsSevenOrNewer() => System.Environment.OSVersion.Version >= seven;
+        static bool IsSevenOrNewer() => Environment.OSVersion.Version >= seven;
 
         static bool IsNet46OrNewer() => Get46FromRegistry();
 
@@ -53,7 +64,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
                 var ndpKey =
                     RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                         .OpenSubKey("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\")) {
-                return ndpKey?.GetValue("Release") != null && CheckFor46DotVersion((int) ndpKey.GetValue("Release"));
+                return (ndpKey?.GetValue("Release") != null) && CheckFor46DotVersion((int) ndpKey.GetValue("Release"));
             }
         }
 
@@ -87,7 +98,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
                 var clrRuntimeInfo =
                     (ICLRRuntimeInfo) RuntimeEnvironment.GetRuntimeInterfaceAsObject(
                         Guid.Empty,
-                        typeof (ICLRRuntimeInfo).GUID);
+                        typeof(ICLRRuntimeInfo).GUID);
                 TryGetRuntimePolicy(clrRuntimeInfo);
             }
 

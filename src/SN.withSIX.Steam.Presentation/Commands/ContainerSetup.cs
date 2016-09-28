@@ -34,6 +34,10 @@ namespace SN.withSIX.Steam.Presentation.Commands
             CreateInstances();
         }
 
+        public void Dispose() {
+            _container.Dispose();
+        }
+
         private void CreateInstances() {
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
             Raiser.Raiserr = new EventStorage();
@@ -43,10 +47,6 @@ namespace SN.withSIX.Steam.Presentation.Commands
             yield return _container.GetInstance<InstallCommand>();
             yield return _container.GetInstance<UninstallCommand>();
             yield return _container.GetInstance<RunInteractive>();
-        }
-
-        public void Dispose() {
-            _container.Dispose();
         }
 
         void SetupContainer(Func<ISteamApi> steamApi) {

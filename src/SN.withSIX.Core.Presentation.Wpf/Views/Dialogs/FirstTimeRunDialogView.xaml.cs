@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Windows;
-
 using SN.withSIX.Core.Applications.Infrastructure;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
@@ -11,7 +10,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
     /// <summary>
     ///     Interaction logic for FirstTimeRunDialogView.xaml
     /// </summary>
-    
     public partial class FirstTimeRunDialogView
     {
         readonly IPresentationResourceService _resources;

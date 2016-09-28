@@ -29,7 +29,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     inDesignMode = DesignerProperties.IsInDesignTool;
 #else
                     var descriptor = DependencyPropertyDescriptor.FromProperty(
-                        DesignerProperties.IsInDesignModeProperty, typeof (FrameworkElement));
+                        DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
                     _inDesignMode = (bool) descriptor.Metadata.DefaultValue;
 #endif
                 }

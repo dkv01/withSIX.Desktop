@@ -21,16 +21,16 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
     [Game(GameIds.GTAV, Name = "GTA 5", Slug = "GTA-5",
-        Executables = new[] {"PlayGTAV.exe", "GTAVLauncher.exe"},
-        LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-        IsPublic = true,
-        FirstTimeRunInfo =
-            @"Welcome to Sync withSIX
+         Executables = new[] {"PlayGTAV.exe", "GTAVLauncher.exe"},
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
+         IsPublic = true,
+         FirstTimeRunInfo =
+             @"Welcome to Sync withSIX
 
 Some important information before you get started:
 
 In order to ensure a save and working mod experience, For now Sync will automatically backup and delete all pre installed modifications from your GTA5 folder, when launching of the game."
-        )]
+     )]
     [SteamInfo(271590, "Grand Theft Auto V")]
     [SynqRemoteInfo(GameIds.GTAV)]
     [GTA5ContentCleaning]
@@ -102,8 +102,8 @@ In order to ensure a save and working mod experience, For now Sync will automati
             try {
                 return
                     (RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64)
-                        .OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion")
-                        .GetValue("ProgramFilesDir") as string)
+                            .OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion")
+                            .GetValue("ProgramFilesDir") as string)
                         .ToAbsoluteDirectoryPath();
             } catch (Exception) {
                 return null;
@@ -160,8 +160,8 @@ In order to ensure a save and working mod experience, For now Sync will automati
                 public void RequireScriptHook() {
                     foreach (
                         var asiFile in
-                            scriptHookFiles.Select(asi => _state.Directory.GetChildFileWithName(asi))
-                                .Where(asiFile => !asiFile.Exists))
+                        scriptHookFiles.Select(asi => _state.Directory.GetChildFileWithName(asi))
+                            .Where(asiFile => !asiFile.Exists))
                         TryInstallScriptHook();
 
                     var requiredVersion = new Version("1.0.573.1");

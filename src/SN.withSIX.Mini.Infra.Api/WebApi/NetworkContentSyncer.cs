@@ -46,11 +46,11 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
         }
 
         public Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections,
-            bool countCheck = true)
+                bool countCheck = true)
             => _collectionSyncer.SyncCollections(collections, countCheck);
 
         public Task<IReadOnlyCollection<SubscribedCollection>> GetCollections(Guid gameId,
-            IReadOnlyCollection<Guid> collectionIds)
+                IReadOnlyCollection<Guid> collectionIds)
             => _collectionSyncer.GetCollections(gameId, collectionIds);
 
         async Task<Dictionary<Guid, ModClientApiJsonV3WithGameId>> GetContentList(Guid gameId, ApiHashes hashes) {
@@ -64,7 +64,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 invalidContent.ForEach(x => x.FixGameId(game.Id));
 
             var stats = await GetHashStats(game).ConfigureAwait(false);
-            if (!stats.ShouldSyncBecauseHashes && !stats.ShouldSyncBecauseVersion && filterFunc == null)
+            if (!stats.ShouldSyncBecauseHashes && !stats.ShouldSyncBecauseVersion && (filterFunc == null))
                 return;
             var onlineContent = await GetContent(game, stats.Hashes).ConfigureAwait(false);
             ProcessContents(game, onlineContent, filterFunc);
@@ -84,7 +84,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
             var hashStats = new HashStats {
                 Hashes = hashes,
-                ShouldSyncBecauseHashes = localHashes == null || localHashes.Mods != hashes.Mods,
+                ShouldSyncBecauseHashes = (localHashes == null) || (localHashes.Mods != hashes.Mods),
                 /*
                 ShouldSyncBecauseTime = syncInfo.LastSync.ToLocalTime() <
                                         Tools.Generic.GetCurrentUtcDateTime.ToLocalTime()
@@ -208,7 +208,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     var theM =
                         onlineContent.Values.FirstOrDefault(
                             x => x.PackageName.Equals(m, StringComparison.CurrentCultureIgnoreCase));
-                    if (theM != null && c.Dependencies.All(x => x.Id != theM.Id))
+                    if ((theM != null) && c.Dependencies.All(x => x.Id != theM.Id))
                         c.Dependencies.Add(new ContentGuidSpec {Id = theM.Id});
                 }
             }
@@ -257,11 +257,11 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 var contents =
                     await
                         DownloadCollections(
-                            collections.GroupBy(x => x.GameId)
-                                .Select(x => new Tuple<Guid, List<Guid>>(x.Key, x.Select(t => t.Id).ToList())))
+                                collections.GroupBy(x => x.GameId)
+                                    .Select(x => new Tuple<Guid, List<Guid>>(x.Key, x.Select(t => t.Id).ToList())))
                             .ConfigureAwait(false);
 
-                if (countCheck && contents.Count < collections.Count)
+                if (countCheck && (contents.Count < collections.Count))
                     throw new NotFoundException("Could not find all requested collections");
 
                 foreach (var c in contents.Select(x => new {x, Col = collections.FindOrThrow(x.Id)}))
@@ -298,7 +298,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 var modSpecs =
                     await
                         ProcessMods(col, c,
-                            await _locator.GetGameContext().Games.FindOrThrowAsync(col.GameId).ConfigureAwait(false))
+                                await _locator.GetGameContext().Games.FindOrThrowAsync(col.GameId).ConfigureAwait(false))
                             .ConfigureAwait(false);
                 col.ReplaceContent(modSpecs.Concat(collectionSpecs));
             }
@@ -312,7 +312,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     .Where(x => x.DependencyType == DependencyType.Package).ToArray();
                 var found = new List<Tuple<Content, string, CollectionVersionDependencyModel>>();
                 foreach (var d in deps) {
-                    var content = await ConvertToGroupOrRepoContent(d, col, customRepos, groupContent, game).ConfigureAwait(false);
+                    var content =
+                        await ConvertToGroupOrRepoContent(d, col, customRepos, groupContent, game).ConfigureAwait(false);
                     if (content == null)
                         continue;
                     var t = Tuple.Create(content, d.Constraint, d);
@@ -376,7 +377,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 return new ContentSpec(conv, ec.Constraint);
             }
 
-            private async Task MapExistingCollection(CollectionModelWithLatestVersion rc, SubscribedCollection collection) {
+            private async Task MapExistingCollection(CollectionModelWithLatestVersion rc,
+                SubscribedCollection collection) {
                 var userId = await GetUserId().ConfigureAwait(false);
                 var conv = rc.MapTo(collection, opts => opts.Items["user-id"] = userId);
                 // TODO: Allow parent repos to be used for children etc? :-)
@@ -384,7 +386,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 conv.UpdateState();
             }
 
-            private async Task<SubscribedCollection> MapCollection(CollectionModelWithLatestVersion rc, List<NetworkCollection> collections = null) {
+            private async Task<SubscribedCollection> MapCollection(CollectionModelWithLatestVersion rc,
+                List<NetworkCollection> collections = null) {
                 var userId = await GetUserId().ConfigureAwait(false);
                 var conv = rc.MapTo<SubscribedCollection>(opts => opts.Items["user-id"] = userId);
                 // TODO: Allow parent repos to be used for children etc? :-)
@@ -479,9 +482,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
 
             private static Content ConvertToContentOrLocal(CollectionVersionDependencyModel x, IHaveGameId col,
                 Game game) => (Content) game.NetworkContent.FirstOrDefault(
-                    cnt =>
-                        cnt.PackageName.Equals(x.Dependency,
-                            StringComparison.CurrentCultureIgnoreCase))
+                                  cnt =>
+                                      cnt.PackageName.Equals(x.Dependency,
+                                          StringComparison.CurrentCultureIgnoreCase))
                               ??
                               new ModLocalContent(x.Dependency.ToLower(),
                                   col.GameId,
@@ -501,8 +504,9 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 return
                     await
                         Tools.Transfer.GetJson<List<CollectionModelWithLatestVersion>>(
-                            new Uri(CommonUrls.ApiUrl + "/api/collections?gameId=" + gameId +
-                                    string.Join("", colIds.Select(x => "&ids=" + x))), token: token).ConfigureAwait(false);
+                                new Uri(CommonUrls.ApiUrl + "/api/collections?gameId=" + gameId +
+                                        string.Join("", colIds.Select(x => "&ids=" + x))), token: token)
+                            .ConfigureAwait(false);
             }
 
             private async Task<string> GetToken() {

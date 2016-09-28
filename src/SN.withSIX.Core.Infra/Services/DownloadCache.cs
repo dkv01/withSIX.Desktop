@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright company="SIX Networks GmbH" file="DownloadCache.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
 
 namespace SN.withSIX.Core.Infra.Services
 {
-    public class DownloadCache 
-    {
-        public DownloadCache() {
-            
-        }
-    }
+    public class DownloadCache {}
 }

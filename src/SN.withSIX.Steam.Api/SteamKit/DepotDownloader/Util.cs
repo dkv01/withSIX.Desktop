@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="Util.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,7 +78,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
                 /* Printable ASCII characters only */
                 var c = keyInfo.KeyChar;
-                if (c >= ' ' && c <= '~')
+                if ((c >= ' ') && (c <= '~'))
                     password.Append(c);
             } while (keyInfo.Key != ConsoleKey.Enter);
 
@@ -138,7 +142,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
         public static string EncodeHexString(byte[] input) {
             return input.Aggregate(new StringBuilder(),
                 (sb, v) => sb.Append(v.ToString("x2"))
-                ).ToString();
+            ).ToString();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
                 /// </summary>
                 /// <param name="item">The item to activate.</param>
                 public override void ActivateItem(T item) {
-                    if (item != null && item.Equals(ActiveItem)) {
+                    if ((item != null) && item.Equals(ActiveItem)) {
                         if (IsActive) {
                             ScreenExtensions.TryActivate(item);
                             OnActivationProcessed(item, true);
@@ -116,10 +116,10 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
                 protected virtual T DetermineNextItemToActivate(IList<T> list, int lastIndex) {
                     var toRemoveAt = lastIndex - 1;
 
-                    if (toRemoveAt == -1 && list.Count > 1)
+                    if ((toRemoveAt == -1) && (list.Count > 1))
                         return list[1];
 
-                    if (toRemoveAt > -1 && toRemoveAt < list.Count - 1)
+                    if ((toRemoveAt > -1) && (toRemoveAt < list.Count - 1))
                         return list[toRemoveAt];
 
                     return default(T);

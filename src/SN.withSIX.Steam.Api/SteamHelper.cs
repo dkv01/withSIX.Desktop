@@ -37,7 +37,7 @@ namespace SN.withSIX.Steam.Api
         }
 
         KeyValue ReadSteamConfig() {
-            if (_steamPath == null || !_steamPath.Exists)
+            if ((_steamPath == null) || !_steamPath.Exists)
                 return null;
 
             var steamConfigPath = _steamPath.GetChildDirectoryWithName("config").GetChildFileWithName("config.vdf");
@@ -76,32 +76,43 @@ namespace SN.withSIX.Steam.Api
             return v;
         }
     }
-    
+
     public class SteamHelper : ISteamHelper
     {
         readonly Dictionary<uint, SteamApp> _appCache;
         readonly IEnumerable<IAbsoluteDirectoryPath> _baseInstallPaths;
         readonly bool _cache;
-        readonly IAbsoluteDirectoryPath _steamPath;
-
-        public static SteamHelper Create()
-            => new SteamHelper(new SteamStuff(SteamPathHelper.SteamPath).TryReadSteamConfig(),
-                SteamPathHelper.SteamPath);
-
-
-        public IAbsoluteDirectoryPath SteamPath => _steamPath;
 
         public SteamHelper(KeyValue steamConfig, IAbsoluteDirectoryPath steamPath, bool cache = true) {
             _cache = cache;
             _appCache = new Dictionary<uint, SteamApp>();
             KeyValues = steamConfig;
-            _steamPath = steamPath;
-            SteamFound = _steamPath != null && _steamPath.Exists;
+            SteamPath = steamPath;
+            SteamFound = (SteamPath != null) && SteamPath.Exists;
             _baseInstallPaths = GetBaseInstallFolderPaths();
         }
 
         public KeyValue KeyValues { get; }
+
+
+        public IAbsoluteDirectoryPath SteamPath { get; }
         public bool SteamFound { get; }
+
+        public ISteamApp TryGetSteamAppById(uint appId, bool noCache = false) {
+            if (!SteamFound)
+                throw new InvalidOperationException("Unable to get Steam App, Steam was not found.");
+            try {
+                return GetSteamAppById(appId, noCache);
+            } catch (Exception e) {
+                if (Common.Flags.Verbose)
+                    MainLog.Logger.FormattedWarnException(e, "Unknown Exception Attempting to get Steam App");
+                return SteamApp.Default;
+            }
+        }
+
+        public static SteamHelper Create()
+            => new SteamHelper(new SteamStuff(SteamPathHelper.SteamPath).TryReadSteamConfig(),
+                SteamPathHelper.SteamPath);
 
         KeyValue TryGetConfigByAppId(uint appId) {
             KeyValue apps = null;
@@ -116,18 +127,6 @@ namespace SN.withSIX.Steam.Api
                 return apps.GetKeyValue(appId.ToString());
             } catch (Exception) {
                 return null;
-            }
-        }
-
-        public ISteamApp TryGetSteamAppById(uint appId, bool noCache = false) {
-            if (!SteamFound)
-                throw new InvalidOperationException("Unable to get Steam App, Steam was not found.");
-            try {
-                return GetSteamAppById(appId, noCache);
-            } catch (Exception e) {
-                if (Common.Flags.Verbose)
-                    MainLog.Logger.FormattedWarnException(e, "Unknown Exception Attempting to get Steam App");
-                return SteamApp.Default;
             }
         }
 
@@ -149,7 +148,7 @@ namespace SN.withSIX.Steam.Api
                 .Exists;
 
         IReadOnlyList<IAbsoluteDirectoryPath> GetBaseInstallFolderPaths() {
-            var list = new List<IAbsoluteDirectoryPath> {_steamPath};
+            var list = new List<IAbsoluteDirectoryPath> {SteamPath};
             if (KeyValues == null)
                 return list.AsReadOnly();
             try {
@@ -183,16 +182,17 @@ namespace SN.withSIX.Steam.Api
             SetAppPath();
         }
 
+        public KeyValue AppManifest { get; private set; }
+        public KeyValue AppConfig { get; }
+        public static SteamApp Default { get; } = new NullSteamApp();
+
         public uint AppId { get; }
         public IAbsoluteDirectoryPath InstallBase { get; }
         public IAbsoluteDirectoryPath AppPath { get; private set; }
-        public KeyValue AppManifest { get; private set; }
-        public KeyValue AppConfig { get; }
         public virtual bool IsValid => true;
-        public static SteamApp Default { get; } = new NullSteamApp();
 
         public string GetInstallDir() {
-            if (AppConfig != null && AppConfig.ContainsKey("installdir"))
+            if ((AppConfig != null) && AppConfig.ContainsKey("installdir"))
                 return AppConfig["installdir"].AsString();
             try {
                 return AppManifest?.GetKeyValue("installdir").AsString();

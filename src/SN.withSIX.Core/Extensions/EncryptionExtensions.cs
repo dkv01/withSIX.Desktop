@@ -2,15 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Diagnostics.Contracts;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace SN.withSIX.Core.Extensions
 {
     public static class EncryptionExtensions
-    {/*
+    {
+        /*
         const DataProtectionScope DataProtectionScope = System.Security.Cryptography.DataProtectionScope.CurrentUser;
         const string EncryptionSalt = "j8RlPSi0OKfvDrbT";
 

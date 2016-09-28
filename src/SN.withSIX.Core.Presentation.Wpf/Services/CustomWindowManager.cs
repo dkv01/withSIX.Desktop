@@ -11,10 +11,8 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation.Wpf.Behaviors;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
 using Action = Caliburn.Micro.Action;
@@ -46,7 +44,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
                     window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             } else {
                 var owner = InferOwnerOf(window);
-                if (owner != null && isDialog)
+                if ((owner != null) && isDialog)
                     window.Owner = owner;
             }
 

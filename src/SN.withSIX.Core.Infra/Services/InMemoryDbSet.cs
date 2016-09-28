@@ -2,14 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using SN.withSIX.Core.Applications.Infrastructure;
-using withSIX.Api.Models.Content.v3;
-
 namespace SN.withSIX.Core.Infra.Services
 {
     /*

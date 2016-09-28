@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM.Services;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Services;
 
 namespace SN.withSIX.Core.Presentation.Wpf
 {
@@ -31,7 +29,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
         public Task<RecoveryOptionResult> Handler(UserError error, Window window = null) {
             if (error is CanceledUserError)
                 return Task.FromResult(RecoveryOptionResult.CancelOperation);
-            return error.RecoveryOptions != null && error.RecoveryOptions.Any()
+            return (error.RecoveryOptions != null) && error.RecoveryOptions.Any()
                 ? ErrorDialog(error, window)
                 : BasicMessageHandler(error, window);
         }

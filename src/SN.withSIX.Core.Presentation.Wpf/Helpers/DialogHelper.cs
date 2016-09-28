@@ -57,7 +57,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Helpers
         static void ActivateAllWindows(bool activate, Application app, Window mainWindow) {
             foreach (var window in app.Windows
                 .Cast<Window>()
-                .Where(x => x != null && x != mainWindow)
+                .Where(x => (x != null) && (x != mainWindow))
                 .ToArray()) {
                 if (window.WindowState == WindowState.Minimized)
                     window.WindowState = WindowState.Normal;
@@ -91,7 +91,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Helpers
 
         static Window GetMainWindow() {
             var app = Application.Current;
-            return app == null || !MainWindowLoaded ? null : app.MainWindow;
+            return (app == null) || !MainWindowLoaded ? null : app.MainWindow;
         }
 
         public static void SetMainWindowOwner(Window window) {

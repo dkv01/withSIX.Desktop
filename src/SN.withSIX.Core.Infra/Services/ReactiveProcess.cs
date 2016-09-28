@@ -12,6 +12,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
+using ProcessExtensions = SN.withSIX.Core.Services.Infrastructure.ProcessExtensions;
 
 namespace SN.withSIX.Core.Infra.Services
 {
@@ -59,7 +60,7 @@ namespace SN.withSIX.Core.Infra.Services
                 tasks.Add(ReadStreamToEnd(StandardOutput, _standardOutputObservable));
             if (StartInfo.RedirectStandardError)
                 tasks.Add(ReadStreamToEnd(StandardError, _standardErrorObservable));
-            tasks.Add(Core.Services.Infrastructure.ProcessExtensions.WaitForExitAsync(this));
+            tasks.Add(ProcessExtensions.WaitForExitAsync(this));
             return tasks;
         }
 
@@ -72,7 +73,7 @@ namespace SN.withSIX.Core.Infra.Services
                     lineBuffer.Append(c);
                     // This does not account for unterminated lines.... like 'verifying download...'
                     // We would be able to do this by sending the data also byte by byte to the receivers, but for little gain.
-                    if (c != '\r' && c != '\n')
+                    if ((c != '\r') && (c != '\n'))
                         continue;
                     observable.OnNext(lineBuffer.ToString());
                     lineBuffer.Clear();

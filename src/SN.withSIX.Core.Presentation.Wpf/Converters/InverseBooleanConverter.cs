@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Converters
 {
-    [ValueConversion(typeof (bool), typeof (bool))]
+    [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {
         #region IValueConverter Members

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Legacy.Status;
 
 namespace SN.withSIX.Sync.Core.Transfer

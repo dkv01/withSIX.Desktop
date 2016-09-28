@@ -6,7 +6,6 @@ using System;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Steam.Core;
 using SN.withSIX.Steam.Presentation.Commands;

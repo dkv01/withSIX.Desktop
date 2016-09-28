@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿// <copyright company="SIX Networks GmbH" file="AutoMapperProfile.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System.Linq;
 using AutoMapper;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;

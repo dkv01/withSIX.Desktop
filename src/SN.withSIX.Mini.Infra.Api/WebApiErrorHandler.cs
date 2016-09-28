@@ -32,7 +32,7 @@ namespace SN.withSIX.Mini.Infra.Api
         public Task<RecoveryOptionResult> Handler(UserError error) {
             if (error is CanceledUserError)
                 return Task.FromResult(RecoveryOptionResult.CancelOperation);
-            return error.RecoveryOptions != null && error.RecoveryOptions.Any()
+            return (error.RecoveryOptions != null) && error.RecoveryOptions.Any()
                 ? ErrorDialog(error)
                 : /*#if DEBUG
                                 UnhandledError(error);
@@ -44,7 +44,7 @@ namespace SN.withSIX.Mini.Infra.Api
 
         async Task<RecoveryOptionResult> HandleUserError(UserError error) {
             var t2 = error.RecoveryOptions.GetTask();
-            await _api.AddUserError(new Applications.Usecases.Main.UserErrorModel2(error,
+            await _api.AddUserError(new UserErrorModel2(error,
                 error.RecoveryOptions.Select(
                     x =>
                         new RecoveryOptionModel {
@@ -65,8 +65,8 @@ namespace SN.withSIX.Mini.Infra.Api
             MainLog.Logger.Error(userError.InnerException.Format());
             //var id = Guid.Empty;
 #if !DEBUG
-    //var ex = new UserException(userError.ErrorMessage, userError.InnerException);
-    //id = ex.Id;
+//var ex = new UserException(userError.ErrorMessage, userError.InnerException);
+//id = ex.Id;
             Report(userError.InnerException);
 #endif
             // NOTE: this code really shouldn't throw away the MessageBoxResult

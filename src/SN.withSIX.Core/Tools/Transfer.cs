@@ -8,8 +8,8 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 
 namespace SN.withSIX.Core
 {
@@ -42,7 +42,8 @@ namespace SN.withSIX.Core
 
             // TODO: Missing serializersettings?
             [Obsolete("Use extensions")]
-            public Task<string> PostJson(object model, Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
+            public Task<string> PostJson(object model, Uri uri, CancellationToken ct = default(CancellationToken),
+                    string token = null)
                 => model.PostJson(uri, ct, token);
 
             public Uri JoinUri(Uri host, params object[] remotePaths) {

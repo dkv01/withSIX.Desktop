@@ -4,10 +4,8 @@
 
 using Caliburn.Micro;
 
-
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    
     public interface IShellViewModelBase : IShellViewModel, IModalShell, IConductActiveItem
     {
         bool MainContentEnabled { get; }

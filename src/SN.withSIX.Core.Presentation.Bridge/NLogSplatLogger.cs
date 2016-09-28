@@ -18,7 +18,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
         }
 
         public void Write(string message, LogLevel logLevel) {
-            if (logLevel > LogLevel.Debug || Common.Flags.Verbose)
+            if ((logLevel > LogLevel.Debug) || Common.Flags.Verbose)
                 _logger.Log(GetLogLevel(logLevel), message);
         }
 

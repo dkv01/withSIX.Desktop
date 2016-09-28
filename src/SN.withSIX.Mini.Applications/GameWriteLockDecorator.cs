@@ -3,13 +3,11 @@
 // </copyright>
 
 using System;
-using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services;
@@ -43,10 +41,11 @@ namespace SN.withSIX.Mini.Applications
         }
 
         [Obsolete("Canceltoken not used")]
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request, CancellationToken cancellationToken) {
+        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) {
             if (!ShouldLock(request))
                 return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            var gameId = ((IHaveGameId)request).GameId;
+            var gameId = ((IHaveGameId) request).GameId;
             using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
                 HandleCTS(request, i.Token);
                 return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);

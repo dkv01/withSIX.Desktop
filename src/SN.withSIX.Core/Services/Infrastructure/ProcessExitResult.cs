@@ -31,7 +31,7 @@ namespace SN.withSIX.Core.Services.Infrastructure
         public string StandardError { get; }
 
         public static ProcessExitResultWithOutput FromProcessExitResult(ProcessExitResult result, string output,
-            string error = null)
+                string error = null)
             => new ProcessExitResultWithOutput(result.ExitCode, result.Id, result.StartInfo, output, error);
     }
 }

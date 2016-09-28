@@ -77,7 +77,9 @@ namespace SN.withSIX.Core.Extensions
         static readonly DateTime unixBase = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static DateTime GetAbsoluteUtc(this TimeSpan offset) => Tools.Generic.GetCurrentUtcDateTime.Add(offset);
-        public static DateTimeOffset GetAbsoluteUtcOffset(this TimeSpan offset) => Tools.Generic.GetCurrentUtcDateTime.Add(offset);
+
+        public static DateTimeOffset GetAbsoluteUtcOffset(this TimeSpan offset)
+            => Tools.Generic.GetCurrentUtcDateTime.Add(offset);
 
         public static ShortGuid ToShortId(this Guid id) => new ShortGuid(id);
 
@@ -111,7 +113,7 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static IEnumerable<T> AsEnumerable<T>(this T enumVal) where T : struct, IConvertible => AsEnumerable<T>();
-        public static IEnumerable<T> AsEnumerable<T>() => Enum.GetValues(typeof (T)).Cast<T>();
+        public static IEnumerable<T> AsEnumerable<T>() => Enum.GetValues(typeof(T)).Cast<T>();
 
         public static void TryKill(this Process p) {
             var id = -1;
@@ -131,29 +133,29 @@ namespace SN.withSIX.Core.Extensions
         }
 
         public static IEnumerable<IAbsoluteFilePath> GetFiles(this IDirectoryPath path,
-            string searchPatternExpression = "",
-            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+                string searchPatternExpression = "",
+                SearchOption searchOption = SearchOption.TopDirectoryOnly)
             => GetFiles(path.ToString(), searchPatternExpression, searchOption).Select(x => x.ToAbsoluteFilePath());
 
         public static IEnumerable<IAbsoluteFilePath> GetFiles(this IDirectoryPath path,
-            IEnumerable<string> searchPatterns,
-            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+                IEnumerable<string> searchPatterns,
+                SearchOption searchOption = SearchOption.TopDirectoryOnly)
             => GetFiles(path.ToString(), searchPatterns, searchOption).Select(x => x.ToAbsoluteFilePath());
 
         public static T GetMetaData<T>(this object t, T def = default(T)) where T : Attribute
-            => t.GetType().GetMetaData(def);
+        => t.GetType().GetMetaData(def);
 
         public static T GetMetaData<T>(this Type t, T def = default(T)) where T : Attribute
-            => t.GetTypeInfo().GetCustomAttribute<T>() ?? def;
+        => t.GetTypeInfo().GetCustomAttribute<T>() ?? def;
 
         public static IEnumerable<string> GetFiles(this DirectoryInfo path,
-            string searchPatternExpression = "",
-            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+                string searchPatternExpression = "",
+                SearchOption searchOption = SearchOption.TopDirectoryOnly)
             => GetFiles(path.ToString(), searchPatternExpression, searchOption);
 
         public static IEnumerable<string> GetFiles(this DirectoryInfo path,
-            IEnumerable<string> searchPatterns,
-            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+                IEnumerable<string> searchPatterns,
+                SearchOption searchOption = SearchOption.TopDirectoryOnly)
             => GetFiles(path.ToString(), searchPatterns, searchOption);
 
         // Regex version
@@ -163,14 +165,14 @@ namespace SN.withSIX.Core.Extensions
             var reSearchPattern = new Regex(searchPatternExpression);
             return Directory.EnumerateFiles(path, "*", searchOption)
                 .Where(file =>
-                    reSearchPattern.IsMatch(Path.GetExtension(file)));
+                        reSearchPattern.IsMatch(Path.GetExtension(file)));
         }
 
         // Takes same patterns, and executes in parallel
         public static IEnumerable<string> GetFiles(string path,
             IEnumerable<string> searchPatterns,
             SearchOption searchOption = SearchOption.TopDirectoryOnly) => searchPatterns //.AsParallel()
-                .SelectMany(searchPattern =>
+            .SelectMany(searchPattern =>
                     Directory.EnumerateFiles(path, searchPattern, searchOption));
 
         public static Uri GetParentUri(this string url) => GetParentUri(new Uri(url));
@@ -219,17 +221,23 @@ namespace SN.withSIX.Core.Extensions
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(
             this IEnumerable<KeyValuePair<TKey, TValue>> defaults, IEnumerable<KeyValuePair<TKey, TValue>> overrides) {
             Contract.Requires<ArgumentNullException>(overrides != null);
-            return overrides.Concat(defaults).GroupBy(x => x.Key).Select(g => g.First()).ToDictionary(x => x.Key, x => x.Value);
+            return overrides.Concat(defaults)
+                .GroupBy(x => x.Key)
+                .Select(g => g.First())
+                .ToDictionary(x => x.Key, x => x.Value);
         }
 
         public static IDictionary<TKey, TValue> MergeIfOverrides<TKey, TValue>(
-            this IDictionary<TKey, TValue> defaults, IEnumerable<KeyValuePair<TKey, TValue>> overrides)
+                this IDictionary<TKey, TValue> defaults, IEnumerable<KeyValuePair<TKey, TValue>> overrides)
             => overrides == null
                 ? defaults
-                : overrides.Concat(defaults).GroupBy(x => x.Key).Select(g => g.First()).ToDictionary(x => x.Key, x => x.Value);
+                : overrides.Concat(defaults)
+                    .GroupBy(x => x.Key)
+                    .Select(g => g.First())
+                    .ToDictionary(x => x.Key, x => x.Value);
 
         public static string OrEmpty(this string str) => str ?? string.Empty;
-        
+
         /*
         public static IDictionary<string, object> Inspect(this object obj) => InspectPublicProperties(obj)
             .Concat(InspectPublicFields(obj))
@@ -244,9 +252,10 @@ namespace SN.withSIX.Core.Extensions
             .GetFields(BindingFlags.Instance | BindingFlags.Public)
             .ToDictionary(x => x.Name, x => x.GetValue(obj));
             */
+
         public static bool TryBool(this string boolAsString) {
             bool b;
-            return boolAsString != null && bool.TryParse(boolAsString.ToLower(), out b) && b;
+            return (boolAsString != null) && bool.TryParse(boolAsString.ToLower(), out b) && b;
         }
 
         public static byte[] ToBytes(this Stream stream) {
@@ -375,7 +384,7 @@ namespace SN.withSIX.Core.Extensions
 
         public static bool Like(this string s, string match, bool caseInsensitive = true) {
             //Nothing matches a null mask or null input string
-            if (match == null || s == null)
+            if ((match == null) || (s == null))
                 return false;
             //Null strings are treated as empty and get checked against the mask.
             //If checking is case-insensitive we convert to uppercase to facilitate this.
@@ -392,7 +401,7 @@ namespace SN.withSIX.Core.Extensions
             var inversemulticharmask = false;
             for (var i = 0; i < match.Length; i++) {
                 //If this is the last character of the mask and its a % or * we are done
-                if (i == match.Length - 1 && (match[i] == '%' || match[i] == '*'))
+                if ((i == match.Length - 1) && ((match[i] == '%') || (match[i] == '*')))
                     return true;
                 //A direct character match allows us to proceed.
                 var charcheck = true;
@@ -405,7 +414,7 @@ namespace SN.withSIX.Core.Extensions
                 } else {
                     //If this is a wildcard mask we flag it and proceed with the next character
                     //in the mask.
-                    if (match[i] == '%' || match[i] == '*') {
+                    if ((match[i] == '%') || (match[i] == '*')) {
                         matchanymulti = true;
                         continue;
                     }
@@ -434,7 +443,7 @@ namespace SN.withSIX.Core.Extensions
                         charcheck = false;
                         i = endbracketidx;
                         //Detect and expand character ranges
-                        if (multicharmask.Length == 3 && multicharmask[1] == '-') {
+                        if ((multicharmask.Length == 3) && (multicharmask[1] == '-')) {
                             var newmask = "";
                             var first = multicharmask[0];
                             var last = multicharmask[2];
@@ -458,7 +467,7 @@ namespace SN.withSIX.Core.Extensions
                 var matched = false;
                 while (j < s.Length) {
                     //This character matches, move on.
-                    if (charcheck && s[j] == match[i]) {
+                    if (charcheck && (s[j] == match[i])) {
                         j++;
                         matched = true;
                         break;
@@ -468,8 +477,8 @@ namespace SN.withSIX.Core.Extensions
                         var ismatch = multicharmask.Contains(s[j]);
                         //If this was an inverted mask and we match fail the check for this string.
                         //If this was not an inverted mask check and we did not match fail for this string.
-                        if (inversemulticharmask && ismatch ||
-                            !inversemulticharmask && !ismatch) {
+                        if ((inversemulticharmask && ismatch) ||
+                            (!inversemulticharmask && !ismatch)) {
                             //If we have a wildcard preceding us we ignore this failure
                             //and continue checking.
                             if (matchanymulti) {
@@ -544,10 +553,10 @@ namespace SN.withSIX.Core.Extensions
                 str,
                 @"(\P{Ll})(\P{Ll}\p{Ll})",
                 "$1 $2"
-                ),
+            ),
             @"(\p{Ll})(\P{Ll})",
             "$1 $2"
-            );
+        );
 
         public static Version TryVersion(this string val) {
             Version result;
@@ -618,7 +627,7 @@ namespace SN.withSIX.Core.Extensions
             if (comp == null)
                 comp = StringComparer.CurrentCulture;
 
-            return toCheck != null && value.Contains(toCheck, comp);
+            return (toCheck != null) && value.Contains(toCheck, comp);
         }
 
         public static bool NullSafeContainsIgnoreCase(this IEnumerable<string> value, string toCheck)
@@ -629,7 +638,7 @@ namespace SN.withSIX.Core.Extensions
             if (string.IsNullOrEmpty(value))
                 return false;
 
-            return toCheck != null && value.Contains(toCheck, comp);
+            return (toCheck != null) && value.Contains(toCheck, comp);
         }
 
         public static bool NullSafeContainsIgnoreCase(this string value, string toCheck)

@@ -36,12 +36,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             var hasPath = content as IHavePath;
             return new LaunchContentAction(LaunchType, CancelToken,
                 new ContentSpec(content, Content.Constraint)) {
-                    Name = Name,
-                    Href =
-                        Href ??
-                        (hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name))),
-                    Action = Action
-                };
+                Name = Name,
+                Href =
+                    Href ??
+                    (hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name))),
+                Action = Action
+            };
         }
     }
 
@@ -62,10 +62,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
         public ILaunchContentAction<Content> GetAction(Game game) => new LaunchContentAction(
             Contents.Select(x => new ContentSpec(game.Contents.FindContentOrThrow(x.Id), x.Constraint))
                 .ToArray(), cancelToken: CancelToken) {
-                    Action = Action,
-                    Name = Name,
-                    Href = GetHref(game)
-                };
+            Action = Action,
+            Name = Name,
+            Href = GetHref(game)
+        };
     }
 
     public class LaunchContentHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<LaunchContent>,

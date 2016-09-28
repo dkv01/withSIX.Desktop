@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="NodeErrorHandler.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -22,7 +26,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         public Task<RecoveryOptionResult> Handler(UserError error) {
             if (error is CanceledUserError)
                 return Task.FromResult(RecoveryOptionResult.CancelOperation);
-            return error.RecoveryOptions != null && error.RecoveryOptions.Any()
+            return (error.RecoveryOptions != null) && error.RecoveryOptions.Any()
                 ? ErrorDialog(error)
                 : /*#if DEBUG
                                 UnhandledError(error);

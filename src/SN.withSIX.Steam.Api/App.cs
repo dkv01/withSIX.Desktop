@@ -6,22 +6,19 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Api.Services;
 using SN.withSIX.Steam.Api.SteamKit.Utils;
 using SN.withSIX.Steam.Core;
 using Steamworks;
-using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
 
 namespace SN.withSIX.Steam.Api
 {
     public class App
     {
-        // TODO: Move to SteamAPI...
-        public static SteamHelper SteamHelper { get; set; }
-        private readonly ISteamApp _steamInfo;
         private readonly Lazy<SteamDirectories> _directories;
+        private readonly ISteamApp _steamInfo;
 
         public App(uint id) : this(new AppId_t(id)) {}
 
@@ -30,6 +27,9 @@ namespace SN.withSIX.Steam.Api
             _steamInfo = SteamHelper.TryGetSteamAppById(Id.m_AppId);
             _directories = SystemExtensions.CreateLazy(GetDirectories);
         }
+
+        // TODO: Move to SteamAPI...
+        public static SteamHelper SteamHelper { get; set; }
 
         public AppId_t Id { get; set; }
 
@@ -58,17 +58,18 @@ namespace SN.withSIX.Steam.Api
             var wsf = $"appworkshop_{Id.m_AppId}.acf";
             var reg = Directories.Workshop.RootPath.GetChildFileWithName(wsf);
             MainLog.Logger.Info($"Considering rewriting {wsf}");
-            if (!reg.Exists) return;
+            if (!reg.Exists)
+                return;
 
             var kv = await KeyValueHelper.LoadFromFileAsync(reg, cancelToken).ConfigureAwait(false);
             var changed = false;
             var key = pf.Pid.m_PublishedFileId.ToString();
             foreach (
                 var root in
-                    new[] {
-                        "WorkshopItemDetails",
-                        "WorkshopItemsInstalled"
-                    }.Select(r => kv.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
+                new[] {
+                    "WorkshopItemDetails",
+                    "WorkshopItemsInstalled"
+                }.Select(r => kv.GetKeyValue(r)).Where(root => root.ContainsKey(key))) {
                 MainLog.Logger.Info($"Removing {key} from {root.Name}");
                 root.Remove(key);
                 changed = true;

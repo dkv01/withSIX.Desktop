@@ -8,7 +8,8 @@ using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Core
 {
-    public interface ICompressionUtil {
+    public interface ICompressionUtil
+    {
         void UnpackInternal(IAbsoluteFilePath sourceFile, IAbsoluteDirectoryPath outputFolder,
             bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true,
             ITProgress progress = null);

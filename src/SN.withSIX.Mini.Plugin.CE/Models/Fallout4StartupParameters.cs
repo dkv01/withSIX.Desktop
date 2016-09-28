@@ -1,4 +1,4 @@
-// <copyright company="SIX Networks GmbH" file="StarboundStartupParameters.cs">
+// <copyright company="SIX Networks GmbH" file="Fallout4StartupParameters.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 

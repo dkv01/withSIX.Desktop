@@ -13,8 +13,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty SelectAllTextOnFocusProperty =
             DependencyProperty.RegisterAttached(
                 "SelectAllTextOnFocus",
-                typeof (bool),
-                typeof (TextBoxBehavior),
+                typeof(bool),
+                typeof(TextBoxBehavior),
                 new UIPropertyMetadata(false, OnSelectAllTextOnFocusChanged));
 
         public static bool GetSelectAllTextOnFocus(TextBox textBox)
@@ -50,7 +50,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
 
         static void IgnoreMouseButton(object sender, MouseButtonEventArgs e) {
             var textBox = sender as TextBox;
-            if (textBox == null || textBox.IsKeyboardFocusWithin)
+            if ((textBox == null) || textBox.IsKeyboardFocusWithin)
                 return;
 
             e.Handled = true;

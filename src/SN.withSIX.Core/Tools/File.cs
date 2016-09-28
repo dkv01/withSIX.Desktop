@@ -9,13 +9,11 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Core.Validators;
@@ -155,7 +153,7 @@ namespace SN.withSIX.Core
 
                 var rt = root.ToString();
                 var dir = path;
-                while (dir != null && dir.HasParentDirectory) {
+                while ((dir != null) && dir.HasParentDirectory) {
                     var parent = dir.ParentDirectoryPath;
                     if (ComparePathsOsCaseSensitive(parent.ToString(), rt))
                         return true;
@@ -208,7 +206,7 @@ namespace SN.withSIX.Core
                         return false;
                     var absolutePath = path.ToAbsoluteDirectoryPath();
                     PathValidator.ValidateName(path);
-                    if (!mayBeUnc && absolutePath.Kind == AbsolutePathKind.UNC)
+                    if (!mayBeUnc && (absolutePath.Kind == AbsolutePathKind.UNC))
                         return false;
                     return !checkExists || absolutePath.Exists;
                 } catch (ArgumentException) {
@@ -304,8 +302,8 @@ namespace SN.withSIX.Core
 
             public string RemoveExtension(string filePath, string toRemove = null) {
                 var extension = Path.GetExtension(filePath);
-                if (extension == null
-                    || toRemove == null
+                if ((extension == null)
+                    || (toRemove == null)
                     || !extension.Equals(toRemove, StringComparison.OrdinalIgnoreCase))
                     return filePath;
                 return filePath.Substring(0, filePath.Length - extension.Length);
@@ -315,14 +313,14 @@ namespace SN.withSIX.Core
                 bool recurse = true) {
                 var sum =
                     Directory.EnumerateFiles(p.ToString(), selector,
-                        recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                            recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                         .Select(name => new FileInfo(name).Length)
                         .Sum();
 
                 if (filter != null) {
                     sum = sum -
                           Directory.EnumerateFiles(p.ToString(), filter,
-                              recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                                  recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                               .Select(name => new FileInfo(name).Length)
                               .Sum();
                 }

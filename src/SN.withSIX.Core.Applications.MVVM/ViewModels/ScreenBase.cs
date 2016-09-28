@@ -5,17 +5,16 @@
 using System;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
-
 using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
     // Using both ReactiveUI and Caliburn.Micro
 
-    
+
     public abstract class ScreenBase : ReactiveScreen, IViewModel {}
 
-    
+
     public abstract class ScreenBase<T> : ScreenBase where T : class
     {
         protected T ParentShell => Parent as T;
@@ -27,14 +26,14 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             ShowBackButton = true;
         }
 
-        
+
         public virtual void Cancel() {
             TryClose(false);
         }
 
         public bool ShowBackButton { get; protected set; }
 
-        
+
         public override void TryClose(bool? dialogResult) {
             if (ParentShell == null)
                 return;

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="ContentDownloader.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -61,8 +65,8 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                                                         .Any(m => m.Success);
 
         bool AccountHasAccess(uint depotId) {
-            if (_steam3.steamUser.SteamID == null ||
-                (_steam3.Licenses == null && _steam3.steamUser.SteamID.AccountType != EAccountType.AnonUser))
+            if ((_steam3.steamUser.SteamID == null) ||
+                ((_steam3.Licenses == null) && (_steam3.steamUser.SteamID.AccountType != EAccountType.AnonUser)))
                 return false;
 
             var licenseQuery = _steam3.steamUser.SteamID.AccountType == EAccountType.AnonUser
@@ -73,7 +77,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
             foreach (var license in licenseQuery) {
                 SteamApps.PICSProductInfoCallback.PICSProductInfo package;
-                if (!_steam3.PackageInfo.TryGetValue(license, out package) || package == null)
+                if (!_steam3.PackageInfo.TryGetValue(license, out package) || (package == null))
                     continue;
                 if (package.KeyValues["appids"].Children.Any(child => child.AsInteger() == depotId))
                     return true;
@@ -89,7 +93,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                 return null;
 
             SteamApps.PICSProductInfoCallback.PICSProductInfo app;
-            if (!_steam3.AppInfo.TryGetValue(appId, out app) || app == null)
+            if (!_steam3.AppInfo.TryGetValue(appId, out app) || (app == null))
                 return null;
 
             var appinfo = app.KeyValues;
@@ -158,12 +162,12 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
             var manifests = depotChild["manifests"];
             var manifests_encrypted = depotChild["encryptedmanifests"];
 
-            if (manifests.Children.Count == 0 && manifests_encrypted.Children.Count == 0)
+            if ((manifests.Children.Count == 0) && (manifests_encrypted.Children.Count == 0))
                 return INVALID_MANIFEST_ID;
 
             var node = manifests[branch];
 
-            if (branch != "Public" && node == KeyValue.Invalid) {
+            if ((branch != "Public") && (node == KeyValue.Invalid)) {
                 var node_encrypted = manifests_encrypted[branch];
                 if (node_encrypted == KeyValue.Invalid)
                     return INVALID_MANIFEST_ID;
@@ -242,12 +246,12 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                         if (!uint.TryParse(depotSection.Name, out id))
                             continue;
 
-                        if (depotId != INVALID_DEPOT_ID && id != depotId)
+                        if ((depotId != INVALID_DEPOT_ID) && (id != depotId))
                             continue;
 
                         if (!_config.DownloadAllPlatforms) {
                             var depotConfig = depotSection["config"];
-                            if (depotConfig != KeyValue.Invalid && depotConfig["oslist"] != KeyValue.Invalid &&
+                            if ((depotConfig != KeyValue.Invalid) && (depotConfig["oslist"] != KeyValue.Invalid) &&
                                 !string.IsNullOrWhiteSpace(depotConfig["oslist"].Value)) {
                                 var oslist = depotConfig["oslist"].Value.Split(',');
                                 if (Array.IndexOf(oslist, Util.GetSteamOS()) == -1)
@@ -287,7 +291,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
             _steam3.RequestAppTicket(depotId);
 
             var manifestID = GetSteam3DepotManifest(depotId, appId, branch);
-            if (manifestID == INVALID_MANIFEST_ID && branch != "public") {
+            if ((manifestID == INVALID_MANIFEST_ID) && (branch != "public")) {
                 Log($"Warning: Depot {depotId} does not have branch named \"{branch}\". Trying public branch.");
                 branch = "public";
                 manifestID = GetSteam3DepotManifest(depotId, appId, branch);
@@ -348,7 +352,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
                         oldProtoManifest = ProtoManifest.LoadFromFile(oldManifestFileName);
                 }
 
-                if (lastManifestId == depot.ManifestId && oldProtoManifest != null) {
+                if ((lastManifestId == depot.ManifestId) && (oldProtoManifest != null)) {
                     newProtoManifest = oldProtoManifest;
                     Log($"Already have manifest {depot.ManifestId} for depot {depot.ID}.");
                 } else {
@@ -377,8 +381,8 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
                                 if (e.Status == WebExceptionStatus.ProtocolError) {
                                     var response = (HttpWebResponse) e.Response;
-                                    if (response.StatusCode == HttpStatusCode.Unauthorized ||
-                                        response.StatusCode == HttpStatusCode.Forbidden) {
+                                    if ((response.StatusCode == HttpStatusCode.Unauthorized) ||
+                                        (response.StatusCode == HttpStatusCode.Forbidden)) {
                                         Log(
                                             $"Encountered 401 for depot manifest {depot.ID} {depot.ManifestId}. Aborting.");
                                         break;
@@ -416,7 +420,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
                     foreach (
                         var file in
-                            newProtoManifest.Files.Where(file => !file.Flags.HasFlag(EDepotFileFlag.Directory)))
+                        newProtoManifest.Files.Where(file => !file.Flags.HasFlag(EDepotFileFlag.Directory)))
                         manifestBuilder.Append($"{file.FileName}\n");
 
                     File.WriteAllText(txtManifest.ToString(), manifestBuilder.ToString());
@@ -585,8 +589,8 @@ namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
 
                                     if (e.Status == WebExceptionStatus.ProtocolError) {
                                         var response = (HttpWebResponse) e.Response;
-                                        if (response.StatusCode == HttpStatusCode.Unauthorized ||
-                                            response.StatusCode == HttpStatusCode.Forbidden) {
+                                        if ((response.StatusCode == HttpStatusCode.Unauthorized) ||
+                                            (response.StatusCode == HttpStatusCode.Forbidden)) {
                                             Log($"Encountered 401 for chunk {chunkID}. Aborting.");
                                             throw new OperationCanceledException(
                                                 $"Encountered 401 for chunk {chunkID}. Aborting.");

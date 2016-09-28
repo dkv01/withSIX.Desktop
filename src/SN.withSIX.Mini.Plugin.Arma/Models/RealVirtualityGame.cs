@@ -9,24 +9,19 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Services;
-using SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI;
+using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
-using CollectionServer = SN.withSIX.Mini.Core.Games.CollectionServer;
-using ServerAddress = withSIX.Api.Models.ServerAddress;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
@@ -39,8 +34,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
         readonly RealVirtualityGameSettings _settings;
 
-        [Obsolete("deprecate")]
-        private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
+        [Obsolete("deprecate")] private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
         readonly Lazy<IAbsoluteDirectoryPath> _userconfigPath;
 
         protected RealVirtualityGame(Guid id, RealVirtualityGameSettings settings) : base(id, settings) {
@@ -69,7 +63,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 Settings.GameDirectory = GetDefaultDirectory();
             if (_settings.PackageDirectory == null)
                 _settings.PackageDirectory = GetDefaultPackageDirectory();
-            if (_settings.RepoDirectory == null && _settings.PackageDirectory != null)
+            if ((_settings.RepoDirectory == null) && (_settings.PackageDirectory != null))
                 _settings.RepoDirectory = _settings.PackageDirectory;
         }
 
@@ -101,7 +95,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             => Common.Paths.MyDocumentsPath.GetChildDirectoryWithName(ProfileInfo.DocumentsMainName);
 
         protected override InstallContentAction GetInstallAction(
-            IDownloadContentAction<IInstallableContent> action)
+                IDownloadContentAction<IInstallableContent> action)
             => new InstallContentAction(action.Content, action.CancelToken) {
                 RemoteInfo = RemoteInfo,
                 Paths = ContentPaths,
@@ -117,18 +111,20 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> action) {
             var launcher = factory.Create<IRealVirtualityLauncher>(this);
-            var launchAction = _shouldLaunchAsDedicatedServer.Value ? LaunchAction.LaunchAsDedicatedServer :  action.Action;
-            var ls = new LaunchState(GetLaunchExecutable(launchAction), GetExecutable(launchAction), 
+            var launchAction = _shouldLaunchAsDedicatedServer.Value
+                ? LaunchAction.LaunchAsDedicatedServer
+                : action.Action;
+            var ls = new LaunchState(GetLaunchExecutable(launchAction), GetExecutable(launchAction),
                 await GetStartupParameters(launcher, action, launchAction).ConfigureAwait(false), launchAction);
             if (launchAction.IsAsServer())
                 Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
 
             foreach (
                 var mod in
-                    action.Content.SelectMany(x => x.Content.GetLaunchables())
-                        .Distinct()
-                        .OfType<IModContent>()
-                        .Select(c => new RvMod(this, c))) {
+                action.Content.SelectMany(x => x.Content.GetLaunchables())
+                    .Distinct()
+                    .OfType<IModContent>()
+                    .Select(c => new RvMod(this, c))) {
                 await mod.PreLaunch(action.Action).ConfigureAwait(false);
             }
             return await InitiateLaunch(launcher, ls).ConfigureAwait(false);
@@ -140,12 +136,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             return !launchAsDedicated && base.ShouldLaunchWithSteam(ls);
         }
 
-        Tuple<string[], string[]> RvStartupParameters(IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction)
+        Tuple<string[], string[]> RvStartupParameters(IRealVirtualityLauncher launcher,
+                ILaunchContentAction<IContent> action, LaunchAction launchAction)
             => GetStartupBuilder().GetStartupParameters(GetStartupSpec(action, launchAction));
 
         protected virtual StartupBuilder GetStartupBuilder() => new StartupBuilder(this, new ModListBuilder());
 
-        protected virtual async Task<IReadOnlyCollection<string>> GetStartupParameters(IRealVirtualityLauncher launcher, ILaunchContentAction<IContent> action, LaunchAction launchAction) {
+        protected virtual async Task<IReadOnlyCollection<string>> GetStartupParameters(IRealVirtualityLauncher launcher,
+            ILaunchContentAction<IContent> action, LaunchAction launchAction) {
             var startupInfo = RvStartupParameters(launcher, action, launchAction);
             var startupParameters = startupInfo.Item1.ToList();
             var parData = startupInfo.Item2;
@@ -156,7 +154,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 var parPath =
                     await
                         launcher.WriteParFile(new WriteParFileInfo(Id, string.Join("\n", parData)
-                            //, new ShortGuid(Settings.CurrentProfile).ToString()
+                                //, new ShortGuid(Settings.CurrentProfile).ToString()
                             ))
                             .ConfigureAwait(false);
                 startupParameters.Insert(0, "-par=" + parPath);
@@ -516,7 +514,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             void AddServerArgs() {
                 //if (_spec.LaunchAction == LaunchAction.LaunchAsServer) {
-                  //  AddArgOrPar("-server");
+                //  AddArgOrPar("-server");
                 //}
 
                 if (_spec.Server == null)
@@ -560,7 +558,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 return args;
             }
 
-            IPAddress GetServerIP(IPAddress ip) => ip; //TryGetSystemIpAddresses().Contains(ip) ? GetLoopbackIP(ip) : ip;
+            IPAddress GetServerIP(IPAddress ip) => ip;
+            //TryGetSystemIpAddresses().Contains(ip) ? GetLoopbackIP(ip) : ip;
 
             static IPAddress GetLoopbackIP(IPAddress ip)
                 => ip.AddressFamily == AddressFamily.InterNetworkV6 ? IPAddress.IPv6Loopback : IPAddress.Loopback;

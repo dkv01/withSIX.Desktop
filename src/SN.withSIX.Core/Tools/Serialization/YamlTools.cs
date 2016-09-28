@@ -11,12 +11,11 @@ namespace SN.withSIX.Core
         public YamlExpectedOtherNodeTypeException(string message) : base(message) {}
     }
 
-    
+
     public class YamlParseException : Exception
     {
         public YamlParseException(string message) : base(message) {}
 
-        public YamlParseException(string message, Exception innerException) : base(message, innerException) {
-        }
+        public YamlParseException(string message, Exception innerException) : base(message, innerException) {}
     }
 }

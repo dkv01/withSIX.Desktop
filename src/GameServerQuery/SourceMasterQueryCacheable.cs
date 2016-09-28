@@ -25,11 +25,12 @@ namespace GameServerQuery
             _cachePath = cachePath;
         }
 
-        public override async Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken, bool forceLocal = false, int limit = 0) {
+        public override async Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken,
+            bool forceLocal = false, int limit = 0) {
             var serversResult = forceLocal ? null : await RetrieveAsync(cancelToken, 0).ConfigureAwait(false);
             await Task.Run(() => {
                 var cache = GetCacheFilePath();
-                if (serversResult == null || serversResult.Count == 0) {
+                if ((serversResult == null) || (serversResult.Count == 0)) {
                     try {
                         var en = File.ReadLines(cache.ToString(), Encoding.UTF8);
                         //new List<string>(File.ReadLines(cache, Encoding.UTF8));
@@ -53,7 +54,7 @@ namespace GameServerQuery
         IAbsoluteFilePath GetCacheFilePath() {
             var cachePath = _cachePath.GetChildDirectoryWithName("Serverlists");
             cachePath.DirectoryInfo.Create();
-            return cachePath.GetChildFileWithName(String.Format("source_{0}.txt", ServerBrowserTag));
+            return cachePath.GetChildFileWithName(string.Format("source_{0}.txt", ServerBrowserTag));
         }
     }
 }

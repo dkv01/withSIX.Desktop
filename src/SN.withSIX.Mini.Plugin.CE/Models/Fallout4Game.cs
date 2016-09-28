@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="SkyrimGame.cs">
+﻿// <copyright company="SIX Networks GmbH" file="Fallout4Game.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -20,8 +20,8 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 {
     // TODO: SKSE?
     [Game(GameIds.Fallout4, Executables = new[] {@"Fallout4.exe"}, Name = "Fallout 4",
-        IsPublic = false,
-        Slug = "Fallout4")]
+         IsPublic = false,
+         Slug = "Fallout4")]
     // [SynqRemoteInfo(GameIds.Fallout4)] // TODO
     [SteamInfo(SteamGameIds.Fallout4, "Fallout 4")]
     [DataContract]
@@ -59,11 +59,11 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             var loadOrder = GetLocalAppDataFolder().GetChildFileWithName("loadorder.txt");
             var contentList =
                 new[] {"Fallout4.esm", "Update.esm"}.Concat(
-                    launchContentAction.Content.Select(x => x.Content)
-                        .OfType<IModContent>()
-                        .Select(CreateMod)
-                        .Select(x => x.GetEsmFileName())
-                        .Where(x => x != null))
+                        launchContentAction.Content.Select(x => x.Content)
+                            .OfType<IModContent>()
+                            .Select(CreateMod)
+                            .Select(x => x.GetEsmFileName())
+                            .Where(x => x != null))
                     .ToArray();
             // todo; backup and keep load order
             pluginList.WriteText(string.Join(Environment.NewLine, contentList));
@@ -76,16 +76,16 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 
         public override Uri GetPublisherUrl(ContentPublisher c) {
             switch (c.Publisher) {
-                case Publisher.NexusMods:
-                    return new Uri(GetPublisherUrl(c.Publisher), $"{c.PublisherId}/?");
+            case Publisher.NexusMods:
+                return new Uri(GetPublisherUrl(c.Publisher), $"{c.PublisherId}/?");
             }
             throw new NotSupportedException($"The publisher is not currently supported {c.Publisher} for this game");
         }
 
         public override Uri GetPublisherUrl(Publisher c) {
             switch (c) {
-                case Publisher.NexusMods:
-                    return new Uri($"http://www.nexusmods.com/fallout4/mods/");
+            case Publisher.NexusMods:
+                return new Uri($"http://www.nexusmods.com/fallout4/mods/");
             }
             throw new NotSupportedException($"The publisher is not currently supported {c} for this game");
         }

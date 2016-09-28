@@ -2,17 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using withSIX.Api.Models.Extensions;
-
 namespace SN.withSIX.Mini.Plugin.GTA.Models
 {
     /*

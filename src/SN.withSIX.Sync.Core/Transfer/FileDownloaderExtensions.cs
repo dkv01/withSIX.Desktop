@@ -36,11 +36,11 @@ namespace SN.withSIX.Sync.Core.Transfer
             => downloader.DownloadAsync(new FileDownloadSpec(uri, file));
 
         public static Task DownloadAsync(this IFileDownloader downloader, string url, IAbsoluteFilePath file,
-            ITransferProgress transferProgress)
+                ITransferProgress transferProgress)
             => downloader.DownloadAsync(new FileDownloadSpec(url, file, transferProgress));
 
         public static Task DownloadAsync(this IFileDownloader downloader, Uri uri, IAbsoluteFilePath file,
-            ITransferProgress transferProgress)
+                ITransferProgress transferProgress)
             => downloader.DownloadAsync(new FileDownloadSpec(uri, file, transferProgress));
     }
 }

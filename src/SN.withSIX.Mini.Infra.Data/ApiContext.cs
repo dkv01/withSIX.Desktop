@@ -34,7 +34,8 @@ namespace SN.withSIX.Mini.Infra.Data
         public Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version)
             => GetOrCreateInTempCache($"{gameId}_{version}", () => GetOrFetchAndCache(gameId, version));
 
-        public Task<ApiHashes> GetHashes(Guid gameId) => GetOrCreateInTempCache($"{gameId}_hashes", () => GetApiHashes(gameId));
+        public Task<ApiHashes> GetHashes(Guid gameId)
+            => GetOrCreateInTempCache($"{gameId}_hashes", () => GetApiHashes(gameId));
 
         public Task<List<IPEndPoint>> GetOrAddServers(Guid gameId, Func<Task<List<IPEndPoint>>> factory)
             => _cache.GetOrFetchObject($"{gameId}_servers", factory, TimeSpan.FromMinutes(5).GetAbsoluteUtcOffset())

@@ -50,9 +50,9 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
                 _processManager.LaunchAndGrab(
                     new BasicLaunchInfo(
                         startInfo) {
-                            MonitorOutput = _processManager.DefaultMonitorOutputTimeOut,
-                            MonitorResponding = _processManager.DefaultMonitorRespondingTimeOut
-                        });
+                        MonitorOutput = _processManager.DefaultMonitorOutputTimeOut,
+                        MonitorResponding = _processManager.DefaultMonitorRespondingTimeOut
+                    });
         }
 
         public ProcessExitResultWithOutput RunAndProcess(ITransferProgress progress, string source, string destination,
@@ -92,11 +92,11 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 
         LaunchAndProcessInfo BuildProcessInfo(ITransferProgress progress, string source, string destination,
             RsyncOptions options) => new LaunchAndProcessInfo(GetProcessStartInfo(source, destination, options)) {
-                StandardOutputAction = (process, data) => _parser.ParseOutput(process, data, progress),
-                StandardErrorAction = (process, data) => _parser.ParseOutput(process, data, progress),
-                MonitorOutput = _processManager.DefaultMonitorOutputTimeOut,
-                MonitorResponding = _processManager.DefaultMonitorRespondingTimeOut
-            };
+            StandardOutputAction = (process, data) => _parser.ParseOutput(process, data, progress),
+            StandardErrorAction = (process, data) => _parser.ParseOutput(process, data, progress),
+            MonitorOutput = _processManager.DefaultMonitorOutputTimeOut,
+            MonitorResponding = _processManager.DefaultMonitorRespondingTimeOut
+        };
 
         ProcessStartInfo GetProcessStartInfo(string source, string destination, RsyncOptions options)
             => new ProcessStartInfoBuilder(_binPath, JoinArgs(source, destination, options)) {

@@ -30,12 +30,12 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 
         protected MenuBase() {
             foreach (var methodAttrInfo in GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => Attribute.IsDefined(x, typeof (MenuItemAttribute)))
+                .Where(x => Attribute.IsDefined(x, typeof(MenuItemAttribute)))
                 .Select(
                     x =>
                         Tuple.Create(x,
                             Attribute.GetCustomAttribute(x,
-                                typeof (MenuItemAttribute)) as MenuItemAttribute)))
+                                typeof(MenuItemAttribute)) as MenuItemAttribute)))
                 CreateItem(methodAttrInfo);
 
             /*BindingOperations.EnableCollectionSynchronization(Items, _itemsLock); // TODO: UI Framework agnostic*/
@@ -57,7 +57,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             var name = methodAttrInfo.Item2.DisplayName ??
                        GetMenuNameFromMethodName(methodAttrInfo.Item1.Name, UppercaseFirst);
             var rp = methodAttrInfo.Item1.ReturnParameter;
-            if (rp != null && rp.ParameterType == typeof (Task))
+            if ((rp != null) && (rp.ParameterType == typeof(Task)))
                 AddTask(methodAttrInfo, name);
             else
                 AddAction(methodAttrInfo, name);
@@ -67,7 +67,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         }
 
         void AddTask(Tuple<MethodInfo, MenuItemAttribute> methodAttrInfo, string name) {
-            var action = (Func<Task>) Delegate.CreateDelegate(typeof (Func<Task>), this, methodAttrInfo.Item1);
+            var action = (Func<Task>) Delegate.CreateDelegate(typeof(Func<Task>), this, methodAttrInfo.Item1);
             var childType = methodAttrInfo.Item2.Type;
             if (childType != null)
                 AddTask(name, action, childType, methodAttrInfo.Item2.Icon);
@@ -76,7 +76,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         }
 
         void AddAction(Tuple<MethodInfo, MenuItemAttribute> methodAttrInfo, string name) {
-            var action = (Action) Delegate.CreateDelegate(typeof (Action), this, methodAttrInfo.Item1);
+            var action = (Action) Delegate.CreateDelegate(typeof(Action), this, methodAttrInfo.Item1);
             var childType = methodAttrInfo.Item2.Type;
             if (childType != null)
                 AddAction(name, action, childType, methodAttrInfo.Item2.Icon);
@@ -129,12 +129,12 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 
         protected MenuBase() {
             foreach (var methodAttrInfo in GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => Attribute.IsDefined(x, typeof (MenuItemAttribute)))
+                .Where(x => Attribute.IsDefined(x, typeof(MenuItemAttribute)))
                 .Select(
                     x =>
                         Tuple.Create(x,
                             Attribute.GetCustomAttribute(x,
-                                typeof (MenuItemAttribute)) as MenuItemAttribute)))
+                                typeof(MenuItemAttribute)) as MenuItemAttribute)))
                 CreateItem(methodAttrInfo);
 
             // TODO: UI Agnostic
@@ -167,7 +167,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             var name = methodAttrInfo.Item2.DisplayName ??
                        MenuBase.GetMenuNameFromMethodName(methodAttrInfo.Item1.Name, UppercaseFirst);
             var rp = methodAttrInfo.Item1.ReturnParameter;
-            if (rp != null && rp.ParameterType == typeof (Task))
+            if ((rp != null) && (rp.ParameterType == typeof(Task)))
                 AddTask(methodAttrInfo, name);
             else
                 AddAction(methodAttrInfo, name);
@@ -177,7 +177,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         }
 
         void AddAction(Tuple<MethodInfo, MenuItemAttribute> methodAttrInfo, string name) {
-            var action = (Action<T>) Delegate.CreateDelegate(typeof (Action<T>), this, methodAttrInfo.Item1);
+            var action = (Action<T>) Delegate.CreateDelegate(typeof(Action<T>), this, methodAttrInfo.Item1);
             var childType = methodAttrInfo.Item2.Type;
             if (childType != null)
                 AddAction(name, action, childType, methodAttrInfo.Item2.Icon);
@@ -186,7 +186,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         }
 
         void AddTask(Tuple<MethodInfo, MenuItemAttribute> methodAttrInfo, string name) {
-            var action = (Func<T, Task>) Delegate.CreateDelegate(typeof (Func<T, Task>), this, methodAttrInfo.Item1);
+            var action = (Func<T, Task>) Delegate.CreateDelegate(typeof(Func<T, Task>), this, methodAttrInfo.Item1);
             var childType = methodAttrInfo.Item2.Type;
             if (childType != null)
                 AddTask(name, action, childType, methodAttrInfo.Item2.Icon);

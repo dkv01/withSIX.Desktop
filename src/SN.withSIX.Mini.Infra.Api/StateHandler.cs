@@ -1,3 +1,7 @@
+// <copyright company="SIX Networks GmbH" file="StateHandler.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -125,7 +129,7 @@ namespace SN.withSIX.Mini.Infra.Api
         public async Task ResolveError(Guid id, string result, Dictionary<string, object> data) {
             var error = UserErrors.FindOrThrow(id);
             var ue = (UserError) error.UserError;
-            if (data != null && ue.ContextInfo != null)
+            if ((data != null) && (ue.ContextInfo != null))
                 data.ForEach(x => ue.ContextInfo[x.Key] = x.Value);
             ue.RecoveryOptions.First(x => x.CommandName == result).Execute(null);
             UserErrors = UserErrors.Except(new[] {error}).ToArray();
@@ -156,7 +160,7 @@ namespace SN.withSIX.Mini.Infra.Api
         private async Task HandleInitialClientInfo() {
             var settings = await _locator.GetReadOnlySettingsContext().GetSettings().ConfigureAwait(false);
             var versionInfoChanged = !Consts.InternalVersion.Equals(settings.Local.CurrentVersion);
-            var newVersionInstalled = settings.Local.CurrentVersion != null &&
+            var newVersionInstalled = (settings.Local.CurrentVersion != null) &&
                                       versionInfoChanged;
             if (versionInfoChanged) {
                 settings.Local.CurrentVersion = Consts.InternalVersion;
@@ -290,15 +294,15 @@ namespace SN.withSIX.Mini.Infra.Api
 
         void Handle(StatusChanged message) {
             switch (message.Status) {
-            case Mini.Core.Games.Services.ContentInstaller.Status.Synchronized: {
+            case Core.Games.Services.ContentInstaller.Status.Synchronized: {
                 Status = StatusModel.Default;
                 break;
             }
-            case Mini.Core.Games.Services.ContentInstaller.Status.Synchronizing: {
+            case Core.Games.Services.ContentInstaller.Status.Synchronizing: {
                 Status = GetBusyState(message, SixIconFont.withSIX_icon_Reload);
                 break;
             }
-            case Mini.Core.Games.Services.ContentInstaller.Status.Preparing: {
+            case Core.Games.Services.ContentInstaller.Status.Preparing: {
                 Status = GetBusyState(message, SixIconFont.withSIX_icon_Cloud);
                 break;
             }

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
@@ -17,14 +16,14 @@ using withSIX.Api.Models.Games;
 namespace SN.withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.Arma2Co, Name = "Arma 2: Combined Operations", ShortName = "Arma2: CO", Slug = "Arma-2",
-        Executables = new[] {"arma2oa.exe"},
-        ServerExecutables = new[] {"arma2oaserver.exe"},
-        IsPublic = true,
-        LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-        Dlcs = new[] {"BAF", "PMC", "ACR"})
+         Executables = new[] {"arma2oa.exe"},
+         ServerExecutables = new[] {"arma2oaserver.exe"},
+         IsPublic = true,
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
+         Dlcs = new[] {"BAF", "PMC", "ACR"})
     ]
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb"
-        /*GameUUids.Arma2Co */)]
+         /*GameUUids.Arma2Co */)]
     [DataContract]
     public class Arma2COGame : Arma2OaGame
     {
@@ -44,7 +43,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
                 _settings.Arma2GameDirectory = GetDefaultArma2Directory();
         }
 
-        static IAbsoluteDirectoryPath GetDefaultArma2Directory() => GetDirectoryFromRegistryOrSteam(typeof (Arma2Game));
+        static IAbsoluteDirectoryPath GetDefaultArma2Directory() => GetDirectoryFromRegistryOrSteam(typeof(Arma2Game));
 
         protected override IEnumerable<IAbsoluteDirectoryPath> GetAdditionalLaunchMods()
             => _settings.Arma2GameDirectory == null

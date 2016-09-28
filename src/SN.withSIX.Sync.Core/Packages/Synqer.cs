@@ -40,8 +40,8 @@ namespace SN.withSIX.Sync.Core.Packages
         private static readonly string[] excludeFiles = {".synqinfo"};
 
         public Task DownloadPackages(Package[] p,
-            IAbsoluteDirectoryPath downloadPath, Uri[] hosts, StatusRepo status, ProgressLeaf cleanup,
-            ProgressContainer progress)
+                IAbsoluteDirectoryPath downloadPath, Uri[] hosts, StatusRepo status, ProgressLeaf cleanup,
+                ProgressContainer progress)
             => DownloadPackages(TransformPackages(p), downloadPath, hosts, status, cleanup, progress);
 
         public async Task DownloadPackages(Dictionary<IAbsoluteDirectoryPath, FileObjectMapping[]> dict,
@@ -87,8 +87,8 @@ namespace SN.withSIX.Sync.Core.Packages
                         Checksum = x.Key,
                         Progress = new Progress(progressComponent)
                     }) {
-                        CancelToken = status.CancelToken
-                    };
+                    CancelToken = status.CancelToken
+                };
             }).OrderByDescending(x => Tools.FileUtil.SizePrediction(x.Destinations.First().FileName)).ToArray();
         }
 
@@ -131,13 +131,13 @@ namespace SN.withSIX.Sync.Core.Packages
                     .Select(packageDirectory.GetChildFileWithName);
             foreach (
                 var f in
-                    packageDirectory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
-                        .Select(x => x.ToAbsoluteFilePath())
-                        .Except(neededFiles)
-                        .Where(x => {
-                            var relative = x.GetRelativePathFrom(packageDirectory);
-                            return !relative.SubStartsWith(".");
-                        })) {
+                packageDirectory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
+                    .Select(x => x.ToAbsoluteFilePath())
+                    .Except(neededFiles)
+                    .Where(x => {
+                        var relative = x.GetRelativePathFrom(packageDirectory);
+                        return !relative.SubStartsWith(".");
+                    })) {
                 if (Common.Flags.Verbose)
                     MainLog.Logger.Info($"Deleting {f}");
                 f.Delete();
@@ -146,14 +146,14 @@ namespace SN.withSIX.Sync.Core.Packages
             // Find all empty directories and delete them
             foreach (
                 var d in
-                    packageDirectory.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
-                        .Select(x => x.ToAbsoluteDirectoryPath())
-                        .Where(x => {
-                            var relative = x.GetRelativePathFrom(packageDirectory);
-                            return !relative.SubStartsWith(".");
-                        })
-                        .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())
-                ) {
+                packageDirectory.DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories).Reverse()
+                    .Select(x => x.ToAbsoluteDirectoryPath())
+                    .Where(x => {
+                        var relative = x.GetRelativePathFrom(packageDirectory);
+                        return !relative.SubStartsWith(".");
+                    })
+                    .Where(x => !x.DirectoryInfo.EnumerateFileSystemInfos().Any())
+            ) {
                 if (Common.Flags.Verbose)
                     MainLog.Logger.Info($"Deleting directory {d}");
                 d.Delete();
@@ -271,10 +271,10 @@ namespace SN.withSIX.Sync.Core.Packages
                 var created = new HashSet<IAbsoluteDirectoryPath>();
                 foreach (
                     var parent in
-                        files.SelectMany(
+                    files.SelectMany(
                             f => f.Destinations.Select(fullPath => fullPath.ParentDirectoryPath).Distinct())
-                            .Distinct()
-                            .Where(parent => !created.Contains(parent))) {
+                        .Distinct()
+                        .Where(parent => !created.Contains(parent))) {
                     parent.MakeSurePathExists();
                     created.Add(parent);
                 }

@@ -9,7 +9,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using FluentValidation;
-using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {

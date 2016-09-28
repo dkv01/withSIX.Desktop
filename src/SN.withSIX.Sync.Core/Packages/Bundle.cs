@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
@@ -59,7 +58,7 @@ namespace SN.withSIX.Sync.Core.Packages
             return ComparePK((Bundle) other);
         }
 
-        public bool ComparePK(Bundle other) => other != null && other.GetFullName().Equals(GetFullName());
+        public bool ComparePK(Bundle other) => (other != null) && other.GetFullName().Equals(GetFullName());
 
         public Dictionary<string, string> GetRequiredClient()
             => Required.Concat(RequiredClients).ToDictionary(x => x.Key, x => x.Value);

@@ -14,8 +14,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty IsBroughtIntoViewWhenSelectedProperty =
             DependencyProperty.RegisterAttached(
                 "IsBroughtIntoViewWhenSelected",
-                typeof (bool),
-                typeof (TreeViewItemBehavior),
+                typeof(bool),
+                typeof(TreeViewItemBehavior),
                 new UIPropertyMetadata(false, OnIsBroughtIntoViewWhenSelectedChanged));
 
         public static bool GetIsBroughtIntoViewWhenSelected(TreeViewItem treeViewItem)

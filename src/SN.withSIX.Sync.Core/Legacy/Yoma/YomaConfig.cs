@@ -2,14 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using NDepend.Path;
-using SN.withSIX.Core;
-
 namespace SN.withSIX.Sync.Core.Legacy.Yoma
 {
     /*

@@ -20,7 +20,8 @@ namespace SN.withSIX.ContentEngine.Infra.Services
 
     public class GameFolderService : IGameFolderService
     {
-        public void InstallDllPlugin(IContentEngineGame game, IContentEngineContent content, string plugin, bool force = false) {
+        public void InstallDllPlugin(IContentEngineGame game, IContentEngineContent content, string plugin,
+            bool force = false) {
             var success = TryInstallPlugin(game.WorkingDirectory, content, plugin, force);
 
             MainLog.Logger.Info("Install Success?: " + success);

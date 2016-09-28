@@ -27,8 +27,8 @@ namespace SN.withSIX.Mini.Applications.MVVM.Usecases
 
         public async Task<IMiniMainWindowViewModel> Handle(GetMiniMain request)
             =>
-                new MiniMainWindowViewModel(new StatusViewModel(_stateHandler.StatusObservable),
-                    new TrayMainWindowMenu((await SettingsContext.GetSettings().ConfigureAwait(false)).Secure.Login ??
-                                           LoginInfo.Default));
+            new MiniMainWindowViewModel(new StatusViewModel(_stateHandler.StatusObservable),
+                new TrayMainWindowMenu((await SettingsContext.GetSettings().ConfigureAwait(false)).Secure.Login ??
+                                       LoginInfo.Default));
     }
 }

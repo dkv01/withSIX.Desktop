@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Specs;
 
@@ -63,7 +61,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             };
     }
 
-    
+
     public abstract class TransferException : Exception
     {
         protected TransferException(string message, Exception inner) : base(message, inner) {}
@@ -71,14 +69,15 @@ namespace SN.withSIX.Sync.Core.Transfer
         protected TransferException() {}
     }
 
-    
+
     public class ProtocolNotSupported : TransferException
     {
         public ProtocolNotSupported() {}
         public ProtocolNotSupported(string scheme) : base(scheme) {}
     }
 
-    public class RequestFailedException : Exception {
+    public class RequestFailedException : Exception
+    {
         public RequestFailedException(string message, Exception ex) : base(message, ex) {}
     }
 
@@ -113,7 +112,7 @@ namespace SN.withSIX.Sync.Core.Transfer
         public FtpDownloadException(string message, WebException webException) : base(message, webException) {}
     }
 
-    
+
     public class DownloadSoftException : DownloadException
     {
         public DownloadSoftException() {}

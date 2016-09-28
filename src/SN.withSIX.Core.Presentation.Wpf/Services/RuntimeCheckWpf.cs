@@ -12,6 +12,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
     {
         protected override async Task<bool> FatalErrorMessage(string message, string caption)
             => MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Exclamation,
-                MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly) == MessageBoxResult.Yes;
+                   MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly) == MessageBoxResult.Yes;
     }
 }

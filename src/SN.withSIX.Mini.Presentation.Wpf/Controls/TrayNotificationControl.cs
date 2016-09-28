@@ -8,19 +8,19 @@ using System.Windows.Controls;
 namespace SN.withSIX.Mini.Presentation.Wpf.Controls
 {
     //[TemplatePart(Name = PART_Menu, Type = typeof (MenuItem))]
-    [TemplatePart(Name = PART_Header, Type = typeof (WindowHeader))]
+    [TemplatePart(Name = PART_Header, Type = typeof(WindowHeader))]
     public class TrayNotificationControl : ContentControl
     {
         //const string PART_Menu = "PART_Menu";
         const string PART_Header = "PART_Header";
         public static readonly DependencyProperty MenuAreaProperty = DependencyProperty.Register("MenuArea",
-            typeof (UIElement), typeof (TrayNotificationControl), new PropertyMetadata(default(UIElement)));
+            typeof(UIElement), typeof(TrayNotificationControl), new PropertyMetadata(default(UIElement)));
         public static readonly DependencyProperty FooterAreaProperty = DependencyProperty.Register("FooterArea",
-            typeof (UIElement), typeof (TrayNotificationControl), new PropertyMetadata(default(UIElement)));
+            typeof(UIElement), typeof(TrayNotificationControl), new PropertyMetadata(default(UIElement)));
 
         static TrayNotificationControl() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (TrayNotificationControl),
-                new FrameworkPropertyMetadata(typeof (TrayNotificationControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TrayNotificationControl),
+                new FrameworkPropertyMetadata(typeof(TrayNotificationControl)));
         }
 
         //public MenuItem Menu { get; private set; }

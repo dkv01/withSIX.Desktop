@@ -55,7 +55,7 @@ namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
         protected void UpdateValidation() {
             var result = Validator.Validate(this);
             _errors = result.Errors.ToDictionary(x => x.PropertyName, x => x.ErrorMessage);
-            _error = string.Join(Environment.NewLine, (IEnumerable<string>) result.Errors.Select(x => x.ErrorMessage));
+            _error = string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage));
             // we could decide not to use this at all, thus always leave the OK/Save button enabled?
             IsValid = !_errors.Any();
             this.RaisePropertyChanged("Error"); // Needed / used?

@@ -90,17 +90,18 @@ namespace SN.withSIX.Steam.Core
 
         private void WaitForSteamProcess() {
             var tries = 0;
-            while (!IsSteamRunning && tries < 10) {
+            while (!IsSteamRunning && (tries < 10)) {
                 if (Tools.ProcessManager.Management.FindProcess(SteamInfos.SteamServiceExecutable).Any())
                     IsSteamRunning = true;
 
                 Thread.Sleep(1000);
                 tries++;
             }
-            if (IsSteamRunning) Thread.Sleep(5000); // additional wait time for Steam getting ready :S
+            if (IsSteamRunning)
+                Thread.Sleep(5000); // additional wait time for Steam getting ready :S
         }
 
-        public bool IsValid() => SteamExePath != null &&
+        public bool IsValid() => (SteamExePath != null) &&
                                  SteamExePath.Exists;
 
         public static class SteamInfos
@@ -132,27 +133,11 @@ namespace SN.withSIX.Steam.Core
             //TryInject();
             using (new ProcessStartInfo(_steamLauncher.SteamPath.GetChildFileWithName("GameOverlayUI.exe").ToString(),
                 "-pid " + gamePid).Launch())
-                ;
+            ;
 
             //if (steamID != 0)
             //  TrySteamApiInit();
         }
-
-        /*
-        void TrySteamApiInit()
-        {
-            try
-            {
-                SteamAPI.Init();
-            }
-            catch (Exception e)
-            {
-                MainLog.Logger.FormattedWarnException(e);
-                MainLog.Logger.Warn("Abnormal termination - SteamAPI Failed to Initialize");
-                _shutdownHandler.Shutdown(1);
-            }
-        }
-        */
 
         /*
         void TryInject()
@@ -177,6 +162,22 @@ namespace SN.withSIX.Steam.Core
             catch (Win32Exception e)
             {
                 MainLog.Logger.FormattedWarnException(e);
+            }
+        }
+        */
+
+        /*
+        void TrySteamApiInit()
+        {
+            try
+            {
+                SteamAPI.Init();
+            }
+            catch (Exception e)
+            {
+                MainLog.Logger.FormattedWarnException(e);
+                MainLog.Logger.Warn("Abnormal termination - SteamAPI Failed to Initialize");
+                _shutdownHandler.Shutdown(1);
             }
         }
         */

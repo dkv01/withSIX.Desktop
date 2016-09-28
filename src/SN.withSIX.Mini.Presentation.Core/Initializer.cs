@@ -9,11 +9,9 @@ using Microsoft.Win32;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core
@@ -42,7 +40,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             using (
                 var s =
                     assembly.GetManifestResourceStream("SN.withSIX.Mini.Presentation.Wpf.Resources.TrayIcon.ps1")
-                )
+            )
                 await s.CopyToAsync(fs).ConfigureAwait(false);
             using (var p =
                 ReactiveProcess.Create("powershell.exe", "-File \"" + ps1 + "\" '" + assembly.Location + "' 2"))

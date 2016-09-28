@@ -2,8 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using Microsoft.AspNet.SignalR;
 using MediatR;
+using Microsoft.AspNet.SignalR;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Infra.Api.Hubs;
 

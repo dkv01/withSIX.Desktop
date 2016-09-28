@@ -27,8 +27,11 @@ namespace SN.withSIX.Core.Applications.Services
             return ConvertOption(r);
         }
 
-        public static RecoveryOptionResultModel ConvertOption(this RecoveryOptionResult r) => (RecoveryOptionResultModel) Enum.Parse(typeof(RecoveryOptionResultModel), r.ToString());
-        public static RecoveryOptionResult ConvertOption(this RecoveryOptionResultModel r) => (RecoveryOptionResult)Enum.Parse(typeof(RecoveryOptionResult), r.ToString());
+        public static RecoveryOptionResultModel ConvertOption(this RecoveryOptionResult r)
+            => (RecoveryOptionResultModel) Enum.Parse(typeof(RecoveryOptionResultModel), r.ToString());
+
+        public static RecoveryOptionResult ConvertOption(this RecoveryOptionResultModel r)
+            => (RecoveryOptionResult) Enum.Parse(typeof(RecoveryOptionResult), r.ToString());
     }
 
     public static class UserErrorExtensions
@@ -42,8 +45,7 @@ namespace SN.withSIX.Core.Applications.Services
 
         static IEnumerable<IObservable<RecoveryOptionResult?>> GetTask2<T>(IEnumerable<IRecoveryCommand> commands)
             where T : IRecoveryCommand, IObservable<Unit> => commands.OfType<T>()
-                .Select(x => x.Select(_ => x.RecoveryResult));
-
+            .Select(x => x.Select(_ => x.RecoveryResult));
     }
 
     public class RecoveryCommandImmediate : ReactiveCommand<Unit>, IRecoveryCommand

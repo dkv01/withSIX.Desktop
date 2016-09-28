@@ -36,6 +36,9 @@ namespace SN.withSIX.Mini.Core.Games
         public virtual ICollection<ContentSpec> Contents { get; protected set; } =
             new List<ContentSpec>();
 
+        [IgnoreDataMember]
+        public abstract TypeScope TypeScope { get; }
+
         public async Task Uninstall(IUninstallSession contentInstaller, CancellationToken cancelToken,
             string constraint = null) {
             await contentInstaller.UninstallCollection(this, cancelToken, constraint).ConfigureAwait(false);
@@ -74,7 +77,7 @@ namespace SN.withSIX.Mini.Core.Games
             string constraint = null) {
             await base.Install(installerSession, cancelToken, constraint).ConfigureAwait(false);
             //foreach (var c in GetCollections(constraint))
-                //await c.Content.PostInstall(installerSession, cancelToken, true).ConfigureAwait(false);
+            //await c.Content.PostInstall(installerSession, cancelToken, true).ConfigureAwait(false);
             Installed(constraint ?? Version, true);
         }
 
@@ -89,9 +92,11 @@ namespace SN.withSIX.Mini.Core.Games
             base.UpdateState(force);
         }
 
-        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new CollectionContentSpec(this, constraint ?? Version);
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint)
+            => new CollectionContentSpec(this, constraint ?? Version);
 
-        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) => ProcessDependenciesFirstThenOurContents(x);
+        protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x)
+            => ProcessDependenciesFirstThenOurContents(x);
 
         private void ProcessDependenciesFirstThenOurContents(ICollection<IContentSpec<Content>> list) {
             foreach (var d in Dependencies)
@@ -122,9 +127,6 @@ namespace SN.withSIX.Mini.Core.Games
             Contents.Remove(existing);
             Contents.Add(new ContentSpec(n, existing.Constraint));
         }
-
-        [IgnoreDataMember]
-        public abstract TypeScope TypeScope { get; }
     }
 
 
@@ -147,6 +149,8 @@ namespace SN.withSIX.Mini.Core.Games
             InstallInfo = new InstallInfo(Size, SizePacked, version);
         }
 
+        public override TypeScope TypeScope => TypeScope.Local;
+
         private void UpdateFromContents() {
             var ag =
                 GetRelatedContent()
@@ -157,8 +161,6 @@ namespace SN.withSIX.Mini.Core.Games
             Size = ag.Item1;
             SizePacked = ag.Item2;
         }
-
-        public override TypeScope TypeScope => TypeScope.Local;
     }
 
     [DataContract]

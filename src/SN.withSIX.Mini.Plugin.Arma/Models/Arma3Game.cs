@@ -83,13 +83,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             }
         }
 
-        private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master) => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
-                EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
-                return evtHandler;
-            },
-            evtHandler => master.ServerPageReceived += evtHandler,
-            evtHandler => master.ServerPageReceived -= evtHandler);
-
         public Task<List<ServerInfo>> GetServerInfos(
                 System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses,
                 bool inclExtendedDetails = false)
@@ -97,6 +90,14 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             inclExtendedDetails
                 ? GetFromSteam(addresses, inclExtendedDetails)
                 : GetFromGameServerQuery(addresses, inclExtendedDetails);
+
+        private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master)
+            => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
+                    EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
+                    return evtHandler;
+                },
+                evtHandler => master.ServerPageReceived += evtHandler,
+                evtHandler => master.ServerPageReceived -= evtHandler);
 
         private async Task<List<ServerInfo>> GetFromSteam(
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
@@ -764,9 +765,9 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
 
         public static GameTags Parse(string value) {
             var tags = new GameTags();
-            foreach (var tuple in ExtensionMethodsSet.ToHashSet(from part in value.Split(',')
+            foreach (var tuple in (from part in value.Split(',')
                 where part.Length > 0
-                select Tuple.Create(part[0], part.Substring(1)))) {
+                select Tuple.Create(part[0], part.Substring(1))).ToHashSet()) {
                 switch (tuple.Item1) {
                 case 'b':
                     tags.BattlEye = ReadBool(tuple.Item2);

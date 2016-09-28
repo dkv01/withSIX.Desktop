@@ -56,7 +56,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
             await
                 networkContentSyncer.SyncCollections(existingCollections).ConfigureAwait(false);
             if (newCollectionIds.Any()) {
-                var newCollections = await networkContentSyncer.GetCollections(game.Id, newCollectionIds).ConfigureAwait(false);
+                var newCollections =
+                    await networkContentSyncer.GetCollections(game.Id, newCollectionIds).ConfigureAwait(false);
                 game.Contents.AddRange(newCollections);
             }
         }

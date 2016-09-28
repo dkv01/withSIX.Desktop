@@ -8,13 +8,13 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Api.Models;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Api.Models;
 
 namespace SN.withSIX.Mini.Plugin.Arma.Services
 {
@@ -42,12 +42,13 @@ namespace SN.withSIX.Mini.Plugin.Arma.Services
         public async Task<IAbsoluteFilePath> WriteParFile(WriteParFileInfo info) {
             var filePath = GetFilePath(info);
             this.Logger().Info("Writing par file at: {0}, with:\n{1}", filePath, info.Content);
-            await _writer.WriteFileAsync(filePath.ToString(), info.Content, Encoding.UTF8).ConfigureAwait(false); // Encoding.Default :S
+            await _writer.WriteFileAsync(filePath.ToString(), info.Content, Encoding.UTF8).ConfigureAwait(false);
+                // Encoding.Default :S
             return filePath;
         }
 
         public async Task<T> GetGame<T>(Guid id) where T : Game
-            => (T) await _contextLocator.GetGameContext().FindGameOrThrowAsync(id).ConfigureAwait(false);
+        => (T) await _contextLocator.GetGameContext().FindGameOrThrowAsync(id).ConfigureAwait(false);
 
         IAbsoluteFilePath GetFilePath(WriteParFileInfo info)
             => _parPath.GetChildDirectoryWithName(new ShortGuid(info.GameId).ToString())

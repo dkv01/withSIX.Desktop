@@ -1,8 +1,11 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="GameSettingsViewModelFactory.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Factories;
 using SN.withSIX.Mini.Core.Games;
@@ -13,8 +16,8 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     public class GameSettingsViewModelFactory : IGameSettingsViewModelFactory, IInfrastructureService
     {
         private readonly IAssemblyService _ass;
-        readonly Type _gameSettingsType = typeof (GameSettings);
-        IDictionary<Type, Type> _apiModelRegistry;
+        readonly Type _gameSettingsType = typeof(GameSettings);
+        readonly IDictionary<Type, Type> _apiModelRegistry;
 
         public GameSettingsViewModelFactory(IAssemblyService ass) {
             _ass = ass;
@@ -79,5 +82,4 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             return !ti.IsInterface && !ti.IsAbstract && _gameSettingsType.IsAssignableFrom(x);
         }
     }
-
 }

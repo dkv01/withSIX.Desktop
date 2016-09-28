@@ -35,7 +35,7 @@ namespace SN.withSIX.Core.Infra.Services
 
         public AuthInfo GetAuthInfoFromUriWithCache(Uri uri) {
             var authInfo = GetAuthInfoFromUri(uri);
-            if (authInfo.Username == null && authInfo.Password == null)
+            if ((authInfo.Username == null) && (authInfo.Password == null))
                 authInfo = GetAuthInfo(uri);
 
             return authInfo;
@@ -44,8 +44,8 @@ namespace SN.withSIX.Core.Infra.Services
         public void SetNonPersistentAuthInfo(Uri uri, AuthInfo authInfo) {
             var key = $"{uri.Scheme}://{uri.Host}:{uri.Port}";
 
-            if (authInfo == null
-                || authInfo.Username == null && authInfo.Password == null && authInfo.Domain == null) {
+            if ((authInfo == null)
+                || ((authInfo.Username == null) && (authInfo.Password == null) && (authInfo.Domain == null))) {
                 AuthInfo val;
                 _nonPersistentAuthCache.TryRemove(key, out val);
             } else
@@ -53,7 +53,7 @@ namespace SN.withSIX.Core.Infra.Services
         }
 
         public Uri HandleUriAuth(Uri uri, string username = null, string password = null) {
-            if (username == null && password == null)
+            if ((username == null) && (password == null))
                 return uri.AuthlessUri();
             var ub = BuildUri(uri);
             if (username != null)
@@ -74,8 +74,9 @@ namespace SN.withSIX.Core.Infra.Services
 
             if (uriHasAuthInfo) {
                 var userInfo = uri.UserInfo.Split(':');
-                return new AuthInfo(userInfo.Length > 0 && !string.IsNullOrWhiteSpace(userInfo[0]) ? userInfo[0] : null,
-                    userInfo.Length > 1 && !string.IsNullOrWhiteSpace(userInfo[1]) ? userInfo[1] : null);
+                return
+                    new AuthInfo((userInfo.Length > 0) && !string.IsNullOrWhiteSpace(userInfo[0]) ? userInfo[0] : null,
+                        (userInfo.Length > 1) && !string.IsNullOrWhiteSpace(userInfo[1]) ? userInfo[1] : null);
             }
 
             return new AuthInfo(null, null);
@@ -86,7 +87,7 @@ namespace SN.withSIX.Core.Infra.Services
         public void HandleAuthInfo(Uri uri, IWebClient client) {
             var authInfo = GetAuthInfoFromUriWithCache(uri);
 
-            if (authInfo.Username == null && authInfo.Password == null) {
+            if ((authInfo.Username == null) && (authInfo.Password == null)) {
                 client.Credentials = null;
                 return;
             }
@@ -98,7 +99,9 @@ namespace SN.withSIX.Core.Infra.Services
 
         static string GetAuthInfoKey(Uri uri) {
             var scheme = protocolMappings.ContainsKey(uri.Scheme) ? protocolMappings[uri.Scheme] : uri.Scheme;
-            var port = scheme == "http" && uri.Port == -1 ? 80 : (scheme == "https" && uri.Port == -1 ? 443 : uri.Port);
+            var port = (scheme == "http") && (uri.Port == -1)
+                ? 80
+                : ((scheme == "https") && (uri.Port == -1) ? 443 : uri.Port);
             return $"{scheme}://{uri.Host}:{port}";
         }
 

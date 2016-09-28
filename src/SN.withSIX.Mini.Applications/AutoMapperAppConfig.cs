@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
@@ -215,10 +214,10 @@ namespace SN.withSIX.Mini.Applications
                         opt.MapFrom(
                             src =>
                                 src.SelectMany(
-                                    x =>
-                                        x.Updates.OrderByDescending(u => u.UpdatedVersion)
-                                            .Take(24)
-                                            .Select(c => new {x, c}))
+                                        x =>
+                                            x.Updates.OrderByDescending(u => u.UpdatedVersion)
+                                                .Take(24)
+                                                .Select(c => new {x, c}))
                                     .OrderByDescending(x => x.c.UpdatedVersion)
                                     .Select(x => Convert(x.x, x.c))
                                     .Take(24)));

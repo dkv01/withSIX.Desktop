@@ -68,7 +68,8 @@ namespace SN.withSIX.Mini.Core.Games
         public Task Uninstall(IUninstallSession installerSession, CancellationToken cancelToken,
             string constraint = null) => installerSession.Uninstall(this);
 
-        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new LocalContentSpec(this, constraint ?? Version);
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint)
+            => new LocalContentSpec(this, constraint ?? Version);
 
         protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {}
     }
@@ -99,7 +100,8 @@ namespace SN.withSIX.Mini.Core.Games
         // TODO: Actually build dependencies out of objects instead of strings
         public List<string> Dependencies { get; set; } = new List<string>();
 
-        protected override IContentSpec<Content> CreateRelatedSpec(string constraint) => new ModRepoContentSpec(this, constraint ?? Version);
+        protected override IContentSpec<Content> CreateRelatedSpec(string constraint)
+            => new ModRepoContentSpec(this, constraint ?? Version);
 
         protected override void HandleRelatedContentChildren(ICollection<IContentSpec<Content>> x) {
             // TODO: Dependencies of dependencies

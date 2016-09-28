@@ -18,8 +18,8 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
 {
     // SkyrimLauncher.exe
     [Game(GameIds.Skyrim, Executables = new[] {@"SKSE.exe", @"TESV.exe"}, Name = "Skyrim",
-        IsPublic = true,
-        Slug = "Skyrim")]
+         IsPublic = true,
+         Slug = "Skyrim")]
     [SynqRemoteInfo(GameIds.Skyrim)]
     [SteamInfo(SteamGameIds.Skyrim, "Skyrim")]
     [DataContract]
@@ -51,11 +51,11 @@ namespace SN.withSIX.Mini.Plugin.CE.Models
             var loadOrder = GetLocalAppDataFolder().GetChildFileWithName("loadorder.txt");
             var contentList =
                 new[] {"Skyrim.esm", "Update.esm"}.Concat(
-                    launchContentAction.Content.Select(x => x.Content)
-                        .OfType<IModContent>()
-                        .Select(CreateMod)
-                        .Select(x => x.GetEsmFileName())
-                        .Where(x => x != null))
+                        launchContentAction.Content.Select(x => x.Content)
+                            .OfType<IModContent>()
+                            .Select(CreateMod)
+                            .Select(x => x.GetEsmFileName())
+                            .Where(x => x != null))
                     .ToArray();
             // todo; backup and keep load order
             pluginList.WriteText(string.Join(Environment.NewLine, contentList));

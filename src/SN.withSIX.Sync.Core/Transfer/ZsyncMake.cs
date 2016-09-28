@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NDepend.Path;
-
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Services.Infrastructure;
@@ -53,7 +52,8 @@ namespace SN.withSIX.Sync.Core.Transfer
             var fileInfo = fileName.FileInfo;
             if (!options.HasFlag(ZsyncMakeOptions.Overwrite)) {
                 var zsFile = (fileInfo.FullName + ".zsync").ToAbsoluteFilePath();
-                if (zsFile.Exists) { // exists check is probably slow on Azure disks :S
+                if (zsFile.Exists) {
+                    // exists check is probably slow on Azure disks :S
                     var thorough = options.HasFlag(ZsyncMakeOptions.Thorough) ||
                                    (options.HasFlag(ZsyncMakeOptions.Smart) && thoroughFiles.Contains(fileName.FileName));
                     // For Smart, it would be better to check if the .zsync mtime >= target mtime
@@ -78,7 +78,7 @@ namespace SN.withSIX.Sync.Core.Transfer
 
                         // sha1 check will probably make it as slow again as just recreating the zsync file, so we use mtime and length instead
                         if (lastWrite.Equals(mtime)
-                            && fileInfo.Length == length)
+                            && (fileInfo.Length == length))
                             return;
                     }
                 }
@@ -87,7 +87,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             var parameters = string.Format("{1}-Z -u \"{0}\" -f \"{0}\" \"{0}\"", fileInfo.Name, b128);
             var startInfo =
                 new ProcessStartInfo(Path.Combine(Common.Paths.ToolCygwinBinPath.ToString(), "zsyncmake.exe"),
-                    parameters)
+                        parameters)
                     .SetWorkingDirectoryOrDefault(fileInfo.Directory.FullName);
             var info = _processManager.LaunchAndGrab(new BasicLaunchInfo(startInfo));
             var output = info.StandardOutput + "\n" + info.StandardError;
@@ -100,15 +100,15 @@ namespace SN.withSIX.Sync.Core.Transfer
         public void CreateZsyncFiles(IAbsoluteDirectoryPath rootDirectory,
             ZsyncMakeOptions options = ZsyncMakeOptions.Default, params string[] excludes) {
             foreach (var file in Directory.EnumerateFiles(rootDirectory.ToString(), "*.*", SearchOption.AllDirectories)
-                .Where(
-                    x => !x.EndsWith(".zsync", StringComparison.CurrentCultureIgnoreCase))
-                .Select(x => x.ToAbsoluteFilePath())
-                .Where(x => !excludes.Contains(x.FileName))
-                )
+                    .Where(
+                        x => !x.EndsWith(".zsync", StringComparison.CurrentCultureIgnoreCase))
+                    .Select(x => x.ToAbsoluteFilePath())
+                    .Where(x => !excludes.Contains(x.FileName))
+            )
                 CreateZsyncFile(file, options);
         }
 
-        
+
         public class ZsyncMakeException : Exception
         {
             public ZsyncMakeException(string message, string output = null, string parameters = null)

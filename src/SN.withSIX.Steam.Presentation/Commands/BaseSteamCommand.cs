@@ -17,6 +17,7 @@ namespace SN.withSIX.Steam.Presentation.Commands
 {
     public abstract class BaseSteamCommand : BaseCommandAsync
     {
+        private readonly Lazy<App> _app;
         private readonly ISteamSessionFactory _factory;
 
         protected BaseSteamCommand(ISteamSessionFactory factory) {
@@ -27,7 +28,6 @@ namespace SN.withSIX.Steam.Presentation.Commands
         }
 
         public uint AppId { get; private set; }
-        private readonly Lazy<App> _app;
         protected App App => _app.Value;
 
         protected Task DoWithSteamSession<T>(Func<Task<T>> act) => _factory.Do(AppId, SteamPathHelper.SteamPath, act);

@@ -17,7 +17,7 @@ using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using WpfAnimatedGif;
 using Action = System.Action;
-using Timer = System.Timers.Timer;
+using Timer = SN.withSIX.Core.Helpers.Timer;
 
 namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
 {
@@ -48,7 +48,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
         public bool Equals(Rectangle other) {
             if (ReferenceEquals(null, other))
                 return false;
-            return ReferenceEquals(this, other) || (other.Width == Width && other.Height == Height);
+            return ReferenceEquals(this, other) || ((other.Width == Width) && (other.Height == Height));
         }
 
         public override int GetHashCode() => HashCode.Start.Hash(Width).Hash(Height);
@@ -67,20 +67,20 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class CachedImage : Image, IEnableLogging
     {
         public static readonly DependencyProperty ImageUrlProperty =
-            DependencyProperty.Register("ImageUrl", typeof (string), typeof (CachedImage),
+            DependencyProperty.Register("ImageUrl", typeof(string), typeof(CachedImage),
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.None,
                     OnImageUrlChanged
-                    ));
+                ));
         public static readonly DependencyProperty DefaultImageSourceProperty =
-            DependencyProperty.Register("DefaultImageSource", typeof (ImageSource), typeof (CachedImage),
+            DependencyProperty.Register("DefaultImageSource", typeof(ImageSource), typeof(CachedImage),
                 new FrameworkPropertyMetadata(default(ImageSource), OnDefaultImageSourceChanged));
         protected CancellationTokenSource CTS = new CancellationTokenSource();
 
         static CachedImage() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (CachedImage),
-                new FrameworkPropertyMetadata(typeof (CachedImage)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CachedImage),
+                new FrameworkPropertyMetadata(typeof(CachedImage)));
         }
 
         public string ImageUrl
@@ -162,7 +162,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
     public class CachedImageWithAnimatedGifSupport : CachedImage
     {
         ImageSource _image;
-        SN.withSIX.Core.Helpers.Timer _timer;
+        Timer _timer;
 
         protected override void SetImage(string url, ImageSource image) {
             if (!string.IsNullOrWhiteSpace(url) && url.Contains(".gif")) {

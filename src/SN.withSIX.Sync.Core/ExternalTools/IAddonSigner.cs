@@ -8,7 +8,7 @@ using NDepend.Path;
 
 namespace SN.withSIX.Sync.Core.ExternalTools
 {
-    [ContractClass(typeof (AddonSignerContract))]
+    [ContractClass(typeof(AddonSignerContract))]
     public interface IAddonSigner
     {
         void SignFile(IAbsoluteFilePath file, IAbsoluteFilePath privateFile, bool repackOnFailure = false);
@@ -17,7 +17,7 @@ namespace SN.withSIX.Sync.Core.ExternalTools
         void SignMany(AddonSigner.SignManyParams spec);
     }
 
-    [ContractClassFor(typeof (IAddonSigner))]
+    [ContractClassFor(typeof(IAddonSigner))]
     public abstract class AddonSignerContract : IAddonSigner
     {
         public void SignFile(IAbsoluteFilePath file, IAbsoluteFilePath privateFile, bool repackOnFailure = false) {

@@ -4,10 +4,8 @@
 
 using System.ComponentModel;
 
-
 namespace SN.withSIX.Sync.Core.Transfer
 {
-    
     public enum ProtocolPreference
     {
         Any = 0,

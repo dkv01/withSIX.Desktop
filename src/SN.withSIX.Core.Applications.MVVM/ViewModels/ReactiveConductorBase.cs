@@ -78,7 +78,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
         /// <returns>The item to be activated.</returns>
         protected virtual T EnsureItem(T newItem) {
             var node = newItem as IChild;
-            if (node != null && node.Parent != this)
+            if ((node != null) && (node.Parent != this))
                 node.Parent = this;
 
             return newItem;

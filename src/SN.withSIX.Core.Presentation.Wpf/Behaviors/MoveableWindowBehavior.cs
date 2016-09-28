@@ -12,8 +12,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
         public static readonly DependencyProperty IsEnabledProperty =
             DependencyProperty.RegisterAttached(
                 "IsEnabled",
-                typeof (bool),
-                typeof (MoveableWindowBehavior),
+                typeof(bool),
+                typeof(MoveableWindowBehavior),
                 new UIPropertyMetadata(false, OnIsEnabledChanged));
 
         public static bool GetIsEnabled(Window window) => (bool) window.GetValue(IsEnabledProperty);

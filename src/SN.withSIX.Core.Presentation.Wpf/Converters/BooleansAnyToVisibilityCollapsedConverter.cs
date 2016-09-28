@@ -16,7 +16,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Converters
         #region IValueConverter Members
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-            var inverse = parameter != null && ((string) parameter).TryBool();
+            var inverse = (parameter != null) && ((string) parameter).TryBool();
             var bools = values.OfType<bool>().ToArray();
             var val = inverse ? bools.Any(x => !x) : bools.Any(x => x);
 

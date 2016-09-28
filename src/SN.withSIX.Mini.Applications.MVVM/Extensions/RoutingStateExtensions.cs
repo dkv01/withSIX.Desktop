@@ -12,14 +12,14 @@ namespace SN.withSIX.Mini.Applications.MVVM.Extensions
     {
         public static async Task NavigateIfNotAlready<T>(this RoutingState state, Func<T> objCreator) {
             var currentViewModel = state.GetCurrentViewModel();
-            if (currentViewModel.GetType() == typeof (T))
+            if (currentViewModel.GetType() == typeof(T))
                 return;
             await state.Navigate.ExecuteAsyncTask(objCreator()).ConfigureAwait(false);
         }
 
         public static async Task NavigateIfNotAlready<T>(this RoutingState state, Func<Task<T>> objCreator) {
             var currentViewModel = state.GetCurrentViewModel();
-            if (currentViewModel.GetType() == typeof (T))
+            if (currentViewModel.GetType() == typeof(T))
                 return;
             await state.Navigate.ExecuteAsyncTask(await objCreator().ConfigureAwait(false)).ConfigureAwait(false);
         }

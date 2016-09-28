@@ -4,10 +4,8 @@
 
 using System;
 
-
 namespace SN.withSIX.Sync.Core.Repositories.Internals
 {
-    
     public class ConfigException : Exception
     {
         public ConfigException() {}

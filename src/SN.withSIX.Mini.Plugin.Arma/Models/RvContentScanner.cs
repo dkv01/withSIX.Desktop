@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
@@ -24,7 +23,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         public IEnumerable<LocalContent> ScanForNewContent(IReadOnlyCollection<string> dlcs,
-            IEnumerable<IAbsoluteDirectoryPath> paths)
+                IEnumerable<IAbsoluteDirectoryPath> paths)
             => paths.SelectMany(x => GetMods(x, dlcs));
 
         IEnumerable<LocalContent> GetMods(IAbsoluteDirectoryPath d, IEnumerable<string> dlcs)
@@ -43,13 +42,13 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             var version = GetVersion(path);
             // TODO: Hidden state change!
             // TODO: Steam vs withSIX check!
-            if (nc != null && !nc.IsSteam()) {
-                if (nc.InstallInfo == null || nc.InstallInfo.Version != version ||
-                    (version != null && !nc.InstallInfo.Completed))
+            if ((nc != null) && !nc.IsSteam()) {
+                if ((nc.InstallInfo == null) || (nc.InstallInfo.Version != version) ||
+                    ((version != null) && !nc.InstallInfo.Completed))
                     nc.Installed(version, true);
             }
             var existingLocalContent = FindLocalContent(packageName);
-            if (nc != null && existingLocalContent != null)
+            if ((nc != null) && (existingLocalContent != null))
                 _realVirtualityGame.Contents.Remove(existingLocalContent);
 
             return nc == null ? ScanForAddonFolders(path) : null;

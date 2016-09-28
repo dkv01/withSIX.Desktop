@@ -12,6 +12,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Sync.Core.Repositories.Internals;
 using withSIX.Api.Models.Extensions;
+using Timer = SN.withSIX.Core.Helpers.Timer;
 
 namespace SN.withSIX.Sync.Core.Repositories
 {
@@ -69,9 +70,10 @@ namespace SN.withSIX.Sync.Core.Repositories
             }
         }
 
-        withSIX.Core.Helpers.Timer UnlockTimer(IAbsoluteFilePath path, EventWaitHandle autoResetEvent) {
+        Timer UnlockTimer(IAbsoluteFilePath path, EventWaitHandle autoResetEvent) {
             var pathS = path.ToString();
-            if (!ShouldContinueChecking(autoResetEvent, pathS)) return null;
+            if (!ShouldContinueChecking(autoResetEvent, pathS))
+                return null;
             return new TimerWithElapsedCancellation(1000, () => ShouldContinueChecking(autoResetEvent, pathS));
         }
 

@@ -10,7 +10,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Bridge;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
@@ -32,7 +31,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
         }
 
         protected override IEnumerable<Assembly> GetPresentationAssemblies()
-            => base.GetPresentationAssemblies().Concat(new[] {typeof (NodeApi).Assembly});
+            => base.GetPresentationAssemblies().Concat(new[] {typeof(NodeApi).Assembly});
 
         protected override void RegisterServices() {
             base.RegisterServices();

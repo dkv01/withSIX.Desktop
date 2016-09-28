@@ -4,9 +4,7 @@
 
 using System;
 
-
 namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
 {
-    
     public class EmptyHostList : Exception {}
 }

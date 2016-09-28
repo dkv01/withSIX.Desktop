@@ -19,10 +19,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
     */
 
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb"
-        /*GameUUids.Arma2 */)]
+         /*GameUUids.Arma2 */)]
     [RegistryInfo(BohemiaStudioRegistry + @"\ArmA 2", "main")]
     [RvProfileInfo("Arma 2", "Arma 2 other profiles",
-        "ArmA2Profile")]
+         "ArmA2Profile")]
     [SteamInfo(33910, "Arma 2")]
     [DataContract]
     public abstract class Arma2Game : ArmaGame

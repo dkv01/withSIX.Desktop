@@ -67,7 +67,7 @@ namespace SN.withSIX.Steam.Api.SteamKit.Utils
             var valueElemType = valueType.IsGenericType
                 ? valueType.GetGenericArguments()[0]
                 : valueType.GetElementType();
-            if (valueElemType.IsPrimitive || valueElemType == typeof (string)) {
+            if (valueElemType.IsPrimitive || (valueElemType == typeof(string))) {
                 var enumerable = properties[key] as IEnumerable;
                 properties.Remove(key);
 
@@ -111,11 +111,11 @@ namespace SN.withSIX.Steam.Api.SteamKit.Utils
                 if (sb.Length > 0)
                     sb.Append('&');
 
-                sb.Append((string) HttpUtility.UrlEncode(item.Key));
+                sb.Append(HttpUtility.UrlEncode(item.Key));
                 if (item.Value == null)
                     continue;
                 sb.Append("=");
-                sb.Append((string) HttpUtility.UrlEncode(item.Value));
+                sb.Append(HttpUtility.UrlEncode(item.Value));
             }
             return sb.ToString();
         }

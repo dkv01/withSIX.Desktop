@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
@@ -40,8 +39,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
 
             await
                 _setup.HandleGameContentsWhenNeeded(new ContentQuery {
-                    PackageNames = game.LocalContent.OfType<ModLocalContent>().Select(x => x.PackageName).ToList()
-                }, game.Id)
+                        PackageNames = game.LocalContent.OfType<ModLocalContent>().Select(x => x.PackageName).ToList()
+                    }, game.Id)
                     .ConfigureAwait(false);
 
             return Unit.Value;

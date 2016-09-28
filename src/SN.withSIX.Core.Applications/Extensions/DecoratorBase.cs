@@ -2,9 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Diagnostics.Contracts;
-
 namespace SN.withSIX.Core.Applications.Extensions
 {
     public abstract class DecoratorBase<T> where T : class

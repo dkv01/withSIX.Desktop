@@ -5,11 +5,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-
 namespace SN.withSIX.Core.Applications.Infrastructure
 {
     [SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
-    
     public abstract class RestExceptionBase : Exception
     {
         protected RestExceptionBase(string message)
@@ -19,7 +17,7 @@ namespace SN.withSIX.Core.Applications.Infrastructure
             : base(message, innerException) {}
     }
 
-    
+
     public class RestResponseException : RestExceptionBase
     {
         public RestResponseException(string message)
@@ -29,7 +27,7 @@ namespace SN.withSIX.Core.Applications.Infrastructure
             : base(message, innerException) {}
     }
 
-    
+
     public class RestStatusException : RestExceptionBase
     {
         public RestStatusException(string message)

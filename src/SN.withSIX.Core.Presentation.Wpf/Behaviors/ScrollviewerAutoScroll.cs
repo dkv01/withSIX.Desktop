@@ -12,11 +12,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
     {
         public static readonly DependencyProperty AutoScrollProperty =
             DependencyProperty.RegisterAttached("AutoScrollToEnd",
-                typeof (bool), typeof (ScrollViewerEx),
+                typeof(bool), typeof(ScrollViewerEx),
                 new PropertyMetadata(false, HookupAutoScrollToEnd));
         public static readonly DependencyProperty AutoScrollHandlerProperty =
             DependencyProperty.RegisterAttached("AutoScrollToEndHandler",
-                typeof (ScrollViewerAutoScrollToEndHandler), typeof (ScrollViewerEx));
+                typeof(ScrollViewerAutoScrollToEndHandler), typeof(ScrollViewerEx));
 
         static void HookupAutoScrollToEnd(DependencyObject d,
             DependencyPropertyChangedEventArgs e) {
@@ -65,7 +65,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
                 _doScroll = _scrollViewer.VerticalOffset == _scrollViewer.ScrollableHeight;
 
             // Content scroll event : autoscroll eventually
-            if (_doScroll && e.ExtentHeightChange != 0)
+            if (_doScroll && (e.ExtentHeightChange != 0))
                 _scrollViewer.ScrollToVerticalOffset(_scrollViewer.ExtentHeight);
         }
     }

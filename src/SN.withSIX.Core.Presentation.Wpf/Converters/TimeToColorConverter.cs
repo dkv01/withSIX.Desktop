@@ -21,7 +21,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Converters
             if (value == null)
                 return null;
 
-            if (dateTime.Value.Hour < 5 || dateTime.Value.Hour > 19)
+            if ((dateTime.Value.Hour < 5) || (dateTime.Value.Hour > 19))
                 return Night;
 
             return Day;
