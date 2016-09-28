@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Factories;
 using SN.withSIX.Mini.Core.Games;

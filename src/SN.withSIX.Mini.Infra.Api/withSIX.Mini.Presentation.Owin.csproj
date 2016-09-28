@@ -285,6 +285,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiPortHandler.cs" />
     <Compile Include="AutoMapperInfraApiConfig.cs" />
     <Compile Include="Hubs\CancellationTokenMapping.cs" />
     <Compile Include="Hubs\ClientHub.cs" />
@@ -334,6 +335,14 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj">
       <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>
       <Name>withSIX.Mini.Infra.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
+      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
+      <Name>withSIX.Mini.Presentation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Steam.Api\withSIX.Steam.Api.csproj">
+      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
+      <Name>withSIX.Steam.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>

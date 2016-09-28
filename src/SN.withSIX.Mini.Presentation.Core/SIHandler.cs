@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using MediatR;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
@@ -31,6 +30,8 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         private async Task ProcessSyncWsUrl(Uri uri) {
+            throw new NotImplementedException();
+            /*
             var details = HttpUtility.ParseQueryString(uri.Query);
             var s = details["task"];
             var tasks = new[] {"launch"};
@@ -56,7 +57,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 RequestAsyncExecutor(new UninstallContent(gameId, new ContentGuidSpec(contentId)))
                     .ConfigureAwait(false);
             break;
-        }*/
+        }*\/
                 case "launch": {
                     await
                         RequestAsyncExecutor(new LaunchContent(gameId, new ContentGuidSpec(contentId)))
@@ -68,6 +69,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 }
                 }
             }
+    */
         }
 
         private static Guid GetGuid(string input) {

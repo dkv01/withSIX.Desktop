@@ -148,8 +148,6 @@
     <Compile Include="Services\GameLocker.cs" />
     <Compile Include="Services\GameLockMonitor.cs" />
     <Compile Include="Services\GameSettingsViewModelFactory.cs" />
-    <Compile Include="Services\IAssemblyService.cs" />
-    <Compile Include="Services\ICallContextService.cs" />
     <Compile Include="Services\NetworkContentSyncer.cs" />
     <Compile Include="Services\OauthConnect.cs" />
     <Compile Include="Services\SettingsStorage.cs" />

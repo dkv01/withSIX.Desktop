@@ -16,7 +16,9 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.Messengers;
+using SN.withSIX.Steam.Api;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api
@@ -35,15 +37,17 @@ namespace SN.withSIX.Mini.Infra.Api
         private readonly IWebApiErrorHandler _errorHandler;
         private readonly IDbContextFactory _factory;
         private readonly IProcessManager _pm;
+        private readonly IDialogManager _dm;
         private readonly IStateMessengerBus _stateMessenger;
         private IDisposable _ErrorReg;
 
         public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory,
-            IStateMessengerBus stateMessenger, IProcessManager pm) {
+            IStateMessengerBus stateMessenger, IProcessManager pm, IDialogManager dm) {
             _errorHandler = errorHandler;
             _factory = factory;
             _stateMessenger = stateMessenger;
             _pm = pm;
+            _dm = dm;
         }
 
         public async Task InitializeAfterUI() {
@@ -57,10 +61,39 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
         public Task Initialize() {
+            Game.SteamHelper = SteamHelper.Create(); // TODO: Move
+
             _stateMessenger.Initialize();
+
+            TryHandlePorts();
+
             // TODO: ON startup or at other times too??
             return TaskExt.Default;
         }
+
+        private void TryHandlePorts() {
+            try {
+                HandleSystem();
+            } catch (OperationCanceledException ex) {
+                MainLog.Logger.FormattedFatalException(ex, "Failure setting up API ports");
+                // TODO: Throw instead?
+                _dm.MessageBox(
+                    new MessageBoxDialogParams(
+                        "Configuration of API ports are required but were cancelled by the user.\nPlease allow the Elevation prompt on retry. The application is now closing.",
+                        "Sync: API Ports Configuration cancelled"));
+                Environment.Exit(1);
+            }
+        }
+
+        private void HandleSystem() {
+            var si = Infra.Api.Initializer.BuildSi(_pm);
+            if (((Consts.HttpAddress == null) || si.IsHttpPortRegistered) &&
+                ((Consts.HttpsAddress == null) || si.IsSslRegistered()))
+                return;
+            ApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, _pm);
+            si = Infra.Api.Initializer.BuildSi(_pm); // to output
+        }
+
 
         // This requires the Initializer to be a singleton, not great to have to require singleton for all?
         public Task Deinitialize() {

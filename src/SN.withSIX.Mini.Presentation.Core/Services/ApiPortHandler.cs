@@ -2,14 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Security.Principal;
 using System.Text;
 using NDepend.Path;
 using SN.withSIX.Core;
@@ -20,54 +17,9 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core.Services
 {
-    public class ApiPortHandler
+    public class ApiPortHandlerBase
     {
-        private static string GetResourcePath(Assembly assembly, string path) {
-            var resources = assembly.GetManifestResourceNames();
-            var convertedPath = "." +
-                                path.Replace("/", ".")
-                                    .Replace("\\", ".");
-            return resources.Single(x => x.EndsWith(convertedPath));
-        }
-
-        public static void SetupApiPort(IPEndPoint http, IPEndPoint https, IProcessManager pm) {
-            if ((https == null) && (http == null))
-                throw new ArgumentException("Both value and valueHttp are unspecified");
-
-            var tmpFolder = Common.Paths.TempPath.GetChildDirectoryWithName("apisetup");
-            if (!tmpFolder.Exists)
-                Directory.CreateDirectory(tmpFolder.ToString());
-            try {
-                var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-                var acct = sid.Translate(typeof(NTAccount)) as NTAccount;
-
-                var commands = BuildCommands(http, https, tmpFolder, acct);
-                if (Common.Flags.Verbose)
-                    MainLog.Logger.Info("account name:" + acct);
-                BuildAndRunBatFile(pm, tmpFolder, commands, true, true);
-            } finally {
-                if (tmpFolder.Exists)
-                    tmpFolder.DirectoryInfo.Delete(true);
-            }
-        }
-
-        private static IEnumerable<string> BuildCommands(IPEndPoint http, IPEndPoint https,
-            IAbsoluteDirectoryPath tmpFolder, NTAccount acct) {
-            var commands = new List<string> {
-                "cd \"" + tmpFolder + "\""
-            };
-
-            if (http != null)
-                commands.Add(BuildHttp(http, acct));
-
-            if (https != null) {
-                ExtractFile(tmpFolder, "server.pfx");
-                commands.AddRange(BuildHttps(https, acct));
-            }
-            return commands;
-        }
-
-        private static void BuildAndRunBatFile(IProcessManager pm, IAbsoluteDirectoryPath tmpFolder,
+        protected static void BuildAndRunBatFile(IProcessManager pm, IAbsoluteDirectoryPath tmpFolder,
             IEnumerable<string> commands, bool asAdministrator = false, bool noisy = false) {
             var batFile = tmpFolder.GetChildFileWithName("install.bat");
             var actualCommands =
@@ -103,9 +55,9 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                 MainLog.Logger.Info("install.bat output:\n" + output);
         }
 
-        private static void ExtractFile(IAbsoluteDirectoryPath tmpFolder, string fileName) {
+        protected static void ExtractFile(IAbsoluteDirectoryPath tmpFolder, string fileName) {
             var destinationFile = tmpFolder.GetChildFileWithName(fileName);
-            var assembly = typeof(ApiPortHandler).Assembly;
+            var assembly = typeof(ApiPortHandlerBase).GetTypeInfo().Assembly;
             using (var s = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName)))
             using (
                 var f = new FileStream(destinationFile.ToString(), FileMode.Create, FileAccess.ReadWrite, FileShare.None)
@@ -113,18 +65,18 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
                 s.CopyTo(f);
         }
 
-        private static string BuildHttp(IPEndPoint valueHttp, NTAccount acct)
-            => "netsh http add urlacl url=http://" + valueHttp + "/ user=\"" + acct + "\"";
+        protected static string GetResourcePath(Assembly assembly, string path) {
+            var resources = assembly.GetManifestResourceNames();
+            var convertedPath = "." +
+                                path.Replace("/", ".")
+                                    .Replace("\\", ".");
+            return resources.Single(x => x.EndsWith(convertedPath));
+        }
+    }
 
-        private static string[] BuildHttps(IPEndPoint value, NTAccount acct) => new[] {
-            "netsh http add urlacl url=https://" + value + "/ user=\"" + acct + "\"",
-            "certutil -p localhost -importPFX server.pfx",
-            "netsh http add sslcert ipport=" + value +
-            " appid={12345678-db90-4b66-8b01-88f7af2e36bf} certhash=fca9282c0cd0394f61429bbbfdb59bacfc7338c9"
-        };
-
+    public class FirefoxHandler : ApiPortHandlerBase
+    {
         public static void SetupFirefox(IProcessManager pm) => new FireFoxCertInstaller().Install(pm);
-
 
         private class FireFoxCertInstaller
         {
@@ -163,7 +115,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
             private static IAbsoluteDirectoryPath[] GetProfiles() {
                 var profileRoot =
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                    PathConfiguration.GetFolderPath(EnvironmentSpecial.SpecialFolder.ApplicationData)
                         .ToAbsoluteDirectoryPath()
                         .GetChildDirectoryWithName(@"Mozilla\Firefox\Profiles");
 

@@ -63,8 +63,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
-            _bootstrapper = new WpfAppBootstrapper(Locator.CurrentMutable,
-                Environment.GetCommandLineArgs().Skip(1).ToArray());
+            _bootstrapper = new WpfAppBootstrapper(Environment.GetCommandLineArgs().Skip(1).ToArray());
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);

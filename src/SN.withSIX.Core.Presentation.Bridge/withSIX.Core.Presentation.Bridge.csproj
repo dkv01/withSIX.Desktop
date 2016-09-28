@@ -242,6 +242,7 @@
     <Compile Include="AssemblyHandler.cs" />
     <Compile Include="AssemblyRegistry.cs" />
     <Compile Include="AwesomiumInstaller.cs" />
+    <Compile Include="BootstrapperBridge.cs" />
     <Compile Include="Bridge.cs" />
     <Compile Include="DefaultLogManager.cs" />
     <Compile Include="Extensions\SimpleInjectorContainerExtensions.cs" />
@@ -252,10 +253,13 @@
     <Compile Include="NLogSplatLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeCheck.cs" />
+    <Compile Include="Services\AssemblyService.cs" />
+    <Compile Include="Services\CallContextService.cs" />
     <Compile Include="Services\Decryption.cs" />
     <Compile Include="Services\ExitHandler.cs" />
     <Compile Include="Services\MessageBusProxy.cs" />
     <Compile Include="Services\ProcessManager.cs" />
+    <Compile Include="Services\UacHelper.cs" />
     <Compile Include="ShutdownHandler.cs" />
     <Compile Include="WCFClient.cs" />
     <Compile Include="WebClient.cs">

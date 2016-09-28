@@ -158,6 +158,8 @@
     <Compile Include="Services\FilesInstaller.cs" />
     <Compile Include="Services\IAMapper.cs" />
     <Compile Include="Services\IApplicationService.cs" />
+    <Compile Include="Services\IAssemblyService.cs" />
+    <Compile Include="Services\ICallContextService.cs" />
     <Compile Include="Services\ICompositeCommand.cs" />
     <Compile Include="Services\IDialogManager.cs" />
     <Compile Include="Services\IGameMapperConfig.cs" />

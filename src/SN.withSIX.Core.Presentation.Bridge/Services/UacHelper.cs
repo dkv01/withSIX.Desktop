@@ -9,11 +9,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
 
-namespace SN.withSIX.Mini.Presentation.Core.Services
+namespace SN.withSIX.Core.Presentation.Bridge.Services
 {
     public class UacHelper : IEnableLogging, IUacHelper, IPresentationService
     {

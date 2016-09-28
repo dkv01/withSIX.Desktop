@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace SN.withSIX.Core.Applications.Services
 {
     public interface IAssemblyService
     {

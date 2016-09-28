@@ -27,8 +27,6 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
         public ProcessExitException(string message, Exception innerException) : base(message, innerException) {}
 
-        protected ProcessExitException(SerializationInfo info, StreamingContext context) : base(info, context) {}
-
         public int ExitCode { get; set; }
     }
 

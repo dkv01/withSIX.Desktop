@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ReactiveUI;
+using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM;
@@ -20,6 +21,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation.Bridge;
 using SN.withSIX.Core.Presentation.Bridge.Extensions;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
@@ -30,6 +32,7 @@ using SN.withSIX.Mini.Applications.MVVM.Usecases;
 using SN.withSIX.Mini.Applications.MVVM.ViewModels;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
@@ -49,12 +52,28 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
     }
 
-    class WpfAppBootstrapper : AppBootstrapper
+    class WorkaroundBootstrapper : AppBootstrapper
+    {
+        protected WorkaroundBootstrapper(string[] args) : base(args) {}
+
+        protected override void LowInitializer() => BootstrapperBridge.LowInitializer();
+        protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies);
+        protected override IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies) => assemblies.GetTypes<T>();
+        protected override void RegisterAllInterfaces<T>(IEnumerable<Assembly> assemblies) => Container.RegisterAllInterfaces<T>(assemblies);
+        protected override void RegisterSingleAllInterfaces<T>(IEnumerable<Assembly> assemblies) => Container.RegisterSingleAllInterfaces<T>(assemblies);
+        protected override IEnumerable<Assembly> GetInfraAssemblies => new[] {typeof(AutoMapperInfraApiConfig).GetTypeInfo().Assembly}.Concat(base.GetInfraAssemblies);
+        protected override Assembly AssemblyLoadFrom(string arg) => BootstrapperBridge.AssemblyLoadFrom(arg);
+        protected override void ConfigureContainer() => BootstrapperBridge.ConfigureContainer(Container);
+        protected override void EnvironmentExit(int exitCode) => BootstrapperBridge.EnvironmentExit(exitCode);
+        protected override void RegisterMessageBus() => BootstrapperBridge.RegisterMessageBus(Container);
+    }
+
+    class WpfAppBootstrapper : WorkaroundBootstrapper
     {
         IMiniMainWindowViewModel _mainVm;
 
-        internal WpfAppBootstrapper(IMutableDependencyResolver dependencyResolver, string[] args)
-            : base(dependencyResolver, args) {
+        internal WpfAppBootstrapper(string[] args)
+            : base(args) {
             SetupRx();
             SetupCM();
         }

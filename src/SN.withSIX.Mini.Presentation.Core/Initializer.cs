@@ -11,7 +11,6 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
 using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Steam.Api;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core
@@ -26,13 +25,12 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         public async Task Initialize() {
-            Game.SteamHelper = SteamHelper.Create(); // TODO: Move
             RegisterUrlHandlers();
             //await SetupNotificationIcon().ConfigureAwait(false);
         }
 
         public async Task Deinitialize() {}
-
+        /*
         async Task SetupNotificationIcon() {
             var ps1 = Path.GetTempFileName() + ".ps1";
             var assembly = GetType().GetTypeInfo().Assembly; // Executing assembly??
@@ -46,6 +44,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                 ReactiveProcess.Create("powershell.exe", "-File \"" + ps1 + "\" '" + assembly.Location + "' 2"))
                 await p.StartAsync().ConfigureAwait(false);
         }
+        */
 
         public void RegisterUrlHandlers() {
             foreach (var protocol in _schemes)

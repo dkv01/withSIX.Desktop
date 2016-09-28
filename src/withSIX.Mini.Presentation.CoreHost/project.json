@@ -1,0 +1,98 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "ManyConsole.PCL": "1.0.0-pre",
+    "Mono.Options": "4.4.0",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.1"
+    }
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "GameServerQuery": {
+          "target": "project"
+        },
+        "GeoIP": {
+          "target": "project"
+        },
+        "withSIX.ContentEngine.Core": {
+          "target": "project"
+        },
+        "withSIX.ContentEngine.Infra": {
+          "target": "project"
+        },
+        "withSIX.Core": {
+          "target": "project"
+        },
+        "withSIX.Core.Applications": {
+          "target": "project"
+        },
+        "withSIX.Core.Infra": {
+          "target": "project"
+        },
+        "withSIX.Core.Presentation": {
+          "target": "project"
+        },
+        "withSIX.Core.Presentation.Resources": {
+          "target": "project"
+        },
+        "withSIX.Mini.Applications": {
+          "target": "project"
+        },
+        "withSIX.Mini.Core": {
+          "target": "project"
+        },
+        "withSIX.Mini.Infra.Data": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Arma": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.CE": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Firaxis": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.GTA": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Homeworld": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Kerbal": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.NMS": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Starbound": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Stellaris": {
+          "target": "project"
+        },
+        "withSIX.Mini.Plugin.Witcher3": {
+          "target": "project"
+        },
+        "withSIX.Mini.Presentation.Core": {
+          "target": "project"
+        },
+        "withSIX.Steam.Core": {
+          "target": "project"
+        },
+        "withSIX.Sync.Core": {
+          "target": "project"
+        }
+      },
+      "imports": "dnxcore50"
+    }
+  }
+}
