@@ -10,7 +10,7 @@ namespace SN.withSIX.Core.Logging
 {
     public class MainLog
     {
-        public static Lazy<ILogManager> logManager;
+        public static Lazy<ILogManager> logManager { get; set; }
         static readonly Lazy<ILogger> logger = new Lazy<ILogger>(() => LogManager.GetCurrentClassLoggerOrMerged());
         static readonly DateTime startTime = Process.GetCurrentProcess().StartTime;
         public static ILogManager LogManager => logManager.Value;
