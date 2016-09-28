@@ -9,17 +9,18 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Cors;
 using MediatR;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Json;
-using Microsoft.Owin;
-using Microsoft.Owin.Cors;
-using Microsoft.Owin.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Owin.Builder;
 using Newtonsoft.Json;
 using Owin;
-using SN.withSIX.Core;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
@@ -30,23 +31,29 @@ using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.Hubs;
 using withSIX.Api.Models.Extensions;
 
+using Microsoft.Owin.Builder;
+using Microsoft.Owin.Logging;
+using SN.withSIX.Core;
+using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
+
+
 namespace SN.withSIX.Mini.Infra.Api
 {
     internal static class BuilderExtensions
     {
         internal static readonly Excecutor Executor = new Excecutor();
 
-        public static IAppBuilder AddPath<T>(this IAppBuilder content, string path) where T : IAsyncRequest<Unit>
+        public static IApplicationBuilder AddPath<T>(this IApplicationBuilder content, string path) where T : IAsyncRequest<Unit>
         => content.AddPath<T, Unit>(path);
 
-        public static IAppBuilder AddPath<T, TResponse>(this IAppBuilder content, string path)
+        public static IApplicationBuilder AddPath<T, TResponse>(this IApplicationBuilder content, string path)
             where T : IAsyncRequest<TResponse>
-        => content.Map(path, builder => builder.Run(ExecuteRequest<T, TResponse>));
+        => content.Map(path, builder => builder.Run(x => ExecuteRequest<T, TResponse>(x)));
 
-        static Task ExcecuteVoidCommand<T>(IOwinContext context) where T : IAsyncRequest<Unit>
+        static Task ExcecuteVoidCommand<T>(HttpContext context) where T : IAsyncRequest<Unit>
         => ExecuteRequest<T, Unit>(context);
 
-        static Task ExecuteRequest<T, TOut>(IOwinContext context) where T : IAsyncRequest<TOut>
+        static Task ExecuteRequest<T, TOut>(HttpContext context) where T : IAsyncRequest<TOut>
         =>
             context.ProcessRequest<T, TOut>(
                 request => Executor.ApiAction(() => Executor.SendAsync(request), request,
@@ -55,13 +62,13 @@ namespace SN.withSIX.Mini.Infra.Api
         private static Exception CreateException(string s, Exception exception)
             => new UnhandledUserException(s, exception);
 
-        internal static Task ProcessRequest<T>(this IOwinContext context, Func<T, Task> handler)
+        internal static Task ProcessRequest<T>(this HttpContext context, Func<T, Task> handler)
             => context.ProcessRequest<T, string>(async d => {
                 await handler(d).ConfigureAwait(false);
                 return "";
             });
 
-        internal static async Task ProcessRequest<T, TOut>(this IOwinContext context, Func<T, Task<TOut>> handler) {
+        internal static async Task ProcessRequest<T, TOut>(this HttpContext context, Func<T, Task<TOut>> handler) {
             using (var memoryStream = new MemoryStream()) {
                 await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
                 var requestData = Encoding.UTF8.GetString(memoryStream.ToArray()).FromJson<T>();
@@ -71,7 +78,7 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
 
-        internal static async Task RespondJson(this IOwinContext context, object returnValue) {
+        internal static async Task RespondJson(this HttpContext context, object returnValue) {
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(returnValue.ToJson()).ConfigureAwait(false);
         }
@@ -110,23 +117,60 @@ namespace SN.withSIX.Mini.Infra.Api
             GlobalHost.HubPipeline.AddModule(new HubErrorLoggingPipelineModule());
         }
 
+        public static void Configure(IApplicationBuilder app) { // , IHostingEnvironment env, ILoggerFactory loggerFactory
+                                                         //loggerFactory.AddConsole();
+
+            //if (env.IsDevelopment()) {
+            //  app.UseDeveloperExceptionPage();
+            //}
+
+            app.UseCors(builder => {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowCredentials();
+                builder.WithOrigins(Environments.Origins);
+            });
+
+            app.UseSignalR2();
+            Configuration(app);
+            //app.Run(async (context) => {
+              //  await context.Response.WriteAsync("Hello World!");
+            //});
+        }
+
         public static IDisposable Start(IPEndPoint http, IPEndPoint https) {
-            var startOptions = new StartOptions();
+
+            var config = new ConfigurationBuilder()
+                //.AddCommandLine(args)
+                .Build();
+
+            var builder = new WebHostBuilder()
+                //        .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(config);
+
+            builder.UseWebListener(options => { });
+            builder.ConfigureServices(ConfigureServices);
+
+            var urls = new List<string>();
             if ((http == null) && (https == null))
                 throw new CannotOpenApiPortException("No HTTP or HTTPS ports available");
             if (http != null)
-                startOptions.Urls.Add(http.ToHttp());
+                urls.Add(http.ToHttp());
             if (https != null)
-                startOptions.Urls.Add(https.ToHttps());
-            return WebApp.Start<Startup>(startOptions);
+                urls.Add(https.ToHttps());
+
+            builder.Configure(Configure);
+            return builder.Start(urls.ToArray());
+        }
+
+        private static void ConfigureServices(IServiceCollection obj) {
+            obj.AddCors();
         }
 
         private static JsonSerializer CreateJsonSerializer()
             => JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
 
-        public void Configuration(IAppBuilder app) {
-            app.UseCors(new MyCorsOptions());
-
+        static void Configuration(IApplicationBuilder app) {
             app.Map("/api", api => {
                 api.Map("/version",
                     builder => builder.Run(context => context.RespondJson(new {Version = Consts.ApiVersion})));
@@ -169,7 +213,31 @@ namespace SN.withSIX.Mini.Infra.Api
                                     folders => BuilderExtensions.Executor.SendAsync(new WhiteListFolders(folders)))));
             });
 
-            app.Map("/signalr", map => {
+            app.Map("", builder => builder.Run(async ctx => ctx.Response.Redirect("https://withsix.com")));
+        }
+    }
+
+
+    public static class AppBuilderExtensions
+    {
+        public static IApplicationBuilder UseAppBuilder(this IApplicationBuilder app, Action<IAppBuilder> configure) {
+            app.UseOwin(addToPipeline => {
+                addToPipeline(next => {
+                    var appBuilder = new AppBuilder();
+                    appBuilder.Properties["builder.DefaultApp"] = next;
+
+                    configure(appBuilder);
+
+                    return appBuilder.Build<AppFunc>();
+                });
+            });
+
+            return app;
+        }
+
+        public static void UseSignalR2(this IApplicationBuilder app) {
+            app.UseAppBuilder(appBuilder => 
+            appBuilder.Map("/signalr", map => {
                 var debug =
 #if DEBUG
                     true;
@@ -185,36 +253,7 @@ namespace SN.withSIX.Mini.Infra.Api
                 // since this branch is already runs under the "/signalr"
                 // path.
                 map.RunSignalR(hubConfiguration);
-            });
-
-            app.Map("", builder => builder.Run(async ctx => ctx.Response.Redirect("https://withsix.com")));
-        }
-    }
-
-    public class MyCorsPolicyProvider : CorsPolicyProvider
-    {
-        public MyCorsPolicyProvider() {
-            PolicyResolver = context => {
-                var policy = new CorsPolicy();
-                ConfigurePolicy(policy);
-                return Task.FromResult(policy);
-            };
-        }
-
-        static void ConfigurePolicy(CorsPolicy policy) {
-            foreach (var host in Environments.Origins)
-                policy.Origins.Add(host);
-
-            policy.AllowAnyMethod = true;
-            policy.AllowAnyHeader = true;
-            policy.SupportsCredentials = true;
-        }
-    }
-
-    public class MyCorsOptions : CorsOptions
-    {
-        public MyCorsOptions() {
-            PolicyProvider = new MyCorsPolicyProvider();
+            }));
         }
     }
 }

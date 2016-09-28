@@ -12,29 +12,59 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.Owin;
-using Owin;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Api.Models.Extensions;
 using withSIX.Steam.Plugin.Arma;
+using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 using Unit = System.Reactive.Unit;
 
 namespace SN.withSIX.Steam.Presentation
 {
     class Startup
     {
-        public void Configuration(IAppBuilder app) {
-            app.UseCors(new MyCorsOptions());
+        public static void Configure(IApplicationBuilder app) {
+            app.UseCors(builder => {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowCredentials();
+                builder.WithOrigins(Environments.Origins);
+            });
             app.Map("/api", api => {
                 api.AddPath<GetServerInfo, ServerInfo>("/get-server-info");
                 api.AddPath<GetEvents, EventsModel>("/get-events");
             });
+        }
+
+        public static IWebHost Start(string http) {
+            var config = new ConfigurationBuilder()
+                //.AddCommandLine(args)
+                .Build();
+
+            var builder = new WebHostBuilder()
+                //        .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(config);
+
+            builder.UseWebListener(options => { });
+            builder.ConfigureServices(ConfigureServices);
+
+            var urls = new[] {http};
+            builder.Configure(Configure);
+            return builder.Start(urls);
+        }
+
+        private static void ConfigureServices(IServiceCollection obj) {
+            obj.AddCors();
         }
     }
 
@@ -114,18 +144,18 @@ namespace SN.withSIX.Steam.Presentation
     {
         internal static readonly Excecutor Executor = new Excecutor();
 
-        public static IAppBuilder AddPath<T>(this IAppBuilder content, string path)
+        public static IApplicationBuilder AddPath<T>(this IApplicationBuilder content, string path)
             where T : IAsyncRequest<Unit>
         => content.AddPath<T, Unit>(path);
 
-        public static IAppBuilder AddPath<T, TResponse>(this IAppBuilder content, string path)
+        public static IApplicationBuilder AddPath<T, TResponse>(this IApplicationBuilder content, string path)
             where T : IAsyncRequest<TResponse>
-        => content.Map(path, builder => builder.Run(ExecuteRequest<T, TResponse>));
+        => content.Map(path, builder => builder.Run(x => ExecuteRequest<T, TResponse>(x)));
 
-        static Task ExcecuteVoidCommand<T>(IOwinContext context) where T : IAsyncRequest<Unit>
+        static Task ExcecuteVoidCommand<T>(HttpContext context) where T : IAsyncRequest<Unit>
         => ExecuteRequest<T, Unit>(context);
 
-        static Task ExecuteRequest<T, TOut>(IOwinContext context) where T : IAsyncRequest<TOut>
+        static Task ExecuteRequest<T, TOut>(HttpContext context) where T : IAsyncRequest<TOut>
         =>
             context.ProcessRequest<T, TOut>(
                 request => Executor.ApiAction(() => Executor.SendAsync(request), request,
@@ -134,29 +164,23 @@ namespace SN.withSIX.Steam.Presentation
         private static Exception CreateException(string s, Exception exception)
             => new UnhandledUserException(s, exception);
 
-        internal static Task ProcessRequest<T>(this IOwinContext context, Func<T, Task> handler)
+        internal static Task ProcessRequest<T>(this HttpContext context, Func<T, Task> handler)
             => context.ProcessRequest<T, string>(async d => {
                 await handler(d).ConfigureAwait(false);
                 return "";
             });
 
-        internal static async Task ProcessRequest<T, TOut>(this IOwinContext context, Func<T, Task<TOut>> handler) {
+        internal static async Task ProcessRequest<T, TOut>(this HttpContext context, Func<T, Task<TOut>> handler) {
             using (var memoryStream = new MemoryStream()) {
-                T request;
-                if (context.Request.Method.ToLower() == "get") {
-                    var str = context.Request.Query.ToDictionary(x => x.Key, x => x.Value).ToJson();
-                    request = str.FromJson<T>();
-                } else {
-                    await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                    var str = Encoding.UTF8.GetString(memoryStream.ToArray());
-                    request = str.FromJson<T>();
-                }
-                var returnValue = await handler(request).ConfigureAwait(false);
+                await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
+                var requestData = Encoding.UTF8.GetString(memoryStream.ToArray()).FromJson<T>();
+                var returnValue = await handler(requestData).ConfigureAwait(false);
                 await context.RespondJson(returnValue).ConfigureAwait(false);
             }
         }
 
-        internal static async Task RespondJson(this IOwinContext context, object returnValue) {
+
+        internal static async Task RespondJson(this HttpContext context, object returnValue) {
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(returnValue.ToJson()).ConfigureAwait(false);
         }

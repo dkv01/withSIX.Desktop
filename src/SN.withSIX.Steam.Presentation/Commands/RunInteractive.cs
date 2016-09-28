@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Owin.Hosting;
 using SN.withSIX.Steam.Api.Services;
 using withSIX.Api.Models.Games;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
@@ -35,7 +34,7 @@ namespace SN.withSIX.Steam.Presentation.Commands
         }
 
         private static async Task RunWebsite() {
-            WebApp.Start<Startup>("http://127.0.0.66:48667");
+            Startup.Start("http://127.0.0.66:48667");
             Console.WriteLine("Ready");
             await Task.Delay(-1).ConfigureAwait(false);
         }
