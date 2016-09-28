@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Threading;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
