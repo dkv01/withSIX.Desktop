@@ -82,18 +82,19 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
         private void HandleSystem() {
-            var si = Infra.Api.Initializer.BuildSi(_pm);
+            var si = BuildSi(_pm);
             if (((Consts.HttpAddress == null) || si.IsHttpPortRegistered) &&
                 ((Consts.HttpsAddress == null) || si.IsSslRegistered()))
                 return;
             ApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, _pm);
-            si = Infra.Api.Initializer.BuildSi(_pm); // to output
+            si = BuildSi(_pm); // to output
         }
-
 
         // This requires the Initializer to be a singleton, not great to have to require singleton for all?
         public Task Deinitialize() {
-            _webServer?.Dispose();
+            var ws = _webServer;
+            if (ws != null)
+                Task.Run(() => ws.Dispose()); // TODO: This currently locks up! so we run it in a task :S
             _webServer = null;
             _ErrorReg?.Dispose();
             return TaskExt.Default;
