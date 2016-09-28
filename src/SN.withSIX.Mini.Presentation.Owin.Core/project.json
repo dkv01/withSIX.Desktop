@@ -1,0 +1,14 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.AspNetCore.Cors": "1.0.0",
+    "Microsoft.AspNetCore.Owin": "1.0.0",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "System.Runtime": "4.1.0",
+    "withSIX.Api.Models": "2.0.7-pre"
+  },
+  "frameworks": {
+    "netstandard1.3": {}
+  }
+}
