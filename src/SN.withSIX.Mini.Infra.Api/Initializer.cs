@@ -16,10 +16,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Infra.Api.Messengers;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Infra.Api

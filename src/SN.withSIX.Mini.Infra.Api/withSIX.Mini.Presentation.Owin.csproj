@@ -275,10 +275,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Thinktecture.IdentityModel.Client.Net45, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Thinktecture.IdentityModel.Client.4.0.1\lib\net45\Thinktecture.IdentityModel.Client.Net45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="withSIX.Api.Models, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\withSIX.Api.Models.2.0.7-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
@@ -339,14 +335,6 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
       <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
       <Name>withSIX.Mini.Presentation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Api\withSIX.Steam.Api.csproj">
-      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
-      <Name>withSIX.Steam.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj">
-      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
-      <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>

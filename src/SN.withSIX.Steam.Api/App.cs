@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Steam.Api.Services;
-using SN.withSIX.Steam.Api.SteamKit.Utils;
 using SN.withSIX.Steam.Core;
 using SN.withSIX.Steam.Core.Extensions;
 using Steamworks;
