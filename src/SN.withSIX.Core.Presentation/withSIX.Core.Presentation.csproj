@@ -127,6 +127,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Assemblies\Dummy.cs" />
     <Compile Include="Assemblies\HashTool.cs" />
     <Compile Include="ConsoleFirstTimeLicense.cs" />

@@ -78,8 +78,7 @@ namespace withSIX.Mini.Presentation.CoreHost
 
         protected override void RegisterMessageBus() {
             // cant refer ReactiveUI atm until we put it into a package :)
-            //Container.RegisterSingleton(new MessageBus());
-            //Container.RegisterSingleton<IMessageBus>(Container.GetInstance<MessageBus>);
+            SN.withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
         }
 
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null)
