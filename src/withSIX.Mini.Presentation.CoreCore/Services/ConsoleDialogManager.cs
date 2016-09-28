@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation;
 
-namespace withSIX.Mini.Presentation.CoreHost.Services
+namespace withSIX.Mini.Presentation.CoreCore.Services
 {
     // TODO: Node :-)
     public class ConsoleDialogManager : IDialogManager, IPresentationService

@@ -7,7 +7,7 @@ using System.Reflection;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation;
 
-namespace withSIX.Mini.Presentation.CoreHost.Services
+namespace withSIX.Mini.Presentation.CoreCore.Services
 {
     public class AssemblyService : IAssemblyService, IPresentationService
     {

@@ -90,6 +90,9 @@
         "withSIX.Mini.Presentation.Core": {
           "target": "project"
         },
+        "withSIX.Mini.Presentation.CoreCore": {
+          "target": "project"
+        },
         "withSIX.Steam.Core": {
           "target": "project"
         },

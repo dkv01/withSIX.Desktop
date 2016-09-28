@@ -24,6 +24,7 @@ C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreHost\withSIX.Mi
 C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreHost\withSIX.Mini.Presentation.CoreHost.xproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj
 C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreHost\withSIX.Mini.Presentation.CoreHost.xproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj
 C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreHost\withSIX.Mini.Presentation.CoreHost.xproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj
+C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreHost\withSIX.Mini.Presentation.CoreHost.xproj|C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj
 C:\projects\SN\withSIX.Desktop\src\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Core\withSIX.Core.csproj
 C:\projects\SN\withSIX.Desktop\src\SN.withSIX.ContentEngine.Infra\withSIX.ContentEngine.Infra.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj
 C:\projects\SN\withSIX.Desktop\src\SN.withSIX.ContentEngine.Infra\withSIX.ContentEngine.Infra.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj
@@ -107,3 +108,7 @@ C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Core\withSIX.Min
 C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj
 C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj
 C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj
+C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj
+C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Core.Presentation\withSIX.Core.Presentation.csproj
+C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj
+C:\projects\SN\withSIX.Desktop\src\withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj|C:\projects\SN\withSIX.Desktop\src\SN.withSIX.Core\withSIX.Core.csproj

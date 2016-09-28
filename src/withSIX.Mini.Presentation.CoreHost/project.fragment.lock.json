@@ -464,6 +464,23 @@
           "copyToOutput": true
         }
       }
+    },
+    "withSIX.Mini.Presentation.CoreCore/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.6",
+      "compile": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
     }
   }
 }

@@ -25,7 +25,7 @@ using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Extensions;
 using Timer = SN.withSIX.Core.Helpers.Timer;
 
-namespace withSIX.Mini.Presentation.CoreHost.Services
+namespace withSIX.Mini.Presentation.CoreCore.Services
 {
     public static class ProcessExtensions
     {
@@ -37,7 +37,7 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
         }
 
         public static ProcessManager.ProcessState MonitorProcessOutput(this Process process) {
-            //Contract.Requires<ArgumentNullException>(process != null);
+            Contract.Requires<ArgumentNullException>(process != null);
 
             var state = new ProcessManager.ProcessState();
 
@@ -56,7 +56,7 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
     public static class ReactiveProcessExtensions
     {
         public static ProcessManager.ProcessState MonitorProcessOutput(this ReactiveProcess process) {
-            //Contract.Requires<ArgumentNullException>(process != null);
+            Contract.Requires<ArgumentNullException>(process != null);
 
             var state = new ProcessManager.ProcessState();
 
@@ -174,7 +174,7 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
         public class ManagementInternal : IManagement, IEnableLogging
         {
             public virtual Process[] FindProcess(string name, string path = null) {
-                //Contract.Requires<ArgumentNullException>(name != null);
+                Contract.Requires<ArgumentNullException>(name != null);
                 return Process.GetProcessesByName(name.Replace(".exe", string.Empty));
             }
 
@@ -208,7 +208,7 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
             }
 
             public virtual void KillProcess(Process p, bool gracefully = false) {
-                //Contract.Requires<ArgumentNullException>(p != null);
+                Contract.Requires<ArgumentNullException>(p != null);
                 gracefully = false;
                 if (gracefully) {
                     //p.CloseMainWindow();
@@ -227,8 +227,8 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
             }
 
             public virtual bool KillByName(string name, string path = null, bool gracefully = false) {
-                //Contract.Requires<ArgumentNullException>(name != null);
-                //Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+                Contract.Requires<ArgumentNullException>(name != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
                 var processes = FindProcess(name, path);
                 foreach (var p in processes) {
                     using (p) {
@@ -254,8 +254,8 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
 
 
             public virtual bool Running(string exe) {
-                //Contract.Requires<ArgumentNullException>(exe != null);
-                //Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(exe));
+                Contract.Requires<ArgumentNullException>(exe != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(exe));
 
                 return GetRunningProcesses(exe).Any();
             }
@@ -301,7 +301,7 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
             }
 
             public virtual string GetCommandlineArgs(Process process) {
-                //Contract.Requires<ArgumentNullException>(process != null);
+                Contract.Requires<ArgumentNullException>(process != null);
                 return GetCommandlineArgs(process.Id);
             }
 
@@ -324,8 +324,8 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
             }
 
             public virtual Dictionary<Process, string> GetCommandlineArgs(string name) {
-                //Contract.Requires<ArgumentNullException>(name != null);
-                //Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+                Contract.Requires<ArgumentNullException>(name != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
 
                 var parsedName = name.EndsWith(".exe") ? Path.GetFileNameWithoutExtension(name) : name;
                 var procs = FindProcess(parsedName);
@@ -381,8 +381,8 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
         #region Monitor
 
         Timer MonitorProcessOutput(ReactiveProcess process, TimeSpan timeout) {
-            //Contract.Requires<ArgumentNullException>(process != null);
-            //Contract.Requires<ArgumentNullException>(timeout != null);
+            Contract.Requires<ArgumentNullException>(process != null);
+            Contract.Requires<ArgumentNullException>(timeout != null);
 
             var state = process.MonitorProcessOutput();
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output"));
@@ -392,8 +392,8 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
         }
 
         Timer MonitorProcessOutput(Process process, TimeSpan timeout) {
-            //Contract.Requires<ArgumentNullException>(process != null);
-            //Contract.Requires<ArgumentNullException>(timeout != null);
+            Contract.Requires<ArgumentNullException>(process != null);
+            Contract.Requires<ArgumentNullException>(timeout != null);
 
             var state = process.MonitorProcessOutput();
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output"));
@@ -449,8 +449,8 @@ namespace withSIX.Mini.Presentation.CoreHost.Services
 
         /*
            Timer MonitorProcessResponding(Process process, TimeSpan timeout) {
-            //Contract.Requires<ArgumentNullException>(process != null);
-            //Contract.Requires<ArgumentNullException>(timeout != null);
+            Contract.Requires<ArgumentNullException>(process != null);
+            Contract.Requires<ArgumentNullException>(timeout != null);
 
             var state = new ProcessState();
 
