@@ -21,7 +21,8 @@ namespace SN.withSIX.Sync.Core
         public static IFileDownloader FileDownloader { get; private set; }
         public static IStringDownloader StringDownloader { get; private set; }
         public static Func<ExportLifetimeContext<IHostChecker>> GetHostChecker { get; private set; }
-        public static IYamlUtil Yaml { get; private set; }
+        public static IYamlUtil Yaml => YamlInternal.Value;
+        static Lazy<IYamlUtil> YamlInternal { get; set; }
         public static Func<int> Limiter { get; private set; }
 
         public static void Setup(EvilGlobalServices services, Func<int> limiter) {
@@ -30,7 +31,7 @@ namespace SN.withSIX.Sync.Core
             StringDownloader = services.StringDownloader;
             GetHostChecker = services.GetHostChecker;
             Limiter = limiter;
-            Yaml = services.Yaml;
+            YamlInternal = services.Yaml;
         }
     }
 
@@ -41,7 +42,7 @@ namespace SN.withSIX.Sync.Core
     {
         public EvilGlobalServices(IFileDownloadHelper downloadHelper, IFileDownloader fileDownloader,
             IStringDownloader stringDownloader,
-            Func<ExportLifetimeContext<IHostChecker>> getHostChecker, IYamlUtil yaml) {
+            Func<ExportLifetimeContext<IHostChecker>> getHostChecker, Lazy<IYamlUtil> yaml) {
             DownloadHelper = downloadHelper;
             Downloader = fileDownloader;
             StringDownloader = stringDownloader;
@@ -53,7 +54,7 @@ namespace SN.withSIX.Sync.Core
         public IFileDownloadHelper DownloadHelper { get; }
         public Func<ExportLifetimeContext<IHostChecker>> GetHostChecker { get; }
         public IStringDownloader StringDownloader { get; }
-        public IYamlUtil Yaml { get; }
+        public Lazy<IYamlUtil> Yaml { get; }
     }
 
     public interface IYamlUtil

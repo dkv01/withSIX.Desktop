@@ -269,7 +269,6 @@
     <Compile Include="Services\CallContextService.cs" />
     <Compile Include="Services\Decryption.cs" />
     <Compile Include="Services\ExitHandler.cs" />
-    <Compile Include="Services\MessageBusProxy.cs" />
     <Compile Include="Services\ProcessManager.cs" />
     <Compile Include="Services\UacHelper.cs" />
     <Compile Include="ShutdownHandler.cs" />

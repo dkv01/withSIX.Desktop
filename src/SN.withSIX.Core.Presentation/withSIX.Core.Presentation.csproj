@@ -146,6 +146,7 @@
     <Compile Include="Services\DepResolver.cs" />
     <Compile Include="Services\IExitHandler.cs" />
     <Compile Include="Services\IUpdaterWCF.cs" />
+    <Compile Include="Services\MessageBusProxy.cs" />
     <Compile Include="Services\UserErrorHandling.cs" />
   </ItemGroup>
   <ItemGroup>

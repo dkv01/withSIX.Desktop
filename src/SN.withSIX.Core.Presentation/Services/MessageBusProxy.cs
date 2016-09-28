@@ -6,7 +6,7 @@ using System;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Services
+namespace SN.withSIX.Core.Presentation.Services
 {
     public class MessageBusProxy : IMessageBusProxy, IPresentationService
     {
