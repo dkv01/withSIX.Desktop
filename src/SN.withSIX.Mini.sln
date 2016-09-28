@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Core.Presentation.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Infra.Data", "SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj", "{A3556BC0-A306-4E26-85F2-37013E09D283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Presentation.Owin", "SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.csproj", "{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Presentation.Owin.Signalr", "SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.Signalr.csproj", "{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Core", "SN.withSIX.Mini.Core\withSIX.Mini.Core.csproj", "{33427535-B280-4504-B1CE-02E14C086D1E}"
 EndProject

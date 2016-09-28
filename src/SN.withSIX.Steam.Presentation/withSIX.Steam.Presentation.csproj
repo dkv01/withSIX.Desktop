@@ -477,9 +477,9 @@
       <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
       <Name>withSIX.Mini.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.Signalr.csproj">
       <Project>{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}</Project>
-      <Name>withSIX.Mini.Presentation.Owin</Name>
+      <Name>withSIX.Mini.Presentation.Owin.Signalr</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Arma.Steam\withSIX.Steam.Plugin.Arma.csproj">
       <Project>{15f23cbc-f6a0-4813-8c82-c2706e899c96}</Project>

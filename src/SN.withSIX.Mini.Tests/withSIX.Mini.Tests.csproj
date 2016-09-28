@@ -317,9 +317,9 @@
       <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
       <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.csproj">
+    <ProjectReference Include="..\SN.withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.Signalr.csproj">
       <Project>{80C8F542-5BC1-4BBE-9C5A-0E0CA244A3F0}</Project>
-      <Name>withSIX.Mini.Presentation.Owin</Name>
+      <Name>withSIX.Mini.Presentation.Owin.Signalr</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Infra.Data\withSIX.Mini.Infra.Data.csproj">
       <Project>{A3556BC0-A306-4E26-85F2-37013E09D283}</Project>
