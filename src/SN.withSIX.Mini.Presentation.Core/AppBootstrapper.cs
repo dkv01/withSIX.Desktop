@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
@@ -369,6 +370,17 @@ namespace SN.withSIX.Mini.Presentation.Core
                         new EncryptionProvider(), _cacheScheduler));
         }
 
+        public class EncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
+            }
+        }
+
         void RegisterCache<T>(T cache) where T : IBlobCache {
             var cacheManager = Container.GetInstance<ICacheManager>();
             cacheManager.RegisterCache(cache);
@@ -469,7 +481,11 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         void RegisterRequestHandlers(params Type[] types) {
             foreach (var h in types) {
-                Container.Register(h, _applicationAssemblies.Concat(GetInfraAssemblies), Lifestyle.Singleton);
+                try {
+                    Container.Register(h, _applicationAssemblies.Concat(GetInfraAssemblies), Lifestyle.Singleton);
+                } catch (Exception ex) {
+                    throw;
+                }
                 // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
             }
         }

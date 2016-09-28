@@ -29,6 +29,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             MainLog.logManager = new Lazy<ILogManager>(() => new DummyLogManager());
             var rootPath = entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath;
             CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, null, rootPath);
+            Common.Flags = new Common.StartupFlags(args, true);
 
             var bs = new CoreAppBootstrapper(args, rootPath);
             bs.Configure();

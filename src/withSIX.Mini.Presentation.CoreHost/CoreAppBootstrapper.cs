@@ -21,6 +21,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Presentation.Core;
+using Splat;
 using withSIX.Mini.Presentation.CoreHost.Services;
 using SystemExtensions = withSIX.Api.Models.Extensions.SystemExtensions;
 
@@ -77,9 +78,14 @@ namespace withSIX.Mini.Presentation.CoreHost
         }
 
         protected override void RegisterMessageBus() {
+            //var l = Locator.CurrentMutable;
             // cant refer ReactiveUI atm until we put it into a package :)
+            //l.Register(() => null, typeof(IFilesystemProvider), null);
+            SQLitePCL.Batteries.Init();
             SN.withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
         }
+
+
 
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null)
             => Container.RegisterPlugins<T>(assemblies);

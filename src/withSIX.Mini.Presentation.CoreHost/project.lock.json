@@ -569,6 +569,87 @@
           "lib/netstandard1.0/SimpleInjector.dll": {}
         }
       },
+      "Splat/1.6.2": {
+        "type": "package",
+        "compile": {
+          "lib/Portable-net45+win+wpa81+wp80/Splat.dll": {}
+        },
+        "runtime": {
+          "lib/Portable-net45+win+wpa81+wp80/Splat.dll": {}
+        }
+      },
+      "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "SQLitePCLRaw.core": "1.0.1",
+          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.0.1",
+          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.0.1",
+          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.0.1",
+          "SQLitePCLRaw.provider.e_sqlite3.netstandard11": "1.0.1"
+        },
+        "compile": {
+          "lib/netcoreapp/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+        }
+      },
+      "SQLitePCLRaw.core/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLitePCLRaw.core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLitePCLRaw.core.dll": {}
+        }
+      },
+      "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          }
+        }
+      },
+      "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/osx-x64/native/libe_sqlite3.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          }
+        }
+      },
+      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win7-x64/native/e_sqlite3.dll": {
+            "assetType": "native",
+            "rid": "win7-x64"
+          },
+          "runtimes/win7-x86/native/e_sqlite3.dll": {
+            "assetType": "native",
+            "rid": "win7-x86"
+          }
+        }
+      },
+      "SQLitePCLRaw.provider.e_sqlite3.netstandard11/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "SQLitePCLRaw.core": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLitePCLRaw.provider.e_sqlite3.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLitePCLRaw.provider.e_sqlite3.dll": {}
+        }
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -606,6 +687,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Collections.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Collections.Concurrent/4.0.12": {
@@ -791,6 +875,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Diagnostics.Debug.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Diagnostics.DiagnosticSource/4.0.0": {
@@ -905,6 +992,9 @@
         },
         "compile": {
           "ref/netstandard1.0/System.Diagnostics.Tools.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Diagnostics.Tracing/4.1.0": {
@@ -953,6 +1043,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Globalization.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Globalization.Calendars/4.0.1": {
@@ -1002,6 +1095,9 @@
         },
         "compile": {
           "ref/netstandard1.5/System.IO.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.IO.Compression/4.1.0": {
@@ -1432,6 +1528,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Net.Requests/4.0.11": {
@@ -1453,6 +1552,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Requests.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         },
         "runtimeTargets": {
           "runtimes/unix/lib/netstandard1.3/System.Net.Requests.dll": {
@@ -1717,6 +1819,9 @@
         },
         "compile": {
           "ref/netstandard1.5/System.Reflection.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Reflection.DispatchProxy/4.0.1": {
@@ -1795,6 +1900,9 @@
         },
         "compile": {
           "ref/netstandard1.0/System.Reflection.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Reflection.Metadata/1.3.0": {
@@ -1832,6 +1940,9 @@
         },
         "compile": {
           "ref/netstandard1.0/System.Reflection.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Reflection.TypeExtensions/4.1.0": {
@@ -1874,6 +1985,9 @@
         },
         "compile": {
           "ref/netstandard1.0/System.Resources.ResourceManager.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Runtime/4.1.0": {
@@ -1884,6 +1998,9 @@
         },
         "compile": {
           "ref/netstandard1.5/System.Runtime.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp80+wpa81/_._": {}
         }
       },
       "System.Runtime.Extensions/4.1.0": {
@@ -1895,6 +2012,9 @@
         },
         "compile": {
           "ref/netstandard1.5/System.Runtime.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Runtime.Handles/4.0.1": {
@@ -2250,6 +2370,29 @@
           "lib/netstandard1.3/System.Security.Cryptography.Primitives.dll": {}
         }
       },
+      "System.Security.Cryptography.ProtectedData/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Security.Cryptography.Primitives": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Security.Cryptography.ProtectedData.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "System.Security.Cryptography.X509Certificates/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -2346,6 +2489,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Text.Encoding.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Text.Encoding.CodePages/4.0.1": {
@@ -2384,6 +2530,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Text.Encoding.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Text.RegularExpressions/4.1.0": {
@@ -2447,6 +2596,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/_._": {}
         }
       },
       "System.Threading.Tasks.Dataflow/4.6.0": {
@@ -2706,6 +2858,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2-pre",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Net.NameResolution": "4.0.0"
         }
       },
@@ -2715,7 +2868,8 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "System.Collections.NonGeneric": "4.0.1"
+          "System.Collections.NonGeneric": "4.0.1",
+          "System.Diagnostics.Contracts": "4.0.1"
         }
       },
       "withSIX.ContentEngine.Core/1.0.0": {
@@ -2724,6 +2878,7 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
@@ -2737,6 +2892,7 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2752,6 +2908,7 @@
           "Microsoft.Win32.Registry": "4.0.0",
           "NETStandard.Library": "1.6.0",
           "System.AppContext": "4.1.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.Compression": "4.1.0",
@@ -2773,6 +2930,7 @@
           "MediatR": "2.1.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Diagnostics.Process": "4.1.0",
           "System.ObjectModel": "4.0.12",
           "System.Reactive": "3.0.0",
@@ -2789,6 +2947,7 @@
           "GeoIP": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.7-pre",
@@ -2804,6 +2963,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "SimpleInjector": "3.2.2",
+          "System.Diagnostics.Contracts": "4.0.1",
           "sharpcompress": "0.12.4",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
@@ -2817,6 +2977,7 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Core.Applications": "1.0.0"
         }
       },
@@ -2828,6 +2989,7 @@
           "MediatR": "2.1.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2843,6 +3005,7 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
@@ -2860,6 +3023,7 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -2881,6 +3045,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2-pre",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2898,6 +3063,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2912,6 +3078,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Mini.Core": "1.0.0"
         }
@@ -2923,6 +3090,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -2937,6 +3105,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -2950,6 +3119,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -2963,6 +3133,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Xml.XmlDocument": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
@@ -2978,6 +3149,7 @@
           "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2992,6 +3164,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -3005,6 +3178,7 @@
           "AutoMapper": "5.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -3019,6 +3193,8 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2-pre",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
+          "System.Security.Cryptography.ProtectedData": "4.0.0",
           "withSIX.Api.Models": "2.0.7-pre",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -3040,6 +3216,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2-pre",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
@@ -3052,6 +3229,7 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Diagnostics.Contracts": "4.0.1",
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.Compression": "4.1.0",
@@ -3691,6 +3869,133 @@
         "lib/netstandard1.0/SimpleInjector.xml",
         "lib/portable-net4+sl4+wp8+win8+wpa81/SimpleInjector.dll",
         "lib/portable-net4+sl4+wp8+win8+wpa81/SimpleInjector.xml"
+      ]
+    },
+    "Splat/1.6.2": {
+      "sha512": "DeH0MxPU+D4JchkIDPYG4vUT+hsWs9S41cFle0/4K5EJMXWurx5DzAkj2366DfK14/XKNhsu6tCl4dZXJ3CD4w==",
+      "type": "package",
+      "path": "Splat/1.6.2",
+      "files": [
+        "Splat.1.6.2.nupkg.sha512",
+        "Splat.nuspec",
+        "lib/MonoMac/Splat.dll",
+        "lib/MonoMac/Splat.dll.mdb",
+        "lib/Net45/Splat.dll",
+        "lib/Net45/Splat.pdb",
+        "lib/NetCore45/Splat.dll",
+        "lib/NetCore45/Splat.pdb",
+        "lib/NetCore45/Splat.pri",
+        "lib/Portable-Win81+Wpa81/Splat.dll",
+        "lib/Portable-Win81+Wpa81/Splat.pdb",
+        "lib/Portable-Win81+Wpa81/Splat.pri",
+        "lib/Portable-net45+win+wpa81+wp80/Splat.dll",
+        "lib/Xamarin.Mac10/Splat-XamarinMac.csproj.FilesWrittenAbsolute.txt",
+        "lib/Xamarin.Mac10/Splat.dll",
+        "lib/Xamarin.Mac10/Splat.dll.mdb",
+        "lib/Xamarin.iOS10/Splat.dll",
+        "lib/Xamarin.iOS10/Splat.dll.mdb",
+        "lib/monoandroid/Splat.dll",
+        "lib/monoandroid/Splat.dll.mdb",
+        "lib/monotouch/Splat.dll",
+        "lib/monotouch/Splat.dll.mdb",
+        "lib/wp8/Splat.dll",
+        "lib/wp8/Splat.pdb"
+      ]
+    },
+    "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+      "sha512": "qMHNtn1M862QczB/ZyW7jxS0M0aSjlbDIRYD/fBVHFXeNV/pae9FL/Eq4q3X4BOO6q2X2DyeIAQTWt9kjF15Ug==",
+      "type": "package",
+      "path": "SQLitePCLRaw.bundle_e_sqlite3/1.0.1",
+      "files": [
+        "SQLitePCLRaw.bundle_e_sqlite3.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.bundle_e_sqlite3.nuspec",
+        "build/wp8/SQLitePCLRaw.bundle_e_sqlite3.targets",
+        "build/wp80/arm/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "build/wp80/x86/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/MonoAndroid/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/MonoTouch/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net35/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net40/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/netcoreapp/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/netstandard1.1/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net40+sl5+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/uap10.0/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/win8/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/win81/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/wp8/_._",
+        "lib/wpa81/SQLitePCLRaw.batteries_e_sqlite3.dll"
+      ]
+    },
+    "SQLitePCLRaw.core/1.0.1": {
+      "sha512": "ih45uNC9JVk3xxkxuy1vGl6Ukn6KJkOeEXQcMoxCaGg4OrcYZQFcm9/Sq5WTElGZJ/LynpV6/OrIaLqrmsC8eQ==",
+      "type": "package",
+      "path": "SQLitePCLRaw.core/1.0.1",
+      "files": [
+        "SQLitePCLRaw.core.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.core.nuspec",
+        "lib/MonoAndroid/SQLitePCLRaw.core.dll",
+        "lib/MonoTouch/SQLitePCLRaw.core.dll",
+        "lib/Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/net35/SQLitePCLRaw.core.dll",
+        "lib/net40/SQLitePCLRaw.core.dll",
+        "lib/net45/SQLitePCLRaw.core.dll",
+        "lib/netstandard1.0/SQLitePCLRaw.core.dll",
+        "lib/netstandard1.1/SQLitePCLRaw.core.dll",
+        "lib/portable-net40+sl5+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/uap10.0/SQLitePCLRaw.core.dll",
+        "lib/win8/SQLitePCLRaw.core.dll",
+        "lib/win81/SQLitePCLRaw.core.dll",
+        "lib/wpa81/SQLitePCLRaw.core.dll"
+      ]
+    },
+    "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
+      "sha512": "vhHMQa6Sppy+CyuCKaK6H4PbTEAbMZ/qP5bF3JkeYVCk84rcNoVbN+dxn5PNwT3DZ5CNLI8gvxoeVjqRiqrIUw==",
+      "type": "package",
+      "path": "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1",
+      "files": [
+        "SQLitePCLRaw.lib.e_sqlite3.linux.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.lib.e_sqlite3.linux.nuspec",
+        "build/SQLitePCLRaw.lib.e_sqlite3.linux.targets",
+        "runtimes/linux-x64/native/libe_sqlite3.so"
+      ]
+    },
+    "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
+      "sha512": "frIvPFs7j8NpZXRJnvHW+HX+i8a/B4gxHdah39DWkh9+xmtluOoMjpY+D0aHMvJfBRT9G9x1TYPPQZ+pSAzT3w==",
+      "type": "package",
+      "path": "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1",
+      "files": [
+        "SQLitePCLRaw.lib.e_sqlite3.osx.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.lib.e_sqlite3.osx.nuspec",
+        "build/SQLitePCLRaw.lib.e_sqlite3.osx.targets",
+        "runtimes/osx-x64/native/libe_sqlite3.dylib"
+      ]
+    },
+    "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1": {
+      "sha512": "NhCwpsy7TDzkmT2zKF24JCCdDpXbBcljqlsq/Q9ZIYs3pSzMiBN2L/V9elMXcKccvCQWzlm/xk5DNfTY3HW5Hg==",
+      "type": "package",
+      "path": "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1",
+      "files": [
+        "SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.lib.e_sqlite3.v110_xp.nuspec",
+        "build/SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets",
+        "runtimes/win7-x64/native/e_sqlite3.dll",
+        "runtimes/win7-x86/native/e_sqlite3.dll"
+      ]
+    },
+    "SQLitePCLRaw.provider.e_sqlite3.netstandard11/1.0.1": {
+      "sha512": "pZGus59CTg3eo7RYWoR8kY4wyshwGGY5saRG3URkft0RFaOikyMtWEUhudL1MWLs+cjI1BBt9a05I/DUv4NUsg==",
+      "type": "package",
+      "path": "SQLitePCLRaw.provider.e_sqlite3.netstandard11/1.0.1",
+      "files": [
+        "SQLitePCLRaw.provider.e_sqlite3.netstandard11.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.provider.e_sqlite3.netstandard11.nuspec",
+        "lib/netstandard1.1/SQLitePCLRaw.provider.e_sqlite3.dll"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -7509,6 +7814,35 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Security.Cryptography.ProtectedData/4.0.0": {
+      "sha512": "glbkgV1ridcd6No8gYKU93QeXqJHaQvIve/jI0QUOxiD69JpG5pLVXSneMjuhX5SfjdILeOAuFh9PnCkTZ/aaA==",
+      "type": "package",
+      "path": "System.Security.Cryptography.ProtectedData/4.0.0",
+      "files": [
+        "System.Security.Cryptography.ProtectedData.4.0.0.nupkg.sha512",
+        "System.Security.Cryptography.ProtectedData.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Security.Cryptography.ProtectedData.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Security.Cryptography.ProtectedData.dll",
+        "ref/netstandard1.3/System.Security.Cryptography.ProtectedData.dll",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/unix/lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll",
+        "runtimes/win/lib/net46/System.Security.Cryptography.ProtectedData.dll",
+        "runtimes/win/lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll"
+      ]
+    },
     "System.Security.Cryptography.X509Certificates/4.1.0": {
       "sha512": "4HEfsQIKAhA1+ApNn729Gi09zh+lYWwyIuViihoMDWp1vQnEkL2ct7mAbhBlLYm+x/L4Rr/pyGge1lIY635e0w==",
       "type": "package",
@@ -8732,6 +9066,8 @@
       "Microsoft.NETCore.App >= 1.0.1",
       "Mono.Options >= 4.4.0",
       "NDepend.Path.PCL >= 1.0.2-pre",
+      "SQLitePCLRaw.bundle_e_sqlite3 >= 1.0.1",
+      "Splat >= 1.6.2",
       "System.Diagnostics.Contracts >= 4.0.1",
       "System.Runtime.Loader >= 4.0.0"
     ],

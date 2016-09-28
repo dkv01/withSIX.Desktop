@@ -97,7 +97,7 @@
         "../../../../../Users/proza/.nuget/packages/System.Diagnostics.Process/4.1.0/ref/netstandard1.3/System.Diagnostics.Process.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "../packages/withSIX.Api.Models.2.0.7-pre/lib/netstandard1.3/withSIX.Api.Models.dll": {},
         "bin/Debug/SN.withSIX.Core.Infra.dll": {}
       },
@@ -134,8 +134,9 @@
       },
       "runtime": {
         "../dll/Akavache.Sqlite3.dll": {},
+        "../dll/Akavache.dll": {},
         "../dll/ReactiveUI.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Debug/SN.withSIX.Core.Presentation.dll": {}
       },
       "contentFiles": {
@@ -172,7 +173,7 @@
       },
       "runtime": {
         "../dll/ReactiveUI.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Debug/SN.withSIX.Mini.Applications.dll": {}
       },
       "contentFiles": {
@@ -401,7 +402,7 @@
         "../dll/Akavache.dll": {},
         "../packages/Mono.Options.4.4.0.0/lib/dnxcore/Mono.Options.dll": {},
         "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Debug/SN.withSIX.Mini.Presentation.Core.dll": {}
       },
       "contentFiles": {

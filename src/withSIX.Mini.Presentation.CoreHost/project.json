@@ -13,7 +13,9 @@
     },
     "NDepend.Path.PCL": "1.0.2-pre",
     "System.Runtime.Loader": "4.0.0",
-    "System.Diagnostics.Contracts": "4.0.1"
+    "System.Diagnostics.Contracts": "4.0.1",
+    "Splat": "1.6.2",
+    "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1"
   },
 
   "frameworks": {
@@ -95,7 +97,7 @@
           "target": "project"
         }
       },
-      "imports": "dnxcore50"
+      "imports": [ "dnxcore50", "Portable-net45+win+wpa81+wp80" ]
     }
   }
 }

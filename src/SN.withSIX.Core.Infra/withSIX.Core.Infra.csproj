@@ -183,7 +183,7 @@
       <HintPath>..\..\..\..\..\Users\proza\.nuget\packages\AutoMapper\5.1.1\lib\netstandard1.3\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
-      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+      <HintPath>..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Process">
       <HintPath>..\..\..\..\..\Users\proza\.nuget\packages\System.Diagnostics.Process\4.1.0\ref\netstandard1.3\System.Diagnostics.Process.dll</HintPath>
