@@ -1,17 +1,16 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="StartWebserver.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation;
+using SN.withSIX.Mini.Presentation.Core.Services;
 using SN.withSIX.Mini.Presentation.Owin.Core;
 
 namespace withSIX.Mini.Presentation.CoreCore
@@ -19,18 +18,13 @@ namespace withSIX.Mini.Presentation.CoreCore
     // http://dotnetthoughts.net/how-to-setup-https-on-kestrel/
     public class WebListener : WebServerStartup, IPresentationService
     {
-        public WebListener(IEnumerable<OwinModule> modules) : base(modules) { }
+        public WebListener(IEnumerable<OwinModule> modules) : base(modules) {}
 
         protected override void ConfigureBuilder(IWebHostBuilder builder) {
-            builder.UseKestrel();
-        }
-
-        protected override void Configure(IApplicationBuilder app) {
-            base.Configure(app);
-            //var pfxFile = Path.Combine(appEnv.ApplicationBasePath, "Sample.pfx");
-            //X509Certificate2 certificate = new X509Certificate2(pfxFile, "Password");
-            //app.Use(ChangeContextToHttps);
-            //app.UseKestrelHttps(certificate);
+            builder.UseKestrel(kestrel => {
+                using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
+                    kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
+            });
         }
 
         public override void Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {

@@ -57,12 +57,24 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
         protected static void ExtractFile(IAbsoluteDirectoryPath tmpFolder, string fileName) {
             var destinationFile = tmpFolder.GetChildFileWithName(fileName);
-            var assembly = typeof(WindowsApiPortHandlerBase).GetTypeInfo().Assembly;
-            using (var s = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName)))
+            using (var s = GetApiStream(fileName))
             using (
                 var f = new FileStream(destinationFile.ToString(), FileMode.Create, FileAccess.ReadWrite, FileShare.None)
             )
                 s.CopyTo(f);
+        }
+
+        public static Stream GetApiStream(string fileName) {
+            var assembly = typeof(WindowsApiPortHandlerBase).GetTypeInfo().Assembly;
+            var stream = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName));
+            return stream;
+        }
+
+        private static Stream GetPfxStream(string fileName) {
+            Stream pfxStream;
+            var assembly = typeof(WindowsApiPortHandlerBase).GetTypeInfo().Assembly;
+            pfxStream = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName));
+            return pfxStream;
         }
 
         protected static string GetResourcePath(Assembly assembly, string path) {
