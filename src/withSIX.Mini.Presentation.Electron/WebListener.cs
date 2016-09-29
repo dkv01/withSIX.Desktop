@@ -18,6 +18,7 @@ namespace withSIX.Mini.Presentation.Electron
         public WebListener(IEnumerable<OwinModule> modules) : base(modules) {}
 
         protected override void ConfigureBuilder(IWebHostBuilder builder) => builder.UseKestrel(kestrel => {
+            kestrel.ThreadCount = 20; // Due to tabs etc..
             using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
                 kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
         });

@@ -11,13 +11,14 @@ using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Mini.Presentation.Owin.Core;
 
-namespace withSIX.Mini.Presentation.CoreCore
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public class WebListener : WebServerStartup, IPresentationService
     {
         public WebListener(IEnumerable<OwinModule> modules) : base(modules) {}
 
         protected override void ConfigureBuilder(IWebHostBuilder builder) => builder.UseKestrel(kestrel => {
+            kestrel.ThreadCount = 20; // Due to tabs etc..
             using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
                 kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
         });
