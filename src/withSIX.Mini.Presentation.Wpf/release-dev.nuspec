@@ -37,6 +37,7 @@
 		<file src="bin\release\withSIX.Mini.Plugin.Stellaris.dll" target="lib\net45\withSIX.Mini.Plugin.Stellaris.dll" />
 		<file src="bin\release\withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\withSIX.Mini.Plugin.Starbound.dll" />
         <file src="bin\release\withSIX.Mini.Presentation.Core.dll" target="lib\net45\withSIX.Mini.Presentation.Core.dll" />
+		<file src="bin\release\withSIX.Mini.Presentation.Owin.Core.dll" target="lib\net45\withSIX.Mini.Presentation.Owin.Core.dll" />
 		<file src="bin\release\withSIX.Core.Presentation.Bridge.dll" target="lib\net45\withSIX.Core.Presentation.Bridge.dll" />
         <file src="bin\release\withSIX.Mini.Presentation.Electron.dll" target="lib\net45\withSIX.Mini.Presentation.Electron.dll" />
 		<file src="..\withSIX.Mini.Presentation.Electron\bin\Release\withSIX.Mini.Presentation.Electron.dll.config" target="lib\net45\withSIX.Mini.Presentation.Electron.dll.config" />
