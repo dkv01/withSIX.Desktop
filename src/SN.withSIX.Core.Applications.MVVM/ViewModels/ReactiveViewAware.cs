@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public class ReactiveViewAware : ReactiveValidatableObjectBase, IViewAware
     {

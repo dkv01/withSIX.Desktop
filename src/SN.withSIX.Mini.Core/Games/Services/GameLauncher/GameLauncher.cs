@@ -5,10 +5,10 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
 
-namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
+namespace withSIX.Mini.Core.Games.Services.GameLauncher
 {
     public interface IGameLauncher {}
 

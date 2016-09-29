@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     public class StandardDialog : ContentControl
     {

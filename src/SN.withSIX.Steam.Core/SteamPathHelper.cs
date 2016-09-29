@@ -3,10 +3,10 @@
 // </copyright>
 
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Steam.Core
+namespace withSIX.Steam.Core
 {
     public class SteamPathHelper
     {

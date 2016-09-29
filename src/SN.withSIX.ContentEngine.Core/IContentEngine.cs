@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.ContentEngine.Core
+namespace withSIX.ContentEngine.Core
 {
     public interface IContentEngine
     {

@@ -5,7 +5,7 @@
 using System;
 using System.Reactive;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public interface IObjectCacheManager
     {

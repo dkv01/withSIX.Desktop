@@ -5,10 +5,10 @@
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:cal="http://www.caliburnproject.org"
                          mc:Ignorable="d"
-                         xmlns:viewModels1="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
-                         xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         xmlns:viewModels1="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=withSIX.Play.Applications"
+                         xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
                          xmlns:behaviors="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Behaviors"
-                         xmlns:mods="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Mods;assembly=SN.withSIX.Play.Core"
+                         xmlns:mods="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Mods;assembly=withSIX.Play.Core"
                          xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                          MinHeight="158" MinWidth="600" Width="600" MaxWidth="600"
                          cal:Bind.AtDesignTime="True">

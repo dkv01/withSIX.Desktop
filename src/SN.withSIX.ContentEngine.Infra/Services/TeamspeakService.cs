@@ -8,12 +8,12 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using Microsoft.Win32;
 using NDepend.Path;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.ContentEngine.Infra.Services
+namespace withSIX.ContentEngine.Infra.Services
 {
     public interface ITeamspeakService
     {

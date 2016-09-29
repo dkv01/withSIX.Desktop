@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using withSIX.Api.Models;
 
-namespace SN.withSIX.Sync.Core.Packages.Internals
+namespace withSIX.Sync.Core.Packages.Internals
 {
     public class DependencyVersionMatcher
     {

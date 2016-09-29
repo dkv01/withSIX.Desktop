@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class DictionaryExtensions
     {

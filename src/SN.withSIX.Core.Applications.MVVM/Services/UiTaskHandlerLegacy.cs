@@ -9,10 +9,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Core.Applications.MVVM.Services
+namespace withSIX.Core.Applications.MVVM.Services
 {
     public static class UiTaskHandlerExtensions
     {

@@ -6,15 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Premium;
+using withSIX.Core;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Mini.Applications.Models
+namespace withSIX.Mini.Applications.Models
 {
     public class Settings
     {

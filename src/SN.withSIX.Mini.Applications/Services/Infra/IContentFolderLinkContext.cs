@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface IContentFolderLinkContext : IUnitOfWork
     {

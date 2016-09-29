@@ -5,17 +5,17 @@
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Bridge;
-using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Wpf.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Wpf;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace withSIX.Mini.Presentation.Wpf
 {
     public static class Entrypoint
     {

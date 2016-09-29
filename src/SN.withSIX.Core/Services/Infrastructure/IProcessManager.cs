@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Services.Infrastructure
+namespace withSIX.Core.Services.Infrastructure
 {
     public interface IProcessManagerSync
     {

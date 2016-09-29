@@ -7,14 +7,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
+namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {
     public class GetServers : ICancellableQuery<BatchResult>
     {

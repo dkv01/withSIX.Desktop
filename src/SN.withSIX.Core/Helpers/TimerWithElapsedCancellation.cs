@@ -5,9 +5,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Helpers
+namespace withSIX.Core.Helpers
 {
     public class TimerWithElapsedCancellation : TimerWithElapsedCancellationAsync
     {

@@ -7,12 +7,12 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
+using withSIX.Core;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Sync.Core.Packages
+namespace withSIX.Sync.Core.Packages
 {
     public class PackageFactory
     {

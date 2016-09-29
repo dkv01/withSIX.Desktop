@@ -11,10 +11,10 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using ProcessExtensions = SN.withSIX.Core.Services.Infrastructure.ProcessExtensions;
+using withSIX.Core.Extensions;
+using ProcessExtensions = withSIX.Core.Services.Infrastructure.ProcessExtensions;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     /// <summary>
     ///     Uses character by character parsing for StandardOutput and StandardError, so \r can be processed.

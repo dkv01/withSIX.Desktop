@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction]
     public class ResolveUserError : IAsyncVoidCommand

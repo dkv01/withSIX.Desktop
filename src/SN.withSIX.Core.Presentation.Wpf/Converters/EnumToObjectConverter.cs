@@ -10,7 +10,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Xml;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Converters
+namespace withSIX.Core.Presentation.Wpf.Converters
 {
     [ContentProperty("Items")]
     public class EnumToObjectConverter : IValueConverter

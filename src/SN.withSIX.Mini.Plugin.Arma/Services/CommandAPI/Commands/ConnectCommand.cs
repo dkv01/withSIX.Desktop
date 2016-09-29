@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
+namespace withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
 {
     [DataContract]
     public class ConnectCommand : ISendMessage

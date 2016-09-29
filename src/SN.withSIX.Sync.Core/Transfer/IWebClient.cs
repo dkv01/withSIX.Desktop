@@ -6,9 +6,9 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public interface IWebClient : IDisposable
     {

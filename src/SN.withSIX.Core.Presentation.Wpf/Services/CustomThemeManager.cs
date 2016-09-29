@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using MahApps.Metro;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class CustomThemeManager
     {

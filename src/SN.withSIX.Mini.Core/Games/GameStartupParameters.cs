@@ -7,10 +7,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class GameStartupParameters : PropertyChangedBase

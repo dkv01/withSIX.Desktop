@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols
+namespace withSIX.Sync.Core.Transfer.Protocols
 {
     public class ProtocolMismatch : Exception {}
 }

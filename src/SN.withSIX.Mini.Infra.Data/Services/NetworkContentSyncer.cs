@@ -6,26 +6,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Social;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
-using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
-using CollectionExtensions = SN.withSIX.Core.Applications.Extensions.CollectionExtensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Social;
+using withSIX.Sync.Core;
+using withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
+using withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
+using CollectionExtensions = withSIX.Core.Applications.Extensions.CollectionExtensions;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 using MappingExtensions = withSIX.Api.Models.Extensions.MappingExtensions;
+using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     // TODO: optimize synchronizing collection with group/repo content dependencies.
     public class NetworkContentSyncer : IInfrastructureService, INetworkContentSyncer

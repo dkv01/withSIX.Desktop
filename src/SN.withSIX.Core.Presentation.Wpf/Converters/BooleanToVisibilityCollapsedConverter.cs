@@ -6,9 +6,9 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Converters
+namespace withSIX.Core.Presentation.Wpf.Converters
 {
     public class BooleanToVisibilityCollapsedConverter : IValueConverter
     {

@@ -4,10 +4,10 @@
 
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [DataContract]
     public class Arma3StartupParameters : Arma2OaStartupParameters

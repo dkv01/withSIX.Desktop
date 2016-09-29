@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
+namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
 {
     public class SixRepoConfigDto
     {

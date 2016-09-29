@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ReactiveUI;
 
-namespace SN.withSIX.Mini.Applications.MVVM.Extensions
+namespace withSIX.Mini.Applications.MVVM.Extensions
 {
     public static class RoutingStateExtensions
     {

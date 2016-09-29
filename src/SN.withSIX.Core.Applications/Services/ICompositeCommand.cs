@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public interface ICompositeCommand<TResponseData>
     {

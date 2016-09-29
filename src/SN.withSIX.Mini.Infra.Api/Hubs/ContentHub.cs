@@ -5,11 +5,11 @@
 using System;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Applications.Usecases.Main.Games;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Usecases.Main.Games;
 
-namespace SN.withSIX.Mini.Infra.Api.Hubs
+namespace withSIX.Mini.Infra.Api.Hubs
 {
     public class ContentHub : HubBase<IContentClientHub>
     {

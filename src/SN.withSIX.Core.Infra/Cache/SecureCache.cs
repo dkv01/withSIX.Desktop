@@ -6,7 +6,7 @@ using System.Reactive.Concurrency;
 using Akavache;
 using Akavache.Sqlite3;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public class SecureCache : SQLiteEncryptedBlobCache, ISecureCache
     {

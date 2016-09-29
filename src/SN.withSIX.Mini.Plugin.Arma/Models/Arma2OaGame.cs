@@ -8,13 +8,13 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Services;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Mini.Plugin.Arma.Services;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     /*
     [Game(GameUUids.Arma2Oa, Name = "Arma 2: Operation Arrowhead", Slug = "Arma-2",

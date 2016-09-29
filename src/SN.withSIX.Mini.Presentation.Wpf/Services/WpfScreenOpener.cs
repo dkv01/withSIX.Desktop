@@ -8,12 +8,12 @@ using System.Windows;
 using System.Windows.Data;
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.MVVM.Services;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.MVVM.Services;
+using withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public class WpfScreenOpener : IScreenOpener, IPresentationService
     {

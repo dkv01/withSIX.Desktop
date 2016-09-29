@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public class ContentInfo
     {

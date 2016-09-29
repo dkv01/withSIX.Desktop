@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     public class PersistentDataGrid : DataGrid
     {

@@ -8,10 +8,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Core.Extensions;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Converters
+namespace withSIX.Core.Presentation.Wpf.Converters
 {
     public class IconControlConverter : IValueConverter
     {

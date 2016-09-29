@@ -5,9 +5,9 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Sync.Core.Keys
+namespace withSIX.Sync.Core.Keys
 {
     public class SshKeyPair : PropertyChangedBase
     {

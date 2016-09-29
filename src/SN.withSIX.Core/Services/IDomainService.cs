@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Core.Services
+namespace withSIX.Core.Services
 {
     public interface IDomainService {}
 }

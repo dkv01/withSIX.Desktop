@@ -4,7 +4,7 @@
 
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class WpfFirstTimeLicense : IFirstTimeLicense
     {

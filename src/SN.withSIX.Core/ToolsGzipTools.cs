@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="GzipTools.cs">
+// <copyright company="SIX Networks GmbH" file="GzipTools.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -7,10 +7,10 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.IO.Compression;
 using NDepend.Path;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Helpers;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public partial class Tools
     {

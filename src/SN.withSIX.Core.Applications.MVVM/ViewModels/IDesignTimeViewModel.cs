@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface IDesignTimeViewModel : IDontIC {}
 }

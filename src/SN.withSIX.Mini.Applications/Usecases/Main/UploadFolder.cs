@@ -8,20 +8,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     /*
 var client = w6Cheat.container.get(w6Cheat.containerObjects.client);

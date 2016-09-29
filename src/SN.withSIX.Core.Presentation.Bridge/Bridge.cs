@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class Bridge : IBridge, IPresentationService
     {

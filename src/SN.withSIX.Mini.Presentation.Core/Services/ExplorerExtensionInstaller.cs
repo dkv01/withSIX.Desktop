@@ -7,17 +7,16 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services;
 
-namespace SN.withSIX.Mini.Presentation.Core.Services
+namespace withSIX.Mini.Presentation.Core.Services
 {
     public class ProcessExitException : Exception
     {

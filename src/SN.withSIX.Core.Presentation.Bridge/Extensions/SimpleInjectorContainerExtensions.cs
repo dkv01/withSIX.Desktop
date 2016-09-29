@@ -11,13 +11,13 @@ using System.Reflection;
 using MediatR;
 using SimpleInjector;
 using SimpleInjector.Advanced;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Decorators;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Decorators;
 using Container = SimpleInjector.Container;
 using SystemExtensions = withSIX.Api.Models.Extensions.SystemExtensions;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Extensions
+namespace withSIX.Core.Presentation.Bridge.Extensions
 {
     public class CustomLifestyleSelectionBehavior : ILifestyleSelectionBehavior
     {

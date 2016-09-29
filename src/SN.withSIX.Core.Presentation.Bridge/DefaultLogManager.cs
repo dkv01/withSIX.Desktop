@@ -6,10 +6,10 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using NLog;
-using SN.withSIX.Core.Logging;
-using ILogger = SN.withSIX.Core.Logging.ILogger;
+using withSIX.Core.Logging;
+using ILogger = withSIX.Core.Logging.ILogger;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class DefaultLogManager : ILogManager
     {

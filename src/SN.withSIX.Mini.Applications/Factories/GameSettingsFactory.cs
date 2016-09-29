@@ -3,10 +3,10 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Factories
+namespace withSIX.Mini.Applications.Factories
 {
     public interface IGameSettingsViewModelFactory
     {

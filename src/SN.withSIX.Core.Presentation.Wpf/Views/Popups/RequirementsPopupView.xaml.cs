@@ -4,10 +4,10 @@
 
 using System.Windows;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Popups;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Core.Applications.MVVM.ViewModels.Popups;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Popups
+namespace withSIX.Core.Presentation.Wpf.Views.Popups
 {
     /// <summary>
     ///     Interaction logic for RequirementsPopupView.xaml

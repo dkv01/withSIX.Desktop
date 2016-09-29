@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Net;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Applications.Errors;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class AuthDownloadWrapper
     {

@@ -4,11 +4,11 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Kerbal.Models
+namespace withSIX.Mini.Plugin.Kerbal.Models
 {
     [Game(GameIds.KerbalSP, Name = "Kerbal Space Program", Executables = new[] {"ksp.exe"})]
     [SteamInfo(220200, "Kerbal Space Program")]

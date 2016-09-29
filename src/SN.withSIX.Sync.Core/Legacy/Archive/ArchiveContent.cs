@@ -10,11 +10,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Legacy.Archive
+namespace withSIX.Sync.Core.Legacy.Archive
 {
     public class ArchiveContent
     {

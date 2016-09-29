@@ -8,19 +8,19 @@ using System.Reflection;
 using MediatR;
 using ReactiveUI;
 using SimpleInjector;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Core.Commands;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Api.Services;
-using SN.withSIX.Steam.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Presentation.Core;
+using withSIX.Mini.Presentation.Core.Commands;
+using withSIX.Steam.Api;
+using withSIX.Steam.Api.Services;
+using withSIX.Steam.Core;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
-using SteamApi = SN.withSIX.Steam.Api.Services.SteamApi;
+using SteamApi = withSIX.Steam.Api.Services.SteamApi;
 
-namespace SN.withSIX.Steam.Presentation.Commands
+namespace withSIX.Steam.Presentation.Commands
 {
     public class ContainerSetup : IDisposable
     {

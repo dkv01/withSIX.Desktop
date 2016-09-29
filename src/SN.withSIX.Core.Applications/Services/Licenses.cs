@@ -4,9 +4,9 @@
 
 using System;
 using System.IO;
-using SN.withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Infrastructure;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public class Licenses : IApplicationService
     {

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace SN.withSIX.Core.Applications.Extensions
+namespace withSIX.Core.Applications.Extensions
 {
     public static class IPEndPointExtensions
     {

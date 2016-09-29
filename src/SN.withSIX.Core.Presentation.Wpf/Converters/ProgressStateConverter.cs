@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Shell;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Converters
+namespace withSIX.Core.Presentation.Wpf.Converters
 {
     public class ProgressStateConverter : IValueConverter
     {

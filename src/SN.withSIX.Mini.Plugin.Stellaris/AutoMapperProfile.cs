@@ -3,10 +3,10 @@
 // </copyright>
 
 using AutoMapper;
-using SN.withSIX.Mini.Plugin.Stellaris.ApiModels;
-using SN.withSIX.Mini.Plugin.Stellaris.Models;
+using withSIX.Mini.Plugin.Stellaris.ApiModels;
+using withSIX.Mini.Plugin.Stellaris.Models;
 
-namespace SN.withSIX.Mini.Plugin.Stellaris
+namespace withSIX.Mini.Plugin.Stellaris
 {
     public class AutoMapperProfile : Profile
     {

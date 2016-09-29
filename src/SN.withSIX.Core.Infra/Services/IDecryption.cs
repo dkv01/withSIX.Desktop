@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public interface IDecryption
     {

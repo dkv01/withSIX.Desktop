@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Legacy.Status
+namespace withSIX.Sync.Core.Legacy.Status
 {
     public class Status : TransferStatus, IStatus
     {

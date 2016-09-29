@@ -4,10 +4,10 @@
 
 using System.IO;
 using System.Reflection;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Presentation.Resources;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Presentation.Resources;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class ResourceService : IPresentationResourceService, IPresentationService
     {

@@ -9,19 +9,19 @@ using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Sync.Core.Legacy.Status;
 using withSIX.Api.Models.Extensions;
-using Status = SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Status;
+using withSIX.Core;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Sync.Core.Legacy.Status;
+using Status = withSIX.Mini.Core.Games.Services.ContentInstaller.Status;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class StatusModelChanged : ISyncDomainEvent
     {

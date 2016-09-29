@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Reflection;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Services
+namespace withSIX.Core.Services
 {
     public class AssemblyLoader : IAssemblyLoader, IDomainService
     {

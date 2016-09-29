@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class AssemblyRegistry
     {

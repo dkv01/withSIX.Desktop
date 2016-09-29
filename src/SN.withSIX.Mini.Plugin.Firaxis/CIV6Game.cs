@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Firaxis
+namespace withSIX.Mini.Plugin.Firaxis
 {
     public class CIV6Game : CIV5Game
     {

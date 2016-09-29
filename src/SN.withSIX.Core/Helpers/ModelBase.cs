@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Core.Helpers
+namespace withSIX.Core.Helpers
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class ModelBase : PropertyChangedBase

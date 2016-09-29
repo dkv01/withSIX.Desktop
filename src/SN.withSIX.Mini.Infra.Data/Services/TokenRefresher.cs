@@ -6,23 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using MediatR;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Premium;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public interface IOauthConnect
     {

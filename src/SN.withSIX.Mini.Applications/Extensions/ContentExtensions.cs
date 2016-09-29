@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Extensions;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Extensions
+namespace withSIX.Mini.Applications.Extensions
 {
     public static class ContentExtensions
     {

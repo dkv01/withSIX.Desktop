@@ -6,7 +6,7 @@ using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     // TODO: DTO's should move to infrastructure, leaving only Models without persistence concerns in here / domain.
     [DataContract]

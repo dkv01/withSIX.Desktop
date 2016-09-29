@@ -5,8 +5,8 @@
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Steam.Core;
 using SteamLayerWrap;
+using withSIX.Steam.Core;
 
 namespace withSIX.Steam.Plugin.Arma
 {

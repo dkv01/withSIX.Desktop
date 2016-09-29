@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public interface ISetupGameStuff
     {

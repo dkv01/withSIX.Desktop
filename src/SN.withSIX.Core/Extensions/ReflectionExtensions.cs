@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class AttributeUtils
     {

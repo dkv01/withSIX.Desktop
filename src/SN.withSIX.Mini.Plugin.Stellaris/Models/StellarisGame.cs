@@ -9,14 +9,14 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Stellaris.Models
+namespace withSIX.Mini.Plugin.Stellaris.Models
 {
     [Game(GameIds.Stellaris, Executables = new[] {@"stellaris.exe"}, Name = "Stellaris", IsPublic = true,
          Slug = "Stellaris")]

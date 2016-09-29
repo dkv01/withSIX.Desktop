@@ -13,30 +13,30 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
-using CheckoutType = SN.withSIX.Mini.Core.Games.CheckoutType;
-using Group = SN.withSIX.Mini.Core.Social.Group;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Sync.Core;
+using withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Transfer;
+using CheckoutType = withSIX.Mini.Core.Games.CheckoutType;
+using Group = withSIX.Mini.Core.Social.Group;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class InstallerSession : IInstallerSession
     {

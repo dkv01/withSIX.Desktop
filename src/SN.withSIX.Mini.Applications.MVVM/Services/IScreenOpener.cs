@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Applications.MVVM.Services
+namespace withSIX.Mini.Applications.MVVM.Services
 {
     public interface IScreenOpener : IUsecaseExecutor
     {

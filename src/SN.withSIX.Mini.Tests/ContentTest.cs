@@ -5,13 +5,13 @@
 using System.Linq;
 using NUnit.Framework;
 using Should;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Core;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Data.Services;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Core;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Infra.Data.Services;
 
-namespace SN.withSIX.Mini.Tests
+namespace withSIX.Mini.Tests
 {
     class Dummy : IDomainEventHandlerGrabber
     {

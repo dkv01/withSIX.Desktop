@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace SN.withSIX.Steam.Api.SteamKit.Utils
+namespace withSIX.Steam.Api.SteamKit.Utils
 {
     public static class UrlHelpers
     {

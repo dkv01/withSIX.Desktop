@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Core;
 using withSIX.Api.Models;
+using withSIX.Core;
 
-namespace SN.withSIX.Sync.Core.Packages.Internals
+namespace withSIX.Sync.Core.Packages.Internals
 {
     // TODO: Should not allow Version or Branch to be changed after construct?
     public abstract class MetaDataBase : IComparePK<MetaDataBase>, IComparePK<Dependency>

@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Api.Services;
+using withSIX.Steam.Api;
+using withSIX.Steam.Api.Services;
 
-namespace SN.withSIX.Steam.Presentation.Commands
+namespace withSIX.Steam.Presentation.Commands
 {
     public class InstallCommand : BaseSteamCommand
     {

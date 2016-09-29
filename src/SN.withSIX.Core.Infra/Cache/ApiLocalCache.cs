@@ -4,7 +4,7 @@
 
 using System.Reactive.Concurrency;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public class ApiLocalCache : LocalCache, IApiLocalCache
     {

@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public abstract class TimestampedDomainEvent : ISyncDomainEvent, IHaveTimestamp
     {

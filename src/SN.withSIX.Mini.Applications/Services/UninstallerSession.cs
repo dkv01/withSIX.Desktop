@@ -8,17 +8,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
+using withSIX.Core.Helpers;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class UninstallerSession : IUninstallSession
     {

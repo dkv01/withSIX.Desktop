@@ -10,15 +10,15 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [ContractClassFor(typeof(IContent))]
     public abstract class IContentContract : IContent
@@ -371,7 +371,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         internal void GetRelatedContent(ICollection<IContentSpec<Content>> l, string constraint)
             =>
-            l.BuildDependencies(() => CreateRelatedSpec(constraint), x => x.Select(c => c.Content).Contains(this),
+            l.BuildDependencies(() => CreateRelatedSpec(constraint), x => Enumerable.Select<IContentSpec<Content>, Content>(x, c => c.Content).Contains(this),
                 HandleRelatedContentChildren);
 
         protected abstract IContentSpec<Content> CreateRelatedSpec(string constraint);

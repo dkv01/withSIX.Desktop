@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.NotificationHandlers
+namespace withSIX.Mini.Applications.NotificationHandlers
 {
     public class StartWithWindowsHandler
     {

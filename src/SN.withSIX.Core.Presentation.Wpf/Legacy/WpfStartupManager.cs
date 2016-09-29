@@ -4,12 +4,12 @@
 
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Cache;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Cache;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Wpf.Legacy
 {
     public class WpfStartupManager : StartupManager, IWpfStartupManager
     {

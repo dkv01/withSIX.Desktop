@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface IDashboardViewModelBase : INotifyPropertyChanged, IScreen
     {

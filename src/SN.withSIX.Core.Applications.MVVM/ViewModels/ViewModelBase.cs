@@ -6,10 +6,10 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public abstract class ViewModelBase : ReactiveValidatableObjectBase, IViewModel {}
 

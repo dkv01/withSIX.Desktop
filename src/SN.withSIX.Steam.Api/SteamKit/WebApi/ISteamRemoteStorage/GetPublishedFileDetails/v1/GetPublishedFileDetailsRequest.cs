@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1
+namespace withSIX.Steam.Api.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed class GetPublishedFileDetailsRequest : ApiRequestBase

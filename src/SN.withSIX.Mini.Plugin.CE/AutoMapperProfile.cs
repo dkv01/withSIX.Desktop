@@ -3,10 +3,10 @@
 // </copyright>
 
 using AutoMapper;
-using SN.withSIX.Mini.Plugin.CE.ApiModels;
-using SN.withSIX.Mini.Plugin.CE.Models;
+using withSIX.Mini.Plugin.CE.ApiModels;
+using withSIX.Mini.Plugin.CE.Models;
 
-namespace SN.withSIX.Mini.Plugin.CE
+namespace withSIX.Mini.Plugin.CE
 {
     public class AutoMapperProfile : Profile
     {

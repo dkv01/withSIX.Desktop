@@ -11,10 +11,10 @@ using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Applications.MVVM.Attributes;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface IMenuBase
     {

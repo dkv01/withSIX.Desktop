@@ -14,7 +14,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Extensions
+namespace withSIX.Core.Presentation.Wpf.Extensions
 {
     public static class VisualExtensions
     {

@@ -13,18 +13,17 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications.Services.Dtos;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Sync.Core.Legacy.Status;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Sync.Core.Legacy.Status;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public interface IPlayWithSixImporter
     {
@@ -157,10 +156,7 @@ namespace SN.withSIX.Mini.Applications.Services
             => pwsPath.GetChildFileWithName(
                 $"settings-{version.Major}.{version.Minor}.xml");
     }
-}
 
-namespace SN.withSIX.Mini.Applications.Services.Dtos
-{
     [Obsolete("BWC for datacontract madness, and use IPEndpoint or so")]
     // This is IPEndPoint really?
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]

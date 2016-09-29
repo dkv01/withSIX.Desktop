@@ -5,13 +5,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Plugin.GTA.Models;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Plugin.GTA.Models;
 
-namespace SN.withSIX.Mini.Plugin.GTA
+namespace withSIX.Mini.Plugin.GTA
 {
     public class GTAExceptionHandler : BasicExternalExceptionhandler, IUsecaseExecutor
     {

@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Content;
+using withSIX.Core;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Mini.Core.Extensions
+namespace withSIX.Mini.Core.Extensions
 {
     public static class GameExtensions
     {

@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Presentation.Services;
+using withSIX.Core.Presentation.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Services
+namespace withSIX.Core.Presentation.Bridge.Services
 {
     public class ExitHandler : IExitHandler, IPresentationService
     {

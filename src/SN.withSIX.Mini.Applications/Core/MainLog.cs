@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Mini.Applications.Core
+namespace withSIX.Mini.Applications.Core
 {
     /*
     public class MainLog

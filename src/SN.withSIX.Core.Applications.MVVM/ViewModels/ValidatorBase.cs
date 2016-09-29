@@ -5,7 +5,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public class ValidatorBase<T> : AbstractValidator<T>
     {

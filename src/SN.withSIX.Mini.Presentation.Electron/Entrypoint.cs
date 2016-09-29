@@ -7,17 +7,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Bridge;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core;
-using Splat;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Services;
+using withSIX.Mini.Applications;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public static class Entrypoint
     {

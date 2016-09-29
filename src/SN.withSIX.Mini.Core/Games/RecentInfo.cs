@@ -4,9 +4,9 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public interface IRecentInfo
     {

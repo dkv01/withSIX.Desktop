@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public abstract class ReactiveConductorBase<T> : ReactiveScreen, IConductor, IParent<T> where T : class
     {

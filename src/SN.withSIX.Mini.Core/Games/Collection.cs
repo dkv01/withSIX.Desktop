@@ -9,12 +9,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class Collection : InstallableContent, ICollectionContent, IUninstallableContent

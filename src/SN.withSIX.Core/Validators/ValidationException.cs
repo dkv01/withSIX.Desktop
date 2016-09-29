@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 
-namespace SN.withSIX.Core.Validators
+namespace withSIX.Core.Validators
 {
     public static class UriValidator
     {

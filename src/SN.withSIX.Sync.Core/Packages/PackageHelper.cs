@@ -4,7 +4,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace SN.withSIX.Sync.Core.Packages
+namespace withSIX.Sync.Core.Packages
 {
     public static class PackageHelper
     {

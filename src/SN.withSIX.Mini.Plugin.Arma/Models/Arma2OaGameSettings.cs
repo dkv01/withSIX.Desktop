@@ -6,7 +6,7 @@ using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     public interface ILaunchAsDedicatedServer
     {

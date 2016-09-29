@@ -5,11 +5,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public class MultiMirrorFileDownloader : IMultiMirrorFileDownloader
     {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using SteamKit2;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     /// <summary>
     ///     CDNClientPool provides a pool of CDNClients to CDN endpoints

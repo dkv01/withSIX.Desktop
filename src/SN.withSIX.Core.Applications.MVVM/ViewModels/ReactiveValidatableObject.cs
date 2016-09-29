@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using FluentValidation;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     [DataContract]
     public abstract class ReactiveValidatableObject : ReactivePropertyChanged, IDataErrorInfo

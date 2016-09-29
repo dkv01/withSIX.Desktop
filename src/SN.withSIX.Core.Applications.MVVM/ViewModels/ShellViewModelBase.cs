@@ -4,11 +4,11 @@
 
 using System;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.Services;
 using IScreen = Caliburn.Micro.IScreen;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public abstract class ShellViewModelBase : ReactiveConductor<IScreen>.Collection.OneActive, IShellViewModelBase
         /*, IHandle<KeyEventArgs>*/

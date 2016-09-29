@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.ComponentModel;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Homeworld.Models
+namespace withSIX.Mini.Plugin.Homeworld.Models
 {
     public class Homeworld2StartupParameters : BasicGameStartupParameters
     {

@@ -4,9 +4,9 @@
 
 using System;
 using Caliburn.Micro;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class NLogLogger : ILog
     {

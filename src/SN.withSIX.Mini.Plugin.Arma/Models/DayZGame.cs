@@ -4,11 +4,11 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Plugin.Arma.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.DayZSA, Name = "DayZ: Zombie RPG", Slug = "DayZ", Executables = new[] {"dayz.exe"})
     ]

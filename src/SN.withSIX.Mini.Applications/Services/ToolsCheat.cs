@@ -4,13 +4,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public interface IToolsCheat
     {

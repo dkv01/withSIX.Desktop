@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:notifications="clr-namespace:SN.withSIX.Play.Applications.DataModels.Notifications;assembly=SN.withSIX.Play.Applications"
-             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
-             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
-             xmlns:popups="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Popups;assembly=SN.withSIX.Play.Applications"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:notifications="clr-namespace:SN.withSIX.Play.Applications.DataModels.Notifications;assembly=withSIX.Play.Applications"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=withSIX.Play.Applications"
+             xmlns:popups="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Popups;assembly=withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d"
              cal:Bind.AtDesignTime="True">
     <d:DesignProperties.DataContext>

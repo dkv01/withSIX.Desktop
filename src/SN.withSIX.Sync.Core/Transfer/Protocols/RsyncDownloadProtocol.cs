@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols
+namespace withSIX.Sync.Core.Transfer.Protocols
 {
     public class RsyncException : DownloadException
     {

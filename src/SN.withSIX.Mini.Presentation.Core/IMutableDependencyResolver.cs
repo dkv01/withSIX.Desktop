@@ -1,4 +1,4 @@
-﻿namespace SN.withSIX.Mini.Presentation.Core
+﻿namespace withSIX.Mini.Presentation.Core
 {
     //internal interface IMutableDependencyResolver
     //{

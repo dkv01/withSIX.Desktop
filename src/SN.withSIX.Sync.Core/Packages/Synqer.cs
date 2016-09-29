@@ -10,19 +10,19 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
 
-namespace SN.withSIX.Sync.Core.Packages
+namespace withSIX.Sync.Core.Packages
 {
     public interface ISynqer
     {

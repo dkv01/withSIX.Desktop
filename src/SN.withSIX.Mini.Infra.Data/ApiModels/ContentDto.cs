@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Mini.Infra.Data.ApiModels
+namespace withSIX.Mini.Infra.Data.ApiModels
 {
     public abstract class ContentDtoV2
     {

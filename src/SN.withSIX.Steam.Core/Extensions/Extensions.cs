@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SN.withSIX.Steam.Core.Extensions
+namespace withSIX.Steam.Core.Extensions
 {
     public static class Extensions
     {

@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions"
-                    xmlns:behaviors="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Behaviors">
+                    xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions"
+                    xmlns:behaviors="clr-namespace:withSIX.Core.Presentation.Wpf.Behaviors">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="CoreConverters.xaml" />
         <ResourceDictionary Source="CoreColors.xaml" />

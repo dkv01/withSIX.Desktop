@@ -3,12 +3,12 @@
 // </copyright>
 
 using System;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.ContentEngine.Infra.Services;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.ContentEngine.Core;
+using withSIX.ContentEngine.Infra.Services;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class ContentEngineGameContext : IContentEngineGameContext, IInfrastructureService
     {

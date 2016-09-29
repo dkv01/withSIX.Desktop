@@ -7,11 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class WhiteListFolders : IAsyncVoidCommand
     {

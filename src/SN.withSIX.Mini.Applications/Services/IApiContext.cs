@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Content.v3;
-using ApiHashes = SN.withSIX.Mini.Core.Games.ApiHashes;
+using ApiHashes = withSIX.Mini.Core.Games.ApiHashes;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public interface IApiContext
     {

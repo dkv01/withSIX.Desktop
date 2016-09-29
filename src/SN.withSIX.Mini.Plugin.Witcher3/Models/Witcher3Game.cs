@@ -5,11 +5,11 @@
 using System;
 using System.Runtime.Serialization;
 using NDepend.Path;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Witcher3.Models
+namespace withSIX.Mini.Plugin.Witcher3.Models
 {
     [Game(GameIds.Witcher3, Executables = new[] {@"bin\x64\witcher3.exe"}, Name = "The Witcher 3", IsPublic = false,
          Slug = "witcher-3")]

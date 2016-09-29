@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Helpers
+namespace withSIX.Core.Helpers
 {
     /// <summary>
     ///     Exceptions that use the Windows API Error Codes

@@ -4,10 +4,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols
+namespace withSIX.Sync.Core.Transfer.Protocols
 {
     public abstract class TransferProtocol
     {

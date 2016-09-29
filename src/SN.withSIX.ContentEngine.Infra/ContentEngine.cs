@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.ContentEngine.Infra.Services;
-using SN.withSIX.Core.Infra.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.ContentEngine.Core;
+using withSIX.ContentEngine.Infra.Services;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.ContentEngine.Infra
+namespace withSIX.ContentEngine.Infra
 {
     public class ContentEngine : IContentEngine, IInfrastructureService
     {

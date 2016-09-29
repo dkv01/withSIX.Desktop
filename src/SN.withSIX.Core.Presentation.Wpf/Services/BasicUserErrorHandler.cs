@@ -6,7 +6,7 @@ using System;
 using System.Windows;
 using ReactiveUI;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public static class BasicUserErrorHandler
     {

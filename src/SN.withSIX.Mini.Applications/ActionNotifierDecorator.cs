@@ -7,16 +7,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public class ActionNotifierDecorator : MediatorDecoratorBase
     {

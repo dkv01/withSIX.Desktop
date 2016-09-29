@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Repositories.Internals;
 using withSIX.Api.Models.Extensions;
-using Timer = SN.withSIX.Core.Helpers.Timer;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Repositories.Internals;
+using Timer = withSIX.Core.Helpers.Timer;
 
-namespace SN.withSIX.Sync.Core.Repositories
+namespace withSIX.Sync.Core.Repositories
 {
     public class SynqPathException : Exception
     {

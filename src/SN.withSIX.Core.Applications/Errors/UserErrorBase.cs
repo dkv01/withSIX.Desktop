@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Applications.Errors
+namespace withSIX.Core.Applications.Errors
 {
     public class RestartAsAdministratorUserError : UserErrorModel
     {

@@ -1,11 +1,11 @@
-﻿// <copyright company="SIX Networks GmbH" file="SafeIO.cs">
+// <copyright company="SIX Networks GmbH" file="SafeIO.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
 using System;
 using NDepend.Path;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public partial class Tools
     {

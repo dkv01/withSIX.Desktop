@@ -4,10 +4,10 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Usecases
 {
     // We don't want a DB scope+save
     public class Shutdown : IAsyncRequest<Unit> {}

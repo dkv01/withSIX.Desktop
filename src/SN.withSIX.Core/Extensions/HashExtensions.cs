@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class Hash
     {

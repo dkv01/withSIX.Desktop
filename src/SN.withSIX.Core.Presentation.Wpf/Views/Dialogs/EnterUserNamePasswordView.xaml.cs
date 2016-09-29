@@ -4,11 +4,11 @@
 
 using System.Windows;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
-using SN.withSIX.Core.Applications.MVVM.Views.Dialogs;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using withSIX.Core.Applications.MVVM.Views.Dialogs;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
+namespace withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
     public partial class EnterUserNamePasswordView : StandardDialog, IEnterUserNamePasswordView
     {

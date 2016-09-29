@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public static class LoggingSetup
     {

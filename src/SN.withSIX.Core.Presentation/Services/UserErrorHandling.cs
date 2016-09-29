@@ -11,10 +11,10 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Errors;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace withSIX.Core.Presentation.Services
 {
     public static class UserErrorHandling
     {

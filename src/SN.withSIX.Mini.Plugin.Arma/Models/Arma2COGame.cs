@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.Arma2Co, Name = "Arma 2: Combined Operations", ShortName = "Arma2: CO", Slug = "Arma-2",
          Executables = new[] {"arma2oa.exe"},

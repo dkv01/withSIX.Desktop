@@ -7,10 +7,10 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface IMenuItemBase : ISelectable
     {

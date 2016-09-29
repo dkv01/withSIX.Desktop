@@ -5,14 +5,14 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction]
     public class RemoveRecent : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId

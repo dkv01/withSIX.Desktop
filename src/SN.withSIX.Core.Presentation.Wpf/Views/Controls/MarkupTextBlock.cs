@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     public class MyHyperlink : Hyperlink, IDisposable
     {

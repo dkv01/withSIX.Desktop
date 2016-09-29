@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public class Initializer : IInitializer
     {

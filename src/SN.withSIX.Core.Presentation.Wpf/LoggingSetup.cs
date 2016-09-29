@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 
-namespace SN.withSIX.Core.Presentation.Wpf
+namespace withSIX.Core.Presentation.Wpf
 {
     public static class LoggingSetup
     {

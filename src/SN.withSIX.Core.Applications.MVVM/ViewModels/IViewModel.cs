@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface IViewModel : INotifyPropertyChanged {}
 }

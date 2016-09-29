@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Properties {
-    using System;
-    
-    
+namespace withSIX.Mini.Presentation.Wpf.Properties {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

@@ -4,17 +4,16 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Api.Services;
-using SN.withSIX.Steam.Core;
 using SteamLayerWrap;
 using Steamworks;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Steam.Api.Services;
+using withSIX.Steam.Core;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using SteamApi = withSIX.Steam.Plugin.Arma.SteamApi;
 
-namespace SN.withSIX.Steam.Presentation
+namespace withSIX.Steam.Presentation
 {
     public class SteamActions
     {

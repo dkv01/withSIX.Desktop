@@ -3,10 +3,10 @@
 // </copyright>
 
 using AutoMapper;
-using SN.withSIX.Mini.Plugin.Starbound.ApiModels;
-using SN.withSIX.Mini.Plugin.Starbound.Models;
+using withSIX.Mini.Plugin.Starbound.ApiModels;
+using withSIX.Mini.Plugin.Starbound.Models;
 
-namespace SN.withSIX.Mini.Plugin.Starbound
+namespace withSIX.Mini.Plugin.Starbound
 {
     public class AutoMapperProfile : Profile
     {

@@ -4,9 +4,9 @@
 
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Models;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public interface IExplorerExtensionInstaller
     {

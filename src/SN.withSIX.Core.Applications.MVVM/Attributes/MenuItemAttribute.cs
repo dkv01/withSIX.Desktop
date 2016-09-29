@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Applications.MVVM.Attributes
+namespace withSIX.Core.Applications.MVVM.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class MenuItemAttribute : Attribute

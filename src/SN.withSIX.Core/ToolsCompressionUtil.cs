@@ -4,9 +4,9 @@
 
 using System.Collections.Generic;
 using NDepend.Path;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public interface ICompressionUtil
     {

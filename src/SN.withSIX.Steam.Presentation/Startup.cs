@@ -17,20 +17,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Steam.Plugin.Arma;
-using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 using Unit = System.Reactive.Unit;
-using SN.withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Steam.Presentation
+namespace withSIX.Steam.Presentation
 {
     class Startup
     {

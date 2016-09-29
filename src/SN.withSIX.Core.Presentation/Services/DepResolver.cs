@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using SimpleInjector;
-using SN.withSIX.Core.Applications.Factories;
+using withSIX.Core.Applications.Factories;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace withSIX.Core.Presentation.Services
 {
     public class DepResolver : IDepResolver, IPresentationService
     {

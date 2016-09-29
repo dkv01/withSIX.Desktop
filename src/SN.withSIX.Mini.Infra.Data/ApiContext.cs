@@ -10,16 +10,16 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Akavache;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Data.ApiModels;
 using withSIX.Api.Models.Games;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Infra.Data.ApiModels;
 
-namespace SN.withSIX.Mini.Infra.Data
+namespace withSIX.Mini.Infra.Data
 {
     public class ApiContext : IApiContext, IInfrastructureService
     {

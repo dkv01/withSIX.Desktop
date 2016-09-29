@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Logging
+namespace withSIX.Core.Logging
 {
     public interface ILogManager
     {

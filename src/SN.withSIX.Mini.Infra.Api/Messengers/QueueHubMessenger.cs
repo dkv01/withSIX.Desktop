@@ -5,12 +5,12 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Infra.Api.Hubs;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Infra.Api.Hubs;
 
-namespace SN.withSIX.Mini.Infra.Api.Messengers
+namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class QueueHubMessenger : IInfrastructureService, IQueueHubMessenger
     {

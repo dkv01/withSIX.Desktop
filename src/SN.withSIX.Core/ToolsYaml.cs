@@ -1,10 +1,10 @@
-﻿// <copyright company="SIX Networks GmbH" file="YamlTools.cs">
+// <copyright company="SIX Networks GmbH" file="YamlTools.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
 using System;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public class YamlExpectedOtherNodeTypeException : Exception
     {

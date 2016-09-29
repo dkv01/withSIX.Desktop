@@ -12,24 +12,24 @@ using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using MediatR;
 using ReactiveUI;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Api
 {
     public class StateHandler : IInfrastructureService, IStateHandler
     {

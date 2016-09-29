@@ -5,7 +5,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
+namespace withSIX.Mini.Core.Games.Services.ContentInstaller
 {
     public interface IUninstallSession
     {

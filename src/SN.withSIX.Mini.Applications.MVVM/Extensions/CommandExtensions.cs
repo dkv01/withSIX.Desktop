@@ -7,7 +7,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI.Legacy;
 
-namespace SN.withSIX.Mini.Applications.MVVM.Extensions
+namespace withSIX.Mini.Applications.MVVM.Extensions
 {
     public static class CommandExtensions
     {

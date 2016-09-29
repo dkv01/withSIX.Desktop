@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace SN.withSIX.Mini.Presentation.Shell
+namespace withSIX.Mini.Presentation.Shell
 {
     public class Helper
     {

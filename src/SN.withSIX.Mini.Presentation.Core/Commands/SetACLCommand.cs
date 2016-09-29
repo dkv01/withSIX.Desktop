@@ -5,9 +5,9 @@
 using System;
 using System.Security.AccessControl;
 using NDepend.Path;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Mini.Presentation.Core.Commands
+namespace withSIX.Mini.Presentation.Core.Commands
 {
     public class SetACLCommand : BaseCommand
     {

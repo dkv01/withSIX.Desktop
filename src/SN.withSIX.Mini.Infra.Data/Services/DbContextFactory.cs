@@ -6,14 +6,14 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class DbContextFactory : IDbContextFactory, IInfrastructureService
     {

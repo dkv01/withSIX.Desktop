@@ -7,13 +7,13 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Steam.Api.Helpers;
-using SN.withSIX.Steam.Api.Services;
 using Steamworks;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Steam.Api.Helpers;
+using withSIX.Steam.Api.Services;
 
-namespace SN.withSIX.Steam.Api
+namespace withSIX.Steam.Api
 {
     public class PublishedFile
     {

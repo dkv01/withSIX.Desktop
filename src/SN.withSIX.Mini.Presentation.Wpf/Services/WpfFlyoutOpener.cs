@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Mini.Applications.MVVM.Services;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Mini.Applications.MVVM.Services;
+using withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public class WpfFlyoutOpener : IFlyoutOpener
     {

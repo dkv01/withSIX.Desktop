@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using System.Windows;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace withSIX.Mini.Presentation.Wpf
 {
     public static class UiConstants
     {

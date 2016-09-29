@@ -4,11 +4,11 @@ using System.IO;
 using System.Net;
 using System.Security.Principal;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Mini.Presentation.Core.Services
+namespace withSIX.Mini.Presentation.Core.Services
 {
     public class WindowsApiPortHandler : WindowsApiPortHandlerBase
     {

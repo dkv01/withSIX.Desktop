@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Extensions
+namespace withSIX.Mini.Presentation.Wpf.Extensions
 {
     public static class AttributeUtils
     {

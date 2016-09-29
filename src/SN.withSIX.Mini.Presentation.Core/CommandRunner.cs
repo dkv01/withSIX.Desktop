@@ -8,12 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ManyConsole;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Presentation.Core.Commands;
 
-namespace SN.withSIX.Mini.Presentation.Core
+namespace withSIX.Mini.Presentation.Core
 {
     public class CommandRunner : IPresentationService
     {

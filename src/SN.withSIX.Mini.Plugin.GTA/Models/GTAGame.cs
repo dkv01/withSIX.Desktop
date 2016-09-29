@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.GTA.Models
+namespace withSIX.Mini.Plugin.GTA.Models
 {
     public abstract class GTAGame : BasicGame
     {

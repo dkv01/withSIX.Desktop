@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     public class PopupControl : ContentControl
     {

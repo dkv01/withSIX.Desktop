@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
+namespace withSIX.Mini.Applications.MVVM.ViewModels
 {
     public interface IIsOpen
     {

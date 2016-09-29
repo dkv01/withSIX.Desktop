@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Services
+namespace withSIX.Mini.Plugin.Arma.Services
 {
     public class WriteParFileInfo
     {

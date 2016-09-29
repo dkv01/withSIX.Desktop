@@ -10,14 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Akavache;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     // TODO: How to deal with damn circular references problems.
     // Like mbg_buildings2_eu was referencing itself as a dependency..

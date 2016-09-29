@@ -7,15 +7,15 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class Excecutor : IUsecaseExecutor
     {

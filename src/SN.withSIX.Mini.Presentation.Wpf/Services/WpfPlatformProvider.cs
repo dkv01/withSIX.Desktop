@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications.MVVM.Services;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications.MVVM.Services;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public class WpfPlatformProvider : IPlatformProvider, IPresentationService
     {

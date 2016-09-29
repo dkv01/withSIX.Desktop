@@ -10,11 +10,11 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Akavache.Sqlite3.Internal;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Core.Applications.Errors;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Repositories.Internals;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace withSIX.Core.Presentation.Services
 {
     public abstract class DefaultExceptionHandler : IExceptionHandler
     {

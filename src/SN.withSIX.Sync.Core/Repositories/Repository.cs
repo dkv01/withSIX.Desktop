@@ -12,20 +12,20 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NDepend.Path;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Services;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Services;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
-namespace SN.withSIX.Sync.Core.Repositories
+namespace withSIX.Sync.Core.Repositories
 {
     public class Repository : IEnableLogging, IDisposable
     {

@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 
-namespace SN.withSIX.Core.Applications.MVVM.Views.Dialogs
+namespace withSIX.Core.Applications.MVVM.Views.Dialogs
 {
     public interface IEnterUserNamePasswordView : IViewFor<IEnterUserNamePasswordViewModel> {}
 }

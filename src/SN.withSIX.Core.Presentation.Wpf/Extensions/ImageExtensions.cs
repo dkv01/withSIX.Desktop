@@ -6,7 +6,7 @@ using System;
 using System.Drawing;
 using System.IO;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Extensions
+namespace withSIX.Core.Presentation.Wpf.Extensions
 {
     public static class ImageExtensions
     {

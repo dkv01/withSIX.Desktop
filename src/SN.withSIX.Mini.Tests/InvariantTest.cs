@@ -5,10 +5,10 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Mini.Core;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Tests
+namespace withSIX.Mini.Tests
 {
     [TestFixture]
     public class InvariantTest

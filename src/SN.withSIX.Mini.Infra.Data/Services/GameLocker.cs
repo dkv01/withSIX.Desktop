@@ -12,16 +12,16 @@ using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Core.Games.Services;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using Disposable = SN.withSIX.Core.Helpers.Disposable;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Core.Games.Services;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using Disposable = withSIX.Core.Helpers.Disposable;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     // TODO: Fix this retarded implementation!!!
     public class GameLocker : IDisposable, IGameLocker, IInfrastructureService

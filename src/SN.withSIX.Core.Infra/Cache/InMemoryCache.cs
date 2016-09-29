@@ -5,7 +5,7 @@
 using System.Reactive.Concurrency;
 using Akavache;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public class InMemoryCache : InMemoryBlobCache, IInMemoryCache
     {

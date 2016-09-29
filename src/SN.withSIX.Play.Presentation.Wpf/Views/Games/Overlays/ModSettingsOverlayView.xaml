@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"
-             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=SN.withSIX.Play.Applications"
-             xmlns:arma="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Arma;assembly=SN.withSIX.Play.Core"
+             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:arma="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Arma;assembly=withSIX.Play.Core"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance overlays2:ModSettingsOverlayViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">

@@ -6,10 +6,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Usecases;
 
-namespace SN.withSIX.Mini.Applications.Extensions
+namespace withSIX.Mini.Applications.Extensions
 {
     public static class UsecaseExecutorExtensions
     {

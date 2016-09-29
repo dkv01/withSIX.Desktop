@@ -4,10 +4,10 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Games;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Mini.Core.Games.Attributes
+namespace withSIX.Mini.Core.Games.Attributes
 {
     public class SteamInfoAttribute : Attribute
     {

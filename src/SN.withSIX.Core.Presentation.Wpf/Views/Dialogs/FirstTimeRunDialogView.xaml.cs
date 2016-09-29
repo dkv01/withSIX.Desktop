@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Windows;
-using SN.withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Infrastructure;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Dialogs
+namespace withSIX.Core.Presentation.Wpf.Views.Dialogs
 {
     /// <summary>
     ///     Interaction logic for FirstTimeRunDialogView.xaml

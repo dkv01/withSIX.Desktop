@@ -4,10 +4,10 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public class ToolsServices : IDomainService
     {

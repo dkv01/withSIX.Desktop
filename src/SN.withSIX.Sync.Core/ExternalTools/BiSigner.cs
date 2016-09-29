@@ -5,12 +5,12 @@
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Sync.Core.ExternalTools
+namespace withSIX.Sync.Core.ExternalTools
 {
     public class BiSigner : IDomainService
     {

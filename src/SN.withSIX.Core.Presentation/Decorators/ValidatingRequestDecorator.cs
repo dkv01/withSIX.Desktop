@@ -6,10 +6,10 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
 using withSIX.Api.Models.Validators;
+using withSIX.Core.Applications.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Decorators
+namespace withSIX.Core.Presentation.Decorators
 {
     public class MediatorValidationDecorator : MediatorDecoratorBase
     {

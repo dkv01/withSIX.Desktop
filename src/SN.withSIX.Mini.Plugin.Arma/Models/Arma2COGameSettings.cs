@@ -5,7 +5,7 @@
 using System.Runtime.Serialization;
 using NDepend.Path;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [DataContract]
     public class Arma2COGameSettings : Arma2OaGameSettings

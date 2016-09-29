@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Applications.Usecases.Main.Games;
-using SN.withSIX.Mini.Applications.Usecases.Settings;
-using SN.withSIX.Mini.Presentation.Core;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Usecases.Main.Games;
+using withSIX.Mini.Applications.Usecases.Settings;
+using withSIX.Mini.Presentation.Core;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public class NodeApi : INodeApi
     {

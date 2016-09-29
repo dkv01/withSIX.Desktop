@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class UnityStartupParameters : BasicGameStartupParameters

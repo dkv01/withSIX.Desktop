@@ -8,17 +8,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
-using ContentGuidSpec = SN.withSIX.Mini.Core.Games.ContentGuidSpec;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using ContentGuidSpec = withSIX.Mini.Core.Games.ContentGuidSpec;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Usecases.Main.Games
 {
     public static class ContentExtensions
     {

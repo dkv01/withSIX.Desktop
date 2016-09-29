@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Usecases
 {
     public class UriOpener
     {

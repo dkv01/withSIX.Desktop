@@ -14,12 +14,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Steam.Core;
 using Steamworks;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Steam.Api.Services
+namespace withSIX.Steam.Api.Services
 {
     public interface ISteamSession
     {

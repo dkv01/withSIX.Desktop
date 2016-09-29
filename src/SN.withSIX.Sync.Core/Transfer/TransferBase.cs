@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Protocols;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public abstract class TransferBase<T> where T : IProtocol
     {

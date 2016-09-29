@@ -4,14 +4,14 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.ContentEngine.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Mini.Applications.Factories
+namespace withSIX.Mini.Applications.Factories
 {
     public class InstallerSessionFactory : IINstallerSessionFactory, IApplicationService
     {

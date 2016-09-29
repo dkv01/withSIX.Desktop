@@ -5,7 +5,7 @@
 using System;
 using ReactiveUI.Legacy;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Popups
+namespace withSIX.Core.Applications.MVVM.ViewModels.Popups
 {
     public class RequirementsPopupViewModel : PopupBase
     {

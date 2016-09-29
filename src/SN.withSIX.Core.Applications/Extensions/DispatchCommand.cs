@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using MediatR;
 
-namespace SN.withSIX.Core.Applications.Extensions
+namespace withSIX.Core.Applications.Extensions
 {
     public interface IDispatchCommand
     {

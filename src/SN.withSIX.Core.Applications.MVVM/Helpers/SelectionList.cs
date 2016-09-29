@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Core.Applications.MVVM.Helpers
+namespace withSIX.Core.Applications.MVVM.Helpers
 {
     [DataContract]
     public class SelectionList<T> : HaveReactiveItems<T>, ISelectionList<T> where T : class

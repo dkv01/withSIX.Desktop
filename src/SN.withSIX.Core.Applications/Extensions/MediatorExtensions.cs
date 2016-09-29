@@ -5,9 +5,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Applications.Extensions
+namespace withSIX.Core.Applications.Extensions
 {
     public static class MediatorExtensions
     {

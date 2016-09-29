@@ -7,10 +7,10 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Steam.Api.Services;
 using Steamworks;
+using withSIX.Steam.Api.Services;
 
-namespace SN.withSIX.Steam.Api.Helpers
+namespace withSIX.Steam.Api.Helpers
 {
     public static class Extensions
     {

@@ -4,13 +4,13 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Mini.Plugin.Homeworld.Services;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Mini.Plugin.Homeworld.Services;
 
-namespace SN.withSIX.Mini.Plugin.Homeworld.Models
+namespace withSIX.Mini.Plugin.Homeworld.Models
 {
     [Game(GameIds.Homeworld2, Name = "Homeworld 2", Slug = "Homeworld-2", Executables = new[] {"homeworld2.exe"})]
     [RegistryInfo(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Homeworld2", "GAMEDIR")]

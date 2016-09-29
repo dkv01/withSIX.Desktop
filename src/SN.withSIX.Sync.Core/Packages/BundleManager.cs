@@ -9,13 +9,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Packages
+namespace withSIX.Sync.Core.Packages
 {
     public class BundleManager
     {

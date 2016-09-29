@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=withSIX.Play.Applications"
              xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
              mc:Ignorable="d" cal:Bind.ModelWithoutContext="{Binding}"

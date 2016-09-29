@@ -13,10 +13,10 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using ReactiveUI;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     [DataContract]
     public abstract class ObservablePropertyChangedBase : PropertyChangedBase, INotifyPropertyChanging

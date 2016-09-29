@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     static class Util
     {

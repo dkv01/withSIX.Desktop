@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Legacy
+namespace withSIX.Sync.Core.Legacy
 {
     public interface IFileDownloadHelper
     {

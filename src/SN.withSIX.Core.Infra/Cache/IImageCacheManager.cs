@@ -5,7 +5,7 @@
 using System;
 using Splat;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public interface IImageCacheManager
     {

@@ -9,7 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using ProtoBuf;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     [ProtoContract]
     public class ConfigStore

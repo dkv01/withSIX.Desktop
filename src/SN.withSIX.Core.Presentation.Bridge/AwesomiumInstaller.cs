@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class AwesomiumInstaller
     {

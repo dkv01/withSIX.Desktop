@@ -4,10 +4,10 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Core;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Mini.Plugin.Homeworld.Services
+namespace withSIX.Mini.Plugin.Homeworld.Services
 {
     public class Homeworld2GameLauncher : GameLauncher, IHomeworld2Launcher
     {

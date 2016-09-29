@@ -13,19 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Presentation.Wpf.Extensions;
-using SN.withSIX.Mini.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Presentation.Wpf.Views;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Presentation.Wpf.Extensions;
+using withSIX.Mini.Presentation.Wpf.Services;
+using withSIX.Mini.Presentation.Wpf.Views;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace withSIX.Mini.Presentation.Wpf
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml

@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class SettingsUpdated : AsyncDomainEvent<Models.Settings>
     {

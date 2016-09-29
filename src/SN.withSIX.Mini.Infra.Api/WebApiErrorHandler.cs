@@ -5,17 +5,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Core.Presentation.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Api
 {
     public interface IWebApiErrorHandler
     {

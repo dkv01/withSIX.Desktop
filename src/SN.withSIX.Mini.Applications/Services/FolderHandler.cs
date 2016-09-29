@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class FolderHandler : IApplicationService, IFolderHandler
     {

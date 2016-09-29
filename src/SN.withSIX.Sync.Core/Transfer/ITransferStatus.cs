@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public interface ITransferStatus : ITransferProgress, IProgress
     {

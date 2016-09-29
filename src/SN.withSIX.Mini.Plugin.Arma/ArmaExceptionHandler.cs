@@ -4,12 +4,12 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Plugin.Arma.Models;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Plugin.Arma.Models;
 
-namespace SN.withSIX.Mini.Plugin.Arma
+namespace withSIX.Mini.Plugin.Arma
 {
     public class ArmaExceptionHandler : BasicExternalExceptionhandler, IUsecaseExecutor
     {

@@ -8,9 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Errors;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public static class ErrorHandlerr
     {

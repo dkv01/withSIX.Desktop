@@ -7,7 +7,7 @@ using NLog;
 using ILogger = Splat.ILogger;
 using LogLevel = Splat.LogLevel;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class NLogSplatLogger : ILogger
     {

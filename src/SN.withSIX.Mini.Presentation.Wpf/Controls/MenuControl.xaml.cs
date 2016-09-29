@@ -4,7 +4,7 @@
 
 using System.Windows.Controls;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Controls
+namespace withSIX.Mini.Presentation.Wpf.Controls
 {
     /// <summary>
     ///     Interaction logic for MenuControl.xaml

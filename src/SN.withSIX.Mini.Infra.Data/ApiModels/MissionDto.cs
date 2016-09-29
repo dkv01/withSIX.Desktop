@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Mini.Infra.Data.ApiModels
+namespace withSIX.Mini.Infra.Data.ApiModels
 {
     public class MissionDtoV2 : ContentDtoV2 {}
 }

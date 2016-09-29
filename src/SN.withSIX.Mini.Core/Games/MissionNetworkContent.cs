@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public class MissionNetworkContent : NetworkContent

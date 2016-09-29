@@ -3,9 +3,9 @@
                     xmlns:cal="http://www.caliburnproject.org"
                     xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                     xmlns:converters="http://metro.mahapps.com/winfx/xaml/shared"
-                    xmlns:converters1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters;assembly=SN.withSIX.Core.Presentation.Wpf"
+                    xmlns:converters1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters;assembly=withSIX.Core.Presentation.Wpf"
                     xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
-                    xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications">
+                    xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications">
 
     <converters1:BooleanToVisibilityCollapsedConverter x:Key="BooleanToVisibilityCollapsedConverter" />
     <converters1:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />

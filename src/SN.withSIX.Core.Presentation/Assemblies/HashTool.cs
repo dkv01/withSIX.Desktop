@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace SN.withSIX.Core.Presentation.Assemblies
+namespace withSIX.Core.Presentation.Assemblies
 {
     public class HashTool
     {

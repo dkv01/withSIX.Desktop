@@ -7,20 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class SetupGameStuff : IInfrastructureService, ISetupGameStuff, IDisposable
     {

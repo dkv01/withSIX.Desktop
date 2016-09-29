@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
+namespace withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
 {
     public class SessionCommand : ISendReceiveMessage
     {

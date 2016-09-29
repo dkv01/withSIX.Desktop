@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     // TODO: This is a dummy implementation, implement actual storage!
     public class AuthProviderSettingsStorage : IAuthProviderStorage, IInfrastructureService

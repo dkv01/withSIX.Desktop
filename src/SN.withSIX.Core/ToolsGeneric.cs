@@ -8,12 +8,12 @@ using System.Diagnostics.Contracts;
 using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public static partial class Tools
     {

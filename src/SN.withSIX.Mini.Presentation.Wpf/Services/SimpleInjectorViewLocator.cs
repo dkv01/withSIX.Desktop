@@ -9,7 +9,7 @@ using ReactiveUI;
 using SimpleInjector;
 using Splat;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     // Adjusted to deal with Designtime viewmodels...
     class DefaultViewLocator : IViewLocator, IEnableLogger

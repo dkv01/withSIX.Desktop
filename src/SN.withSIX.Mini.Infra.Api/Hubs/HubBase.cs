@@ -6,14 +6,14 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNet.SignalR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
 
-namespace SN.withSIX.Mini.Infra.Api.Hubs
+namespace withSIX.Mini.Infra.Api.Hubs
 {
     static class A
     {

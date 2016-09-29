@@ -4,10 +4,10 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class GetClientInfo : IAsyncQuery<ClientInfo> {}
 

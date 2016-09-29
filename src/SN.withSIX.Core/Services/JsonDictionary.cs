@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Core.Services
+namespace withSIX.Core.Services
 {
     [Serializable]
     public class JsonDictionary<T> : ISerializable where T : class

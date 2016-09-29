@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NDepend.Path;
 
-namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes
+namespace withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes
 {
     public class ContentCleaningAttribute : Attribute
     {

@@ -4,9 +4,9 @@
 
 using System;
 using AutoMapper;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     abstract class AutoMapperWrapper : IAMapper
     {

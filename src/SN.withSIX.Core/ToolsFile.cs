@@ -13,14 +13,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Core.Validators;
 using withSIX.Api.Models.Extensions;
-using ProcessExtensions = SN.withSIX.Core.Extensions.ProcessExtensions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Validators;
+using ProcessExtensions = withSIX.Core.Extensions.ProcessExtensions;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public static partial class Tools
     {

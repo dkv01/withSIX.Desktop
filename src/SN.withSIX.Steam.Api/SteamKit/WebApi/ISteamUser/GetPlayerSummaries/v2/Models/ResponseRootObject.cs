@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2.Models
+namespace withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2.Models
 {
     public sealed class ResponseRootObject
     {

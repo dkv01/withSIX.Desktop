@@ -6,7 +6,7 @@ using System;
 using Caliburn.Micro;
 using Action = System.Action;
 
-namespace SN.withSIX.Core.Applications.MVVM
+namespace withSIX.Core.Applications.MVVM
 {
     public static class UiHelper
     {

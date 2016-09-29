@@ -2,11 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications.Services.Infra;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class DomainEventHandlerGrabber : IDomainEventHandlerGrabber, IInfrastructureService
     {

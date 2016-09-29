@@ -8,11 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public class ToolsInstaller : FilesInstaller, IToolsInstaller, IApplicationService
     {

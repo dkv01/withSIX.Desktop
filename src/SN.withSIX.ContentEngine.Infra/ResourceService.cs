@@ -4,10 +4,10 @@
 
 using System.IO;
 using System.Reflection;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.ContentEngine.Infra
+namespace withSIX.ContentEngine.Infra
 {
     public interface ICEResourceService
     {

@@ -5,12 +5,12 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Win32;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.NotificationHandlers;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.NotificationHandlers;
 
-namespace SN.withSIX.Mini.Presentation.Core
+namespace withSIX.Mini.Presentation.Core
 {
     public class Initializer : IInitializer
     {

@@ -8,11 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public interface IZsyncMake
     {

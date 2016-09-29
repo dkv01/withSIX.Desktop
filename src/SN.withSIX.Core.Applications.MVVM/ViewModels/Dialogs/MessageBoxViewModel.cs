@@ -5,11 +5,11 @@
 using System;
 using System.Windows;
 using ReactiveUI.Legacy;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
+namespace withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
     public interface IMessageBoxViewModel {}
 

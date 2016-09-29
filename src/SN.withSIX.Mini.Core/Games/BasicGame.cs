@@ -9,12 +9,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Extensions;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class BasicGame : Game, ILaunchWith<IBasicGameLauncher>

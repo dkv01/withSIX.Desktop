@@ -5,19 +5,19 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Steam.Core;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Steam.Core;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public class GameExceptionHandler : BasicExternalExceptionhandler
     {

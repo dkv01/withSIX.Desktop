@@ -9,18 +9,18 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Services;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Publishing;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Services;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync
+namespace withSIX.Sync.Core.Legacy.SixSync
 {
     public class Repository : IEnableLogging
     {

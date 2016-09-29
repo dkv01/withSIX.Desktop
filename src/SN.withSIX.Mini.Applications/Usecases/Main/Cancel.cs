@@ -5,14 +5,14 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Core.Games.Services;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Core.Games.Services;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction]
     public class Pause : RequestBase, IAsyncVoidCommandBase, IHaveId<Guid>

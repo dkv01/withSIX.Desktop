@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Plugin.Arma.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     /*
     [Game(GameUUids.Arma1, Name = "Arma", Slug = "Arma",

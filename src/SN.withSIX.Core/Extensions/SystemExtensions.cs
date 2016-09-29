@@ -17,10 +17,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class TaskExtExt
     {

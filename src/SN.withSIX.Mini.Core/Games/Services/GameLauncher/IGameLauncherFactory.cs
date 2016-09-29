@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Mini.Core.Games.Services.GameLauncher
+namespace withSIX.Mini.Core.Games.Services.GameLauncher
 {
     //[ContractClass(typeof (ContractClassForGameLauncherFactory))]
     public interface IGameLauncherFactory

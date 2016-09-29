@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
+namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos
 {
     public class SixRepoModDto
     {

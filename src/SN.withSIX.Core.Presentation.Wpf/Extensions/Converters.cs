@@ -4,10 +4,10 @@
 
 using System;
 using System.Windows;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Extensions
+namespace withSIX.Core.Presentation.Wpf.Extensions
 {
     public static class Converters
     {

@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications.Models;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications.Models;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface ISettingsStorageReadOnly
     {

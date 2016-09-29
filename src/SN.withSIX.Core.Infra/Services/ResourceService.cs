@@ -4,9 +4,9 @@
 
 using System.IO;
 using System.Reflection;
-using SN.withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Infrastructure;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public class ResourceService : IResourceService
     {

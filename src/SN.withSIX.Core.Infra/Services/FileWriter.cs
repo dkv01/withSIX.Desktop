@@ -5,9 +5,9 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     // TODO: IAbsoluteFilePath etc...
     public class FileWriter : IFileWriter, IInfrastructureService

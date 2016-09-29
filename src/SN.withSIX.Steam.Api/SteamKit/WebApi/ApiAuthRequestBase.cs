@@ -4,7 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi
+namespace withSIX.Steam.Api.SteamKit.WebApi
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public abstract class ApiAuthRequestBase : ApiRequestBase

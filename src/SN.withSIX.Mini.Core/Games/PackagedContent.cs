@@ -9,11 +9,11 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models.Content;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class PackagedContent : InstallableContent, IPackagedContent

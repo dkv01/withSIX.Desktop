@@ -6,14 +6,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Usecases.Main.Games
 {
     [ApiUserAction("Launch")]
     public class LaunchGame : RequestBase, IHaveId<Guid>, ICancellable, INotifyAction

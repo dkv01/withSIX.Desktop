@@ -5,11 +5,11 @@
 using System;
 using System.IO;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     // Licensed to the .NET Foundation under one or more agreements.
     // The .NET Foundation licenses this file to you under the MIT license.

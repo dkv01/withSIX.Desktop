@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using SharpShell.Attributes;
 using SharpShell.SharpContextMenu;
 
-namespace SN.withSIX.Mini.Presentation.Shell
+namespace withSIX.Mini.Presentation.Shell
 {
     [ComVisible(true)]
     [COMServerAssociation(AssociationType.Directory)]

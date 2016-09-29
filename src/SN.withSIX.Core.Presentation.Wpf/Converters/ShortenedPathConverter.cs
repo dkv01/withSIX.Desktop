@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Converters
+namespace withSIX.Core.Presentation.Wpf.Converters
 {
     public class ShortenedPathConverter : IValueConverter
     {

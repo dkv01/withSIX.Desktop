@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Helpers
+namespace withSIX.Core.Helpers
 {
     public interface IProgressLeaf : IProgressComponent, ITProgress
     {

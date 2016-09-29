@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases;
 
-namespace SN.withSIX.Mini.Presentation.Owin.Core
+namespace withSIX.Mini.Presentation.Owin.Core
 {
     internal static class BuilderExtensions
     {

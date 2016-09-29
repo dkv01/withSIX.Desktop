@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 
-namespace SN.withSIX.Steam.Core
+namespace withSIX.Steam.Core
 {
     public class SteamDirectories
     {

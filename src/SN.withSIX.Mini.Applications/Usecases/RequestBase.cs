@@ -6,12 +6,12 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Attributes;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Usecases
 {
     // If a command IHaveGameId, then it is assumed it must lock the game. Use this to disable this behavior.
     public interface IExcludeGameWriteLock {}

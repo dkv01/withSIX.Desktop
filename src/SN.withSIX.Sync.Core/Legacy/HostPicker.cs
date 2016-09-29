@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
 
-namespace SN.withSIX.Sync.Core.Legacy
+namespace withSIX.Sync.Core.Legacy
 {
     public class AllZsyncFailException : Exception
     {

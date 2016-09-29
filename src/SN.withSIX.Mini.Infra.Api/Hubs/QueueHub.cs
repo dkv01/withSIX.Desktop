@@ -4,10 +4,10 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Infra.Api.Hubs
+namespace withSIX.Mini.Infra.Api.Hubs
 {
     public class QueueHub : HubBase<IQueueClientHub>
     {

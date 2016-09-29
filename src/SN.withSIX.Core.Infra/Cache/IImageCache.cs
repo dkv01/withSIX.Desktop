@@ -4,7 +4,7 @@
 
 using Akavache;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public interface IImageCache : IBlobCache {}
 }

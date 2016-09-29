@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Services;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Services;
 
-namespace SN.withSIX.Mini.Presentation.Core
+namespace withSIX.Mini.Presentation.Core
 {
     public class UnhandledExceptionHandler : DefaultExceptionHandler, IPresentationService
     {

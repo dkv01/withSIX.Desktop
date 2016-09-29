@@ -6,20 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface INetworkContentSyncer
     {
         Task SyncContent(IReadOnlyCollection<Game> games, ContentQuery query = null);
 
-        Task SyncCollections(IReadOnlyCollection<SubscribedCollection> collections,
+        Task SyncCollections(IReadOnlyCollection<Mini.Core.Games.SubscribedCollection> collections,
             bool countCheck = true);
 
-        Task<IReadOnlyCollection<SubscribedCollection>> GetCollections(Guid gameId,
+        Task<IReadOnlyCollection<Mini.Core.Games.SubscribedCollection>> GetCollections(Guid gameId,
             IReadOnlyCollection<Guid> collectionIds);
     }
 

@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     // TODO
     [DataContract]

@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Forms;
 using Application = System.Windows.Application;
 
-namespace SN.withSIX.Core.Presentation.Wpf
+namespace withSIX.Core.Presentation.Wpf
 {
     public static class TaskBarLocationProvider
     {

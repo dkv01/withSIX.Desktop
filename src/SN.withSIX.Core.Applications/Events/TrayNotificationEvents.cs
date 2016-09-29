@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Input;
 
-namespace SN.withSIX.Core.Applications.Events
+namespace withSIX.Core.Applications.Events
 {
     public interface ITrayNotification
     {

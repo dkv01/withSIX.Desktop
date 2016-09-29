@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [DataContract]
     public class Arma2COStartupParameters : Arma2OaStartupParameters

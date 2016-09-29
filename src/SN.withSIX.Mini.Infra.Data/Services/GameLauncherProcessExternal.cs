@@ -9,16 +9,16 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class GameLauncherProcessExternalUpdater : IEnableLogging, IGameLauncherProcess, IInfrastructureService
     {

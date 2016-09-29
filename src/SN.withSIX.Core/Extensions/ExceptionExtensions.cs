@@ -9,10 +9,10 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class ExceptionExtensions
     {

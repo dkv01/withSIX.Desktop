@@ -9,13 +9,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Mini.Presentation.Core.Services
+namespace withSIX.Mini.Presentation.Core.Services
 {
     public class WindowsApiPortHandlerBase
     {

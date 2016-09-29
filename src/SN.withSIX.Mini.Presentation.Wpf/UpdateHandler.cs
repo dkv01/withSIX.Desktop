@@ -3,12 +3,12 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Presentation.Wpf.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace withSIX.Mini.Presentation.Wpf
 {
     public class UpdateHandler : IUpdateHandler, IPresentationService
     {

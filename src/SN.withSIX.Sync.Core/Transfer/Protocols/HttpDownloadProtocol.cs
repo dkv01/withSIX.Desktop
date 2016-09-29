@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols
+namespace withSIX.Sync.Core.Transfer.Protocols
 {
     public interface IHttpDownloadProtocol : IDownloadProtocol {}
 

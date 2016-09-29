@@ -6,16 +6,16 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases;
+using withSIX.Core.Applications.MVVM.Attributes;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Applications.Usecases;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
+namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
 {
     public class TrayMainWindowMenu : CMBase, IUsecaseExecutor
     {

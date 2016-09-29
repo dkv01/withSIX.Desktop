@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public interface ITransferProgress : ITProgress
     {

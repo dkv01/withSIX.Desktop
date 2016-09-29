@@ -11,14 +11,14 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Presentation.Wpf.Behaviors;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Presentation.Wpf.Behaviors;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
 using Action = Caliburn.Micro.Action;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class CustomWindowManager : WindowManager
     {

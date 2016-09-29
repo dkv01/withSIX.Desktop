@@ -7,11 +7,11 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public class ExternalFileDownloader : ExternalFileDownloaderBase, IPresentationService
     {

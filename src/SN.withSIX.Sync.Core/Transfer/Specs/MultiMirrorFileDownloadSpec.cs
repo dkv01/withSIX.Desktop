@@ -6,9 +6,9 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Sync.Core.Transfer.Specs
+namespace withSIX.Sync.Core.Transfer.Specs
 {
     public class MultiMirrorFileDownloadSpec
     {

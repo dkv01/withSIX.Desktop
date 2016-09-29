@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Legacy;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Legacy;
 
-namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
+namespace withSIX.Sync.Core.Transfer.MirrorSelectors
 {
     public class ScoreMirrorSelector : IMirrorSelector, IDisposable
     {

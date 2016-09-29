@@ -3,10 +3,10 @@
 // </copyright>
 
 using AutoMapper;
-using SN.withSIX.Mini.Plugin.Kerbal.ApiModels;
-using SN.withSIX.Mini.Plugin.Kerbal.Models;
+using withSIX.Mini.Plugin.Kerbal.ApiModels;
+using withSIX.Mini.Plugin.Kerbal.Models;
 
-namespace SN.withSIX.Mini.Plugin.Kerbal
+namespace withSIX.Mini.Plugin.Kerbal
 {
     public class AutoMapperPluginKerbalConfig : Profile
     {

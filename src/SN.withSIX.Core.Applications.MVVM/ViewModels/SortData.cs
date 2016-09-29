@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.ComponentModel;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public class SortData : PropertyChangedBase
     {

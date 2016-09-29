@@ -8,13 +8,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Sync.Core.Legacy.Status;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Sync.Core.Legacy.Status;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class QueueInfo
     {

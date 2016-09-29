@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Services.Infrastructure
+namespace withSIX.Core.Services.Infrastructure
 {
     [ContractClass(typeof(FileWriterContract))]
     public interface IFileWriter

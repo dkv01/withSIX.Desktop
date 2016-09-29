@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi
+namespace withSIX.Steam.Api.SteamKit.WebApi
 {
     public interface IApiRequest
     {

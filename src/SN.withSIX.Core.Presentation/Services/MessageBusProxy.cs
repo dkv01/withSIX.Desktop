@@ -4,9 +4,9 @@
 
 using System;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace withSIX.Core.Presentation.Services
 {
     public class MessageBusProxy : IMessageBusProxy, IPresentationService
     {

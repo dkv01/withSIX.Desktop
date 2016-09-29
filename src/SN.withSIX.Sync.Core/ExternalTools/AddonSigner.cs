@@ -6,10 +6,10 @@ using System;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Services;
 
-namespace SN.withSIX.Sync.Core.ExternalTools
+namespace withSIX.Sync.Core.ExternalTools
 {
     public class AddonSigner : IAddonSigner, IDomainService
     {

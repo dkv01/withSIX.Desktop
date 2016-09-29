@@ -7,7 +7,7 @@ using NDepend.Path;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Content.v3;
 
-namespace SN.withSIX.ContentEngine.Core
+namespace withSIX.ContentEngine.Core
 {
     public interface IContentEngineContent : IHaveId<Guid>
     {

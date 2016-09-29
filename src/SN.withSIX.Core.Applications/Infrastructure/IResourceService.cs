@@ -4,7 +4,7 @@
 
 using System.IO;
 
-namespace SN.withSIX.Core.Applications.Infrastructure
+namespace withSIX.Core.Applications.Infrastructure
 {
     public interface IResourceService
     {

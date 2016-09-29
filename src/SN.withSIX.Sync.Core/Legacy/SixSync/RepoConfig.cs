@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync
+namespace withSIX.Sync.Core.Legacy.SixSync
 {
     public class RepoConfig : IBaseYaml //, IYamlSerializable
     {

@@ -11,11 +11,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
 using SteamKit2;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     public static class FileExtensions
     {

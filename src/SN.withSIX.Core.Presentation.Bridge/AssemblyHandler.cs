@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class AssemblyHandler
     {

@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Extensions
+namespace withSIX.Core.Presentation.Wpf.Extensions
 {
     /// <summary>
     ///     Attached property provider which adds the read-only attached property

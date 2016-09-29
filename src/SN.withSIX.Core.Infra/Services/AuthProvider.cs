@@ -7,10 +7,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public interface IAuthProviderStorage
     {

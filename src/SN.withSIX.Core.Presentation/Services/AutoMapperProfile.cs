@@ -5,9 +5,9 @@
 using System.Linq;
 using AutoMapper;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Errors;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace withSIX.Core.Presentation.Services
 {
     public class AutoMapperProfile : Profile
     {

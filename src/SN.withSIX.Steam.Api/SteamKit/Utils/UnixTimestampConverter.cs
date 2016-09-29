@@ -4,9 +4,9 @@
 
 using System;
 using Newtonsoft.Json;
-using SN.withSIX.Steam.Core.Extensions;
+using withSIX.Steam.Core.Extensions;
 
-namespace SN.withSIX.Steam.Api.SteamKit.Utils
+namespace withSIX.Steam.Api.SteamKit.Utils
 {
     public sealed class UnixTimestampConverter : JsonConverter
     {

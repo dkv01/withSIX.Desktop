@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
+namespace withSIX.Mini.Applications.MVVM.ViewModels
 {
     public abstract class TabViewModel : ViewModel, ITabViewModel
     {

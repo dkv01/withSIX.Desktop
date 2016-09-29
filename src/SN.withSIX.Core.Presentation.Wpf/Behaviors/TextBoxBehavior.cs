@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
+namespace withSIX.Core.Presentation.Wpf.Behaviors
 {
     public class TextBoxBehavior
     {

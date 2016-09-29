@@ -9,11 +9,11 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Applications.MVVM.Extensions
+namespace withSIX.Core.Applications.MVVM.Extensions
 {
     public static class ReactiveUIExtensions
     {

@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Errors;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public abstract class BasicExternalExceptionhandler : IHandleExceptionPlugin
     {

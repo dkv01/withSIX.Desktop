@@ -10,7 +10,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public static class Bla
     {

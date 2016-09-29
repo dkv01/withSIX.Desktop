@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation.Bridge.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation.Bridge.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class ShutdownHandler : ExitHandler, IShutdownHandler
     {

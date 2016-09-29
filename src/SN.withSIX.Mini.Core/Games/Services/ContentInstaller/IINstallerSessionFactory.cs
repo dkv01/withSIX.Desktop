@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Legacy.Status;
 
-namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
+namespace withSIX.Mini.Core.Games.Services.ContentInstaller
 {
     public interface IINstallerSessionFactory
     {

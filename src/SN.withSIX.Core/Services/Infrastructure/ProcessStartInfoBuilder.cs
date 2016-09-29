@@ -7,9 +7,9 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Services.Infrastructure
+namespace withSIX.Core.Services.Infrastructure
 {
     public class ProcessStartInfoBuilder
     {

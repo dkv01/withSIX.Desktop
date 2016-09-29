@@ -4,9 +4,9 @@
 
 using System.IO;
 using System.Net;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public class GeoIpService : IGeoIpService, IInfrastructureService
     {

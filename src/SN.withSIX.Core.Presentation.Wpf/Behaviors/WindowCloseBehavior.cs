@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
+namespace withSIX.Core.Presentation.Wpf.Behaviors
 {
     /// <summary>
     ///     Attached behavior that keeps the window on the screen

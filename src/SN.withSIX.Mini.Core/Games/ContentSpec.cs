@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Sync.Core.Legacy.Status;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Sync.Core.Legacy.Status;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public interface IContentSpec<out T> where T : IContent
     {

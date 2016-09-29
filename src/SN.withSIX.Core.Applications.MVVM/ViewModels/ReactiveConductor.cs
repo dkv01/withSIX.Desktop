@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     /// <summary>
     ///     An implementation of <see cref="IConductor" /> that holds on to and activates only one item at a time.

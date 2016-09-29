@@ -4,9 +4,9 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [DataContract]
     public class TakeOnMarsGameSettings : GameSettingsWithConfigurablePackageDirectory

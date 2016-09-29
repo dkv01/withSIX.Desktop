@@ -5,7 +5,7 @@
 using System;
 using withSIX.Api.Models.Exceptions;
 
-namespace SN.withSIX.Core.Applications
+namespace withSIX.Core.Applications
 {
     [Serializable]
     public class NotEnoughFreeDiskSpaceException : UserException

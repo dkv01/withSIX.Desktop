@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
+namespace withSIX.Core.Presentation.Wpf.Behaviors
 {
     public static class TreeViewItemBehavior
     {

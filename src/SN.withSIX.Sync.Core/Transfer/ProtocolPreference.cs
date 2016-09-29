@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public enum ProtocolPreference
     {

@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace SN.withSIX.Sync.Core.Packages.Internals
+namespace withSIX.Sync.Core.Packages.Internals
 {
     public class FileObjectMapping
     {

@@ -5,15 +5,15 @@
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     // Singleton for now..
     public class SettingsStorage : ContextBase<Settings>, IInfrastructureService, ISettingsStorage

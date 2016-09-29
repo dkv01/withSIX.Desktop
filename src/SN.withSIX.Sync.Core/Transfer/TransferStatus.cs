@@ -5,11 +5,11 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public class TransferStatus : ModelBase, ITransferStatus
     {

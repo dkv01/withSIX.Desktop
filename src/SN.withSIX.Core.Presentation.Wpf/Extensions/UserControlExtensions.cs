@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using ReactiveUI;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Extensions
+namespace withSIX.Core.Presentation.Wpf.Extensions
 {
     public static class UserControlExtensions
     {

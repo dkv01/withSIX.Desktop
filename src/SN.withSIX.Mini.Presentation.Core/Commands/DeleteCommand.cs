@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Mini.Presentation.Core.Commands
+namespace withSIX.Mini.Presentation.Core.Commands
 {
     public class DeleteCommand : BaseCommand
     {

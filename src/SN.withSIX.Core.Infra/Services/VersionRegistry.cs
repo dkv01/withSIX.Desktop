@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public class VersionRegistry : IEnableLogging
     {

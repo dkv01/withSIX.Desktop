@@ -4,12 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using IdentityModel.Client;
-using SN.withSIX.Core.Infra.Services;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class OauthConnect : IInfrastructureService, IOauthConnect
     {

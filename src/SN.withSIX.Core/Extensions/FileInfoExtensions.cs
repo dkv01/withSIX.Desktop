@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class FileInfoExtensions
     {

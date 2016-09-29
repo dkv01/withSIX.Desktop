@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Helpers
+namespace withSIX.Core.Helpers
 {
     public interface IHaveItems<TItems, out TCollection> where TCollection : IList<TItems>
     {

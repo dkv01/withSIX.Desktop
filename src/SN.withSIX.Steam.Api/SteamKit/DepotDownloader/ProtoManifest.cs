@@ -9,7 +9,7 @@ using NDepend.Path;
 using ProtoBuf;
 using SteamKit2;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     [ProtoContract]
     class ProtoManifest

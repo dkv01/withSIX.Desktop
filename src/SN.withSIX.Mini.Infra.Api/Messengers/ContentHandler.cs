@@ -4,12 +4,12 @@
 
 using MediatR;
 using Microsoft.AspNet.SignalR;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Api.Hubs;
 using withSIX.Api.Models.Extensions;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Infra.Api.Hubs;
 
-namespace SN.withSIX.Mini.Infra.Api.Messengers
+namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class ContentHandler : INotificationHandler<ContentUsed>, INotificationHandler<ContentInstalled>,
         INotificationHandler<RecentItemRemoved>

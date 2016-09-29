@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public class FileUploader : TransferBase<IUploadProtocol>, IFileUploader
     {

@@ -10,7 +10,7 @@ using System.Linq;
 using SteamKit2;
 using withSIX.Api.Models.Exceptions;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     class Steam3Session
     {

@@ -4,11 +4,11 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core.Applications.Factories;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Core.Applications.Factories;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Mini.Applications.Factories
+namespace withSIX.Mini.Applications.Factories
 {
     class GameLauncherFactory : IGameLauncherFactory, IApplicationService
     {

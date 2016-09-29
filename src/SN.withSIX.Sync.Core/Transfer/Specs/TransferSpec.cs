@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using NDepend.Path;
 
-namespace SN.withSIX.Sync.Core.Transfer.Specs
+namespace withSIX.Sync.Core.Transfer.Specs
 {
     public abstract class TransferSpec
     {

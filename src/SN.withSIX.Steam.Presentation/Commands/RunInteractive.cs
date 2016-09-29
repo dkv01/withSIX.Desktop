@@ -4,11 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Steam.Api.Services;
 using withSIX.Api.Models.Games;
+using withSIX.Steam.Api.Services;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 
-namespace SN.withSIX.Steam.Presentation.Commands
+namespace withSIX.Steam.Presentation.Commands
 {
     public class RunInteractive : BaseSteamCommand
     {

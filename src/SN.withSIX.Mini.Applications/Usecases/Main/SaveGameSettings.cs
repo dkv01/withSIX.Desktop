@@ -6,13 +6,13 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class SaveGameSettings : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId
     {

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1.Models
+namespace withSIX.Steam.Api.SteamKit.WebApi.ISteamRemoteStorage.GetPublishedFileDetails.v1.Models
 {
     public sealed class ResponseRootObject
     {

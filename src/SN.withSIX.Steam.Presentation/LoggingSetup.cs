@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 
-namespace SN.withSIX.Steam.Presentation
+namespace withSIX.Steam.Presentation
 {
     public static class LoggingSetup
     {

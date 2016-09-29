@@ -11,15 +11,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using NDepend.Path;
-using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core;
-using Splat;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Presentation.Wpf;
+using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Presentation.Core;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace withSIX.Mini.Presentation.Wpf
 {
     /// <summary>
     ///     Interaction logic for App.xaml

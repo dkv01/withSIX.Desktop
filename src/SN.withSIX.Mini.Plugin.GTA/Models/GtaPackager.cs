@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Mini.Plugin.GTA.Models
+namespace withSIX.Mini.Plugin.GTA.Models
 {
     /*
     public class GtaPackager

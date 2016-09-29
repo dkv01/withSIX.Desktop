@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface IDbContextFactory
     {

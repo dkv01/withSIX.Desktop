@@ -6,15 +6,12 @@ using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Services;
 
-namespace SN.withSIX.Mini.Tests
+namespace withSIX.Mini.Tests
 {
     [TestFixture]
     public class ProgressTest : BaseTest<ProgressComponent>

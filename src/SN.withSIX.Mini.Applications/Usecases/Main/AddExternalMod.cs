@@ -10,17 +10,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class ExternalDownloadStarted : IAsyncCommand<Guid>
     {

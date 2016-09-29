@@ -6,13 +6,13 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Win32;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Legacy.SixSync;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Wpf.Legacy
 {
     public class StartupManager : IStartupManager, IEnableLogging
     {

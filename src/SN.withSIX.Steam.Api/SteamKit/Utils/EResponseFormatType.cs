@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SN.withSIX.Steam.Api.SteamKit.Utils
+namespace withSIX.Steam.Api.SteamKit.Utils
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum EResponseFormatType

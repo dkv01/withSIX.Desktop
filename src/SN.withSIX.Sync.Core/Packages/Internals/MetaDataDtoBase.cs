@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Sync.Core.Packages.Internals
+namespace withSIX.Sync.Core.Packages.Internals
 {
     [DataContract]
     public abstract class MetaDataDtoBase

@@ -6,9 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
-using SN.withSIX.Core.Presentation.Wpf.Commands;
+using withSIX.Core.Presentation.Wpf.Commands;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     public class TextBoxWithFileDialog : TextBox
     {

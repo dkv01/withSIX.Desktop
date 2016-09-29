@@ -5,10 +5,10 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Usecases
 {
     public class OpenWebLink : IAsyncVoidCommand
     {

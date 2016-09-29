@@ -4,15 +4,17 @@
 
 using System;
 using AutoMapper;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Data.ApiModels;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Infra.Data.ApiModels;
+using CollectionServer = withSIX.Mini.Core.Games.CollectionServer;
+using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Api
 {
     public class AutoMapperInfraApiConfig : Profile
     {

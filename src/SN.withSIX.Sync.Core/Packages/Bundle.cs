@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Sync.Core.Packages
+namespace withSIX.Sync.Core.Packages
 {
     public enum BundleScope
     {

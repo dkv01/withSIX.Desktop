@@ -7,11 +7,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Packages;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Packages;
 
-namespace SN.withSIX.Sync.Core.Repositories
+namespace withSIX.Sync.Core.Repositories
 {
     public class RepositoryHandler
     {

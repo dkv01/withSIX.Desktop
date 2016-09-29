@@ -4,9 +4,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
+using withSIX.Core.Applications.MVVM.Helpers;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface ISelectionCollectionHelper<T> : INotifyPropertyChanged, IHaveReactiveItems<T>,
         IHaveSelectedItem<T> {}

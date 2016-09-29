@@ -5,10 +5,10 @@
 using System;
 using System.Threading.Tasks;
 using ManyConsole;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Mini.Presentation.Core.Commands
+namespace withSIX.Mini.Presentation.Core.Commands
 {
     public abstract class BaseCommand : ConsoleCommand, IEnableLogging
     {

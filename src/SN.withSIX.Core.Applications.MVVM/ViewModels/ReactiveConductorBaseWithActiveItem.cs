@@ -4,7 +4,7 @@
 
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     /// <summary>
     ///     A base class for various implementations of <see cref="IConductor" /> that maintain an active item.

@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public interface INotificationProvider
     {

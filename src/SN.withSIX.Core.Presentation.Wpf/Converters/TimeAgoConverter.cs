@@ -5,9 +5,9 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Converters
+namespace withSIX.Core.Presentation.Wpf.Converters
 {
     public class TimeAgoConverter : IValueConverter
     {

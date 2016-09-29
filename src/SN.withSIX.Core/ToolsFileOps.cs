@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="Ops.cs">
+// <copyright company="SIX Networks GmbH" file="Ops.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -13,12 +13,12 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public partial class Tools
     {

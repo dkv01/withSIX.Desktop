@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Core;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public interface IExternalFileDownloader
     {

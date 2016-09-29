@@ -7,15 +7,15 @@ using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public abstract class ApiDbQueryBase : DbQueryBase
     {

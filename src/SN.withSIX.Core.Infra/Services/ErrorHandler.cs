@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public abstract class ErrorHandler
     {

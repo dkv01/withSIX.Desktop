@@ -4,10 +4,10 @@
 
 using MediatR;
 using Microsoft.AspNet.SignalR;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Infra.Api.Hubs;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Infra.Api.Hubs;
 
-namespace SN.withSIX.Mini.Infra.Api.Messengers
+namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class ClientHandler : INotificationHandler<ClientInfoUpdated>, INotificationHandler<UserErrorResolved>,
         INotificationHandler<UserErrorAdded>

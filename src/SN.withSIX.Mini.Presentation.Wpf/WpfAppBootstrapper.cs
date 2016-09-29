@@ -15,36 +15,36 @@ using NDepend.Path;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Bridge;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
-using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.MVVM.Usecases;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Infra.Api;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Owin.Core;
-using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
 using withSIX.Api.Models.Extensions;
-using DefaultViewLocator = SN.withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Wpf;
+using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.MVVM.Usecases;
+using withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Infra.Api;
+using withSIX.Mini.Presentation.Core;
+using withSIX.Mini.Presentation.Owin.Core;
+using withSIX.Mini.Presentation.Wpf.Services;
+using DefaultViewLocator = withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;
 using IScreen = Caliburn.Micro.IScreen;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
-namespace SN.withSIX.Mini.Presentation.Wpf
+namespace withSIX.Mini.Presentation.Wpf
 {
     class CMBootstrapper : BootstrapperBase
     {

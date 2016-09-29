@@ -5,9 +5,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public class NodeNotifier : INotificationProvider
     {

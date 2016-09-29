@@ -8,11 +8,11 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Applications.MVVM.Services
+namespace withSIX.Core.Applications.MVVM.Services
 {
     public static class UiTaskHandler
     {

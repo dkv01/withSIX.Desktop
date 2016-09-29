@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Applications.Extensions
+namespace withSIX.Core.Applications.Extensions
 {
     public static class XmlExt
     {

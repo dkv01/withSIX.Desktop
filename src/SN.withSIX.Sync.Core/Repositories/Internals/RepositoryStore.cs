@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using SN.withSIX.Sync.Core.Packages.Internals;
 using withSIX.Api.Models;
+using withSIX.Sync.Core.Packages.Internals;
 
-namespace SN.withSIX.Sync.Core.Repositories.Internals
+namespace withSIX.Sync.Core.Repositories.Internals
 {
     public class RepositoryStore
     {

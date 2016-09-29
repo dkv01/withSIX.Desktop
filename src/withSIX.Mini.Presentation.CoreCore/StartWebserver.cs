@@ -8,10 +8,10 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Presentation.Core.Services;
-using SN.withSIX.Mini.Presentation.Owin.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Presentation.Core.Services;
+using withSIX.Mini.Presentation.Owin.Core;
 
 namespace withSIX.Mini.Presentation.CoreCore
 {

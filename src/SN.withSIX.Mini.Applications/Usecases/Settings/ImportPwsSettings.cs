@@ -4,12 +4,12 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Settings
+namespace withSIX.Mini.Applications.Usecases.Settings
 {
     public class ImportPwsSettings : IAsyncVoidCommand {}
 

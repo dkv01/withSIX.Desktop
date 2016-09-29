@@ -12,9 +12,9 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Mini.Plugin.Arma.Models;
 using SteamLayerWrap;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Mini.Plugin.Arma.Models;
 using ServerModInfo = SteamLayerWrap.ServerModInfo;
 
 namespace withSIX.Steam.Plugin.Arma

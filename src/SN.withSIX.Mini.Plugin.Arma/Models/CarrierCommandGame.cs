@@ -4,11 +4,11 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.CarrierCommand, Name = "Carrier Command: Gaea Mission", Slug = "Carrier-Command",
          Executables = new[] {"carrier.exe"})]

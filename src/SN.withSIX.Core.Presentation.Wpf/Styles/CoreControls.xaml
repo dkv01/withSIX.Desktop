@@ -3,8 +3,8 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
-                    xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls"
-                    xmlns:commands="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Commands">
+                    xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls"
+                    xmlns:commands="clr-namespace:withSIX.Core.Presentation.Wpf.Commands">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="CoreColors.xaml" />
         <ResourceDictionary Source="CoreConverters.xaml" />

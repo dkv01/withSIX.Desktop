@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Publishing;
 
-namespace SN.withSIX.Sync.Core.Services
+namespace withSIX.Sync.Core.Services
 {
     public interface IPublishingApi
     {

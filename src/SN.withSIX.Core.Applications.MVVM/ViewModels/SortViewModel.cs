@@ -8,12 +8,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface ISortDescriptions
     {

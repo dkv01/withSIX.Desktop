@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface ISingleInstanceApp
     {

@@ -4,11 +4,11 @@
 
 using System;
 using Akavache;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
 using Splat;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public class ImageCacheManager : IImageCacheManager, IInfrastructureService
     {

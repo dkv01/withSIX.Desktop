@@ -4,11 +4,11 @@
 
 using System;
 using System.Configuration;
-using SN.withSIX.Core.Presentation.Bridge.Logging;
 using Splat;
-using ILogger = SN.withSIX.Core.Logging.ILogger;
+using withSIX.Core.Presentation.Bridge.Logging;
+using ILogger = withSIX.Core.Logging.ILogger;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class LowInitializer
     {

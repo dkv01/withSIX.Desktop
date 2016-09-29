@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main.Servers
+namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {
     public class GetServersInfo : IAsyncQuery<ServersInfo>
     {

@@ -4,9 +4,9 @@
 
 using System;
 using System.Reflection;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Services
+namespace withSIX.Core.Presentation.Bridge.Services
 {
     public class AssemblyService : IAssemblyService, IPresentationService
     {

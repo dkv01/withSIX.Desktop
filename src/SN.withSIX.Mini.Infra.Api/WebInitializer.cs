@@ -7,16 +7,14 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Infra.Api.Messengers;
-using SN.withSIX.Mini.Presentation.Core;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Infra.Api.Messengers;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Api
 {
     public class WebInitializer : IInitializer, IInitializeAfterUI
     {

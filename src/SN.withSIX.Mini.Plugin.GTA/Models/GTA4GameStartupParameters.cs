@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Mini.Plugin.GTA.Models
+namespace withSIX.Mini.Plugin.GTA.Models
 {
     [DataContract]
     public class GTA4StartupParameters : GTAStartupParameters

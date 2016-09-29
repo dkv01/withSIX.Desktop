@@ -4,9 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface IDbContext
     {

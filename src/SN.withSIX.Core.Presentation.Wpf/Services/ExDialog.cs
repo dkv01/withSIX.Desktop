@@ -5,11 +5,11 @@
 using System;
 using System.Windows;
 using System.Windows.Threading;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
 using Splat;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class ExDialog
     {

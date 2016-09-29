@@ -6,11 +6,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications.Extensions;
+using withSIX.Core;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications.Extensions;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class DefaultDomainEventHandler : IDomainEventHandler
     {

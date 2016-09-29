@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
-    xmlns:dialogs="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Dialogs;assembly=SN.withSIX.Play.Applications"
-    xmlns:dialogs1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;assembly=SN.withSIX.Play.Applications"
-    xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+    xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+    xmlns:dialogs="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Dialogs;assembly=withSIX.Play.Applications"
+    xmlns:dialogs1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;assembly=withSIX.Play.Applications"
+    xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance dialogs1:CustomRepoAvailabilityWarningViewModel}"
     d:DesignHeight="400" d:DesignWidth="400">
     <Grid>

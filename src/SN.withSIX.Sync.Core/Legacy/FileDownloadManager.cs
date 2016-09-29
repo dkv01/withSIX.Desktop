@@ -12,16 +12,16 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Sync.Core.Transfer.Protocols;
 
-namespace SN.withSIX.Sync.Core.Legacy
+namespace withSIX.Sync.Core.Legacy
 {
     [Obsolete]
     public class FileDownloadManager : IEnableLogging

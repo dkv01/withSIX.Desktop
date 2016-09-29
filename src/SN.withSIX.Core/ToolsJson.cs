@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="JsonTools.cs">
+// <copyright company="SIX Networks GmbH" file="JsonTools.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -9,7 +9,7 @@ using NDepend.Path;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public partial class Tools
     {

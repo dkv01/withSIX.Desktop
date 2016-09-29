@@ -4,9 +4,9 @@
 
 using System;
 using ReactiveUI.Legacy;
-using SN.withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.Services;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
+namespace withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
     public interface IEnterUserNamePasswordViewModel {}
 

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public class UninstallContentAction : ContentAction<IUninstallableContent>
     {

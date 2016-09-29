@@ -4,9 +4,9 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Witcher3.Models
+namespace withSIX.Mini.Plugin.Witcher3.Models
 {
     [DataContract]
     public class Witcher3GameSettings : GameSettings

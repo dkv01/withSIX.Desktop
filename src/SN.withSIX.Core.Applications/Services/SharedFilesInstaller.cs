@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public class SharedFilesInstallFailedException : Exception
     {

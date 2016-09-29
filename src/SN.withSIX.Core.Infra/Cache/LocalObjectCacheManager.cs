@@ -5,9 +5,9 @@
 using System;
 using System.Reactive;
 using Akavache;
-using SN.withSIX.Core.Infra.Services;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public class LocalObjectCacheManager : IInfrastructureService, ILocalObjectCacheManager
     {

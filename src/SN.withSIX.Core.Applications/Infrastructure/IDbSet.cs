@@ -6,7 +6,7 @@ using System.Linq;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
 
-namespace SN.withSIX.Core.Applications.Infrastructure
+namespace withSIX.Core.Applications.Infrastructure
 {
     public interface IDbSet<TEntity, in TId> : IQueryable<TEntity> where TEntity : IHaveId<TId>
     {

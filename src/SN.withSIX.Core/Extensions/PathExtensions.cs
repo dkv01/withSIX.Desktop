@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class PathExtensions
     {

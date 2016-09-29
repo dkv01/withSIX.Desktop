@@ -12,20 +12,19 @@ using NDepend.Path;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation.Bridge;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Infra.Api;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Owin.Core;
 using Splat;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Infra.Api;
+using withSIX.Mini.Presentation.Core;
+using withSIX.Mini.Presentation.Owin.Core;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
 
     // These are here, in non .netstandard land because of ReactiveUI references, code contract issues.

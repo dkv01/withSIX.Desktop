@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace SN.withSIX.Mini.Core.Games.Attributes
+namespace withSIX.Mini.Core.Games.Attributes
 {
     public class RegistryInfoAttribute : Attribute
     {

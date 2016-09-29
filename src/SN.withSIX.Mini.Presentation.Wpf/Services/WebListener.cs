@@ -2,21 +2,20 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Owin.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Presentation.Core;
+using withSIX.Mini.Presentation.Owin.Core;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public class WebStart : WindowsWebStartBase, IInitializer
     {

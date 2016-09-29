@@ -9,13 +9,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class GetState : IAsyncQuery<ClientContentInfo>, IHaveId<Guid>
     {

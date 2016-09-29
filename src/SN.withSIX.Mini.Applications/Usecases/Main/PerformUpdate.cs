@@ -4,11 +4,11 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public enum UpdateState
     {

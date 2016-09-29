@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public partial class ReactiveConductor<T>
     {

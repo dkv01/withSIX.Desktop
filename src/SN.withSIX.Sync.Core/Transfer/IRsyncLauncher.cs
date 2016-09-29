@@ -4,10 +4,10 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public interface IRsyncLauncher
     {

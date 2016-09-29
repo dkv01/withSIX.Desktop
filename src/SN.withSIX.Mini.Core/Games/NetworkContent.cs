@@ -8,10 +8,10 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
-using SN.withSIX.Mini.Core.Extensions;
 using withSIX.Api.Models.Content;
+using withSIX.Mini.Core.Extensions;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public interface INetworkContent : IPackagedContent, IInstallableContent, IHavePath
     {

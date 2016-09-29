@@ -3,8 +3,8 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Services;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Services;
 
 namespace withSIX.Mini.Presentation.CoreCore.Services
 {

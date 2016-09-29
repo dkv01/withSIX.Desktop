@@ -5,11 +5,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.Extensions
+namespace withSIX.Mini.Applications.Extensions
 {
     public static class MediatorExtensions
     {

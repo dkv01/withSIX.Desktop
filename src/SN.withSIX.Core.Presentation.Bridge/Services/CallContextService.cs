@@ -4,9 +4,9 @@
 
 using System;
 using System.Runtime.Remoting.Messaging;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Services
+namespace withSIX.Core.Presentation.Bridge.Services
 {
     public class CallContextService : ICallContextService, IPresentationService
     {

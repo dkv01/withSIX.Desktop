@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace SN.withSIX.Mini.Applications.Models
+namespace withSIX.Mini.Applications.Models
 {
     public class ContentStatus : ContentState
     {

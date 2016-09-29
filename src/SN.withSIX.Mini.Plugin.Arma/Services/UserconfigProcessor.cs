@@ -10,12 +10,12 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Services
+namespace withSIX.Mini.Plugin.Arma.Services
 {
     public class UserconfigProcessor : IEnableLogging
     {

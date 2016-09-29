@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Applications.Infrastructure
+namespace withSIX.Core.Applications.Infrastructure
 {
     public interface ISystemInfo : IDisposable
     {

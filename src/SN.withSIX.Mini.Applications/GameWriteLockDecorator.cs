@@ -6,14 +6,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public class GameWriteLockDecorator : MediatorDecoratorBase
     {

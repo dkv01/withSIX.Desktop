@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.NMS.Models
+namespace withSIX.Mini.Plugin.NMS.Models
 {
     [DataContract]
     public class NMSStartupParameters : BasicAltGameStartupParameters

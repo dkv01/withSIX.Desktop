@@ -9,11 +9,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public interface IRestarter
     {

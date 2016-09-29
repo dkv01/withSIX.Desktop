@@ -2,14 +2,12 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using NLog;
-using SN.withSIX.Core.Extensions;
-using ILogger = SN.withSIX.Core.Logging.ILogger;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
-    public class LoggerBase : ILogger
+    public class LoggerBase : Core.Logging.ILogger
     {
         readonly Logger _logger;
 

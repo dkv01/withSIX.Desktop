@@ -3,10 +3,10 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
+namespace withSIX.Mini.Applications.MVVM.ViewModels
 {
     public abstract class CMBase : ContextMenuBase, IUsecaseExecutor //, ISupportsActivation
     {

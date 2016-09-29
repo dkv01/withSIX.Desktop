@@ -4,12 +4,12 @@
 
 using System;
 using System.IO;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Core;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     public class RsyncController : IRsyncController
     {

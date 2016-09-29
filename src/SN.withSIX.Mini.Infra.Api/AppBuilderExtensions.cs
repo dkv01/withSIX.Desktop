@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Owin.Builder;
 using Owin;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Api
 {
     public static class AppBuilderExtensions
     {

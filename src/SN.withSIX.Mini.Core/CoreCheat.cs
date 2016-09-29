@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Mini.Core
+namespace withSIX.Mini.Core
 {
     public static class CoreCheat
     {

@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Mini.Applications.Attributes
+namespace withSIX.Mini.Applications.Attributes
 {
     public class ApiUserActionAttribute : Attribute
     {

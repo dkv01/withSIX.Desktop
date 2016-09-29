@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Applications.Extensions
+namespace withSIX.Core.Applications.Extensions
 {
     public static class CollectionExtensions
     {

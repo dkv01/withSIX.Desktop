@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public abstract class PlayContentAction<T> : LaunchContentAction<T>, IPlayContentAction<T> where T : IContent
     {

@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Media;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Resources
+namespace withSIX.Mini.Presentation.Wpf.Resources
 {
     public class UbuntuFontFamily : FontFamily
     {

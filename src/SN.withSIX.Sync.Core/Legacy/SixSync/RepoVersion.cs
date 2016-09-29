@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync
+namespace withSIX.Sync.Core.Legacy.SixSync
 {
     public class RepoVersion : IBaseYaml
     {

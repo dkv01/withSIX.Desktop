@@ -8,11 +8,11 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Steam.Core
+namespace withSIX.Steam.Core
 {
     public class SteamLauncher
     {

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Applications.Usecases.Main.Games;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Usecases.Main.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Presentation.Owin.Core
+namespace withSIX.Mini.Presentation.Owin.Core
 {
     public class ApiOwinModule : OwinModule
     {

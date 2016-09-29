@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
+namespace withSIX.Mini.Plugin.Arma.Services.CommandAPI.Commands
 {
     public class SentCommand
     {

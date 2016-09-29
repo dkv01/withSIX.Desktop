@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Mini.Presentation.Core;
+using withSIX.Core;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Mini.Presentation.Core;
 
-namespace SN.withSIX.Mini.Presentation.Owin.Core
+namespace withSIX.Mini.Presentation.Owin.Core
 {
     public abstract class WebServerStartup : IWebServerStartup
     {

@@ -8,12 +8,12 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class StringExtensions
     {

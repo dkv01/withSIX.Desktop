@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public class Teardown
     {

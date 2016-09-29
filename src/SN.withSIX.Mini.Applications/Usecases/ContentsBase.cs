@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Usecases
 {
     public interface INeedContents
     {

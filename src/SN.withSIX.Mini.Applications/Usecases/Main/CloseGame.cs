@@ -5,12 +5,12 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Attributes;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     [ApiUserAction("Close")]
     public class CloseGame : RequestBase, IHaveId<Guid>, IAsyncVoidCommand

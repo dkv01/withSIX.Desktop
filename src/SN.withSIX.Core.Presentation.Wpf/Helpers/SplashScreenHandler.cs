@@ -5,7 +5,7 @@
 using System;
 using System.Windows;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Helpers
+namespace withSIX.Core.Presentation.Wpf.Helpers
 {
     public class SplashScreenHandler : IDisposable
     {

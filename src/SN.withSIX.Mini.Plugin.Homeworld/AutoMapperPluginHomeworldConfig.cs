@@ -3,10 +3,10 @@
 // </copyright>
 
 using AutoMapper;
-using SN.withSIX.Mini.Plugin.Homeworld.ApiModels;
-using SN.withSIX.Mini.Plugin.Homeworld.Models;
+using withSIX.Mini.Plugin.Homeworld.ApiModels;
+using withSIX.Mini.Plugin.Homeworld.Models;
 
-namespace SN.withSIX.Mini.Plugin.Homeworld
+namespace withSIX.Mini.Plugin.Homeworld
 {
     public class AutoMapperPluginHomeworldConfig : Profile
     {

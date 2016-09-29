@@ -10,9 +10,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Helpers
+namespace withSIX.Core.Presentation.Wpf.Helpers
 {
     public static class DialogHelper
     {

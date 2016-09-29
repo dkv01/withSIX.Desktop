@@ -14,26 +14,26 @@ using Caliburn.Micro;
 using MediatR;
 using Newtonsoft.Json;
 using SimpleInjector;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
-using SN.withSIX.Core.Presentation.Decorators;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Decorators;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Wpf.Legacy
 {
     public abstract class AppBootstrapperBase : BootstrapperBase
     {

@@ -11,14 +11,14 @@ using MediatR;
 using NDepend.Path;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
+using withSIX.Core.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Presentation.CoreHost
 {

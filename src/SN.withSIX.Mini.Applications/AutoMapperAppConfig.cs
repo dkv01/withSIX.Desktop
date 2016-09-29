@@ -5,16 +5,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
-namespace SN.withSIX.Mini.Applications
+namespace withSIX.Mini.Applications
 {
     public class AutoMapperAppConfig : Profile
     {

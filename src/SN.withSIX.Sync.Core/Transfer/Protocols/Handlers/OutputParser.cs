@@ -4,9 +4,9 @@
 
 using System;
 using System.Diagnostics;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
+namespace withSIX.Sync.Core.Transfer.Protocols.Handlers
 {
     public interface IOutputParser
     {

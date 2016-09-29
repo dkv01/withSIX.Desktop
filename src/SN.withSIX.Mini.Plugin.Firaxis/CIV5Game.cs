@@ -4,9 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Firaxis
+namespace withSIX.Mini.Plugin.Firaxis
 {
     public class CIV5Game : BasicSteamGame
     {

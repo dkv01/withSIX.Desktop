@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.ComponentModel;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.GTA.Models
+namespace withSIX.Mini.Plugin.GTA.Models
 {
     public class GTA5StartupParameters : GTAStartupParameters
     {

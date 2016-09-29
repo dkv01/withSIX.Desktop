@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Applications.Factories
+namespace withSIX.Core.Applications.Factories
 {
     public interface IDepResolver
     {

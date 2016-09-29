@@ -5,11 +5,11 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Usecases.Main.Games
 {
     [Obsolete]
     public class GetGame : IAsyncVoidCommand, IHaveId<Guid>

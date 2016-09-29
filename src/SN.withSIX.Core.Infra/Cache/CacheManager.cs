@@ -10,9 +10,9 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Akavache;
-using SN.withSIX.Core.Infra.Services;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Core.Infra.Cache
+namespace withSIX.Core.Infra.Cache
 {
     public class CacheManager : ICacheManager, IInfrastructureService
     {

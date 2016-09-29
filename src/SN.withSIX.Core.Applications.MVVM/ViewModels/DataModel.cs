@@ -4,7 +4,7 @@
 
 using withSIX.Api.Models.Content.v3;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public abstract class DataModel : ReactiveValidatableObject {}
 

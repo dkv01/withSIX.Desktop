@@ -4,12 +4,12 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Core.Presentation.Decorators
+namespace withSIX.Core.Presentation.Decorators
 {
     public class LoggingFileDownloaderDecorator : LoggingFileTransferDecorator, IFileDownloader
     {

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core.Infra.Services;
 using Synercoding.Encryption.Hashing;
 using Synercoding.Encryption.Symmetrical;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Services
+namespace withSIX.Core.Presentation.Bridge.Services
 {
     public class Decryption : IDecryption, IPresentationService
     {

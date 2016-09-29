@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Mini.Applications.Models;
+using withSIX.Core;
+using withSIX.Mini.Applications.Models;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface ITokenRefresher
     {

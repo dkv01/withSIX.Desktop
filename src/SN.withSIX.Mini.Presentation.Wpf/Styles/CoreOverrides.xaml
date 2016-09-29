@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:resources="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Resources"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:resources="clr-namespace:withSIX.Mini.Presentation.Wpf.Resources">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/CoreColors.xaml" />

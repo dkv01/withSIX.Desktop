@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Applications.Infrastructure
+namespace withSIX.Core.Applications.Infrastructure
 {
     public interface IUnitOfWork
     {

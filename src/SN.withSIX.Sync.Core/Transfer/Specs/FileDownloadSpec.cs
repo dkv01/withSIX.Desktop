@@ -5,7 +5,7 @@
 using System;
 using NDepend.Path;
 
-namespace SN.withSIX.Sync.Core.Transfer.Specs
+namespace withSIX.Sync.Core.Transfer.Specs
 {
     public class FileDownloadSpec : TransferSpec
     {

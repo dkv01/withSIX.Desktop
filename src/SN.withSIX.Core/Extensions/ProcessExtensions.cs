@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Extensions
+namespace withSIX.Core.Extensions
 {
     public static class ProcessValidationExtensions
     {

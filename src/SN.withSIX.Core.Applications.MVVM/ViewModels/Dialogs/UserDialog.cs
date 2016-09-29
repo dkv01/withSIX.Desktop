@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
+namespace withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
     /*public class UserDialog : SelectionCollectionHelper<MenuItem>
     {

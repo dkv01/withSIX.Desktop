@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Attributes
+namespace withSIX.Mini.Plugin.Arma.Attributes
 {
     public class RvProfileInfoAttribute : Attribute
     {

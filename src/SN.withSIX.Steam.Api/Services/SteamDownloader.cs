@@ -8,14 +8,14 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Steam.Api.Helpers;
 using Steamworks;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
+using withSIX.Steam.Api.Helpers;
 
-namespace SN.withSIX.Steam.Api.Services
+namespace withSIX.Steam.Api.Services
 {
     public class SteamDownloader : ISteamDownloader, IDomainService
     {

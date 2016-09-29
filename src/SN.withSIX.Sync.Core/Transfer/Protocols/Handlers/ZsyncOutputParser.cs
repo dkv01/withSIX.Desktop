@@ -5,9 +5,9 @@
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
+namespace withSIX.Sync.Core.Transfer.Protocols.Handlers
 {
     public class ZsyncOutputParser : OutputParser
     {

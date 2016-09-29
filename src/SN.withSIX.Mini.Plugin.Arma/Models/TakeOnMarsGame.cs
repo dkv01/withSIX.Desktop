@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.TKOM, Name = "Take on Mars", Slug = "Take-on-Mars", Executables = new[] {"tkom.exe"})]
     [SteamInfo(244030, "Take on Mars")]

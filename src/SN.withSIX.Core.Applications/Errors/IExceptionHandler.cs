@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Core.Applications.Errors
+namespace withSIX.Core.Applications.Errors
 {
     public interface IExceptionHandlerHandle
     {

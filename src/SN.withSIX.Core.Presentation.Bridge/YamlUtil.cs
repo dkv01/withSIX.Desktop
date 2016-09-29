@@ -13,16 +13,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core;
+using withSIX.Sync.Core.Legacy;
 using YamlDotNet.Core;
 using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace SN.withSIX.Core.Presentation
+namespace withSIX.Core.Presentation.Bridge
 {
     // TODO: YamlDotNet is currently not PCL compatible
     // So we want to move this out to the highest layer, and DI it.

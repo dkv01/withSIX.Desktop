@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Sync.Core.Legacy.Yoma
+namespace withSIX.Sync.Core.Legacy.Yoma
 {
     class InvalidFileHash : Exception
     {

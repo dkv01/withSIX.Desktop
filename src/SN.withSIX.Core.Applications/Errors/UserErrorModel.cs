@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SN.withSIX.Core.Applications.Errors
+namespace withSIX.Core.Applications.Errors
 {
     public class UserErrorModel
     {

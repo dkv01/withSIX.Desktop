@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Core.Applications
+namespace withSIX.Core.Applications
 {
     public interface IEvent {}
 

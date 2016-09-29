@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public enum CountryFlags
     {

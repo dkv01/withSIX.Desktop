@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface ISelectable
     {

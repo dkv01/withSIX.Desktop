@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
+using withSIX.Core.Applications.MVVM.Helpers;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Helpers
+namespace withSIX.Core.Presentation.Wpf.Helpers
 {
     public class ApplicationCloseStrategy : ICloseStrategy<IScreen>
     {

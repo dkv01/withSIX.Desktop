@@ -14,11 +14,11 @@ using SharpCompress.Archive.Zip;
 using SharpCompress.Common;
 using SharpCompress.Compressor.Deflate;
 using SharpCompress.Writer;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Services
+namespace withSIX.Core.Presentation.Services
 {
     public class CompressionUtil : ICompressionUtil, IPresentationService
     {

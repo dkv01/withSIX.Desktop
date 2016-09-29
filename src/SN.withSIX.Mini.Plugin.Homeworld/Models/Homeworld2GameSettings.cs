@@ -4,9 +4,9 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Homeworld.Models
+namespace withSIX.Mini.Plugin.Homeworld.Models
 {
     [DataContract]
     public class Homeworld2GameSettings : GameSettings

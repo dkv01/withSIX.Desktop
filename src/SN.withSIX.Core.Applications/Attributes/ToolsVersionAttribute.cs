@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Core.Applications.Attributes
+namespace withSIX.Core.Applications.Attributes
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public class ToolsVersionAttribute : Attribute

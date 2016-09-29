@@ -4,9 +4,9 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using SN.withSIX.Steam.Api.SteamKit.Utils;
+using withSIX.Steam.Api.SteamKit.Utils;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.v1
+namespace withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.v1
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed class Request : ApiAuthRequestBase

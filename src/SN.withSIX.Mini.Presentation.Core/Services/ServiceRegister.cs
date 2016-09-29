@@ -3,9 +3,9 @@
 // </copyright>
 
 using SimpleInjector;
-using SN.withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services;
 
-namespace SN.withSIX.Mini.Presentation.Core.Services
+namespace withSIX.Mini.Presentation.Core.Services
 {
     public class ServiceRegisterer : IRegisterServices
     {

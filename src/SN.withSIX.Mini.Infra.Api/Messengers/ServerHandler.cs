@@ -5,10 +5,10 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNet.SignalR;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Infra.Api.Hubs;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Infra.Api.Hubs;
 
-namespace SN.withSIX.Mini.Infra.Api.Messengers
+namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class ServerHandler : IAsyncNotificationHandler<ServersPageReceived>
     {

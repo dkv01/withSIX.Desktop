@@ -8,10 +8,10 @@ using System.Linq;
 using System.Reflection;
 using ReactiveUI;
 using SimpleInjector;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
 using Splat;
+using withSIX.Core.Presentation.Bridge.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public static class MutableDependencyResolverExtensions
     {

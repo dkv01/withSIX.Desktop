@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.v1.Models;
+using withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.v1.Models;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.v1
+namespace withSIX.Steam.Api.SteamKit.WebApi.IPublishedFileService.QueryFiles.v1
 {
     public sealed class QueryFilesMethod : ApiGetBase<ResponseRootObject, Request> {}
 }

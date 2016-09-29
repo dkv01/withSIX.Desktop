@@ -4,9 +4,9 @@
 
 using System;
 using Newtonsoft.Json;
-using SN.withSIX.Steam.Api.SteamKit.Utils;
+using withSIX.Steam.Api.SteamKit.Utils;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2.Models
+namespace withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2.Models
 {
     public sealed class Player
     {

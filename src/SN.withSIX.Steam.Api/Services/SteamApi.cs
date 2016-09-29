@@ -7,11 +7,11 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Steam.Api.Helpers;
 using Steamworks;
+using withSIX.Core.Services;
+using withSIX.Steam.Api.Helpers;
 
-namespace SN.withSIX.Steam.Api.Services
+namespace withSIX.Steam.Api.Services
 {
     public class SteamApi : ISteamApi, IDomainService
     {

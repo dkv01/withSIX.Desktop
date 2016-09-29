@@ -7,11 +7,11 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Input;
 using ReactiveUI;
-using SN.withSIX.Core.Presentation.Wpf.Behaviors;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Core.Presentation.Wpf.Behaviors;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Mini.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Extensions
+namespace withSIX.Mini.Presentation.Wpf.Extensions
 {
     public static class ScreenExtensions
     {

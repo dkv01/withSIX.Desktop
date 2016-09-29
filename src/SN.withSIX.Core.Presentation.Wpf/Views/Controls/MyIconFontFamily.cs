@@ -5,9 +5,9 @@
 using System;
 using System.Windows.Media;
 using Caliburn.Micro;
-using SN.withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     public class MyIconFontFamily : FontFamily
     {

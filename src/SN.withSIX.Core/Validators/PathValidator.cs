@@ -4,10 +4,10 @@
 
 using System.IO;
 using System.Linq;
-using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Validators
+namespace withSIX.Core.Validators
 {
     public static class PathValidator
     {

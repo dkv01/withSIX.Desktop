@@ -19,10 +19,10 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using MediatR;
 using NDepend.Path;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public enum ReleaseType
     {

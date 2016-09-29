@@ -6,12 +6,12 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.ContentEngine.Infra.Services
+namespace withSIX.ContentEngine.Infra.Services
 {
     public interface IGameFolderService
     {

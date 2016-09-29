@@ -4,10 +4,10 @@
 
 using System;
 using System.Net;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class WebClient : System.Net.WebClient, IWebClient, ITransientService
     {

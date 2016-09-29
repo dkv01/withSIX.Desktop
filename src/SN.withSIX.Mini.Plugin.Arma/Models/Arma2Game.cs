@@ -4,10 +4,10 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Plugin.Arma.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     /*
     [Game(GameUUids.Arma2, Name = "Arma 2: Original", Slug = "Arma-2",

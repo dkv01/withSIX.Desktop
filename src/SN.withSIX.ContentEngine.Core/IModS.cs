@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.ContentEngine.Core
+namespace withSIX.ContentEngine.Core
 {
     public interface IModS
     {

@@ -14,14 +14,13 @@ using MediatR;
 using NDepend.Path;
 using SimpleInjector;
 using SimpleInjector.Advanced;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Decorators;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Owin.Core;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Decorators;
+using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.CoreCore.Services;
+using withSIX.Mini.Presentation.Owin.Core;
 using SystemExtensions = withSIX.Api.Models.Extensions.SystemExtensions;
 
 namespace withSIX.Mini.Presentation.CoreHost
@@ -82,7 +81,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             //var l = Locator.CurrentMutable;
             // cant refer ReactiveUI atm until we put it into a package :)
             //l.Register(() => null, typeof(IFilesystemProvider), null);
-            SN.withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
+            withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
         }
 
 

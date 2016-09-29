@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using withSIX.Api.Models.Content;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public class ContentPublisher : IEquatable<ContentPublisher>

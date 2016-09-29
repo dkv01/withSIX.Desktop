@@ -9,13 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Services;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Services;
 
-namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
+namespace withSIX.Mini.Core.Games.Services.ContentInstaller
 {
     // TODO: Deal with Path Access permissions (Elevate and set access bits for the user etc? or elevate self?)
 

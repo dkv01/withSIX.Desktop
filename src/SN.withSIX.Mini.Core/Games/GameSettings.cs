@@ -5,7 +5,7 @@
 using System.Runtime.Serialization;
 using NDepend.Path;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     [DataContract]
     public abstract class GameSettings

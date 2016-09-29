@@ -2,16 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
-using NDepend.Path;
-using NUnit.Framework;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Applications.Services;
-
-namespace SN.withSIX.Mini.Tests
+namespace withSIX.Mini.Tests
 {
     /*
     [TestFixture]

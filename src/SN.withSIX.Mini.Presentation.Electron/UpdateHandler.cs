@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public class UpdateHandler : IUpdateHandler, IPresentationService
     {

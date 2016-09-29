@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync
+namespace withSIX.Sync.Core.Legacy.SixSync
 {
     public class ArchiveFormatUnsupported : Exception
     {

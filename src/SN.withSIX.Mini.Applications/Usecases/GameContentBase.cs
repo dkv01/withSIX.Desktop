@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Usecases
 {
     public abstract class GameContentBase : RequestBase, IHaveGameId, INeedGameContents, IHaveRequestName
     {

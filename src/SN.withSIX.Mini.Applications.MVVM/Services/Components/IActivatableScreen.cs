@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 
-namespace SN.withSIX.Mini.Applications.MVVM.Services.Components
+namespace withSIX.Mini.Applications.MVVM.Services.Components
 {
     public interface IActivatableScreen
     {

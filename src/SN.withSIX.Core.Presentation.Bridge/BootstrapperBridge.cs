@@ -3,13 +3,11 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using ReactiveUI;
 using SimpleInjector;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Bridge.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Bridge
+namespace withSIX.Core.Presentation.Bridge
 {
     public class BootstrapperBridge
     {

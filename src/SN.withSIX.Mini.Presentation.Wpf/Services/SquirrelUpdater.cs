@@ -9,13 +9,13 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Mini.Applications;
 using Splat;
 using Squirrel;
+using withSIX.Core;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Applications;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public class SquirrelApp : ISquirrelApp, IPresentationService
     {

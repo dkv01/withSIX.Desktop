@@ -8,15 +8,15 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Services
+namespace withSIX.Mini.Plugin.Arma.Services
 {
     class RealVirtualityLauncher : GameLauncher, IRealVirtualityLauncher
     {

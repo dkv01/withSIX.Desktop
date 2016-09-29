@@ -5,7 +5,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Commands
+namespace withSIX.Core.Presentation.Wpf.Commands
 {
     public class TextBoxBrowserCommands
     {

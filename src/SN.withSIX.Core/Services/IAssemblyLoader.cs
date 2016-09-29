@@ -5,7 +5,7 @@
 using System;
 using NDepend.Path;
 
-namespace SN.withSIX.Core.Services
+namespace withSIX.Core.Services
 {
     public interface IAssemblyInfo
     {

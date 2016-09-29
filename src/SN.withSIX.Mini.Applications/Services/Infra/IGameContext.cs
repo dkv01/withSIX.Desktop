@@ -5,14 +5,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Services.Infra
+namespace withSIX.Mini.Applications.Services.Infra
 {
     public interface IGameContextReadOnly
     {

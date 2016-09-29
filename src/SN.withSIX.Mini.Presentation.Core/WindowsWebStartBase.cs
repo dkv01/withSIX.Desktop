@@ -4,15 +4,15 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications;
+using withSIX.Mini.Presentation.Core.Services;
 
-namespace SN.withSIX.Mini.Presentation.Core
+namespace withSIX.Mini.Presentation.Core
 {
     public class WindowsWebStartBase
     {

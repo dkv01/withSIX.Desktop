@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using NDepend.Path;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public interface IManagement
     {

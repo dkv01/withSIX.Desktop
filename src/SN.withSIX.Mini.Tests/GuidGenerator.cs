@@ -4,9 +4,8 @@
 
 using System;
 using NUnit.Framework;
-using SN.withSIX.Mini.Core.Extensions;
 
-namespace SN.withSIX.Mini.Tests
+namespace withSIX.Mini.Tests
 {
     [TestFixture]
     public class GuidGenerator

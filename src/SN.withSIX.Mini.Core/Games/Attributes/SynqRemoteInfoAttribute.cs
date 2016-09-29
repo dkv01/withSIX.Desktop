@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Mini.Core.Games.Attributes
+namespace withSIX.Mini.Core.Games.Attributes
 {
     // TODO: Convert to instance instead of static stuff..
 

@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace SN.withSIX.Core.Logging
+namespace withSIX.Core.Logging
 {
     public static class BenchExtension
     {

@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services.Infrastructure;
 using withSIX.Api.Models.Content.v3;
+using withSIX.Core;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Mini.Core
+namespace withSIX.Mini.Core
 {
     [DataContract]
     public abstract class BaseEntity

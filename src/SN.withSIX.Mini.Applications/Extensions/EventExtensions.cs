@@ -2,6 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Mini.Applications.Extensions
+namespace withSIX.Mini.Applications.Extensions
 {
 }

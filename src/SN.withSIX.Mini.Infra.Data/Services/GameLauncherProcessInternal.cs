@@ -11,16 +11,16 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     // TODO: Decide if we should relaunch the withSIX process, more like the withSIX-Updater, or stick to current implementation.
     // (outputting the LaunchGameInfos to console commands, and picking them up again and transforming them to LaunchSpec)

@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Squirrel;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace withSIX.Mini.Presentation.Wpf.Services
 {
     public interface ISquirrelApp
     {

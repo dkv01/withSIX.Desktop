@@ -9,12 +9,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Steam.Core;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public class SteamHelperRunner
     {

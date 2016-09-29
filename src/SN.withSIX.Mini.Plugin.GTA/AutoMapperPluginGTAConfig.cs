@@ -3,10 +3,10 @@
 // </copyright>
 
 using AutoMapper;
-using SN.withSIX.Mini.Plugin.GTA.ApiModels;
-using SN.withSIX.Mini.Plugin.GTA.Models;
+using withSIX.Mini.Plugin.GTA.ApiModels;
+using withSIX.Mini.Plugin.GTA.Models;
 
-namespace SN.withSIX.Mini.Plugin.GTA
+namespace withSIX.Mini.Plugin.GTA
 {
     public class AutoMapperPluginGTAConfig : Profile
     {

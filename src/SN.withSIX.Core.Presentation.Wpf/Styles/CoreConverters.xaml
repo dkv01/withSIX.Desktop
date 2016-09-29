@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters">
+                    xmlns:converters="clr-namespace:withSIX.Core.Presentation.Wpf.Converters">
     <converters:TimeAgoConverter x:Key="TimeAgoConverter" />
     <converters:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter" />
     <converters:FilteredConverter x:Key="FilteredConverter" />

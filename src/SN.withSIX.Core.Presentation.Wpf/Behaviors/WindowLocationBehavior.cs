@@ -4,7 +4,7 @@
 
 using System.Windows;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
+namespace withSIX.Core.Presentation.Wpf.Behaviors
 {
     public static class WindowLocationBehavior
     {

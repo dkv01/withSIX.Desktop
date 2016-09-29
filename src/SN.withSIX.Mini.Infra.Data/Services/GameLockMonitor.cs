@@ -8,11 +8,11 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Core.Games.Services;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core.Games.Services;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class GameLockMonitor : IGameLockMonitor, IInfrastructureService
     {

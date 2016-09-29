@@ -8,11 +8,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Hardcodet.Wpf.TaskbarNotification;
 using ReactiveUI;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels;
-using SN.withSIX.Mini.Applications.MVVM.Views;
-using SN.withSIX.Mini.Presentation.Wpf.Controls;
+using withSIX.Mini.Applications.MVVM.ViewModels;
+using withSIX.Mini.Applications.MVVM.Views;
+using withSIX.Mini.Presentation.Wpf.Controls;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Views
+namespace withSIX.Mini.Presentation.Wpf.Views
 {
     /// <summary>
     ///     Interaction logic for TrayNotification.xaml

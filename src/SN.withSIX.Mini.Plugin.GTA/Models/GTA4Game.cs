@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.GTA.Models
+namespace withSIX.Mini.Plugin.GTA.Models
 {
     [Game(GameIds.GTAIV, Name = "GTA 4", Slug = "GTA-4",
          Executables = new[] {"GTAIV\\GTAIV.exe"})]

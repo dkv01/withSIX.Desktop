@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoFakeItEasy;
 
-namespace SN.withSIX.Mini.Tests
+namespace withSIX.Mini.Tests
 {
     [TestFixture]
     public abstract class BaseTest

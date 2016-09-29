@@ -4,10 +4,10 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Mini.Applications.Usecases.Main.Servers;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Applications.Usecases.Main.Servers;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Infra.Api.Hubs
+namespace withSIX.Mini.Infra.Api.Hubs
 {
     public class ServerHub : HubBase<IServerHubClient>
     {

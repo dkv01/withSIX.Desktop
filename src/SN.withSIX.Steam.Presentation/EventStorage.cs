@@ -5,10 +5,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Applications;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Steam.Presentation
+namespace withSIX.Steam.Presentation
 {
     public interface IEventStorage
     {

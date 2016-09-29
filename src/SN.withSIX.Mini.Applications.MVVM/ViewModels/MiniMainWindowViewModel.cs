@@ -6,14 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.MVVM.ViewModels.Main;
-using SN.withSIX.Mini.Applications.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.MVVM.ViewModels.Main;
+using withSIX.Mini.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
+namespace withSIX.Mini.Applications.MVVM.ViewModels
 {
     public class MiniMainWindowViewModel : ScreenViewModel, IMiniMainWindowViewModel
     {

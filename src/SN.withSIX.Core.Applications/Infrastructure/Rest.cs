@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SN.withSIX.Core.Applications.Infrastructure
+namespace withSIX.Core.Applications.Infrastructure
 {
     [SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
     public abstract class RestExceptionBase : Exception

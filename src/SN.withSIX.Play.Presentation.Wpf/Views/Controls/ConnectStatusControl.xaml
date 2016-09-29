@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:context1="clr-namespace:withSIX.Api.Models.Context;assembly=withSIX.Api.Models"
-             xmlns:core1="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:core1="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:connect="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=SN.withSIX.Play.Applications"
+             xmlns:connect="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=withSIX.Play.Applications"
              xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
-             xmlns:core="clr-namespace:SN.withSIX.Core;assembly=SN.withSIX.Core"
+             xmlns:core="clr-namespace:SN.withSIX.Core;assembly=withSIX.Core"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance connect:DesignTimeConnectViewModel}"
              d:DesignHeight="32" d:DesignWidth="200" x:Name="Uc">
     <UserControl.Resources>

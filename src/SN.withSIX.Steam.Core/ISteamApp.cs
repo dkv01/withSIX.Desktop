@@ -4,7 +4,7 @@
 
 using NDepend.Path;
 
-namespace SN.withSIX.Steam.Core
+namespace withSIX.Steam.Core
 {
     public interface ISteamApp
     {

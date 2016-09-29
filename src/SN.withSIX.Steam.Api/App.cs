@@ -6,14 +6,14 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Steam.Api.Services;
-using SN.withSIX.Steam.Core;
-using SN.withSIX.Steam.Core.Extensions;
 using Steamworks;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Steam.Api.Services;
+using withSIX.Steam.Core;
+using withSIX.Steam.Core.Extensions;
 
-namespace SN.withSIX.Steam.Api
+namespace withSIX.Steam.Api
 {
     public class App
     {

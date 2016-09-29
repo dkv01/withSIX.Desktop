@@ -5,9 +5,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Core.Presentation.Wpf.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Behaviors
+namespace withSIX.Core.Presentation.Wpf.Behaviors
 {
     public static class ContextMenuButtonBehavior
     {

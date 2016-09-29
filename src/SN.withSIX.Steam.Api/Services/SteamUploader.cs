@@ -5,7 +5,7 @@
 using System;
 using Steamworks;
 
-namespace SN.withSIX.Steam.Api.Services
+namespace withSIX.Steam.Api.Services
 {
     public class SteamUploader
     {

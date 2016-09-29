@@ -6,9 +6,9 @@ using System;
 using System.Linq;
 using System.Reactive;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Errors;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
+namespace withSIX.Core.Applications.MVVM.ViewModels.Dialogs
 {
     public class UserErrorViewModel : RxViewModelBase
     {

@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols
+namespace withSIX.Sync.Core.Transfer.Protocols
 {
     public class ZsyncException : DownloadException
     {

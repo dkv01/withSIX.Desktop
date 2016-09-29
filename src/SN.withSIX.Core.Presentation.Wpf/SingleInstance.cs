@@ -19,10 +19,10 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Presentation.Wpf
+namespace withSIX.Core.Presentation.Wpf
 {
     enum WM
     {

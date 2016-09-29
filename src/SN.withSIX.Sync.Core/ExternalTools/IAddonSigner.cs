@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 
-namespace SN.withSIX.Sync.Core.ExternalTools
+namespace withSIX.Sync.Core.ExternalTools
 {
     [ContractClass(typeof(AddonSignerContract))]
     public interface IAddonSigner

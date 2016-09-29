@@ -10,15 +10,15 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.NMS.Models
+namespace withSIX.Mini.Plugin.NMS.Models
 {
     // TODO: Registry, but also auto detection scanner..
     [Game(GameIds.NMS, Executables = new[] {@"Binaries\NMSELauncher.exe", @"Binaries\NMS.exe"}, Name = "No Man's Sky",

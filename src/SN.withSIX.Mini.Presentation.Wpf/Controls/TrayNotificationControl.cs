@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Controls
+namespace withSIX.Mini.Presentation.Wpf.Controls
 {
     //[TemplatePart(Name = PART_Menu, Type = typeof (MenuItem))]
     [TemplatePart(Name = PART_Header, Type = typeof(WindowHeader))]

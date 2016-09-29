@@ -7,13 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public class OpenFolder : IAsyncVoidCommand, IExcludeGameWriteLock, IHaveGameId
     {

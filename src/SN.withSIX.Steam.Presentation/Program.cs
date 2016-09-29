@@ -3,14 +3,14 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Steam.Core;
-using SN.withSIX.Steam.Presentation.Commands;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Mini.Presentation.Core;
+using withSIX.Steam.Core;
+using withSIX.Steam.Presentation.Commands;
 
-namespace SN.withSIX.Steam.Presentation
+namespace withSIX.Steam.Presentation
 {
     class Program
     {

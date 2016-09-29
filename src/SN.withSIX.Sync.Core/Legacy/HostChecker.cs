@@ -6,10 +6,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Legacy
+namespace withSIX.Sync.Core.Legacy
 {
     public interface IHostChecker
     {

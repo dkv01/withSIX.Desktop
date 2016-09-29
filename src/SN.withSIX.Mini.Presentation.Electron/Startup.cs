@@ -4,9 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public class Startup
     {

@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
 namespace withSIX.Mini.Presentation.CoreCore.Services
 {

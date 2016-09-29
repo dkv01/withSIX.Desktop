@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Mini.Applications;
+using withSIX.Mini.Applications;
 
-namespace SN.withSIX.Mini.Presentation.Electron
+namespace withSIX.Mini.Presentation.Electron
 {
     public interface INodeApi
     {

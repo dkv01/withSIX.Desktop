@@ -4,12 +4,12 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using withSIX.Api.Models.Games;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Plugin.Arma.Attributes;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.IronFront, Name = "Iron Front", Slug = "Iron-Front",
          Executables = new[] {"ironfront.exe"},

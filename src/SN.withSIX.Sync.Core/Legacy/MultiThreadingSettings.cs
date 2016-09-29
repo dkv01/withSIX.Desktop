@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Sync.Core.Legacy
+namespace withSIX.Sync.Core.Legacy
 {
     public class MultiThreadingSettings
     {

@@ -4,9 +4,9 @@
 
 using System.Threading.Tasks;
 using System.Windows;
-using SN.withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Bridge;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class RuntimeCheckWpf : RuntimeCheck
     {

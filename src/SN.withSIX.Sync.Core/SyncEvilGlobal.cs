@@ -6,11 +6,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Services;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core
+namespace withSIX.Sync.Core
 {
     [Obsolete(
          "This only exists because the classes using this, were not designed to work with DI in mind. This should however be rectified asap.."

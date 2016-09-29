@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Plugin.GTA
+namespace withSIX.Mini.Plugin.GTA
 {
     public class Initializer : IInitializer
     {

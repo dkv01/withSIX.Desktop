@@ -5,7 +5,7 @@
 using Caliburn.Micro;
 using ReactiveUI.Legacy;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     public interface IShellViewModel : IScreen {}
 

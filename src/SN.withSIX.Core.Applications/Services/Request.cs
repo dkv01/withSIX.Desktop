@@ -4,7 +4,7 @@
 
 using MediatR;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace withSIX.Core.Applications.Services
 {
     public interface IUsecaseExecutor {}
 

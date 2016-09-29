@@ -10,20 +10,20 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Packages
+namespace withSIX.Sync.Core.Packages
 {
     public class PackageManagerSettings
     {

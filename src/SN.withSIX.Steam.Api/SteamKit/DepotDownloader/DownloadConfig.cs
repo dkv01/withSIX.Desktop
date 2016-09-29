@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NDepend.Path;
 
-namespace SN.withSIX.Steam.Api.SteamKit.DepotDownloader
+namespace withSIX.Steam.Api.SteamKit.DepotDownloader
 {
     public class DownloadConfig
     {

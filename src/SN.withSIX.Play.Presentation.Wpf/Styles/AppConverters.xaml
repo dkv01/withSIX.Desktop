@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Converters"
-                    xmlns:converters1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters;assembly=SN.withSIX.Core.Presentation.Wpf"
+                    xmlns:converters1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters;assembly=withSIX.Core.Presentation.Wpf"
                     xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:editors="http://schemas.xceed.com/wpf/xaml/toolkit"

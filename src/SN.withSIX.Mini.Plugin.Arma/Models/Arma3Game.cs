@@ -17,20 +17,20 @@ using GameServerQuery.Parsers;
 using MediatR;
 using NDepend.Helpers;
 using NDepend.Path;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
-using Player = SN.withSIX.Mini.Core.Games.Player;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Plugin.Arma.Attributes;
+using Player = withSIX.Mini.Core.Games.Player;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.Arma3, Name = "Arma 3", Slug = "Arma-3",
          Executables = new[] {"arma3.exe"},

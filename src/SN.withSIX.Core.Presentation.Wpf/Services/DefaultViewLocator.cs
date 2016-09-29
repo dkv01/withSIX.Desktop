@@ -11,7 +11,7 @@ using ReactiveUI;
 using Splat;
 using Action = Caliburn.Micro.Action;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class DefaultViewLocator : IViewLocator, IEnableLogger
     {

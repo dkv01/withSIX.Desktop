@@ -4,11 +4,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
+using withSIX.Core;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Sync.Core.Packages.Internals
+namespace withSIX.Sync.Core.Packages.Internals
 {
     public class PackageMetaData : MetaDataBase, IComparePK<PackageMetaData>
     {

@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using NDepend.Path;
 
-namespace SN.withSIX.Core
+namespace withSIX.Core
 {
     public static partial class Tools
     {

@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Mini.Applications.Factories;
-using SN.withSIX.Mini.Core.Games;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Services;
+using withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class GameSettingsViewModelFactory : IGameSettingsViewModelFactory, IInfrastructureService
     {

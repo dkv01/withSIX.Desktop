@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Sync.Core.Packages;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     // TODO: Include online network content?
     public class RvContentScanner

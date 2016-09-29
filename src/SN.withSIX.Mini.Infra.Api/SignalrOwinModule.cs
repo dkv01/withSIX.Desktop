@@ -6,11 +6,11 @@ using Microsoft.AspNet.SignalR.Json;
 using Microsoft.AspNetCore.Builder;
 using Newtonsoft.Json;
 using Owin;
-using SN.withSIX.Mini.Infra.Api.Hubs;
-using SN.withSIX.Mini.Presentation.Owin.Core;
 using withSIX.Api.Models.Extensions;
+using withSIX.Mini.Infra.Api.Hubs;
+using withSIX.Mini.Presentation.Owin.Core;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Api
 {
     public class SignalrOwinModule : OwinModule
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SN.withSIX.Sync.Core.Repositories.Internals
+namespace withSIX.Sync.Core.Repositories.Internals
 {
     public class PackagesStoreCustomConfigs
     {

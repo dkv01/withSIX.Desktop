@@ -8,11 +8,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Mini.Infra.Data.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public abstract class ContextBase : IUnitOfWork
     {

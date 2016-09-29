@@ -5,11 +5,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Sync.Core.Transfer
+namespace withSIX.Sync.Core.Transfer
 {
     // TODO: cleanup token handling...
     public class FileQueueDownloader : IFileQueueDownloader

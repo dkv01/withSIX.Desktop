@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Sync.Core.Transfer.MirrorSelectors
+namespace withSIX.Sync.Core.Transfer.MirrorSelectors
 {
     public class NoSuchMirror : Exception {}
 }

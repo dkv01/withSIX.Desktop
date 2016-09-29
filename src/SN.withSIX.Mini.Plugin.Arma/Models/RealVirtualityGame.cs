@@ -13,17 +13,17 @@ using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Mini.Plugin.Arma.Attributes;
-using SN.withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Mini.Plugin.Arma.Services;
 
-namespace SN.withSIX.Mini.Plugin.Arma.Models
+namespace withSIX.Mini.Plugin.Arma.Models
 {
     [DataContract]
     public abstract class RealVirtualityGame : BasicGame, ILaunchWith<IRealVirtualityLauncher>

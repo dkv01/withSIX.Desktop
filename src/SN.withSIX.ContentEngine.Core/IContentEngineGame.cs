@@ -4,7 +4,7 @@
 
 using NDepend.Path;
 
-namespace SN.withSIX.ContentEngine.Core
+namespace withSIX.ContentEngine.Core
 {
     public interface IContentEngineGame
     {

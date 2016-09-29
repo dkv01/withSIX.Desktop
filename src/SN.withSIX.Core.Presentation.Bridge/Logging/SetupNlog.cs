@@ -7,9 +7,9 @@ using System.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Logging
+namespace withSIX.Core.Presentation.Bridge.Logging
 {
     public class SetupNlog
     {

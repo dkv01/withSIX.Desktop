@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Mini.Presentation.Shell
+namespace withSIX.Mini.Presentation.Shell
 {
     // TODO
     // Register with admin rights:

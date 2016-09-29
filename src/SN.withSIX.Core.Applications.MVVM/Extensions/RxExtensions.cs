@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Linq;
 using ReactiveUI;
 
-namespace SN.withSIX.Core.Applications.MVVM.Extensions
+namespace withSIX.Core.Applications.MVVM.Extensions
 {
     public static class RxExtensions
     {

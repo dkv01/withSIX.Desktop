@@ -10,23 +10,23 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
-using SN.withSIX.Steam.Core;
-using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
-using SystemExtensions = SN.withSIX.Core.Extensions.SystemExtensions;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
+using withSIX.Steam.Core;
+using withSIX.Sync.Core.Packages;
+using SystemExtensions = withSIX.Core.Extensions.SystemExtensions;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public interface IHaveSourcePaths
     {

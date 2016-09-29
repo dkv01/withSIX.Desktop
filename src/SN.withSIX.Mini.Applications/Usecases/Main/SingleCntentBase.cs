@@ -4,9 +4,9 @@
 
 using System;
 using withSIX.Api.Models.Content.v3;
-using ContentGuidSpec = SN.withSIX.Mini.Core.Games.ContentGuidSpec;
+using ContentGuidSpec = withSIX.Mini.Core.Games.ContentGuidSpec;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Usecases.Main
 {
     public abstract class SingleCntentBase : GameContentBase, IHaveId<Guid>, IHaveContent
     {

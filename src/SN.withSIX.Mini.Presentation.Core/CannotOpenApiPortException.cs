@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SN.withSIX.Mini.Presentation.Core
+namespace withSIX.Mini.Presentation.Core
 {
     public class CannotOpenApiPortException : Exception
     {

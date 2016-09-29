@@ -9,12 +9,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Legacy.Status
+namespace withSIX.Sync.Core.Legacy.Status
 {
     public class StatusRepo : ModelBase, IHaveTimestamps
     {

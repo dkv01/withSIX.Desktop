@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Core.Helpers
+namespace withSIX.Core.Helpers
 {
     /// <summary>
     ///     Contains relevant error codes used through our codes

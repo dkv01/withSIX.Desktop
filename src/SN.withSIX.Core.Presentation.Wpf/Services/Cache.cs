@@ -8,11 +8,11 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Logging;
 using Splat;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class Cache
     {

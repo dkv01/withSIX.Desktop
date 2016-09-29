@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using ReactiveUI;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Extensions
+namespace withSIX.Core.Presentation.Wpf.Extensions
 {
     public static class ActivationHelper
     {

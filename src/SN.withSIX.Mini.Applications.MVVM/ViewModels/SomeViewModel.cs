@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 using FluentValidation;
 using ReactiveUI;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
+namespace withSIX.Mini.Applications.MVVM.ViewModels
 {
     public interface ISomeViewModel
     {

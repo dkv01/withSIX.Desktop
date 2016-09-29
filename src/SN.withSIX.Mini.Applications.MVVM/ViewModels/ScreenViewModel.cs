@@ -4,12 +4,12 @@
 
 using System.Windows.Input;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.MVVM.Services.Components;
-using SN.withSIX.Mini.Applications.Usecases;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.MVVM.Services.Components;
+using withSIX.Mini.Applications.Usecases;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels
+namespace withSIX.Mini.Applications.MVVM.ViewModels
 {
     public interface IScreenViewModel : IViewModel, IScreen, IActivatableScreen, IHaveDisplayName
     {

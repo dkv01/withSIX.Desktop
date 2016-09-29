@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Applications.MVVM
+namespace withSIX.Core.Applications.MVVM
 {
     public interface IWpfStartupManager : IStartupManager {}
 }

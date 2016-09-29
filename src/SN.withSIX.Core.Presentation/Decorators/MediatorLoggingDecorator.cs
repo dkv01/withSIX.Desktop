@@ -6,12 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Core.Presentation.Decorators
+namespace withSIX.Core.Presentation.Decorators
 {
     // We don't log the notification object because notifications can contain complex objects and huge hierarchies..
     public class MediatorLoggingDecorator : MediatorDecoratorBase, IMediator

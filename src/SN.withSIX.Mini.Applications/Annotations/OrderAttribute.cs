@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Mini.Applications.Annotations
+namespace withSIX.Mini.Applications.Annotations
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class OrderAttribute : Attribute

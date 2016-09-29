@@ -8,13 +8,13 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Core.Legacy.SixSync
+namespace withSIX.Sync.Core.Legacy.SixSync
 {
     public class RepositoryTools : IEnableLogging
     {

@@ -4,12 +4,12 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Core.Games.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games.Services;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace withSIX.Mini.Applications.Services
 {
     public interface IGameSwitcher
     {

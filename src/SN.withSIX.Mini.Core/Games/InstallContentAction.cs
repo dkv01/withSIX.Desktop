@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using NDepend.Path;
-using SN.withSIX.Mini.Core.Games.Attributes;
-using SN.withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 using withSIX.Api.Models.Content;
+using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.ContentInstaller.Attributes;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public class DownloadContentAction : ContentAction<IInstallableContent>, IDownloadContentAction<IInstallableContent>
     {

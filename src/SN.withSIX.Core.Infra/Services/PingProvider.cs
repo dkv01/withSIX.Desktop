@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Core.Infra.Services
+namespace withSIX.Core.Infra.Services
 {
     public class PingProvider : IPingProvider, IEnableLogging, IInfrastructureService
     {

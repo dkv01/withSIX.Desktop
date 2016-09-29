@@ -10,11 +10,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core.Extensions;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
+namespace withSIX.Sync.Core.Transfer.Protocols.Handlers
 {
     public class RsyncLauncher : IRsyncLauncher
     {

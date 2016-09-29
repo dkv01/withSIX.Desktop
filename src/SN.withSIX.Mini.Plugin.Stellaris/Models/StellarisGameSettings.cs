@@ -4,9 +4,9 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SN.withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Plugin.Stellaris.Models
+namespace withSIX.Mini.Plugin.Stellaris.Models
 {
     [DataContract]
     public class StellarisGameSettings : GameSettings

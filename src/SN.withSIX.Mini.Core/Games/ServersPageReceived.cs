@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Mini.Core.Games
+namespace withSIX.Mini.Core.Games
 {
     public class ServersPageReceived : IAsyncDomainEvent
     {

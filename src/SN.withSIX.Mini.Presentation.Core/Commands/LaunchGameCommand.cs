@@ -6,14 +6,14 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Infra.Data.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Mini.Infra.Data.Services;
 
-namespace SN.withSIX.Mini.Presentation.Core.Commands
+namespace withSIX.Mini.Presentation.Core.Commands
 {
     public class LaunchGameCommand : BaseCommand
     {

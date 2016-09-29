@@ -6,15 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Models;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Models;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Applications.NotificationHandlers
+namespace withSIX.Mini.Applications.NotificationHandlers
 {
     public class NotificationProviderHandler : DbQueryBase,
         //IAsyncNotificationHandler<ApiUserActionStarted>,

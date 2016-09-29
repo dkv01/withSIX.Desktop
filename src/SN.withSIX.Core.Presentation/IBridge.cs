@@ -4,7 +4,7 @@
 
 using Newtonsoft.Json;
 
-namespace SN.withSIX.Core.Presentation
+namespace withSIX.Core.Presentation
 {
     public interface IBridge
     {

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=withSIX.Play.Applications"
              xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              xmlns:behaviors="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Behaviors"
              mc:Ignorable="d"

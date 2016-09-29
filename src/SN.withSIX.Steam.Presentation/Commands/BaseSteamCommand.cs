@@ -4,16 +4,16 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Presentation.Core.Commands;
-using SN.withSIX.Steam.Api;
-using SN.withSIX.Steam.Api.Services;
-using SN.withSIX.Steam.Core;
+using withSIX.Core;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Mini.Presentation.Core.Commands;
+using withSIX.Steam.Api;
+using withSIX.Steam.Api.Services;
+using withSIX.Steam.Core;
 
-namespace SN.withSIX.Steam.Presentation.Commands
+namespace withSIX.Steam.Presentation.Commands
 {
     public abstract class BaseSteamCommand : BaseCommandAsync
     {

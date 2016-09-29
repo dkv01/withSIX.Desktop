@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi
+namespace withSIX.Steam.Api.SteamKit.WebApi
 {
     public abstract class ApiBase<TReturn, TRequest>
         where TReturn : class

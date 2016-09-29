@@ -9,7 +9,7 @@ using ReactiveUI;
 using SimpleInjector;
 using Splat;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     // Adjusted to deal with Designtime viewmodels...
 

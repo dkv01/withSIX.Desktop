@@ -6,11 +6,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Mini.Applications.Usecases.Settings
+namespace withSIX.Mini.Applications.Usecases.Settings
 {
     public class SaveLogs : IAsyncVoidCommand {}
 

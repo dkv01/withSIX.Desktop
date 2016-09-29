@@ -16,19 +16,19 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Parsers;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Core.Extensions;
-using SN.withSIX.Mini.Core.Games;
-using SN.withSIX.Mini.Core.Games.Attributes;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
-using Player = SN.withSIX.Mini.Core.Games.Player;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Core.Extensions;
+using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Attributes;
+using Player = withSIX.Mini.Core.Games.Player;
 
-namespace SN.withSIX.Mini.Plugin.Starbound.Models
+namespace withSIX.Mini.Plugin.Starbound.Models
 {
     [Game(GameIds.Starbound,
          Executables = new[] {@"win64\starbound.exe", @"win32\starbound.exe"},

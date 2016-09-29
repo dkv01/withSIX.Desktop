@@ -12,23 +12,23 @@ using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Bridge.Extensions;
-using SN.withSIX.Core.Presentation.Bridge.Services;
-using SN.withSIX.Core.Presentation.Resources;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Services;
 using Splat;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Bridge.Services;
+using withSIX.Core.Presentation.Resources;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Core.Presentation.Wpf.Services;
 using IScreen = Caliburn.Micro.IScreen;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Wpf.Legacy
 {
     public abstract class WpfAppBootstrapper<T> : AppBootstrapperBase
     {

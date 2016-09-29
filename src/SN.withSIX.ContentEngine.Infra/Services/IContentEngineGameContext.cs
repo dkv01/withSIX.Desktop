@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.ContentEngine.Core;
+using withSIX.ContentEngine.Core;
 
-namespace SN.withSIX.ContentEngine.Infra.Services
+namespace withSIX.ContentEngine.Infra.Services
 {
     public interface IContentEngineGameContext
     {

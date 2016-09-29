@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SN.withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2
+namespace withSIX.Steam.Api.SteamKit.WebApi.ISteamUser.GetPlayerSummaries.v2
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed class GetPlayerSummariesRequest : ApiAuthRequestBase

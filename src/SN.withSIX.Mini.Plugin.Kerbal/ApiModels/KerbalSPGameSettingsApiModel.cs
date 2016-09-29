@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Applications.Factories;
 
-namespace SN.withSIX.Mini.Plugin.Kerbal.ApiModels
+namespace withSIX.Mini.Plugin.Kerbal.ApiModels
 {
     public class KerbalSPGameSettingsApiModel : GameSettingsApiModel {}
 }

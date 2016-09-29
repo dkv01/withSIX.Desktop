@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Windows;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation.Services;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Services
+namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class WpfShutdownHandler : IShutdownHandler
     {

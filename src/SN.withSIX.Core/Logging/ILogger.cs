@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Logging
+namespace withSIX.Core.Logging
 {
     public interface ILogger
     {

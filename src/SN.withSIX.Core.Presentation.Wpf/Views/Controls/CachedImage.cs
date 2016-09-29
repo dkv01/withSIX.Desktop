@@ -11,15 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Sync.Core.Legacy.Status;
 using WpfAnimatedGif;
 using Action = System.Action;
-using Timer = SN.withSIX.Core.Helpers.Timer;
+using Timer = withSIX.Core.Helpers.Timer;
 
-namespace SN.withSIX.Core.Presentation.Wpf.Views.Controls
+namespace withSIX.Core.Presentation.Wpf.Views.Controls
 {
     // Divisable by 8! Keep in sync with JS: W6.imageSizes
     public static class ImageConstants

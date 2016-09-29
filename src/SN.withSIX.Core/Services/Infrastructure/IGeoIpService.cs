@@ -4,7 +4,7 @@
 
 using System.Net;
 
-namespace SN.withSIX.Core.Services.Infrastructure
+namespace withSIX.Core.Services.Infrastructure
 {
     public interface IGeoIpService
     {

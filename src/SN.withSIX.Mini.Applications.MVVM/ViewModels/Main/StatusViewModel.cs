@@ -5,13 +5,13 @@
 using System;
 using System.Windows.Input;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Mini.Applications.Extensions;
-using SN.withSIX.Mini.Applications.Services;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Applications.Usecases.Main;
 
-namespace SN.withSIX.Mini.Applications.MVVM.ViewModels.Main
+namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
 {
     // TODO: Decide if Icons, Text or Colors are supposed to be part of the VM, or rather part of the Presentation layer..
     public class StatusViewModel : ViewModel, IStatusViewModel
