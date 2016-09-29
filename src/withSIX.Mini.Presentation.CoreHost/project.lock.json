@@ -9899,108 +9899,108 @@
     },
     "withSIX.ContentEngine.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.ContentEngine.Core/project.json",
-      "msbuildProject": "../SN.withSIX.ContentEngine.Core/withSIX.ContentEngine.Core.csproj"
+      "path": "../withSIX.ContentEngine.Core/project.json",
+      "msbuildProject": "../withSIX.ContentEngine.Core/withSIX.ContentEngine.Core.csproj"
     },
     "withSIX.ContentEngine.Infra/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.ContentEngine.Infra/project.json",
-      "msbuildProject": "../SN.withSIX.ContentEngine.Infra/withSIX.ContentEngine.Infra.csproj"
+      "path": "../withSIX.ContentEngine.Infra/project.json",
+      "msbuildProject": "../withSIX.ContentEngine.Infra/withSIX.ContentEngine.Infra.csproj"
     },
     "withSIX.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Core/project.json",
-      "msbuildProject": "../SN.withSIX.Core/withSIX.Core.csproj"
+      "path": "../withSIX.Core/project.json",
+      "msbuildProject": "../withSIX.Core/withSIX.Core.csproj"
     },
     "withSIX.Core.Applications/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Core.Applications/project.json",
-      "msbuildProject": "../SN.withSIX.Core.Applications/withSIX.Core.Applications.csproj"
+      "path": "../withSIX.Core.Applications/project.json",
+      "msbuildProject": "../withSIX.Core.Applications/withSIX.Core.Applications.csproj"
     },
     "withSIX.Core.Infra/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Core.Infra/project.json",
-      "msbuildProject": "../SN.withSIX.Core.Infra/withSIX.Core.Infra.csproj"
+      "path": "../withSIX.Core.Infra/project.json",
+      "msbuildProject": "../withSIX.Core.Infra/withSIX.Core.Infra.csproj"
     },
     "withSIX.Core.Presentation/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Core.Presentation/project.json",
-      "msbuildProject": "../SN.withSIX.Core.Presentation/withSIX.Core.Presentation.csproj"
+      "path": "../withSIX.Core.Presentation/project.json",
+      "msbuildProject": "../withSIX.Core.Presentation/withSIX.Core.Presentation.csproj"
     },
     "withSIX.Core.Presentation.Resources/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Core.Presentation.Resources/project.json",
-      "msbuildProject": "../SN.withSIX.Core.Presentation.Resources/withSIX.Core.Presentation.Resources.csproj"
+      "path": "../withSIX.Core.Presentation.Resources/project.json",
+      "msbuildProject": "../withSIX.Core.Presentation.Resources/withSIX.Core.Presentation.Resources.csproj"
     },
     "withSIX.Mini.Applications/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Applications/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Applications/withSIX.Mini.Applications.csproj"
+      "path": "../withSIX.Mini.Applications/project.json",
+      "msbuildProject": "../withSIX.Mini.Applications/withSIX.Mini.Applications.csproj"
     },
     "withSIX.Mini.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Core/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Core/withSIX.Mini.Core.csproj"
+      "path": "../withSIX.Mini.Core/project.json",
+      "msbuildProject": "../withSIX.Mini.Core/withSIX.Mini.Core.csproj"
     },
     "withSIX.Mini.Infra.Data/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Infra.Data/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Infra.Data/withSIX.Mini.Infra.Data.csproj"
+      "path": "../withSIX.Mini.Infra.Data/project.json",
+      "msbuildProject": "../withSIX.Mini.Infra.Data/withSIX.Mini.Infra.Data.csproj"
     },
     "withSIX.Mini.Plugin.Arma/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Arma/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Arma/withSIX.Mini.Plugin.Arma.csproj"
+      "path": "../withSIX.Mini.Plugin.Arma/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Arma/withSIX.Mini.Plugin.Arma.csproj"
     },
     "withSIX.Mini.Plugin.CE/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.CE/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.CE/withSIX.Mini.Plugin.CE.csproj"
+      "path": "../withSIX.Mini.Plugin.CE/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.CE/withSIX.Mini.Plugin.CE.csproj"
     },
     "withSIX.Mini.Plugin.Firaxis/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Firaxis/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Firaxis/withSIX.Mini.Plugin.Firaxis.csproj"
+      "path": "../withSIX.Mini.Plugin.Firaxis/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Firaxis/withSIX.Mini.Plugin.Firaxis.csproj"
     },
     "withSIX.Mini.Plugin.GTA/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.GTA/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.GTA/withSIX.Mini.Plugin.GTA.csproj"
+      "path": "../withSIX.Mini.Plugin.GTA/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.GTA/withSIX.Mini.Plugin.GTA.csproj"
     },
     "withSIX.Mini.Plugin.Homeworld/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Homeworld/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Homeworld/withSIX.Mini.Plugin.Homeworld.csproj"
+      "path": "../withSIX.Mini.Plugin.Homeworld/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Homeworld/withSIX.Mini.Plugin.Homeworld.csproj"
     },
     "withSIX.Mini.Plugin.Kerbal/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Kerbal/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Kerbal/withSIX.Mini.Plugin.Kerbal.csproj"
+      "path": "../withSIX.Mini.Plugin.Kerbal/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Kerbal/withSIX.Mini.Plugin.Kerbal.csproj"
     },
     "withSIX.Mini.Plugin.NMS/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.NMS/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.NMS/withSIX.Mini.Plugin.NMS.csproj"
+      "path": "../withSIX.Mini.Plugin.NMS/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.NMS/withSIX.Mini.Plugin.NMS.csproj"
     },
     "withSIX.Mini.Plugin.Starbound/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Starbound/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Starbound/withSIX.Mini.Plugin.Starbound.csproj"
+      "path": "../withSIX.Mini.Plugin.Starbound/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Starbound/withSIX.Mini.Plugin.Starbound.csproj"
     },
     "withSIX.Mini.Plugin.Stellaris/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Stellaris/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Stellaris/withSIX.Mini.Plugin.Stellaris.csproj"
+      "path": "../withSIX.Mini.Plugin.Stellaris/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Stellaris/withSIX.Mini.Plugin.Stellaris.csproj"
     },
     "withSIX.Mini.Plugin.Witcher3/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Plugin.Witcher3/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Plugin.Witcher3/withSIX.Mini.Plugin.Witcher3.csproj"
+      "path": "../withSIX.Mini.Plugin.Witcher3/project.json",
+      "msbuildProject": "../withSIX.Mini.Plugin.Witcher3/withSIX.Mini.Plugin.Witcher3.csproj"
     },
     "withSIX.Mini.Presentation.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Presentation.Core/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Presentation.Core/withSIX.Mini.Presentation.Core.csproj"
+      "path": "../withSIX.Mini.Presentation.Core/project.json",
+      "msbuildProject": "../withSIX.Mini.Presentation.Core/withSIX.Mini.Presentation.Core.csproj"
     },
     "withSIX.Mini.Presentation.CoreCore/1.0.0": {
       "type": "project",
@@ -10009,18 +10009,18 @@
     },
     "withSIX.Mini.Presentation.Owin.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Mini.Presentation.Owin.Core/project.json",
-      "msbuildProject": "../SN.withSIX.Mini.Presentation.Owin.Core/withSIX.Mini.Presentation.Owin.Core.csproj"
+      "path": "../withSIX.Mini.Presentation.Owin.Core/project.json",
+      "msbuildProject": "../withSIX.Mini.Presentation.Owin.Core/withSIX.Mini.Presentation.Owin.Core.csproj"
     },
     "withSIX.Steam.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Steam.Core/project.json",
-      "msbuildProject": "../SN.withSIX.Steam.Core/withSIX.Steam.Core.csproj"
+      "path": "../withSIX.Steam.Core/project.json",
+      "msbuildProject": "../withSIX.Steam.Core/withSIX.Steam.Core.csproj"
     },
     "withSIX.Sync.Core/1.0.0": {
       "type": "project",
-      "path": "../SN.withSIX.Sync.Core/project.json",
-      "msbuildProject": "../SN.withSIX.Sync.Core/withSIX.Sync.Core.csproj"
+      "path": "../withSIX.Sync.Core/project.json",
+      "msbuildProject": "../withSIX.Sync.Core/withSIX.Sync.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
