@@ -54,6 +54,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Plugin.Kerbal", "withSIX.Mini.Plugin.Kerbal\withSIX.Mini.Plugin.Kerbal.csproj", "{C048FE9D-CE82-456B-933F-51DD5D7318F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73542228-9692-4657-B75B-EA8FFEF55960}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.cake = ..\build.cake
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Plugin.Witcher3", "withSIX.Mini.Plugin.Witcher3\withSIX.Mini.Plugin.Witcher3.csproj", "{8A5BB322-D0FD-4FC3-B2FA-4ED1ECCC089D}"
 EndProject
