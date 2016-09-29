@@ -58,12 +58,14 @@ namespace withSIX.Mini.Presentation.CoreHost
             AssemblyService.AllAssemblies = GetAllAssemblies().ToArray();
         }
 
+        [Obsolete("This is incompatible with the official Assembly.LoadFrom, because types compared from one load, are not comparable to another load/autoloaded :S")]
         protected override Assembly AssemblyLoadFrom(string arg) {
+            // Perhaps we need LoadFromAssemblyPath?
             var absoluteFilePath = arg.ToAbsoluteFilePath();
             var fileNameWithoutExtension = absoluteFilePath.FileNameWithoutExtension;
             var assemblyName = new AssemblyName(fileNameWithoutExtension);
-            var a = asl;
-            return a.LoadFromAssemblyName(assemblyName);
+            return asl.LoadFromAssemblyName(assemblyName);
+            //return asl.LoadFromAssemblyPath(arg);
         }
 
         protected override void LowInitializer() {
@@ -120,12 +122,15 @@ namespace withSIX.Mini.Presentation.CoreHost
             }
         }
 
+        // TODO: The problem with the custom AssemblyLoadFrom is that assignablefrom one type to another is false
         public override void Configure() {
             base.Configure();
             // throws atm, we need updated Splat/RXUI :-)
             //Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(), typeof(JsonSerializerSettings));
             Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
+
+        protected override IEnumerable<Assembly> GetInfraAssemblies => new[] {typeof(OwinModule).GetTypeInfo().Assembly}.Concat(base.GetInfraAssemblies);
     }
 
     public class CoreAppBootstrapper : WorkaroundBootstrapper
@@ -211,7 +216,7 @@ namespace withSIX.Mini.Presentation.CoreHost
                         }
                     return types.Where(t2 => t2 != null);
                 }, (assembly, type) => new {assembly, type, ti = type.GetTypeInfo()})
-                .Where(t1 => SystemExtensions.IsAssignableFrom(t, t1.type))
+                .Where(t1 => t.IsAssignableFrom(t1.type))
                 .Where(t1 => !t1.ti.IsAbstract)
                 .Where(t1 => !t1.ti.IsGenericTypeDefinition)
                 .Where(t1 => !t1.ti.IsInterface)

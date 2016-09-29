@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,8 @@ namespace SN.withSIX.Mini.Presentation.Owin.Core
     public abstract class WebServerStartup : IWebServerStartup
     {
         private readonly IEnumerable<OwinModule> _modules;
-        public WebServerStartup(IEnumerable<OwinModule> modules) {
+
+        protected WebServerStartup(IEnumerable<OwinModule> modules) {
             _modules = modules;
         }
         protected virtual void Configure(IApplicationBuilder app) {
@@ -36,7 +38,7 @@ namespace SN.withSIX.Mini.Presentation.Owin.Core
                 m.Configure(app);
         }
 
-        public virtual IDisposable Start(IPEndPoint http, IPEndPoint https) {
+        public virtual void Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken) {
             var config = new ConfigurationBuilder()
                 //.AddCommandLine(args)
                 .Build();
@@ -53,11 +55,12 @@ namespace SN.withSIX.Mini.Presentation.Owin.Core
             if (http != null)
                 urls.Add(http.ToHttp());
             if (https != null)
-                urls.Add(https.ToHttps());
+                urls.Add(https.ToHttp());
 
             builder.Configure(Configure);
+            builder.UseUrls(urls.ToArray());
 
-            return builder.Start(urls.ToArray());
+            builder.Build().Run(cancelToken);
         }
 
         protected abstract void ConfigureBuilder(IWebHostBuilder builder);

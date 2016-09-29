@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
@@ -27,9 +28,9 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         protected override void ConfigureBuilder(IWebHostBuilder builder) => builder.UseWebListener(options => { });
 
-        public override IDisposable Start(IPEndPoint http, IPEndPoint https) {
+        public override void Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {
             try {
-                return base.Start(http, https);
+                base.Run(http, https, ct);
             } catch (TargetInvocationException ex) {
                 var unwrapped = ex.UnwrapExceptionIfNeeded();
                 if (!(unwrapped is HttpListenerException))

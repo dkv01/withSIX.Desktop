@@ -6,6 +6,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,15 +26,16 @@ namespace withSIX.Mini.Presentation.CoreCore
         }
 
         protected override void Configure(IApplicationBuilder app) {
+            base.Configure(app);
             //var pfxFile = Path.Combine(appEnv.ApplicationBasePath, "Sample.pfx");
             //X509Certificate2 certificate = new X509Certificate2(pfxFile, "Password");
             //app.Use(ChangeContextToHttps);
             //app.UseKestrelHttps(certificate);
         }
 
-        public override IDisposable Start(IPEndPoint http, IPEndPoint https) {
+        public override void Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {
             try {
-                return base.Start(http, https);
+                base.Run(http, https, ct);
             } catch (TargetInvocationException ex) {
                 var unwrapped = ex.UnwrapExceptionIfNeeded();
                 throw;

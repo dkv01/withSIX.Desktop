@@ -20,9 +20,9 @@ namespace SN.withSIX.Mini.Presentation.Core
 {
     public class WebInitializer : IInitializer, IInitializeAfterUI
     {
-        static IDisposable _webServer;
         private readonly IDbContextFactory _factory;
         private readonly IWebServerStartup _webServerStartup;
+        private CancellationTokenSource _cts;
 
         public WebInitializer(IDbContextFactory factory, IWebServerStartup webServerStartup) {
             _factory = factory;
@@ -30,12 +30,7 @@ namespace SN.withSIX.Mini.Presentation.Core
         }
 
         public async Task InitializeAfterUI() {
-            // We have to run this outside of a DB scope
-            // If we don't, then the AmbientScopeIdentifier will be inherited into the Web/SIR requests
-            // and remain there even when we close the scope.
-            using (_factory.SuppressAmbientContext()) {
-                await TryLaunchWebserver().ConfigureAwait(false);
-            }
+            var t = TryLaunchWebserver().ConfigureAwait(false); // hmm how to handle errors and such now?
         }
 
         public Task Initialize() {
@@ -46,17 +41,20 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         // This requires the Initializer to be a singleton, not great to have to require singleton for all?
         public Task Deinitialize() {
-            var ws = _webServer;
-            if (ws != null)
-                Task.Run(() => ws.Dispose()); // TODO: This currently locks up! so we run it in a task :S
-            _webServer = null;
+            _cts.Cancel();
+            _cts.Dispose();
             return TaskExt.Default;
         }
 
         async Task TryLaunchWebserver() {
             retry:
             try {
-                SetupWebServer();
+                // We have to run this outside of a DB scope
+                // If we don't, then the AmbientScopeIdentifier will be inherited into the Web/SIR requests
+                // and remain there even when we close the scope.
+                using (_factory.SuppressAmbientContext()) {
+                    await TaskExt.StartLongRunningTask(() => SetupWebServer()).ConfigureAwait(false);
+                }
             } catch (CannotOpenApiPortException ex) {
                 var r = await
                     UserErrorHandler.RecoverableUserError(ex, "Unable to open required ports",
@@ -64,7 +62,7 @@ namespace SN.withSIX.Mini.Presentation.Core
                         .ConfigureAwait(false);
                 if (r == RecoveryOptionResultModel.RetryOperation)
                     goto retry;
-                throw;
+                throw; // todo, terminate!
             }
         }
 
@@ -75,15 +73,18 @@ namespace SN.withSIX.Mini.Presentation.Core
 
             var http = Consts.HttpAddress;
             var https = Consts.HttpsAddress;
+            _cts = new CancellationTokenSource();
             retry:
             try {
-                _webServer = _webServerStartup.Start(http, https);
+                _webServerStartup.Run(http, https, _cts.Token);
             } catch (ListenerException ex) {
                 if (tries++ >= maxTries)
                     throw GetCustomException(ex, https ?? http);
                 MainLog.Logger.FormattedWarnException(ex);
                 Thread.Sleep(timeOut);
                 goto retry;
+            } catch (Exception ex) {
+                throw;
             }
         }
 
@@ -129,6 +130,6 @@ namespace SN.withSIX.Mini.Presentation.Core
 
     public interface IWebServerStartup
     {
-        IDisposable Start(IPEndPoint http, IPEndPoint https);
+        void Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken);
     }
 }
