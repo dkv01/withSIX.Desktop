@@ -108,6 +108,7 @@
         <file src="..\..\..\bin\YamlDotNet.dll" target="lib\net45\YamlDotNet.dll" />
 
         <file src="..\..\..\bin\x86\e_sqlite3.dll" target="lib\net45\x86\e_sqlite3.dll" />
+		<file src="..\..\..\bin\libuv.dll" target="lib\net45\libuv.dll" />
 
         <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
         <file src="..\..\..\bin\VCRedistInstaller.exe" target="lib\net45\VCRedistInstaller.exe" />
@@ -133,7 +134,10 @@
 <file src="..\..\..\bin\Microsoft.AspNetCore.Http.Extensions.dll" target="lib\net45\Microsoft.AspNetCore.Http.Extensions.dll" />
 <file src="..\..\..\bin\Microsoft.AspNetCore.Http.Features.dll" target="lib\net45\Microsoft.AspNetCore.Http.Features.dll" />
 <file src="..\..\..\bin\Microsoft.AspNetCore.Owin.dll" target="lib\net45\Microsoft.AspNetCore.Owin.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Server.WebListener.dll" target="lib\net45\Microsoft.AspNetCore.Server.WebListener.dll" />
+<file src="..\..\..\bin\Microsoft.AspNetCore.Server.Kestrel.dll" target="lib\net45\Microsoft.AspNetCore.Server.Kestrel.dll" />
+<file src="..\..\..\bin\Microsoft.AspNetCore.Server.Kestrel.Https.dll" target="lib\net45\Microsoft.AspNetCore.Server.Kestrel.Https.dll" />
+<file src="..\..\..\bin\Microsoft.AspNetCore.WebSockets.Protocol.dll" target="lib\net45\Microsoft.AspNetCore.WebSockets.Protocol.dll" />
+<file src="..\..\..\bin\Microsoft.AspNetCore.WebSockets.Server.dll" target="lib\net45\Microsoft.AspNetCore.WebSockets.Server.dll" />
 <file src="..\..\..\bin\Microsoft.AspNetCore.WebUtilities.dll" target="lib\net45\Microsoft.AspNetCore.WebUtilities.dll" />
 <file src="..\..\..\bin\Microsoft.Extensions.Configuration.Abstractions.dll" target="lib\net45\Microsoft.Extensions.Configuration.Abstractions.dll" />
 <file src="..\..\..\bin\Microsoft.Extensions.Configuration.dll" target="lib\net45\Microsoft.Extensions.Configuration.dll" />
@@ -175,6 +179,7 @@
 <file src="..\..\..\bin\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
 <file src="..\..\..\bin\System.Net.Ping.dll" target="lib\net45\System.Net.Ping.dll" />
 <file src="..\..\..\bin\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
+<file src="..\..\..\bin\System.Numerics.Vectors.dll" target="lib\net45\System.Numerics.Vectors.dll" />
 <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
 <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
 <file src="..\..\..\bin\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
@@ -194,6 +199,7 @@
 <file src="..\..\..\bin\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
 <file src="..\..\..\bin\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
 <file src="..\..\..\bin\System.Text.Encodings.Web.dll" target="lib\net45\System.Text.Encodings.Web.dll" />
+<file src="..\..\..\bin\System.Threading.Tasks.Extensions.dll" target="lib\net45\System.Threading.Tasks.Extensions.dll" />
 <file src="..\..\..\bin\System.Threading.Thread.dll" target="lib\net45\System.Threading.Thread.dll" />
 <file src="..\..\..\bin\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />
 		<!-- AUTOGEN -->
