@@ -18,6 +18,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
+using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using SN.withSIX.Mini.Presentation.Owin.Core;
 using withSIX.Mini.Presentation.CoreCore.Services;
@@ -125,6 +126,7 @@ namespace withSIX.Mini.Presentation.CoreHost
         // TODO: The problem with the custom AssemblyLoadFrom is that assignablefrom one type to another is false
         public override void Configure() {
             base.Configure();
+            Consts.ApiHttpPort = Consts.DefaultHttpPort;
             // throws atm, we need updated Splat/RXUI :-)
             //Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(), typeof(JsonSerializerSettings));
             Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
