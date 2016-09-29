@@ -431,6 +431,23 @@
         }
       }
     },
+    "withSIX.Mini.Presentation.Owin.Core/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.3",
+      "compile": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Owin.Core.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Owin.Core.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Owin.Core.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "withSIX.Steam.Core/1.0.0": {
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
