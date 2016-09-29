@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using withSIX.Core.Extensions;
 using withSIX.Core.Presentation;
@@ -23,9 +24,9 @@ namespace withSIX.Mini.Presentation.CoreCore
                 kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
         });
 
-        public override void Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {
+        public override async Task Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {
             try {
-                base.Run(http, https, ct);
+                await base.Run(http, https, ct).ConfigureAwait(false);
             } catch (TargetInvocationException ex) {
                 var unwrapped = ex.UnwrapExceptionIfNeeded();
                 throw new ListenerException(ex.Message, unwrapped);

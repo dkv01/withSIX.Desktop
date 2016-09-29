@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Extensions;
@@ -14,28 +15,28 @@ namespace withSIX.Mini.Infra.Api.Messengers
     public class ContentHandler : INotificationHandler<ContentUsed>, INotificationHandler<ContentInstalled>,
         INotificationHandler<RecentItemRemoved>
     {
-        readonly IHubContext<ContentHub, IContentClientHub> _hubContext =
-            SignalrOwinModule.ConnectionManager.GetHubContext<ContentHub, IContentClientHub>();
+        readonly Lazy<IHubContext<ContentHub, IContentClientHub>> _hubContext = SystemExtensions.CreateLazy(() => 
+            SignalrOwinModule.ConnectionManager.GetHubContext<ContentHub, IContentClientHub>());
 
         public void Handle(ContentInstalled notification) {
             // TODO: Also have List<> based S-IR event instead?
             foreach (var c in notification.Content) {
                 var installedContentModel = c.MapTo<InstalledContentModel>();
-                _hubContext.Clients.All.ContentInstalled(notification.GameId,
+                _hubContext.Value.Clients.All.ContentInstalled(notification.GameId,
                     installedContentModel);
             }
         }
 
         public void Handle(ContentUsed notification) {
-            _hubContext.Clients.All.RecentItemAdded(notification.Content.GameId,
+            _hubContext.Value.Clients.All.RecentItemAdded(notification.Content.GameId,
                 notification.Content.MapTo<RecentContentModel>());
-            _hubContext.Clients.All.RecentItemUsed(notification.Content.GameId, notification.Content.Id,
+            _hubContext.Value.Clients.All.RecentItemUsed(notification.Content.GameId, notification.Content.Id,
                 notification.Content.RecentInfo.LastUsed);
         }
 
         // TODO! notification.Content.GameId, 
         public void Handle(RecentItemRemoved notification) {
-            _hubContext.Clients.All.RecentItemRemoved(notification.Content.Id);
+            _hubContext.Value.Clients.All.RecentItemRemoved(notification.Content.Id);
         }
     }
 }

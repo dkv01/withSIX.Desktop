@@ -27,8 +27,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
 
     public class StateMessengerBus : IStateMessengerBus, IInfrastructureService, IDisposable
     {
-        private readonly IHubContext<StatusHub, IStatusClientHub> _hubContext =
-            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
+        private readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() => 
+            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>());
         private readonly IDisposable _subscription;
 
         public StateMessengerBus(IGameLocker gameLocker) {
@@ -45,9 +45,9 @@ namespace withSIX.Mini.Infra.Api.Messengers
 
         private void Handle(GameLockChanged notification) {
             if (notification.IsLocked)
-                _hubContext.Clients.All.LockedGame(notification.GameId, notification.CanAbort);
+                _hubContext.Value.Clients.All.LockedGame(notification.GameId, notification.CanAbort);
             else
-                _hubContext.Clients.All.UnlockedGame(notification.GameId);
+                _hubContext.Value.Clients.All.UnlockedGame(notification.GameId);
         }
     }
 
@@ -57,32 +57,32 @@ namespace withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<GameTerminated>,
         IAsyncNotificationHandler<ActionNotification>
     {
-        readonly IHubContext<StatusHub, IStatusClientHub> _hubContext =
-            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
+        readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
+            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>());
 
         public Task Handle(ActionNotification notification) =>
-            _hubContext.Clients.All.ActionNotification(notification);
+            _hubContext.Value.Clients.All.ActionNotification(notification);
 
         public void Handle(ActionTabStateUpdate notification)
-            => _hubContext.Clients.All.ActionUpdateNotification(notification);
+            => _hubContext.Value.Clients.All.ActionUpdateNotification(notification);
 
         public void Handle(ContentInstalled notification) {
             var states = notification.Content.GetStates();
-            _hubContext.Clients.All.ContentStateChanged(new ContentStateChange {
+            _hubContext.Value.Clients.All.ContentStateChanged(new ContentStateChange {
                 GameId = notification.GameId,
                 States = states
             });
         }
 
         public void Handle(ContentStatusChanged notification)
-            => _hubContext.Clients.All.ContentStatusChanged(notification.MapTo<ContentStatus>());
+            => _hubContext.Value.Clients.All.ContentStatusChanged(notification.MapTo<ContentStatus>());
 
-        public void Handle(GameLaunched notification) => _hubContext.Clients.All.LaunchedGame(notification.Game.Id);
+        public void Handle(GameLaunched notification) => _hubContext.Value.Clients.All.LaunchedGame(notification.Game.Id);
 
-        public void Handle(GameTerminated notification) => _hubContext.Clients.All.TerminatedGame(notification.Game.Id);
+        public void Handle(GameTerminated notification) => _hubContext.Value.Clients.All.TerminatedGame(notification.Game.Id);
 
         public void Handle(UninstallActionCompleted notification) {
-            _hubContext.Clients.All.ContentStateChanged(new ContentStateChange {
+            _hubContext.Value.Clients.All.ContentStateChanged(new ContentStateChange {
                 GameId = notification.Game.Id,
                 States =
                     notification.UninstallLocalContentAction.Content.ToDictionary(x => x.Content.Id,

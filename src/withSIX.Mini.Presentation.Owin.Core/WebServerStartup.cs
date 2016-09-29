@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Presentation.Core;
@@ -37,7 +39,7 @@ namespace withSIX.Mini.Presentation.Owin.Core
                 m.Configure(app);
         }
 
-        public virtual void Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken) {
+        public virtual Task Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken) {
             var config = new ConfigurationBuilder()
                 //.AddCommandLine(args)
                 .Build();
@@ -59,8 +61,8 @@ namespace withSIX.Mini.Presentation.Owin.Core
             builder.Configure(Configure);
             builder.UseUrls(urls.ToArray());
             //builder.UseStartup<Startup>();
-
-            builder.Build().Run(cancelToken);
+            var webHost = builder.Build();
+            return TaskExt.StartLongRunningTask(() => webHost.Run(cancelToken), cancelToken);
         }
 
         protected abstract void ConfigureBuilder(IWebHostBuilder builder);
