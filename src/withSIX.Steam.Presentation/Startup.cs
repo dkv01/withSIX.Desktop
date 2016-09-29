@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,11 +22,13 @@ using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications;
 using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Services;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Usecases;
 using withSIX.Mini.Plugin.Arma.Models;
+using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
 
@@ -55,13 +58,18 @@ namespace withSIX.Steam.Presentation
                 //        .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseConfiguration(config);
 
-            builder.UseWebListener(options => { });
             builder.ConfigureServices(ConfigureServices);
+            ConfigureBuilder(builder);
 
             var urls = new[] {http};
             builder.Configure(Configure);
             return builder.Start(urls);
         }
+
+        static void ConfigureBuilder(IWebHostBuilder builder) => builder.UseKestrel(kestrel => {
+            using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
+                kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
+        });
 
         private static void ConfigureServices(IServiceCollection obj) {
             obj.AddCors();

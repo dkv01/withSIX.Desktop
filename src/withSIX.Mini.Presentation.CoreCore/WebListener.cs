@@ -1,14 +1,9 @@
-﻿// <copyright company="SIX Networks GmbH" file="StartWebserver.cs">
-//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
-// </copyright>
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using withSIX.Core.Extensions;
 using withSIX.Core.Presentation;

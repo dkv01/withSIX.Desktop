@@ -14,13 +14,14 @@ using withSIX.Mini.Presentation.Core.Services;
 
 namespace withSIX.Mini.Presentation.Core
 {
-    public class WindowsWebStartBase
+    [Obsolete("Not needed when using Kestrel", true)]
+    public abstract class WindowsWebStartBase
     {
         private readonly IDialogManager _dm;
         private readonly IExitHandler _exitHandler;
         private readonly IProcessManager _pm;
 
-        public WindowsWebStartBase(IProcessManager pm, IDialogManager dm, IExitHandler exitHandler) {
+        protected WindowsWebStartBase(IProcessManager pm, IDialogManager dm, IExitHandler exitHandler) {
             _pm = pm;
             _dm = dm;
             _exitHandler = exitHandler;
