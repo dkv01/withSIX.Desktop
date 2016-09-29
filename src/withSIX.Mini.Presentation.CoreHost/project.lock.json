@@ -60,7 +60,7 @@
           }
         }
       },
-      "ManyConsole.PCL/1.0.0-pre": {
+      "ManyConsole.PCL/1.0.0": {
         "type": "package",
         "dependencies": {
           "System.Runtime": "4.1.0"
@@ -898,7 +898,7 @@
           "lib/dnxcore/Mono.Options.dll": {}
         }
       },
-      "NDepend.Path.PCL/1.0.2-pre": {
+      "NDepend.Path.PCL/1.0.2": {
         "type": "package",
         "dependencies": {
           "System.Globalization.Extensions": "4.0.1",
@@ -3514,7 +3514,7 @@
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
           "AutoMapper": "5.1.1",
-          "GeoIP": "1.0.0-pre",
+          "GeoIP": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -3615,7 +3615,7 @@
           "AutoMapper": "5.1.1",
           "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-          "NDepend.Path.PCL": "1.0.2-pre",
+          "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "withSIX.Api.Models": "2.0.7-pre",
@@ -3892,12 +3892,12 @@
         "runtimes/win7-x86/native/libuv.dll"
       ]
     },
-    "ManyConsole.PCL/1.0.0-pre": {
-      "sha512": "MSX+graya4TstuljZC0G7Og/XywkzjQAjH+g7ncu+tEne3xQIAM5/X2nhvVk4rIVxZNxL219EReEnOkOq78lwQ==",
+    "ManyConsole.PCL/1.0.0": {
+      "sha512": "Lsp6puchBP8VWZxS5Wo383xw4aALIkf1j4gSnQPG2KyrL5S1MJU8NNf+lOw9/welVQlN/1HPYnMeRo2HK27+rw==",
       "type": "package",
-      "path": "ManyConsole.PCL/1.0.0-pre",
+      "path": "ManyConsole.PCL/1.0.0",
       "files": [
-        "ManyConsole.PCL.1.0.0-pre.nupkg.sha512",
+        "ManyConsole.PCL.1.0.0.nupkg.sha512",
         "ManyConsole.PCL.nuspec",
         "lib/netstandard1.3/ManyConsole.PCL.dll"
       ]
@@ -4703,12 +4703,12 @@
         "lib/portable-net45+netcore45+wpa81+wp8/Mono.Options.dll"
       ]
     },
-    "NDepend.Path.PCL/1.0.2-pre": {
-      "sha512": "uORL+aAqBn1K5Vz48HMLiG26Y4K0TpGWJNJxCzMd5UvgZ8cLvIqeRTsF/eRUFWjddO3LxmntRFEJ5nZu9+CoNw==",
+    "NDepend.Path.PCL/1.0.2": {
+      "sha512": "3GTrH7v8RaZ9FDxf4tPqlEv/ekp22DeCf3pJ+kIXOxqssoIUjFBiCpVZcU9N053jt+cCHuNaYltOmanKm+n2BQ==",
       "type": "package",
-      "path": "NDepend.Path.PCL/1.0.2-pre",
+      "path": "NDepend.Path.PCL/1.0.2",
       "files": [
-        "NDepend.Path.PCL.1.0.2-pre.nupkg.sha512",
+        "NDepend.Path.PCL.1.0.2.nupkg.sha512",
         "NDepend.Path.PCL.nuspec",
         "lib/netstandard1.3/NDepend.Path.PCL.dll"
       ]
@@ -10092,12 +10092,12 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "ManyConsole.PCL >= 1.0.0-pre",
+      "ManyConsole.PCL >= 1.0.0",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.0.1",
       "Microsoft.AspNetCore.Server.Kestrel.Https >= 1.0.1",
       "Microsoft.NETCore.App >= 1.0.1",
       "Mono.Options >= 4.4.0",
-      "NDepend.Path.PCL >= 1.0.2-pre",
+      "NDepend.Path.PCL >= 1.0.2",
       "SQLitePCLRaw.bundle_e_sqlite3 >= 1.0.1",
       "Splat >= 1.6.2",
       "System.Diagnostics.Contracts >= 4.0.1",

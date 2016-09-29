@@ -19,7 +19,7 @@
           "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
-      "ManyConsole.PCL/1.0.0-pre": {
+      "ManyConsole.PCL/1.0.0": {
         "dependencies": {
           "System.Runtime": "4.1.0"
         },
@@ -556,7 +556,7 @@
           }
         }
       },
-      "NDepend.Path.PCL/1.0.2-pre": {
+      "NDepend.Path.PCL/1.0.2": {
         "dependencies": {
           "System.Globalization.Extensions": "4.0.1",
           "System.IO.FileSystem.DriveInfo": "4.0.0"
@@ -1848,15 +1848,6 @@
           "lib/netstandard1.3/System.Runtime.Numerics.dll": {}
         }
       },
-      "System.Runtime.Serialization.Formatters/4.0.0-rc3-24212-01": {
-        "dependencies": {
-          "System.Runtime": "4.1.0",
-          "System.Runtime.Serialization.Primitives": "4.1.1"
-        },
-        "compile": {
-          "ref/netstandard1.3/System.Runtime.Serialization.Formatters.dll": {}
-        }
-      },
       "System.Runtime.Serialization.Primitives/4.1.1": {
         "dependencies": {
           "System.Resources.ResourceManager": "4.0.1",
@@ -2290,17 +2281,16 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.7-pre": {
+      "withSIX.Api.Models/2.0.7": {
         "dependencies": {
           "AutoMapper": "5.1.1",
-          "NDepend.Path.PCL": "1.0.2-pre",
+          "NDepend.Path.PCL": "1.0.2",
           "Newtonsoft.Json": "9.0.1",
           "System.ComponentModel.Annotations": "4.1.0",
           "System.Globalization.Extensions": "4.0.1",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.DriveInfo": "4.0.0",
           "System.Runtime.Extensions": "4.1.0",
-          "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Security.Cryptography.Algorithms": "4.2.0"
         },
         "compile": {
@@ -2330,12 +2320,12 @@
         "lib/portable-net45+win8+wpa81/AutoMapper.xml"
       ]
     },
-    "ManyConsole.PCL/1.0.0-pre": {
-      "sha512": "MSX+graya4TstuljZC0G7Og/XywkzjQAjH+g7ncu+tEne3xQIAM5/X2nhvVk4rIVxZNxL219EReEnOkOq78lwQ==",
+    "ManyConsole.PCL/1.0.0": {
+      "sha512": "Lsp6puchBP8VWZxS5Wo383xw4aALIkf1j4gSnQPG2KyrL5S1MJU8NNf+lOw9/welVQlN/1HPYnMeRo2HK27+rw==",
       "type": "package",
-      "path": "ManyConsole.PCL/1.0.0-pre",
+      "path": "ManyConsole.PCL/1.0.0",
       "files": [
-        "ManyConsole.PCL.1.0.0-pre.nupkg.sha512",
+        "ManyConsole.PCL.1.0.0.nupkg.sha512",
         "ManyConsole.PCL.nuspec",
         "lib/netstandard1.3/ManyConsole.PCL.dll"
       ]
@@ -2921,12 +2911,12 @@
         "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll"
       ]
     },
-    "NDepend.Path.PCL/1.0.2-pre": {
-      "sha512": "uORL+aAqBn1K5Vz48HMLiG26Y4K0TpGWJNJxCzMd5UvgZ8cLvIqeRTsF/eRUFWjddO3LxmntRFEJ5nZu9+CoNw==",
+    "NDepend.Path.PCL/1.0.2": {
+      "sha512": "3GTrH7v8RaZ9FDxf4tPqlEv/ekp22DeCf3pJ+kIXOxqssoIUjFBiCpVZcU9N053jt+cCHuNaYltOmanKm+n2BQ==",
       "type": "package",
-      "path": "NDepend.Path.PCL/1.0.2-pre",
+      "path": "NDepend.Path.PCL/1.0.2",
       "files": [
-        "NDepend.Path.PCL.1.0.2-pre.nupkg.sha512",
+        "NDepend.Path.PCL.1.0.2.nupkg.sha512",
         "NDepend.Path.PCL.nuspec",
         "lib/netstandard1.3/NDepend.Path.PCL.dll"
       ]
@@ -6256,33 +6246,6 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Runtime.Serialization.Formatters/4.0.0-rc3-24212-01": {
-      "sha512": "bQ9S4JrOuI4pzIo6avnmwHQlEMEsBtBFA0u1GVDK2asYsB9X0hSF1oOIAt0bsqYZdYPi5b8A/1bud27tiLf8ZQ==",
-      "type": "package",
-      "path": "System.Runtime.Serialization.Formatters/4.0.0-rc3-24212-01",
-      "files": [
-        "System.Runtime.Serialization.Formatters.4.0.0-rc3-24212-01.nupkg.sha512",
-        "System.Runtime.Serialization.Formatters.nuspec",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Runtime.Serialization.Formatters.dll",
-        "lib/netstandard1.4/System.Runtime.Serialization.Formatters.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Runtime.Serialization.Formatters.dll",
-        "ref/netstandard1.3/System.Runtime.Serialization.Formatters.dll",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._"
-      ]
-    },
     "System.Runtime.Serialization.Primitives/4.1.1": {
       "sha512": "HZ6Du5QrTG8MNJbf4e4qMO3JRAkIboGT5Fk804uZtg3Gq516S7hAqTm2UZKUHa7/6HUGdVy3AqMQKbns06G/cg==",
       "type": "package",
@@ -7535,13 +7498,13 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "withSIX.Api.Models/2.0.7-pre": {
-      "sha512": "FUkj02Tjh39MGFkMFowULBkBaYRWb3xItQMBtPx7YQ7QoeId+MagrzqTP04dzzI4jDb4Ff9dXhbUib/7W1ZAQg==",
+    "withSIX.Api.Models/2.0.7": {
+      "sha512": "LfuARbvKAmD0m5hHvROuqlIIbE0zqFhq8I1TfjXKCcFQL0lFbfOPpA5qGBLmk/R2N6zO/0cZAR4iWIYCi0NG0Q==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.7-pre",
+      "path": "withSIX.Api.Models/2.0.7",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.7-pre.nupkg.sha512",
+        "withSIX.Api.Models.2.0.7.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     }
@@ -7556,7 +7519,7 @@
       "Microsoft.NETCore.Portable.Compatibility >= 1.0.1",
       "NETStandard.Library >= 1.6.0",
       "System.Runtime >= 4.1.0",
-      "withSIX.Api.Models >= 2.0.7-pre",
+      "withSIX.Api.Models >= 2.0.7",
       "withSIX.Core >= 1.0.0-*",
       "withSIX.Core.Applications >= 1.0.0-*",
       "withSIX.Core.Infra >= 1.0.0-*",

@@ -80,7 +80,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "NDepend.Path.PCL/1.0.2-pre": {
+      "NDepend.Path.PCL/1.0.2": {
         "type": "package",
         "dependencies": {
           "System.Globalization.Extensions": "4.0.1",
@@ -1190,12 +1190,12 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NDepend.Path.PCL/1.0.2-pre": {
-      "sha512": "uORL+aAqBn1K5Vz48HMLiG26Y4K0TpGWJNJxCzMd5UvgZ8cLvIqeRTsF/eRUFWjddO3LxmntRFEJ5nZu9+CoNw==",
+    "NDepend.Path.PCL/1.0.2": {
+      "sha512": "3GTrH7v8RaZ9FDxf4tPqlEv/ekp22DeCf3pJ+kIXOxqssoIUjFBiCpVZcU9N053jt+cCHuNaYltOmanKm+n2BQ==",
       "type": "package",
-      "path": "NDepend.Path.PCL/1.0.2-pre",
+      "path": "NDepend.Path.PCL/1.0.2",
       "files": [
-        "NDepend.Path.PCL.1.0.2-pre.nupkg.sha512",
+        "NDepend.Path.PCL.1.0.2.nupkg.sha512",
         "NDepend.Path.PCL.nuspec",
         "lib/netstandard1.3/NDepend.Path.PCL.dll"
       ]
@@ -4118,7 +4118,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.NETCore.Portable.Compatibility >= 1.0.1",
-      "NDepend.Path.PCL >= 1.0.2-pre",
+      "NDepend.Path.PCL >= 1.0.2",
       "NETStandard.Library >= 1.6.0",
       "System.Diagnostics.Contracts >= 4.0.1",
       "System.Net.NameResolution >= 4.0.0"

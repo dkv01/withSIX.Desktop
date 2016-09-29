@@ -1,5 +1,4 @@
 ﻿{
-  
   "supports": {},
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
@@ -9,9 +8,9 @@
     "System.Diagnostics.Process": "4.1.0",
     "System.IO.FileSystem": "4.0.1",
     "System.IO.FileSystem.AccessControl": "4.0.0",
-    "withSIX.Api.Models": "2.0.7-pre",
-    "withSIX.Core": "1.0.0-*",
+    "withSIX.Api.Models": "2.0.7",
     "withSIX.ContentEngine.Core": "1.0.0-*",
+    "withSIX.Core": "1.0.0-*",
     "withSIX.Steam.Core": "1.0.0-*",
     "withSIX.Sync.Core": "1.0.0-*"
   },
