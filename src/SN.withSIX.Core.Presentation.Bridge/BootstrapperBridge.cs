@@ -29,10 +29,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
 
         public static void EnvironmentExit(int exitCode) => Environment.Exit(exitCode);
 
-        public static void RegisterMessageBus(Container container) {
-            container.RegisterSingleton(new MessageBus());
-            container.RegisterSingleton<IMessageBus>(container.GetInstance<MessageBus>);
-        }
+        public static void RegisterMessageBus(Container container) => container.RegisterMessageBus();
 
         /*
         public static IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies) => assemblies.GetTypes<T>();

@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using Akavache;
 using Caliburn.Micro;
 using MediatR;
@@ -159,6 +161,18 @@ namespace SN.withSIX.Core.Presentation.Wpf.Legacy
                         new SecureCache(Common.Paths.DataPath.GetChildFileWithName("secure-cache.db").ToString(),
                             new EncryptionProvider(), scheduler)));
         }
+
+        public class EncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
+            }
+        }
+
 
         T RegisterCache<T>(T cache) where T : IBlobCache {
             var cacheManager = Container.GetInstance<ICacheManager>();

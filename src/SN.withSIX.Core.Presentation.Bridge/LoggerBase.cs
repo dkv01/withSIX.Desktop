@@ -52,25 +52,7 @@ namespace SN.withSIX.Core.Presentation.Bridge
 
         public void Error(string message, params object[] args) => _logger.Error(message, args);
 
-        public void FormattedDebugException(Exception e, string message = null)
-            => _logger.Debug(e, FormatMessage(e, message));
-
-        public void FormattedWarnException(Exception e, string message = null)
-            => _logger.Warn(e, FormatMessage(e, message));
-
-        public void FormattedErrorException(Exception e, string message = null)
-            => _logger.Error(e, FormatMessage(e, message));
-
-        public void FormattedFatalException(Exception e, string message = null)
-            => _logger.Fatal(e, FormatMessage(e, message));
-
         public void Fatal(string message) => _logger.Fatal(message);
         public void Fatal(string message, params object[] args) => _logger.Fatal(message, args);
-
-        static string FormatMessage(Exception e, string message) {
-            if (string.IsNullOrWhiteSpace(message))
-                return e.Format();
-            return message + ": " + e.Format();
-        }
     }
 }

@@ -17,7 +17,7 @@ using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Core.Services
 {
-    public class ApiPortHandlerBase
+    public class WindowsApiPortHandlerBase
     {
         protected static void BuildAndRunBatFile(IProcessManager pm, IAbsoluteDirectoryPath tmpFolder,
             IEnumerable<string> commands, bool asAdministrator = false, bool noisy = false) {
@@ -57,12 +57,24 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
 
         protected static void ExtractFile(IAbsoluteDirectoryPath tmpFolder, string fileName) {
             var destinationFile = tmpFolder.GetChildFileWithName(fileName);
-            var assembly = typeof(ApiPortHandlerBase).GetTypeInfo().Assembly;
-            using (var s = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName)))
+            using (var s = GetApiStream(fileName))
             using (
                 var f = new FileStream(destinationFile.ToString(), FileMode.Create, FileAccess.ReadWrite, FileShare.None)
             )
                 s.CopyTo(f);
+        }
+
+        public static Stream GetApiStream(string fileName) {
+            var assembly = typeof(WindowsApiPortHandlerBase).GetTypeInfo().Assembly;
+            var stream = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName));
+            return stream;
+        }
+
+        private static Stream GetPfxStream(string fileName) {
+            Stream pfxStream;
+            var assembly = typeof(WindowsApiPortHandlerBase).GetTypeInfo().Assembly;
+            pfxStream = assembly.GetManifestResourceStream(GetResourcePath(assembly, fileName));
+            return pfxStream;
         }
 
         protected static string GetResourcePath(Assembly assembly, string path) {
@@ -74,7 +86,7 @@ namespace SN.withSIX.Mini.Presentation.Core.Services
         }
     }
 
-    public class FirefoxHandler : ApiPortHandlerBase
+    public class FirefoxHandler : WindowsApiPortHandlerBase
     {
         public static void SetupFirefox(IProcessManager pm) => new FireFoxCertInstaller().Install(pm);
 

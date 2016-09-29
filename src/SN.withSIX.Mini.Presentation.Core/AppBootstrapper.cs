@@ -9,13 +9,13 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
 using AutoMapper;
 using MediatR;
 using NDepend.Path;
-using Newtonsoft.Json;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -28,6 +28,7 @@ using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Decorators;
+using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
@@ -59,6 +60,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 {
     public abstract class AppBootstrapper : IDisposable
     {
+        public IAbsoluteDirectoryPath RootPath { get; set; }
         static readonly IAbsoluteDirectoryPath assemblyPath =
             CommonBase.AssemblyLoader.GetNetEntryPath();
         // = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
@@ -80,26 +82,21 @@ namespace SN.withSIX.Mini.Presentation.Core
             typeof(GameSettingsApiModel).GetTypeInfo().Assembly,
             typeof(IDialogManager).GetTypeInfo().Assembly
         }.Distinct().ToArray();
-        private readonly Assembly[] pluginAssemblies;
-        private readonly Assembly[] platformAssemblies;
-        private readonly Assembly[] _applicationAssemblies;
+        private Assembly[] pluginAssemblies;
+        private Assembly[] platformAssemblies;
+        private Assembly[] _applicationAssemblies;
         private readonly string[] _args;
-        readonly Paths _paths;
-        private readonly Assembly[] _presentationAssemblies;
+        Paths _paths;
+        private Assembly[] _presentationAssemblies;
         protected readonly Container Container;
-        protected readonly IMutableDependencyResolver DependencyResolver;
         TaskPoolScheduler _cacheScheduler;
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
 
-        protected virtual IEnumerable<Assembly> GetInfraAssemblies => infraAssemblies;
 
-        protected AppBootstrapper(string[] args) {
+        public virtual void Configure() {
             pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
             platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
-            Container = new Container();
-            DependencyResolver = Locator.CurrentMutable;
-            _args = args;
 
             CommandMode = DetermineCommandMode();
 
@@ -117,9 +114,20 @@ namespace SN.withSIX.Mini.Presentation.Core
             UserErrorHandling.Setup();
         }
 
+        protected virtual IEnumerable<Assembly> GetInfraAssemblies
+            =>
+            new[] {AssemblyLoadFrom(RootPath.GetChildFileWithName("SN.withSIX.Mini.Presentation.Owin.Core.dll"))}.Concat(
+                infraAssemblies);
+
+        protected AppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) {
+            RootPath = rootPath;
+            _args = args;
+            Container = new Container();
+        }
+
         protected abstract void LowInitializer();
 
-        public bool CommandMode { get; }
+        public bool CommandMode { get; set; }
 
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 
@@ -178,6 +186,8 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         IEnumerable<Assembly> DiscoverAndLoadPlugins() => DiscoverPluginDlls()
             .Select(AssemblyLoadFrom);
+
+        protected Assembly AssemblyLoadFrom(IAbsoluteFilePath arg) => AssemblyLoadFrom(arg.ToString());
 
         protected abstract Assembly AssemblyLoadFrom(string arg);
 
@@ -321,10 +331,6 @@ namespace SN.withSIX.Mini.Presentation.Core
             var serviceReg = new ServiceRegisterer(Container);
             foreach (var t in GetTypes<ServiceRegistry>(pluginAssemblies))
                 Activator.CreateInstance(t, serviceReg);
-
-            // Fix JsonSerializer..
-            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
-                typeof(JsonSerializerSettings));
         }
 
         protected abstract IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies);
@@ -370,6 +376,17 @@ namespace SN.withSIX.Mini.Presentation.Core
                         new EncryptionProvider(), _cacheScheduler));
         }
 
+        public class EncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
+            }
+        }
+
         void RegisterCache<T>(T cache) where T : IBlobCache {
             var cacheManager = Container.GetInstance<ICacheManager>();
             cacheManager.RegisterCache(cache);
@@ -394,12 +411,7 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterRegisteredServices();
 
             RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
-            var assemblies =
-                new[] {
-                        pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
-                        coreAssemblies
-                    }
-                    .SelectMany(x => x).Distinct().ToArray();
+            var assemblies = GetAllAssemblies().ToArray();
             RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<IHandleExceptionPlugin>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<Profile>(assemblies);
@@ -432,6 +444,12 @@ namespace SN.withSIX.Mini.Presentation.Core
             RegisterTools();
             RegisterCaches();
         }
+
+        protected IEnumerable<Assembly> GetAllAssemblies() => new[] {
+                pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
+                coreAssemblies
+            }
+            .SelectMany(x => x).Distinct();
 
         protected abstract void RegisterMessageBus();
 
@@ -469,7 +487,11 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         void RegisterRequestHandlers(params Type[] types) {
             foreach (var h in types) {
-                Container.Register(h, _applicationAssemblies.Concat(GetInfraAssemblies), Lifestyle.Singleton);
+                try {
+                    Container.Register(h, _applicationAssemblies.Concat(GetInfraAssemblies), Lifestyle.Singleton);
+                } catch (Exception ex) {
+                    throw;
+                }
                 // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
             }
         }

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NDepend.Path;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
 using SN.withSIX.Core;
@@ -19,6 +21,9 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Owin.Core;
+using Splat;
+using withSIX.Api.Models.Extensions;
 
 namespace SN.withSIX.Mini.Presentation.Electron
 {
@@ -37,7 +42,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
     class WorkaroundBootstrapper : AppBootstrapper
     {
-        protected WorkaroundBootstrapper(string[] args) : base(args) { }
+        protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) { }
 
         protected override void LowInitializer() => BootstrapperBridge.LowInitializer();
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies);
@@ -61,8 +66,15 @@ namespace SN.withSIX.Mini.Presentation.Electron
             return base.AfterUi();
         }
 
-        public ElectronAppBootstrapper(string[] args)
-            : base(args) {}
+        public override void Configure() {
+            base.Configure();
+            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
+                typeof(JsonSerializerSettings));
+            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
+        }
+
+        public ElectronAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath)
+            : base(args, rootPath) {}
 
         protected override void Dispose(bool d) {
             base.Dispose(d);

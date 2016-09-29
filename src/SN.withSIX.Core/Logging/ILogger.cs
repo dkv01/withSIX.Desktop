@@ -3,15 +3,12 @@
 // </copyright>
 
 using System;
+using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Core.Logging
 {
     public interface ILogger
     {
-        void FormattedDebugException(Exception e, string message = null);
-        void FormattedWarnException(Exception e, string message = null);
-        void FormattedErrorException(Exception e, string message = null);
-        void FormattedFatalException(Exception e, string message = null);
         void Info(string message);
         void Debug(string message);
         void Trace(string message);
@@ -24,5 +21,27 @@ namespace SN.withSIX.Core.Logging
         void Warn(string message, params object[] args);
         void Error(string message, params object[] args);
         void Fatal(string message, params object[] args);
+    }
+
+
+    public static class LoggerExtensions
+    {
+        public static void FormattedDebugException(this ILogger _logger, Exception e, string message = null)
+            => _logger.Debug(FormatMessage(e, message));
+
+        public static void FormattedWarnException(this ILogger _logger, Exception e, string message = null)
+            => _logger.Warn(FormatMessage(e, message));
+
+        public static void FormattedErrorException(this ILogger _logger, Exception e, string message = null)
+            => _logger.Error(FormatMessage(e, message));
+
+        public static void FormattedFatalException(this ILogger _logger, Exception e, string message = null)
+            => _logger.Fatal(FormatMessage(e, message));
+
+        static string FormatMessage(Exception e, string message) {
+            if (string.IsNullOrWhiteSpace(message))
+                return e.Format();
+            return message + ": " + e.Format();
+        }
     }
 }

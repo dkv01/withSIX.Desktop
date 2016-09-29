@@ -14,7 +14,7 @@ using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Core.Applications.Services
+namespace SN.withSIX.Core.Presentation.Services
 {
     public static class UserErrorHandling
     {

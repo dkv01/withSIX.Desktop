@@ -13,6 +13,7 @@ using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
+using SN.withSIX.Core.Presentation.Services;
 
 namespace SN.withSIX.Mini.Infra.Api
 {

@@ -3,6 +3,7 @@
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
+    "System.Diagnostics.Contracts": "4.0.1",
     "System.Diagnostics.FileVersionInfo": "4.0.0",
     "System.IO.FileSystem": "4.0.1",
     "System.IO.FileSystem.AccessControl": "4.0.0",

@@ -8,7 +8,6 @@
         "bin/Debug/GameServerQuery.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/GameServerQuery.dll": {}
       },
       "contentFiles": {
@@ -60,7 +59,6 @@
         "bin/Debug/SN.withSIX.ContentEngine.Infra.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.ContentEngine.Infra.dll": {}
       },
       "contentFiles": {
@@ -78,9 +76,6 @@
         "bin/Debug/SN.withSIX.Core.Applications.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
-        "../dll/ReactiveUI.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
         "bin/Debug/SN.withSIX.Core.Applications.dll": {}
       },
       "contentFiles": {
@@ -98,12 +93,11 @@
         "bin/Debug/SN.withSIX.Core.Infra.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
         "../../../../../Users/proza/.nuget/packages/AutoMapper/5.1.1/lib/netstandard1.3/AutoMapper.dll": {},
         "../../../../../Users/proza/.nuget/packages/System.Diagnostics.Process/4.1.0/ref/netstandard1.3/System.Diagnostics.Process.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "../packages/withSIX.Api.Models.2.0.7-pre/lib/netstandard1.3/withSIX.Api.Models.dll": {},
         "bin/Debug/SN.withSIX.Core.Infra.dll": {}
       },
@@ -139,11 +133,10 @@
         "bin/Debug/SN.withSIX.Core.Presentation.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
-        "../../../../../Users/proza/.nuget/packages/MediatR/2.1.0/lib/netstandard1.1/MediatR.dll": {},
-        "../../../../../Users/proza/.nuget/packages/Newtonsoft.Json/9.0.1/lib/netstandard1.0/Newtonsoft.Json.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
-        "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
+        "../dll/Akavache.dll": {},
+        "../dll/ReactiveUI.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Debug/SN.withSIX.Core.Presentation.dll": {}
       },
       "contentFiles": {
@@ -161,7 +154,6 @@
         "bin/Debug/SN.withSIX.Core.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "../../../withSIX.Web/packages/JetBrains.Annotations.10.1.5/lib/net/JetBrains.Annotations.dll": {},
         "bin/Debug/SN.withSIX.Core.dll": {}
       },
@@ -180,9 +172,8 @@
         "bin/Debug/SN.withSIX.Mini.Applications.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "../dll/ReactiveUI.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Debug/SN.withSIX.Mini.Applications.dll": {}
       },
       "contentFiles": {
@@ -200,7 +191,6 @@
         "bin/Debug/SN.withSIX.Mini.Core.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Core.dll": {}
       },
       "contentFiles": {
@@ -218,7 +208,6 @@
         "bin/Debug/SN.withSIX.Mini.Infra.Data.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../dll/IdentityModel.dll": {},
@@ -239,7 +228,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Arma.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Arma.dll": {}
       },
       "contentFiles": {
@@ -257,7 +245,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.CE.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.CE.dll": {}
       },
       "contentFiles": {
@@ -275,7 +262,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Firaxis.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Firaxis.dll": {}
       },
       "contentFiles": {
@@ -293,7 +279,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.GTA.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.GTA.dll": {}
       },
       "contentFiles": {
@@ -311,7 +296,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Homeworld.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Homeworld.dll": {}
       },
       "contentFiles": {
@@ -329,7 +313,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Kerbal.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Kerbal.dll": {}
       },
       "contentFiles": {
@@ -347,7 +330,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.NMS.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.NMS.dll": {}
       },
       "contentFiles": {
@@ -365,7 +347,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Starbound.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Starbound.dll": {}
       },
       "contentFiles": {
@@ -383,7 +364,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Stellaris.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Stellaris.dll": {}
       },
       "contentFiles": {
@@ -401,7 +381,6 @@
         "bin/Debug/SN.withSIX.Mini.Plugin.Witcher3.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Mini.Plugin.Witcher3.dll": {}
       },
       "contentFiles": {
@@ -419,12 +398,11 @@
         "bin/Debug/SN.withSIX.Mini.Presentation.Core.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../packages/Mono.Options.4.4.0.0/lib/dnxcore/Mono.Options.dll": {},
         "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
-        "../packages/Splat.1.6.2/lib/Net45/Splat.dll": {},
+        "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Debug/SN.withSIX.Mini.Presentation.Core.dll": {}
       },
       "contentFiles": {
@@ -453,6 +431,23 @@
         }
       }
     },
+    "withSIX.Mini.Presentation.Owin.Core/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.3",
+      "compile": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Owin.Core.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Owin.Core.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SN.withSIX.Mini.Presentation.Owin.Core.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "withSIX.Steam.Core/1.0.0": {
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
@@ -460,7 +455,6 @@
         "bin/Debug/SN.withSIX.Steam.Core.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile259/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Steam.Core.dll": {}
       },
       "contentFiles": {
@@ -478,11 +472,27 @@
         "bin/Debug/SN.withSIX.Sync.Core.dll": {}
       },
       "runtime": {
-        "../../../../../Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETPortable/v4.5/Profile/Profile111/System.Diagnostics.Contracts.dll": {},
         "bin/Debug/SN.withSIX.Sync.Core.dll": {}
       },
       "contentFiles": {
         "bin/Debug/SN.withSIX.Sync.Core.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "withSIX.Mini.Presentation.CoreCore/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.6",
+      "compile": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

@@ -13,6 +13,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Presentation.Services;
 
 namespace SN.withSIX.Core.Presentation.Wpf
 {

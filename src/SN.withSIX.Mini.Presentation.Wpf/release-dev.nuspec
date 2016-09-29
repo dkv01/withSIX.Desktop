@@ -73,14 +73,14 @@
 
         <file src="bin\release\NDepend.Path.PCL.dll" target="lib\net45\NDepend.Path.PCL.dll" />
 
-       <file src="bin\release\ManyConsole.dll" target="lib\net45\ManyConsole.dll" />
-       <file src="bin\release\NDesk.Options.dll" target="lib\net45\NDesk.Options.dll" />
+       <file src="bin\release\ManyConsole.PCL.dll" target="lib\net45\ManyConsole.PCL.dll" />
+       <file src="bin\release\Mono.Options.dll" target="lib\net45\Mono.Options.dll" />
 
         <file src="bin\release\FluentValidation.dll" target="lib\net45\FluentValidation.dll" />
         <file src="bin\release\MediatR.dll" target="lib\net45\MediatR.dll" />
         <!-- <file src="bin\release\SignalRNetClientProxyMapper.dll" target="lib\net45\SignalRNetClientProxyMapper.dll" /> -->
 
-        <file src="bin\release\Thinktecture.IdentityModel.Client.Net45.dll" target="lib\net45\Thinktecture.IdentityModel.Client.Net45.dll" />
+        <file src="bin\release\IdentityModel.dll" target="lib\net45\IdentityModel.dll" />
         <file src="bin\release\Akavache.dll" target="lib\net45\Akavache.dll" />
         <file src="bin\release\Akavache.Sqlite3.dll" target="lib\net45\Akavache.Sqlite3.dll" />
         <file src="bin\release\AutoMapper.dll" target="lib\net45\AutoMapper.dll" />
@@ -98,12 +98,16 @@
         <file src="bin\release\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="bin\release\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
         <file src="bin\release\Splat.dll" target="lib\net45\Splat.dll" />
-        <file src="bin\release\SQLitePCL.raw.dll" target="lib\net45\SQLitePCL.raw.dll" />
+
+        <file src="bin\release\SQLitePCLRaw.batteries_e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.batteries_e_sqlite3.dll" />
+        <file src="bin\release\SQLitePCLRaw.core.dll" target="lib\net45\SQLitePCLRaw.core.dll" />
+        <file src="bin\release\SQLitePCLRaw.provider.e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll" />
+
         <file src="bin\release\Synercoding.Encryption.dll" target="lib\net45\Synercoding.Encryption.dll" />
         <file src="bin\release\WpfAnimatedGif.dll" target="lib\net45\WpfAnimatedGif.dll" />
         <file src="bin\release\YamlDotNet.dll" target="lib\net45\YamlDotNet.dll" />
 
-        <file src="bin\release\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
+        <file src="bin\release\x86\e_sqlite3.dll" target="lib\net45\x86\e_sqlite3.dll" />
 
         <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
         <file src="bin\release\VCRedistInstaller.exe" target="lib\net45\VCRedistInstaller.exe" />
@@ -119,78 +123,79 @@
         <file src="..\packages\squirrel.windows.1.4.4\tools\Squirrel.exe" target="lib\net45\Squirrel.exe" />
 		
 		<!-- AUTOGEN -->
-<file src="..\..\..\bin\Microsoft.AspNet.SignalR.Core.dll" target="lib\net45\Microsoft.AspNet.SignalR.Core.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Cors.dll" target="lib\net45\Microsoft.AspNetCore.Cors.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Hosting.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Hosting.dll" target="lib\net45\Microsoft.AspNetCore.Hosting.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Http.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.Http.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Http.dll" target="lib\net45\Microsoft.AspNetCore.Http.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Http.Extensions.dll" target="lib\net45\Microsoft.AspNetCore.Http.Extensions.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Http.Features.dll" target="lib\net45\Microsoft.AspNetCore.Http.Features.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Owin.dll" target="lib\net45\Microsoft.AspNetCore.Owin.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.Server.WebListener.dll" target="lib\net45\Microsoft.AspNetCore.Server.WebListener.dll" />
-<file src="..\..\..\bin\Microsoft.AspNetCore.WebUtilities.dll" target="lib\net45\Microsoft.AspNetCore.WebUtilities.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Configuration.Abstractions.dll" target="lib\net45\Microsoft.Extensions.Configuration.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Configuration.dll" target="lib\net45\Microsoft.Extensions.Configuration.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" target="lib\net45\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll" target="lib\net45\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.DependencyInjection.dll" target="lib\net45\Microsoft.Extensions.DependencyInjection.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.FileProviders.Abstractions.dll" target="lib\net45\Microsoft.Extensions.FileProviders.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.FileProviders.Physical.dll" target="lib\net45\Microsoft.Extensions.FileProviders.Physical.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.FileSystemGlobbing.dll" target="lib\net45\Microsoft.Extensions.FileSystemGlobbing.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Logging.Abstractions.dll" target="lib\net45\Microsoft.Extensions.Logging.Abstractions.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Logging.dll" target="lib\net45\Microsoft.Extensions.Logging.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.ObjectPool.dll" target="lib\net45\Microsoft.Extensions.ObjectPool.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Options.dll" target="lib\net45\Microsoft.Extensions.Options.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.PlatformAbstractions.dll" target="lib\net45\Microsoft.Extensions.PlatformAbstractions.dll" />
-<file src="..\..\..\bin\Microsoft.Extensions.Primitives.dll" target="lib\net45\Microsoft.Extensions.Primitives.dll" />
-<file src="..\..\..\bin\Microsoft.Net.Http.Headers.dll" target="lib\net45\Microsoft.Net.Http.Headers.dll" />
-<file src="..\..\..\bin\Microsoft.Net.Http.Server.dll" target="lib\net45\Microsoft.Net.Http.Server.dll" />
-<file src="..\..\..\bin\Microsoft.Owin.dll" target="lib\net45\Microsoft.Owin.dll" />
-<file src="..\..\..\bin\Microsoft.Owin.Security.dll" target="lib\net45\Microsoft.Owin.Security.dll" />
-<file src="..\..\..\bin\Microsoft.Win32.Primitives.dll" target="lib\net45\Microsoft.Win32.Primitives.dll" />
-<file src="..\..\..\bin\Microsoft.Win32.Registry.dll" target="lib\net45\Microsoft.Win32.Registry.dll" />
-<file src="..\..\..\bin\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
-<file src="..\..\..\bin\Owin.dll" target="lib\net45\Owin.dll" />
-<file src="..\..\..\bin\System.AppContext.dll" target="lib\net45\System.AppContext.dll" />
-<file src="..\..\..\bin\System.Buffers.dll" target="lib\net45\System.Buffers.dll" />
-<file src="..\..\..\bin\System.Collections.Immutable.dll" target="lib\net45\System.Collections.Immutable.dll" />
-<file src="..\..\..\bin\System.ComponentModel.Primitives.dll" target="lib\net45\System.ComponentModel.Primitives.dll" />
-<file src="..\..\..\bin\System.Console.dll" target="lib\net45\System.Console.dll" />
-<file src="..\..\..\bin\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
-<file src="..\..\..\bin\System.Diagnostics.FileVersionInfo.dll" target="lib\net45\System.Diagnostics.FileVersionInfo.dll" />
-<file src="..\..\..\bin\System.Diagnostics.Process.dll" target="lib\net45\System.Diagnostics.Process.dll" />
-<file src="..\..\..\bin\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
-<file src="..\..\..\bin\System.IO.Compression.dll" target="lib\net45\System.IO.Compression.dll" />
-<file src="..\..\..\bin\System.IO.FileSystem.AccessControl.dll" target="lib\net45\System.IO.FileSystem.AccessControl.dll" />
-<file src="..\..\..\bin\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
-<file src="..\..\..\bin\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
-<file src="..\..\..\bin\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
-<file src="..\..\..\bin\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
-<file src="..\..\..\bin\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
-<file src="..\..\..\bin\System.Net.Ping.dll" target="lib\net45\System.Net.Ping.dll" />
-<file src="..\..\..\bin\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
-<file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
-<file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
-<file src="..\..\..\bin\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
-<file src="..\..\..\bin\System.Reactive.PlatformServices.dll" target="lib\net45\System.Reactive.PlatformServices.dll" />
-<file src="..\..\..\bin\System.Reactive.Windows.Threading.dll" target="lib\net45\System.Reactive.Windows.Threading.dll" />
-<file src="..\..\..\bin\System.Reflection.Metadata.dll" target="lib\net45\System.Reflection.Metadata.dll" />
-<file src="..\..\..\bin\System.Runtime.InteropServices.RuntimeInformation.dll" target="lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll" />
-<file src="..\..\..\bin\System.Runtime.Serialization.Formatters.dll" target="lib\net45\System.Runtime.Serialization.Formatters.dll" />
-<file src="..\..\..\bin\System.Runtime.Serialization.Primitives.dll" target="lib\net45\System.Runtime.Serialization.Primitives.dll" />
-<file src="..\..\..\bin\System.Runtime.Serialization.Xml.dll" target="lib\net45\System.Runtime.Serialization.Xml.dll" />
-<file src="..\..\..\bin\System.Security.AccessControl.dll" target="lib\net45\System.Security.AccessControl.dll" />
-<file src="..\..\..\bin\System.Security.Claims.dll" target="lib\net45\System.Security.Claims.dll" />
-<file src="..\..\..\bin\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
-<file src="..\..\..\bin\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
-<file src="..\..\..\bin\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
-<file src="..\..\..\bin\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
-<file src="..\..\..\bin\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
-<file src="..\..\..\bin\System.Text.Encodings.Web.dll" target="lib\net45\System.Text.Encodings.Web.dll" />
-<file src="..\..\..\bin\System.Threading.Thread.dll" target="lib\net45\System.Threading.Thread.dll" />
-<file src="..\..\..\bin\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />
+<file src="bin\release\Microsoft.AspNet.SignalR.Core.dll" target="lib\net45\Microsoft.AspNet.SignalR.Core.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Cors.dll" target="lib\net45\Microsoft.AspNetCore.Cors.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Hosting.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Hosting.dll" target="lib\net45\Microsoft.AspNetCore.Hosting.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Http.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.Http.Abstractions.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Http.dll" target="lib\net45\Microsoft.AspNetCore.Http.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Http.Extensions.dll" target="lib\net45\Microsoft.AspNetCore.Http.Extensions.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Http.Features.dll" target="lib\net45\Microsoft.AspNetCore.Http.Features.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Owin.dll" target="lib\net45\Microsoft.AspNetCore.Owin.dll" />
+<file src="bin\release\Microsoft.AspNetCore.Server.WebListener.dll" target="lib\net45\Microsoft.AspNetCore.Server.WebListener.dll" />
+<file src="bin\release\Microsoft.AspNetCore.WebUtilities.dll" target="lib\net45\Microsoft.AspNetCore.WebUtilities.dll" />
+<file src="bin\release\Microsoft.Extensions.Configuration.Abstractions.dll" target="lib\net45\Microsoft.Extensions.Configuration.Abstractions.dll" />
+<file src="bin\release\Microsoft.Extensions.Configuration.dll" target="lib\net45\Microsoft.Extensions.Configuration.dll" />
+<file src="bin\release\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" target="lib\net45\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+<file src="bin\release\Microsoft.Extensions.DependencyInjection.Abstractions.dll" target="lib\net45\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+<file src="bin\release\Microsoft.Extensions.DependencyInjection.dll" target="lib\net45\Microsoft.Extensions.DependencyInjection.dll" />
+<file src="bin\release\Microsoft.Extensions.FileProviders.Abstractions.dll" target="lib\net45\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+<file src="bin\release\Microsoft.Extensions.FileProviders.Physical.dll" target="lib\net45\Microsoft.Extensions.FileProviders.Physical.dll" />
+<file src="bin\release\Microsoft.Extensions.FileSystemGlobbing.dll" target="lib\net45\Microsoft.Extensions.FileSystemGlobbing.dll" />
+<file src="bin\release\Microsoft.Extensions.Logging.Abstractions.dll" target="lib\net45\Microsoft.Extensions.Logging.Abstractions.dll" />
+<file src="bin\release\Microsoft.Extensions.Logging.dll" target="lib\net45\Microsoft.Extensions.Logging.dll" />
+<file src="bin\release\Microsoft.Extensions.ObjectPool.dll" target="lib\net45\Microsoft.Extensions.ObjectPool.dll" />
+<file src="bin\release\Microsoft.Extensions.Options.dll" target="lib\net45\Microsoft.Extensions.Options.dll" />
+<file src="bin\release\Microsoft.Extensions.PlatformAbstractions.dll" target="lib\net45\Microsoft.Extensions.PlatformAbstractions.dll" />
+<file src="bin\release\Microsoft.Extensions.Primitives.dll" target="lib\net45\Microsoft.Extensions.Primitives.dll" />
+<file src="bin\release\Microsoft.Net.Http.Headers.dll" target="lib\net45\Microsoft.Net.Http.Headers.dll" />
+<file src="bin\release\Microsoft.Net.Http.Server.dll" target="lib\net45\Microsoft.Net.Http.Server.dll" />
+<file src="bin\release\Microsoft.Owin.dll" target="lib\net45\Microsoft.Owin.dll" />
+<file src="bin\release\Microsoft.Owin.Security.dll" target="lib\net45\Microsoft.Owin.Security.dll" />
+<file src="bin\release\Microsoft.Win32.Primitives.dll" target="lib\net45\Microsoft.Win32.Primitives.dll" />
+<file src="bin\release\Microsoft.Win32.Registry.dll" target="lib\net45\Microsoft.Win32.Registry.dll" />
+<file src="bin\release\Microsoft.WindowsAzure.Configuration.dll" target="lib\net45\Microsoft.WindowsAzure.Configuration.dll" />
+<file src="bin\release\Owin.dll" target="lib\net45\Owin.dll" />
+<file src="bin\release\System.AppContext.dll" target="lib\net45\System.AppContext.dll" />
+<file src="bin\release\System.Buffers.dll" target="lib\net45\System.Buffers.dll" />
+<file src="bin\release\System.Collections.Immutable.dll" target="lib\net45\System.Collections.Immutable.dll" />
+<file src="bin\release\System.ComponentModel.Primitives.dll" target="lib\net45\System.ComponentModel.Primitives.dll" />
+<file src="bin\release\System.Console.dll" target="lib\net45\System.Console.dll" />
+<file src="bin\release\System.Diagnostics.DiagnosticSource.dll" target="lib\net45\System.Diagnostics.DiagnosticSource.dll" />
+<file src="bin\release\System.Diagnostics.FileVersionInfo.dll" target="lib\net45\System.Diagnostics.FileVersionInfo.dll" />
+<file src="bin\release\System.Diagnostics.Process.dll" target="lib\net45\System.Diagnostics.Process.dll" />
+<file src="bin\release\System.Globalization.Extensions.dll" target="lib\net45\System.Globalization.Extensions.dll" />
+<file src="bin\release\System.IO.Compression.dll" target="lib\net45\System.IO.Compression.dll" />
+<file src="bin\release\System.IO.FileSystem.AccessControl.dll" target="lib\net45\System.IO.FileSystem.AccessControl.dll" />
+<file src="bin\release\System.IO.FileSystem.dll" target="lib\net45\System.IO.FileSystem.dll" />
+<file src="bin\release\System.IO.FileSystem.DriveInfo.dll" target="lib\net45\System.IO.FileSystem.DriveInfo.dll" />
+<file src="bin\release\System.IO.FileSystem.Primitives.dll" target="lib\net45\System.IO.FileSystem.Primitives.dll" />
+<file src="bin\release\System.Net.Http.dll" target="lib\net45\System.Net.Http.dll" />
+<file src="bin\release\System.Net.NameResolution.dll" target="lib\net45\System.Net.NameResolution.dll" />
+<file src="bin\release\System.Net.Ping.dll" target="lib\net45\System.Net.Ping.dll" />
+<file src="bin\release\System.Net.Sockets.dll" target="lib\net45\System.Net.Sockets.dll" />
+<file src="bin\release\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
+<file src="bin\release\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
+<file src="bin\release\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
+<file src="bin\release\System.Reactive.PlatformServices.dll" target="lib\net45\System.Reactive.PlatformServices.dll" />
+<file src="bin\release\System.Reactive.Windows.Threading.dll" target="lib\net45\System.Reactive.Windows.Threading.dll" />
+<file src="bin\release\System.Reflection.Metadata.dll" target="lib\net45\System.Reflection.Metadata.dll" />
+<file src="bin\release\System.Runtime.InteropServices.RuntimeInformation.dll" target="lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll" />
+<file src="bin\release\System.Runtime.Serialization.Formatters.dll" target="lib\net45\System.Runtime.Serialization.Formatters.dll" />
+<file src="bin\release\System.Runtime.Serialization.Primitives.dll" target="lib\net45\System.Runtime.Serialization.Primitives.dll" />
+<file src="bin\release\System.Runtime.Serialization.Xml.dll" target="lib\net45\System.Runtime.Serialization.Xml.dll" />
+<file src="bin\release\System.Security.AccessControl.dll" target="lib\net45\System.Security.AccessControl.dll" />
+<file src="bin\release\System.Security.Claims.dll" target="lib\net45\System.Security.Claims.dll" />
+<file src="bin\release\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
+<file src="bin\release\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
+<file src="bin\release\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
+<file src="bin\release\System.Security.Cryptography.ProtectedData.dll" target="lib\net45\System.Security.Cryptography.ProtectedData.dll" />
+<file src="bin\release\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
+<file src="bin\release\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
+<file src="bin\release\System.Text.Encodings.Web.dll" target="lib\net45\System.Text.Encodings.Web.dll" />
+<file src="bin\release\System.Threading.Thread.dll" target="lib\net45\System.Threading.Thread.dll" />
+<file src="bin\release\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />
 		<!-- AUTOGEN -->
     </files>
 </package>

@@ -6,7 +6,7 @@ using System;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Presentation.Bridge.Services
+namespace SN.withSIX.Core.Presentation.Services
 {
     public class MessageBusProxy : IMessageBusProxy, IPresentationService
     {
@@ -17,5 +17,7 @@ namespace SN.withSIX.Core.Presentation.Bridge.Services
         }
 
         public IObservable<T> Listen<T>() => _messageBus.Listen<T>();
+
+        public void SendMessage<T>(T message, string contract = null) => _messageBus.SendMessage(message, contract);
     }
 }

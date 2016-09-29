@@ -7,11 +7,10 @@ using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Mini.Presentation.Core.Services;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace SN.withSIX.Mini.Presentation.Core.Services
 {
-    public class ApiPortHandler : ApiPortHandlerBase
+    public class WindowsApiPortHandler : WindowsApiPortHandlerBase
     {
         public static void SetupApiPort(IPEndPoint http, IPEndPoint https, IProcessManager pm) {
             if ((https == null) && (http == null))

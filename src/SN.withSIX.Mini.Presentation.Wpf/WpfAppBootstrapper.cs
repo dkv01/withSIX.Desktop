@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using NDepend.Path;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
 using SN.withSIX.Core;
@@ -34,6 +36,7 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Owin.Core;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using Splat;
 using withSIX.Api.Models.Extensions;
@@ -52,9 +55,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
     }
 
-    class WorkaroundBootstrapper : AppBootstrapper
+    public class WorkaroundBootstrapper : AppBootstrapper
     {
-        protected WorkaroundBootstrapper(string[] args) : base(args) {}
+        protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
 
         protected override void LowInitializer() => BootstrapperBridge.LowInitializer();
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies);
@@ -72,10 +75,15 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     {
         IMiniMainWindowViewModel _mainVm;
 
-        internal WpfAppBootstrapper(string[] args)
-            : base(args) {
+        internal WpfAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
+
+        public override void Configure() {
+            base.Configure();
             SetupRx();
             SetupCM();
+            Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
+                typeof(JsonSerializerSettings));
+            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
 
         internal IMiniMainWindowViewModel GetMainWindowViewModel() => Container.GetInstance<IMiniMainWindowViewModel>();
@@ -85,7 +93,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             var viewLocator = new DefaultViewLocator();
             // If we use the withSIX.Core.Presentation.Wpf.Services. one then we get Reactivecommands as text etc..
             //var jsonSerializerSettings = new JsonSerializerSettings() { DateTimeZoneHandling = DateTimeZoneHandling.Utc };
-            DependencyResolver.Register(() => viewLocator, typeof(IViewLocator));
+            Locator.CurrentMutable.Register(() => viewLocator, typeof(IViewLocator));
             //_dependencyResolver.Register(() => jsonSerializerSettings, typeof (JsonSerializerSettings));
         }
 
@@ -160,7 +168,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         protected override void RegisterViews() {
             base.RegisterViews();
             var viewInterfaceFilterType = typeof(IViewFor);
-            DependencyResolver.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(),
+            Locator.CurrentMutable.RegisterAllInterfaces<IViewFor>(GetPresentationAssemblies(),
                 (type, type1) => viewInterfaceFilterType.IsAssignableFrom(type));
             //dependencyResolver.RegisterConstant(this, typeof (IScreen));
 

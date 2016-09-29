@@ -10,7 +10,15 @@
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.1"
-    }
+    },
+    "NDepend.Path.PCL": "1.0.2-pre",
+    "System.Runtime.Loader": "4.0.0",
+    "System.Diagnostics.Contracts": "4.0.1",
+    "Splat": "1.6.2",
+    "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
+    "Microsoft.AspNetCore.Server.Kestrel.Https": "1.0.1",
+    "System.Security.Cryptography.ProtectedData": "4.0.0"
   },
 
   "frameworks": {
@@ -85,6 +93,12 @@
         "withSIX.Mini.Presentation.Core": {
           "target": "project"
         },
+        "withSIX.Mini.Presentation.CoreCore": {
+          "target": "project"
+        },
+        "withSIX.Mini.Presentation.Owin.Core": {
+          "target": "project"
+        },
         "withSIX.Steam.Core": {
           "target": "project"
         },
@@ -92,7 +106,7 @@
           "target": "project"
         }
       },
-      "imports": "dnxcore50"
+      "imports": [ "dnxcore50", "Portable-net45+win+wpa81+wp80" ]
     }
   }
 }

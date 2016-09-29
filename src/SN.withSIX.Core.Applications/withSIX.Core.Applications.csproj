@@ -128,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ToolsVersionAttribute.cs" />
-    <Compile Include="AutoMapperProfile.cs" />
     <Compile Include="Errors\IExceptionHandler.cs" />
     <Compile Include="Errors\InformationalUserError.cs" />
     <Compile Include="Errors\UserErrorBase.cs" />
@@ -138,6 +137,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DecoratorBase.cs" />
     <Compile Include="Extensions\DispatchCommand.cs" />
+    <Compile Include="Extensions\IPEndPointExtensions.cs" />
     <Compile Include="Extensions\MediatorDecoratorBase.cs" />
     <Compile Include="Extensions\MediatorExtensions.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />
@@ -179,7 +179,6 @@
     <Compile Include="Services\SixMessageBoxButton.cs" />
     <Compile Include="Services\SixMessageBoxResult.cs" />
     <Compile Include="Services\ToolsInstaller.cs" />
-    <Compile Include="Services\UserErrorHandling.cs" />
     <Compile Include="Services\VersionInfoData.cs" />
     <Compile Include="SixColors.cs" />
     <Compile Include="SixIconFont.cs" />
@@ -193,17 +192,6 @@
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="ReactiveUI">
-      <HintPath>..\dll\ReactiveUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Splat">
-      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.Contracts">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile111\System.Diagnostics.Contracts.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

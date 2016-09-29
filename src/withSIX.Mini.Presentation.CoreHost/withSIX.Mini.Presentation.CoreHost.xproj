@@ -39,8 +39,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Stellaris\withSIX.Mini.Plugin.Stellaris.csproj" />
     <ProjectReference Include="..\SN.withSIX.Mini.Plugin.Witcher3\withSIX.Mini.Plugin.Witcher3.csproj" />
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj" />
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj" />
     <ProjectReference Include="..\SN.withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

@@ -10,8 +10,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using NDepend.Path;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Presentation.Core;
 using Splat;
@@ -63,7 +65,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
-            _bootstrapper = new WpfAppBootstrapper(Environment.GetCommandLineArgs().Skip(1).ToArray());
+            _bootstrapper = new WpfAppBootstrapper(Environment.GetCommandLineArgs().Skip(1).ToArray(),
+                Assembly.GetEntryAssembly().Location.ToAbsoluteFilePath().ParentDirectoryPath);
+            _bootstrapper.Configure();
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
             _cmBs = new CMBootstrapper(_bootstrapper);
