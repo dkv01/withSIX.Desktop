@@ -6315,7 +6315,9 @@
       "System.ObjectModel >= 4.0.12",
       "System.Reactive >= 3.0.0",
       "System.Runtime.Serialization.Xml >= 4.1.1",
-      "withSIX.Api.Models >= 2.0.7-pre"
+      "withSIX.Api.Models >= 2.0.7-pre",
+      "withSIX.Core >= 1.0.0-*",
+      "withSIX.Sync.Core >= 1.0.0-*"
     ],
     ".NETStandard,Version=v1.3": []
   }
