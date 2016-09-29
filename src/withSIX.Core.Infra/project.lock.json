@@ -6491,12 +6491,18 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "AutoMapper >= 5.1.1",
+      "GeoIP >= 1.0.0-pre",
       "Microsoft.NETCore.Portable.Compatibility >= 1.0.1",
       "NETStandard.Library >= 1.6.0",
       "System.Diagnostics.Contracts >= 4.0.1",
+      "System.Diagnostics.Process >= 4.1.0",
       "System.Net.Ping >= 4.0.0",
       "System.Reactive >= 3.0.0",
-      "withSIX.Api.Models >= 2.0.7-pre"
+      "withSIX.Api.Models >= 2.0.7-pre",
+      "withSIX.Core >= 1.0.0-*",
+      "withSIX.Core.Applications >= 1.0.0-*",
+      "withSIX.Sync.Core >= 1.0.0-*"
     ],
     ".NETStandard,Version=v1.3": []
   }
