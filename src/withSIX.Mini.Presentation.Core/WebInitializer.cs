@@ -22,11 +22,12 @@ namespace withSIX.Mini.Presentation.Core
     {
         private readonly IDbContextFactory _factory;
         private readonly IWebServerStartup _webServerStartup;
-        private CancellationTokenSource _cts;
+        private readonly CancellationTokenSource _cts;
 
         public WebInitializer(IDbContextFactory factory, IWebServerStartup webServerStartup) {
             _factory = factory;
             _webServerStartup = webServerStartup;
+            _cts = new CancellationTokenSource();
         }
 
         public async Task InitializeAfterUI() {
@@ -73,7 +74,6 @@ namespace withSIX.Mini.Presentation.Core
 
             var http = Consts.HttpAddress;
             var https = Consts.HttpsAddress;
-            _cts = new CancellationTokenSource();
             retry:
             try {
                 _webServerStartup.Run(http, https, _cts.Token);

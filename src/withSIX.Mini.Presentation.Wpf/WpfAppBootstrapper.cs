@@ -60,7 +60,7 @@ namespace withSIX.Mini.Presentation.Wpf
         protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
 
         protected override void LowInitializer() => BootstrapperBridge.LowInitializer();
-        protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies);
+        protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies, style);
         protected override IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies) => assemblies.GetTypes<T>();
         protected override void RegisterAllInterfaces<T>(IEnumerable<Assembly> assemblies) => Container.RegisterAllInterfaces<T>(assemblies);
         protected override void RegisterSingleAllInterfaces<T>(IEnumerable<Assembly> assemblies) => Container.RegisterSingleAllInterfaces<T>(assemblies);

@@ -12,7 +12,7 @@ namespace withSIX.Core.Applications.Services
         Task Deinitialize();
     }
 
-    public interface IInitializeAfterUI
+    public interface IInitializeAfterUI : IInitializer
     {
         Task InitializeAfterUI();
     }

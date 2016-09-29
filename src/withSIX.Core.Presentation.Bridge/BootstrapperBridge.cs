@@ -32,7 +32,7 @@ namespace withSIX.Core.Presentation.Bridge
         /*
         public static IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies) => assemblies.GetTypes<T>();
                  public void RegisterPlugins<T>(Container container, IEnumerable<Assembly> assemblies, Lifestyle style = null)
-            where T : class => container.RegisterPlugins<T>(assemblies);
+            where T : class => container.RegisterPlugins<T>(assemblies, style);
 
         public void RegisterAllInterfaces<T>(Container container, IEnumerable<Assembly> assemblies)
             => container.RegisterAllInterfaces<T>(assemblies);

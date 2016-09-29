@@ -87,7 +87,7 @@ namespace withSIX.Mini.Presentation.CoreHost
 
 
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null)
-            => Container.RegisterPlugins<T>(assemblies);
+            => Container.RegisterPlugins<T>(assemblies, style);
 
         protected override void RegisterAllInterfaces<T>(IEnumerable<Assembly> assemblies)
             => Container.RegisterAllInterfaces<T>(assemblies);
