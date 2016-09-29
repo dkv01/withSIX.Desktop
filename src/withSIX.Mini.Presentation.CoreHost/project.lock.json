@@ -391,7 +391,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.CSharp/1.3.0": {
@@ -403,7 +403,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.CSharp.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.VisualBasic/1.3.0": {
@@ -415,7 +415,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.VisualBasic.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.1": {
@@ -849,7 +849,7 @@
           "ref/netstandard1.1/Microsoft.VisualBasic.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.VisualBasic.dll": {}
         }
       },
       "Microsoft.Win32.Primitives/4.0.1": {
@@ -1827,7 +1827,11 @@
           "ref/netstandard1.3/System.IO.MemoryMappedFiles.dll": {}
         },
         "runtimeTargets": {
-          "runtimes/win/lib/netstandard1.3/_._": {
+          "runtimes/unix/lib/netstandard1.3/System.IO.MemoryMappedFiles.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard1.3/System.IO.MemoryMappedFiles.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -1848,7 +1852,7 @@
           "ref/netstandard1.3/System.IO.UnmanagedMemoryStream.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.IO.UnmanagedMemoryStream.dll": {}
         }
       },
       "System.Linq/4.1.0": {
@@ -1913,7 +1917,7 @@
           "ref/netstandard1.1/System.Linq.Parallel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Linq.Parallel.dll": {}
         }
       },
       "System.Linq.Queryable/4.0.1": {
@@ -2393,7 +2397,7 @@
           "ref/netstandard1.3/System.Reflection.DispatchProxy.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Reflection.DispatchProxy.dll": {}
         }
       },
       "System.Reflection.Emit/4.0.1": {
@@ -2522,7 +2526,7 @@
           "lib/netstandard1.0/System.Resources.Reader.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.0/_._": {}
+          "lib/netstandard1.0/System.Resources.Reader.dll": {}
         }
       },
       "System.Resources.ResourceManager/4.0.1": {
@@ -3065,7 +3069,11 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtimeTargets": {
-          "runtimes/win/lib/netstandard1.3/_._": {
+          "runtimes/unix/lib/netstandard1.3/System.Text.Encoding.CodePages.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard1.3/System.Text.Encoding.CodePages.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -3189,7 +3197,7 @@
           "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.0.0": {
@@ -3222,7 +3230,7 @@
           "ref/netstandard1.1/System.Threading.Tasks.Parallel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Threading.Tasks.Parallel.dll": {}
         }
       },
       "System.Threading.Thread/4.0.0": {
@@ -3376,7 +3384,7 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Xml.XPath.dll": {}
         }
       },
       "System.Xml.XPath.XDocument/4.0.1": {
@@ -3396,10 +3404,10 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.7": {
+      "withSIX.Api.Models/2.0.8": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "5.1.1",
@@ -3450,7 +3458,7 @@
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0"
         }
       },
@@ -3461,7 +3469,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Infra": "1.0.0"
@@ -3488,7 +3496,7 @@
           "System.Security.Cryptography.Algorithms": "4.2.0",
           "System.Threading": "4.0.11",
           "System.Threading.Thread": "4.0.0",
-          "withSIX.Api.Models": "2.0.7"
+          "withSIX.Api.Models": "2.0.8"
         }
       },
       "withSIX.Core.Applications/1.0.0": {
@@ -3505,7 +3513,7 @@
           "System.Reactive": "3.0.0",
           "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Runtime.Serialization.Xml": "4.1.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -3522,7 +3530,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -3538,7 +3546,7 @@
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
           "sharpcompress": "0.12.4",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -3563,7 +3571,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -3583,7 +3591,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
@@ -3597,7 +3605,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -3619,7 +3627,7 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -3637,7 +3645,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -3652,7 +3660,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Mini.Core": "1.0.0"
         }
       },
@@ -3664,7 +3672,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -3679,7 +3687,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -3693,7 +3701,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -3708,7 +3716,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Xml.XmlDocument": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -3723,7 +3731,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -3738,7 +3746,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -3752,7 +3760,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -3768,7 +3776,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -3813,7 +3821,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Runtime": "4.1.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Core.Infra": "1.0.0",
@@ -3851,12 +3859,12 @@
           "System.IO.FileSystem.AccessControl": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Xml.XmlSerializer": "4.0.11",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0"
         }
       }
     },
-    ".NETCoreApp,Version=v1.0/ubuntu14.04-x64": {
+    ".NETCoreApp,Version=v1.0/ubuntu.14.04-x64": {
       "AutoMapper/5.1.1": {
         "type": "package",
         "dependencies": {
@@ -3878,6 +3886,9 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
+        },
+        "native": {
+          "runtimes/debian-x64/native/libuv.so": {}
         }
       },
       "ManyConsole.PCL/1.0.0": {
@@ -4211,7 +4222,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.CSharp/1.3.0": {
@@ -4223,7 +4234,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.CSharp.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.VisualBasic/1.3.0": {
@@ -4235,7 +4246,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.VisualBasic.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.1": {
@@ -4565,22 +4576,30 @@
         }
       },
       "Microsoft.NETCore.DotNetHost/1.0.1": {
-        "type": "package"
+        "type": "package",
+        "dependencies": {
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost": "1.0.1"
+        }
       },
       "Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
+          "Microsoft.NETCore.DotNetHostResolver": "1.0.1",
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.1"
         }
       },
       "Microsoft.NETCore.DotNetHostResolver/1.0.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHost": "1.0.1"
+          "Microsoft.NETCore.DotNetHost": "1.0.1",
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver": "1.0.1"
         }
       },
       "Microsoft.NETCore.Jit/1.0.4": {
-        "type": "package"
+        "type": "package",
+        "dependencies": {
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit": "1.0.4"
+        }
       },
       "Microsoft.NETCore.Platforms/1.0.1": {
         "type": "package",
@@ -4630,7 +4649,8 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Jit": "1.0.4",
-          "Microsoft.NETCore.Windows.ApiSets": "1.0.1"
+          "Microsoft.NETCore.Windows.ApiSets": "1.0.1",
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.4"
         }
       },
       "Microsoft.NETCore.Targets/1.0.1": {
@@ -4669,7 +4689,7 @@
           "ref/netstandard1.1/Microsoft.VisualBasic.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.VisualBasic.dll": {}
         }
       },
       "Microsoft.Win32.Primitives/4.0.1": {
@@ -4677,7 +4697,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.unix.Microsoft.Win32.Primitives": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
@@ -4697,6 +4718,9 @@
         },
         "compile": {
           "ref/netstandard1.3/Microsoft.Win32.Registry.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/Microsoft.Win32.Registry.dll": {}
         }
       },
       "Mono.Options/4.4.0": {
@@ -4803,11 +4827,171 @@
           "lib/netstandard1.0/Newtonsoft.Json.dll": {}
         }
       },
+      "runtime.any.System.Collections/4.0.11": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Collections.dll": {}
+        }
+      },
+      "runtime.any.System.Diagnostics.Tools/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Diagnostics.Tools.dll": {}
+        }
+      },
+      "runtime.any.System.Diagnostics.Tracing/4.1.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Diagnostics.Tracing.dll": {}
+        }
+      },
+      "runtime.any.System.Globalization/4.0.11": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Globalization.dll": {}
+        }
+      },
+      "runtime.any.System.Globalization.Calendars/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Globalization.Calendars.dll": {}
+        }
+      },
+      "runtime.any.System.IO/4.1.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.IO.dll": {}
+        }
+      },
+      "runtime.any.System.Reflection/4.1.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Reflection.dll": {}
+        }
+      },
+      "runtime.any.System.Reflection.Extensions/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Reflection.Extensions.dll": {}
+        }
+      },
+      "runtime.any.System.Reflection.Primitives/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Reflection.Primitives.dll": {}
+        }
+      },
+      "runtime.any.System.Resources.ResourceManager/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Resources.ResourceManager.dll": {}
+        }
+      },
+      "runtime.any.System.Runtime/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Private.Uri": "4.0.1"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Runtime.dll": {}
+        }
+      },
+      "runtime.any.System.Runtime.Handles/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Runtime.Handles.dll": {}
+        }
+      },
+      "runtime.any.System.Runtime.InteropServices/4.1.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Runtime.InteropServices.dll": {}
+        }
+      },
+      "runtime.any.System.Text.Encoding/4.0.11": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Text.Encoding.dll": {}
+        }
+      },
+      "runtime.any.System.Text.Encoding.Extensions/4.0.11": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Text.Encoding.Extensions.dll": {}
+        }
+      },
+      "runtime.any.System.Threading.Tasks/4.0.11": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Threading.Tasks.dll": {}
+        }
+      },
+      "runtime.any.System.Threading.Timer/4.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Threading.Timer.dll": {}
+        }
+      },
       "runtime.native.System/4.0.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
-          "Microsoft.NETCore.Targets": "1.0.1"
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.ubuntu.14.04-x64.runtime.native.System": "1.0.1"
         },
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -4820,7 +5004,8 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
-          "Microsoft.NETCore.Targets": "1.0.1"
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression": "1.0.1"
         },
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -4833,7 +5018,8 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
-          "Microsoft.NETCore.Targets": "1.0.1"
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http": "1.0.1"
         },
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -4846,7 +5032,8 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
-          "Microsoft.NETCore.Targets": "1.0.1"
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security": "1.0.1"
         },
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -4859,13 +5046,249 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
-          "Microsoft.NETCore.Targets": "1.0.1"
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography": "1.0.1"
         },
         "compile": {
           "lib/netstandard1.0/_._": {}
         },
         "runtime": {
           "lib/netstandard1.0/_._": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost/1.0.1": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/dotnet": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
+        },
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/libhostpolicy.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.DotNetHost": "1.0.1"
+        },
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/libhostfxr.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.4": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/libclrjit.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard1.0/_._": {}
+        },
+        "runtime": {
+          "runtimes/ubuntu.14.04-x64/lib/netstandard1.0/System.Private.CoreLib.dll": {},
+          "runtimes/ubuntu.14.04-x64/lib/netstandard1.0/mscorlib.dll": {}
+        },
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/System.Globalization.Native.so": {},
+          "runtimes/ubuntu.14.04-x64/native/System.Private.CoreLib.ni.dll": {},
+          "runtimes/ubuntu.14.04-x64/native/libcoreclr.so": {},
+          "runtimes/ubuntu.14.04-x64/native/libcoreclrtraceptprovider.so": {},
+          "runtimes/ubuntu.14.04-x64/native/libdbgshim.so": {},
+          "runtimes/ubuntu.14.04-x64/native/libmscordaccore.so": {},
+          "runtimes/ubuntu.14.04-x64/native/libmscordbi.so": {},
+          "runtimes/ubuntu.14.04-x64/native/libsos.so": {},
+          "runtimes/ubuntu.14.04-x64/native/libsosplugin.so": {},
+          "runtimes/ubuntu.14.04-x64/native/mscorlib.ni.dll": {},
+          "runtimes/ubuntu.14.04-x64/native/sosdocsunix.txt": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.runtime.native.System/1.0.1": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/System.Native.a": {},
+          "runtimes/ubuntu.14.04-x64/native/System.Native.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression/1.0.1": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/System.IO.Compression.Native.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http/1.0.1": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/System.Net.Http.Native.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security/1.0.1": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/System.Net.Security.Native.so": {}
+        }
+      },
+      "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography/1.0.1": {
+        "type": "package",
+        "native": {
+          "runtimes/ubuntu.14.04-x64/native/System.Security.Cryptography.Native.so": {}
+        }
+      },
+      "runtime.unix.Microsoft.Win32.Primitives/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0",
+          "System.Runtime.InteropServices": "4.1.0",
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
+        }
+      },
+      "runtime.unix.System.Console/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.Handles": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Text.Encoding": "4.0.11",
+          "System.Text.Encoding.Extensions": "4.0.11",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11",
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Console.dll": {}
+        }
+      },
+      "runtime.unix.System.Diagnostics.Debug/4.0.11": {
+        "type": "package",
+        "dependencies": {
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Diagnostics.Debug.dll": {}
+        }
+      },
+      "runtime.unix.System.IO.FileSystem/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.Handles": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Text.Encoding": "4.0.11",
+          "System.Text.Encoding.Extensions": "4.0.11",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11",
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.IO.FileSystem.dll": {}
+        }
+      },
+      "runtime.unix.System.Net.Primitives/4.0.11": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.Primitives": "4.0.1",
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Tracing": "4.1.0",
+          "System.Globalization": "4.0.11",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.Handles": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Threading": "4.0.11",
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.Primitives.dll": {}
+        }
+      },
+      "runtime.unix.System.Net.Sockets/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Diagnostics.Tracing": "4.1.0",
+          "System.Globalization": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem": "4.0.1",
+          "System.Net.NameResolution": "4.0.0",
+          "System.Net.Primitives": "4.0.11",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.Handles": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11",
+          "System.Threading.ThreadPool": "4.0.10",
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.Sockets.dll": {}
+        }
+      },
+      "runtime.unix.System.Private.Uri/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "runtime.native.System": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.0/System.Private.Uri.dll": {}
+        }
+      },
+      "runtime.unix.System.Runtime.Extensions/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Private.Uri": "4.0.1",
+          "runtime.native.System": "4.0.0",
+          "runtime.native.System.Security.Cryptography": "4.0.0"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.5/System.Runtime.Extensions.dll": {}
         }
       },
       "sharpcompress/0.12.4": {
@@ -4949,7 +5372,10 @@
         }
       },
       "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
-        "type": "package"
+        "type": "package",
+        "native": {
+          "runtimes/linux-x64/native/libe_sqlite3.so": {}
+        }
       },
       "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
         "type": "package"
@@ -5003,7 +5429,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Collections": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Collections.dll": {}
@@ -5168,7 +5595,8 @@
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.IO": "4.1.0",
           "System.Runtime": "4.1.0",
-          "System.Text.Encoding": "4.0.11"
+          "System.Text.Encoding": "4.0.11",
+          "runtime.unix.System.Console": "4.0.0"
         },
         "compile": {
           "ref/netstandard1.3/System.Console.dll": {}
@@ -5191,7 +5619,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.unix.System.Diagnostics.Debug": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Diagnostics.Debug.dll": {}
@@ -5231,6 +5660,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Diagnostics.FileVersionInfo.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Diagnostics.FileVersionInfo.dll": {}
         }
       },
       "System.Diagnostics.Process/4.1.0": {
@@ -5260,6 +5692,9 @@
         },
         "compile": {
           "ref/netstandard1.4/System.Diagnostics.Process.dll": {}
+        },
+        "runtime": {
+          "runtimes/linux/lib/netstandard1.4/System.Diagnostics.Process.dll": {}
         }
       },
       "System.Diagnostics.StackTrace/4.0.1": {
@@ -5284,7 +5719,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Diagnostics.Tools": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.0/System.Diagnostics.Tools.dll": {}
@@ -5298,7 +5734,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Diagnostics.Tracing": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.5/System.Diagnostics.Tracing.dll": {}
@@ -5335,7 +5772,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Globalization": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Globalization.dll": {}
@@ -5350,7 +5788,8 @@
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Globalization": "4.0.11",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Globalization.Calendars": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.3/System.Globalization.Calendars.dll": {}
@@ -5368,6 +5807,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Globalization.Extensions.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Globalization.Extensions.dll": {}
         }
       },
       "System.IO/4.1.0": {
@@ -5377,7 +5819,8 @@
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Runtime": "4.1.0",
           "System.Text.Encoding": "4.0.11",
-          "System.Threading.Tasks": "4.0.11"
+          "System.Threading.Tasks": "4.0.11",
+          "runtime.any.System.IO": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.5/System.IO.dll": {}
@@ -5406,6 +5849,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.IO.Compression.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.IO.Compression.dll": {}
         }
       },
       "System.IO.Compression.ZipFile/4.0.1": {
@@ -5438,7 +5884,8 @@
           "System.Runtime": "4.1.0",
           "System.Runtime.Handles": "4.0.1",
           "System.Text.Encoding": "4.0.11",
-          "System.Threading.Tasks": "4.0.11"
+          "System.Threading.Tasks": "4.0.11",
+          "runtime.unix.System.IO.FileSystem": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.3/System.IO.FileSystem.dll": {}
@@ -5458,6 +5905,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.IO.FileSystem.AccessControl.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.IO.FileSystem.AccessControl.dll": {}
         }
       },
       "System.IO.FileSystem.DriveInfo/4.0.0": {
@@ -5478,6 +5928,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.IO.FileSystem.DriveInfo.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.IO.FileSystem.DriveInfo.dll": {}
         }
       },
       "System.IO.FileSystem.Primitives/4.0.1": {
@@ -5514,6 +5967,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.IO.FileSystem.Watcher.dll": {}
+        },
+        "runtime": {
+          "runtimes/linux/lib/netstandard1.3/System.IO.FileSystem.Watcher.dll": {}
         }
       },
       "System.IO.MemoryMappedFiles/4.0.0": {
@@ -5535,6 +5991,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.IO.MemoryMappedFiles.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.IO.MemoryMappedFiles.dll": {}
         }
       },
       "System.IO.UnmanagedMemoryStream/4.0.1": {
@@ -5552,7 +6011,7 @@
           "ref/netstandard1.3/System.IO.UnmanagedMemoryStream.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.IO.UnmanagedMemoryStream.dll": {}
         }
       },
       "System.Linq/4.1.0": {
@@ -5617,7 +6076,7 @@
           "ref/netstandard1.1/System.Linq.Parallel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Linq.Parallel.dll": {}
         }
       },
       "System.Linq.Queryable/4.0.1": {
@@ -5671,6 +6130,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Http.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.6/System.Net.Http.dll": {}
         }
       },
       "System.Net.NameResolution/4.0.0": {
@@ -5693,6 +6155,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.NameResolution.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.NameResolution.dll": {}
         }
       },
       "System.Net.Ping/4.0.0": {
@@ -5722,6 +6187,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Ping.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.Ping.dll": {}
         }
       },
       "System.Net.Primitives/4.0.11": {
@@ -5730,7 +6198,8 @@
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Runtime": "4.1.0",
-          "System.Runtime.Handles": "4.0.1"
+          "System.Runtime.Handles": "4.0.1",
+          "runtime.unix.System.Net.Primitives": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Primitives.dll": {}
@@ -5760,7 +6229,7 @@
           "ref/netstandard1.3/System.Net.Requests.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "runtimes/unix/lib/netstandard1.3/System.Net.Requests.dll": {}
         }
       },
       "System.Net.Security/4.0.0": {
@@ -5797,6 +6266,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Security.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.6/System.Net.Security.dll": {}
         }
       },
       "System.Net.Sockets/4.1.0": {
@@ -5807,7 +6279,8 @@
           "System.IO": "4.1.0",
           "System.Net.Primitives": "4.0.11",
           "System.Runtime": "4.1.0",
-          "System.Threading.Tasks": "4.0.11"
+          "System.Threading.Tasks": "4.0.11",
+          "runtime.unix.System.Net.Sockets": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Sockets.dll": {}
@@ -5907,6 +6380,17 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Private.DataContractSerialization.dll": {}
+        }
+      },
+      "System.Private.Uri/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.unix.System.Private.Uri": "4.0.1"
+        },
+        "compile": {
+          "ref/netstandard/_._": {}
         }
       },
       "System.Reactive/3.0.0": {
@@ -6020,7 +6504,8 @@
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.IO": "4.1.0",
           "System.Reflection.Primitives": "4.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Reflection": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.5/System.Reflection.dll": {}
@@ -6047,7 +6532,7 @@
           "ref/netstandard1.3/System.Reflection.DispatchProxy.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Reflection.DispatchProxy.dll": {}
         }
       },
       "System.Reflection.Emit/4.0.1": {
@@ -6101,7 +6586,8 @@
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Reflection": "4.1.0",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Reflection.Extensions": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.0/System.Reflection.Extensions.dll": {}
@@ -6141,7 +6627,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Reflection.Primitives": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.0/System.Reflection.Primitives.dll": {}
@@ -6176,7 +6663,7 @@
           "lib/netstandard1.0/System.Resources.Reader.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.0/_._": {}
+          "lib/netstandard1.0/System.Resources.Reader.dll": {}
         }
       },
       "System.Resources.ResourceManager/4.0.1": {
@@ -6186,7 +6673,8 @@
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Globalization": "4.0.11",
           "System.Reflection": "4.1.0",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Resources.ResourceManager": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.0/System.Resources.ResourceManager.dll": {}
@@ -6199,7 +6687,8 @@
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
-          "Microsoft.NETCore.Targets": "1.0.1"
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.any.System.Runtime": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.5/System.Runtime.dll": {}
@@ -6213,7 +6702,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.unix.System.Runtime.Extensions": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.5/System.Runtime.Extensions.dll": {}
@@ -6227,7 +6717,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Runtime.Handles": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.3/System.Runtime.Handles.dll": {}
@@ -6241,7 +6732,8 @@
           "System.Reflection": "4.1.0",
           "System.Reflection.Primitives": "4.0.1",
           "System.Runtime": "4.1.0",
-          "System.Runtime.Handles": "4.0.1"
+          "System.Runtime.Handles": "4.0.1",
+          "runtime.any.System.Runtime.InteropServices": "4.1.0"
         },
         "compile": {
           "ref/netstandard1.5/System.Runtime.InteropServices.dll": {}
@@ -6260,6 +6752,9 @@
         },
         "compile": {
           "ref/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll": {}
         }
       },
       "System.Runtime.InteropServices.WindowsRuntime/4.0.1": {
@@ -6366,6 +6861,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Security.AccessControl.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Security.AccessControl.dll": {}
         }
       },
       "System.Security.Claims/4.0.1": {
@@ -6405,6 +6903,9 @@
         },
         "compile": {
           "ref/netstandard1.6/System.Security.Cryptography.Algorithms.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.6/System.Security.Cryptography.Algorithms.dll": {}
         }
       },
       "System.Security.Cryptography.Cng/4.2.0": {
@@ -6424,6 +6925,9 @@
         },
         "compile": {
           "ref/netstandard1.6/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.6/System.Security.Cryptography.Cng.dll": {}
         }
       },
       "System.Security.Cryptography.Csp/4.0.0": {
@@ -6445,6 +6949,9 @@
         },
         "compile": {
           "ref/netstandard1.3/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Security.Cryptography.Csp.dll": {}
         }
       },
       "System.Security.Cryptography.Encoding/4.0.0": {
@@ -6465,6 +6972,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Security.Cryptography.Encoding.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Security.Cryptography.Encoding.dll": {}
         }
       },
       "System.Security.Cryptography.OpenSsl/4.0.0": {
@@ -6488,7 +6998,7 @@
           "ref/netstandard1.6/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll": {}
+          "runtimes/unix/lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll": {}
         }
       },
       "System.Security.Cryptography.Primitives/4.0.0": {
@@ -6520,6 +7030,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Security.Cryptography.ProtectedData.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Security.Cryptography.ProtectedData.dll": {}
         }
       },
       "System.Security.Cryptography.X509Certificates/4.1.0": {
@@ -6553,6 +7066,9 @@
         },
         "compile": {
           "ref/netstandard1.4/System.Security.Cryptography.X509Certificates.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.6/System.Security.Cryptography.X509Certificates.dll": {}
         }
       },
       "System.Security.Principal/4.0.1": {
@@ -6587,6 +7103,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Security.Principal.Windows.dll": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Security.Principal.Windows.dll": {}
         }
       },
       "System.Text.Encoding/4.0.11": {
@@ -6594,7 +7113,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Text.Encoding": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Text.Encoding.dll": {}
@@ -6621,6 +7141,9 @@
         },
         "compile": {
           "ref/netstandard1.3/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Text.Encoding.CodePages.dll": {}
         }
       },
       "System.Text.Encoding.Extensions/4.0.11": {
@@ -6629,7 +7152,8 @@
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Runtime": "4.1.0",
-          "System.Text.Encoding": "4.0.11"
+          "System.Text.Encoding": "4.0.11",
+          "runtime.any.System.Text.Encoding.Extensions": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Text.Encoding.Extensions.dll": {}
@@ -6696,6 +7220,9 @@
         },
         "compile": {
           "ref/netstandard1.3/_._": {}
+        },
+        "runtime": {
+          "runtimes/unix/lib/netstandard1.3/System.Threading.Overlapped.dll": {}
         }
       },
       "System.Threading.Tasks/4.0.11": {
@@ -6703,7 +7230,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Threading.Tasks": "4.0.11"
         },
         "compile": {
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
@@ -6731,7 +7259,7 @@
           "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.0.0": {
@@ -6764,7 +7292,7 @@
           "ref/netstandard1.1/System.Threading.Tasks.Parallel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Threading.Tasks.Parallel.dll": {}
         }
       },
       "System.Threading.Thread/4.0.0": {
@@ -6797,7 +7325,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Threading.Timer": "4.0.1"
         },
         "compile": {
           "ref/netstandard1.2/System.Threading.Timer.dll": {}
@@ -6918,7 +7447,7 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Xml.XPath.dll": {}
         }
       },
       "System.Xml.XPath.XDocument/4.0.1": {
@@ -6938,10 +7467,10 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.7": {
+      "withSIX.Api.Models/2.0.8": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "5.1.1",
@@ -6992,7 +7521,7 @@
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0"
         }
       },
@@ -7003,7 +7532,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Infra": "1.0.0"
@@ -7030,7 +7559,7 @@
           "System.Security.Cryptography.Algorithms": "4.2.0",
           "System.Threading": "4.0.11",
           "System.Threading.Thread": "4.0.0",
-          "withSIX.Api.Models": "2.0.7"
+          "withSIX.Api.Models": "2.0.8"
         }
       },
       "withSIX.Core.Applications/1.0.0": {
@@ -7047,7 +7576,7 @@
           "System.Reactive": "3.0.0",
           "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Runtime.Serialization.Xml": "4.1.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -7064,7 +7593,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -7080,7 +7609,7 @@
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
           "sharpcompress": "0.12.4",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -7105,7 +7634,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -7125,7 +7654,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
@@ -7139,7 +7668,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -7161,7 +7690,7 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -7179,7 +7708,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -7194,7 +7723,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Mini.Core": "1.0.0"
         }
       },
@@ -7206,7 +7735,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -7221,7 +7750,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -7235,7 +7764,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -7250,7 +7779,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Xml.XmlDocument": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -7265,7 +7794,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -7280,7 +7809,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -7294,7 +7823,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -7310,7 +7839,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -7355,7 +7884,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Runtime": "4.1.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Core.Infra": "1.0.0",
@@ -7393,7 +7922,7 @@
           "System.IO.FileSystem.AccessControl": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Xml.XmlSerializer": "4.0.11",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0"
         }
       }
@@ -7756,7 +8285,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.CSharp/1.3.0": {
@@ -7768,7 +8297,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.CSharp.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.VisualBasic/1.3.0": {
@@ -7780,7 +8309,7 @@
           "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CodeAnalysis.VisualBasic.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.1": {
@@ -8226,7 +8755,7 @@
           "ref/netstandard1.1/Microsoft.VisualBasic.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.VisualBasic.dll": {}
         }
       },
       "Microsoft.Win32.Primitives/4.0.1": {
@@ -8720,7 +9249,7 @@
       "runtime.win7-x86.Microsoft.NETCore.DotNetHost/1.0.1": {
         "type": "package",
         "native": {
-          "runtimes/win7-x86/native/_._": {}
+          "runtimes/win7-x86/native/dotnet.exe": {}
         }
       },
       "runtime.win7-x86.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
@@ -8729,7 +9258,7 @@
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
         },
         "native": {
-          "runtimes/win7-x86/native/_._": {}
+          "runtimes/win7-x86/native/hostpolicy.dll": {}
         }
       },
       "runtime.win7-x86.Microsoft.NETCore.DotNetHostResolver/1.0.1": {
@@ -8738,7 +9267,7 @@
           "Microsoft.NETCore.DotNetHost": "1.0.1"
         },
         "native": {
-          "runtimes/win7-x86/native/_._": {}
+          "runtimes/win7-x86/native/hostfxr.dll": {}
         }
       },
       "runtime.win7-x86.Microsoft.NETCore.Jit/1.0.4": {
@@ -9614,7 +10143,7 @@
           "ref/netstandard1.3/System.IO.MemoryMappedFiles.dll": {}
         },
         "runtime": {
-          "runtimes/win/lib/netstandard1.3/_._": {}
+          "runtimes/win/lib/netstandard1.3/System.IO.MemoryMappedFiles.dll": {}
         }
       },
       "System.IO.UnmanagedMemoryStream/4.0.1": {
@@ -9632,7 +10161,7 @@
           "ref/netstandard1.3/System.IO.UnmanagedMemoryStream.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.IO.UnmanagedMemoryStream.dll": {}
         }
       },
       "System.Linq/4.1.0": {
@@ -9697,7 +10226,7 @@
           "ref/netstandard1.1/System.Linq.Parallel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Linq.Parallel.dll": {}
         }
       },
       "System.Linq.Queryable/4.0.1": {
@@ -10153,7 +10682,7 @@
           "ref/netstandard1.3/System.Reflection.DispatchProxy.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Reflection.DispatchProxy.dll": {}
         }
       },
       "System.Reflection.Emit/4.0.1": {
@@ -10284,7 +10813,7 @@
           "lib/netstandard1.0/System.Resources.Reader.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.0/_._": {}
+          "lib/netstandard1.0/System.Resources.Reader.dll": {}
         }
       },
       "System.Resources.ResourceManager/4.0.1": {
@@ -10764,7 +11293,7 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "runtimes/win/lib/netstandard1.3/_._": {}
+          "runtimes/win/lib/netstandard1.3/System.Text.Encoding.CodePages.dll": {}
         }
       },
       "System.Text.Encoding.Extensions/4.0.11": {
@@ -10880,7 +11409,7 @@
           "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.0.0": {
@@ -10913,7 +11442,7 @@
           "ref/netstandard1.1/System.Threading.Tasks.Parallel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Threading.Tasks.Parallel.dll": {}
         }
       },
       "System.Threading.Thread/4.0.0": {
@@ -11068,7 +11597,7 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Xml.XPath.dll": {}
         }
       },
       "System.Xml.XPath.XDocument/4.0.1": {
@@ -11088,10 +11617,10 @@
           "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.7": {
+      "withSIX.Api.Models/2.0.8": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "5.1.1",
@@ -11142,7 +11671,7 @@
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0"
         }
       },
@@ -11153,7 +11682,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Infra": "1.0.0"
@@ -11180,7 +11709,7 @@
           "System.Security.Cryptography.Algorithms": "4.2.0",
           "System.Threading": "4.0.11",
           "System.Threading.Thread": "4.0.0",
-          "withSIX.Api.Models": "2.0.7"
+          "withSIX.Api.Models": "2.0.8"
         }
       },
       "withSIX.Core.Applications/1.0.0": {
@@ -11197,7 +11726,7 @@
           "System.Reactive": "3.0.0",
           "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Runtime.Serialization.Xml": "4.1.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -11214,7 +11743,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -11230,7 +11759,7 @@
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
           "sharpcompress": "0.12.4",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -11255,7 +11784,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -11275,7 +11804,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
@@ -11289,7 +11818,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -11311,7 +11840,7 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -11329,7 +11858,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -11344,7 +11873,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Mini.Core": "1.0.0"
         }
       },
@@ -11356,7 +11885,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -11371,7 +11900,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -11385,7 +11914,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -11400,7 +11929,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Xml.XmlDocument": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -11415,7 +11944,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
@@ -11430,7 +11959,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -11444,7 +11973,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0"
@@ -11460,7 +11989,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -11505,7 +12034,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Runtime": "4.1.0",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Core.Infra": "1.0.0",
@@ -11543,7 +12072,7 @@
           "System.IO.FileSystem.AccessControl": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Xml.XmlSerializer": "4.0.11",
-          "withSIX.Api.Models": "2.0.7",
+          "withSIX.Api.Models": "2.0.8",
           "withSIX.Core": "1.0.0"
         }
       }
@@ -12913,6 +13442,248 @@
         "lib/netstandard1.0/_._",
         "runtime.native.System.Security.Cryptography.4.0.0.nupkg.sha512",
         "runtime.native.System.Security.Cryptography.nuspec"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost/1.0.1": {
+      "sha512": "PpDJnijuam21LyqRdhDseKZb9Wq6JykPM++wM+rEOqj/HypdmDrqsvivk0SfJH6Fx341kO9L8LZUk+cUfrk4LA==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/dotnet",
+        "version.txt"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "sha512": "M0t6qFStlbTlbEMZpz3SXLqy3g0vTqWJWoDTbYjm4ePUJ7BPqVZCZyx4eUzggSMc82XpJ8gzF9M1aynIH9EuvQ==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/libhostpolicy.so",
+        "version.txt"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver/1.0.1": {
+      "sha512": "SbeMhL+YxDdJyQ4MkO1aJbYM1ETLGWBmtxUdC1gxUjkZvdlq2HM4wTpFpixpZ9fgQdJ0nldDPn6e+a9ARAgkjQ==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/libhostfxr.so",
+        "version.txt"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.4": {
+      "sha512": "j3T7+rTz3hqUIHpFQGLWR/keWd++P0gSorov5MT30VuozKsBqkyivTYcMT0C1jplyDjjChQcPYKFHCW1eVMY7w==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.4",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit.1.0.4.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/libclrjit.so"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "sha512": "Qlpf467dTFgrc/eKel5XeCa9LMNSOslSnUOmxBQqDTNPOC2FBs6qsx7aQTFeLT0a/LLxJD02STisWHEI5HiFWw==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard1.0/_._",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.4.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR.nuspec",
+        "runtimes/ubuntu.14.04-x64/lib/netstandard1.0/System.Private.CoreLib.dll",
+        "runtimes/ubuntu.14.04-x64/lib/netstandard1.0/mscorlib.dll",
+        "runtimes/ubuntu.14.04-x64/native/System.Globalization.Native.so",
+        "runtimes/ubuntu.14.04-x64/native/System.Private.CoreLib.ni.dll",
+        "runtimes/ubuntu.14.04-x64/native/libcoreclr.so",
+        "runtimes/ubuntu.14.04-x64/native/libcoreclrtraceptprovider.so",
+        "runtimes/ubuntu.14.04-x64/native/libdbgshim.so",
+        "runtimes/ubuntu.14.04-x64/native/libmscordaccore.so",
+        "runtimes/ubuntu.14.04-x64/native/libmscordbi.so",
+        "runtimes/ubuntu.14.04-x64/native/libsos.so",
+        "runtimes/ubuntu.14.04-x64/native/libsosplugin.so",
+        "runtimes/ubuntu.14.04-x64/native/mscorlib.ni.dll",
+        "runtimes/ubuntu.14.04-x64/native/sosdocsunix.txt",
+        "tools/crossgen"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.runtime.native.System/1.0.1": {
+      "sha512": "Z7wS5B/4iAznHIyw+IQ7vVZaHfAxw2Cb94pH7q6YeDGtVB2/ZJd0SD82vyJTyN8QOyotJKw2VNwC6jbskVke5Q==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.runtime.native.System/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/System.Native.a",
+        "runtimes/ubuntu.14.04-x64/native/System.Native.so"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression/1.0.1": {
+      "sha512": "vOIO+t4REjRgzrbz0tYxzs+k0Dh7hOdTK3hoJ5oVxUH9mXXd38TkVRonGfOkveeLWZ+Et/VMiV6SFAgbVpN0/Q==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.IO.Compression.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/System.IO.Compression.Native.so"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http/1.0.1": {
+      "sha512": "UcWxsZHW/eoSsXv0Cyo9RrIWrLgZ423D6NkMZ6x+QMXZMrYSiFbXnPeg7DCZ59PX1tJi3WNtfdWiF8t0P6XjJw==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Http.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/System.Net.Http.Native.so"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security/1.0.1": {
+      "sha512": "dBvVGC04/HrqUnVQJE4KGxdzt6py3Zw9CrMcL/+vlGewUCE8bUtCrE68YBsOP198jNSK94hhKC0xVt1vDJqjkg==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.Net.Security.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/System.Net.Security.Native.so"
+      ]
+    },
+    "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography/1.0.1": {
+      "sha512": "4zHsNaTtFixPNi6YHFYuGIOWSzYt77HoehRe1N+sByrF6bxIc/Ad9rdA6NYOG7JbMgzZ7fb04xJWQ2wswhCIDg==",
+      "type": "package",
+      "path": "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography/1.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.nuspec",
+        "runtimes/ubuntu.14.04-x64/native/System.Security.Cryptography.Native.so"
+      ]
+    },
+    "runtime.unix.Microsoft.Win32.Primitives/4.0.1": {
+      "sha512": "dcdSZXTbbjgER84+V+WCUt2JLsN8VwpeGljqD+4qIAgf1sUdz6EvknOa5HTv7iuo4EpRHQo8uqfRrLr9G8TyLA==",
+      "type": "package",
+      "path": "runtime.unix.Microsoft.Win32.Primitives/4.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.Microsoft.Win32.Primitives.4.0.1.nupkg.sha512",
+        "runtime.unix.Microsoft.Win32.Primitives.nuspec",
+        "runtimes/unix/lib/netstandard1.3/Microsoft.Win32.Primitives.dll"
+      ]
+    },
+    "runtime.unix.System.Console/4.0.0": {
+      "sha512": "OV2TOJkDPXRbp1hhmKV0/U6ZtDQY2SL/VJMs89R9PlH+ZyrbMRF8coT5ZC6m0LsmCDc25AlHyjegIIg+lWVwTw==",
+      "type": "package",
+      "path": "runtime.unix.System.Console/4.0.0",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.Console.4.0.0.nupkg.sha512",
+        "runtime.unix.System.Console.nuspec",
+        "runtimes/unix/lib/netstandard1.3/System.Console.dll"
+      ]
+    },
+    "runtime.unix.System.Diagnostics.Debug/4.0.11": {
+      "sha512": "dGIYWbyqSlMlZrsqtU/TdvVNp8lieqowdGBVMi6nFTIiCqrL+RbdiJORguexXNjHtFZR30eE6zPWGxuL60NYFw==",
+      "type": "package",
+      "path": "runtime.unix.System.Diagnostics.Debug/4.0.11",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.Diagnostics.Debug.4.0.11.nupkg.sha512",
+        "runtime.unix.System.Diagnostics.Debug.nuspec",
+        "runtimes/unix/lib/netstandard1.3/System.Diagnostics.Debug.dll"
+      ]
+    },
+    "runtime.unix.System.IO.FileSystem/4.0.1": {
+      "sha512": "7dft+dHYKOXOAnXExVE6OGmifNnSDCrJymApD0l6t2bZUdpai66La9dNqT2eqPhiQXVR3eV61gzkfaIEsuK0pA==",
+      "type": "package",
+      "path": "runtime.unix.System.IO.FileSystem/4.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.IO.FileSystem.4.0.1.nupkg.sha512",
+        "runtime.unix.System.IO.FileSystem.nuspec",
+        "runtimes/unix/lib/netstandard1.3/System.IO.FileSystem.dll"
+      ]
+    },
+    "runtime.unix.System.Net.Primitives/4.0.11": {
+      "sha512": "lGTv6mxF1cOKzTKMww/c2qubIgjZbD5hzAjCgLnwjCaMpB+MPsm6OsjDRh3kPlQMNdUdlQOQ7pTRrze0DhlASQ==",
+      "type": "package",
+      "path": "runtime.unix.System.Net.Primitives/4.0.11",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.Net.Primitives.4.0.11.nupkg.sha512",
+        "runtime.unix.System.Net.Primitives.nuspec",
+        "runtimes/unix/lib/netstandard1.3/System.Net.Primitives.dll"
+      ]
+    },
+    "runtime.unix.System.Net.Sockets/4.1.0": {
+      "sha512": "bwBMwAyzHZubcjmSGKEv5FQGZw3AT4ydLpc+q5K7l3vOopV0xBqUp7nBg8QMh+ZT4qzog14LBztz+auluh4KLg==",
+      "type": "package",
+      "path": "runtime.unix.System.Net.Sockets/4.1.0",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.Net.Sockets.4.1.0.nupkg.sha512",
+        "runtime.unix.System.Net.Sockets.nuspec",
+        "runtimes/unix/lib/netstandard1.3/System.Net.Sockets.dll"
+      ]
+    },
+    "runtime.unix.System.Private.Uri/4.0.1": {
+      "sha512": "m+7TLWWw4cA44vGxcKpMdV2Lgx6HWOe5rUb5RIADE04S6fJNEwXO6u+KY7oWFJQYn5644NyhSxB9oV28fF94NQ==",
+      "type": "package",
+      "path": "runtime.unix.System.Private.Uri/4.0.1",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.Private.Uri.4.0.1.nupkg.sha512",
+        "runtime.unix.System.Private.Uri.nuspec",
+        "runtimes/unix/lib/netstandard1.0/System.Private.Uri.dll"
+      ]
+    },
+    "runtime.unix.System.Runtime.Extensions/4.1.0": {
+      "sha512": "ouVt2t9k22LcC9HeNX4mu3Ebvp1h+IPKaYiU3tDtOW9YcMR62XQyHsPq5BjBjMHuxjBRL5Hz+BwhSdrY6HjacA==",
+      "type": "package",
+      "path": "runtime.unix.System.Runtime.Extensions/4.1.0",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "ref/netstandard/_._",
+        "runtime.unix.System.Runtime.Extensions.4.1.0.nupkg.sha512",
+        "runtime.unix.System.Runtime.Extensions.nuspec",
+        "runtimes/unix/lib/netstandard1.5/System.Runtime.Extensions.dll"
       ]
     },
     "runtime.win.Microsoft.Win32.Primitives/4.0.1": {
@@ -18414,13 +19185,13 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "withSIX.Api.Models/2.0.7": {
-      "sha512": "LfuARbvKAmD0m5hHvROuqlIIbE0zqFhq8I1TfjXKCcFQL0lFbfOPpA5qGBLmk/R2N6zO/0cZAR4iWIYCi0NG0Q==",
+    "withSIX.Api.Models/2.0.8": {
+      "sha512": "eKmlt+Beyh7bHwBnT6uyE29s23WNemzP5z9g3743/EcB101VE8REMlUWFx0W46549UFm0Gs5pUIgGzmnD0EnAA==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.7",
+      "path": "withSIX.Api.Models/2.0.8",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.7.nupkg.sha512",
+        "withSIX.Api.Models.2.0.8.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     },
