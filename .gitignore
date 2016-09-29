@@ -6,6 +6,8 @@
 *.user
 *.sln.docstates
 
+*.nupkg
+
 /build/shared.7z
 /build/tools.7z
 /build/shared/
