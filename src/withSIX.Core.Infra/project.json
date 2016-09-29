@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-pre",
+  
   "supports": {},
   "dependencies": {
     "AutoMapper": "5.1.1",
@@ -9,7 +9,7 @@
     "System.Diagnostics.Process": "4.1.0",
     "System.Net.Ping": "4.0.0",
     "System.Reactive": "3.0.0",
-    "GeoIP": "1.0.0-pre",
+    "GeoIP": "1.0.0-*",
     "withSIX.Api.Models": "2.0.7-pre",
     "withSIX.Core": "1.0.0-*",
     "withSIX.Core.Applications": "1.0.0-*",

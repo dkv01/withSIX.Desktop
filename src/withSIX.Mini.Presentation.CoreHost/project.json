@@ -1,10 +1,7 @@
 {
-  "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true
   },
-
-  //"runtimes": { "win7-x86": {} , "ubuntu.14.04-x64":  {} },
 
   "dependencies": {
     "ManyConsole.PCL": "1.0.0-pre",
@@ -13,6 +10,7 @@
       "type": "platform",
       "version": "1.0.1"
     },
+
     "NDepend.Path.PCL": "1.0.2-pre",
     "System.Runtime.Loader": "4.0.0",
     "System.Diagnostics.Contracts": "4.0.1",

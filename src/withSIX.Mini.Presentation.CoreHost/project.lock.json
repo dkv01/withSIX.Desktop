@@ -3420,7 +3420,7 @@
           "lib/netstandard1.3/withSIX.Api.Models.dll": {}
         }
       },
-      "GameServerQuery/1.0.0-pre": {
+      "GameServerQuery/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3431,7 +3431,7 @@
           "System.Net.NameResolution": "4.0.0"
         }
       },
-      "GeoIP/1.0.0-pre": {
+      "GeoIP/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3441,7 +3441,7 @@
           "System.Diagnostics.Contracts": "4.0.1"
         }
       },
-      "withSIX.ContentEngine.Core/1.0.0-pre": {
+      "withSIX.ContentEngine.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3455,7 +3455,7 @@
           "withSIX.Core": "1.0.0"
         }
       },
-      "withSIX.ContentEngine.Infra/1.0.0-pre": {
+      "withSIX.ContentEngine.Infra/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3468,7 +3468,7 @@
           "withSIX.Core.Infra": "1.0.0"
         }
       },
-      "withSIX.Core/1.0.0-pre": {
+      "withSIX.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3491,7 +3491,7 @@
           "withSIX.Api.Models": "2.0.7-pre"
         }
       },
-      "withSIX.Core.Applications/1.0.0-pre": {
+      "withSIX.Core.Applications/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3509,7 +3509,7 @@
           "withSIX.Sync.Core": "1.0.0"
         }
       },
-      "withSIX.Core.Infra/1.0.0-pre": {
+      "withSIX.Core.Infra/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3527,7 +3527,7 @@
           "withSIX.Sync.Core": "1.0.0"
         }
       },
-      "withSIX.Core.Presentation/1.0.0-pre": {
+      "withSIX.Core.Presentation/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3553,7 +3553,7 @@
           "withSIX.Core.Applications": "1.0.0"
         }
       },
-      "withSIX.Mini.Applications/1.0.0-pre": {
+      "withSIX.Mini.Applications/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3571,7 +3571,7 @@
           "withSIX.Sync.Core": "1.0.0"
         }
       },
-      "withSIX.Mini.Core/1.0.0-pre": {
+      "withSIX.Mini.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3589,7 +3589,7 @@
           "withSIX.Sync.Core": "1.0.0"
         }
       },
-      "withSIX.Mini.Infra.Data/1.0.0-pre": {
+      "withSIX.Mini.Infra.Data/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3757,7 +3757,7 @@
           "withSIX.Mini.Core": "1.0.0"
         }
       },
-      "withSIX.Mini.Presentation.Core/1.0.0-pre": {
+      "withSIX.Mini.Presentation.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3781,7 +3781,7 @@
           "withSIX.Sync.Core": "1.0.0"
         }
       },
-      "withSIX.Mini.Presentation.CoreCore/1.0.0-pre": {
+      "withSIX.Mini.Presentation.CoreCore/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
@@ -3800,7 +3800,7 @@
           "withSIX.Mini.Presentation.Owin.Core": "1.0.0"
         }
       },
-      "withSIX.Mini.Presentation.Owin.Core/1.0.0-pre": {
+      "withSIX.Mini.Presentation.Owin.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3822,7 +3822,7 @@
           "withSIX.Mini.Presentation.Core": "1.0.0"
         }
       },
-      "withSIX.Steam.Core/1.0.0-pre": {
+      "withSIX.Steam.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -3836,7 +3836,7 @@
           "withSIX.Core": "1.0.0"
         }
       },
-      "withSIX.Sync.Core/1.0.0-pre": {
+      "withSIX.Sync.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
@@ -9954,42 +9954,42 @@
         "withSIX.Api.Models.nuspec"
       ]
     },
-    "GameServerQuery/1.0.0-pre": {
+    "GameServerQuery/1.0.0": {
       "type": "project",
       "path": "../GameServerQuery/project.json",
       "msbuildProject": "../GameServerQuery/GameServerQuery.csproj"
     },
-    "GeoIP/1.0.0-pre": {
+    "GeoIP/1.0.0": {
       "type": "project",
       "path": "../GeoIP/project.json",
       "msbuildProject": "../GeoIP/GeoIP.csproj"
     },
-    "withSIX.ContentEngine.Core/1.0.0-pre": {
+    "withSIX.ContentEngine.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.ContentEngine.Core/project.json",
       "msbuildProject": "../withSIX.ContentEngine.Core/withSIX.ContentEngine.Core.csproj"
     },
-    "withSIX.ContentEngine.Infra/1.0.0-pre": {
+    "withSIX.ContentEngine.Infra/1.0.0": {
       "type": "project",
       "path": "../withSIX.ContentEngine.Infra/project.json",
       "msbuildProject": "../withSIX.ContentEngine.Infra/withSIX.ContentEngine.Infra.csproj"
     },
-    "withSIX.Core/1.0.0-pre": {
+    "withSIX.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.Core/project.json",
       "msbuildProject": "../withSIX.Core/withSIX.Core.csproj"
     },
-    "withSIX.Core.Applications/1.0.0-pre": {
+    "withSIX.Core.Applications/1.0.0": {
       "type": "project",
       "path": "../withSIX.Core.Applications/project.json",
       "msbuildProject": "../withSIX.Core.Applications/withSIX.Core.Applications.csproj"
     },
-    "withSIX.Core.Infra/1.0.0-pre": {
+    "withSIX.Core.Infra/1.0.0": {
       "type": "project",
       "path": "../withSIX.Core.Infra/project.json",
       "msbuildProject": "../withSIX.Core.Infra/withSIX.Core.Infra.csproj"
     },
-    "withSIX.Core.Presentation/1.0.0-pre": {
+    "withSIX.Core.Presentation/1.0.0": {
       "type": "project",
       "path": "../withSIX.Core.Presentation/project.json",
       "msbuildProject": "../withSIX.Core.Presentation/withSIX.Core.Presentation.csproj"
@@ -9999,17 +9999,17 @@
       "path": "../withSIX.Core.Presentation.Resources/project.json",
       "msbuildProject": "../withSIX.Core.Presentation.Resources/withSIX.Core.Presentation.Resources.csproj"
     },
-    "withSIX.Mini.Applications/1.0.0-pre": {
+    "withSIX.Mini.Applications/1.0.0": {
       "type": "project",
       "path": "../withSIX.Mini.Applications/project.json",
       "msbuildProject": "../withSIX.Mini.Applications/withSIX.Mini.Applications.csproj"
     },
-    "withSIX.Mini.Core/1.0.0-pre": {
+    "withSIX.Mini.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.Mini.Core/project.json",
       "msbuildProject": "../withSIX.Mini.Core/withSIX.Mini.Core.csproj"
     },
-    "withSIX.Mini.Infra.Data/1.0.0-pre": {
+    "withSIX.Mini.Infra.Data/1.0.0": {
       "type": "project",
       "path": "../withSIX.Mini.Infra.Data/project.json",
       "msbuildProject": "../withSIX.Mini.Infra.Data/withSIX.Mini.Infra.Data.csproj"
@@ -10064,27 +10064,27 @@
       "path": "../withSIX.Mini.Plugin.Witcher3/project.json",
       "msbuildProject": "../withSIX.Mini.Plugin.Witcher3/withSIX.Mini.Plugin.Witcher3.csproj"
     },
-    "withSIX.Mini.Presentation.Core/1.0.0-pre": {
+    "withSIX.Mini.Presentation.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.Mini.Presentation.Core/project.json",
       "msbuildProject": "../withSIX.Mini.Presentation.Core/withSIX.Mini.Presentation.Core.csproj"
     },
-    "withSIX.Mini.Presentation.CoreCore/1.0.0-pre": {
+    "withSIX.Mini.Presentation.CoreCore/1.0.0": {
       "type": "project",
       "path": "../withSIX.Mini.Presentation.CoreCore/project.json",
       "msbuildProject": "../withSIX.Mini.Presentation.CoreCore/withSIX.Mini.Presentation.CoreCore.csproj"
     },
-    "withSIX.Mini.Presentation.Owin.Core/1.0.0-pre": {
+    "withSIX.Mini.Presentation.Owin.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.Mini.Presentation.Owin.Core/project.json",
       "msbuildProject": "../withSIX.Mini.Presentation.Owin.Core/withSIX.Mini.Presentation.Owin.Core.csproj"
     },
-    "withSIX.Steam.Core/1.0.0-pre": {
+    "withSIX.Steam.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.Steam.Core/project.json",
       "msbuildProject": "../withSIX.Steam.Core/withSIX.Steam.Core.csproj"
     },
-    "withSIX.Sync.Core/1.0.0-pre": {
+    "withSIX.Sync.Core/1.0.0": {
       "type": "project",
       "path": "../withSIX.Sync.Core/project.json",
       "msbuildProject": "../withSIX.Sync.Core/withSIX.Sync.Core.csproj"

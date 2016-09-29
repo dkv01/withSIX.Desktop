@@ -1,5 +1,4 @@
 ﻿{
-  "version":  "1.0.0-pre" ,
   "supports": {},
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
