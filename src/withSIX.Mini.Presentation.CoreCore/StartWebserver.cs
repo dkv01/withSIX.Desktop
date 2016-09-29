@@ -21,12 +21,10 @@ namespace withSIX.Mini.Presentation.CoreCore
     {
         public WebListener(IEnumerable<OwinModule> modules) : base(modules) {}
 
-        protected override void ConfigureBuilder(IWebHostBuilder builder) {
-            builder.UseKestrel(kestrel => {
-                using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
-                    kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
-            });
-        }
+        protected override void ConfigureBuilder(IWebHostBuilder builder) => builder.UseKestrel(kestrel => {
+            using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
+                kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
+        });
 
         public override void Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {
             try {
