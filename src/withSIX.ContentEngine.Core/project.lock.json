@@ -1410,7 +1410,7 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.7": {
+      "withSIX.Api.Models/2.0.8": {
         "dependencies": {
           "AutoMapper": "5.1.1",
           "NDepend.Path.PCL": "1.0.2",
@@ -5554,13 +5554,13 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "withSIX.Api.Models/2.0.7": {
-      "sha512": "LfuARbvKAmD0m5hHvROuqlIIbE0zqFhq8I1TfjXKCcFQL0lFbfOPpA5qGBLmk/R2N6zO/0cZAR4iWIYCi0NG0Q==",
+    "withSIX.Api.Models/2.0.8": {
+      "sha512": "eKmlt+Beyh7bHwBnT6uyE29s23WNemzP5z9g3743/EcB101VE8REMlUWFx0W46549UFm0Gs5pUIgGzmnD0EnAA==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.7",
+      "path": "withSIX.Api.Models/2.0.8",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.7.nupkg.sha512",
+        "withSIX.Api.Models.2.0.8.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     }
@@ -5573,7 +5573,7 @@
       "System.Diagnostics.FileVersionInfo >= 4.0.0",
       "System.IO.FileSystem >= 4.0.1",
       "System.IO.FileSystem.AccessControl >= 4.0.0",
-      "withSIX.Api.Models >= 2.0.7",
+      "withSIX.Api.Models >= 2.0.8",
       "withSIX.Core >= 1.0.0-*"
     ],
     ".NETStandard,Version=v1.3": []
