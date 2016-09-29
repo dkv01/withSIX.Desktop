@@ -34,9 +34,14 @@ namespace withSIX.Mini.Presentation.CoreHost
             var bs = new CoreAppBootstrapper(args, rootPath);
             bs.Configure();
 
-            TaskExt.StartLongRunningTask(() => bs.Startup(async () => { })).WaitAndUnwrapException();
+            TaskExt.StartLongRunningTask(() => Start(bs)).WaitAndUnwrapException();
 
             Console.WriteLine("Hello world!");
+            Console.ReadLine();
+        }
+
+        private static async Task Start(CoreAppBootstrapper bs) {
+            await bs.Startup(async () => { }).ConfigureAwait(false);
         }
     }
 
