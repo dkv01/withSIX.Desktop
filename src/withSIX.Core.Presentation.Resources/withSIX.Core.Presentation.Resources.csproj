@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69CFCB4F-5E81-4DAE-ADFE-D94E63989C1C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>withSIX.Core.Presentation.Resources</RootNamespace>
+    <AssemblyName>withSIX.Core.Presentation.Resources</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app.ico" />
+    <EmbeddedResource Include="fonts\icons-withSIX.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-B.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-BI.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-C.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-L.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-LI.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-M.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-MI.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-R.ttf" />
+    <EmbeddedResource Include="fonts\Ubuntu-RI.ttf" />
+    <EmbeddedResource Include="fonts\UbuntuMono-B.ttf" />
+    <EmbeddedResource Include="fonts\UbuntuMono-BI.ttf" />
+    <EmbeddedResource Include="fonts\UbuntuMono-R.ttf" />
+    <EmbeddedResource Include="fonts\UbuntuMono-RI.ttf" />
+    <Content Include="images\app.png" />
+    <EmbeddedResource Include="images\Flags\Afghanistan.png" />
+    <EmbeddedResource Include="images\Flags\Albania.png" />
+    <EmbeddedResource Include="images\Flags\Algeria.png" />
+    <EmbeddedResource Include="images\Flags\American_Samoa.png" />
+    <EmbeddedResource Include="images\Flags\Andorra.png" />
+    <EmbeddedResource Include="images\Flags\Angola.png" />
+    <EmbeddedResource Include="images\Flags\Anguilla.png" />
+    <EmbeddedResource Include="images\Flags\Antigua_and_Barbuda.png" />
+    <EmbeddedResource Include="images\Flags\Argentina.png" />
+    <EmbeddedResource Include="images\Flags\Armenia.png" />
+    <EmbeddedResource Include="images\Flags\Aruba.png" />
+    <EmbeddedResource Include="images\Flags\Australia.png" />
+    <EmbeddedResource Include="images\Flags\Austria.png" />
+    <EmbeddedResource Include="images\Flags\Azerbaijan.png" />
+    <EmbeddedResource Include="images\Flags\Bahamas.png" />
+    <EmbeddedResource Include="images\Flags\Bahrain.png" />
+    <EmbeddedResource Include="images\Flags\Bangladesh.png" />
+    <EmbeddedResource Include="images\Flags\Barbados.png" />
+    <EmbeddedResource Include="images\Flags\Belarus.png" />
+    <EmbeddedResource Include="images\Flags\Belgium.png" />
+    <EmbeddedResource Include="images\Flags\Belize.png" />
+    <EmbeddedResource Include="images\Flags\Benin.png" />
+    <EmbeddedResource Include="images\Flags\Bermuda.png" />
+    <EmbeddedResource Include="images\Flags\Bhutan.png" />
+    <EmbeddedResource Include="images\Flags\Bolivia.png" />
+    <EmbeddedResource Include="images\Flags\Bosnia.png" />
+    <EmbeddedResource Include="images\Flags\Botswana.png" />
+    <EmbeddedResource Include="images\Flags\Brazil.png" />
+    <EmbeddedResource Include="images\Flags\British_Virgin_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Brunei.png" />
+    <EmbeddedResource Include="images\Flags\Bulgaria.png" />
+    <EmbeddedResource Include="images\Flags\Burkina_Faso.png" />
+    <EmbeddedResource Include="images\Flags\Burundi.png" />
+    <EmbeddedResource Include="images\Flags\Cambodia.png" />
+    <EmbeddedResource Include="images\Flags\Cameroon.png" />
+    <EmbeddedResource Include="images\Flags\Canada.png" />
+    <EmbeddedResource Include="images\Flags\Cape_Verde.png" />
+    <EmbeddedResource Include="images\Flags\Cayman_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Central_African_Republic.png" />
+    <EmbeddedResource Include="images\Flags\Chad.png" />
+    <EmbeddedResource Include="images\Flags\Chile.png" />
+    <EmbeddedResource Include="images\Flags\China.png" />
+    <EmbeddedResource Include="images\Flags\Christmas_Island.png" />
+    <EmbeddedResource Include="images\Flags\Colombia.png" />
+    <EmbeddedResource Include="images\Flags\Comoros.png" />
+    <EmbeddedResource Include="images\Flags\Cook_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Costa_Rica.png" />
+    <EmbeddedResource Include="images\Flags\Croatia.png" />
+    <EmbeddedResource Include="images\Flags\Cuba.png" />
+    <EmbeddedResource Include="images\Flags\Cyprus.png" />
+    <EmbeddedResource Include="images\Flags\Czech_Republic.png" />
+    <EmbeddedResource Include="images\Flags\Democratic_Republic_of_the_Congo.png" />
+    <EmbeddedResource Include="images\Flags\Denmark.png" />
+    <EmbeddedResource Include="images\Flags\Djibouti.png" />
+    <EmbeddedResource Include="images\Flags\Dominica.png" />
+    <EmbeddedResource Include="images\Flags\Dominican_Republic.png" />
+    <EmbeddedResource Include="images\Flags\East_Timor.png" />
+    <EmbeddedResource Include="images\Flags\Ecuador.png" />
+    <EmbeddedResource Include="images\Flags\Egypt.png" />
+    <EmbeddedResource Include="images\Flags\El_Salvador.png" />
+    <EmbeddedResource Include="images\Flags\Empty.png" />
+    <EmbeddedResource Include="images\Flags\Equatorial_Guinea.png" />
+    <EmbeddedResource Include="images\Flags\Eritrea.png" />
+    <EmbeddedResource Include="images\Flags\Estonia.png" />
+    <EmbeddedResource Include="images\Flags\Ethiopia.png" />
+    <EmbeddedResource Include="images\Flags\EU.png" />
+    <EmbeddedResource Include="images\Flags\Falkland_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Faroe_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Fiji.png" />
+    <EmbeddedResource Include="images\Flags\Finland.png" />
+    <EmbeddedResource Include="images\Flags\France.png" />
+    <EmbeddedResource Include="images\Flags\French_Polynesia.png" />
+    <EmbeddedResource Include="images\Flags\Gabon.png" />
+    <EmbeddedResource Include="images\Flags\Gambia.png" />
+    <EmbeddedResource Include="images\Flags\Georgia.png" />
+    <EmbeddedResource Include="images\Flags\Germany.png" />
+    <EmbeddedResource Include="images\Flags\Ghana.png" />
+    <EmbeddedResource Include="images\Flags\Gibraltar.png" />
+    <EmbeddedResource Include="images\Flags\Greece.png" />
+    <EmbeddedResource Include="images\Flags\Greenland.png" />
+    <EmbeddedResource Include="images\Flags\Grenada.png" />
+    <EmbeddedResource Include="images\Flags\Guam.png" />
+    <EmbeddedResource Include="images\Flags\Guatemala.png" />
+    <EmbeddedResource Include="images\Flags\Guinea.png" />
+    <EmbeddedResource Include="images\Flags\Guinea_Bissau.png" />
+    <EmbeddedResource Include="images\Flags\Guyana.png" />
+    <EmbeddedResource Include="images\Flags\Haiti.png" />
+    <EmbeddedResource Include="images\Flags\Honduras.png" />
+    <EmbeddedResource Include="images\Flags\Hong_Kong.png" />
+    <EmbeddedResource Include="images\Flags\Hungary.png" />
+    <EmbeddedResource Include="images\Flags\Iceland.png" />
+    <EmbeddedResource Include="images\Flags\India.png" />
+    <EmbeddedResource Include="images\Flags\Indonesia.png" />
+    <EmbeddedResource Include="images\Flags\Iran.png" />
+    <EmbeddedResource Include="images\Flags\Iraq.png" />
+    <EmbeddedResource Include="images\Flags\Ireland.png" />
+    <EmbeddedResource Include="images\Flags\Israel.png" />
+    <EmbeddedResource Include="images\Flags\Italy.png" />
+    <EmbeddedResource Include="images\Flags\Ivory_Coast.png" />
+    <EmbeddedResource Include="images\Flags\Jamaica.png" />
+    <EmbeddedResource Include="images\Flags\Japan.png" />
+    <EmbeddedResource Include="images\Flags\Jordan.png" />
+    <EmbeddedResource Include="images\Flags\Kazakhstan.png" />
+    <EmbeddedResource Include="images\Flags\Kenya.png" />
+    <EmbeddedResource Include="images\Flags\Kiribati.png" />
+    <EmbeddedResource Include="images\Flags\Kuwait.png" />
+    <EmbeddedResource Include="images\Flags\Kyrgyzstan.png" />
+    <EmbeddedResource Include="images\Flags\Laos.png" />
+    <EmbeddedResource Include="images\Flags\Latvia.png" />
+    <EmbeddedResource Include="images\Flags\Lebanon.png" />
+    <EmbeddedResource Include="images\Flags\Lesotho.png" />
+    <EmbeddedResource Include="images\Flags\Liberia.png" />
+    <EmbeddedResource Include="images\Flags\Libya.png" />
+    <EmbeddedResource Include="images\Flags\Liechtenstein.png" />
+    <EmbeddedResource Include="images\Flags\Lithuania.png" />
+    <EmbeddedResource Include="images\Flags\Luxembourg.png" />
+    <EmbeddedResource Include="images\Flags\Macao.png" />
+    <EmbeddedResource Include="images\Flags\Macedonia.png" />
+    <EmbeddedResource Include="images\Flags\Madagascar.png" />
+    <EmbeddedResource Include="images\Flags\Malawi.png" />
+    <EmbeddedResource Include="images\Flags\Malaysia.png" />
+    <EmbeddedResource Include="images\Flags\Maldives.png" />
+    <EmbeddedResource Include="images\Flags\Mali.png" />
+    <EmbeddedResource Include="images\Flags\Malta.png" />
+    <EmbeddedResource Include="images\Flags\Marshall_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Martinique.png" />
+    <EmbeddedResource Include="images\Flags\Mauritania.png" />
+    <EmbeddedResource Include="images\Flags\Mauritius.png" />
+    <EmbeddedResource Include="images\Flags\Mexico.png" />
+    <EmbeddedResource Include="images\Flags\Micronesia.png" />
+    <EmbeddedResource Include="images\Flags\Moldova.png" />
+    <EmbeddedResource Include="images\Flags\Monaco.png" />
+    <EmbeddedResource Include="images\Flags\Mongolia.png" />
+    <EmbeddedResource Include="images\Flags\Montenegro.png" />
+    <EmbeddedResource Include="images\Flags\Montserrat.png" />
+    <EmbeddedResource Include="images\Flags\Morocco.png" />
+    <EmbeddedResource Include="images\Flags\Mozambique.png" />
+    <EmbeddedResource Include="images\Flags\Myanmar.png" />
+    <EmbeddedResource Include="images\Flags\Namibia.png" />
+    <EmbeddedResource Include="images\Flags\Nauru.png" />
+    <EmbeddedResource Include="images\Flags\Nepal.png" />
+    <EmbeddedResource Include="images\Flags\Netherlands.png" />
+    <EmbeddedResource Include="images\Flags\Netherlands_Antilles.png" />
+    <EmbeddedResource Include="images\Flags\New_Zealand.png" />
+    <EmbeddedResource Include="images\Flags\Nicaragua.png" />
+    <EmbeddedResource Include="images\Flags\Niger.png" />
+    <EmbeddedResource Include="images\Flags\Nigeria.png" />
+    <EmbeddedResource Include="images\Flags\Niue.png" />
+    <EmbeddedResource Include="images\Flags\Norfolk_Island.png" />
+    <EmbeddedResource Include="images\Flags\North_Korea.png" />
+    <EmbeddedResource Include="images\Flags\Norway.png" />
+    <EmbeddedResource Include="images\Flags\Oman.png" />
+    <EmbeddedResource Include="images\Flags\Pakistan.png" />
+    <EmbeddedResource Include="images\Flags\Palau.png" />
+    <EmbeddedResource Include="images\Flags\Palestine.png" />
+    <EmbeddedResource Include="images\Flags\Panama.png" />
+    <EmbeddedResource Include="images\Flags\Papua_New_Guinea.png" />
+    <EmbeddedResource Include="images\Flags\Paraguay.png" />
+    <EmbeddedResource Include="images\Flags\Peru.png" />
+    <EmbeddedResource Include="images\Flags\Philippines.png" />
+    <EmbeddedResource Include="images\Flags\Pitcairn_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Poland.png" />
+    <EmbeddedResource Include="images\Flags\Portugal.png" />
+    <EmbeddedResource Include="images\Flags\Puerto_Rico.png" />
+    <EmbeddedResource Include="images\Flags\Qatar.png" />
+    <EmbeddedResource Include="images\Flags\Republic_of_the_Congo.png" />
+    <EmbeddedResource Include="images\Flags\Romania.png" />
+    <EmbeddedResource Include="images\Flags\Russian_Federation.png" />
+    <EmbeddedResource Include="images\Flags\Rwanda.png" />
+    <EmbeddedResource Include="images\Flags\Saint_Kitts_and_Nevis.png" />
+    <EmbeddedResource Include="images\Flags\Saint_Lucia.png" />
+    <EmbeddedResource Include="images\Flags\Saint_Pierre.png" />
+    <EmbeddedResource Include="images\Flags\Saint_Vincent_and_the_Grenadines.png" />
+    <EmbeddedResource Include="images\Flags\Samoa.png" />
+    <EmbeddedResource Include="images\Flags\San_Marino.png" />
+    <EmbeddedResource Include="images\Flags\Sao_Tomé_and_Príncipe.png" />
+    <EmbeddedResource Include="images\Flags\Saudi_Arabia.png" />
+    <EmbeddedResource Include="images\Flags\Senegal.png" />
+    <EmbeddedResource Include="images\Flags\Serbia.png" />
+    <EmbeddedResource Include="images\Flags\Seychelles.png" />
+    <EmbeddedResource Include="images\Flags\Sierra_Leone.png" />
+    <EmbeddedResource Include="images\Flags\Singapore.png" />
+    <EmbeddedResource Include="images\Flags\Slovakia.png" />
+    <EmbeddedResource Include="images\Flags\Slovenia.png" />
+    <EmbeddedResource Include="images\Flags\Soloman_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Somalia.png" />
+    <EmbeddedResource Include="images\Flags\South_Africa.png" />
+    <EmbeddedResource Include="images\Flags\South_Georgia.png" />
+    <EmbeddedResource Include="images\Flags\South_Korea.png" />
+    <EmbeddedResource Include="images\Flags\Spain.png" />
+    <EmbeddedResource Include="images\Flags\Sri_Lanka.png" />
+    <EmbeddedResource Include="images\Flags\Sudan.png" />
+    <EmbeddedResource Include="images\Flags\Suriname.png" />
+    <EmbeddedResource Include="images\Flags\Swaziland.png" />
+    <EmbeddedResource Include="images\Flags\Sweden.png" />
+    <EmbeddedResource Include="images\Flags\Switzerland.png" />
+    <EmbeddedResource Include="images\Flags\Syria.png" />
+    <EmbeddedResource Include="images\Flags\Taiwan.png" />
+    <EmbeddedResource Include="images\Flags\Tajikistan.png" />
+    <EmbeddedResource Include="images\Flags\Tanzania.png" />
+    <EmbeddedResource Include="images\Flags\Thailand.png" />
+    <EmbeddedResource Include="images\Flags\Togo.png" />
+    <EmbeddedResource Include="images\Flags\Tonga.png" />
+    <EmbeddedResource Include="images\Flags\Trinidad_and_Tobago.png" />
+    <EmbeddedResource Include="images\Flags\Tunisia.png" />
+    <EmbeddedResource Include="images\Flags\Turkey.png" />
+    <EmbeddedResource Include="images\Flags\Turkmenistan.png" />
+    <EmbeddedResource Include="images\Flags\Turks_and_Caicos_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Tuvalu.png" />
+    <EmbeddedResource Include="images\Flags\UAE.png" />
+    <EmbeddedResource Include="images\Flags\Uganda.png" />
+    <EmbeddedResource Include="images\Flags\Ukraine.png" />
+    <EmbeddedResource Include="images\Flags\United_Kingdom.png" />
+    <EmbeddedResource Include="images\Flags\United_States_of_America.png" />
+    <EmbeddedResource Include="images\Flags\Uruguay.png" />
+    <EmbeddedResource Include="images\Flags\US_Virgin_Islands.png" />
+    <EmbeddedResource Include="images\Flags\Uzbekistan.png" />
+    <EmbeddedResource Include="images\Flags\Vanuatu.png" />
+    <EmbeddedResource Include="images\Flags\Vatican_City.png" />
+    <EmbeddedResource Include="images\Flags\Venezuela.png" />
+    <EmbeddedResource Include="images\Flags\Vietnam.png" />
+    <EmbeddedResource Include="images\Flags\Wallis_and_Futuna.png" />
+    <EmbeddedResource Include="images\Flags\Yemen.png" />
+    <EmbeddedResource Include="images\Flags\Zambia.png" />
+    <EmbeddedResource Include="images\Flags\Zimbabwe.png" />
+    <Content Include="images\ModsPlaceholder-full232x112.png" />
+    <Content Include="images\ModsPlaceholder-huge300x144.png" />
+    <Content Include="images\ModsPlaceholder-small40x40.png" />
+    <Content Include="images\Placeholder-GroupChat.png" />
+    <Content Include="images\ProfilePlaceholder-small40x40.png" />
+    <None Include="app.config" />
+    <None Include="project.json" />
+    <None Include="tos.rtf" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DummyClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="applicenses\applicenses.lst" />
+    <Content Include="applicenses\license_caliburn_mico.txt" />
+    <Content Include="applicenses\license_geoip.txt" />
+    <Content Include="applicenses\license_MoreLINQ.txt" />
+    <Content Include="applicenses\license_NLOG_BSD.txt" />
+    <Content Include="applicenses\license_NotifyIcon_for_WPF_CPOL.txt" />
+    <Content Include="applicenses\license_ReactiveUI_MSPL.txt" />
+    <Content Include="applicenses\license_SharpCompress_MSPL.txt" />
+    <Content Include="applicenses\license_WPFToolkit_Extended_MSPL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
+      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
+      <Name>withSIX.Core.Applications</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,30 @@
+﻿// <copyright company="SIX Networks GmbH" file="DownloadProtocol.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System.Threading.Tasks;
+using NDepend.Path;
+using withSIX.Core;
+using withSIX.Sync.Core.Transfer.Specs;
+
+namespace withSIX.Sync.Core.Transfer.Protocols
+{
+    public interface IDownloadProtocol : IProtocol
+    {
+        void Download(TransferSpec spec);
+        Task DownloadAsync(TransferSpec spec);
+    }
+
+    public abstract class DownloadProtocol : TransferProtocol, IDownloadProtocol
+    {
+        public abstract void Download(TransferSpec spec);
+        public abstract Task DownloadAsync(TransferSpec spec);
+
+        protected virtual void VerifyIfNeeded(TransferSpec spec, IAbsoluteFilePath localFile) {
+            if ((spec.Verification == null) || spec.Verification(localFile))
+                return;
+            Tools.FileUtil.Ops.DeleteFile(localFile);
+            throw new VerificationError(localFile.ToString());
+        }
+    }
+}

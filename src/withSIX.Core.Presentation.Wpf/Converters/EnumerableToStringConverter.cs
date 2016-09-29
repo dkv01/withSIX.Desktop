@@ -1,0 +1,30 @@
+// <copyright company="SIX Networks GmbH" file="EnumerableToStringConverter.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Windows.Data;
+
+namespace withSIX.Core.Presentation.Wpf.Converters
+{
+    public class EnumerableToStringConverter : IValueConverter
+    {
+        static readonly string DefaultReturn = string.Empty;
+        static readonly string defaultConcat = ", ";
+
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            var collection = value as IEnumerable<string>;
+            return collection == null ? DefaultReturn : string.Join(defaultConcat, collection);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+}

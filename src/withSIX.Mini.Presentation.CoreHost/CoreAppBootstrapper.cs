@@ -14,14 +14,13 @@ using MediatR;
 using NDepend.Path;
 using SimpleInjector;
 using SimpleInjector.Advanced;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Decorators;
-using SN.withSIX.Mini.Applications;
-using SN.withSIX.Mini.Presentation.Core;
-using SN.withSIX.Mini.Presentation.Owin.Core;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Decorators;
+using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.CoreCore.Services;
+using withSIX.Mini.Presentation.Owin.Core;
 using SystemExtensions = withSIX.Api.Models.Extensions.SystemExtensions;
 
 namespace withSIX.Mini.Presentation.CoreHost
@@ -38,7 +37,7 @@ namespace withSIX.Mini.Presentation.CoreHost
 
         // We dont actually want to load the Infra.Api as it's non .NET core atm
         //protected override IEnumerable<Assembly> GetInfraAssemblies
-          //  => new[] {AssemblyLoadFrom(_rootPath.GetChildFileWithName("SN.withSIX.Mini.Infra.Api.dll").ToString())}.Concat(base.GetInfraAssemblies);
+          //  => new[] {AssemblyLoadFrom(_rootPath.GetChildFileWithName("withSIX.Mini.Infra.Api.dll").ToString())}.Concat(base.GetInfraAssemblies);
 
         protected override void EnvironmentExit(int exitCode) {
             Environment.Exit(exitCode);
@@ -82,13 +81,13 @@ namespace withSIX.Mini.Presentation.CoreHost
             //var l = Locator.CurrentMutable;
             // cant refer ReactiveUI atm until we put it into a package :)
             //l.Register(() => null, typeof(IFilesystemProvider), null);
-            SN.withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
+            withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
         }
 
 
 
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null)
-            => Container.RegisterPlugins<T>(assemblies);
+            => Container.RegisterPlugins<T>(assemblies, style);
 
         protected override void RegisterAllInterfaces<T>(IEnumerable<Assembly> assemblies)
             => Container.RegisterAllInterfaces<T>(assemblies);

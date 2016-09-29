@@ -4,8 +4,8 @@
 
 using System;
 using System.Reflection;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation;
 
 namespace withSIX.Mini.Presentation.CoreCore.Services
 {
