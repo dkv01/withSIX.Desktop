@@ -8,8 +8,8 @@
     <ProjectGuid>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Applications</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Applications</AssemblyName>
+    <RootNamespace>withSIX.Mini.Applications</RootNamespace>
+    <AssemblyName>withSIX.Mini.Applications</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

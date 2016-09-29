@@ -8,8 +8,8 @@
     <ProjectGuid>{131B6A51-5385-4FEE-9E91-2911C936D200}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Infra</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Infra</AssemblyName>
+    <RootNamespace>withSIX.Core.Infra</RootNamespace>
+    <AssemblyName>withSIX.Core.Infra</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

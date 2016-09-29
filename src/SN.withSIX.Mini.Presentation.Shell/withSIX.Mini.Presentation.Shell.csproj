@@ -7,8 +7,8 @@
     <ProjectGuid>{956504FB-6CAE-4857-8802-D6C24336EC15}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Presentation.Shell</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Presentation.Shell</AssemblyName>
+    <RootNamespace>withSIX.Mini.Presentation.Shell</RootNamespace>
+    <AssemblyName>withSIX.Mini.Presentation.Shell</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

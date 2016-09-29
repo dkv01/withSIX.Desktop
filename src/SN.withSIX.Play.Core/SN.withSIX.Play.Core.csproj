@@ -7,8 +7,8 @@
     <ProjectGuid>{C3DB67F4-51AD-401D-910D-A63A2A2BAB6E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Play.Core</RootNamespace>
-    <AssemblyName>SN.withSIX.Play.Core</AssemblyName>
+    <RootNamespace>withSIX.Play.Core</RootNamespace>
+    <AssemblyName>withSIX.Play.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
@@ -634,15 +634,15 @@
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
       <Project>{20290456-e7cd-4b44-acea-a9f4b5b55367}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

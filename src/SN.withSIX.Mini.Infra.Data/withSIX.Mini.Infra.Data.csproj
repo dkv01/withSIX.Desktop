@@ -8,8 +8,8 @@
     <ProjectGuid>{A3556BC0-A306-4E26-85F2-37013E09D283}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Infra.Data</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Infra.Data</AssemblyName>
+    <RootNamespace>withSIX.Mini.Infra.Data</RootNamespace>
+    <AssemblyName>withSIX.Mini.Infra.Data</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

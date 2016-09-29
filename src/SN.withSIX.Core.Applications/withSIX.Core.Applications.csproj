@@ -8,8 +8,8 @@
     <ProjectGuid>{B7406381-1D29-4E9B-851E-D086C29C34E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Applications</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Applications</AssemblyName>
+    <RootNamespace>withSIX.Core.Applications</RootNamespace>
+    <AssemblyName>withSIX.Core.Applications</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

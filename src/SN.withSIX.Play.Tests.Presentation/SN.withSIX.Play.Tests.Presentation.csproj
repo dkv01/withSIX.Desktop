@@ -7,8 +7,8 @@
     <ProjectGuid>{CAAF000A-B529-46C2-ADB5-3F1800156ECD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Play.Tests.Presentation</RootNamespace>
-    <AssemblyName>SN.withSIX.Play.Tests.Presentation</AssemblyName>
+    <RootNamespace>withSIX.Play.Tests.Presentation</RootNamespace>
+    <AssemblyName>withSIX.Play.Tests.Presentation</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -367,43 +367,43 @@
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
       <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
       <Project>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</Project>
-      <Name>SN.withSIX.Core.Applications.MVVM</Name>
+      <Name>withSIX.Core.Applications.MVVM</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
+      <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Core\SN.withSIX.Play.Core.csproj">
       <Project>{c3db67f4-51ad-401d-910d-a63a2a2bab6e}</Project>
-      <Name>SN.withSIX.Play.Core</Name>
+      <Name>withSIX.Play.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
+      <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Presentation.Wpf\SN.withSIX.Play.Presentation.Wpf.csproj">
       <Project>{254D9CF0-517C-468E-A750-77BF73443242}</Project>
-      <Name>SN.withSIX.Play.Presentation.Wpf</Name>
+      <Name>withSIX.Play.Presentation.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Tests.Core\SN.withSIX.Play.Tests.Core.csproj">
       <Project>{f1f0a5d8-8c69-4ed5-b8db-fe21406bc6e0}</Project>
-      <Name>SN.withSIX.Play.Tests.Core</Name>
+      <Name>withSIX.Play.Tests.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Applications\SN.withSIX.Play.Applications.csproj">
       <Project>{1240801b-efca-4236-b3b1-e710a8694f0a}</Project>
-      <Name>SN.withSIX.Play.Applications</Name>
+      <Name>withSIX.Play.Applications</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

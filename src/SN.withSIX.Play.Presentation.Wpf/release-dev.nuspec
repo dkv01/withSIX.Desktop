@@ -13,25 +13,25 @@
     <files>
         <file src="bin\release\withSIX-Play.exe" target="lib\net45\Play.exe" />
         <file src="bin\release\withSIX-Play.exe.config" target="lib\net45\Play.exe.config" />
-        <file src="bin\release\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
+        <file src="bin\release\withSIX.Core.Presentation.Resources.dll" target="lib\net45\withSIX.Core.Presentation.Resources.dll" />
 
         <file src="bin\release\GeoIP.dll" target="lib\net45\GeoIP.dll" />
-        <file src="bin\release\SN.withSIX.Core.dll" target="lib\net45\SN.withSIX.Core.dll" />
-        <file src="bin\release\SN.withSIX.Core.Applications.dll" target="lib\net45\SN.withSIX.Core.Applications.dll" />
-        <file src="bin\release\SN.withSIX.Core.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Core.Applications.MVVM.dll" />
-        <file src="bin\release\SN.withSIX.Core.Presentation.dll" target="lib\net45\SN.withSIX.Core.Presentation.dll" />
-        <file src="bin\release\SN.withSIX.Core.Presentation.Wpf.dll" target="lib\net45\SN.withSIX.Core.Presentation.Wpf.dll" />
-        <file src="bin\release\SN.withSIX.Core.Infra.dll" target="lib\net45\SN.withSIX.Core.Infra.dll" />
-        <file src="bin\release\SN.withSIX.ContentEngine.Core.dll" target="lib\net45\SN.withSIX.ContentEngine.Core.dll" />
-        <file src="bin\release\SN.withSIX.ContentEngine.Infra.dll" target="lib\net45\SN.withSIX.ContentEngine.Infra.dll" />
-        <file src="bin\release\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
+        <file src="bin\release\withSIX.Core.dll" target="lib\net45\withSIX.Core.dll" />
+        <file src="bin\release\withSIX.Core.Applications.dll" target="lib\net45\withSIX.Core.Applications.dll" />
+        <file src="bin\release\withSIX.Core.Applications.MVVM.dll" target="lib\net45\withSIX.Core.Applications.MVVM.dll" />
+        <file src="bin\release\withSIX.Core.Presentation.dll" target="lib\net45\withSIX.Core.Presentation.dll" />
+        <file src="bin\release\withSIX.Core.Presentation.Wpf.dll" target="lib\net45\withSIX.Core.Presentation.Wpf.dll" />
+        <file src="bin\release\withSIX.Core.Infra.dll" target="lib\net45\withSIX.Core.Infra.dll" />
+        <file src="bin\release\withSIX.ContentEngine.Core.dll" target="lib\net45\withSIX.ContentEngine.Core.dll" />
+        <file src="bin\release\withSIX.ContentEngine.Infra.dll" target="lib\net45\withSIX.ContentEngine.Infra.dll" />
+        <file src="bin\release\withSIX.Sync.Core.dll" target="lib\net45\withSIX.Sync.Core.dll" />
         <file src="bin\release\withSIX.Api.Models.dll" target="lib\net45\withSIX.Api.Models.dll" />
 
-        <file src="bin\release\SN.withSIX.Play.Core.dll" target="lib\net45\SN.withSIX.Play.Core.dll" />
-        <file src="bin\release\SN.withSIX.Play.Applications.dll" target="lib\net45\SN.withSIX.Play.Applications.dll" />
-        <file src="bin\release\SN.withSIX.Play.Infra.Api.dll" target="lib\net45\SN.withSIX.Play.Infra.Api.dll" />
-        <file src="bin\release\SN.withSIX.Play.Infra.Data.dll" target="lib\net45\SN.withSIX.Play.Infra.Data.dll" />
-        <file src="bin\release\SN.withSIX.Play.Infra.Server.dll" target="lib\net45\SN.withSIX.Play.Infra.Server.dll" />
+        <file src="bin\release\withSIX.Play.Core.dll" target="lib\net45\withSIX.Play.Core.dll" />
+        <file src="bin\release\withSIX.Play.Applications.dll" target="lib\net45\withSIX.Play.Applications.dll" />
+        <file src="bin\release\withSIX.Play.Infra.Api.dll" target="lib\net45\withSIX.Play.Infra.Api.dll" />
+        <file src="bin\release\withSIX.Play.Infra.Data.dll" target="lib\net45\withSIX.Play.Infra.Data.dll" />
+        <file src="bin\release\withSIX.Play.Infra.Server.dll" target="lib\net45\withSIX.Play.Infra.Server.dll" />
 
         <file src="bin\release\Squirrel.dll" target="lib\net45\Squirrel.dll" />
         <file src="bin\release\ICSharpCode.SharpZipLib.dll" target="lib\net45\ICSharpCode.SharpZipLib.dll" />
@@ -131,8 +131,8 @@
         <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
         <file src="bin\release\VCRedistInstaller.exe" target="lib\net45\VCRedistInstaller.exe" />
 
-        <file src="..\SN.withSIX.Updater.Presentation.Wpf\bin\release\withSIX-Updater.exe" target="lib\net45\withSIX-Updater.exe" />
-        <file src="..\SN.withSIX.Updater.Presentation.Wpf\bin\release\withSIX-Updater.exe.config" target="lib\net45\withSIX-Updater.exe.config" />
+        <file src="..\withSIX.Updater.Presentation.Wpf\bin\release\withSIX-Updater.exe" target="lib\net45\withSIX-Updater.exe" />
+        <file src="..\withSIX.Updater.Presentation.Wpf\bin\release\withSIX-Updater.exe.config" target="lib\net45\withSIX-Updater.exe.config" />
         <!-- <file src="bin\release\withSIX-SelfUpdater.exe" target="lib\net45\withSIX-SelfUpdater.exe" /> -->
         <!-- <file src="bin\release\withSIX-SelfUpdater.exe.config" target="lib\net45\withSIX-SelfUpdater.exe.config" /> -->
         <!-- <file src="..\..\build\Shared.7z" target="lib\net45\Shared.7z" /> -->

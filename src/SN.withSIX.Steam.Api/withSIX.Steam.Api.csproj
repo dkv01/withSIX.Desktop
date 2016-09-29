@@ -7,8 +7,8 @@
     <ProjectGuid>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Steam.Api</RootNamespace>
-    <AssemblyName>SN.withSIX.Steam.Api</AssemblyName>
+    <RootNamespace>withSIX.Steam.Api</RootNamespace>
+    <AssemblyName>withSIX.Steam.Api</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>

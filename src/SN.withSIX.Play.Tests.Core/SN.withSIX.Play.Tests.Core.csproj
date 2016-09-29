@@ -7,8 +7,8 @@
     <ProjectGuid>{F1F0A5D8-8C69-4ED5-B8DB-FE21406BC6E0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Play.Tests.Core</RootNamespace>
-    <AssemblyName>SN.withSIX.Play.Tests.Core</AssemblyName>
+    <RootNamespace>withSIX.Play.Tests.Core</RootNamespace>
+    <AssemblyName>withSIX.Play.Tests.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -508,59 +508,59 @@
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
       <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
+      <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
       <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
-      <Name>SN.withSIX.Core.Presentation.Wpf</Name>
+      <Name>withSIX.Core.Presentation.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Applications\SN.withSIX.Play.Applications.csproj">
       <Project>{1240801B-EFCA-4236-B3B1-E710A8694F0A}</Project>
-      <Name>SN.withSIX.Play.Applications</Name>
+      <Name>withSIX.Play.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Core\SN.withSIX.Play.Core.csproj">
       <Project>{c3db67f4-51ad-401d-910d-a63a2a2bab6e}</Project>
-      <Name>SN.withSIX.Play.Core</Name>
+      <Name>withSIX.Play.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Presentation.Wpf\SN.withSIX.Play.Presentation.Wpf.csproj">
       <Project>{254d9cf0-517c-468e-a750-77bf73443242}</Project>
-      <Name>SN.withSIX.Play.Presentation.Wpf</Name>
+      <Name>withSIX.Play.Presentation.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Infra.Data\SN.withSIX.Play.Infra.Data.csproj">
       <Project>{C4DE3B93-CCC4-43E7-BC20-5E7917AA86F1}</Project>
-      <Name>SN.withSIX.Play.Infra.Data</Name>
+      <Name>withSIX.Play.Infra.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Infra.Api\SN.withSIX.Play.Infra.Api.csproj">
       <Project>{6C0A6245-F9C3-4528-805D-413DFD5CFDD5}</Project>
-      <Name>SN.withSIX.Play.Infra.Api</Name>
+      <Name>withSIX.Play.Infra.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Infra\SN.withSIX.ContentEngine.Infra.csproj">
       <Project>{d3d354e1-919f-4135-9496-acd2c39806d3}</Project>
-      <Name>SN.withSIX.ContentEngine.Infra</Name>
+      <Name>withSIX.ContentEngine.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
+      <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
       <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>SN.withSIX.Core.Presentation</Name>
+      <Name>withSIX.Core.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Updater.Presentation.Wpf\SN.withSIX.Updater.Presentation.Wpf.csproj">
       <Project>{C6E200CF-A76F-47A0-9577-246988E7314A}</Project>
-      <Name>SN.withSIX.Updater.Presentation.Wpf</Name>
+      <Name>withSIX.Updater.Presentation.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

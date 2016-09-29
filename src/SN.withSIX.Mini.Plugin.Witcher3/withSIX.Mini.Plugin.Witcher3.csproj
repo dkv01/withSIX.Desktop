@@ -8,8 +8,8 @@
     <ProjectGuid>{8A5BB322-D0FD-4FC3-B2FA-4ED1ECCC089D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Witcher3</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Witcher3</AssemblyName>
+    <RootNamespace>withSIX.Mini.Plugin.Witcher3</RootNamespace>
+    <AssemblyName>withSIX.Mini.Plugin.Witcher3</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

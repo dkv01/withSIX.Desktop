@@ -7,8 +7,8 @@
     <ProjectGuid>{6C0A6245-F9C3-4528-805D-413DFD5CFDD5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Play.Infra.Api</RootNamespace>
-    <AssemblyName>SN.withSIX.Play.Infra.Api</AssemblyName>
+    <RootNamespace>withSIX.Play.Infra.Api</RootNamespace>
+    <AssemblyName>withSIX.Play.Infra.Api</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -360,31 +360,31 @@
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
       <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
-      <Name>SN.withSIX.ContentEngine.Core</Name>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
+      <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Applications\SN.withSIX.Play.Applications.csproj">
       <Project>{1240801B-EFCA-4236-B3B1-E710A8694F0A}</Project>
-      <Name>SN.withSIX.Play.Applications</Name>
+      <Name>withSIX.Play.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>SN.withSIX.Sync.Core</Name>
+      <Name>withSIX.Sync.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Play.Core\SN.withSIX.Play.Core.csproj">
       <Project>{c3db67f4-51ad-401d-910d-a63a2a2bab6e}</Project>
-      <Name>SN.withSIX.Play.Core</Name>
+      <Name>withSIX.Play.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Infra\SN.withSIX.Core.Infra.csproj">
       <Project>{131b6a51-5385-4fee-9e91-2911c936d200}</Project>
-      <Name>SN.withSIX.Core.Infra</Name>
+      <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

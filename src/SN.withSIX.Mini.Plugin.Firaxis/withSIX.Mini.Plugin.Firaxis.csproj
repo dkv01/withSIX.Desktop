@@ -8,8 +8,8 @@
     <ProjectGuid>{D94020B4-8CB9-4E1E-9211-5780E74676B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Firaxis</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Firaxis</AssemblyName>
+    <RootNamespace>withSIX.Mini.Plugin.Firaxis</RootNamespace>
+    <AssemblyName>withSIX.Mini.Plugin.Firaxis</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

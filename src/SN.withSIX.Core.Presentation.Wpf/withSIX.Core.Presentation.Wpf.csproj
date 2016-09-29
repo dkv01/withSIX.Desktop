@@ -7,8 +7,8 @@
     <ProjectGuid>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Presentation.Wpf</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Presentation.Wpf</AssemblyName>
+    <RootNamespace>withSIX.Core.Presentation.Wpf</RootNamespace>
+    <AssemblyName>withSIX.Core.Presentation.Wpf</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>

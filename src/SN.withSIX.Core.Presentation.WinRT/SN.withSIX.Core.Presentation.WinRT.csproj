@@ -7,8 +7,8 @@
     <ProjectGuid>{BED2BC1D-CA2E-4A3A-A711-027E1C4D9053}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Presentation.WinRT</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Presentation.WinRT</AssemblyName>
+    <RootNamespace>withSIX.Core.Presentation.WinRT</RootNamespace>
+    <AssemblyName>withSIX.Core.Presentation.WinRT</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
@@ -177,15 +177,15 @@
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>SN.withSIX.Core.Applications</Name>
+      <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
       <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>SN.withSIX.Core.Presentation</Name>
+      <Name>withSIX.Core.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>SN.withSIX.Core</Name>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

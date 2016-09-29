@@ -15,41 +15,41 @@
         <file src="..\..\..\bin\Sync.exe.config" target="lib\net45\sync.exe.config" />
 
         <file src="..\..\..\bin\withSIX.Api.Models.dll" target="lib\net45\withSIX.Api.Models.dll" />
-        <file src="..\..\..\bin\SN.withSIX.ContentEngine.Core.dll" target="lib\net45\SN.withSIX.ContentEngine.Core.dll" />
-        <file src="..\..\..\bin\SN.withSIX.ContentEngine.Infra.dll" target="lib\net45\SN.withSIX.ContentEngine.Infra.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.dll" target="lib\net45\SN.withSIX.Core.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.Applications.dll" target="lib\net45\SN.withSIX.Core.Applications.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Core.Applications.MVVM.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.Infra.dll" target="lib\net45\SN.withSIX.Core.Infra.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.Presentation.dll" target="lib\net45\SN.withSIX.Core.Presentation.dll" />
-		<file src="..\..\..\bin\SN.withSIX.Core.Presentation.Bridge.dll" target="lib\net45\SN.withSIX.Core.Presentation.Bridge.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Wpf.dll" target="lib\net45\SN.withSIX.Core.Presentation.Wpf.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Applications.dll" target="lib\net45\SN.withSIX.Mini.Applications.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Applications.MVVM.dll" target="lib\net45\SN.withSIX.Mini.Applications.MVVM.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Core.dll" target="lib\net45\SN.withSIX.Mini.Core.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Infra.Api.dll" target="lib\net45\SN.withSIX.Mini.Infra.Api.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Infra.Data.dll" target="lib\net45\SN.withSIX.Mini.Infra.Data.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Arma.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Arma.dll" />
-		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.CE.dll" target="lib\net45\SN.withSIX.Mini.Plugin.CE.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.GTA.dll" target="lib\net45\SN.withSIX.Mini.Plugin.GTA.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Homeworld.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Homeworld.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Kerbal.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Kerbal.dll" />
-		<!-- <file src="..\..\..\bin\SN.withSIX.Mini.Plugin.NMS.dll" target="lib\net45\SN.withSIX.Mini.Plugin.NMS.dll" /> -->
-		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Stellaris.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Stellaris.dll" />
-		<file src="..\..\..\bin\SN.withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Starbound.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Core.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Core.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Electron.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll" />
-		<file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Electron.dll.config" target="lib\net45\SN.withSIX.Mini.Presentation.Electron.dll.config" />
+        <file src="..\..\..\bin\withSIX.ContentEngine.Core.dll" target="lib\net45\withSIX.ContentEngine.Core.dll" />
+        <file src="..\..\..\bin\withSIX.ContentEngine.Infra.dll" target="lib\net45\withSIX.ContentEngine.Infra.dll" />
+        <file src="..\..\..\bin\withSIX.Core.dll" target="lib\net45\withSIX.Core.dll" />
+        <file src="..\..\..\bin\withSIX.Core.Applications.dll" target="lib\net45\withSIX.Core.Applications.dll" />
+        <file src="..\..\..\bin\withSIX.Core.Applications.MVVM.dll" target="lib\net45\withSIX.Core.Applications.MVVM.dll" />
+        <file src="..\..\..\bin\withSIX.Core.Infra.dll" target="lib\net45\withSIX.Core.Infra.dll" />
+        <file src="..\..\..\bin\withSIX.Core.Presentation.dll" target="lib\net45\withSIX.Core.Presentation.dll" />
+		<file src="..\..\..\bin\withSIX.Core.Presentation.Bridge.dll" target="lib\net45\withSIX.Core.Presentation.Bridge.dll" />
+        <file src="..\..\..\bin\withSIX.Core.Presentation.Resources.dll" target="lib\net45\withSIX.Core.Presentation.Resources.dll" />
+        <file src="..\..\..\bin\withSIX.Core.Presentation.Wpf.dll" target="lib\net45\withSIX.Core.Presentation.Wpf.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Applications.dll" target="lib\net45\withSIX.Mini.Applications.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Applications.MVVM.dll" target="lib\net45\withSIX.Mini.Applications.MVVM.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Core.dll" target="lib\net45\withSIX.Mini.Core.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Infra.Api.dll" target="lib\net45\withSIX.Mini.Infra.Api.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Infra.Data.dll" target="lib\net45\withSIX.Mini.Infra.Data.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Plugin.Arma.dll" target="lib\net45\withSIX.Mini.Plugin.Arma.dll" />
+		<file src="..\..\..\bin\withSIX.Mini.Plugin.CE.dll" target="lib\net45\withSIX.Mini.Plugin.CE.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Plugin.GTA.dll" target="lib\net45\withSIX.Mini.Plugin.GTA.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Plugin.Homeworld.dll" target="lib\net45\withSIX.Mini.Plugin.Homeworld.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Plugin.Kerbal.dll" target="lib\net45\withSIX.Mini.Plugin.Kerbal.dll" />
+		<!-- <file src="..\..\..\bin\withSIX.Mini.Plugin.NMS.dll" target="lib\net45\withSIX.Mini.Plugin.NMS.dll" /> -->
+		<file src="..\..\..\bin\withSIX.Mini.Plugin.Stellaris.dll" target="lib\net45\withSIX.Mini.Plugin.Stellaris.dll" />
+		<file src="..\..\..\bin\withSIX.Mini.Plugin.Starbound.dll" target="lib\net45\withSIX.Mini.Plugin.Starbound.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Presentation.Core.dll" target="lib\net45\withSIX.Mini.Presentation.Core.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Presentation.Electron.dll" target="lib\net45\withSIX.Mini.Presentation.Electron.dll" />
+		<file src="..\..\..\bin\withSIX.Mini.Presentation.Electron.dll.config" target="lib\net45\withSIX.Mini.Presentation.Electron.dll.config" />
 		
-        <file src="..\..\..\bin\SN.withSIX.Mini.Presentation.Shell.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Shell.dll" />
-		<file src="..\..\..\bin\SN.withSIX.Steam.Core.dll" target="lib\net45\SN.withSIX.Steam.Core.dll" />
-		<file src="..\..\..\bin\SN.withSIX.Steam.Api.dll" target="lib\net45\SN.withSIX.Steam.Api.dll" />
-        <file src="..\..\..\bin\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
+        <file src="..\..\..\bin\withSIX.Mini.Presentation.Shell.dll" target="lib\net45\withSIX.Mini.Presentation.Shell.dll" />
+		<file src="..\..\..\bin\withSIX.Steam.Core.dll" target="lib\net45\withSIX.Steam.Core.dll" />
+		<file src="..\..\..\bin\withSIX.Steam.Api.dll" target="lib\net45\withSIX.Steam.Api.dll" />
+        <file src="..\..\..\bin\withSIX.Sync.Core.dll" target="lib\net45\withSIX.Sync.Core.dll" />
 		
 		<file src="..\..\..\bin\withSIX.SteamHelper.exe" target="lib\net45\withSIX.SteamHelper.exe" />
 		<file src="..\..\..\bin\withSIX.SteamHelper.exe.config" target="lib\net45\withSIX.SteamHelper.exe.config" />
-		<file src="..\..\..\bin\SN.withSIX.Steam.Plugin.Arma.dll" target="lib\net45\SN.withSIX.Steam.Plugin.Arma.dll" />
+		<file src="..\..\..\bin\withSIX.Steam.Plugin.Arma.dll" target="lib\net45\withSIX.Steam.Plugin.Arma.dll" />
 		<file src="..\..\..\bin\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
 		<file src="..\..\..\bin\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 		<file src="..\..\..\bin\steam_api.dll" target="lib\net45\steam_api.dll" />

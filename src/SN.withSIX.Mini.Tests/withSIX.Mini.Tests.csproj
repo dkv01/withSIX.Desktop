@@ -7,8 +7,8 @@
     <ProjectGuid>{B192ED09-12B2-4898-9622-6967A9158F78}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Tests</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Tests</AssemblyName>
+    <RootNamespace>withSIX.Mini.Tests</RootNamespace>
+    <AssemblyName>withSIX.Mini.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

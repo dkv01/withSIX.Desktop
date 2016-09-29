@@ -7,8 +7,8 @@
     <ProjectGuid>{DD2A6DAD-EF37-4542-89AF-AEC0845E71E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Presentation.SA</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Presentation.SA</AssemblyName>
+    <RootNamespace>withSIX.Core.Presentation.SA</RootNamespace>
+    <AssemblyName>withSIX.Core.Presentation.SA</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>

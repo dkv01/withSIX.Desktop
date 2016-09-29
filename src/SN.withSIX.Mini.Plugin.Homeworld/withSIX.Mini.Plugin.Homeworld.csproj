@@ -8,8 +8,8 @@
     <ProjectGuid>{F711C10C-1E23-4EE2-8C26-4524D7D468F1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Homeworld</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Homeworld</AssemblyName>
+    <RootNamespace>withSIX.Mini.Plugin.Homeworld</RootNamespace>
+    <AssemblyName>withSIX.Mini.Plugin.Homeworld</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

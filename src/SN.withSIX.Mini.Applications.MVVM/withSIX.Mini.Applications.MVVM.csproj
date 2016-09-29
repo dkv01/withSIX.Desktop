@@ -7,8 +7,8 @@
     <ProjectGuid>{D9525060-5D5C-4B28-A593-147D75F0680C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Applications.MVVM</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Applications.MVVM</AssemblyName>
+    <RootNamespace>withSIX.Mini.Applications.MVVM</RootNamespace>
+    <AssemblyName>withSIX.Mini.Applications.MVVM</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>

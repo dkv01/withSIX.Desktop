@@ -8,8 +8,8 @@
     <ProjectGuid>{A76A5640-CAFD-4F80-9CC8-DD136618FBCB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.NMS</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.NMS</AssemblyName>
+    <RootNamespace>withSIX.Mini.Plugin.NMS</RootNamespace>
+    <AssemblyName>withSIX.Mini.Plugin.NMS</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

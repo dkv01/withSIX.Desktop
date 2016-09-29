@@ -8,8 +8,8 @@
     <ProjectGuid>{8CACA11D-F26B-4D9A-8FDD-4CAE9133813E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Arma</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Arma</AssemblyName>
+    <RootNamespace>withSIX.Mini.Plugin.Arma</RootNamespace>
+    <AssemblyName>withSIX.Mini.Plugin.Arma</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

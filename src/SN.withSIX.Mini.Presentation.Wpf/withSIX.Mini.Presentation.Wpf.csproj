@@ -7,7 +7,7 @@
     <ProjectGuid>{53EDBB19-D2AB-4F06-B830-15CEFB50CF2C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Presentation.Wpf</RootNamespace>
+    <RootNamespace>withSIX.Mini.Presentation.Wpf</RootNamespace>
     <AssemblyName>Sync</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -128,7 +128,7 @@
     <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SN.withSIX.Mini.Presentation.Wpf.Entrypoint</StartupObject>
+    <StartupObject>withSIX.Mini.Presentation.Wpf.Entrypoint</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Akavache">

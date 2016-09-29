@@ -8,8 +8,8 @@
     <ProjectGuid>{14361088-C7FB-41DA-BA1F-7420D40E8A99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Mini.Plugin.Stellaris</RootNamespace>
-    <AssemblyName>SN.withSIX.Mini.Plugin.Stellaris</AssemblyName>
+    <RootNamespace>withSIX.Mini.Plugin.Stellaris</RootNamespace>
+    <AssemblyName>withSIX.Mini.Plugin.Stellaris</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

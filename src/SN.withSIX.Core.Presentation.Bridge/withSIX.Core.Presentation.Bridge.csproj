@@ -7,8 +7,8 @@
     <ProjectGuid>{777EA4EB-495C-411C-9F65-510874368861}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Presentation.Bridge</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Presentation.Bridge</AssemblyName>
+    <RootNamespace>withSIX.Core.Presentation.Bridge</RootNamespace>
+    <AssemblyName>withSIX.Core.Presentation.Bridge</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

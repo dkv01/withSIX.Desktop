@@ -7,7 +7,7 @@
     <ProjectGuid>{8218A584-5FB1-4F1D-BFBF-F2E68E86A09C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Arma2Net.Presentation.Plugin</RootNamespace>
+    <RootNamespace>withSIX.Arma2Net.Presentation.Plugin</RootNamespace>
     <AssemblyName>SixArma2Net</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

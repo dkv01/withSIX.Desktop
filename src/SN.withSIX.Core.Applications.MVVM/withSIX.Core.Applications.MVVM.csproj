@@ -7,8 +7,8 @@
     <ProjectGuid>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SN.withSIX.Core.Applications.MVVM</RootNamespace>
-    <AssemblyName>SN.withSIX.Core.Applications.MVVM</AssemblyName>
+    <RootNamespace>withSIX.Core.Applications.MVVM</RootNamespace>
+    <AssemblyName>withSIX.Core.Applications.MVVM</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
