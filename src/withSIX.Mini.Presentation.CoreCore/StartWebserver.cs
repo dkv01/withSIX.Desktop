@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
@@ -10,12 +11,12 @@ using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using withSIX.Core.Extensions;
 using withSIX.Core.Presentation;
+using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Mini.Presentation.Owin.Core;
 
 namespace withSIX.Mini.Presentation.CoreCore
 {
-    // http://dotnetthoughts.net/how-to-setup-https-on-kestrel/
     public class WebListener : WebServerStartup, IPresentationService
     {
         public WebListener(IEnumerable<OwinModule> modules) : base(modules) {}
@@ -32,14 +33,17 @@ namespace withSIX.Mini.Presentation.CoreCore
                 base.Run(http, https, ct);
             } catch (TargetInvocationException ex) {
                 var unwrapped = ex.UnwrapExceptionIfNeeded();
-                throw;
-                // todo
-                //if (!(unwrapped is HttpListenerException))
-                //  throw;
-                //throw new ListenerException(ex.Message, unwrapped);
-                //} catch (HttpListenerException ex) {
-                //throw new ListenerException(ex.Message, ex);
+                throw new ListenerException(ex.Message, unwrapped);
+            } catch (Exception ex) {
+                throw new ListenerException(ex.Message, ex);
             }
+            // todo
+            //throw;
+            //if (!(unwrapped is HttpListenerException))
+            //  throw;
+            //throw new ListenerException(ex.Message, unwrapped);
+            //} catch (HttpListenerException ex) {
+            //throw new ListenerException(ex.Message, ex);
         }
     }
 }
