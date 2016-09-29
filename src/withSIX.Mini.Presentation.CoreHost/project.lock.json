@@ -10034,7 +10034,8 @@
       "SQLitePCLRaw.bundle_e_sqlite3 >= 1.0.1",
       "Splat >= 1.6.2",
       "System.Diagnostics.Contracts >= 4.0.1",
-      "System.Runtime.Loader >= 4.0.0"
+      "System.Runtime.Loader >= 4.0.0",
+      "System.Security.Cryptography.ProtectedData >= 4.0.0"
     ],
     ".NETCoreApp,Version=v1.0": [
       "GameServerQuery",

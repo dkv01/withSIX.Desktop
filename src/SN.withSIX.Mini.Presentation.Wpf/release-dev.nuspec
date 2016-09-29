@@ -98,12 +98,16 @@
         <file src="bin\release\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="bin\release\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
         <file src="bin\release\Splat.dll" target="lib\net45\Splat.dll" />
-        <file src="bin\release\SQLitePCL.raw.dll" target="lib\net45\SQLitePCL.raw.dll" />
+
+        <file src="bin\release\SQLitePCLRaw.batteries_e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.batteries_e_sqlite3.dll" />
+        <file src="bin\release\SQLitePCLRaw.core.dll" target="lib\net45\SQLitePCLRaw.core.dll" />
+        <file src="bin\release\SQLitePCLRaw.provider.e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll" />
+
         <file src="bin\release\Synercoding.Encryption.dll" target="lib\net45\Synercoding.Encryption.dll" />
         <file src="bin\release\WpfAnimatedGif.dll" target="lib\net45\WpfAnimatedGif.dll" />
         <file src="bin\release\YamlDotNet.dll" target="lib\net45\YamlDotNet.dll" />
 
-        <file src="bin\release\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
+        <file src="bin\release\x86\e_sqlite3.dll" target="lib\net45\x86\e_sqlite3.dll" />
 
         <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
         <file src="bin\release\VCRedistInstaller.exe" target="lib\net45\VCRedistInstaller.exe" />
@@ -186,6 +190,7 @@
 <file src="bin\release\System.Security.Cryptography.Algorithms.dll" target="lib\net45\System.Security.Cryptography.Algorithms.dll" />
 <file src="bin\release\System.Security.Cryptography.Encoding.dll" target="lib\net45\System.Security.Cryptography.Encoding.dll" />
 <file src="bin\release\System.Security.Cryptography.Primitives.dll" target="lib\net45\System.Security.Cryptography.Primitives.dll" />
+<file src="bin\release\System.Security.Cryptography.ProtectedData.dll" target="lib\net45\System.Security.Cryptography.ProtectedData.dll" />
 <file src="bin\release\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
 <file src="bin\release\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
 <file src="bin\release\System.Text.Encodings.Web.dll" target="lib\net45\System.Text.Encodings.Web.dll" />
