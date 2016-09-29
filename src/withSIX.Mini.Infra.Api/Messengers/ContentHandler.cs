@@ -3,7 +3,7 @@
 // </copyright>
 
 using MediatR;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Extensions;
 using withSIX.Mini.Applications.Usecases.Main;
 using withSIX.Mini.Core.Games;
@@ -14,8 +14,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
     public class ContentHandler : INotificationHandler<ContentUsed>, INotificationHandler<ContentInstalled>,
         INotificationHandler<RecentItemRemoved>
     {
-        readonly IHubContext<IContentClientHub> _hubContext =
-            GlobalHost.ConnectionManager.GetHubContext<ContentHub, IContentClientHub>();
+        readonly IHubContext<ContentHub, IContentClientHub> _hubContext =
+            SignalrOwinModule.ConnectionManager.GetHubContext<ContentHub, IContentClientHub>();
 
         public void Handle(ContentInstalled notification) {
             // TODO: Also have List<> based S-IR event instead?

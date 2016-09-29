@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Hubs;
 using NDepend.Path;
 using withSIX.Mini.Applications.Usecases;
 using withSIX.Mini.Applications.Usecases.Main;
@@ -63,7 +64,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task StartSession(StartDownloadSession command) => SendAsync(command);
     }
 
-    public interface IContentClientHub
+    public interface IContentClientHub : IHub
     {
         Task RecentItemAdded(Guid gameId, RecentContentModel recentItem);
         Task RecentItemUsed(Guid gameId, Guid recentItemId, DateTime playedAt);

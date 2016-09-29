@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Hubs;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Usecases.Main;
@@ -38,7 +39,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
     // the domain needs to be extended to support that kind of stuff.
     // for now handle uptodate as Installed state..
 
-    public interface IStatusClientHub
+    public interface IStatusClientHub : IHub
     {
         Task LockedGame(Guid gameId, bool canAbort);
         Task UnlockedGame(Guid gameId);

@@ -3,11 +3,14 @@
 // </copyright>
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace withSIX.Mini.Presentation.Owin.Core
 {
     public abstract class OwinModule
     {
         public abstract void Configure(IApplicationBuilder builder);
+
+        public virtual void ConfigureServices(IServiceCollection services) {}
     }
 }

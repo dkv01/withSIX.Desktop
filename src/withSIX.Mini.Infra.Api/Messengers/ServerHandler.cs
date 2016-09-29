@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Infra.Api.Hubs;
 
@@ -12,8 +12,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class ServerHandler : IAsyncNotificationHandler<ServersPageReceived>
     {
-        private readonly IHubContext<IServerHubClient> _hubContext =
-            GlobalHost.ConnectionManager.GetHubContext<ServerHub, IServerHubClient>();
+        private readonly IHubContext<ServerHub, IServerHubClient> _hubContext =
+            SignalrOwinModule.ConnectionManager.GetHubContext<ServerHub, IServerHubClient>();
 
         public Task Handle(ServersPageReceived notification)
             => _hubContext.Clients.All.ServersPageReceived(notification);

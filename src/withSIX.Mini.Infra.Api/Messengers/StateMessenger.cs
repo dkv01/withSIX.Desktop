@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Infra.Services;
 using withSIX.Mini.Applications.Extensions;
@@ -27,8 +27,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
 
     public class StateMessengerBus : IStateMessengerBus, IInfrastructureService, IDisposable
     {
-        private readonly IHubContext<IStatusClientHub> _hubContext =
-            GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
+        private readonly IHubContext<StatusHub, IStatusClientHub> _hubContext =
+            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
         private readonly IDisposable _subscription;
 
         public StateMessengerBus(IGameLocker gameLocker) {
@@ -57,8 +57,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<GameTerminated>,
         IAsyncNotificationHandler<ActionNotification>
     {
-        readonly IHubContext<IStatusClientHub> _hubContext =
-            GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
+        readonly IHubContext<StatusHub, IStatusClientHub> _hubContext =
+            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
 
         public Task Handle(ActionNotification notification) =>
             _hubContext.Clients.All.ActionNotification(notification);

@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using withSIX.Core.Infra.Services;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
@@ -14,8 +14,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class QueueHubMessenger : IInfrastructureService, IQueueHubMessenger
     {
-        readonly IHubContext<IQueueClientHub> _hubContext =
-            GlobalHost.ConnectionManager.GetHubContext<QueueHub, IQueueClientHub>();
+        readonly IHubContext<QueueHub, IQueueClientHub> _hubContext =
+            SignalrOwinModule.ConnectionManager.GetHubContext<QueueHub, IQueueClientHub>();
 
         public Task AddToQueue(QueueItem item) => _hubContext.Clients.All.Added(item);
 

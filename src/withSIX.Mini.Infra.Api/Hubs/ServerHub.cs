@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Hubs;
 using withSIX.Mini.Applications.Usecases.Main.Servers;
 using withSIX.Mini.Core.Games;
 
@@ -19,7 +20,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task<ServersInfo> QueryServers(GetServersInfoQuery info) => SendAsync(new QueryServersInfo(info));
     }
 
-    public interface IServerHubClient
+    public interface IServerHubClient : IHub
     {
         Task ServersPageReceived(ServersPageReceived info);
     }

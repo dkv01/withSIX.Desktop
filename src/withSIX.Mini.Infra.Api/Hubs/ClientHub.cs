@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Hubs;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Applications.Usecases.Main;
@@ -32,7 +33,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task UninstallExplorerExtension() => SendAsync(new RemoveExtension());
     }
 
-    public interface IClientClientHub
+    public interface IClientClientHub : IHub
     {
         void AppStateUpdated(ClientInfo appState);
         void UserErrorResolved(UserErrorResolved notification);
