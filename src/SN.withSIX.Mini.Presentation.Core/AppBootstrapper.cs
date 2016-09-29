@@ -16,7 +16,6 @@ using Akavache.Sqlite3.Internal;
 using AutoMapper;
 using MediatR;
 using NDepend.Path;
-using Newtonsoft.Json;
 using SimpleInjector;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
@@ -61,6 +60,7 @@ namespace SN.withSIX.Mini.Presentation.Core
 {
     public abstract class AppBootstrapper : IDisposable
     {
+        public IAbsoluteDirectoryPath RootPath { get; set; }
         static readonly IAbsoluteDirectoryPath assemblyPath =
             CommonBase.AssemblyLoader.GetNetEntryPath();
         // = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
@@ -114,9 +114,13 @@ namespace SN.withSIX.Mini.Presentation.Core
             UserErrorHandling.Setup();
         }
 
-        protected virtual IEnumerable<Assembly> GetInfraAssemblies => infraAssemblies;
+        protected virtual IEnumerable<Assembly> GetInfraAssemblies
+            =>
+            new[] {AssemblyLoadFrom(RootPath.GetChildFileWithName("SN.withSIX.Mini.Presentation.Owin.Core.dll"))}.Concat(
+                infraAssemblies);
 
-        protected AppBootstrapper(string[] args) {
+        protected AppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) {
+            RootPath = rootPath;
             _args = args;
             Container = new Container();
         }
@@ -182,6 +186,8 @@ namespace SN.withSIX.Mini.Presentation.Core
 
         IEnumerable<Assembly> DiscoverAndLoadPlugins() => DiscoverPluginDlls()
             .Select(AssemblyLoadFrom);
+
+        protected Assembly AssemblyLoadFrom(IAbsoluteFilePath arg) => AssemblyLoadFrom(arg.ToString());
 
         protected abstract Assembly AssemblyLoadFrom(string arg);
 

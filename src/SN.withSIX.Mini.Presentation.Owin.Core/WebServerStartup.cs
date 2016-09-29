@@ -1,8 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="Startup.cs">
-//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
-// </copyright>
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
@@ -10,12 +6,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Mini.Presentation.Core;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace SN.withSIX.Mini.Presentation.Owin.Core
 {
-    public class WebServerStartup
+    public abstract class WebServerStartup : IWebServerStartup
     {
-        void Configure(IApplicationBuilder app, IEnumerable<OwinModule> modules) {
+        private readonly IEnumerable<OwinModule> _modules;
+        public WebServerStartup(IEnumerable<OwinModule> modules) {
+            _modules = modules;
+        }
+        protected virtual void Configure(IApplicationBuilder app) {
             // , IHostingEnvironment env, ILoggerFactory loggerFactory
             //loggerFactory.AddConsole();
 
@@ -30,14 +32,11 @@ namespace SN.withSIX.Mini.Infra.Api
                 builder.WithOrigins(Environments.Origins);
             });
 
-            foreach (var m in modules)
+            foreach (var m in _modules)
                 m.Configure(app);
         }
 
-        public IDisposable Start(IPEndPoint http, IPEndPoint https, params OwinModule[] modules)
-            => Start(http, https, (IEnumerable<OwinModule>) modules);
-
-        public IDisposable Start(IPEndPoint http, IPEndPoint https, IEnumerable<OwinModule> modules) {
+        public virtual IDisposable Start(IPEndPoint http, IPEndPoint https) {
             var config = new ConfigurationBuilder()
                 //.AddCommandLine(args)
                 .Build();
@@ -45,9 +44,8 @@ namespace SN.withSIX.Mini.Infra.Api
             var builder = new WebHostBuilder()
                 //        .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseConfiguration(config);
-
-            builder.UseWebListener(options => { });
             builder.ConfigureServices(ConfigureServices);
+            ConfigureBuilder(builder);
 
             var urls = new List<string>();
             if ((http == null) && (https == null))
@@ -57,10 +55,13 @@ namespace SN.withSIX.Mini.Infra.Api
             if (https != null)
                 urls.Add(https.ToHttps());
 
-            builder.Configure(app => Configure(app, modules));
+            builder.Configure(Configure);
+
             return builder.Start(urls.ToArray());
         }
 
-        private void ConfigureServices(IServiceCollection obj) => obj.AddCors();
+        protected abstract void ConfigureBuilder(IWebHostBuilder builder);
+
+        protected virtual void ConfigureServices(IServiceCollection obj) => obj.AddCors();
     }
 }

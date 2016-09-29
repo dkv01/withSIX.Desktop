@@ -153,6 +153,14 @@
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
+      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
+      <Name>withSIX.Mini.Presentation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj">
+      <Project>{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}</Project>
+      <Name>withSIX.Mini.Presentation.Owin.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

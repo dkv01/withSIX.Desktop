@@ -126,7 +126,11 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiOwinModule.cs" />
+    <Compile Include="BuilderExtensions.cs" />
+    <Compile Include="OwinModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebServerStartup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SN.withSIX.Core.Applications\withSIX.Core.Applications.csproj">
@@ -136,6 +140,10 @@
     <ProjectReference Include="..\SN.withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131b6a51-5385-4fee-9e91-2911c936d200}</Project>
       <Name>withSIX.Core.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
       <Project>{83c185f7-79ec-47a3-98da-07a00dff1b42}</Project>
@@ -149,6 +157,21 @@
       <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>
       <Name>withSIX.Mini.Infra.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
+      <Project>{0C58D0AE-6B3A-45B9-8D8F-69226EC2F5B8}</Project>
+      <Name>withSIX.Mini.Presentation.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.1.0.0\lib\net451\Microsoft.AspNetCore.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.1.0.0\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

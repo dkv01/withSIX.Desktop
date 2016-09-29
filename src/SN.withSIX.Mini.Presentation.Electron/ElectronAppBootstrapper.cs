@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NDepend.Path;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
@@ -40,7 +41,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
     class WorkaroundBootstrapper : AppBootstrapper
     {
-        protected WorkaroundBootstrapper(string[] args) : base(args) { }
+        protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) { }
 
         protected override void LowInitializer() => BootstrapperBridge.LowInitializer();
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies);
@@ -70,8 +71,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
                 typeof(JsonSerializerSettings));
         }
 
-        public ElectronAppBootstrapper(string[] args)
-            : base(args) {}
+        public ElectronAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath)
+            : base(args, rootPath) {}
 
         protected override void Dispose(bool d) {
             base.Dispose(d);

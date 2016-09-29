@@ -1,22 +1,18 @@
-﻿    using System;
+﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNet.SignalR.Hubs;
-using Microsoft.AspNet.SignalR.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace SN.withSIX.Mini.Presentation.Owin.Core
 {
     internal static class BuilderExtensions
     {
@@ -100,29 +96,6 @@ namespace SN.withSIX.Mini.Infra.Api
         internal static async Task RespondJson(this HttpContext context, object returnValue) {
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(returnValue.ToJson()).ConfigureAwait(false);
-        }
-
-        internal class Resolver : DefaultParameterResolver
-        {
-            private readonly JsonSerializer _serializer;
-
-            private FieldInfo _valueField;
-
-            public Resolver(JsonSerializer serializer) {
-                _serializer = serializer;
-            }
-
-            public override object ResolveParameter(ParameterDescriptor descriptor, IJsonValue value) {
-                if (value.GetType() == descriptor.ParameterType)
-                    return value;
-
-                if (_valueField == null)
-                    _valueField = value.GetType().GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                var json = (string)_valueField.GetValue(value);
-                using (var reader = new StringReader(json))
-                    return _serializer.Deserialize(reader, descriptor.ParameterType);
-            }
         }
     }
 }

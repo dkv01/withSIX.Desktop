@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using NDepend.Path;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
@@ -53,9 +54,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
     }
 
-    class WorkaroundBootstrapper : AppBootstrapper
+    public class WorkaroundBootstrapper : AppBootstrapper
     {
-        protected WorkaroundBootstrapper(string[] args) : base(args) {}
+        protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
 
         protected override void LowInitializer() => BootstrapperBridge.LowInitializer();
         protected override void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) => Container.RegisterPlugins<T>(assemblies);
@@ -73,7 +74,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
     {
         IMiniMainWindowViewModel _mainVm;
 
-        internal WpfAppBootstrapper(string[] args) : base(args) {}
+        internal WpfAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
 
         public override void Configure() {
             base.Configure();

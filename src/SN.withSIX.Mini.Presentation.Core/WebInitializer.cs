@@ -1,51 +1,32 @@
-﻿// <copyright company="SIX Networks GmbH" file="Initializer.cs">
+﻿// <copyright company="SIX Networks GmbH" file="WebInitializer.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
 using System;
 using System.Diagnostics;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Infra.Api.Messengers;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace SN.withSIX.Mini.Presentation.Core
 {
-    public static class IPEndPointExtensions
-    {
-        public static string ToHttp(this IPEndPoint ep) => ToProto(ep, "http");
-
-        public static string ToHttps(this IPEndPoint ep) => ToProto(ep, "https");
-        private static string ToProto(IPEndPoint ep, string scheme) => scheme + "://" + ep;
-    }
-
-    public class Initializer : IInitializer, IInitializeAfterUI
+    public class WebInitializer : IInitializer, IInitializeAfterUI
     {
         static IDisposable _webServer;
-        private readonly IWebApiErrorHandler _errorHandler;
         private readonly IDbContextFactory _factory;
-        private readonly IProcessManager _pm;
-        private readonly IDialogManager _dm;
-        private readonly IStateMessengerBus _stateMessenger;
-        private IDisposable _ErrorReg;
+        private readonly IWebServerStartup _webServerStartup;
 
-        public Initializer(IWebApiErrorHandler errorHandler, IDbContextFactory factory,
-            IStateMessengerBus stateMessenger, IProcessManager pm, IDialogManager dm) {
-            _errorHandler = errorHandler;
+        public WebInitializer(IDbContextFactory factory, IWebServerStartup webServerStartup) {
             _factory = factory;
-            _stateMessenger = stateMessenger;
-            _pm = pm;
-            _dm = dm;
+            _webServerStartup = webServerStartup;
         }
 
         public async Task InitializeAfterUI() {
@@ -54,41 +35,14 @@ namespace SN.withSIX.Mini.Infra.Api
             // and remain there even when we close the scope.
             using (_factory.SuppressAmbientContext()) {
                 await TryLaunchWebserver().ConfigureAwait(false);
-                _ErrorReg = UserError.RegisterHandler(error => _errorHandler.Handler(error));
             }
         }
 
         public Task Initialize() {
-            _stateMessenger.Initialize();
-
-            TryHandlePorts();
-
             // TODO: ON startup or at other times too??
             return TaskExt.Default;
         }
 
-        private void TryHandlePorts() {
-            try {
-                HandleSystem();
-            } catch (OperationCanceledException ex) {
-                MainLog.Logger.FormattedFatalException(ex, "Failure setting up API ports");
-                // TODO: Throw instead?
-                _dm.MessageBox(
-                    new MessageBoxDialogParams(
-                        "Configuration of API ports are required but were cancelled by the user.\nPlease allow the Elevation prompt on retry. The application is now closing.",
-                        "Sync: API Ports Configuration cancelled"));
-                Environment.Exit(1);
-            }
-        }
-
-        private void HandleSystem() {
-            var si = BuildSi(_pm);
-            if (((Consts.HttpAddress == null) || si.IsHttpPortRegistered) &&
-                ((Consts.HttpsAddress == null) || si.IsSslRegistered()))
-                return;
-            ApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, _pm);
-            si = BuildSi(_pm); // to output
-        }
 
         // This requires the Initializer to be a singleton, not great to have to require singleton for all?
         public Task Deinitialize() {
@@ -96,7 +50,6 @@ namespace SN.withSIX.Mini.Infra.Api
             if (ws != null)
                 Task.Run(() => ws.Dispose()); // TODO: This currently locks up! so we run it in a task :S
             _webServer = null;
-            _ErrorReg?.Dispose();
             return TaskExt.Default;
         }
 
@@ -122,32 +75,10 @@ namespace SN.withSIX.Mini.Infra.Api
 
             var http = Consts.HttpAddress;
             var https = Consts.HttpsAddress;
-
-            var si = BuildSi(_pm);
-            if (!si.IsHttpsPortRegistered && !si.IsHttpPortRegistered)
-                throw new InvalidOperationException("Neither http nor https ports are registered");
-            if (si.IsHttpsPortRegistered && !si.IsCertRegistered)
-                throw new InvalidOperationException("The certificate failed to register");
-
-            if (!si.IsHttpPortRegistered)
-                http = null;
-            if (!si.IsSslRegistered())
-                https = null;
-
             retry:
             try {
-                _webServer = new WebServerStartup().Start(http, https, new ApiOwinModule(), new SignalrOwinModule());
-            } catch (TargetInvocationException ex) {
-                var unwrapped = ex.UnwrapExceptionIfNeeded();
-                if (!(unwrapped is HttpListenerException))
-                    throw;
-
-                if (tries++ >= maxTries)
-                    throw GetCustomException(unwrapped, https ?? http);
-                MainLog.Logger.Warn(unwrapped.Format());
-                Thread.Sleep(timeOut);
-                goto retry;
-            } catch (HttpListenerException ex) {
+                _webServer = _webServerStartup.Start(http, https);
+            } catch (ListenerException ex) {
                 if (tries++ >= maxTries)
                     throw GetCustomException(ex, https ?? http);
                 MainLog.Logger.FormattedWarnException(ex);
@@ -156,12 +87,14 @@ namespace SN.withSIX.Mini.Infra.Api
             }
         }
 
-        public static ServerInfo BuildSi(IProcessManagerSync pm)
-            => new ServerInfo(pm, Consts.HttpAddress, Consts.HttpsAddress);
-
         static Exception GetCustomException(Exception unwrapped, IPEndPoint addr)
             => new CannotOpenApiPortException("The address: " + addr + " is already in use?\n" + unwrapped.Message,
                 unwrapped);
+    }
+
+    public class ListenerException : Exception
+    {
+        public ListenerException(string message, Exception innerException) : base(message, innerException) {}
     }
 
     public class ServerInfo
@@ -194,9 +127,8 @@ namespace SN.withSIX.Mini.Infra.Api
         }
     }
 
-    public class CannotOpenApiPortException : Exception
+    public interface IWebServerStartup
     {
-        public CannotOpenApiPortException(string message) : base(message) {}
-        public CannotOpenApiPortException(string message, Exception ex) : base(message, ex) {}
+        IDisposable Start(IPEndPoint http, IPEndPoint https);
     }
 }

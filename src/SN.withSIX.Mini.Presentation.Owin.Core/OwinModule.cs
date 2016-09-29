@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace SN.withSIX.Mini.Presentation.Owin.Core
 {
     public abstract class OwinModule
     {

@@ -34,7 +34,9 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         private static Task LaunchAppThread() => TaskExt.StartLongRunningTask(async () => {
             await LaunchWithNode().ConfigureAwait(false);
-            _bootstrapper = new ElectronAppBootstrapper(_args);
+            var entryAssembly = typeof(Entrypoint).GetTypeInfo().Assembly;
+            var entryPath = entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath;
+            _bootstrapper = new ElectronAppBootstrapper(_args, entryPath);
             _bootstrapper.Configure();
             await StartupInternal().ConfigureAwait(false);
         });
@@ -50,8 +52,8 @@ namespace SN.withSIX.Mini.Presentation.Electron
 
         static void SetupAssemblyLoader(IAbsoluteFilePath locationOverride = null) {
             var entryAssembly = typeof(Entrypoint).GetTypeInfo().Assembly;
-            CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, locationOverride,
-                entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath);
+            var entryPath = entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath; 
+            CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, locationOverride, entryPath);
         }
 
         static void SetupRegistry() {

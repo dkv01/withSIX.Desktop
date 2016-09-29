@@ -8,7 +8,7 @@ using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Infra.Api
+namespace SN.withSIX.Mini.Presentation.Owin.Core
 {
     public class ApiOwinModule : OwinModule
     {

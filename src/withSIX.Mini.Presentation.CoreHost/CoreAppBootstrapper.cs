@@ -29,7 +29,7 @@ namespace withSIX.Mini.Presentation.CoreHost
         private readonly IAbsoluteDirectoryPath _rootPath;
         readonly AssemblyLoader asl;
 
-        protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args) {
+        protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {
             _rootPath = rootPath;
             asl = new AssemblyLoader(_rootPath.ToString());
         }

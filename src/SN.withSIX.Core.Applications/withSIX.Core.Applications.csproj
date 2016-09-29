@@ -137,6 +137,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DecoratorBase.cs" />
     <Compile Include="Extensions\DispatchCommand.cs" />
+    <Compile Include="Extensions\IPEndPointExtensions.cs" />
     <Compile Include="Extensions\MediatorDecoratorBase.cs" />
     <Compile Include="Extensions\MediatorExtensions.cs" />
     <Compile Include="Extensions\ObservableExtensions.cs" />

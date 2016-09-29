@@ -394,11 +394,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiOwinModule.cs" />
-    <Compile Include="ApiPortHandler.cs" />
     <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="AutoMapperInfraApiConfig.cs" />
-    <Compile Include="BuilderExtensions.cs" />
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
     <Compile Include="Hubs\HubBase.cs" />
@@ -407,16 +404,14 @@
     <Compile Include="Hubs\ServerHub.cs" />
     <Compile Include="Hubs\SettingsHub.cs" />
     <Compile Include="Hubs\StatusHub.cs" />
-    <Compile Include="Initializer.cs" />
+    <Compile Include="WebInitializer.cs" />
     <Compile Include="Messengers\ClientHandler.cs" />
     <Compile Include="Messengers\ContentHandler.cs" />
     <Compile Include="Messengers\QueueHubMessenger.cs" />
     <Compile Include="Messengers\ServerHandler.cs" />
     <Compile Include="Messengers\StateMessenger.cs" />
-    <Compile Include="OwinModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalrOwinModule.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="StateHandler.cs" />
     <Compile Include="WebApiErrorHandler.cs" />
   </ItemGroup>
@@ -456,6 +451,10 @@
     <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
       <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
       <Name>withSIX.Mini.Presentation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj">
+      <Project>{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}</Project>
+      <Name>withSIX.Mini.Presentation.Owin.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
