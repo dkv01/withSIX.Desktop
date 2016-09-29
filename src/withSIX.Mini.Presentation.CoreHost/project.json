@@ -95,6 +95,9 @@
         "withSIX.Mini.Presentation.CoreCore": {
           "target": "project"
         },
+        "withSIX.Mini.Presentation.Owin.Core": {
+          "target": "project"
+        },
         "withSIX.Steam.Core": {
           "target": "project"
         },

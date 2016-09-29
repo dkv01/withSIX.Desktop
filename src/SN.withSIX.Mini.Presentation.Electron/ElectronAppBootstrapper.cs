@@ -21,6 +21,7 @@ using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Owin.Core;
 using Splat;
 using withSIX.Api.Models.Extensions;
 
@@ -69,6 +70,7 @@ namespace SN.withSIX.Mini.Presentation.Electron
             base.Configure();
             Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
                 typeof(JsonSerializerSettings));
+            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
 
         public ElectronAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath)

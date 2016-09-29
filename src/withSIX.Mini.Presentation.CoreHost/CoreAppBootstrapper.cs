@@ -19,6 +19,7 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Decorators;
 using SN.withSIX.Mini.Presentation.Core;
+using SN.withSIX.Mini.Presentation.Owin.Core;
 using withSIX.Mini.Presentation.CoreCore.Services;
 using SystemExtensions = withSIX.Api.Models.Extensions.SystemExtensions;
 
@@ -123,6 +124,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             base.Configure();
             // throws atm, we need updated Splat/RXUI :-)
             //Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(), typeof(JsonSerializerSettings));
+            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
     }
 
