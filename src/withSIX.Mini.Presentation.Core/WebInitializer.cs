@@ -22,11 +22,13 @@ namespace withSIX.Mini.Presentation.Core
     {
         private readonly IDbContextFactory _factory;
         private readonly IWebServerStartup _webServerStartup;
+        private readonly IShutdownHandler _shutdownHandler;
         private readonly CancellationTokenSource _cts;
 
-        public WebInitializer(IDbContextFactory factory, IWebServerStartup webServerStartup) {
+        public WebInitializer(IDbContextFactory factory, IWebServerStartup webServerStartup, IShutdownHandler shutdownHandler) {
             _factory = factory;
             _webServerStartup = webServerStartup;
+            _shutdownHandler = shutdownHandler;
             _cts = new CancellationTokenSource();
         }
 
@@ -63,7 +65,15 @@ namespace withSIX.Mini.Presentation.Core
                         .ConfigureAwait(false);
                 if (r == RecoveryOptionResultModel.RetryOperation)
                     goto retry;
-                throw; // todo, terminate!
+                _shutdownHandler.Shutdown(1);
+                throw;
+            } catch (Exception ex) {
+                var r = await
+                    UserErrorHandler.InformationalUserError(ex, "Unable to open required ports",
+                            "We were unable to open the required port for the website to communicate with the client.\nAre there other instances already running on your system?\n\nIf you continue to experience this problem please contact support @ https://community.withsix.com")
+                        .ConfigureAwait(false);
+                _shutdownHandler.Shutdown(1);
+                throw;
             }
         }
 
