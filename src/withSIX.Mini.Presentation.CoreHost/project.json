@@ -3,6 +3,11 @@
     "emitEntryPoint": true
   },
 
+  "runtimes": {
+    "win7-x86": {},
+    "ubuntu14.04-x64":  {} 
+  },
+
   "dependencies": {
     "Mono.Options": "4.4.0",
     "Microsoft.NETCore.App": {
