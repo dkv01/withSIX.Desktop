@@ -17,7 +17,6 @@ using SimpleInjector;
 using Splat;
 using System.Linq;
 using System.Reactive;
-using System.Reflection;
 
 namespace SN.withSIX.Core.Presentation
 {
@@ -31,9 +30,8 @@ namespace SN.withSIX.Core.Presentation
             // cant refer ReactiveUI atm until we put it into a package :)
             l.Register(() => new SimpleFilesystemProvider(), typeof(IFilesystemProvider), null);
             l.Register(() => TaskPoolScheduler.Default, typeof(IScheduler), "Taskpool");
+            SQLitePCL.Batteries.Init();
         }
-         
-
     }
 
     static class Utility

@@ -5,6 +5,7 @@
     "NETStandard.Library": "1.6.0",
     "sharpcompress": "0.12.4",
     "SimpleInjector": "3.2.2",
+    "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
     "System.Diagnostics.Contracts": "4.0.1",
     "withSIX.Api.Models": "2.0.7-pre"
   },

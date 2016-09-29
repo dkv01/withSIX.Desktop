@@ -610,6 +610,29 @@
           "lib/netstandard1.0/SimpleInjector.dll": {}
         }
       },
+      "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "SQLitePCLRaw.core": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+        }
+      },
+      "SQLitePCLRaw.core/1.0.1": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLitePCLRaw.core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLitePCLRaw.core.dll": {}
+        }
+      },
       "System.AppContext/4.1.0": {
         "dependencies": {
           "System.Runtime": "4.1.0"
@@ -2792,6 +2815,58 @@
         "lib/netstandard1.0/SimpleInjector.xml",
         "lib/portable-net4+sl4+wp8+win8+wpa81/SimpleInjector.dll",
         "lib/portable-net4+sl4+wp8+win8+wpa81/SimpleInjector.xml"
+      ]
+    },
+    "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+      "sha512": "qMHNtn1M862QczB/ZyW7jxS0M0aSjlbDIRYD/fBVHFXeNV/pae9FL/Eq4q3X4BOO6q2X2DyeIAQTWt9kjF15Ug==",
+      "type": "package",
+      "path": "SQLitePCLRaw.bundle_e_sqlite3/1.0.1",
+      "files": [
+        "SQLitePCLRaw.bundle_e_sqlite3.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.bundle_e_sqlite3.nuspec",
+        "build/wp8/SQLitePCLRaw.bundle_e_sqlite3.targets",
+        "build/wp80/arm/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "build/wp80/x86/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/MonoAndroid/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/MonoTouch/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net35/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net40/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/netcoreapp/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/netstandard1.1/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net40+sl5+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/uap10.0/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/win8/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/win81/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/wp8/_._",
+        "lib/wpa81/SQLitePCLRaw.batteries_e_sqlite3.dll"
+      ]
+    },
+    "SQLitePCLRaw.core/1.0.1": {
+      "sha512": "ih45uNC9JVk3xxkxuy1vGl6Ukn6KJkOeEXQcMoxCaGg4OrcYZQFcm9/Sq5WTElGZJ/LynpV6/OrIaLqrmsC8eQ==",
+      "type": "package",
+      "path": "SQLitePCLRaw.core/1.0.1",
+      "files": [
+        "SQLitePCLRaw.core.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.core.nuspec",
+        "lib/MonoAndroid/SQLitePCLRaw.core.dll",
+        "lib/MonoTouch/SQLitePCLRaw.core.dll",
+        "lib/Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/net35/SQLitePCLRaw.core.dll",
+        "lib/net40/SQLitePCLRaw.core.dll",
+        "lib/net45/SQLitePCLRaw.core.dll",
+        "lib/netstandard1.0/SQLitePCLRaw.core.dll",
+        "lib/netstandard1.1/SQLitePCLRaw.core.dll",
+        "lib/portable-net40+sl5+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.core.dll",
+        "lib/uap10.0/SQLitePCLRaw.core.dll",
+        "lib/win8/SQLitePCLRaw.core.dll",
+        "lib/win81/SQLitePCLRaw.core.dll",
+        "lib/wpa81/SQLitePCLRaw.core.dll"
       ]
     },
     "System.AppContext/4.1.0": {
