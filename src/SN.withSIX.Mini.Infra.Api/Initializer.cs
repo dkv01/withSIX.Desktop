@@ -136,7 +136,7 @@ namespace SN.withSIX.Mini.Infra.Api
 
             retry:
             try {
-                _webServer = Startup.Start(http, https);
+                _webServer = new WebServerStartup().Start(http, https, new ApiOwinModule(), new SignalrOwinModule());
             } catch (TargetInvocationException ex) {
                 var unwrapped = ex.UnwrapExceptionIfNeeded();
                 if (!(unwrapped is HttpListenerException))

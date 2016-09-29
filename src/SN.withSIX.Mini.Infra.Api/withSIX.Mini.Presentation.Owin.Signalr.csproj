@@ -394,8 +394,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiOwinModule.cs" />
     <Compile Include="ApiPortHandler.cs" />
+    <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="AutoMapperInfraApiConfig.cs" />
+    <Compile Include="BuilderExtensions.cs" />
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
     <Compile Include="Hubs\HubBase.cs" />
@@ -410,7 +413,9 @@
     <Compile Include="Messengers\QueueHubMessenger.cs" />
     <Compile Include="Messengers\ServerHandler.cs" />
     <Compile Include="Messengers\StateMessenger.cs" />
+    <Compile Include="OwinModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalrOwinModule.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StateHandler.cs" />
     <Compile Include="WebApiErrorHandler.cs" />
