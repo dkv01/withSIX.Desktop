@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37206117-956B-43D1-9E7C-E37100C20A06}</ProjectGuid>
+    <ProjectGuid>{D3D354E1-919F-4135-9496-ACD2C39806D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Mini.Presentation.CoreCore</RootNamespace>
-    <AssemblyName>withSIX.Mini.Presentation.CoreCore</AssemblyName>
+    <RootNamespace>withSIX.ContentEngine.Infra</RootNamespace>
+    <AssemblyName>withSIX.ContentEngine.Infra</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -123,43 +123,36 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="project.json" />
+    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.js.map" />
+    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.json" />
+    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.js.map" />
+    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.json" />
+    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.js.map" />
+    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.json" />
+    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.js.map" />
+    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AssemblyService.cs" />
-    <Compile Include="Services\CallContextService.cs" />
-    <Compile Include="Services\ConsoleDialogManager.cs" />
-    <Compile Include="Services\ExitHandler.cs" />
-    <Compile Include="Services\ProcessManager.cs" />
-    <Compile Include="Services\ShutdownHandler.cs" />
-    <Compile Include="Services\UacHelper.cs" />
-    <Compile Include="StartWebserver.cs" />
+    <Compile Include="ResourceService.cs" />
+    <Compile Include="Services\GameFolderService.cs" />
+    <Compile Include="Services\IContentEngineGameContext.cs" />
+    <Compile Include="Services\TeamspeakService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
-      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>withSIX.Core.Applications</Name>
+    <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
+      <Name>withSIX.ContentEngine.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
-      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>withSIX.Core.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
-      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
-      <Name>withSIX.Mini.Presentation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj">
-      <Project>{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}</Project>
-      <Name>withSIX.Mini.Presentation.Owin.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

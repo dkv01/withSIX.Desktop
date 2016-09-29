@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37206117-956B-43D1-9E7C-E37100C20A06}</ProjectGuid>
+    <ProjectGuid>{AC8C7390-6947-48EF-A717-5FDFCA799158}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Mini.Presentation.CoreCore</RootNamespace>
-    <AssemblyName>withSIX.Mini.Presentation.CoreCore</AssemblyName>
+    <RootNamespace>withSIX.Sync.Core</RootNamespace>
+    <AssemblyName>withSIX.Sync.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,44 +122,142 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExternalTools\AddonSigner.cs" />
+    <Compile Include="ExternalTools\BiKeyPair.cs" />
+    <Compile Include="ExternalTools\BiSigner.cs" />
+    <Compile Include="ExternalTools\IAddonSigner.cs" />
+    <Compile Include="ExternalTools\PboTools.cs" />
+    <Compile Include="Keys\SshKeyFactory.cs" />
+    <Compile Include="Keys\SshKeyPair.cs" />
+    <Compile Include="Legacy\Archive\ArchiveContent.cs" />
+    <Compile Include="Legacy\FileDownloadHelper.cs" />
+    <Compile Include="Legacy\FileDownloadManager.cs" />
+    <Compile Include="Legacy\HostChecker.cs" />
+    <Compile Include="Legacy\HostPicker.cs" />
+    <Compile Include="Legacy\IBaseYaml.cs" />
+    <Compile Include="Legacy\MultiThreadingSettings.cs" />
+    <Compile Include="Legacy\SixSync\ArchiveFormatUnsupported.cs" />
+    <Compile Include="Legacy\SixSync\CustomRepo\CustomRepo.cs" />
+    <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoAppDto.cs" />
+    <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoConfigDto.cs" />
+    <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoModDto.cs" />
+    <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoServerDto.cs" />
+    <Compile Include="Legacy\SixSync\RepoConfig.cs" />
+    <Compile Include="Legacy\SixSync\RepoMainConfig.cs" />
+    <Compile Include="Legacy\SixSync\Repository.cs" />
+    <Compile Include="Legacy\SixSync\RepositoryFactory.cs" />
+    <Compile Include="Legacy\SixSync\RepositoryFileType.cs" />
+    <Compile Include="Legacy\SixSync\RepositoryTools.cs" />
+    <Compile Include="Legacy\SixSync\RepoVersion.cs" />
+    <Compile Include="Legacy\Status\Status.cs" />
+    <Compile Include="Legacy\Status\StatusMod.cs" />
+    <Compile Include="Legacy\Status\StatusRepo.cs" />
+    <Compile Include="Legacy\Yoma\YomaConfig.cs" />
+    <Compile Include="Legacy\Yoma\YomaContent.cs" />
+    <Compile Include="Packages\Bundle.cs" />
+    <Compile Include="Packages\BundleManager.cs" />
+    <Compile Include="Packages\Internals\Branch.cs" />
+    <Compile Include="Packages\Internals\BundleDto.cs" />
+    <Compile Include="Packages\Internals\Dependency.cs" />
+    <Compile Include="Packages\Internals\DependencyVersionMatcher.cs" />
+    <Compile Include="Packages\Internals\FileObjectMapping.cs" />
+    <Compile Include="Packages\Internals\MetaDataBase.cs" />
+    <Compile Include="Packages\Internals\MetaDataDtoBase.cs" />
+    <Compile Include="Packages\Internals\PackageMetaData.cs" />
+    <Compile Include="Packages\Internals\PackageMetaDataDto.cs" />
+    <Compile Include="Packages\Package.cs" />
+    <Compile Include="Packages\PackageFactory.cs" />
+    <Compile Include="Packages\PackageHelper.cs" />
+    <Compile Include="Packages\PackageManager.cs" />
+    <Compile Include="Packages\Synqer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AssemblyService.cs" />
-    <Compile Include="Services\CallContextService.cs" />
-    <Compile Include="Services\ConsoleDialogManager.cs" />
-    <Compile Include="Services\ExitHandler.cs" />
-    <Compile Include="Services\ProcessManager.cs" />
-    <Compile Include="Services\ShutdownHandler.cs" />
-    <Compile Include="Services\UacHelper.cs" />
-    <Compile Include="StartWebserver.cs" />
+    <Compile Include="Repositories\Internals\ChecksumException.cs" />
+    <Compile Include="Repositories\Internals\ConfigException.cs" />
+    <Compile Include="Repositories\Internals\ObjectInfo.cs" />
+    <Compile Include="Repositories\Internals\PackagesStoreCustomConfigs.cs" />
+    <Compile Include="Repositories\Internals\RepositoryConfig.cs" />
+    <Compile Include="Repositories\Internals\RepositoryOperationMode.cs" />
+    <Compile Include="Repositories\Internals\RepositoryRemote.cs" />
+    <Compile Include="Repositories\Internals\RepositoryStore.cs" />
+    <Compile Include="Repositories\Internals\RepositoryStoreBundlesDto.cs" />
+    <Compile Include="Repositories\Internals\RepositoryStoreObjectsDto.cs" />
+    <Compile Include="Repositories\Internals\RepositoryStorePackagesDto.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\RepositoryFactory.cs" />
+    <Compile Include="Repositories\RepositoryHandler.cs" />
+    <Compile Include="Services\IPublishingApi.cs" />
+    <Compile Include="SyncEvilGlobal.cs" />
+    <Compile Include="Transfer\AuthInfo.cs" />
+    <Compile Include="Transfer\AverageContainer.cs" />
+    <Compile Include="Transfer\ConsoleWriter.cs" />
+    <Compile Include="Transfer\DataDownloader.cs" />
+    <Compile Include="Transfer\FileDownloader.cs" />
+    <Compile Include="Transfer\FileDownloaderExtensions.cs" />
+    <Compile Include="Transfer\FileQueueDownloader.cs" />
+    <Compile Include="Transfer\FileUploader.cs" />
+    <Compile Include="Transfer\FileUploaderExtensions.cs" />
+    <Compile Include="Transfer\HttpClientExtensions.cs" />
+    <Compile Include="Transfer\IAuthProvider.cs" />
+    <Compile Include="Transfer\IDataDownloader.cs" />
+    <Compile Include="Transfer\IFileDownloader.cs" />
+    <Compile Include="Transfer\IFileQueueDownloader.cs" />
+    <Compile Include="Transfer\IFileUploader.cs" />
+    <Compile Include="Transfer\IMultiMirrorFileDownloader.cs" />
+    <Compile Include="Transfer\IProgress.cs" />
+    <Compile Include="Transfer\IRsyncController.cs" />
+    <Compile Include="Transfer\IRsyncLauncher.cs" />
+    <Compile Include="Transfer\IStatus.cs" />
+    <Compile Include="Transfer\IStringDownloader.cs" />
+    <Compile Include="Transfer\ITransferProgress.cs" />
+    <Compile Include="Transfer\ITransferStatus.cs" />
+    <Compile Include="Transfer\IWebClient.cs" />
+    <Compile Include="Transfer\MirrorSelectors\EmptyHostList.cs" />
+    <Compile Include="Transfer\MirrorSelectors\HostListExhausted.cs" />
+    <Compile Include="Transfer\MirrorSelectors\MirrorSelector.cs" />
+    <Compile Include="Transfer\MirrorSelectors\NoSuchMirror.cs" />
+    <Compile Include="Transfer\MirrorSelectors\ScoreMirrorSelector.cs" />
+    <Compile Include="Transfer\MultiMirrorFileDownloader.cs" />
+    <Compile Include="Transfer\MultiThreadedFileQueueDownloader.cs" />
+    <Compile Include="Transfer\ProtocolPreference.cs" />
+    <Compile Include="Transfer\Protocols\DownloadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\Handlers\FileCopier.cs" />
+    <Compile Include="Transfer\Protocols\Handlers\OutputParser.cs" />
+    <Compile Include="Transfer\Protocols\Handlers\RsyncLauncher.cs" />
+    <Compile Include="Transfer\Protocols\Handlers\RsyncOutputParser.cs" />
+    <Compile Include="Transfer\Protocols\Handlers\ZsyncLauncher.cs" />
+    <Compile Include="Transfer\Protocols\Handlers\ZsyncOutputParser.cs" />
+    <Compile Include="Transfer\Protocols\HttpDownloadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\HttpUploadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\LocalFileDownloadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\LocalFileUploadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\ProtocolMismatch.cs" />
+    <Compile Include="Transfer\Protocols\RsyncDownloadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\RsyncUploadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\TransferProtocol.cs" />
+    <Compile Include="Transfer\Protocols\UploadProtocol.cs" />
+    <Compile Include="Transfer\Protocols\ZsyncDownloadProtocol.cs" />
+    <Compile Include="Transfer\RepoStatus.cs" />
+    <Compile Include="Transfer\RsyncController.cs" />
+    <Compile Include="Transfer\Specs\FileDownloadSpec.cs" />
+    <Compile Include="Transfer\Specs\FileQueueSpec.cs" />
+    <Compile Include="Transfer\Specs\FileUploadSpec.cs" />
+    <Compile Include="Transfer\Specs\MultiMirrorFileDownloadSpec.cs" />
+    <Compile Include="Transfer\Specs\TransferSpec.cs" />
+    <Compile Include="Transfer\StringDownloader.cs" />
+    <Compile Include="Transfer\TransferBase.cs" />
+    <Compile Include="Transfer\TransferProgress.cs" />
+    <Compile Include="Transfer\TransferStatus.cs" />
+    <Compile Include="Transfer\ZsyncMake.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
-      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>withSIX.Core.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
-      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>withSIX.Core.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
-      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>withSIX.Core.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
-      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
-      <Name>withSIX.Mini.Presentation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj">
-      <Project>{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}</Project>
-      <Name>withSIX.Mini.Presentation.Owin.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

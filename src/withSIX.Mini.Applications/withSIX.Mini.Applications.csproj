@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37206117-956B-43D1-9E7C-E37100C20A06}</ProjectGuid>
+    <ProjectGuid>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Mini.Presentation.CoreCore</RootNamespace>
-    <AssemblyName>withSIX.Mini.Presentation.CoreCore</AssemblyName>
+    <RootNamespace>withSIX.Mini.Applications</RootNamespace>
+    <AssemblyName>withSIX.Mini.Applications</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,45 +122,162 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionNotifierDecorator.cs" />
+    <Compile Include="Annotations\OrderAttribute.cs" />
+    <Compile Include="Attributes\ApiUserActionAttribute.cs" />
+    <Compile Include="AutoMapperAppConfig.cs" />
+    <Compile Include="BasicExternalExceptionhandler.cs" />
+    <Compile Include="Cheat.cs" />
+    <Compile Include="Core\MainLog.cs" />
+    <Compile Include="DbScopeDecorator.cs" />
+    <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\EventExtensions.cs" />
+    <Compile Include="Extensions\MediatorExtensions.cs" />
+    <Compile Include="Extensions\UsecaseExecutorExtensions.cs" />
+    <Compile Include="Factories\GameLauncherFactory.cs" />
+    <Compile Include="Factories\GameSettingsFactory.cs" />
+    <Compile Include="Factories\InstallerSessionFactory.cs" />
+    <Compile Include="GameExceptionHandler.cs" />
+    <Compile Include="GameWriteLockDecorator.cs" />
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Models\ContentStatus.cs" />
+    <Compile Include="Models\Settings.cs" />
+    <Compile Include="NotificationHandlers\NotificationProviderHandler.cs" />
+    <Compile Include="NotificationHandlers\SettingsChangedHandler.cs" />
+    <Compile Include="NotificationHandlers\StartWithWindowsHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AssemblyService.cs" />
-    <Compile Include="Services\CallContextService.cs" />
-    <Compile Include="Services\ConsoleDialogManager.cs" />
-    <Compile Include="Services\ExitHandler.cs" />
-    <Compile Include="Services\ProcessManager.cs" />
-    <Compile Include="Services\ShutdownHandler.cs" />
-    <Compile Include="Services\UacHelper.cs" />
-    <Compile Include="StartWebserver.cs" />
+    <Compile Include="RequestMemoryDecorator.cs" />
+    <Compile Include="Services\AuthDownloadWrapper.cs" />
+    <Compile Include="Services\Excecutor.cs" />
+    <Compile Include="Services\FolderHandler.cs" />
+    <Compile Include="Services\GameLockMonitor.cs" />
+    <Compile Include="Services\GameSwitcher.cs" />
+    <Compile Include="Services\IApiContext.cs" />
+    <Compile Include="Services\IExplorerExtensionInstaller.cs" />
+    <Compile Include="Services\IExternalFileDownloader.cs" />
+    <Compile Include="Services\Infra\IContentFolderLinkContext.cs" />
+    <Compile Include="Services\Infra\IDbContext.cs" />
+    <Compile Include="Services\Infra\IDbContextFactory.cs" />
+    <Compile Include="Services\Infra\IGameContext.cs" />
+    <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
+    <Compile Include="Services\Infra\IQueueHubMessenger.cs" />
+    <Compile Include="Services\Infra\ISettingsStorage.cs" />
+    <Compile Include="Services\Infra\ITokenRefresher.cs" />
+    <Compile Include="Services\InstallerSession.cs" />
+    <Compile Include="Services\IQueueManager.cs" />
+    <Compile Include="Services\ISteamDownloader.cs" />
+    <Compile Include="Services\PlayWithSixImporter.cs" />
+    <Compile Include="Services\Queue.cs" />
+    <Compile Include="Services\ServiceRegistry.cs" />
+    <Compile Include="Services\StateHandler.cs" />
+    <Compile Include="Services\SteamDepotDownloader.cs" />
+    <Compile Include="Services\SteamHelperRunner.cs" />
+    <Compile Include="Services\ToolsCheat.cs" />
+    <Compile Include="Services\UninstallerSession.cs" />
+    <Compile Include="SetupGameStuff.cs" />
+    <Compile Include="Usecases\ContentsBase.cs" />
+    <Compile Include="Usecases\DbCommandBase.cs" />
+    <Compile Include="Usecases\GameContentBase.cs" />
+    <Compile Include="Usecases\IdBased.cs" />
+    <Compile Include="Usecases\Main\AddExternalMod.cs" />
+    <Compile Include="Usecases\Main\ApiDbCommandBase.cs" />
+    <Compile Include="Usecases\Main\BrowseFolder.cs" />
+    <Compile Include="Usecases\Main\Cancel.cs" />
+    <Compile Include="Usecases\Main\CancelQueueItem.cs" />
+    <Compile Include="Usecases\Main\CloseGame.cs" />
+    <Compile Include="Usecases\Main\ContentsApiModel.cs" />
+    <Compile Include="Usecases\Main\DeleteCollection.cs" />
+    <Compile Include="Usecases\Main\Games\GetGame.cs" />
+    <Compile Include="Usecases\Main\Games\LaunchGame.cs" />
+    <Compile Include="Usecases\Main\Games\ScanLocalContent.cs" />
+    <Compile Include="Usecases\Main\Games\SelectGame.cs" />
+    <Compile Include="Usecases\Main\Games\UninstallContent.cs" />
+    <Compile Include="Usecases\Main\GetClientInfo.cs" />
+    <Compile Include="Usecases\Main\GetContent.cs" />
+    <Compile Include="Usecases\Main\GetFolders.cs" />
+    <Compile Include="Usecases\Main\GetGameCollections.cs" />
+    <Compile Include="Usecases\Main\GetGameHome.cs" />
+    <Compile Include="Usecases\Main\GetGameMissions.cs" />
+    <Compile Include="Usecases\Main\GetGameMods.cs" />
+    <Compile Include="Usecases\Main\GetGames.cs" />
+    <Compile Include="Usecases\Main\GetGameSettings.cs" />
+    <Compile Include="Usecases\Main\GetGamesSettings.cs" />
+    <Compile Include="Usecases\Main\GetGeneralSettings.cs" />
+    <Compile Include="Usecases\Main\GetHome.cs" />
+    <Compile Include="Usecases\Main\GetQueue.cs" />
+    <Compile Include="Usecases\Main\GetState.cs" />
+    <Compile Include="Usecases\Main\GetUploadFolder.cs" />
+    <Compile Include="Usecases\Main\InstallContent.cs" />
+    <Compile Include="Usecases\Main\LaunchContent.cs" />
+    <Compile Include="Usecases\Main\Login.cs" />
+    <Compile Include="Usecases\Main\OpenFolder.cs" />
+    <Compile Include="Usecases\Main\PerformUpdate.cs" />
+    <Compile Include="Usecases\Main\PingPlugin.cs" />
+    <Compile Include="Usecases\Main\PlayContent.cs" />
+    <Compile Include="Usecases\Main\PrepareFolder.cs" />
+    <Compile Include="Usecases\Main\RemoveQueueItem.cs" />
+    <Compile Include="Usecases\Main\RemoveRecent.cs" />
+    <Compile Include="Usecases\Main\ResolveUserError.cs" />
+    <Compile Include="Usecases\Main\RetryQueueItem.cs" />
+    <Compile Include="Usecases\Main\SaveGameSettings.cs" />
+    <Compile Include="Usecases\Main\SaveGeneralSettings.cs" />
+    <Compile Include="Usecases\Main\Servers\GetServers.cs" />
+    <Compile Include="Usecases\Main\Servers\GetServersInfo.cs" />
+    <Compile Include="Usecases\Main\Servers\QueryServersInfo.cs" />
+    <Compile Include="Usecases\Main\SetLogin.cs" />
+    <Compile Include="Usecases\Main\SettingsUpdated.cs" />
+    <Compile Include="Usecases\Main\SingleCntentBase.cs" />
+    <Compile Include="Usecases\Main\SyncCollections.cs" />
+    <Compile Include="Usecases\Main\UploadFolder.cs" />
+    <Compile Include="Usecases\Main\WhiteListFolders.cs" />
+    <Compile Include="Usecases\OpenWebLink.cs" />
+    <Compile Include="Usecases\RequestBase.cs" />
+    <Compile Include="Usecases\Settings\ImportPwsSettings.cs" />
+    <Compile Include="Usecases\Settings\InstallExtension.cs" />
+    <Compile Include="Usecases\Settings\StartInDiagnosticsMode.cs" />
+    <Compile Include="Usecases\Shutdown.cs" />
+    <Compile Include="Usecases\StartDownloadSession.cs" />
+    <Compile Include="Usecases\UnhandledUserException.cs" />
+    <Compile Include="Usecases\UriOpener.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
+      <Name>withSIX.ContentEngine.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>withSIX.Core.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
-      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>withSIX.Core.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
-      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>withSIX.Core.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj">
-      <Project>{0c58d0ae-6b3a-45b9-8d8f-69226ec2f5b8}</Project>
-      <Name>withSIX.Mini.Presentation.Core</Name>
+    <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj">
+      <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
+      <Name>withSIX.Mini.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj">
-      <Project>{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}</Project>
-      <Name>withSIX.Mini.Presentation.Owin.Core</Name>
+    <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj">
+      <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
+      <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
+      <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
+      <Name>withSIX.Sync.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ReactiveUI">
+      <HintPath>..\dll\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat">
+      <HintPath>..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
