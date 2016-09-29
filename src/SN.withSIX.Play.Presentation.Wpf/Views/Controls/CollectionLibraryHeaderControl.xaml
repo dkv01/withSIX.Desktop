@@ -4,22 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+             xmlns:core="clr-namespace:withSIX.Core.Applications;assembly=withSIX.Core.Applications"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:options="clr-namespace:SN.withSIX.Play.Core.Options;assembly=withSIX.Play.Core"
-             xmlns:controls1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:controls2="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
-             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:behaviors="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Behaviors;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:options="clr-namespace:withSIX.Play.Core.Options;assembly=withSIX.Play.Core"
+             xmlns:controls1="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:controls2="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:behaviors="clr-namespace:withSIX.Core.Presentation.Wpf.Behaviors;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d" x:Name="Uc"
              d:DesignWidth="1000">
     <DockPanel>
         <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top">
             <Grid Width="178" Height="100" VerticalAlignment="Top">
                 <controls1:CachedImage
-                    DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                    DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
                     MaxWidth="178" MaxHeight="100"
-                    Source="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                    Source="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
                     ImageUrl="{Binding Model.Image}" />
                 <Button
                     Command="{Binding DataContext.ChangeImageCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=controls2:LibraryControl}}"
@@ -67,8 +67,8 @@
                             Visibility="{Binding Model.Author, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}">
                         <DockPanel>
                             <controls1:CachedImage MaxHeight="20"
-                                                   Source="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
-                                                   DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
+                                                   Source="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
+                                                   DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
                                                    ImageUrl="{Binding Model.AuthorAvatarUrl}" />
                             <TextBlock Margin="4 0 0 0" Text="{Binding Model.Author}" VerticalAlignment="Center" />
                         </DockPanel>

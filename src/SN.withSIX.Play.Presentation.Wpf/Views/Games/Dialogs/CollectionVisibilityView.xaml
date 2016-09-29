@@ -4,9 +4,9 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:collections="clr-namespace:withSIX.Api.Models.Collections;assembly=withSIX.Api.Models"
-                         xmlns:dialogs="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Dialogs;assembly=withSIX.Play.Applications"
-                         xmlns:dialogs1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;assembly=withSIX.Play.Applications"
-                         xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+                         xmlns:dialogs="clr-namespace:withSIX.Play.Applications.ViewModels.Dialogs;assembly=withSIX.Play.Applications"
+                         xmlns:dialogs1="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Dialogs;assembly=withSIX.Play.Applications"
+                         xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
                          d:DataContext="{d:DesignInstance dialogs1:CollectionVisibilityViewModel}"
                          mc:Ignorable="d" Width="450">
     <Grid>

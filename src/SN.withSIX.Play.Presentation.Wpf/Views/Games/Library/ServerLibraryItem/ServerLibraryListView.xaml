@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:games1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=withSIX.Play.Applications"
+             xmlns:games1="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Library;assembly=withSIX.Play.Applications"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
-             xmlns:serverLibraryItem="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ServerLibraryItem"
-             xmlns:library1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+             xmlns:controls="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:serverLibraryItem="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Games.Library.ServerLibraryItem"
+             xmlns:library1="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Games.Library"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <ContentControl Content="{Binding}">

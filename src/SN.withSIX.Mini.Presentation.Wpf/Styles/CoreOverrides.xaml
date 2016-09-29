@@ -5,7 +5,7 @@
                     xmlns:resources="clr-namespace:withSIX.Mini.Presentation.Wpf.Resources">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
-            Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/CoreColors.xaml" />
+            Source="pack://application:,,,/withSIX.Core.Presentation.Wpf;component/Styles/CoreColors.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <resources:IconFontFamily x:Key="IconFont" />

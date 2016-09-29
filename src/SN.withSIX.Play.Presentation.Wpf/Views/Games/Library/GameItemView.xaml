@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.DataModels.Games;assembly=withSIX.Play.Applications"
-             xmlns:play="clr-namespace:SN.withSIX.Play.Presentation.Wpf"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:games1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games"
-             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:games="clr-namespace:withSIX.Play.Applications.DataModels.Games;assembly=withSIX.Play.Applications"
+             xmlns:play="clr-namespace:withSIX.Play.Presentation.Wpf"
+             xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:games1="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Games"
+             xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="48" d:DesignWidth="300" Margin="8 0"
              d:DataContext="{d:DesignInstance games:GameDataModel}">
@@ -69,7 +69,7 @@
                 <Button Style="{StaticResource ImageButtonStyle}"
                         cal:Message.Attach="ShowInfo($dataContext)">
                     <controls:CachedImageWithSizeChanger MaxHeight="40" MaxWidth="40"
-                                                         DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                                         DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
                                                          Style="{StaticResource ProfileImageStyle}" x:Name="ci"
                                                          ImageUrl="{Binding Converter={StaticResource IdImageConverter}, ConverterParameter='games,40x40'}" />
                 </Button>

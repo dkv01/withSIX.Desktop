@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=withSIX.Play.Applications"
-             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:overlays1="clr-namespace:withSIX.Play.Applications.ViewModels.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:controls1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:controls1="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Controls"
              Name="Uc"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance overlays2:ModInfoOverlayViewModel}"
@@ -25,7 +25,7 @@
         </Grid.Style>
         <StackPanel>
             <controls:CachedImage Name="Logo"
-                                  DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                  DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
                                   MaxWidth="400" MaxHeight="112"
                                   HorizontalAlignment="Left">
                 <controls:CachedImage.ImageUrl>
@@ -45,7 +45,7 @@
                         <Grid Style="{StaticResource ProfileGridStyle}" VerticalAlignment="Center"
                               HorizontalAlignment="Left" Background="Transparent">
                             <controls:CachedImage
-                                DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
                                 Style="{StaticResource ProfileImageStyle}">
                                 <controls:CachedImage.ImageUrl>
                                     <MultiBinding Converter="{StaticResource ContentBaseToResourceConverter}"

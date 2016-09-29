@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mods="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Mods;assembly=withSIX.Play.Core"
+             xmlns:mods="clr-namespace:withSIX.Play.Core.Games.Legacy.Mods;assembly=withSIX.Play.Core"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
-             xmlns:library1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
-             xmlns:play="clr-namespace:SN.withSIX.Play.Presentation.Wpf"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:controls1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
-             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:core="clr-namespace:withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+             xmlns:library1="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Games.Library"
+             xmlns:play="clr-namespace:withSIX.Play.Presentation.Wpf"
+             xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:controls1="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="48" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance mods:Mod}">
@@ -53,7 +53,7 @@
                         cal:Message.Attach="ShowInfo($dataContext)">
                     <controls:CachedImageWithSizeChanger Stretch="UniformToFill" StretchDirection="DownOnly" Width="48"
                                                          Height="48"
-                                                         DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                                         DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
                                                          Style="{StaticResource ProfileImageStyle}" x:Name="ci">
                         <controls:CachedImageWithSizeChanger.ImageUrl>
                             <MultiBinding Converter="{StaticResource ContentBaseToResourceConverter}"

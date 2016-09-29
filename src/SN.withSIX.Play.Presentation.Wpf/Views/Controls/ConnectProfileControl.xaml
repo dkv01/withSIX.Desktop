@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:context="clr-namespace:withSIX.Api.Models.Context;assembly=withSIX.Api.Models"
-             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
-             xmlns:connect="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=withSIX.Play.Applications"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:core="clr-namespace:withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+             xmlns:connect="clr-namespace:withSIX.Play.Applications.ViewModels.Connect;assembly=withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="200"
              d:DataContext="{d:DesignInstance connect:ConnectViewModel}">
@@ -27,7 +27,7 @@
                     BorderBrush="{Binding ContactList.OnlineStatus, Converter={StaticResource OnlineStatusToForegroundConverter}, FallbackValue={StaticResource SixGray}}">
                 <controls:CachedImageWithAnimatedGifSupport
                     ImageUrl="{Binding ContactList.UserInfo.Account.Avatar}"
-                    DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
+                    DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
                     Height="32" Width="32" />
             </Border>
         </Button>

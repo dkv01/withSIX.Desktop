@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:play="clr-namespace:SN.withSIX.Play.Presentation.Wpf"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:library1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
-             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:play="clr-namespace:withSIX.Play.Presentation.Wpf"
+             xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:library1="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Games.Library"
+             xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d" Margin="8 0"
              d:DesignHeight="48" d:DesignWidth="300">
     <Grid Background="Transparent" x:Name="LayoutRoot">
@@ -69,7 +69,7 @@
                     <!-- Visibility="{Binding IsLocal, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=True}" -->
                     <controls:CachedImageWithSizeChanger Stretch="UniformToFill" StretchDirection="DownOnly" Width="48"
                                                          Height="48"
-                                                         DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                                         DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
                                                          Style="{StaticResource ProfileImageStyle}" x:Name="ci">
                         <controls:CachedImageWithSizeChanger.ImageUrl>
                             <MultiBinding Converter="{StaticResource ContentBaseToResourceConverter}"

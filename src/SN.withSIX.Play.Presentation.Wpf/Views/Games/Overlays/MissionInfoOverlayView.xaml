@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=withSIX.Play.Applications"
-             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:overlays1="clr-namespace:withSIX.Play.Applications.ViewModels.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance overlays2:MissionInfoOverlayViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">

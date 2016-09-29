@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=withSIX.Play.Applications"
-             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
-             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:overlays1="clr-namespace:withSIX.Play.Applications.ViewModels.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:withSIX.Core.Presentation.Wpf.Views.Controls;assembly=withSIX.Core.Presentation.Wpf"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance overlays2:GameInfoOverlayViewModel}"
              d:DesignHeight="600"
@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Margin="20,0,0,4">
             <controls:CachedImageWithSizeChanger Name="Logo"
-                                                 DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                                 DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
                                                  MaxWidth="400" MaxHeight="112"
                                                  HorizontalAlignment="Left"
                                                  ImageUrl="{Binding Converter={StaticResource IdImageConverter}, ConverterParameter='games,full'}" />
@@ -36,7 +36,7 @@
                         <Grid Style="{StaticResource ProfileGridStyle}" VerticalAlignment="Center"
                               HorizontalAlignment="Left" Background="Transparent">
                             <controls:CachedImageWithSizeChanger
-                                DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                DefaultImageSource="pack://application:,,,/withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
                                 Style="{StaticResource ProfileImageStyle}"
                                 ImageUrl="{Binding Converter={StaticResource IdImageConverter}, ConverterParameter='games,40x40'}" />
                         </Grid>

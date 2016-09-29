@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:library="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+    xmlns:library="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Games.Library"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

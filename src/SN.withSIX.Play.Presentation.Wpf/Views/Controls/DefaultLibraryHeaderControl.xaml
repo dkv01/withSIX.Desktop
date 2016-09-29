@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+             xmlns:core="clr-namespace:withSIX.Core.Applications;assembly=withSIX.Core.Applications"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:options="clr-namespace:SN.withSIX.Play.Core.Options;assembly=withSIX.Play.Core"
-             xmlns:library="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=withSIX.Play.Applications"
-             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
-             xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:options="clr-namespace:withSIX.Play.Core.Options;assembly=withSIX.Play.Core"
+             xmlns:library="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Library;assembly=withSIX.Play.Applications"
+             xmlns:extensions="clr-namespace:withSIX.Core.Presentation.Wpf.Extensions;assembly=withSIX.Core.Presentation.Wpf"
+             xmlns:controls="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Controls"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance library:LibraryItemViewModel}"
              d:DesignHeight="300" d:DesignWidth="500">
     <DockPanel>

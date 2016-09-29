@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=withSIX.Play.Applications"
+             xmlns:games="clr-namespace:withSIX.Play.Applications.ViewModels.Games;assembly=withSIX.Play.Applications"
              xmlns:reactiveUi="clr-namespace:ReactiveUI;assembly=ReactiveUI"
-             xmlns:library1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=withSIX.Play.Applications"
+             xmlns:library1="clr-namespace:withSIX.Play.Applications.ViewModels.Games.Library;assembly=withSIX.Play.Applications"
              mc:Ignorable="d"
              d:DesignHeight="72" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance library1:CollectionLibraryItemViewModel}">

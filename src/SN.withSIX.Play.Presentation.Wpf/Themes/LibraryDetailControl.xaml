@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:cal="http://www.caliburnproject.org"
                     xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls">
+                    xmlns:controls="clr-namespace:withSIX.Play.Presentation.Wpf.Views.Controls">
     <Style TargetType="{x:Type controls:LibraryDetailControl}">
         <Setter Property="Content">
             <Setter.Value>

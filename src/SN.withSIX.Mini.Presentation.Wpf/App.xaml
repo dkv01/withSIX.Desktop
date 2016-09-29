@@ -21,12 +21,12 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseLight.xaml" />
+                    Source="pack://application:,,,/withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseOverrides.xaml" />
+                    Source="pack://application:,,,/withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseOverrides.xaml" />
 
                 <ResourceDictionary
-                    Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/CoreConverters.xaml" />
+                    Source="pack://application:,,,/withSIX.Core.Presentation.Wpf;component/Styles/CoreConverters.xaml" />
                 <ResourceDictionary
                     Source="Styles/CoreOverrides.xaml" />
                 <ResourceDictionary

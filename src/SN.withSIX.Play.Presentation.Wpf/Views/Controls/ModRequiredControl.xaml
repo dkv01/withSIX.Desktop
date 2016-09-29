@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=withSIX.Core.Applications"
+             xmlns:core="clr-namespace:withSIX.Core.Applications;assembly=withSIX.Core.Applications"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Visibility="{Binding SelectedItem.CanChangeRequiredState, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">

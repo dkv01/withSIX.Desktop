@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:tb="clr-namespace:Hardcodet.Wpf.TaskbarNotification;assembly=Hardcodet.Wpf.TaskbarNotification"
-             xmlns:viewModels="clr-namespace:SN.withSIX.Core.Applications.MVVM.ViewModels;assembly=withSIX.Core.Applications.MVVM"
+             xmlns:viewModels="clr-namespace:withSIX.Core.Applications.MVVM.ViewModels;assembly=withSIX.Core.Applications.MVVM"
              mc:Ignorable="d" Name="Uc"
              d:DataContext="{d:DesignInstance viewModels:IShellViewModelTrayIcon}"
              d:DesignHeight="300" d:DesignWidth="300">
