@@ -34,7 +34,7 @@ namespace withSIX.Mini.Presentation.Core
             using (var fs = new FileStream(ps1, FileMode.Create))
             using (
                 var s =
-                    assembly.GetManifestResourceStream("SN.withSIX.Mini.Presentation.Wpf.Resources.TrayIcon.ps1")
+                    assembly.GetManifestResourceStream("withSIX.Mini.Presentation.Wpf.Resources.TrayIcon.ps1")
             )
                 await s.CopyToAsync(fs).ConfigureAwait(false);
             using (var p =

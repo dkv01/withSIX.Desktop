@@ -115,7 +115,7 @@ namespace withSIX.Mini.Presentation.Core
 
         protected virtual IEnumerable<Assembly> GetInfraAssemblies
             =>
-            new[] {AssemblyLoadFrom(RootPath.GetChildFileWithName("SN.withSIX.Mini.Presentation.Owin.Core.dll"))}.Concat(
+            new[] {AssemblyLoadFrom(RootPath.GetChildFileWithName("withSIX.Mini.Presentation.Owin.Core.dll"))}.Concat(
                 infraAssemblies);
 
         protected AppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) {
@@ -179,7 +179,7 @@ namespace withSIX.Mini.Presentation.Core
             if (Environment.OSVersion.Platform == PlatformID.Win32NT &&
                 Environment.OSVersion.Version >= win8Version) {
                 // its win8 or higher.
-                yield return assemblyPath.GetChildFileWithName("SN.withSIX.Core.Presentation.WinRT.dll").ToString();
+                yield return assemblyPath.GetChildFileWithName("withSIX.Core.Presentation.WinRT.dll").ToString();
             }*/
         }
 
@@ -401,7 +401,7 @@ namespace withSIX.Mini.Presentation.Core
             =>
             pluginAssemblies.Concat(platformAssemblies)
                 .Concat(
-                    assemblyPath.DirectoryInfo.GetFiles("SN.withSIX.Core.Presentation.Bridge.dll")
+                    assemblyPath.DirectoryInfo.GetFiles("withSIX.Core.Presentation.Bridge.dll")
                         .Select(x => x.FullName)
                         .Select(AssemblyLoadFrom))
                 .Concat(globalPresentationAssemblies);

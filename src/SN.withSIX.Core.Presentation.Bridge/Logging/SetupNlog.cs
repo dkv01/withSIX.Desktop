@@ -52,7 +52,7 @@ namespace withSIX.Core.Presentation.Bridge.Logging
         }
 
         static LoggingRule CreateDefaultLoggingRule(Target target, LogLevel level = null, bool final = false)
-            => new LoggingRule("SN.withSIX.*", level ?? Default, target) {Final = final};
+            => new LoggingRule("withSIX.*", level ?? Default, target) {Final = final};
 
         private static readonly LogLevel Default =
 #if DEBUG

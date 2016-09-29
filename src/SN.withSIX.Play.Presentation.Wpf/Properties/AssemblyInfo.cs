@@ -76,7 +76,7 @@ using System.Windows;
 [assembly: AssemblyVersion("1.51.0.666")]
 [assembly: AssemblyFileVersion("1.51.0.666")]
 [assembly: AssemblyInformationalVersion("1.51.0-dev201501241")]
-[assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Presentation")]
+[assembly: InternalsVisibleTo("withSIX.Play.Tests.Presentation")]
 // Needed for Infrastructure.Api when merged with S.A.
 
 [assembly: InternalsVisibleTo("ImpromptuInterfaceDynamicAssembly")]

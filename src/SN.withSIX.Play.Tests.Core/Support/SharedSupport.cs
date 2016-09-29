@@ -92,7 +92,7 @@ namespace SN.withSIX.Play.Tests.Core.Support
         public static IAssemblyLoader GetAssemblyLoader() {
             //When class used Assembly.GetEntryAssembly() run in unit test, the Assembly.GetEntryAssembly() is null.
             var loader = A.Fake<IAssemblyLoader>();
-            var scAs = Assembly.LoadFrom("SN.withSIX.Core.dll");
+            var scAs = Assembly.LoadFrom("withSIX.Core.dll");
             A.CallTo(() => loader.GetEntryLocation())
                 .Returns(scAs.Location.ToAbsoluteFilePath());
             A.CallTo(() => loader.GetEntryPath())

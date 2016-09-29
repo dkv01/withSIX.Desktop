@@ -42,5 +42,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.51.0.666")]
 [assembly: AssemblyFileVersion("1.51.0.666")]
-[assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Presentation")]
+[assembly: InternalsVisibleTo("withSIX.Play.Tests.Presentation")]
 [assembly: InternalsVisibleTo("ShortBus")] // required for internal handlers

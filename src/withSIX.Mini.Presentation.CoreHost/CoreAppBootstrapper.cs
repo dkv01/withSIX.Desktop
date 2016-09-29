@@ -37,7 +37,7 @@ namespace withSIX.Mini.Presentation.CoreHost
 
         // We dont actually want to load the Infra.Api as it's non .NET core atm
         //protected override IEnumerable<Assembly> GetInfraAssemblies
-          //  => new[] {AssemblyLoadFrom(_rootPath.GetChildFileWithName("SN.withSIX.Mini.Infra.Api.dll").ToString())}.Concat(base.GetInfraAssemblies);
+          //  => new[] {AssemblyLoadFrom(_rootPath.GetChildFileWithName("withSIX.Mini.Infra.Api.dll").ToString())}.Concat(base.GetInfraAssemblies);
 
         protected override void EnvironmentExit(int exitCode) {
             Environment.Exit(exitCode);

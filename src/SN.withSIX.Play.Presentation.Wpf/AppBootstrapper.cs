@@ -86,8 +86,8 @@ namespace SN.withSIX.Play.Presentation.Wpf
             var concepts = new[] {"Connect", "Games", "Games.Library"};
             var types = new[] {"Overlays", "Popups", "Dialogs"};
 
-            var nsRootSource = "SN.withSIX.Play.Applications.ViewModels";
-            var nsRootTarget = "SN.withSIX.Play.Presentation.Wpf.Views";
+            var nsRootSource = "withSIX.Play.Applications.ViewModels";
+            var nsRootTarget = "withSIX.Play.Presentation.Wpf.Views";
 
             // Setup root
             ViewLocator.AddNamespaceMapping(nsRootSource, nsRootTarget);

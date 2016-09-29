@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("SN.withSIX.Play.Tests.Presentation")]
+[assembly: AssemblyTitle("withSIX.Play.Tests.Presentation")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIX Networks")]
-[assembly: AssemblyProduct("SN.withSIX.Play.Tests.Presentation")]
+[assembly: AssemblyProduct("withSIX.Play.Tests.Presentation")]
 [assembly: AssemblyCopyright("Copyright © SIX Networks 2009-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

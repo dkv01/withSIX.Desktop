@@ -1,4 +1,4 @@
-﻿<controls:StandardDialog x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Dialogs.RepairView"
+﻿<controls:StandardDialog x:Class="withSIX.Play.Presentation.Wpf.Views.Games.Dialogs.RepairView"
                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

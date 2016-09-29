@@ -66,7 +66,7 @@ namespace withSIX.Mini.Infra.Data.Services
             .Replace("GameSettings", "GameSettingsApiModel");
 
         IEnumerable<Type> GetGameSettingsTypes() => _ass.GetAllAssemblies()
-            .Where(x => x.GetName().Name.StartsWith("SN.withSIX.Mini.Plugin."))
+            .Where(x => x.GetName().Name.StartsWith("withSIX.Mini.Plugin."))
             .SelectMany(x => _ass.GetTypes(x))
             .Where(IsGameSettingsType);
 

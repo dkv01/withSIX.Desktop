@@ -139,13 +139,13 @@ namespace withSIX.Mini.Presentation.Wpf
 
                 return v;
             };
-            //ViewLocator.AddNamespaceMapping("SN.withSIX.Core.Presentation.Wpf.Views", "SN.withSIX.Core.Presentation.Wpf.Views");
-            ViewLocator.AddNamespaceMapping("SN.withSIX.Core.Applications.MVVM.ViewModels.Popups",
-                "SN.withSIX.Core.Presentation.Wpf.Views.Popups");
-            ViewLocator.AddNamespaceMapping("SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs",
-                "SN.withSIX.Core.Presentation.Wpf.Views.Dialogs");
-            ViewLocator.AddNamespaceMapping("SN.withSIX.Core.Applications.MVVM.ViewModels",
-                "SN.withSIX.Core.Presentation.Wpf.Views");
+            //ViewLocator.AddNamespaceMapping("withSIX.Core.Presentation.Wpf.Views", "withSIX.Core.Presentation.Wpf.Views");
+            ViewLocator.AddNamespaceMapping("withSIX.Core.Applications.MVVM.ViewModels.Popups",
+                "withSIX.Core.Presentation.Wpf.Views.Popups");
+            ViewLocator.AddNamespaceMapping("withSIX.Core.Applications.MVVM.ViewModels.Dialogs",
+                "withSIX.Core.Presentation.Wpf.Views.Dialogs");
+            ViewLocator.AddNamespaceMapping("withSIX.Core.Applications.MVVM.ViewModels",
+                "withSIX.Core.Presentation.Wpf.Views");
         }
 
         protected internal void InitializeCM() {

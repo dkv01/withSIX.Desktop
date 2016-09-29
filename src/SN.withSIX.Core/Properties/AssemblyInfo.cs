@@ -42,5 +42,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.0.128")]
 [assembly: AssemblyFileVersion("1.0.0.128")]
-[assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Core")]
-[assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Presentation")]
+[assembly: InternalsVisibleTo("withSIX.Play.Tests.Core")]
+[assembly: InternalsVisibleTo("withSIX.Play.Tests.Presentation")]

@@ -112,7 +112,7 @@ namespace withSIX.Mini.Presentation.Shell
 
         public Image LoadImage() {
             var assembly = Assembly.GetExecutingAssembly();
-            var file = assembly.GetManifestResourceStream("SN.withSIX.Mini.Presentation.Shell." + "app.ico");
+            var file = assembly.GetManifestResourceStream("withSIX.Mini.Presentation.Shell." + "app.ico");
             return ResizeImage(Image.FromStream(file), 16, 16);
         }
 

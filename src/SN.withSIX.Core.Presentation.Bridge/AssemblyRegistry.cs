@@ -14,7 +14,7 @@ namespace withSIX.Core.Presentation.Bridge
         //static Assembly _assembly;
         readonly ReferencedAssemblyFinder _finder = new ReferencedAssemblyFinder();
         //readonly string _sharedDllPath = AssemblyHandler.GetSharedDllPath();
-        //static Assembly ResourceAssembly => _assembly ?? (_assembly = Assembly.Load("SN.withSIX.Core.Presentation.Assemblies"));
+        //static Assembly ResourceAssembly => _assembly ?? (_assembly = Assembly.Load("withSIX.Core.Presentation.Assemblies"));
 
         /*        public void Register(string path, IEnumerable<string> files) {
             if (!Directory.Exists(path))
@@ -45,7 +45,7 @@ namespace withSIX.Core.Presentation.Bridge
 
         /*        static bool GetFromResources(AssemblyName requestedAssemblyName, out Assembly load) {
             var fileName = GetFileName(requestedAssemblyName);
-            var resourcePath = "SN.withSIX.Core.Presentation.Assemblies." + fileName;
+            var resourcePath = "withSIX.Core.Presentation.Assemblies." + fileName;
             try {
                 using (var a = ResourceAssembly.GetManifestResourceStream(resourcePath)) {
                     // This can actually end up in infinite loop, e.g if we have an assembly redirect to a version that we don't have, like Cors 5.2, while having 5.0
@@ -64,7 +64,7 @@ namespace withSIX.Core.Presentation.Bridge
 
         /*        static Stream GetAssemblyStreamFromResource(string resourceName) {
             return
-                ResourceAssembly.GetManifestResourceStream("SN.withSIX.Core.Presentation.Assemblies." +
+                ResourceAssembly.GetManifestResourceStream("withSIX.Core.Presentation.Assemblies." +
                                                            resourceName.Replace("/", "."));
         }
 

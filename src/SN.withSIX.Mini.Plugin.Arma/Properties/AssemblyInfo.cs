@@ -9,11 +9,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("SN.withSIX.Mini.Plugin.Arma")]
+[assembly: AssemblyTitle("withSIX.Mini.Plugin.Arma")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SN.withSIX.Mini.Plugin.Arma")]
+[assembly: AssemblyProduct("withSIX.Mini.Plugin.Arma")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

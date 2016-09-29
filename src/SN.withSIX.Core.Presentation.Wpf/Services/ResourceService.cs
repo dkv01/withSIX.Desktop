@@ -11,7 +11,7 @@ namespace withSIX.Core.Presentation.Wpf.Services
 {
     public class ResourceService : IPresentationResourceService, IPresentationService
     {
-        const string SourceAssemblyName = "SN.withSIX.Core.Presentation.Resources";
+        const string SourceAssemblyName = "withSIX.Core.Presentation.Resources";
         readonly Assembly _sourceAssembly = typeof(DummyClass).GetTypeInfo().Assembly;
 
         static ResourceService() {

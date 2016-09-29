@@ -10,8 +10,8 @@ namespace withSIX.Mini.Presentation.Electron
     public static class LoggingSetup
     {
         public static void Setup(string productTitle, string token = null) {
-            var a = Assembly.LoadFrom("SN.withSIX.Core.Presentation.Bridge.dll");
-            dynamic o = Activator.CreateInstance(a.GetType("SN.withSIX.Core.Presentation.Bridge.LowInitializer"));
+            var a = Assembly.LoadFrom("withSIX.Core.Presentation.Bridge.dll");
+            dynamic o = Activator.CreateInstance(a.GetType("withSIX.Core.Presentation.Bridge.LowInitializer"));
             o.SetupLogging(productTitle, token);
         }
     }

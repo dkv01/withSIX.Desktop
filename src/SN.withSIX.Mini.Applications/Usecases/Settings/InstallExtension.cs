@@ -23,7 +23,7 @@ namespace withSIX.Mini.Applications.Usecases.Settings
         private readonly IAbsoluteDirectoryPath _destination =
             Common.Paths.LocalDataSharedPath.GetChildDirectoryWithName("ExplorerExtension");
         private readonly IAbsoluteFilePath[] _filePaths =
-            new[] {"SN.withSIX.Mini.Presentation.Shell.dll", "Newtonsoft.Json.dll", "SharpShell.dll"}.Select(
+            new[] {"withSIX.Mini.Presentation.Shell.dll", "Newtonsoft.Json.dll", "SharpShell.dll"}.Select(
                 x => Common.Paths.AppPath.GetChildFileWithName(x)).ToArray();
         private readonly IExplorerExtensionInstaller _installer;
 

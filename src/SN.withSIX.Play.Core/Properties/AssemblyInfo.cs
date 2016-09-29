@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("SN.withSIX.Play.Core")]
+[assembly: AssemblyTitle("withSIX.Play.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SN.withSIX.Play.Core")]
+[assembly: AssemblyProduct("withSIX.Play.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -42,5 +42,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.0.92")]
 [assembly: AssemblyFileVersion("1.0.0.92")]
-[assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Core")]
-[assembly: InternalsVisibleTo("SN.withSIX.Play.Tests.Presentation")]
+[assembly: InternalsVisibleTo("withSIX.Play.Tests.Core")]
+[assembly: InternalsVisibleTo("withSIX.Play.Tests.Presentation")]
