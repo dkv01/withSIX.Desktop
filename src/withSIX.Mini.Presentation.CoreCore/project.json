@@ -2,6 +2,7 @@
   "supports": {},
   "dependencies": {
     "Microsoft.AspNetCore.Server.Kestrel.Https": "1.0.1",
+    "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",

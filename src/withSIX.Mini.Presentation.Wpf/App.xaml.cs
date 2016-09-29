@@ -14,6 +14,7 @@ using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Presentation.Wpf;
 using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Core.Presentation.Wpf.Services;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Presentation.Core;
 

@@ -134,7 +134,7 @@
     <Compile Include="Services\ProcessManager.cs" />
     <Compile Include="Services\ShutdownHandler.cs" />
     <Compile Include="Services\UacHelper.cs" />
-    <Compile Include="StartWebserver.cs" />
+    <Compile Include="WebListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">

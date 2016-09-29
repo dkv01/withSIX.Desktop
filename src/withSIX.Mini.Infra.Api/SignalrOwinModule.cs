@@ -32,6 +32,7 @@ namespace withSIX.Mini.Infra.Api
     public static class SignalrBuilderExtensions
     {
         public static void UseSignalR2(this IApplicationBuilder app) {
+            app.UseWebSockets();
             app.UseAppBuilder(appBuilder =>
                 appBuilder.Map("/signalr", map => {
                     var debug =
