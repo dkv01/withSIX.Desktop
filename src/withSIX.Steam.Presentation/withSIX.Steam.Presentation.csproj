@@ -450,7 +450,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BaseSteamCommand.cs" />
-    <Compile Include="Commands\ContainerSetup.cs" />
+    <Compile Include="ContainerSetup.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\RunInteractive.cs" />
     <Compile Include="Commands\UninstallCommand.cs" />

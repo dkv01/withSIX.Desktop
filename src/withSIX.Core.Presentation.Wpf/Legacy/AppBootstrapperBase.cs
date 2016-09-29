@@ -281,7 +281,8 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
             void RegisterNotificationHandlers() {
                 var notificationHandlers = new[] {
                     typeof(INotificationHandler<>),
-                    typeof(IAsyncNotificationHandler<>)
+                    typeof(IAsyncNotificationHandler<>),
+                    typeof(ICancellableAsyncNotificationHandler<>)
                 };
 
                 foreach (var h in notificationHandlers) {

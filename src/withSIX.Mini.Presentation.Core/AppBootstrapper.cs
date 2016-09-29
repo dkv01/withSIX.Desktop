@@ -472,7 +472,7 @@ namespace withSIX.Mini.Presentation.Core
             RegisterRequestHandlers(typeof(IAsyncRequestHandler<,>),
                 typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
             RegisterNotificationHandlers(typeof(INotificationHandler<>),
-                typeof(IAsyncNotificationHandler<>));
+                typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>));
 
             // Decorators execute in reverse-order. So the last one executes first, and so forth.
             Container.RegisterDecorator<IMediator, ActionNotifierDecorator>(Lifestyle.Singleton);

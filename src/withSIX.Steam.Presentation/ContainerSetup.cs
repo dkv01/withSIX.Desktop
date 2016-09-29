@@ -5,10 +5,17 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleInjector;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Presentation.Core;
@@ -17,10 +24,11 @@ using withSIX.Steam.Api;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Core;
 using withSIX.Steam.Plugin.Arma;
+using withSIX.Steam.Presentation.Commands;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using SteamApi = withSIX.Steam.Api.Services.SteamApi;
 
-namespace withSIX.Steam.Presentation.Commands
+namespace withSIX.Steam.Presentation
 {
     public class ContainerSetup : IDisposable
     {
@@ -68,6 +76,8 @@ namespace withSIX.Steam.Presentation.Commands
             _container.RegisterSingleton<Api.Services.ISteamApi, SteamApi>();
             _container.RegisterSingleton(steamApi);
             _container.RegisterSingleton<IEventStorage, EventStorage>();
+
+            _container.RegisterDecorator<IMediator, MediatorLoggingDecorator>();
             RegisterRequestHandlers();
             RegisterNotificationHandlers();
         }
@@ -75,6 +85,7 @@ namespace withSIX.Steam.Presentation.Commands
         private void RegisterRequestHandlers() {
             var requestHandlers = new[] {
                 typeof(IAsyncRequestHandler<,>),
+                typeof(ICancellableAsyncRequestHandler<,>),
                 typeof(IRequestHandler<,>)
             };
 
@@ -85,7 +96,8 @@ namespace withSIX.Steam.Presentation.Commands
         private void RegisterNotificationHandlers() {
             var notificationHandlers = new[] {
                 typeof(INotificationHandler<>),
-                typeof(IAsyncNotificationHandler<>)
+                typeof(IAsyncNotificationHandler<>),
+                typeof(ICancellableAsyncNotificationHandler<>)
             };
 
             foreach (var h in notificationHandlers) {
@@ -93,6 +105,48 @@ namespace withSIX.Steam.Presentation.Commands
                 //_container.RegisterSingleAllInterfacesAndType<>();
                 _container.RegisterCollection(h, _assemblies);
             }
+        }
+    }
+
+    public class MediatorLoggingDecorator : MediatorDecoratorBase, IMediator
+    {
+        protected static readonly JsonSerializerSettings JsonSerializerSettings = CreateJsonSerializerSettings();
+
+        public MediatorLoggingDecorator(IMediator decorated) : base(decorated) { }
+
+        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+            using (
+                Decorated.Bench(
+                    startMessage:
+                    "Writes: " + (request is IWrite) + ", Data: " +
+                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                    caller: "Request" + ": " + request.GetType()))
+                return base.Send(request);
+        }
+
+        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+            using (Decorated.Bench(
+                startMessage:
+                "Writes: " + (request is IWrite) + ", Data: " +
+                JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                caller: "RequestAsync" + ": " + request.GetType()))
+                return await base.SendAsync(request).ConfigureAwait(false);
+        }
+
+        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
+            CancellationToken cancellationToken) {
+            using (Decorated.Bench(
+                startMessage:
+                "Writes: " + (request is IWrite) + ", Data: " +
+                JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                caller: "RequestAsync" + ": " + request.GetType()))
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        static JsonSerializerSettings CreateJsonSerializerSettings() {
+            var settings = new JsonSerializerSettings().SetDefaultSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return settings;
         }
     }
 }
