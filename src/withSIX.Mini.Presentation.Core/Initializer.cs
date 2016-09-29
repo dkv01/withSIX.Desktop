@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -22,7 +23,7 @@ namespace withSIX.Mini.Presentation.Core
         }
 
         public async Task Initialize() {
-            RegisterUrlHandlers();
+            if (Common.IsWindows) RegisterUrlHandlers();
             //await SetupNotificationIcon().ConfigureAwait(false);
         }
 
@@ -44,6 +45,7 @@ namespace withSIX.Mini.Presentation.Core
         */
 
         public void RegisterUrlHandlers() {
+            if (!Common.IsWindows) throw new PlatformNotSupportedException();
             foreach (var protocol in _schemes)
                 RegisterProtocol(protocol);
         }

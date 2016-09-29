@@ -10,6 +10,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
@@ -372,10 +373,23 @@ namespace withSIX.Mini.Presentation.Core
             Container.RegisterSingleton<ISecureCache>(
                 () =>
                     new SecureCache(_paths.RoamingDataPath.GetChildFileWithName("secure-cache.db").ToString(),
-                        new EncryptionProvider(), _cacheScheduler));
+                        Common.IsWindows ? (IEncryptionProvider)new WindowsEncryptionProvider() : new NotWindowsEncryptionProvider(), _cacheScheduler));
         }
 
-        public class EncryptionProvider : IEncryptionProvider
+        // Until https://github.com/aarnott/pclcrypto
+        // https://github.com/akavache/Akavache/issues/190
+        public class NotWindowsEncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(Encoding.UTF8.GetBytes(Convert.ToBase64String(block)));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(Convert.FromBase64String(Encoding.UTF8.GetString(block)));
+            }
+        }
+
+        public class WindowsEncryptionProvider : IEncryptionProvider
         {
             public IObservable<byte[]> EncryptBlock(byte[] block) {
                 return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
@@ -385,6 +399,7 @@ namespace withSIX.Mini.Presentation.Core
                 return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
             }
         }
+
 
         void RegisterCache<T>(T cache) where T : IBlobCache {
             var cacheManager = Container.GetInstance<ICacheManager>();
@@ -643,6 +658,14 @@ namespace withSIX.Mini.Presentation.Core
         protected virtual async Task AfterUi() {
             //await Container.GetInstance<ICacheManager>().VacuumIfNeeded(TimeSpan.FromDays(14)).ConfigureAwait(false);
 
+            if (Common.IsWindows)
+                await HandleStartWithWindows().ConfigureAwait(false);
+
+            foreach (var i in _initializers.OfType<IInitializeAfterUI>())
+                await i.InitializeAfterUI().ConfigureAwait(false);
+        }
+
+        private async Task HandleStartWithWindows() {
             var settings =
                 await
                     Container.GetInstance<IDbContextLocator>()
@@ -650,9 +673,6 @@ namespace withSIX.Mini.Presentation.Core
                         .GetSettings()
                         .ConfigureAwait(false);
             new StartWithWindowsHandler().HandleStartWithWindows(settings.Local.StartWithWindows);
-
-            foreach (var i in _initializers.OfType<IInitializeAfterUI>())
-                await i.InitializeAfterUI().ConfigureAwait(false);
         }
 
         protected virtual void BackgroundActions() {

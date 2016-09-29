@@ -3,10 +3,10 @@
   "dependencies": {
     "AutoMapper": "5.1.1",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-    "NDepend.Path.PCL": "1.0.2-pre",
+    "NDepend.Path.PCL": "1.0.2",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",
-    "withSIX.Api.Models": "2.0.7-pre"
+    "withSIX.Api.Models": "2.0.8"
   },
   "frameworks": {
     "netstandard1.3": {}

@@ -1,5 +1,4 @@
 ﻿{
-  "version": "1.0.0-pre",
   "supports": {},
   "dependencies": {
     "MediatR": "2.1.0",
@@ -15,10 +14,11 @@
     "System.IO.FileSystem.AccessControl": "4.0.0",
     "System.IO.FileSystem.Watcher": "4.0.0",
     "System.Runtime.Extensions": "4.1.0",
+    "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
     "System.Security.Cryptography.Algorithms": "4.2.0",
     "System.Threading": "4.0.11",
     "System.Threading.Thread": "4.0.0",
-    "withSIX.Api.Models": "2.0.7-pre"
+    "withSIX.Api.Models": "2.0.8"
   },
   "frameworks": {
     "netstandard1.3": {}

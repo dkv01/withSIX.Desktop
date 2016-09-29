@@ -4,6 +4,7 @@
 
 using System.Threading.Tasks;
 using MediatR;
+using withSIX.Core;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Applications.Usecases;
 using withSIX.Mini.Applications.Usecases.Main;
@@ -17,7 +18,8 @@ namespace withSIX.Mini.Applications.NotificationHandlers
         public SettingsChangedHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
         public async Task Handle(SettingsUpdated notification) {
-            _startWithWindowsHandler.HandleStartWithWindows(notification.Subject.Local.StartWithWindows);
+            if (Common.IsWindows)
+                _startWithWindowsHandler.HandleStartWithWindows(notification.Subject.Local.StartWithWindows);
         }
     }
 }

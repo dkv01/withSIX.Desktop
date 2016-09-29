@@ -7,7 +7,10 @@
     "SimpleInjector": "3.2.2",
     "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
     "System.Diagnostics.Contracts": "4.0.1",
-    "withSIX.Api.Models": "2.0.7-pre"
+    "withSIX.Api.Models": "2.0.8",
+    "withSIX.Core": "1.0.0-*",
+    "withSIX.Core.Applications": "1.0.0-*",
+    "withSIX.Sync.Core": "1.0.0-*"
   },
   "frameworks": {
     "netstandard1.3": {}

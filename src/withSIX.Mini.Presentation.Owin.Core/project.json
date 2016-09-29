@@ -9,7 +9,14 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "System.Runtime": "4.1.0",
-    "withSIX.Api.Models": "2.0.7-pre"
+    "withSIX.Api.Models": "2.0.8",
+    "withSIX.Core": "1.0.0-*",
+    "withSIX.Core.Applications": "1.0.0-*",
+    "withSIX.Core.Infra": "1.0.0-*",
+    "withSIX.Mini.Applications": "1.0.0-*",
+    "withSIX.Mini.Core": "1.0.0-*",
+    "withSIX.Mini.Infra.Data": "1.0.0-*",
+    "withSIX.Mini.Presentation.Core": "1.0.0-*"
   },
   "frameworks": {
     "netstandard1.3": {}

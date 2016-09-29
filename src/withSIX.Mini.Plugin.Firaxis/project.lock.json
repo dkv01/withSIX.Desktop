@@ -149,7 +149,7 @@
           }
         }
       },
-      "NDepend.Path.PCL/1.0.2-pre": {
+      "NDepend.Path.PCL/1.0.2": {
         "dependencies": {
           "System.Globalization.Extensions": "4.0.1",
           "System.IO.FileSystem.DriveInfo": "4.0.0"
@@ -1605,17 +1605,16 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.7-pre": {
+      "withSIX.Api.Models/2.0.8": {
         "dependencies": {
           "AutoMapper": "5.1.1",
-          "NDepend.Path.PCL": "1.0.2-pre",
+          "NDepend.Path.PCL": "1.0.2",
           "Newtonsoft.Json": "9.0.1",
           "System.ComponentModel.Annotations": "4.1.0",
           "System.Globalization.Extensions": "4.0.1",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.DriveInfo": "4.0.0",
           "System.Runtime.Extensions": "4.1.0",
-          "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Security.Cryptography.Algorithms": "4.2.0"
         },
         "compile": {
@@ -1921,12 +1920,12 @@
         "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll"
       ]
     },
-    "NDepend.Path.PCL/1.0.2-pre": {
-      "sha512": "uORL+aAqBn1K5Vz48HMLiG26Y4K0TpGWJNJxCzMd5UvgZ8cLvIqeRTsF/eRUFWjddO3LxmntRFEJ5nZu9+CoNw==",
+    "NDepend.Path.PCL/1.0.2": {
+      "sha512": "3GTrH7v8RaZ9FDxf4tPqlEv/ekp22DeCf3pJ+kIXOxqssoIUjFBiCpVZcU9N053jt+cCHuNaYltOmanKm+n2BQ==",
       "type": "package",
-      "path": "NDepend.Path.PCL/1.0.2-pre",
+      "path": "NDepend.Path.PCL/1.0.2",
       "files": [
-        "NDepend.Path.PCL.1.0.2-pre.nupkg.sha512",
+        "NDepend.Path.PCL.1.0.2.nupkg.sha512",
         "NDepend.Path.PCL.nuspec",
         "lib/netstandard1.3/NDepend.Path.PCL.dll"
       ]
@@ -6114,13 +6113,13 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "withSIX.Api.Models/2.0.7-pre": {
-      "sha512": "FUkj02Tjh39MGFkMFowULBkBaYRWb3xItQMBtPx7YQ7QoeId+MagrzqTP04dzzI4jDb4Ff9dXhbUib/7W1ZAQg==",
+    "withSIX.Api.Models/2.0.8": {
+      "sha512": "eKmlt+Beyh7bHwBnT6uyE29s23WNemzP5z9g3743/EcB101VE8REMlUWFx0W46549UFm0Gs5pUIgGzmnD0EnAA==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.7-pre",
+      "path": "withSIX.Api.Models/2.0.8",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.7-pre.nupkg.sha512",
+        "withSIX.Api.Models.2.0.8.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     }
@@ -6131,7 +6130,7 @@
       "Microsoft.NETCore.Portable.Compatibility >= 1.0.1",
       "NETStandard.Library >= 1.6.0",
       "System.Diagnostics.Contracts >= 4.0.1",
-      "withSIX.Api.Models >= 2.0.7-pre"
+      "withSIX.Api.Models >= 2.0.8"
     ],
     ".NETStandard,Version=v1.3": []
   }

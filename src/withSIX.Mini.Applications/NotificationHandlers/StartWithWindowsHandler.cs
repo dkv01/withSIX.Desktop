@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32;
@@ -15,6 +16,7 @@ namespace withSIX.Mini.Applications.NotificationHandlers
     public class StartWithWindowsHandler
     {
         public void HandleStartWithWindows(bool startWithWindows) {
+            if (!Common.IsWindows) throw new PlatformNotSupportedException();
             var rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (startWithWindows) {
