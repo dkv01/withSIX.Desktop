@@ -55,7 +55,7 @@ namespace SN.withSIX.Mini.Presentation.Owin.Core
             if (http != null)
                 urls.Add(http.ToHttp());
             if (https != null)
-                urls.Add(https.ToHttp());
+                urls.Add(https.ToHttps());
 
             builder.Configure(Configure);
             builder.UseUrls(urls.ToArray());

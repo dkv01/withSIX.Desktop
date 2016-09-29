@@ -147,13 +147,17 @@ namespace SN.withSIX.Mini.Applications
             ProductTitle + (DirectorySubtitle == null ? null : "-" + DirectorySubtitle);
         public const string DisplayTitle = ProductTitle + (ReleaseTitle == null ? null : " " + ReleaseTitle);
         public const string WindowTitle = DisplayTitle;
+        public const int DefaultHttpPort = 48665; // TODO: Randomize and make dynamic on first start
         public const int DefaultHttpsPort = 48666; // TODO: Randomize and make dynamic on first start
         public static int ApiPort { get; set; }
         private static readonly IPAddress srvAddress = IPAddress.Parse("127.0.0.66");
-        public static IPEndPoint HttpAddress = null; // new IPEndPoint(SrvAddress, HttpPort);
         private static readonly Lazy<IPEndPoint> httpsAddress =
             new Lazy<IPEndPoint>(() => new IPEndPoint(srvAddress, ApiPort));
         public static IPEndPoint HttpsAddress => httpsAddress.Value;
+        private static readonly Lazy<IPEndPoint> httpAddress =
+            new Lazy<IPEndPoint>(() => new IPEndPoint(srvAddress, DefaultHttpPort));
+        public static IPEndPoint HttpAddress => httpAddress.Value;
+
         public const int SyncVersion = 14;
 
         public static string InternalVersion { get; set; }
