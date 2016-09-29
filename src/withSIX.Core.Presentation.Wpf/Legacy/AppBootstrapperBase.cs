@@ -9,6 +9,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text;
 using Akavache;
 using Caliburn.Micro;
 using MediatR;
@@ -159,10 +160,23 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                 () =>
                     RegisterCache(
                         new SecureCache(Common.Paths.DataPath.GetChildFileWithName("secure-cache.db").ToString(),
-                            new EncryptionProvider(), scheduler)));
+                            Common.IsWindows ? (IEncryptionProvider)new WindowsEncryptionProvider() : new NotWindowsEncryptionProvider(), scheduler)));
         }
 
-        public class EncryptionProvider : IEncryptionProvider
+        // Until https://github.com/aarnott/pclcrypto
+        // https://github.com/akavache/Akavache/issues/190
+        public class NotWindowsEncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(Encoding.UTF8.GetBytes(Convert.ToBase64String(block)));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(Convert.FromBase64String(Encoding.UTF8.GetString(block)));
+            }
+        }
+
+        public class WindowsEncryptionProvider : IEncryptionProvider
         {
             public IObservable<byte[]> EncryptBlock(byte[] block) {
                 return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
@@ -172,7 +186,6 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                 return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
             }
         }
-
 
         T RegisterCache<T>(T cache) where T : IBlobCache {
             var cacheManager = Container.GetInstance<ICacheManager>();

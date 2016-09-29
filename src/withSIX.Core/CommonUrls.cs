@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
 
 namespace withSIX.Core
 {
@@ -288,10 +287,6 @@ namespace withSIX.Core
         public const string Local = "local";
         public const string Local2 = "local2";
         public static readonly string Environment;
-        static readonly Dictionary<string, string> usernameHostMapping = new Dictionary<string, string> {
-            {@"SN\Patrick.Roza", "p"},
-            {@"SN\Oliver.Baker", "o"}
-        };
         static readonly string[] productionHosts = {
             "withsix.com", "www.withsix.com", "connect.withsix.com", "play.withsix.com", "admin.withsix.com",
             "auth.withsix.com"
@@ -347,18 +342,10 @@ namespace withSIX.Core
 
         static string GetLocalHost() {
             const string host = "local.withsix.net";
-            var userName = WindowsIdentity.GetCurrent().Name;
-            return usernameHostMapping.ContainsKey(userName)
-                ? JoinMapping(usernameHostMapping[userName], host)
-                : host;
+            return host;
         }
 
-        static string[] GetLocalHosts() {
-            var userName = WindowsIdentity.GetCurrent().Name;
-            return usernameHostMapping.ContainsKey(userName)
-                ? localHosts.Select(x => JoinMapping(usernameHostMapping[userName], x)).ToArray()
-                : localHosts;
-        }
+        static string[] GetLocalHosts() => localHosts;
 
         static string JoinMapping(string mapping, string hostname) {
             var split = hostname.Split('.').ToList();
