@@ -15,8 +15,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
     public class ContentHandler : INotificationHandler<ContentUsed>, INotificationHandler<ContentInstalled>,
         INotificationHandler<RecentItemRemoved>
     {
-        readonly Lazy<IHubContext<ContentHub, IContentClientHub>> _hubContext = SystemExtensions.CreateLazy(() => 
-            SignalrOwinModule.ConnectionManager.GetHubContext<ContentHub, IContentClientHub>());
+        readonly Lazy<IHubContext<ContentHub, IContentClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
+            Extensions.ConnectionManager.ContentHub);
 
         public void Handle(ContentInstalled notification) {
             // TODO: Also have List<> based S-IR event instead?

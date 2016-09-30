@@ -14,14 +14,14 @@ namespace withSIX.Mini.Infra.Api.Messengers
 {
     public class QueueHubMessenger : IInfrastructureService, IQueueHubMessenger
     {
-        readonly IHubContext<QueueHub, IQueueClientHub> _hubContext =
-            SignalrOwinModule.ConnectionManager.GetHubContext<QueueHub, IQueueClientHub>();
+        private readonly Lazy<IHubContext<QueueHub, IQueueClientHub>> _hubContext =
+            new Lazy<IHubContext<QueueHub, IQueueClientHub>>(() => Extensions.ConnectionManager.QueueHub);
 
-        public Task AddToQueue(QueueItem item) => _hubContext.Clients.All.Added(item);
+        public Task AddToQueue(QueueItem item) => _hubContext.Value.Clients.All.Added(item);
 
-        public Task RemoveFromQueue(Guid id) => _hubContext.Clients.All.Removed(id);
+        public Task RemoveFromQueue(Guid id) => _hubContext.Value.Clients.All.Removed(id);
 
         public Task Update(QueueItem item)
-            => _hubContext.Clients.All.Updated(new QueueUpdate {Id = item.Id, Item = item});
+            => _hubContext.Value.Clients.All.Updated(new QueueUpdate {Id = item.Id, Item = item});
     }
 }

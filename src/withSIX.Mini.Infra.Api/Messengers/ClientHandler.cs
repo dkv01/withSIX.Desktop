@@ -16,7 +16,7 @@ namespace withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<UserErrorAdded>
     {
         private readonly Lazy<IHubContext<ClientHub, IClientClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
-                SignalrOwinModule.ConnectionManager.GetHubContext<ClientHub, IClientClientHub>());
+                Extensions.ConnectionManager.ClientHub);
         private readonly IStateHandler _stateHandler;
 
         public ClientHandler(IStateHandler stateHandler) {

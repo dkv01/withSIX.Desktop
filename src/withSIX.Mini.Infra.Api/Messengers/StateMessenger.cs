@@ -27,8 +27,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
 
     public class StateMessengerBus : IStateMessengerBus, IInfrastructureService, IDisposable
     {
-        private readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() => 
-            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>());
+        private readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
+                Extensions.ConnectionManager.StatusHub);
         private readonly IDisposable _subscription;
 
         public StateMessengerBus(IGameLocker gameLocker) {
@@ -57,8 +57,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<GameTerminated>,
         IAsyncNotificationHandler<ActionNotification>
     {
-        readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
-            SignalrOwinModule.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>());
+        private readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
+                Extensions.ConnectionManager.StatusHub);
 
         public Task Handle(ActionNotification notification) =>
             _hubContext.Value.Clients.All.ActionNotification(notification);

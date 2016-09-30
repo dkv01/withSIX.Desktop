@@ -69,7 +69,6 @@ namespace withSIX.Mini.Presentation.Electron
             base.Configure();
             Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
                 typeof(JsonSerializerSettings));
-            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
 
         public ElectronAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath)

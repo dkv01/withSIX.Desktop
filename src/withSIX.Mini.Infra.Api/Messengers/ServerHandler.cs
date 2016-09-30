@@ -15,7 +15,7 @@ namespace withSIX.Mini.Infra.Api.Messengers
     public class ServerHandler : IAsyncNotificationHandler<ServersPageReceived>
     {
         private readonly Lazy<IHubContext<ServerHub, IServerHubClient>> _hubContext = SystemExtensions.CreateLazy(() =>
-            SignalrOwinModule.ConnectionManager.GetHubContext<ServerHub, IServerHubClient>());
+            Extensions.ConnectionManager.ServerHub);
 
         public Task Handle(ServersPageReceived notification)
             => _hubContext.Value.Clients.All.ServersPageReceived(notification);

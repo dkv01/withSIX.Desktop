@@ -83,7 +83,6 @@ namespace withSIX.Mini.Presentation.Wpf
             SetupCM();
             Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(),
                 typeof(JsonSerializerSettings));
-            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
 
         internal IMiniMainWindowViewModel GetMainWindowViewModel() => Container.GetInstance<IMiniMainWindowViewModel>();
