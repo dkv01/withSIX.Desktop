@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
@@ -12,7 +11,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using withSIX.Core.Extensions;
 using withSIX.Core.Presentation;
 using withSIX.Mini.Infra.Api;
@@ -30,7 +28,7 @@ namespace withSIX.Mini.Presentation.Wpf.Services
                 using (var s = WindowsApiPortHandlerBase.GetApiStream("server.pfx"))
                     kestrel.UseHttps(new X509Certificate2(s.ToBytes(), "localhost"));
             });
-            builder.UseStartup<Startup>();
+            builder.UseStartup<AspStartup>();
         }
 
         public override async Task Run(IPEndPoint http, IPEndPoint https, CancellationToken ct) {
@@ -52,28 +50,17 @@ namespace withSIX.Mini.Presentation.Wpf.Services
         }
     }
 
-    public class Startup : AspStartupBase
+    public class AspStartup : AspStartupBase
     {
-        //public Startup(IHostingEnvironment env) : base(env) {}
+        public AspStartup(IHostingEnvironment env) : base(env) {}
 
         public override void ConfigureServices(IServiceCollection services) {
-            services.AddCors();
+            base.ConfigureServices(services);
             services.ConfigureSignalrServices();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IMyHubHost hubHost) { // , ILoggerFactory loggerFactory,
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
-
-            //app.UseApplicationInsightsRequestTelemetry();
-
-            //app.UseApplicationInsightsExceptionTelemetry();
-
-            //app.UseMvc();
-            app.ConfigureCors();
-            app.ConfigureApi();
-            app.ConfigureSignalr(hubHost);
-            app.ConfigureCatchAll();
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IMyHubHost hubHost) {
+            ConfigureApp(app, () => app.ConfigureSignalr(hubHost));
         }
     }
 }

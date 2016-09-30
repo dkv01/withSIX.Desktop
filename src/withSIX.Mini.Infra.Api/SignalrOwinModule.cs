@@ -53,7 +53,6 @@ namespace withSIX.Mini.Infra.Api
     {
         public static IMyHubHost ConnectionManager { get; private set; }
 
-
         public static void ConfigureSignalr(this IApplicationBuilder app, IMyHubHost hubHost) {
             ConnectionManager = hubHost;
             app.UseWebSockets();

@@ -57,7 +57,7 @@ namespace withSIX.Mini.Presentation.Owin.Core
 
     public abstract class AspStartupBase
     {
-        protected AspStartupBase() {
+        protected AspStartupBase(IHostingEnvironment env) {
             var builder = new ConfigurationBuilder();
             //.SetBasePath(env.ContentRootPath)
             //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -76,7 +76,25 @@ namespace withSIX.Mini.Presentation.Owin.Core
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container
-        public abstract void ConfigureServices(IServiceCollection services);
+        public virtual void ConfigureServices(IServiceCollection services) {
+            services.AddCors();
+        }
+
+        protected static void ConfigureApp(IApplicationBuilder app, Action act) {
+            // , ILoggerFactory loggerFactory,
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
+
+            //app.UseApplicationInsightsRequestTelemetry();
+
+            //app.UseApplicationInsightsExceptionTelemetry();
+
+            //app.UseMvc();
+            app.ConfigureCors();
+            app.ConfigureApi();
+            act();
+            app.ConfigureCatchAll();
+        }
     }
 
     public static class Extensions
