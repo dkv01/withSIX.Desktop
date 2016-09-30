@@ -17,6 +17,7 @@ using NDepend.Path;
 using Steamworks;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Logging;
+using withSIX.Core.Services;
 using withSIX.Steam.Core;
 
 namespace withSIX.Steam.Api.Services
@@ -69,7 +70,7 @@ namespace withSIX.Steam.Api.Services
             _scheduler = new EventLoopScheduler();
             await initialize(_scheduler).ConfigureAwait(false);
 
-            _safeCall = new SafeCallFactory().Create();
+            _safeCall = LockedWrapper.callFactory.Create();
             _callbackRunner = CreateCallbackRunner(simulate, _cts.Token);
         }
 
@@ -119,7 +120,7 @@ namespace withSIX.Steam.Api.Services
                             try {
                                 _safeCall.Do(act);
                             } catch (Exception ex) {
-                                Trace.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
+                                //Trace.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
                                 Console.Error.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
                                 throw;
                             }
@@ -198,39 +199,5 @@ namespace withSIX.Steam.Api.Services
 
         Task<T> Do<T>(uint appId, IAbsoluteDirectoryPath steamPath, Func<IScheduler, Task> initializer, Action simulate,
             Func<Task<T>> action);
-    }
-
-    public class SafeCallFactory : ISafeCallFactory
-    {
-        public ISafeCall Create() => new SafeCall();
-    }
-
-    public class SafeCall : ISafeCall
-    {
-        [HandleProcessCorruptedStateExceptions]
-        public void Do(Action act) {
-            try {
-                act();
-            } catch (AccessViolationException ex) {
-                throw new Exception($"Native exception ocurred while SteamAPI.RunCallbacks(): {ex}");
-            } catch (Exception) {
-                throw;
-            } catch {
-                throw new Exception("Unmanged ex");
-            }
-        }
-
-        [HandleProcessCorruptedStateExceptions]
-        public TResult Do<TResult>(Func<TResult> act) {
-            try {
-                return act();
-            } catch (AccessViolationException ex) {
-                throw new Exception($"Native exception ocurred while SteamAPI.RunCallbacks(): {ex}");
-            } catch (Exception) {
-                throw;
-            } catch {
-                throw new Exception("Unmanged ex");
-            }
-        }
     }
 }

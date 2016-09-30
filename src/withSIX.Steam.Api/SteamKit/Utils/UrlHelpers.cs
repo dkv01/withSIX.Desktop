@@ -6,8 +6,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Text;
-using System.Web;
 
 namespace withSIX.Steam.Api.SteamKit.Utils
 {
@@ -64,10 +65,10 @@ namespace withSIX.Steam.Api.SteamKit.Utils
 
         static void SetSteamQueryEnumerable(Dictionary<string, object> properties, string key) {
             var valueType = properties[key].GetType();
-            var valueElemType = valueType.IsGenericType
+            var valueElemType = valueType.GetTypeInfo().IsGenericType
                 ? valueType.GetGenericArguments()[0]
                 : valueType.GetElementType();
-            if (valueElemType.IsPrimitive || (valueElemType == typeof(string))) {
+            if (valueElemType.GetTypeInfo().IsPrimitive || (valueElemType == typeof(string))) {
                 var enumerable = properties[key] as IEnumerable;
                 properties.Remove(key);
 
@@ -98,9 +99,9 @@ namespace withSIX.Steam.Api.SteamKit.Utils
             return uri.Query.TrimStart('?')
                 .Split(new[] {'&', ';'}, StringSplitOptions.RemoveEmptyEntries)
                 .Select(kvp => kvp.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries))
-                .ToDictionary(kvp => HttpUtility.UrlDecode(kvp[0]),
+                .ToDictionary(kvp => WebUtility.UrlDecode(kvp[0]),
                     kvp =>
-                        HttpUtility.UrlDecode(kvp.Length > 2
+                        WebUtility.UrlDecode(kvp.Length > 2
                             ? string.Join("=", kvp, 1, kvp.Length - 1)
                             : (kvp.Length > 1 ? kvp[1] : "")));
         }
@@ -111,11 +112,11 @@ namespace withSIX.Steam.Api.SteamKit.Utils
                 if (sb.Length > 0)
                     sb.Append('&');
 
-                sb.Append(HttpUtility.UrlEncode(item.Key));
+                sb.Append(WebUtility.UrlEncode(item.Key));
                 if (item.Value == null)
                     continue;
                 sb.Append("=");
-                sb.Append(HttpUtility.UrlEncode(item.Value));
+                sb.Append(WebUtility.UrlEncode(item.Value));
             }
             return sb.ToString();
         }

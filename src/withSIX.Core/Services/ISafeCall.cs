@@ -4,7 +4,7 @@
 
 using System;
 
-namespace withSIX.Steam.Core
+namespace withSIX.Core.Services
 {
     public interface ISafeCall
     {
@@ -15,5 +15,10 @@ namespace withSIX.Steam.Core
     public interface ISafeCallFactory
     {
         ISafeCall Create();
+    }
+
+    public abstract class LockedWrapper
+    {
+        public static ISafeCallFactory callFactory { get; set; }
     }
 }

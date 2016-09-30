@@ -301,6 +301,10 @@
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Core.Presentation.Bridge\withSIX.Core.Presentation.Bridge.csproj">
+      <Project>{777EA4EB-495C-411C-9F65-510874368861}</Project>
+      <Name>withSIX.Core.Presentation.Bridge</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Presentation\withSIX.Core.Presentation.csproj">
       <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
       <Name>withSIX.Core.Presentation</Name>

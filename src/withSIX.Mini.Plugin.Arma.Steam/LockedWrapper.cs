@@ -7,15 +7,10 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using withSIX.Steam.Core;
+using withSIX.Core.Services;
 
 namespace withSIX.Steam.Plugin.Arma
 {
-    public abstract class LockedWrapper
-    {
-        public static ISafeCallFactory callFactory { get; set; }
-    }
-
     public class LockedWrapper<T> : LockedWrapper where T : class
     {
         private readonly T _obj;

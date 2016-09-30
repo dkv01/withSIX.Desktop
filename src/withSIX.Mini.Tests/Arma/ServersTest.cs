@@ -14,6 +14,8 @@ using NUnit.Framework;
 using SteamLayerWrap;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Services;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation;

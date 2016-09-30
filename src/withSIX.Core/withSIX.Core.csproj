@@ -192,6 +192,7 @@
     <Compile Include="Services\Infrastructure\ProcessExitResult.cs" />
     <Compile Include="Services\Infrastructure\ProcessStartInfoBuilder.cs" />
     <Compile Include="Services\IPathConfiguration.cs" />
+    <Compile Include="Services\ISafeCall.cs" />
     <Compile Include="Services\JsonDictionary.cs" />
     <Compile Include="TimestampedDomainEvent.cs" />
     <Compile Include="Tools.cs" />

@@ -16,7 +16,9 @@ using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Services;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Core.Commands;
@@ -36,8 +38,6 @@ namespace withSIX.Steam.Presentation
         private Container _container;
 
         public ContainerSetup(Func<ISteamApi> steamApi) {
-            App.SteamHelper = SteamHelper.Create();
-            LockedWrapper.callFactory = new SafeCallFactory(); // workaround for accessviolation errors
             SetupContainer(steamApi);
             CreateInstances();
         }
@@ -47,6 +47,8 @@ namespace withSIX.Steam.Presentation
         }
 
         private void CreateInstances() {
+            App.SteamHelper = SteamHelper.Create();
+            LockedWrapper.callFactory = _container.GetInstance<ISafeCallFactory>(); // workaround for accessviolation errors
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
             Raiser.Raiserr = new EventStorage();
         }
@@ -76,7 +78,7 @@ namespace withSIX.Steam.Presentation
             _container.RegisterSingleton<Api.Services.ISteamApi, SteamApi>();
             _container.RegisterSingleton(steamApi);
             _container.RegisterSingleton<IEventStorage, EventStorage>();
-
+            _container.RegisterSingleton<ISafeCallFactory, SafeCallFactory>();
             _container.RegisterDecorator<IMediator, MediatorLoggingDecorator>();
             RegisterRequestHandlers();
             RegisterNotificationHandlers();

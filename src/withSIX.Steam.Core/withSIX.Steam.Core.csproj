@@ -127,7 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="ISafeCall.cs" />
     <Compile Include="ISteamApp.cs" />
     <Compile Include="ISteamHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
