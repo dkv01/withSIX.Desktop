@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Infra.Services;

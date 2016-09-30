@@ -2,8 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using MediatR;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using withSIX.Api.Models.Extensions;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Infra.Api.Hubs;
 
@@ -12,8 +15,8 @@ namespace withSIX.Mini.Infra.Api.Messengers
     public class ClientHandler : INotificationHandler<ClientInfoUpdated>, INotificationHandler<UserErrorResolved>,
         INotificationHandler<UserErrorAdded>
     {
-        readonly IHubContext<IClientClientHub> _hubContext =
-            GlobalHost.ConnectionManager.GetHubContext<ClientHub, IClientClientHub>();
+        private readonly Lazy<IHubContext<ClientHub, IClientClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
+                Extensions.ConnectionManager.ClientHub);
         private readonly IStateHandler _stateHandler;
 
         public ClientHandler(IStateHandler stateHandler) {
@@ -21,11 +24,11 @@ namespace withSIX.Mini.Infra.Api.Messengers
         }
 
         public void Handle(ClientInfoUpdated notification) {
-            _hubContext.Clients.All.AppStateUpdated(_stateHandler.ClientInfo);
+            _hubContext.Value.Clients.All.AppStateUpdated(_stateHandler.ClientInfo);
         }
 
-        public void Handle(UserErrorAdded notification) => _hubContext.Clients.All.UserErrorAdded(notification);
+        public void Handle(UserErrorAdded notification) => _hubContext.Value.Clients.All.UserErrorAdded(notification);
 
-        public void Handle(UserErrorResolved notification) => _hubContext.Clients.All.UserErrorResolved(notification);
+        public void Handle(UserErrorResolved notification) => _hubContext.Value.Clients.All.UserErrorResolved(notification);
     }
 }

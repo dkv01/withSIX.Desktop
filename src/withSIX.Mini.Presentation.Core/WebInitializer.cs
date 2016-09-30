@@ -56,7 +56,7 @@ namespace withSIX.Mini.Presentation.Core
                 // If we don't, then the AmbientScopeIdentifier will be inherited into the Web/SIR requests
                 // and remain there even when we close the scope.
                 using (_factory.SuppressAmbientContext()) {
-                    await TaskExt.StartLongRunningTask(() => SetupWebServer()).ConfigureAwait(false);
+                    var t = SetupWebServer();
                 }
             } catch (CannotOpenApiPortException ex) {
                 var r = await
@@ -77,7 +77,7 @@ namespace withSIX.Mini.Presentation.Core
             }
         }
 
-        void SetupWebServer() {
+        async Task SetupWebServer() {
             const int maxTries = 10;
             const int timeOut = 1500;
             var tries = 0;
@@ -86,7 +86,7 @@ namespace withSIX.Mini.Presentation.Core
             var https = Consts.HttpsAddress;
             retry:
             try {
-                _webServerStartup.Run(http, https, _cts.Token);
+                await _webServerStartup.Run(http, https, _cts.Token).ConfigureAwait(false);
             } catch (ListenerException ex) {
                 if (tries++ >= maxTries)
                     throw GetCustomException(ex, https ?? http);
@@ -140,6 +140,6 @@ namespace withSIX.Mini.Presentation.Core
 
     public interface IWebServerStartup
     {
-        void Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken);
+        Task Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken);
     }
 }

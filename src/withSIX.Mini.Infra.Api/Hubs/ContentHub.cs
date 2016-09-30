@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Hubs;
 using NDepend.Path;
 using withSIX.Mini.Applications.Usecases;
 using withSIX.Mini.Applications.Usecases.Main;

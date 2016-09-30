@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Hubs;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Usecases.Main;

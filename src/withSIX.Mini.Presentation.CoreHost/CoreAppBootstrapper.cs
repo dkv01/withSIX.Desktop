@@ -127,10 +127,9 @@ namespace withSIX.Mini.Presentation.CoreHost
             base.Configure();
             // throws atm, we need updated Splat/RXUI :-)
             //Locator.CurrentMutable.Register(() => new JsonSerializerSettings().SetDefaultConverters(), typeof(JsonSerializerSettings));
-            Container.RegisterPlugins<OwinModule>(GetInfraAssemblies);
         }
 
-        protected override IEnumerable<Assembly> GetInfraAssemblies => new[] {typeof(OwinModule).GetTypeInfo().Assembly}.Concat(base.GetInfraAssemblies);
+        //protected override IEnumerable<Assembly> GetInfraAssemblies => new[] {typeof(OwinModule).GetTypeInfo().Assembly}.Concat(base.GetInfraAssemblies);
     }
 
     public class CoreAppBootstrapper : WorkaroundBootstrapper
