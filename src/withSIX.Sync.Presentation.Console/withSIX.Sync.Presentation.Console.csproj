@@ -369,7 +369,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NDepend.Path.PCL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NDepend.Path.PCL.1.0.2-pre\lib\netstandard1.3\NDepend.Path.PCL.dll</HintPath>
+      <HintPath>..\packages\NDepend.Path.PCL.1.0.2\lib\netstandard1.3\NDepend.Path.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NDesk.Options">
@@ -494,8 +494,8 @@
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="WindowsBase" />
-    <Reference Include="withSIX.Api.Models, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.2.0.1-pre\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
+    <Reference Include="withSIX.Api.Models, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\withSIX.Api.Models.2.0.8\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -594,7 +594,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
