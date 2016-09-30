@@ -28,8 +28,7 @@ namespace withSIX.Steam.Api
             _directories = SystemExtensions.CreateLazy(GetDirectories);
         }
 
-        // TODO: Move to SteamAPI...
-        public static SteamHelper SteamHelper { get; set; }
+        public static ISteamHelper SteamHelper { get; set; }
 
         public AppId_t Id { get; set; }
 

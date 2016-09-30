@@ -47,7 +47,7 @@ namespace withSIX.Steam.Presentation
         }
 
         private void CreateInstances() {
-            App.SteamHelper = SteamHelper.Create();
+            App.SteamHelper = _container.GetInstance<ISteamHelper>();
             LockedWrapper.callFactory = _container.GetInstance<ISafeCallFactory>(); // workaround for accessviolation errors
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
             Raiser.Raiserr = new EventStorage();
@@ -70,7 +70,7 @@ namespace withSIX.Steam.Presentation
             _container.RegisterSingleton<IActionDispatcher>(
                 () => new ActionDispatcher(_container.GetInstance<IMediator>(), null));
             _container.RegisterSingleton<IMessageBus, MessageBus>();
-            _container.RegisterSingleton<ISteamHelper>(App.SteamHelper);
+            _container.RegisterSingleton<ISteamHelper>(SteamHelper.Create());
             _container.RegisterPlugins<IHandleExceptionPlugin>(_assemblies, Lifestyle.Singleton);
             _container.RegisterSingleton<ISteamSessionFactory, SteamSession.SteamSessionFactory>();
             _container.RegisterSingleton<ISteamSessionLocator, SteamSession.SteamSessionFactory>();
