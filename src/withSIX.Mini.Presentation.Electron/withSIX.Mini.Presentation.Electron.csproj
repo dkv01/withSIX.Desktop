@@ -641,10 +641,6 @@
       <Link>SteamLayer.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\withSIX.SteamHelper\bin\Debug\net46\win7-x64\withSIX.SteamHelper.exe.config">
-      <Link>withSIX.SteamHelper.exe.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
