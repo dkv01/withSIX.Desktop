@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public interface IServerQuery
     {

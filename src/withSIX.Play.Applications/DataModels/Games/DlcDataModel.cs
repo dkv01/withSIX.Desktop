@@ -4,7 +4,7 @@
 
 using System;
 
-namespace withSIX.Play.Applications.DataModels.Games
+namespace SN.withSIX.Play.Applications.DataModels.Games
 {
     public class DlcDataModel : ContentDataModel
     {

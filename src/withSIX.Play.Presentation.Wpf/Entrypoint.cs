@@ -15,8 +15,8 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Applications.Services;
 using Squirrel;
-using withSIX.Play.Applications.Services;
 using UpdateManager = Squirrel.UpdateManager;
 
 namespace SN.withSIX.Play.Presentation.Wpf

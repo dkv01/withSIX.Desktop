@@ -3,8 +3,10 @@
 // </copyright>
 
 using System.Collections.Generic;
+using SN.withSIX.Core.Applications.MVVM.Helpers;
+using SN.withSIX.Core.Helpers;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
     public interface ISearchLibraryItem<T> : ISelectionList<T> where T : class
     {

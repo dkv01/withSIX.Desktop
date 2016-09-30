@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+namespace SN.withSIX.Play.Applications.Views.Games.Library
 {
     public class AdvancedCollectionViewModel {}
 }

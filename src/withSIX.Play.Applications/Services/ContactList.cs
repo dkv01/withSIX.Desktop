@@ -3,22 +3,32 @@
 // </copyright>
 
 using System;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MediatR;
 using ReactiveUI;
+using MediatR;
+
 using withSIX.Api.Models.Context;
-using withSIX.Play.Applications.UseCases.Games;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Connect;
-using withSIX.Play.Core.Connect.Events;
-using withSIX.Play.Core.Connect.Infrastructure;
-using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Api.Models.Exceptions;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Applications.UseCases.Games;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect;
+using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Connect.Infrastructure;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Options;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
-namespace withSIX.Play.Applications.Services
+namespace SN.withSIX.Play.Applications.Services
 {
     
     public class ContactList : PropertyChangedBase, IHandle<GameLaunchedEvent>, IHandle<GameTerminated>,

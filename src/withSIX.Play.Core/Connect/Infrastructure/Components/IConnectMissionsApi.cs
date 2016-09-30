@@ -8,7 +8,7 @@ using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.Arma3;
 
-namespace withSIX.Play.Core.Connect.Infrastructure.Components
+namespace SN.withSIX.Play.Core.Connect.Infrastructure.Components
 {
     public interface IConnectMissionsApi
     {

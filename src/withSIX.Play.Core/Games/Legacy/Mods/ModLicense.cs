@@ -4,7 +4,9 @@
 
 using System;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+using SN.withSIX.Core.Helpers;
+
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     public class ModLicense : PropertyChangedBase
     {

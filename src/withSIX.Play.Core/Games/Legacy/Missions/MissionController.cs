@@ -5,11 +5,13 @@
 using System;
 using System.Linq;
 using NDepend.Path;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Sync.Core.Packages.Internals;
 using withSIX.Api.Models;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Core.Games.Legacy.Missions
+namespace SN.withSIX.Play.Core.Games.Legacy.Missions
 {
     public class MissionController : ContentController
     {

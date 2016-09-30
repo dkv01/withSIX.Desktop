@@ -4,15 +4,19 @@
 
 using System;
 using System.Reactive.Linq;
-using MediatR;
 using ReactiveUI;
-using withSIX.Play.Applications.DataModels.Games;
-using withSIX.Play.Applications.UseCases.Games;
-using withSIX.Play.Applications.ViewModels.Games.Popups;
-using withSIX.Play.Applications.ViewModels.Overlays;
+using MediatR;
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.DataModels.Games;
+using SN.withSIX.Play.Applications.UseCases.Games;
+using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Overlays
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class GameSettingsOverlayViewModel : OverlayViewModelBase

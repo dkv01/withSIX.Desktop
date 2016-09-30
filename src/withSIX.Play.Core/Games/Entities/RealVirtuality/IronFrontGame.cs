@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.ServerQuery;
-using withSIX.Play.Core.Games.Services;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public class IronFrontGame : Arma2FreeGame, IHaveDlc
     {

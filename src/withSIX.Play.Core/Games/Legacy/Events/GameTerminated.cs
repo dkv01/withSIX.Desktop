@@ -5,9 +5,9 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Connect.Events;
 
-namespace withSIX.Play.Core.Games.Legacy.Events
+namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class GameTerminated : TimeStampedEvent
     {

@@ -4,9 +4,10 @@
 
 using System;
 using System.Linq;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public abstract class RealVirtualityServer<TGame> : Server<TGame> where TGame : RealVirtualityGame, ISupportServers
     {

@@ -3,7 +3,11 @@
 // </copyright>
 
 
-namespace withSIX.Play.Applications.ViewModels.Popups
+using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Popups
 {
     public class OptionsMenu : PopupMenuBase
     {

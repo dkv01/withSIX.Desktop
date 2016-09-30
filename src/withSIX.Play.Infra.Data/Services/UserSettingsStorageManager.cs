@@ -12,11 +12,18 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Options;
+using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Play.Infra.Data.Services
+namespace SN.withSIX.Play.Infra.Data.Services
 {
     // Unused currently
     public class UserSettingsStorageManager : IUserSettingsStorageManager, IInfrastructureService

@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Games;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Arma
+namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {
     public class Gta4GameController : GameController
     {

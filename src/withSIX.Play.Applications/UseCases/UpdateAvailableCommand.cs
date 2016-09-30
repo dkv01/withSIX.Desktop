@@ -4,9 +4,10 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Play.Applications.Services;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.Services;
 
-namespace withSIX.Play.Applications.UseCases
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class UpdateAvailableCommand : IAsyncRequest<Unit> {}
 

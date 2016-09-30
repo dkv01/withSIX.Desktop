@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Sync.Core.Legacy.Status;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public class RepoWatcher : IDisposable
     {

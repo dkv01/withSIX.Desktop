@@ -4,7 +4,7 @@
 
 
 
-namespace withSIX.Play.Core.Games.Legacy.Servers
+namespace SN.withSIX.Play.Core.Games.Legacy.Servers
 {
 
     public enum SignatureLevel

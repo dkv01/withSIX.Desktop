@@ -20,10 +20,10 @@ using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Applications;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Sync.Core.Transfer;
-using withSIX.Play.Applications;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Options;
 using Action = System.Action;
 
 namespace SN.withSIX.Play.Tests.Core.Support

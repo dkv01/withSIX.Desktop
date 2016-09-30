@@ -5,9 +5,9 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI;
-using withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
 {
     public class MissionLibraryGroupViewModel : LibraryGroupViewModel<MissionLibraryViewModel>
     {

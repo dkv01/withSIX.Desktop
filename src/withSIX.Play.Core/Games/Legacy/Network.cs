@@ -5,7 +5,8 @@
 using System;
 using System.Collections.Generic;
 
-namespace withSIX.Play.Core.Games.Legacy
+
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     
     public class Network : SyncBase

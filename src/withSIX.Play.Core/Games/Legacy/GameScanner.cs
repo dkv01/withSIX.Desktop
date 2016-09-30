@@ -7,10 +7,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Glue.Helpers;
 
-namespace withSIX.Play.Core.Games.Legacy
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Core.Glue.Helpers;
+using withSIX.Api.Models.Extensions;
+
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     
     public class GameScanner : SelectionList<FoundGame>, IDomainService

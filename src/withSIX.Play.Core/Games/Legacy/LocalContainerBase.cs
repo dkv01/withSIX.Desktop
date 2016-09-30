@@ -4,11 +4,12 @@
 
 using System;
 using System.Runtime.Serialization;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Glue.Helpers;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Glue.Helpers;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     [DataContract]
     public abstract class LocalContainerBase<T> : SelectionList<T> where T : class

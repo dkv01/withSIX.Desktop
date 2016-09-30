@@ -5,8 +5,12 @@
 using System.ComponentModel;
 using System.IO;
 using NDepend.Path;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
 
-namespace withSIX.Play.Core.Games.Legacy.Arma
+namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {
     public class UserconfigUpdater : UserconfigProcessorBase
     {

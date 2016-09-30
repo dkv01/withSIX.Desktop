@@ -2,11 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Core.Infrastructure
+namespace SN.withSIX.Play.Core.Infrastructure
 {
     public interface INoteStorage
     {

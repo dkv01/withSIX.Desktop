@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 
-namespace withSIX.Play.Core.Games.Entities
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public class ContentPaths
     {

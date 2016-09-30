@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
 
-namespace withSIX.Play.Applications.Views.Overlays
+namespace SN.withSIX.Play.Applications.Views.Overlays
 {
     public interface IStatusView : IViewFor<IStatusViewModel> {}
 }

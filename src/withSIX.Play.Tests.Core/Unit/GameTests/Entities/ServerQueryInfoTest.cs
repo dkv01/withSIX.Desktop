@@ -5,7 +5,7 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Games.Services;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities
 {

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace withSIX.Play.Core.Connect.Parser
+namespace SN.withSIX.Play.Core.Connect.Parser
 {
     public class TextParser
     {

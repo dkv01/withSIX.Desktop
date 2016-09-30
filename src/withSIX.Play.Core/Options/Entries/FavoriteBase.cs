@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     [DataContract]
     public abstract class FavoriteBase<T> : ObjectSaveBase<T> where T : class, IFavorite, IObjectTag

@@ -10,11 +10,18 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Popups
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Sync.Core.Transfer;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Popups
 {
     public interface IAddRepositoryViewModel
     {

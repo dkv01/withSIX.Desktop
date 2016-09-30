@@ -5,11 +5,12 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Options.Filters;
 using withSIX.Api.Models;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Options.Filters;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     [Obsolete("Should be migrated to new game settings"),
      DataContract(Name = "GameSettings",

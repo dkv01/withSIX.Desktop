@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface IRepairView : IViewFor<IRepairViewModel> {}
 }

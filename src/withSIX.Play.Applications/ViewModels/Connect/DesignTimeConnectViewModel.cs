@@ -3,10 +3,11 @@
 // </copyright>
 
 using Caliburn.Micro;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.ViewModels.Connect
+namespace SN.withSIX.Play.Applications.ViewModels.Connect
 {
     public class DesignTimeConnectViewModel : ConnectViewModel, IDesignTimeViewModel
     {

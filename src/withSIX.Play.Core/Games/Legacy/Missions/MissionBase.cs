@@ -6,13 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MoreLinq;
 using NDepend.Path;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Legacy.Missions
+namespace SN.withSIX.Play.Core.Games.Legacy.Missions
 {
     public abstract class MissionBase : HostedContent, IRecent, IHaveType<string>
     {

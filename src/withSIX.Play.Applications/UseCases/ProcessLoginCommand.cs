@@ -4,8 +4,9 @@
 
 using System;
 using MediatR;
+using SN.withSIX.Core.Applications.Infrastructure;
 
-namespace withSIX.Play.Applications.UseCases
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class ProcessLoginCommand : IRequest<IAuthorizeResponse>
     {

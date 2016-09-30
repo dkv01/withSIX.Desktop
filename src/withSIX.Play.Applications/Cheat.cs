@@ -5,8 +5,9 @@
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MediatR;
+using SN.withSIX.Core.Applications.Services;
 
-namespace withSIX.Play.Applications
+namespace SN.withSIX.Play.Applications
 {
     public static class Cheat
     {

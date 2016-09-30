@@ -5,12 +5,16 @@
 using System.ComponentModel;
 using Caliburn.Micro;
 using ReactiveUI.Legacy;
-using withSIX.Play.Applications.ViewModels.Games;
-using withSIX.Play.Applications.ViewModels.Games.Overlays;
-using withSIX.Play.Applications.ViewModels.Overlays;
-using withSIX.Play.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Applications.ViewModels.Games;
+using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Core;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     public abstract class ModuleViewModelBase : ScreenLightViewModelBase<IContentViewModel>, IHaveOverlayConductor
     {

@@ -5,10 +5,12 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class RepoAppsContextMenu : ContextMenuBase, IIsEmpty
     {

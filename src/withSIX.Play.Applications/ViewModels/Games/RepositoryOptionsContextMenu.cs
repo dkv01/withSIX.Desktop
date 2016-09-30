@@ -6,10 +6,12 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Windows;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class RepositoryOptionsContextMenu : ModLibraryItemMenuBase<SixRepo>
     {

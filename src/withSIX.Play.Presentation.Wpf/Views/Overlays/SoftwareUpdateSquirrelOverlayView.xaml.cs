@@ -5,8 +5,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Overlays;
-using withSIX.Play.Applications.Views.Overlays;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Applications.Views.Overlays;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {

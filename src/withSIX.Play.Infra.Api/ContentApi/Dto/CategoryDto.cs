@@ -4,7 +4,8 @@
 
 using System.Runtime.Serialization;
 
-namespace withSIX.Play.Infra.Api.ContentApi.Dto
+
+namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
     [DataContract]
     class CategoryDto : NewSyncBaseDto

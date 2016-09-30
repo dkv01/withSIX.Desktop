@@ -12,11 +12,12 @@ using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
 using MediatR;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Options.Entries;
 using SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
-using withSIX.Play.Core.Games.Services.GameLauncher;
-using withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.RealVirtuality
 {

@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
+using SN.withSIX.Core;
 using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Play.Infra.Api.ContentApi
+namespace SN.withSIX.Play.Infra.Api.ContentApi
 {
     // TODO: Replace RestSharp with HttpClient
     class ContentRestApi : RestBase

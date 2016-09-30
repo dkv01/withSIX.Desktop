@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,21 +12,33 @@ using System.Net;
 using System.Reactive.Disposables;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Timers;
 using Caliburn.Micro;
+
+
 using withSIX.Api.Models.Exceptions;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Servers;
-using withSIX.Play.Core.Games.Services.GameLauncher;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Servers;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options.Entries;
 using Timer = SN.withSIX.Core.Helpers.Timer;
 
-namespace withSIX.Play.Applications.Services
+namespace SN.withSIX.Play.Applications.Services
 {
     public class LaunchManager : IHandle<GameLaunchedEvent>, IHandle<ActiveGameChanged>, IEnableLogging,
         IDisposable, IDomainService

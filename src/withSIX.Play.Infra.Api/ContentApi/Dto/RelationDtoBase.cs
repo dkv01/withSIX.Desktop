@@ -5,7 +5,8 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace withSIX.Play.Infra.Api.ContentApi.Dto
+
+namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
 {
     [DataContract]
     public abstract class RelationDtoBase

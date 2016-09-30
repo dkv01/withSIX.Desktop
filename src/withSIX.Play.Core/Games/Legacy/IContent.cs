@@ -6,12 +6,15 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using ReactiveUI;
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Options;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content.v3;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public interface IHaveSelectedItem
     {

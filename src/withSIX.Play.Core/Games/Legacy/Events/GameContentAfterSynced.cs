@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace withSIX.Play.Core.Games.Legacy.Events
+namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class GameContentAfterSynced {}
 }

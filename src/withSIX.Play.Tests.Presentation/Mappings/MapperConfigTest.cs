@@ -11,10 +11,10 @@ using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.DataModels.Games;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
 using SN.withSIX.Play.Presentation.Wpf.Services;
-using withSIX.Play.Applications.DataModels.Games;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
 
 namespace SN.withSIX.Play.Tests.Presentation.Mappings
 {

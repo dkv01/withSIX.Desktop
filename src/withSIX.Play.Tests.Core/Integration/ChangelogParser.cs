@@ -14,11 +14,11 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Infra.Data.Services;
 using SN.withSIX.Play.Tests.Core.Support;
 using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core;
-using withSIX.Play.Infra.Data.Services;
 
 namespace SN.withSIX.Play.Tests.Core.Integration
 {

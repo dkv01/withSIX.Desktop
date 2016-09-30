@@ -7,13 +7,13 @@ using AutoMapper.Mappers;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Applications.DataModels.Games;
+using SN.withSIX.Play.Applications.DataModels.Profiles;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities.Other;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Applications.DataModels.Games;
-using withSIX.Play.Applications.DataModels.Profiles;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Entities.Other;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
-using withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
 {

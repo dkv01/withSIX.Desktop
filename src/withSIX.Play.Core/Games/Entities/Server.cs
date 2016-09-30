@@ -14,15 +14,20 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ReactiveUI;
-using withSIX.Api.Models;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
-using withSIX.Play.Core.Games.Legacy.ServerQuery;
-using withSIX.Play.Core.Games.Legacy.Servers;
-using withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Entities
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
+using SN.withSIX.Play.Core.Games.Legacy.Servers;
+using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models;
+
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public interface ISearchScore
     {

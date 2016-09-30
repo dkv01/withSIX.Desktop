@@ -2,11 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -14,29 +14,43 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using MediatR;
 using ReactiveUI;
-using withSIX.Play.Applications.NotificationHandlers;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Applications.UseCases;
-using withSIX.Play.Applications.UseCases.Profiles;
-using withSIX.Play.Applications.ViewModels.Connect;
-using withSIX.Play.Applications.ViewModels.Games;
-using withSIX.Play.Applications.ViewModels.Games.Popups;
-using withSIX.Play.Applications.ViewModels.Overlays;
-using withSIX.Play.Applications.ViewModels.Popups;
-using withSIX.Play.Core.Connect;
-using withSIX.Play.Core.Connect.Events;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Repo;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Core.Options.Entries;
+using MediatR;
+
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Applications.NotificationHandlers;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.UseCases;
+using SN.withSIX.Play.Applications.UseCases.Profiles;
+using SN.withSIX.Play.Applications.ViewModels.Connect;
+using SN.withSIX.Play.Applications.ViewModels.Games;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Applications.ViewModels.Popups;
+using SN.withSIX.Play.Applications.Views.Dialogs;
+using SN.withSIX.Play.Core.Connect;
+using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Sync.Core.Transfer;
 using IScreen = Caliburn.Micro.IScreen;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     
     public class PlayShellViewModel : WindowBase, IPlayShellViewModel,

@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using MoreLinq;
 using Newtonsoft.Json;
 using RestSharp;
+using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Logging;
 
-namespace withSIX.Play.Infra.Api
+namespace SN.withSIX.Play.Infra.Api
 {
     // TODO: Replace RestSharp with HttpClient
     abstract class RestBase : IEnableLogging

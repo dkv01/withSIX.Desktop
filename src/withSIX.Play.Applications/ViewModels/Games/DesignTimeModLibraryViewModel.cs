@@ -3,13 +3,15 @@
 // </copyright>
 
 using System;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class DesignTimeModLibraryViewModel : ModLibraryViewModel, IDesignTimeViewModel
     {

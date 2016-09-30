@@ -4,10 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using withSIX.Play.Applications.ViewModels.Dialogs;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.ViewModels.Dialogs;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     public class DesignTimeLicenseDialogViewModel : LicenseDialogViewModel, IDesignTimeViewModel
     {

@@ -5,9 +5,9 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Games.Services;
 
-namespace withSIX.Play.Applications.Services
+namespace SN.withSIX.Play.Applications.Services
 {
     [ContractClass(typeof (RepoHandlerContract))]
     public interface IRepoActionHandler

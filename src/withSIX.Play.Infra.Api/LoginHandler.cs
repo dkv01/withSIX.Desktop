@@ -4,17 +4,23 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using MediatR;
+using withSIX.Api.Models.Exceptions;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Applications;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Options;
 using Synercoding.Encryption.Hashing;
 using Synercoding.Encryption.Symmetrical;
-using withSIX.Api.Models.Exceptions;
-using withSIX.Play.Applications;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Connect.Events;
-using withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Infra.Api
+namespace SN.withSIX.Play.Infra.Api
 {
     public interface ILoginHandler
     {

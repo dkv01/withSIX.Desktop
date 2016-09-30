@@ -3,10 +3,13 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class ServerBarMenu : ContextMenuBase<Server>
     {

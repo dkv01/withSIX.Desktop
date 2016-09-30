@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Games;
+using SN.withSIX.Play.Applications.ViewModels.Games;
 
-namespace withSIX.Play.Applications.Views.Games
+namespace SN.withSIX.Play.Applications.Views.Games
 {
     public interface IDashboardView : IViewFor<IDashboardViewModel> {}
 }

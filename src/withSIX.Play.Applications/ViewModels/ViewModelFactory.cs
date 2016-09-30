@@ -4,17 +4,19 @@
 
 using System;
 using System.ComponentModel.Composition;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Games;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Applications.ViewModels.Games;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Applications.ViewModels.Games.Popups;
-using withSIX.Play.Applications.ViewModels.Overlays;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     public interface IViewModelFactory
     {

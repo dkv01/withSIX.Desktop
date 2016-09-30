@@ -4,10 +4,14 @@
 
 using System;
 using ReactiveUI.Legacy;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class GameViewModel : ViewModelBase
     {

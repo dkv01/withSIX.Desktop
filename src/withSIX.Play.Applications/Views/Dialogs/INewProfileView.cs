@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Dialogs;
+using SN.withSIX.Play.Applications.ViewModels.Dialogs;
 
-namespace withSIX.Play.Applications.Views.Dialogs
+namespace SN.withSIX.Play.Applications.Views.Dialogs
 {
     public interface INewProfileView : IViewFor<INewProfileViewModel> {}
 }

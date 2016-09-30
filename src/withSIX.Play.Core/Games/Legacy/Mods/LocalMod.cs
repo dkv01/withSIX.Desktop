@@ -5,9 +5,13 @@
 using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Validators;
+using SN.withSIX.Play.Core.Games.Entities;
+
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     
     public class LocalMod : Mod

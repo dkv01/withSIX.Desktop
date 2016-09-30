@@ -3,11 +3,14 @@
 // </copyright>
 
 using MediatR;
-using withSIX.Play.Applications.DataModels.Games;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Applications.UseCases.Games
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.DataModels.Games;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core.Games.Entities;
+
+namespace SN.withSIX.Play.Applications.UseCases.Games
 {
     public class SaveGameSettingsCommand : IRequest<Unit>
     {

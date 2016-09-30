@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     [DataContract(Name = "SyncData", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     [Obsolete("Just used for backwards compatibility to import 1.3 custom modsets and repositories")]

@@ -8,9 +8,13 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Sync.Core.Legacy.SixSync;
+using SN.withSIX.Sync.Core.Legacy.Status;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     public class SixSyncModInstaller
     {

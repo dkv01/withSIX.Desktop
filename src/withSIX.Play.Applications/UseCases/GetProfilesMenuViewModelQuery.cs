@@ -4,15 +4,17 @@
 
 using System;
 using System.Linq;
-using MediatR;
 using ReactiveUI;
-using withSIX.Play.Applications.DataModels.Profiles;
-using withSIX.Play.Applications.Extensions;
-using withSIX.Play.Applications.ViewModels.Popups;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Options;
+using MediatR;
 
-namespace withSIX.Play.Applications.UseCases
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.DataModels.Profiles;
+using SN.withSIX.Play.Applications.Extensions;
+using SN.withSIX.Play.Applications.ViewModels.Popups;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Options;
+
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class GetProfilesMenuViewModelQuery : IRequest<ProfilesMenuViewModel> {}
 

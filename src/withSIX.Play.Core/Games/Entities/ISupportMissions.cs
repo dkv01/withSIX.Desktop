@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Collections.Generic;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
 
-namespace withSIX.Play.Core.Games.Entities
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public interface ISupportMissionPublishing
     {

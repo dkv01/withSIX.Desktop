@@ -8,9 +8,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NDepend.Path;
 using withSIX.Api.Models.Exceptions;
-using withSIX.Play.Core.Games.Legacy.Steam;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Games.Legacy.Steam;
 
-namespace withSIX.Play.Core.Games.Entities
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public class SteamHelper
     {

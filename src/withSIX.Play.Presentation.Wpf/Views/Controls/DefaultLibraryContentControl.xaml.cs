@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
 {

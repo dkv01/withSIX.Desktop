@@ -8,9 +8,13 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public class RepositoryItem : PropertyChangedBase, IComparePK<RepositoryItem>
     {

@@ -5,7 +5,8 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using withSIX.Play.Core.Connect;
+
+using SN.withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {

@@ -4,7 +4,7 @@
 
 using NDepend.Path;
 
-namespace withSIX.Play.Core.Games.Legacy.Events
+namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class GamePathChanged
     {

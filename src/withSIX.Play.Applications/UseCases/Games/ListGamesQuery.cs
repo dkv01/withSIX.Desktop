@@ -8,13 +8,17 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using MediatR;
 using ReactiveUI;
-using withSIX.Play.Applications.DataModels.Games;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core.Games.Entities;
+using MediatR;
 
-namespace withSIX.Play.Applications.UseCases.Games
+using SN.withSIX.Core.Applications.MVVM.Helpers;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Applications.DataModels.Games;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core.Games.Entities;
+
+namespace SN.withSIX.Play.Applications.UseCases.Games
 {
     public class ListGamesQuery : IRequest<SixReactiveDisposableList<GameDataModel>> {}
 

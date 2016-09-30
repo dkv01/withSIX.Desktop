@@ -5,7 +5,9 @@
 using System;
 using System.IO;
 
-namespace withSIX.Play.Applications.ViewModels.Overlays
+using SN.withSIX.Core.Applications.Infrastructure;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
     
     public class ApplicationLicensesViewModel : OverlayViewModelBase

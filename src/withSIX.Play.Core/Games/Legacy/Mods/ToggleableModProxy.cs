@@ -10,11 +10,12 @@ using System.Linq;
 using System.Reactive.Linq;
 using NDepend.Path;
 using ReactiveUI;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using withSIX.Api.Models;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Arma;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     // TODO: This can be used to configure the version of a mod per collection?
     [Obsolete("Handle differently?")]

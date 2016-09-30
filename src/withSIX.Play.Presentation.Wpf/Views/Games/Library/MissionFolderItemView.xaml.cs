@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
 {

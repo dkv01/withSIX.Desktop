@@ -10,9 +10,13 @@ using System.Runtime.Serialization;
 using System.Security;
 using Microsoft.Win32;
 using ReactiveUI;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Sync.Core.Transfer;
 
-namespace withSIX.Play.Core.Options
+namespace SN.withSIX.Play.Core.Options
 {
     [DataContract(Name = "AppOptions", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class AppOptions : OptionBase, IEnableLogging

@@ -5,12 +5,12 @@
 using System;
 using System.Linq;
 using MediatR;
-using withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using withSIX.Play.Core.Connect.Infrastructure;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using SN.withSIX.Play.Core.Connect.Infrastructure;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.UseCases
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class ShowCollectionVisibilityQuery : IRequest<CollectionVisibilityViewModel>
     {

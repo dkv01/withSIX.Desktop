@@ -4,12 +4,13 @@
 
 using System;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.ServerQuery;
-using withSIX.Play.Core.Glue.Helpers;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
+using SN.withSIX.Play.Core.Glue.Helpers;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Core.Games.Legacy.Servers
+namespace SN.withSIX.Play.Core.Games.Legacy.Servers
 {
     public interface IServerList : IHaveReactiveItems<Server>, IDisposable
     {

@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Arma
+namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {
     public class RealVirtualityGameController : GameController
     {

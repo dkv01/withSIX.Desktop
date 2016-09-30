@@ -4,9 +4,10 @@
 
 using System;
 using System.Runtime.Serialization;
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     [DataContract(Name = "RecentGameSet",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]

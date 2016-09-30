@@ -9,9 +9,10 @@ using System.Diagnostics.Contracts;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
-using withSIX.Play.Core.Options.Filters;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Options.Filters;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     public interface IGetData
     {

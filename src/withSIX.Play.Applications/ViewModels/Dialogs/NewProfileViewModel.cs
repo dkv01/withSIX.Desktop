@@ -5,17 +5,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
-using MediatR;
 using ReactiveUI;
-using withSIX.Play.Applications.DataModels.Profiles;
-using withSIX.Play.Applications.UseCases.Profiles;
-using withSIX.Play.Core.Options.Entries;
+using MediatR;
+
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.DataModels.Profiles;
+using SN.withSIX.Play.Applications.UseCases.Profiles;
+using SN.withSIX.Play.Core.Options.Entries;
 using Unit = System.Reactive.Unit;
 
-namespace withSIX.Play.Applications.ViewModels.Dialogs
+namespace SN.withSIX.Play.Applications.ViewModels.Dialogs
 {
     public interface INewProfileViewModel : ISupportsActivation {}
 

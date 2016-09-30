@@ -3,10 +3,12 @@
 // </copyright>
 
 using System;
-using withSIX.Play.Applications.ViewModels.Overlays;
-using withSIX.Play.Core.Games.Legacy.Helpers;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Overlays
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Core.Games.Legacy.Helpers;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class ModSettingsOverlayViewModel : OverlayViewModelBase, ISingleton

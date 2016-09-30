@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.Services.Infrastructure
+namespace SN.withSIX.Play.Applications.Services.Infrastructure
 {
     public interface IUserSettingsStorage
     {

@@ -5,11 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
 
-namespace withSIX.Play.Applications.Services
+namespace SN.withSIX.Play.Applications.Services
 {
     public class InstalledGames
     {

@@ -9,16 +9,24 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using MediatR;
 using ReactiveUI;
-using withSIX.Play.Applications.Extensions;
-using withSIX.Play.Applications.UseCases;
-using withSIX.Play.Applications.ViewModels.Overlays;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using MediatR;
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.Extensions;
+using SN.withSIX.Play.Applications.UseCases;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using CollectionExtensions = SN.withSIX.Core.Extensions.CollectionExtensions;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Overlays
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class PickCollectionViewModel : OverlayViewModelBase

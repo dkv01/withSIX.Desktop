@@ -3,9 +3,12 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Popups
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Popups
 {
     public class GameDiagnosticsMenu : ContextMenuBase
     {

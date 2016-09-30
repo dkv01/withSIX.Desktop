@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace withSIX.Play.Core.Glue.Helpers
+namespace SN.withSIX.Play.Core.Glue.Helpers
 {
     [DataContract]
     public class SelectionList<T> : HaveReactiveItems<T>, ISelectionList<T> where T : class

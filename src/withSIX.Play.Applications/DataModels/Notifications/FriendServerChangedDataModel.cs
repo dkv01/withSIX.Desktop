@@ -2,9 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using withSIX.Play.Applications.UseCases;
+using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Play.Applications.UseCases;
 
-namespace withSIX.Play.Applications.DataModels.Notifications
+namespace SN.withSIX.Play.Applications.DataModels.Notifications
 {
     public class FriendServerChangedDataModel : NotificationBaseDataModel
     {

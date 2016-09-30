@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Microsoft.AspNet.SignalR.Client;
 using SignalRNetClientProxyMapper;
-using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Extensions;
 
-namespace withSIX.Play.Infra.Api
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Extensions;
+using withSIX.Api.Models.Extensions;
+
+namespace SN.withSIX.Play.Infra.Api
 {
 
     public static class HubExtensions

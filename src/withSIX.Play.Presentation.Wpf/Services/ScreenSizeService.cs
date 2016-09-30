@@ -5,7 +5,7 @@
 using System.Windows;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
-using withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
 {

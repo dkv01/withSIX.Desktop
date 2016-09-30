@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public abstract class RealVirtualitySettings : GameSettings, ISupportSteamSettings
     {

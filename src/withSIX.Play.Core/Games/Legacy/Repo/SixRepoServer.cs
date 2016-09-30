@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Sync.Core;
+using SN.withSIX.Sync.Core.Legacy;
 using withSIX.Api.Models.Games;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Repo
+namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
         )]

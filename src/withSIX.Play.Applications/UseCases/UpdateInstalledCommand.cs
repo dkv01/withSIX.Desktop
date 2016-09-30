@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace withSIX.Play.Applications.UseCases
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class UpdateInstalledCommand : IAsyncRequest<Unit> {}
 

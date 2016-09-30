@@ -2,13 +2,13 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using MediatR;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using withSIX.Play.Infra.Server.Hubs;
-using withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers;
+using MediatR;
+using SN.withSIX.Play.Infra.Server.Hubs;
+using SN.withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers;
 
-namespace withSIX.Play.Infra.Server.Messengers
+namespace SN.withSIX.Play.Infra.Server.Messengers
 {
     public abstract class BaseMessenger<T> where T : IHub
     {

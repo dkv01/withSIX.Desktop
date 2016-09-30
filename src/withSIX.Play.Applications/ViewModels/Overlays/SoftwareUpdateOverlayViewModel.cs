@@ -5,10 +5,13 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Core.Connect;
 
-namespace withSIX.Play.Applications.ViewModels.Overlays
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Core.Connect;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
     
     public abstract class SoftwareUpdateOverlayViewModelBase : OverlayViewModelBase

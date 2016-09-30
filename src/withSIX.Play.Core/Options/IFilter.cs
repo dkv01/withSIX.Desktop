@@ -4,7 +4,7 @@
 
 using System;
 
-namespace withSIX.Play.Core.Options
+namespace SN.withSIX.Play.Core.Options
 {
     public interface IFilter
     {

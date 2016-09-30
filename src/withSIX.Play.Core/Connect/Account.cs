@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using withSIX.Core;
+using SN.withSIX.Core;
 
-namespace withSIX.Play.Core.Connect
+namespace SN.withSIX.Play.Core.Connect
 {
     public class Account : ConnectModelBase, IEntity
     {

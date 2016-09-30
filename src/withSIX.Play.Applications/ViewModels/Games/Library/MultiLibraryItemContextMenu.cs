@@ -5,9 +5,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Legacy;
+using MoreLinq;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Core.Games.Legacy;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class MultiLibraryItemContextMenu : ContextMenuBase<IReadOnlyCollection<IHierarchicalLibraryItem>>
     {

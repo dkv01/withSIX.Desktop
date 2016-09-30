@@ -9,8 +9,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 
-namespace withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class SourceServerQuery : ServerQueryBase, IServerQuery, IEnableLogging
     {

@@ -6,11 +6,11 @@ using AutoMapper;
 using AutoMapper.Mappers;
 using NDepend.Path;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Packages.Internals;
 using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.Playground
 {

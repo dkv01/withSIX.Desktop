@@ -12,19 +12,24 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using NDepend.Path;
 using withSIX.Api.Models;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Games.Entities.Requirements;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Arma.Commands;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Games.Entities.Requirements;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Arma;
-using withSIX.Play.Core.Games.Legacy.Arma.Commands;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public abstract class RealVirtualityGame : Game, ILaunchWith<IRealVirtualityLauncher>
     {

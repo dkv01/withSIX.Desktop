@@ -5,21 +5,30 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SignalRNetClientProxyMapper;
 using withSIX.Api.Models.Exceptions;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect;
+using SN.withSIX.Play.Core.Connect.Infrastructure;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Infra.Api.Hubs;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Connect;
-using withSIX.Play.Core.Connect.Infrastructure;
-using withSIX.Play.Infra.Api.Hubs;
 
-namespace withSIX.Play.Infra.Api
+namespace SN.withSIX.Play.Infra.Api
 {
     class ConnectionManager : PropertyChangedBase, IDisposable, IConnectionManager, IInfrastructureService
     {

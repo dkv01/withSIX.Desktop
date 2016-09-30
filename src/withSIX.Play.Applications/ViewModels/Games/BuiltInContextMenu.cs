@@ -3,10 +3,11 @@
 // </copyright>
 
 
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Core;
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Core;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class BuiltInContextMenu : ModLibraryItemMenuBase<BuiltInContentContainer>
     {

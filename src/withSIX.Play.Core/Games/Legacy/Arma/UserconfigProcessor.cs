@@ -9,9 +9,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using NDepend.Path;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Core.Games.Legacy.Arma
+namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {
     public class UserconfigProcessor : IEnableLogging
     {

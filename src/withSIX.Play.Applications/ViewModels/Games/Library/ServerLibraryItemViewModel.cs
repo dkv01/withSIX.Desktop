@@ -7,13 +7,17 @@ using System.ComponentModel;
 using System.Reactive.Linq;
 using System.Windows.Data;
 using ReactiveUI;
-using withSIX.Play.Applications.Extensions;
-using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Glue.Helpers;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Applications.Extensions;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Glue.Helpers;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class ServerLibraryItemViewModel<T> : ServerLibraryItemViewModel, IHaveModel<T>
         where T : ISelectionList<Server>

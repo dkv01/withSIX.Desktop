@@ -5,7 +5,7 @@
 using System.Windows;
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Overlays;
+using SN.withSIX.Play.Applications.ViewModels.Overlays;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {

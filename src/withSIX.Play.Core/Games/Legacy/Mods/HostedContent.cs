@@ -5,9 +5,11 @@
 using System;
 using System.Runtime.Serialization;
 using withSIX.Api.Models;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class HostedContent : Content

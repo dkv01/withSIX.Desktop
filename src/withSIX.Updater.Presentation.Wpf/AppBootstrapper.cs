@@ -23,15 +23,15 @@ using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.Services;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Infra.Data.Services;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Infra.Data.Services;
 
 namespace SN.withSIX.Updater.Presentation.Wpf
 {

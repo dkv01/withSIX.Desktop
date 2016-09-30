@@ -5,10 +5,11 @@
 using System;
 using System.Threading.Tasks;
 using MediatR;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Games.Legacy;
 using withSIX.Api.Models.Content.v2;
-using withSIX.Play.Core.Games.Legacy;
 
-namespace withSIX.Play.Applications.UseCases.Games
+namespace SN.withSIX.Play.Applications.UseCases.Games
 {
     public class ApiHashesEvent : IAsyncDomainEvent
     {

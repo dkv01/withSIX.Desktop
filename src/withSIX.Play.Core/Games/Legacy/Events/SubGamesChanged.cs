@@ -2,9 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Events
+namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class SubGamesChanged : IAsyncDomainEvent
     {

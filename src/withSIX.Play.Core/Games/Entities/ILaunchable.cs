@@ -6,10 +6,10 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Play.Core.Games.Entities
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     [ContractClass(typeof (LaunchableContract))]
     public interface ILaunchable

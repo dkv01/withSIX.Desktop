@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 
-namespace withSIX.Play.Core.Games.Services.GameLauncher
+namespace SN.withSIX.Play.Core.Games.Services
 {
     public class LaunchGameInfo : LaunchGameInfoBase
     {

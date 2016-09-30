@@ -4,7 +4,8 @@
 
 using System.ComponentModel;
 
-namespace withSIX.Play.Core.Options
+
+namespace SN.withSIX.Play.Core.Options
 {
 
     public enum ViewType

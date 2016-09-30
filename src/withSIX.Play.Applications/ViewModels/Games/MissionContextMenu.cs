@@ -5,12 +5,16 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+using SN.withSIX.Core.Applications;
+using SN.withSIX.Core.Applications.MVVM.Attributes;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public abstract class MissionMenuBase : ContextMenuBase<IContent>
     {

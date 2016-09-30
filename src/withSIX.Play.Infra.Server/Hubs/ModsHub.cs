@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Infra.Server.UseCases;
 
-namespace withSIX.Play.Infra.Server.Hubs
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Infra.Server.UseCases;
+
+namespace SN.withSIX.Play.Infra.Server.Hubs
 {
 
     public class ModsHub : BaseHub

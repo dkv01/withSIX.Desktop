@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using withSIX.Play.Core.Games.Legacy.Servers;
+using SN.withSIX.Play.Core.Games.Legacy.Servers;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Converters
 {

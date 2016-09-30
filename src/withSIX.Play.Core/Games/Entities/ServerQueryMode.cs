@@ -4,7 +4,8 @@
 
 using System.Runtime.Serialization;
 
-namespace withSIX.Play.Core.Games.Entities
+
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
 

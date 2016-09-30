@@ -5,13 +5,14 @@
 using System;
 using System.Collections.Generic;
 using ReactiveUI;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace withSIX.Play.Applications.Services.Infrastructure
+namespace SN.withSIX.Play.Applications.Services.Infrastructure
 {
     public interface IGameContext : IUnitOfWork
     {

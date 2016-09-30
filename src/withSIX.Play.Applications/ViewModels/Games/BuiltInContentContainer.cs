@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Glue.Helpers;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Glue.Helpers;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public abstract class BuiltInContainer<T> : SelectionList<T> where T : class
     {

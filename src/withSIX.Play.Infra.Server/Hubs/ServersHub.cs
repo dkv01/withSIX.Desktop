@@ -6,7 +6,9 @@ using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace withSIX.Play.Infra.Server.Hubs
+using SN.withSIX.Core.Infra.Services;
+
+namespace SN.withSIX.Play.Infra.Server.Hubs
 {
 
     public class ServersHub : BaseHub

@@ -2,10 +2,12 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using MediatR;
 using Microsoft.AspNet.SignalR;
+using MediatR;
 
-namespace withSIX.Play.Infra.Server.Hubs
+using SN.withSIX.Core.Infra.Services;
+
+namespace SN.withSIX.Play.Infra.Server.Hubs
 {
 
     public abstract class BaseHub : Hub, IInfrastructureService

@@ -5,9 +5,13 @@
 using System.IO;
 using System.Linq;
 using NDepend.Path;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Sync.Core.Legacy.SixSync;
+using SN.withSIX.Sync.Core.Packages;
 using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public class PathMover : IDomainService
     {

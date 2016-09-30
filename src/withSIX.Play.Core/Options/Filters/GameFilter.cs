@@ -4,9 +4,11 @@
 
 using System;
 using System.Runtime.Serialization;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Options.Filters
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Entities;
+
+namespace SN.withSIX.Play.Core.Options.Filters
 {
     [DataContract(Name = "GameFilter",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models.Filters")]

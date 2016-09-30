@@ -4,7 +4,8 @@
 
 using System;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     
     public class Category : Content

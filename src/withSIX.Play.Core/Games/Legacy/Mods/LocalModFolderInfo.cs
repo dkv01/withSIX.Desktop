@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     public class LocalModFolderInfo : LocalModInfo
     {

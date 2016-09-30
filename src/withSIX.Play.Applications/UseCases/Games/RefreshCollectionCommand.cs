@@ -5,7 +5,7 @@
 using System;
 using MediatR;
 
-namespace withSIX.Play.Applications.UseCases.Games
+namespace SN.withSIX.Play.Applications.UseCases.Games
 {
     public class RefreshCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {

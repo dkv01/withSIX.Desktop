@@ -7,9 +7,12 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Legacy.ServerQuery;
 
-namespace withSIX.Play.Core.Games.Services
+using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
+using SN.withSIX.Sync.Core.Transfer;
+
+namespace SN.withSIX.Play.Core.Games.Services
 {
     public interface IGameServerQueryHandler
     {

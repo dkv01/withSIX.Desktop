@@ -9,10 +9,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Collections;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "AdvancedCollection",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]

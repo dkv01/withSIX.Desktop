@@ -8,14 +8,19 @@ using System.Reactive.Subjects;
 using System.Windows;
 using Caliburn.Micro;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Connect;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Connect.Events;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Events;
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Connect;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     
     public class HomeViewModel : ModuleViewModelBase, IHandle<ActiveGameChanged>, IHandle<RequestOpenBrowser>, IHandle<DoLogout>, IHandle<DoLogin>

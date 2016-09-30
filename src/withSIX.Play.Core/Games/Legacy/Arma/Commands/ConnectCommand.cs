@@ -4,9 +4,10 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using SN.withSIX.Core.Extensions;
 using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Play.Core.Games.Legacy.Arma.Commands
+namespace SN.withSIX.Play.Core.Games.Legacy.Arma.Commands
 {
     [DataContract]
     public class ConnectCommand : ISendMessage

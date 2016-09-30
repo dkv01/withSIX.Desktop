@@ -5,10 +5,17 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
 
-namespace withSIX.Play.Core.Options.Entries
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services.Infrastructure;
+
+namespace SN.withSIX.Play.Core.Options.Entries
 {
 
     public enum StartupType

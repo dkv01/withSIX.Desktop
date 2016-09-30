@@ -7,16 +7,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Applications.ViewModels.Games.Overlays;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Options;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     
     public class MissionsViewModel : LibraryModuleViewModel,

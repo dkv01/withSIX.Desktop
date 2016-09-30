@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace withSIX.Play.Core.Connect.Parser
+namespace SN.withSIX.Play.Core.Connect.Parser
 {
     public class SmileyParser
     {

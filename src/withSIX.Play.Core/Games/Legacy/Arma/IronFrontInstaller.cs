@@ -9,11 +9,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Sync.Core.ExternalTools;
+using SN.withSIX.Sync.Core.Legacy.Status;
+using SN.withSIX.Sync.Core.Transfer;
+using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Options;
-using StatusRepo = withSIX.Play.Core.Games.Services.StatusRepo;
+using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
 
-namespace withSIX.Play.Core.Games.Legacy.Arma
+namespace SN.withSIX.Play.Core.Games.Legacy.Arma
 {
     public class IronFrontInstaller : IDomainService
     {
@@ -533,7 +542,7 @@ namespace withSIX.Play.Core.Games.Legacy.Arma
         public ElevationRequiredException() : base(WindowsAPIErrorCodes.ERROR_ELEVATION_REQUIRED) {}
     }
 
-    public class IfaStatus : Services.StatusRepo
+    public class IfaStatus : StatusRepo
     {
         public IfaStatus() {
             Action = RepoStatus.Processing;

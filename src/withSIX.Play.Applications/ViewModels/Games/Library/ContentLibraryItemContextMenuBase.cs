@@ -4,10 +4,11 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Glue.Helpers;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Glue.Helpers;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
     public abstract class ContentLibraryItemMenuBase<T, T2> : ContextMenuBase<ContentLibraryItemViewModel<T>>
         where T : class, ISelectionList<IContent> where T2 : class

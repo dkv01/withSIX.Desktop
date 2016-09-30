@@ -3,9 +3,10 @@
 // </copyright>
 
 using System;
+using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     public class UpdateState : IComparePK<UpdateState>
     {

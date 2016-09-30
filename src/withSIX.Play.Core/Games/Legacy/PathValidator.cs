@@ -5,8 +5,9 @@
 using System.IO;
 using System.Linq;
 using NDepend.Path;
+using SN.withSIX.Core;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public interface IModPathValidator
     {

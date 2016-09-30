@@ -7,16 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using MediatR;
 using NDepend.Path;
 using ReactiveUI;
+using MediatR;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Services.GameLauncher;
-using withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Entities.Other
+namespace SN.withSIX.Play.Core.Games.Entities.Other
 {
     public class Homeworld2Game : Game, ISupportModding, ILaunchWith<IHomeworld2Launcher>
     {

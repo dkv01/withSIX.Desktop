@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
 {
     public class ServerLibraryGroupViewModel : LibraryGroupViewModel<ServerLibraryViewModel>
     {

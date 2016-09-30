@@ -6,12 +6,17 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using ReactiveUI;
-using withSIX.Play.Applications.Extensions;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Core.Options.Entries;
+
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.Extensions;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options.Entries;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace withSIX.Play.Applications.ViewModels.Overlays
+namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
     
     public class AppOverlayViewModel : OverlayViewModelBase

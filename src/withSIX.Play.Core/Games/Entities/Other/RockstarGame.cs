@@ -4,7 +4,7 @@
 
 using System;
 
-namespace withSIX.Play.Core.Games.Entities.Other
+namespace SN.withSIX.Play.Core.Games.Entities.Other
 {
     public abstract class RockstarGame : Game
     {

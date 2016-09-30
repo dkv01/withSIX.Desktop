@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Runtime.Serialization;
-using withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     [DataContract(Name = "RecentMission",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]

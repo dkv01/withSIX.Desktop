@@ -2,10 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Servers
+namespace SN.withSIX.Play.Core.Games.Legacy.Servers
 {
     public class GamespyPlayer : Player, IComparePK<GamespyPlayer>
     {

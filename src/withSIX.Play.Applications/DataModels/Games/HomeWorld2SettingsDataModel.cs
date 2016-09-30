@@ -4,9 +4,9 @@
 
 using System.ComponentModel;
 using FluentValidation;
-using withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
 
-namespace withSIX.Play.Applications.DataModels.Games
+namespace SN.withSIX.Play.Applications.DataModels.Games
 {
     public class HomeWorld2SettingsDataModel : GameSettingsDataModel
     {

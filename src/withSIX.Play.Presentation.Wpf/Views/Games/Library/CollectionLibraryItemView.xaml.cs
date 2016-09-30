@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
 {

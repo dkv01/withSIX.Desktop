@@ -5,14 +5,16 @@
 using System;
 using System.ComponentModel.Composition;
 using MediatR;
-using withSIX.Play.Applications.DataModels.Games;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Applications.ViewModels.Games.Overlays;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Entities.Other;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
 
-namespace withSIX.Play.Applications.UseCases
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.DataModels.Games;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities.Other;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class ShowGameSettingsQuery : IRequest<GameSettingsOverlayViewModel>
     {

@@ -1,6 +1,9 @@
 using System;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Sync.Core.Legacy.Status;
 
-namespace withSIX.Play.Core.Games.Services
+namespace SN.withSIX.Play.Core.Games.Services
 {
     public class StatusMod : ModelBase, IHaveTimestamps
     {

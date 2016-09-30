@@ -4,9 +4,11 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Entities.Other;
+using MediatR;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Games.Entities.Other;
 
-namespace withSIX.Play.Core.Games.Services.GameLauncher
+namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
 {
     class Homeworld2GameLauncher : GameLauncher, IHomeworld2Launcher
     {

@@ -5,9 +5,10 @@
 using System;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Extensions
+namespace SN.withSIX.Play.Core.Extensions
 {
     public static class TaskExtensions
     {

@@ -5,12 +5,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MediatR;
 using NDepend.Path;
-using withSIX.Play.Core.Connect.Infrastructure;
-using withSIX.Play.Core.Games.Legacy;
+using MediatR;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Connect.Infrastructure;
+using SN.withSIX.Play.Core.Games.Legacy;
 
-namespace withSIX.Play.Applications.UseCases
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class UploadNewCollectionImageCommand : IAsyncRequest<Unit>, IRequireApiSession
     {

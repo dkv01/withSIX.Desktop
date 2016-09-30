@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Servers;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Servers;
 
-namespace withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class SourceQueryParser : IServerQueryParser, IDomainService
     {

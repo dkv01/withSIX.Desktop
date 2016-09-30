@@ -5,12 +5,13 @@
 using System;
 using Caliburn.Micro;
 using MediatR;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Applications.ViewModels.Games.Overlays;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class DesignTimeGamesViewModel : GamesViewModel, IDesignTimeViewModel
     {

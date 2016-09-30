@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
-using withSIX.Play.Core.Options.Entries;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Options
+namespace SN.withSIX.Play.Core.Options
 {
     [DataContract(Name = "ModOptions", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class ModOptions : OptionBase

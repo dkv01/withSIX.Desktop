@@ -17,7 +17,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Logging;
 using SN.withSIX.Core.Presentation.Wpf.Services;
-using withSIX.Play.Applications;
+using SN.withSIX.Play.Applications;
 
 namespace SN.withSIX.Play.Presentation.Wpf
 {

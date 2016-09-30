@@ -8,7 +8,7 @@ using System.Linq;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Play.Infra.Api
+namespace SN.withSIX.Play.Infra.Api
 {
     public static class QueryableExtensions
     {

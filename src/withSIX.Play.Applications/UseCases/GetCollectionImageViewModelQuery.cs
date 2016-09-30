@@ -4,13 +4,14 @@
 
 using System;
 using System.Linq;
-using MediatR;
 using ReactiveUI;
+using MediatR;
+using SN.withSIX.Play.Applications.Extensions;
+using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using SN.withSIX.Play.Core.Games.Legacy;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using withSIX.Play.Core.Games.Legacy;
 
-namespace withSIX.Play.Applications.UseCases
+namespace SN.withSIX.Play.Applications.UseCases
 {
     public class GetCollectionImageViewModelQuery : IRequest<CollectionImageViewModel>
     {

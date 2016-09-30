@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace withSIX.Play.Core.Options
+namespace SN.withSIX.Play.Core.Options
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Options")]
     public class Migrations

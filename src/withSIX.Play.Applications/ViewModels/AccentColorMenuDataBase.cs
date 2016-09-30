@@ -4,7 +4,7 @@
 
 using System.Windows.Media;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     public class AccentColorMenuDataBase
     {

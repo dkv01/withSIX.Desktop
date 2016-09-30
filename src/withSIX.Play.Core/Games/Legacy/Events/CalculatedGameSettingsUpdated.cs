@@ -4,7 +4,7 @@
 
 using System;
 
-namespace withSIX.Play.Core.Games.Legacy.Events
+namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class CalculatedGameSettingsUpdated : EventArgs
     {

@@ -6,9 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Sync.Core.Legacy;
 
-namespace withSIX.Play.Core.Games.Legacy.Repo
+namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
         )]

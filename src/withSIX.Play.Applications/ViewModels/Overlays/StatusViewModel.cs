@@ -5,10 +5,13 @@
 using System.Collections;
 using System.Reactive.Linq;
 using ReactiveUI;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Core.Games.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Sync.Core.Legacy.Status;
+using SN.withSIX.Sync.Core.Transfer;
 
-namespace withSIX.Play.Applications.ViewModels.Overlays
+namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
     public interface IStatusViewModel : IViewModel
     {

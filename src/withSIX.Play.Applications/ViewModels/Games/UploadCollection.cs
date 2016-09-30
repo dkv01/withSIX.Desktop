@@ -6,13 +6,16 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Collections;
-using withSIX.Play.Applications.UseCases;
-using withSIX.Play.Applications.UseCases.Games;
-using withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.UseCases;
+using SN.withSIX.Play.Applications.UseCases.Games;
+using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     public class UploadCollection
     {

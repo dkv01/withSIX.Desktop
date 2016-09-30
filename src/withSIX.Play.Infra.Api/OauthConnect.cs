@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using SN.withSIX.Core.Applications.Infrastructure;
+using SN.withSIX.Core.Infra.Services;
 using Thinktecture.IdentityModel.Client;
 
-namespace withSIX.Play.Infra.Api
+namespace SN.withSIX.Play.Infra.Api
 {
     public class OauthConnect : IInfrastructureService, IOauthConnect
     {

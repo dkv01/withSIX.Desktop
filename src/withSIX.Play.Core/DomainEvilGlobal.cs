@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Infrastructure;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Infrastructure;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Core
+namespace SN.withSIX.Play.Core
 {
     public static class DomainEvilGlobal
     {

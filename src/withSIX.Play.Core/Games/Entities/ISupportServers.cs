@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Core.Games.Entities
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public interface ISupportServers : IQueryServers
     {

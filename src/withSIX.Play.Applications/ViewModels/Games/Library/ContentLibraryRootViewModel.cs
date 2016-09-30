@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
     public abstract class ContentLibraryRootViewModel :
         LibraryRootViewModel<ContentLibraryItemViewModel, IContent, SearchContentLibraryItemViewModel>

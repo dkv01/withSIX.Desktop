@@ -4,7 +4,7 @@
 
 using Caliburn.Micro;
 
-namespace withSIX.Play.Applications.ViewModels.Overlays
+namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 {
     public class OverlayConductor : Conductor<OverlayViewModelBase>.Collection.OneActive {}
 }

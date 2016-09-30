@@ -7,13 +7,16 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using withSIX.Api.Models.Games;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Arma;
-using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.Services
+namespace SN.withSIX.Play.Applications.Services
 {
     public class IronFrontService : IApplicationService
     {

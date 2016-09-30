@@ -4,8 +4,9 @@
 
 using System.Runtime.InteropServices;
 using Caliburn.Micro;
+using SN.withSIX.Core.Services;
 
-namespace withSIX.Play.Core.Connect
+namespace SN.withSIX.Play.Core.Connect
 {
     [ComVisible(true)]
 

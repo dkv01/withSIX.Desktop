@@ -8,7 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using withSIX.Play.Applications.ViewModels.Games.Overlays;
+
+using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays
 {

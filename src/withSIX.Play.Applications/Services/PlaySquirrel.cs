@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Squirrel;
 
-namespace withSIX.Play.Applications.Services
+namespace SN.withSIX.Play.Applications.Services
 {
     public class PlaySquirrel
     {

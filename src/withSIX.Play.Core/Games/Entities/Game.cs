@@ -11,17 +11,25 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using withSIX.Api.Models.Content.v3;
-using withSIX.Api.Models.Exceptions;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Arma;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Play.Core.Games.Entities
+using withSIX.Api.Models.Exceptions;
+using SN.withSIX.ContentEngine.Core;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Sync.Core.Packages;
+using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Api.Models.Content.v3;
+
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public abstract class Game : PropertyChangedBase, IHaveId<Guid>, ILaunchable, IHaveInstalledState, IShortcutCreation,
         IContentEngineGame

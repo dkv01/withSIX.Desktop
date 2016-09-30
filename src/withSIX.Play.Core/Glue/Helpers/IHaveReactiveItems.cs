@@ -3,8 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
+using SN.withSIX.Core.Helpers;
 
-namespace withSIX.Play.Core.Glue.Helpers
+namespace SN.withSIX.Play.Core.Glue.Helpers
 {
     public interface IHaveReactiveItems<T> : IHaveItems<T, ReactiveList<T>> {}
 }

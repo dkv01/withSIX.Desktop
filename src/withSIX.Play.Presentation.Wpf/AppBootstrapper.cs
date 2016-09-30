@@ -38,31 +38,33 @@ using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Play.Applications;
+using SN.withSIX.Play.Applications.Extensions;
+using SN.withSIX.Play.Applications.NotificationHandlers;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Applications.UseCases;
+using SN.withSIX.Play.Applications.UseCases.Games;
+using SN.withSIX.Play.Applications.ViewModels;
+using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Servers;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Infra.Api;
+using SN.withSIX.Play.Infra.Data.Services;
+using SN.withSIX.Play.Infra.Server.Hubs;
+using SN.withSIX.Play.Infra.Server.UseCases;
 using SN.withSIX.Play.Presentation.Wpf.Services;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using Splat;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
-using withSIX.Play.Applications;
-using withSIX.Play.Applications.NotificationHandlers;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Applications.UseCases;
-using withSIX.Play.Applications.UseCases.Games;
-using withSIX.Play.Applications.ViewModels;
-using withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Servers;
-using withSIX.Play.Core.Games.Services;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Infra.Api;
-using withSIX.Play.Infra.Data.Services;
-using withSIX.Play.Infra.Server.Hubs;
-using withSIX.Play.Infra.Server.UseCases;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace SN.withSIX.Play.Presentation.Wpf
@@ -192,7 +194,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
 
             Container.RegisterSingleton(() => {
                 var appOptions = Container.GetInstance<UserSettings>().AppOptions;
-                return new SelfUpdater(() => appOptions.EnableBetaUpdates,
+                return new Play.Applications.Services.SelfUpdater(() => appOptions.EnableBetaUpdates,
                     Container.GetInstance<IEventAggregator>(), Container.GetInstance<IProcessManager>(),
                     Container.GetInstance<IFileDownloader>(),
                     Container.GetInstance<IMediator>(),

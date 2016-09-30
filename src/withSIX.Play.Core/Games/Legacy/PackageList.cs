@@ -3,11 +3,15 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Reactive.Linq;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Glue.Helpers;
+using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
-using withSIX.Play.Core.Glue.Helpers;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public class PackageList : SelectionList<PackageItem>
     {

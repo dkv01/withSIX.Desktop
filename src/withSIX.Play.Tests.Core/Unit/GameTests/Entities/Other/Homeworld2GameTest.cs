@@ -9,9 +9,9 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
+using SN.withSIX.Play.Core.Games.Entities.Other;
+using SN.withSIX.Play.Core.Options.Entries;
 using SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
-using withSIX.Play.Core.Games.Entities.Other;
-using withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.Other
 {

@@ -4,8 +4,9 @@
 
 using System;
 using System.Runtime.Serialization;
+using SN.withSIX.Core;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     [DataContract]
     public abstract class RecentBase<T> : ObjectSaveBase<T> where T : class, IRecent

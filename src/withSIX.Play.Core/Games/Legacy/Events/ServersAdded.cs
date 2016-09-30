@@ -4,9 +4,9 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.Events
+namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
     public class ServersAdded : EventArgs
     {

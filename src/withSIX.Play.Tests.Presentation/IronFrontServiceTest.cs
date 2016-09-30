@@ -11,13 +11,13 @@ using FluentAssertions;
 using NUnit.Framework;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using withSIX.Api.Models.Games;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Arma;
-using withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Tests.Presentation
 {

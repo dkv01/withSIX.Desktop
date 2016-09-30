@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,24 +15,41 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using NDepend.Path;
 using ReactiveUI;
-using withSIX.Api.Models;
-using withSIX.Api.Models.Content;
-using withSIX.Api.Models.Extensions;
-using withSIX.Play.Applications.ViewModels.Dialogs;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Arma;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
-using withSIX.Play.Core.Games.Services;
-using withSIX.Play.Core.Options;
-using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
-using StatusRepo = withSIX.Play.Core.Games.Services.StatusRepo;
 
-namespace withSIX.Play.Applications.Services
+
+using withSIX.Api.Models.Content;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Errors;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Core.Services;
+using SN.withSIX.Play.Applications.ViewModels.Dialogs;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Services;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Sync.Core.Legacy;
+using SN.withSIX.Sync.Core.Legacy.Status;
+using SN.withSIX.Sync.Core.Packages;
+using SN.withSIX.Sync.Core.Repositories;
+using SN.withSIX.Sync.Core.Transfer;
+using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Api.Models;
+using withSIX.Api.Models.Extensions;
+using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
+using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
+
+namespace SN.withSIX.Play.Applications.Services
 {
     public static class StatusExtensions
     {

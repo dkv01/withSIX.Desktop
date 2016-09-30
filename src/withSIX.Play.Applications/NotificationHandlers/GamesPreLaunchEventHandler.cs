@@ -8,17 +8,20 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Applications.Services;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Connect;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Arma;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Options;
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Connect;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.NotificationHandlers
+namespace SN.withSIX.Play.Applications.NotificationHandlers
 {
     public class GamesPreLaunchEventHandler : IApplicationService
     {

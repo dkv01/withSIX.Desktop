@@ -9,12 +9,12 @@ using NDepend.Path;
 using NUnit.Framework;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Infra.Data.Services;
 using SN.withSIX.Play.Tests.Core.Support;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Infra.Data.Services;
 
 namespace SN.withSIX.Play.Tests.Core.Integration.SyncTests
 {

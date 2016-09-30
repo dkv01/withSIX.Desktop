@@ -3,8 +3,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using SN.withSIX.Core.Extensions;
 
-namespace withSIX.Play.Core
+namespace SN.withSIX.Play.Core
 {
     [Obsolete("BWC for datacontract madness")]
     // This is IPEndPoint really?

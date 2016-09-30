@@ -6,10 +6,15 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Reactive;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Games.Library;
+
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionCreatedViewModel {}
 

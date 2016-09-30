@@ -11,11 +11,13 @@ using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using NDepend.Path;
 using ReactiveUI;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Entities
+namespace SN.withSIX.Play.Core.Games.Entities
 {
     public abstract class GameSettings : PropertyChangedBase
     {

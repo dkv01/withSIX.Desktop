@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Games.Popups;
+using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
 
-namespace withSIX.Play.Applications.Views.Games.Popups
+namespace SN.withSIX.Play.Applications.Views.Games.Popups
 {
     public interface IAddRepositoryView : IViewFor<IAddRepositoryViewModel> {}
 }

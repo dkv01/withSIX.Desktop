@@ -4,14 +4,20 @@
 
 using System;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.Win32;
 using NDepend.Path;
 using ReactiveUI.Legacy;
-using withSIX.Play.Applications.DataModels;
-using withSIX.Play.Applications.UseCases;
+using MediatR;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM.Services;
+using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.DataModels;
+using SN.withSIX.Play.Applications.UseCases;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionImageViewModel {}
 

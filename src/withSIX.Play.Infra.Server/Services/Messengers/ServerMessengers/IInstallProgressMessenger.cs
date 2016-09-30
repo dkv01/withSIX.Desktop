@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using MediatR;
+using SN.withSIX.Core;
 
-namespace withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers
+namespace SN.withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers
 {
     public class StatusUpdated : ISyncDomainEvent
     {

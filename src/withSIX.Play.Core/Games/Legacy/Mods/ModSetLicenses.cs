@@ -3,8 +3,9 @@
 // </copyright>
 
 using System.Collections.Generic;
+using SN.withSIX.Core.Helpers;
 
-namespace withSIX.Play.Core.Games.Legacy.Mods
+namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 {
     public class ModSetLicenses : PropertyChangedBase
     {

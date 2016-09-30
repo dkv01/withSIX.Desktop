@@ -13,19 +13,19 @@ using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Entities.Other;
+using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Games;
-using withSIX.Play.Applications.Services.Infrastructure;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Entities.Other;
-using withSIX.Play.Core.Games.Entities.RealVirtuality;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
-using withSIX.Play.Core.Options;
-using withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services.Infrastructure
 {

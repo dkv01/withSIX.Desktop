@@ -4,7 +4,7 @@
 
 
 
-namespace withSIX.Play.Applications.ViewModels.Games
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     
     public abstract class LibraryModuleViewModel : ModuleViewModelBase {}

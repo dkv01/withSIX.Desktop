@@ -4,7 +4,7 @@
 
 using FluentAssertions;
 using NUnit.Framework;
-using withSIX.Play.Core.Games.Entities.Other;
+using SN.withSIX.Play.Core.Games.Entities.Other;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.Other
 {

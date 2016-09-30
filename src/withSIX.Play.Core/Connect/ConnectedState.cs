@@ -4,7 +4,7 @@
 
 
 
-namespace withSIX.Play.Core.Connect
+namespace SN.withSIX.Play.Core.Connect
 {
 
     public enum ConnectedState

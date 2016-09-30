@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Media;
 using MahApps.Metro;
 
-namespace withSIX.Play.Applications.ViewModels
+namespace SN.withSIX.Play.Applications.ViewModels
 {
     // TODO: move to Presentation layer
     public static class ThemeInfo

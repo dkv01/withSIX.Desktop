@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -12,18 +11,26 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using NDepend.Path;
 using ReactiveUI;
-using withSIX.Play.Applications.ViewModels.Games.Library;
-using withSIX.Play.Applications.ViewModels.Games.Overlays;
-using withSIX.Play.Applications.ViewModels.Games.Popups;
-using withSIX.Play.Core;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Helpers;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Applications.ViewModels.Games
+
+using SN.withSIX.Core;
+using SN.withSIX.Core.Applications.Extensions;
+using SN.withSIX.Core.Applications.MVVM;
+using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Applications.Services;
+using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
+using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
+using SN.withSIX.Play.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Helpers;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Options;
+
+namespace SN.withSIX.Play.Applications.ViewModels.Games
 {
     
     public class ModsViewModel : LibraryModuleViewModel, IHandle<SubGamesChanged>,

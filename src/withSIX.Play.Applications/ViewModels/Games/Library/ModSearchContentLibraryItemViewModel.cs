@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Collections.Generic;
-using withSIX.Play.Core.Games.Legacy;
-using withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace withSIX.Play.Applications.ViewModels.Games.Library
+namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class ModSearchContentLibraryItemViewModel : SearchContentLibraryItemViewModel
     {

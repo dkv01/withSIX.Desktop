@@ -9,8 +9,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Logging;
 
-namespace withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     // https://developer.valvesoftware.com/wiki/Master_Server_Query_Protocol
     /*public class SourceMasterQueryCacheable : SourceMasterQuery, IMasterServerQuery

@@ -3,10 +3,11 @@
 // </copyright>
 
 using System;
-using withSIX.Play.Core.Connect.Events;
-using withSIX.Play.Core.Games.Legacy;
+using SN.withSIX.Core;
+using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Games.Legacy;
 
-namespace withSIX.Play.Core.Connect
+namespace SN.withSIX.Play.Core.Connect
 {
     public static class BrowserHelper
     {

@@ -7,16 +7,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.Arma3;
+using SN.withSIX.ContentEngine.Core;
+using SN.withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Play.Core.Games.Legacy.Events;
+using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using SN.withSIX.Play.Core.Games.Legacy.Servers;
 using withSIX.Api.Models.Content.v2;
-using withSIX.Play.Core.Games.Entities;
-using withSIX.Play.Core.Games.Legacy.Events;
-using withSIX.Play.Core.Games.Legacy.Missions;
-using withSIX.Play.Core.Games.Legacy.Mods;
-using withSIX.Play.Core.Games.Legacy.Repo;
-using withSIX.Play.Core.Games.Legacy.Servers;
 
-namespace withSIX.Play.Core.Games.Legacy
+namespace SN.withSIX.Play.Core.Games.Legacy
 {
     public interface IContentManager
     {

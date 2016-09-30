@@ -3,8 +3,9 @@
 // </copyright>
 
 using System.Threading.Tasks;
+using SN.withSIX.Core.Applications.MVVM;
 
-namespace withSIX.Play.Applications
+namespace SN.withSIX.Play.Applications
 {
     public interface IPlayStartupManager : IWpfStartupManager
     {

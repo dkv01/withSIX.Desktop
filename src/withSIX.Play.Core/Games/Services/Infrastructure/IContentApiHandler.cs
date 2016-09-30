@@ -4,9 +4,10 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v2;
 
-namespace withSIX.Play.Core.Games.Services.Infrastructure
+namespace SN.withSIX.Play.Core.Games.Services.Infrastructure
 {
     public interface IContentApiHandler
     {

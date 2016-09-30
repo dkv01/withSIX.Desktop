@@ -2,7 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace withSIX.Play.Applications.DataModels.Notifications
+using SN.withSIX.Core.Applications;
+
+namespace SN.withSIX.Play.Applications.DataModels.Notifications
 {
     public class UpdateInstalledDataModel : NotificationBaseDataModel
     {

@@ -6,11 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
-using withSIX.Play.Core.Games.Services.GameLauncher;
-using withSIX.Play.Core.Options.Entries;
 
-namespace withSIX.Play.Core.Games.Entities.Other
+namespace SN.withSIX.Play.Core.Games.Entities.Other
 {
     public class CarrierCommandGame : Game, ILaunchWith<IBasicGameLauncher>
     {

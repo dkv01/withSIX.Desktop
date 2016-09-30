@@ -10,9 +10,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Entities;
+using SN.withSIX.Core.Extensions;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class ServerQueryQueue : PropertyChangedBase, IServerQueryQueue, IEnableLogging
     {

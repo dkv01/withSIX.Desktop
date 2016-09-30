@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 
-namespace withSIX.Play.Core.Games.Services
+namespace SN.withSIX.Play.Core.Games.Services
 {
     public static class ServersQueryExtensions
     {

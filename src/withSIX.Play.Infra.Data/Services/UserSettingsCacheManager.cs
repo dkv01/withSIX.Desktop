@@ -8,9 +8,12 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Options;
+using Akavache;
+using SN.withSIX.Core.Infra.Cache;
+using SN.withSIX.Core.Infra.Services;
+using SN.withSIX.Play.Core.Options;
 
-namespace withSIX.Play.Infra.Data.Services
+namespace SN.withSIX.Play.Infra.Data.Services
 {
     public interface IUserSettingsCacheManager
     {

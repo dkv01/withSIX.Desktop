@@ -4,9 +4,9 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using withSIX.Play.Core.Games.Services.GameLauncher;
+using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public interface IShortcutCreation
     {

@@ -5,7 +5,7 @@
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
-namespace withSIX.Play.Infra.Server.Hubs
+namespace SN.withSIX.Play.Infra.Server.Hubs
 {
     public abstract class BaseMessenger<T> where T : IHub
     {

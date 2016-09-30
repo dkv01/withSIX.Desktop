@@ -5,10 +5,11 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
+using SN.withSIX.Core.Helpers;
+using SN.withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models;
-using withSIX.Play.Core.Games.Entities;
 
-namespace withSIX.Play.Core.Options.Entries
+namespace SN.withSIX.Play.Core.Options.Entries
 {
     //            var oldSettings = _settings.GameOptions.GetGameSetSettings(this);
     //            if (oldSettings == null)
