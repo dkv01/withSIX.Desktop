@@ -415,7 +415,7 @@
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
     <Compile Include="Hubs\HubBase.cs" />
-    <Compile Include="Hubs\HubErrorLoggingPipeline.cs" />
+    <Compile Include="HubErrorLoggingPipeline.cs" />
     <Compile Include="Hubs\QueueHub.cs" />
     <Compile Include="Hubs\ServerHub.cs" />
     <Compile Include="Hubs\SettingsHub.cs" />

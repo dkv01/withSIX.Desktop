@@ -125,7 +125,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                                     steamH.RunHelperInternal(cts.Token,
                                             steamH.GetHelperParameters("interactive", SteamInfo.AppId),
                                             (process, s) => {
-                                                if (s.StartsWith("Ready"))
+                                                if (s.StartsWith("Now listening on:"))
                                                     tcs.SetResult(Unit.Value);
                                             }, (proces, s) => { })
                                         .ConfigureAwait(false);

@@ -90,61 +90,61 @@ namespace withSIX.Mini.Infra.Api
 
         private static JsonSerializer CreateJsonSerializer()
             => JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
-    }
 
-    public class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
-    {
-        private static readonly string AssemblyRoot = typeof(Hub).GetTypeInfo().Assembly.GetName().Name;
-        private readonly DependencyContext _dependencyContext;
-        private readonly Assembly _entryAssembly;
+        internal class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
+        {
+            private static readonly string AssemblyRoot = typeof(Hub).GetTypeInfo().Assembly.GetName().Name;
+            private readonly DependencyContext _dependencyContext;
+            private readonly Assembly _entryAssembly;
 
-        public HubCouldNotBeResolvedWorkaround(IHostingEnvironment environment) {
-            _entryAssembly = Assembly.Load(new AssemblyName(environment.ApplicationName));
-            _dependencyContext = DependencyContext.Load(_entryAssembly);
-        }
-
-        public virtual IList<Assembly> GetAssemblies() {
-            if (_dependencyContext == null) {
-                // Use the entry assembly as the sole candidate.
-                return new[] {_entryAssembly, typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly }; // , typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly
+            public HubCouldNotBeResolvedWorkaround(IHostingEnvironment environment) {
+                _entryAssembly = Assembly.Load(new AssemblyName(environment.ApplicationName));
+                _dependencyContext = DependencyContext.Load(_entryAssembly);
             }
 
-            return _dependencyContext
-                .RuntimeLibraries
-                .Where(IsCandidateLibrary)
-                .SelectMany(l => l.GetDefaultAssemblyNames(_dependencyContext))
-                .Select(assembly => Assembly.Load(new AssemblyName(assembly.Name)))
-                .ToArray();
+            public virtual IList<Assembly> GetAssemblies() {
+                if (_dependencyContext == null) {
+                    // Use the entry assembly as the sole candidate.
+                    return new[] { _entryAssembly, typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly }; // , typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly
+                }
+
+                return _dependencyContext
+                    .RuntimeLibraries
+                    .Where(IsCandidateLibrary)
+                    .SelectMany(l => l.GetDefaultAssemblyNames(_dependencyContext))
+                    .Select(assembly => Assembly.Load(new AssemblyName(assembly.Name)))
+                    .ToArray();
+            }
+
+            private bool IsCandidateLibrary(RuntimeLibrary library) {
+                return
+                    library.Dependencies.Any(
+                        dependency => string.Equals(AssemblyRoot, dependency.Name, StringComparison.Ordinal));
+            }
         }
 
-        private bool IsCandidateLibrary(RuntimeLibrary library) {
-            return
-                library.Dependencies.Any(
-                    dependency => string.Equals(AssemblyRoot, dependency.Name, StringComparison.Ordinal));
-        }
-    }
 
+        internal class Resolver : DefaultParameterResolver
+        {
+            private readonly JsonSerializer _serializer;
 
-    internal class Resolver : DefaultParameterResolver
-    {
-        private readonly JsonSerializer _serializer;
+            private FieldInfo _valueField;
 
-        private FieldInfo _valueField;
+            public Resolver(JsonSerializer serializer) {
+                _serializer = serializer;
+            }
 
-        public Resolver(JsonSerializer serializer) {
-            _serializer = serializer;
-        }
+            public override object ResolveParameter(ParameterDescriptor descriptor, IJsonValue value) {
+                if (value.GetType() == descriptor.ParameterType)
+                    return value;
 
-        public override object ResolveParameter(ParameterDescriptor descriptor, IJsonValue value) {
-            if (value.GetType() == descriptor.ParameterType)
-                return value;
+                if (_valueField == null)
+                    _valueField = value.GetType().GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            if (_valueField == null)
-                _valueField = value.GetType().GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            var json = (string) _valueField.GetValue(value);
-            using (var reader = new StringReader(json))
-                return _serializer.Deserialize(reader, descriptor.ParameterType);
+                var json = (string)_valueField.GetValue(value);
+                using (var reader = new StringReader(json))
+                    return _serializer.Deserialize(reader, descriptor.ParameterType);
+            }
         }
     }
 }

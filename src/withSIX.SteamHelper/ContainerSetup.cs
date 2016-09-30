@@ -26,6 +26,7 @@ using withSIX.Steam.Api.Services;
 using withSIX.Steam.Core;
 using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation.Commands;
+using withSIX.Steam.Presentation.Usecases;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using SteamApi = withSIX.Steam.Api.Services.SteamApi;
 

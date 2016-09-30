@@ -5,13 +5,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/GameServerQuery.dll": {}
+        "bin/Debug/GameServerQuery.dll": {}
       },
       "runtime": {
-        "bin/Release/GameServerQuery.dll": {}
+        "bin/Debug/GameServerQuery.dll": {}
       },
       "contentFiles": {
-        "bin/Release/GameServerQuery.pdb": {
+        "bin/Debug/GameServerQuery.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -22,13 +22,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/GeoIP.dll": {}
+        "bin/Debug/GeoIP.dll": {}
       },
       "runtime": {
-        "bin/Release/GeoIP.dll": {}
+        "bin/Debug/GeoIP.dll": {}
       },
       "contentFiles": {
-        "bin/Release/GeoIP.pdb": {
+        "bin/Debug/GeoIP.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -39,13 +39,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.ContentEngine.Core.dll": {}
+        "bin/Debug/withSIX.ContentEngine.Core.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.ContentEngine.Core.dll": {}
+        "bin/Debug/withSIX.ContentEngine.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.ContentEngine.Core.pdb": {
+        "bin/Debug/withSIX.ContentEngine.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -56,13 +56,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.ContentEngine.Infra.dll": {}
+        "bin/Debug/withSIX.ContentEngine.Infra.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.ContentEngine.Infra.dll": {}
+        "bin/Debug/withSIX.ContentEngine.Infra.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.ContentEngine.Infra.pdb": {
+        "bin/Debug/withSIX.ContentEngine.Infra.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -73,13 +73,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Core.Applications.dll": {}
+        "bin/Debug/withSIX.Core.Applications.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Core.Applications.dll": {}
+        "bin/Debug/withSIX.Core.Applications.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Core.Applications.pdb": {
+        "bin/Debug/withSIX.Core.Applications.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -90,16 +90,16 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Core.Infra.dll": {}
+        "bin/Debug/withSIX.Core.Infra.dll": {}
       },
       "runtime": {
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
-        "bin/Release/withSIX.Core.Infra.dll": {}
+        "bin/Debug/withSIX.Core.Infra.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Core.Infra.pdb": {
+        "bin/Debug/withSIX.Core.Infra.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -110,13 +110,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Core.Presentation.Resources.dll": {}
+        "bin/Debug/withSIX.Core.Presentation.Resources.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Core.Presentation.Resources.dll": {}
+        "bin/Debug/withSIX.Core.Presentation.Resources.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Core.Presentation.Resources.pdb": {
+        "bin/Debug/withSIX.Core.Presentation.Resources.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -127,17 +127,17 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Core.Presentation.dll": {}
+        "bin/Debug/withSIX.Core.Presentation.dll": {}
       },
       "runtime": {
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../dll/ReactiveUI.dll": {},
         "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
-        "bin/Release/withSIX.Core.Presentation.dll": {}
+        "bin/Debug/withSIX.Core.Presentation.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Core.Presentation.pdb": {
+        "bin/Debug/withSIX.Core.Presentation.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -148,14 +148,14 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Core.dll": {}
+        "bin/Debug/withSIX.Core.dll": {}
       },
       "runtime": {
         "../../../withSIX.Web/packages/JetBrains.Annotations.10.1.5/lib/net/JetBrains.Annotations.dll": {},
-        "bin/Release/withSIX.Core.dll": {}
+        "bin/Debug/withSIX.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Core.pdb": {
+        "bin/Debug/withSIX.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -166,15 +166,15 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Applications.dll": {}
+        "bin/Debug/withSIX.Mini.Applications.dll": {}
       },
       "runtime": {
         "../dll/ReactiveUI.dll": {},
         "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
-        "bin/Release/withSIX.Mini.Applications.dll": {}
+        "bin/Debug/withSIX.Mini.Applications.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Applications.pdb": {
+        "bin/Debug/withSIX.Mini.Applications.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -185,13 +185,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Core.dll": {}
+        "bin/Debug/withSIX.Mini.Core.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Core.dll": {}
+        "bin/Debug/withSIX.Mini.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Core.pdb": {
+        "bin/Debug/withSIX.Mini.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -202,16 +202,16 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Infra.Data.dll": {}
+        "bin/Debug/withSIX.Mini.Infra.Data.dll": {}
       },
       "runtime": {
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../dll/IdentityModel.dll": {},
-        "bin/Release/withSIX.Mini.Infra.Data.dll": {}
+        "bin/Debug/withSIX.Mini.Infra.Data.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Infra.Data.pdb": {
+        "bin/Debug/withSIX.Mini.Infra.Data.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -222,13 +222,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Arma.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Arma.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Arma.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Arma.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Arma.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Arma.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -239,13 +239,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.CE.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.CE.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.CE.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.CE.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.CE.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.CE.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -256,13 +256,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Firaxis.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Firaxis.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Firaxis.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Firaxis.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Firaxis.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Firaxis.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -273,13 +273,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.GTA.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.GTA.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.GTA.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.GTA.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.GTA.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.GTA.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -290,13 +290,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Homeworld.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Homeworld.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Homeworld.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Homeworld.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Homeworld.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Homeworld.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -307,13 +307,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Kerbal.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Kerbal.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Kerbal.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Kerbal.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Kerbal.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Kerbal.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -324,13 +324,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.NMS.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.NMS.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.NMS.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.NMS.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.NMS.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.NMS.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -341,13 +341,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Starbound.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Starbound.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Starbound.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Starbound.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Starbound.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Starbound.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -358,13 +358,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Stellaris.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Stellaris.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Stellaris.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Stellaris.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Stellaris.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Stellaris.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -375,13 +375,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Plugin.Witcher3.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Witcher3.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Plugin.Witcher3.dll": {}
+        "bin/Debug/withSIX.Mini.Plugin.Witcher3.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Plugin.Witcher3.pdb": {
+        "bin/Debug/withSIX.Mini.Plugin.Witcher3.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -392,7 +392,7 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Presentation.Core.dll": {}
+        "bin/Debug/withSIX.Mini.Presentation.Core.dll": {}
       },
       "runtime": {
         "../dll/Akavache.Sqlite3.dll": {},
@@ -400,28 +400,28 @@
         "../packages/Mono.Options.4.4.0.0/lib/dnxcore/Mono.Options.dll": {},
         "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
         "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
-        "bin/Release/withSIX.Mini.Presentation.Core.dll": {}
+        "bin/Debug/withSIX.Mini.Presentation.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/nss-3.11.zip": {
+        "bin/Debug/nss-3.11.zip": {
           "buildAction": "Content",
           "codeLanguage": "any",
           "copyToOutput": true,
           "outputPath": "nss-3.11.zip"
         },
-        "bin/Release/srm.exe": {
+        "bin/Debug/srm.exe": {
           "buildAction": "Content",
           "codeLanguage": "any",
           "copyToOutput": true,
           "outputPath": "srm.exe"
         },
-        "bin/Release/vcredistinstaller.exe": {
+        "bin/Debug/vcredistinstaller.exe": {
           "buildAction": "Content",
           "codeLanguage": "any",
           "copyToOutput": true,
           "outputPath": "vcredistinstaller.exe"
         },
-        "bin/Release/withSIX.Mini.Presentation.Core.pdb": {
+        "bin/Debug/withSIX.Mini.Presentation.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -432,13 +432,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Mini.Presentation.Owin.Core.dll": {}
+        "bin/Debug/withSIX.Mini.Presentation.Owin.Core.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Presentation.Owin.Core.dll": {}
+        "bin/Debug/withSIX.Mini.Presentation.Owin.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Presentation.Owin.Core.pdb": {
+        "bin/Debug/withSIX.Mini.Presentation.Owin.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -449,13 +449,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Steam.Core.dll": {}
+        "bin/Debug/withSIX.Steam.Core.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Steam.Core.dll": {}
+        "bin/Debug/withSIX.Steam.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Steam.Core.pdb": {
+        "bin/Debug/withSIX.Steam.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -466,13 +466,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "bin/Release/withSIX.Sync.Core.dll": {}
+        "bin/Debug/withSIX.Sync.Core.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Sync.Core.dll": {}
+        "bin/Debug/withSIX.Sync.Core.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Sync.Core.pdb": {
+        "bin/Debug/withSIX.Sync.Core.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -483,13 +483,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.6",
       "compile": {
-        "bin/Release/withSIX.Mini.Presentation.CoreCore.dll": {}
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.dll": {}
       },
       "runtime": {
-        "bin/Release/withSIX.Mini.Presentation.CoreCore.dll": {}
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.dll": {}
       },
       "contentFiles": {
-        "bin/Release/withSIX.Mini.Presentation.CoreCore.pdb": {
+        "bin/Debug/withSIX.Mini.Presentation.CoreCore.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

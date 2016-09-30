@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Games;
 using withSIX.Steam.Api.Services;
@@ -26,18 +28,15 @@ namespace withSIX.Steam.Presentation.Commands
             if (AppId == (uint) SteamGameIds.Arma3) {
                 await SteamActions.PerformArmaSteamAction(async api => {
                     SteamApi = api;
-                    await RunWebsite().ConfigureAwait(false);
+                    await RunWebsite(CancellationToken.None).ConfigureAwait(false);
                 }, (uint) SteamGameIds.Arma3, _steamSessionFactory).ConfigureAwait(false);
             } else {
-                await DoWithSteamSession(RunWebsite).ConfigureAwait(false);
+                await DoWithSteamSession(() => RunWebsite(CancellationToken.None)).ConfigureAwait(false);
             }
             return 0;
         }
 
-        private static async Task RunWebsite() {
-            Startup.Start("http://127.0.0.66:48667");
-            Console.WriteLine("Ready");
-            await Task.Delay(-1).ConfigureAwait(false);
-        }
+        private static Task RunWebsite(CancellationToken ct)
+            => new WebListener().Run(new IPEndPoint(IPAddress.Parse("127.0.0.66"), 48667), null, ct);
     }
 }

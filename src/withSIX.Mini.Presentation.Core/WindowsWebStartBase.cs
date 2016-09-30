@@ -14,6 +14,7 @@ using withSIX.Mini.Presentation.Core.Services;
 
 namespace withSIX.Mini.Presentation.Core
 {
+    /*
     [Obsolete("Not needed when using Kestrel", true)]
     public abstract class WindowsWebStartBase
     {
@@ -72,7 +73,8 @@ namespace withSIX.Mini.Presentation.Core
             si = BuildSi(_pm); // to output
         }
 
-        public static ServerInfo BuildSi(IProcessManagerSync pm)
-            => new ServerInfo(pm, Consts.HttpAddress, Consts.HttpsAddress);
+        public static PortsInfo BuildSi(IProcessManagerSync pm)
+            => new PortsInfo(pm, Consts.HttpAddress, Consts.HttpsAddress);
     }
+    */
 }

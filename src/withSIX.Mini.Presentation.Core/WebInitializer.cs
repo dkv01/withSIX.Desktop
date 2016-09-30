@@ -108,9 +108,9 @@ namespace withSIX.Mini.Presentation.Core
         public ListenerException(string message, Exception innerException) : base(message, innerException) {}
     }
 
-    public class ServerInfo
+    public class PortsInfo
     {
-        public ServerInfo(IProcessManagerSync pm, IPEndPoint http, IPEndPoint https) {
+        public PortsInfo(IProcessManagerSync pm, IPEndPoint http, IPEndPoint https) {
             IsHttpPortRegistered = (http != null) && QueryPortRegistered(pm, http.ToHttp());
             IsHttpsPortRegistered = (https != null) && QueryPortRegistered(pm, https.ToHttps());
             IsCertRegistered = QueryCertRegistered(pm, https);

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.SignalR.Hubs;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Core.Logging;
 
-namespace withSIX.Mini.Infra.Api.Hubs
+namespace withSIX.Mini.Infra.Api
 {
     public class HubErrorLoggingPipelineModule : HubPipelineModule
     {
