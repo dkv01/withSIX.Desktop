@@ -25,7 +25,7 @@ namespace withSIX.Steam.Plugin.Arma
 
         public ServerBrowser(LockedWrapper<MatchmakingServiceWrap> api,
             Func<IPEndPoint, Task<ServerInfoRulesFetcher>> fetcherFact) : base(api) {
-            _fetcherFact = fetcherFact;
+            _fetcherFact = fetcherFact; 
         }
 
         public async Task<IObservable<ArmaServerInfo>> GetServers(CancellationToken ct, ServerFilterWrap filter) {

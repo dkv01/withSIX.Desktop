@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Games;
 using withSIX.Steam.Api.Services;
+using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 
 namespace withSIX.Steam.Presentation.Commands

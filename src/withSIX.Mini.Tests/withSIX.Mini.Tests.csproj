@@ -349,10 +349,6 @@
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.Steam.Presentation\withSIX.Steam.Presentation.csproj">
-      <Project>{6580BD2F-3745-4C20-996E-1B12FFC7B242}</Project>
-      <Name>withSIX.Steam.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>withSIX.Sync.Core</Name>

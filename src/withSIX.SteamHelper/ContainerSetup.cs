@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using ReactiveUI;
 using SimpleInjector;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Errors;
@@ -69,7 +68,7 @@ namespace withSIX.Steam.Presentation
             _container.RegisterSingleton<IExceptionHandler, UnhandledExceptionHandler>();
             _container.RegisterSingleton<IActionDispatcher>(
                 () => new ActionDispatcher(_container.GetInstance<IMediator>(), null));
-            _container.RegisterSingleton<IMessageBus, MessageBus>();
+            BootstrapperBridge.RegisterMessageBus(_container);
             _container.RegisterSingleton<ISteamHelper>(SteamHelper.Create());
             _container.RegisterPlugins<IHandleExceptionPlugin>(_assemblies, Lifestyle.Singleton);
             _container.RegisterSingleton<ISteamSessionFactory, SteamSession.SteamSessionFactory>();

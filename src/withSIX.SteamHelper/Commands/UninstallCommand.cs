@@ -36,9 +36,9 @@ namespace withSIX.Steam.Presentation.Commands
         }
 
         private async Task ProcessContent(Tuple<PublishedFile, bool> act) {
-            Info($"Starting {act.Item1.Pid}");
+            Info($"Starting {act.Item1}");
             await App.Uninstall(act.Item1, _steamApi).ConfigureAwait(false);
-            Info($"Finished {act.Item1.Pid}");
+            Info($"Finished {act.Item1}");
         }
     }
 }

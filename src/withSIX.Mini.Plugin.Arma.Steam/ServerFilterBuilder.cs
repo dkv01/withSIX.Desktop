@@ -9,7 +9,12 @@ using SteamLayerWrap;
 
 namespace withSIX.Steam.Plugin.Arma
 {
-    public class ServerFilterBuilder
+    public interface IServerFilterBuilder {
+        ServerFilterBuilder FilterByAddresses(IReadOnlyCollection<IPEndPoint> list);
+        ServerFilterBuilder FilterByAddress(IPEndPoint point);
+    }
+
+    public class ServerFilterBuilder : IServerFilterBuilder
     {
         private readonly ServerFilterWrap _filter;
         private bool _isFinal;

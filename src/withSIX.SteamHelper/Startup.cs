@@ -117,10 +117,10 @@ namespace withSIX.Steam.Presentation
                     var builder = ServerFilterBuilder.Build();
                     if ((message.Addresses != null) && message.Addresses.Any())
                         builder.FilterByAddresses(message.Addresses);
-                    var filter = builder.Value;
+
                     var obs = await (message.IncludeDetails
-                        ? sb.GetServersInclDetails(cts.Token, filter, message.IncludeRules)
-                        : sb.GetServers(cts.Token, filter));
+                        ? sb.GetServersInclDetails2(cts.Token, builder, message.IncludeRules)
+                        : sb.GetServers2(cts.Token, builder));
                     var r =
                         await
                             obs

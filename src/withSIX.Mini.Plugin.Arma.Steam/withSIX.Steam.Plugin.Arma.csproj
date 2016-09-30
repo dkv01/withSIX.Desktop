@@ -44,20 +44,12 @@
     <Compile Include="LockedWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerBrowser.cs" />
+    <Compile Include="ServerBrowserExtensions.cs" />
     <Compile Include="ServerFilterBuilder.cs" />
     <Compile Include="ServerKey.cs" />
     <Compile Include="ServiceRegistry.cs" />
+    <Compile Include="SteamActions.cs" />
     <Compile Include="SteamApi.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\dll\SteamLayer.dll">
-      <Link>SteamLayer.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\dll\x86\steam_api.dll">
-      <Link>steam_api.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations">
@@ -86,6 +78,10 @@
     <ProjectReference Include="..\withSIX.Mini.Plugin.Arma\withSIX.Mini.Plugin.Arma.csproj">
       <Project>{8CACA11D-F26B-4D9A-8FDD-4CAE9133813E}</Project>
       <Name>withSIX.Mini.Plugin.Arma</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\withSIX.Steam.Api\withSIX.Steam.Api.csproj">
+      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
+      <Name>withSIX.Steam.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj">
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>

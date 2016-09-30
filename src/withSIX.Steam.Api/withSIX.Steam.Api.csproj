@@ -139,6 +139,9 @@
     <Compile Include="Services\SteamUploader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SteamLayerWrap">
+      <HintPath>..\dll\SteamLayerWrap.dll</HintPath>
+    </Reference>
     <Reference Include="Steamworks.NET">
       <HintPath>..\dll\Steamworks.NET.dll</HintPath>
     </Reference>
@@ -152,16 +155,6 @@
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\dll\x86\CSteamworks.dll">
-      <Link>CSteamworks.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\dll\x86\steam_api.dll">
-      <Link>steam_api.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

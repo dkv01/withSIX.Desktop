@@ -51,8 +51,6 @@
 		<file src="..\..\..\bin\withSIX.SteamHelper.exe" target="lib\net45\withSIX.SteamHelper.exe" />
 		<file src="..\..\..\bin\withSIX.SteamHelper.exe.config" target="lib\net45\withSIX.SteamHelper.exe.config" />
 		<file src="..\..\..\bin\withSIX.Steam.Plugin.Arma.dll" target="lib\net45\withSIX.Steam.Plugin.Arma.dll" />
-		<file src="..\..\..\bin\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
-		<file src="..\..\..\bin\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 		<file src="..\..\..\bin\steam_api.dll" target="lib\net45\steam_api.dll" />
 		<file src="..\..\..\bin\Steamworks.NET.dll" target="lib\net45\Steamworks.NET.dll" />
 		<file src="..\..\..\bin\CSteamworks.dll" target="lib\net45\CSteamworks.dll" />

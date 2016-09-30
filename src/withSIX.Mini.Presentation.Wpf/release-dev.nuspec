@@ -48,10 +48,10 @@
         <file src="bin\release\withSIX.Sync.Core.dll" target="lib\net45\withSIX.Sync.Core.dll" />
 		
 		<file src="bin\release\withSIX.SteamHelper.exe" target="lib\net45\withSIX.SteamHelper.exe" />
-		<file src="..\withSIX.Steam.Presentation\bin\Release\withSIX.SteamHelper.exe.config" target="lib\net45\withSIX.SteamHelper.exe.config" />
+		<file src="bin\release\withSIX.SteamHelper.exe.config" target="lib\net45\withSIX.SteamHelper.exe.config" />
+		<!--
+		<file src="..\withSIX.Steam.Presentation\bin\Release\withSIX.SteamHelper.exe.config" target="lib\net45\withSIX.SteamHelper.exe.config" /> -->
 		<file src="bin\release\withSIX.Steam.Plugin.Arma.dll" target="lib\net45\withSIX.Steam.Plugin.Arma.dll" />
-		<file src="bin\release\protobuf-net.dll" target="lib\net45\protobuf-net.dll" />
-		<file src="bin\release\SteamKit2.dll" target="lib\net45\SteamKit2.dll" />
 		<file src="bin\release\steam_api.dll" target="lib\net45\steam_api.dll" />
 		<file src="bin\release\Steamworks.NET.dll" target="lib\net45\Steamworks.NET.dll" />
 		<file src="bin\release\CSteamworks.dll" target="lib\net45\CSteamworks.dll" />

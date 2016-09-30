@@ -9,11 +9,8 @@ using Steamworks;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Core;
-using withSIX.Steam.Plugin.Arma;
-using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
-using SteamApi = withSIX.Steam.Plugin.Arma.SteamApi;
 
-namespace withSIX.Steam.Presentation
+namespace withSIX.Steam.Plugin.Arma
 {
     public class SteamActions
     {

@@ -563,6 +563,10 @@
       <Project>{a3556bc0-a306-4e26-85f2-37013e09d283}</Project>
       <Name>withSIX.Mini.Infra.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Mini.Plugin.Arma.Steam\withSIX.Steam.Plugin.Arma.csproj">
+      <Project>{15f23cbc-f6a0-4813-8c82-c2706e899c96}</Project>
+      <Name>withSIX.Steam.Plugin.Arma</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Mini.Plugin.Arma\withSIX.Mini.Plugin.Arma.csproj">
       <Project>{8caca11d-f26b-4d9a-8fdd-4cae9133813e}</Project>
       <Name>withSIX.Mini.Plugin.Arma</Name>
@@ -623,9 +627,9 @@
       <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.Steam.Presentation\withSIX.Steam.Presentation.csproj">
-      <Project>{6580bd2f-3745-4c20-996e-1b12ffc7b242}</Project>
-      <Name>withSIX.Steam.Presentation</Name>
+    <ProjectReference Include="..\withSIX.SteamHelper\withSIX.SteamHelper.xproj">
+      <Project>{e5f1dce5-83e8-4681-a28e-7904d45c6576}</Project>
+      <Name>withSIX.SteamHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
@@ -633,12 +637,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\dll\SteamLayer.dll">
+      <Link>SteamLayer.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\withSIX.SteamHelper\bin\Debug\net46\win7-x64\withSIX.SteamHelper.exe.config">
+      <Link>withSIX.SteamHelper.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\dll\x86\CSteamworks.dll">
+      <Link>CSteamworks.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dll\x86\steam_api.dll">
+      <Link>steam_api.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\packages\Libuv.1.9.0\runtimes\win7-x86\native\libuv.dll">
       <Link>libuv.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\withSIX.SteamHelper\bin\Debug\net46\win7-x64\withSIX.SteamHelper.exe">
+      <Link>withSIX.SteamHelper.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

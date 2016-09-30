@@ -18,7 +18,6 @@ using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Services;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
-using withSIX.Steam.Presentation;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using LoggingSetup = withSIX.Mini.Presentation.Electron.LoggingSetup;
 

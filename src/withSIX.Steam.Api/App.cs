@@ -22,7 +22,7 @@ namespace withSIX.Steam.Api
 
         public App(uint id) : this(new AppId_t(id)) {}
 
-        public App(AppId_t id) {
+        protected App(AppId_t id) {
             Id = id;
             _steamInfo = SteamHelper.TryGetSteamAppById(Id.m_AppId);
             _directories = SystemExtensions.CreateLazy(GetDirectories);
