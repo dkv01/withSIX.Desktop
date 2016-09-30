@@ -5,16 +5,13 @@
 using System;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "CollectionServer",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]

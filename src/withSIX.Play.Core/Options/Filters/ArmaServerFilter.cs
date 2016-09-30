@@ -8,13 +8,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-
-namespace SN.withSIX.Play.Core.Options.Filters
+namespace withSIX.Play.Core.Options.Filters
 {
     [DataContract(Name = "ServerFilter",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]

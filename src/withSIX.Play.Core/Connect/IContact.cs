@@ -5,8 +5,7 @@
 using System;
 using System.ComponentModel;
 
-
-namespace SN.withSIX.Play.Core.Connect
+namespace withSIX.Play.Core.Connect
 {
     // Workaround for the  Ambigious match exception
 

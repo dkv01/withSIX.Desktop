@@ -4,15 +4,12 @@
 
 using System;
 using ReactiveUI;
-
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Games;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Games;
+using withSIX.Play.Applications.ViewModels.Overlays;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels
+namespace withSIX.Play.Applications.ViewModels
 {
     
     public interface IPlayShellViewModel : IShellViewModel, IShellViewModelTrayIcon, IScreen, IHaveOverlayConductor,

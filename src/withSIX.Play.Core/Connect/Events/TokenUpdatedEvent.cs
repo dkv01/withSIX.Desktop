@@ -2,10 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core;
 using withSIX.Api.Models.Premium;
 
-namespace SN.withSIX.Play.Core.Connect.Events
+namespace withSIX.Play.Core.Connect.Events
 {
     public class TokenUpdatedEvent : IAsyncDomainEvent
     {

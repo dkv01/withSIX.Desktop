@@ -5,8 +5,7 @@
 using System;
 using System.IO;
 
-
-namespace SN.withSIX.Play.Core.Games.Legacy.Missions
+namespace withSIX.Play.Core.Games.Legacy.Missions
 {
     
     public class MissionFolder : MissionBase

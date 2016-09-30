@@ -7,8 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 
-
-namespace SN.withSIX.Play.Infra.Server.Hubs
+namespace withSIX.Play.Infra.Server.Hubs
 {
 
     public class InstallProgressHub : BaseHub

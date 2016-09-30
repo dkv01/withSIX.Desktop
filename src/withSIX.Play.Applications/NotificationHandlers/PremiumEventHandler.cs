@@ -2,19 +2,14 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Premium;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     public class PremiumEventHandler : IAsyncNotificationHandler<TokenUpdatedEvent>
     {

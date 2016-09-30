@@ -3,11 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public static class PwsUriHandler
     {

@@ -8,9 +8,9 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
 using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Sync.Presentation.Console.Services
 {

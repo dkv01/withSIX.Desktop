@@ -11,13 +11,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NDepend.Path;
-using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public class AceUserconfig : Userconfig, IEnableLogging
     {

@@ -4,9 +4,8 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Play.Applications.UseCases
+namespace withSIX.Play.Applications.UseCases
 {
     public class DialogMessageCommand : IAsyncRequest<Unit>
     {

@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Input;
 
-namespace SN.withSIX.Play.Applications.ViewModels
+namespace withSIX.Play.Applications.ViewModels
 {
     public class SimpleCommand : ICommand
     {

@@ -14,41 +14,33 @@ using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
-using ReactiveUI;
 using MediatR;
+using ReactiveUI;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.Helpers;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.UseCases;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Helpers;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.Helpers;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.UseCases;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Helpers;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Play.Core.Options;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 using Unit = System.Reactive.Unit;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
 
     public static class VisualExtensions

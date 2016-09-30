@@ -6,18 +6,11 @@ using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Core.Options;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class SoftwareUpdate : PropertyChangedBase, IHandle<NoNewVersionAvailable>,
         IHandle<NewVersionAvailable>, IHandle<NewVersionDownloaded>,

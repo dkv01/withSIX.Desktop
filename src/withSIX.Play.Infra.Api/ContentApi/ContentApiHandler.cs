@@ -5,25 +5,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.Mappers;
 using Newtonsoft.Json;
-using withSIX.Api.Models.Content;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Services.Infrastructure;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Api.ContentApi.Dto;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Services.Infrastructure;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Api.ContentApi.Dto;
 
-namespace SN.withSIX.Play.Infra.Api.ContentApi
+namespace withSIX.Play.Infra.Api.ContentApi
 {
     static class ApiHashesExtension
     {

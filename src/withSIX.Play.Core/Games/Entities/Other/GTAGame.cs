@@ -7,12 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Games.Entities.Other
+namespace withSIX.Play.Core.Games.Entities.Other
 {
     // ReSharper disable once InconsistentNaming
     public abstract class GTAGame : RockstarGame, ISupportModding

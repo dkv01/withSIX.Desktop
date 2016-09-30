@@ -10,7 +10,7 @@ using SN.withSIX.Core.Applications.MVVM.Helpers;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Converters
 {

@@ -6,10 +6,9 @@ using System;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
+using withSIX.Play.Core.Connect;
 
-using SN.withSIX.Play.Core.Connect;
-
-namespace SN.withSIX.Play.Core.Options.Filters
+namespace withSIX.Play.Core.Options.Filters
 {
     [DataContract(Name = "ContactFilter",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]

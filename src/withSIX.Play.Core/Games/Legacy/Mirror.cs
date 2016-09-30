@@ -4,8 +4,7 @@
 
 using System;
 
-
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     
     public class Mirror : SyncBase

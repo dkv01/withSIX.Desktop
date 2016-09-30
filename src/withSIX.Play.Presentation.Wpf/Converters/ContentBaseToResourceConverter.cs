@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Converters
 {

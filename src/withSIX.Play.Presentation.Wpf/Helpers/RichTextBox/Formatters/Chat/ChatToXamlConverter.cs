@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Xml;
 using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Connect.Parser;
+using withSIX.Play.Core.Connect.Parser;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
 {

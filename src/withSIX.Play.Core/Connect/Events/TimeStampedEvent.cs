@@ -3,9 +3,8 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core;
 
-namespace SN.withSIX.Play.Core.Connect.Events
+namespace withSIX.Play.Core.Connect.Events
 {
     public abstract class TimeStampedEvent : EventArgs, IAsyncDomainEvent
     {

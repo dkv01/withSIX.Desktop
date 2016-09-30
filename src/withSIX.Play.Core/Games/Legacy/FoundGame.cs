@@ -4,10 +4,9 @@
 
 using System;
 using System.IO;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public class FoundGame : PropertyChangedBase, IComparePK<FoundGame>
     {

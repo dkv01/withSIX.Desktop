@@ -3,8 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
+using withSIX.Play.Applications.ViewModels.Games.Library;
 
-namespace SN.withSIX.Play.Applications.Views.Games.Library
+namespace withSIX.Play.Applications.Views.Games.Library
 {
     public interface IAdvancedCollectionView : IViewFor<AdvancedCollectionViewModel> {}
 }

@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Threading.Tasks;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.Services.Infrastructure
+namespace withSIX.Play.Applications.Services.Infrastructure
 {
     public interface IUserSettingsStorageManager
     {

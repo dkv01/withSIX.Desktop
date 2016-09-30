@@ -13,14 +13,10 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Legacy.Arma.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Core.Games.Legacy.Arma.Commands;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public class CommandAPI : IDisposable, IEnableLogging
     {

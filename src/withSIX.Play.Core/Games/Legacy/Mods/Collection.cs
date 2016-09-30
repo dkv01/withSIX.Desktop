@@ -13,20 +13,16 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Glue.Helpers;
-using SN.withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Glue.Helpers;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "ModSet", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     

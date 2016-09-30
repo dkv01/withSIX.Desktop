@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
+using withSIX.Play.Applications.ViewModels.Connect;
 
-namespace SN.withSIX.Play.Applications.Views.Connect
+namespace withSIX.Play.Applications.Views.Connect
 {
     public interface IConnectView : IViewFor<ConnectViewModel> {}
 }

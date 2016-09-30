@@ -8,10 +8,10 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
+namespace withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
 {
     public class ModLibraryGroupViewModel : LibraryGroupViewModel<ModLibraryViewModel>
     {

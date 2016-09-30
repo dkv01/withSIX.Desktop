@@ -4,14 +4,10 @@
 
 using System;
 using ReactiveUI.Legacy;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Overlays;
 
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-
-namespace SN.withSIX.Play.Applications.ViewModels.Popups
+namespace withSIX.Play.Applications.ViewModels.Popups
 {
     
     public class OptionsMenuViewModel : ViewModelBase

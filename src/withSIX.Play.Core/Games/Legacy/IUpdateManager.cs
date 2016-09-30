@@ -6,12 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Services;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public interface IActionState
     {

@@ -4,12 +4,11 @@
 
 using System;
 using System.ComponentModel;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Options.Entries;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public class DayZSettings : RealVirtualitySettings
     {

@@ -5,12 +5,9 @@
 using System;
 using System.ComponentModel;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Overlays
+namespace withSIX.Play.Applications.ViewModels.Overlays
 {
     public abstract class ScreenLightViewModelBase<T> : ScreenBase<T> where T : class
     {

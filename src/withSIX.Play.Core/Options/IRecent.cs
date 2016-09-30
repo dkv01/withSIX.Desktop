@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     public interface IRecent : IObjectTag
     {

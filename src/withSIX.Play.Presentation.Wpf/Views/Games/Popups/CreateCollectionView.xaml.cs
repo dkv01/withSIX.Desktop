@@ -5,8 +5,8 @@
 using System.Windows;
 using ReactiveUI;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
-using SN.withSIX.Play.Applications.Views.Games.Overlays;
+using withSIX.Play.Applications.ViewModels.Games.Popups;
+using withSIX.Play.Applications.Views.Games.Overlays;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Popups
 {

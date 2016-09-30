@@ -3,24 +3,16 @@
 // </copyright>
 
 using System;
-using System.Reactive;
 using System.Threading.Tasks;
-using ReactiveUI;
 using MediatR;
-
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Play.Applications.DataModels.Profiles;
-using SN.withSIX.Play.Applications.UseCases;
-using SN.withSIX.Play.Applications.UseCases.Profiles;
+using ReactiveUI;
+using withSIX.Play.Applications.DataModels.Profiles;
+using withSIX.Play.Applications.UseCases;
+using withSIX.Play.Applications.UseCases.Profiles;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 using Unit = System.Reactive.Unit;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Popups
+namespace withSIX.Play.Applications.ViewModels.Popups
 {
     
     public class ProfilesMenuViewModel : PopupBase, IDisposable

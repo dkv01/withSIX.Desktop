@@ -6,10 +6,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Applications.ViewModels.Games.Overlays;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Applications.UseCases
+namespace withSIX.Play.Applications.UseCases
 {
     class GetPickCollectionViewModelQuery : IAsyncRequest<PickCollectionViewModel>
     {

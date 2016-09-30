@@ -6,11 +6,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     [DataContract(Name = "ServerOptions", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class ServerOptions : OptionBase

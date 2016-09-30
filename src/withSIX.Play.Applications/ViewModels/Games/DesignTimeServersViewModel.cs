@@ -3,11 +3,10 @@
 // </copyright>
 
 using Caliburn.Micro;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class DesignTimeServersViewModel : ServersViewModel, IDesignTimeViewModel
     {

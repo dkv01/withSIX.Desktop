@@ -8,11 +8,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Games.Entities.Other
+namespace withSIX.Play.Core.Games.Entities.Other
 {
     public class Homeworld2Settings : GameSettings
     {

@@ -14,14 +14,14 @@ using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Applications.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
-using SN.withSIX.Play.Applications.Views;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Infra.Api;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Applications.ViewModels;
+using withSIX.Play.Applications.ViewModels.Connect;
+using withSIX.Play.Applications.Views;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Infra.Api;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {

@@ -14,55 +14,38 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using MediatR;
 using NDepend.Path;
 using ReactiveUI;
-using MediatR;
-
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.Arma3;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Helpers;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Helpers;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
-using SN.withSIX.Play.Core.Games.Services.Infrastructure;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.ExternalTools;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Applications.Helpers;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Extensions;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Helpers;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Games.Services.Infrastructure;
+using withSIX.Play.Core.Options;
 using Timer = SN.withSIX.Core.Helpers.Timer;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class ContentManager : IHandle<ModPathChanged>, IHandle<GamePathChanged>,
         IContentManager, IHandle<SynqPathChanged>, IHandle<GameContentAfterSynced>,

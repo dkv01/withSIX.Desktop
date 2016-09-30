@@ -5,13 +5,10 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core;
 
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core;
-
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class ModShortcutMenu : MenuItem<CollectionLibraryItemViewModel>
     {

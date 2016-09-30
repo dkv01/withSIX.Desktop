@@ -4,15 +4,10 @@
 
 using System;
 using System.IO;
-
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Validators;
-using SN.withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Missions
+namespace withSIX.Play.Core.Games.Legacy.Missions
 {
     public static class MissionFolders
     {

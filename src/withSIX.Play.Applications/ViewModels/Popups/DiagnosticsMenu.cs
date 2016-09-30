@@ -6,15 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-
-namespace SN.withSIX.Play.Applications.ViewModels.Popups
+namespace withSIX.Play.Applications.ViewModels.Popups
 {
     public class DiagnosticsMenu : ContextMenuBase
     {

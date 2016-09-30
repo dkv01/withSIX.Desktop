@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace SN.withSIX.Play.Core.Games.Services
+namespace withSIX.Play.Core.Games.Services
 {
     public class StatusRepo : SN.withSIX.Sync.Core.Legacy.Status.StatusRepo, IDisposable
     {

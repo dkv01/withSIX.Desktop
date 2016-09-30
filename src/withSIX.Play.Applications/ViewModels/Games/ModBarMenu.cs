@@ -3,17 +3,12 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using MoreLinq;
-using ReactiveUI;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class ModBarMenu : ModMenuBase<IMod>
     {

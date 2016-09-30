@@ -5,8 +5,8 @@
 using System;
 using CefSharp;
 using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
 {

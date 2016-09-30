@@ -4,12 +4,10 @@
 
 using System;
 using System.Runtime.Serialization;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Missions;
 
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-
-namespace SN.withSIX.Play.Core.Options.Filters
+namespace withSIX.Play.Core.Options.Filters
 {
     [DataContract(Name = "MissionFilter",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models.Filters")]

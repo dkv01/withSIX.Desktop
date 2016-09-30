@@ -10,23 +10,15 @@ using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
 using Newtonsoft.Json;
-
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Validators;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Helpers;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Helpers;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     
     public class Mod : HostedContent, IMod, IComparePK<Mod>, IEnableLogging

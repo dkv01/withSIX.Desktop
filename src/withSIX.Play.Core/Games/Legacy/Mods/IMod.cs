@@ -5,14 +5,12 @@
 using System;
 using System.Collections.Generic;
 using NDepend.Path;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
 using withSIX.Api.Models;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Missions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     // We cannot remove this yet due to ToggleableModProxy/IToggleAbleContent
     // Unless we make most virtual. But better would be to replace it at some point

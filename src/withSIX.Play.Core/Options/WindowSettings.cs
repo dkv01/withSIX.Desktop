@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     [DataContract(Name = "WindowSettings", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class WindowSettings

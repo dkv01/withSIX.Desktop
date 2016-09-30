@@ -8,8 +8,8 @@ using System.Diagnostics.Contracts;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Legacy;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
 {

@@ -5,10 +5,8 @@
 using System;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public interface ISelfUpdater
     {

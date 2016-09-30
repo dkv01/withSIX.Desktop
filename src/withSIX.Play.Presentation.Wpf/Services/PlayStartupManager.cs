@@ -24,18 +24,15 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation;
 using SN.withSIX.Core.Presentation.Wpf.Legacy;
 using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Api;
-using SN.withSIX.Play.Infra.Server;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Play.Applications;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Server;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Services
 {

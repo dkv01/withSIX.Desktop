@@ -8,11 +8,10 @@ using System.Linq;
 using System.Reactive.Linq;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public class Arma2COGame : Arma2OaGame
     {

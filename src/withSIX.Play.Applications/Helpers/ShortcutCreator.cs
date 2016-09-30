@@ -5,10 +5,9 @@
 using System;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Applications.Helpers
+namespace withSIX.Play.Applications.Helpers
 {
     public class ShortcutCreator
     {

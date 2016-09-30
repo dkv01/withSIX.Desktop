@@ -3,10 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Events
+namespace withSIX.Play.Core.Games.Legacy.Events
 {
     public class ActiveGameChanged : EventArgs, IAsyncDomainEvent
     {

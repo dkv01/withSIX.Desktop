@@ -3,10 +3,10 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Play.Core.Connect
+namespace withSIX.Play.Core.Connect
 {
     public abstract class ConnectModelBase : PropertyChangedBase, IHaveGuidId, IComparePK<IHaveGuidId>
     {

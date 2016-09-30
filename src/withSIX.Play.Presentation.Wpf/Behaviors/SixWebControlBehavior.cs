@@ -9,7 +9,7 @@ using CefSharp.Wpf;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core;
+using withSIX.Play.Core;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
 {

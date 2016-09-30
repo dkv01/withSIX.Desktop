@@ -2,18 +2,13 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Threading.Tasks;
-using NDepend.Path;
 using MediatR;
+using NDepend.Path;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Core.Games.Entities;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Sync.Core.Repositories;
-
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     
     public class GameMessageHandler : INotificationHandler<ModPathChangedEvent>,

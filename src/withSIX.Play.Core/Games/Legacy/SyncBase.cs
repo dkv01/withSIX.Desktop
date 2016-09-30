@@ -5,12 +5,10 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content.v3;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public interface ISyncBase : IHaveId<Guid>
     {

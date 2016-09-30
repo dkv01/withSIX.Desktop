@@ -3,11 +3,10 @@
 // </copyright>
 
 using ReactiveUI;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Infra.Api.Hubs;
 
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Infra.Api.Hubs;
-
-namespace SN.withSIX.Play.Infra.Api
+namespace withSIX.Play.Infra.Api
 {
 
     interface IConnectionManager : IConnectionScoper

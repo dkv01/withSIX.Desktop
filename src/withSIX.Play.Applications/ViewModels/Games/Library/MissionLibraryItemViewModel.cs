@@ -4,15 +4,13 @@
 
 using System.ComponentModel;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Glue.Helpers;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Glue.Helpers;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class MissionLibraryItemViewModel<T> : MissionContentLibraryItemViewModel<T>
         where T : class, ISelectionList<IContent>

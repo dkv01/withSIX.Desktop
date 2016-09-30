@@ -4,18 +4,12 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using ReactiveUI;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public abstract class SearchContentLibraryItemViewModel : ContentLibraryItemViewModel,
         IHaveModel<BuiltInContentContainer>,

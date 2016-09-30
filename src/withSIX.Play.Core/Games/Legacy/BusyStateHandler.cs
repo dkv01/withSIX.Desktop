@@ -5,14 +5,9 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public interface IBusyStateHandler
     {

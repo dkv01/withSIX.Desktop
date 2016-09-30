@@ -4,13 +4,10 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
+namespace withSIX.Play.Core.Games.Services.GameLauncher
 {
     public interface IGameLauncher
     {

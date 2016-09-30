@@ -6,18 +6,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Infra.Api.ContentApi.Dto;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Infra.Api.ContentApi.Dto;
 
-namespace SN.withSIX.Play.Infra.Api.ContentApi
+namespace withSIX.Play.Infra.Api.ContentApi
 {
     public static class RepoHelper
     {

@@ -4,11 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Infra.Data.Services
+namespace withSIX.Play.Infra.Data.Services
 {
     public class AuthProviderSettingsStorage : IAuthProviderStorage, IInfrastructureService
     {

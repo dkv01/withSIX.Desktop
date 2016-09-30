@@ -30,16 +30,14 @@ using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Helpers;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
-
-using SN.withSIX.Play.Applications.Views;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Presentation.Wpf.Views.Controls;
 using Telerik.Windows.Controls;
+using withSIX.Play.Applications;
+using withSIX.Play.Applications.ViewModels;
+using withSIX.Play.Applications.ViewModels.Connect;
+using withSIX.Play.Applications.Views;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Options;
 using ThemeManager = MahApps.Metro.ThemeManager;
 using XamlParseException = System.Windows.Markup.XamlParseException;
 

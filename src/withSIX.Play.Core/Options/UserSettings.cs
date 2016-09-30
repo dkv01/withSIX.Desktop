@@ -10,12 +10,12 @@ using System.Reactive.Subjects;
 using System.Runtime.Serialization;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Options.Entries;
-using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Options.Entries;
+using PropertyChangedBase = withSIX.Core.Helpers.PropertyChangedBase;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     [DataContract(Name = "UserSettings", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class UserSettings : PropertyChangedBase, IEnableLogging

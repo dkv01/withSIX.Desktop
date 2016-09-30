@@ -7,7 +7,7 @@ using System.Collections;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using SN.withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Converters
 {

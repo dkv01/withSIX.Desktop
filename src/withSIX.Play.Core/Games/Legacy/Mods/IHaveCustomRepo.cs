@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Collections.Generic;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     public interface IHaveCustomRepo
     {

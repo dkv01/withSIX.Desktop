@@ -11,22 +11,16 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using ReactiveUI;
 using withSIX.Api.Models.Collections;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Glue.Helpers;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Glue.Helpers;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public abstract class ContentLibraryItemViewModel : LibraryItemViewModel<IContent>
     {

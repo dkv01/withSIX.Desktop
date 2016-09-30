@@ -10,16 +10,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using ReactiveUI;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Arma;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     public class ModController : ContentController, IEnableLogging
     {

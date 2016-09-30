@@ -6,12 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public class BundleItem : PropertyChangedBase, IComparePK<BundleItem>
     {

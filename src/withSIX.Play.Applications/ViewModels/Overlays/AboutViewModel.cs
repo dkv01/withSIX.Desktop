@@ -6,11 +6,7 @@ using System;
 using System.ComponentModel;
 using ReactiveUI.Legacy;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-
-namespace SN.withSIX.Play.Applications.ViewModels.Overlays
+namespace withSIX.Play.Applications.ViewModels.Overlays
 {
     
     public class AboutViewModel : OverlayViewModelBase

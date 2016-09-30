@@ -6,9 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
 
-namespace SN.withSIX.Play.Infra.Server.Hubs
+namespace withSIX.Play.Infra.Server.Hubs
 {
     public class ClientHub : BaseHub
     {

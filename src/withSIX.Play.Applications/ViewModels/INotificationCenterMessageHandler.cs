@@ -3,10 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Applications.Events;
-using SN.withSIX.Play.Applications.DataModels;
+using withSIX.Play.Applications.DataModels;
 
-namespace SN.withSIX.Play.Applications.ViewModels
+namespace withSIX.Play.Applications.ViewModels
 {
     public interface IHandleTrayNotifications
     {

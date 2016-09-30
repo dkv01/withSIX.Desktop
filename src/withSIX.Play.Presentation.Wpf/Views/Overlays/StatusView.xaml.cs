@@ -12,10 +12,10 @@ using MahApps.Metro.Controls;
 using ReactiveUI;
 using SN.withSIX.Core.Presentation.Wpf.Converters;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Applications.Views.Overlays;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Applications.Views.Overlays;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
 {

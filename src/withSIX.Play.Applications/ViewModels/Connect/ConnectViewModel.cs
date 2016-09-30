@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+
 using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -9,22 +10,14 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
 using ReactiveUI;
-using ReactiveUI.Legacy;
-
-
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Games;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Games;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Options;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Connect
+namespace withSIX.Play.Applications.ViewModels.Connect
 {
     
     public class ConnectViewModel : ScreenBase<IPlayShellViewModel>, IHandle<ApiKeyUpdated>, IDropTarget

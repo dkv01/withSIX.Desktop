@@ -9,21 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using MediatR;
 using Microsoft.Win32;
 using NDepend.Path;
-using MediatR;
-
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Applications.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Applications.Helpers;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class SelfUpdater : ISelfUpdater, IEnableLogging, IApplicationService
     {

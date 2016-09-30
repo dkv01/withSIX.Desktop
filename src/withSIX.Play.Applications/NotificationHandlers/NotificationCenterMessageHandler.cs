@@ -7,18 +7,14 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Events;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.DataModels;
-using SN.withSIX.Play.Applications.DataModels.Notifications;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.UseCases;
-using SN.withSIX.Play.Applications.ViewModels;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Applications.DataModels;
+using withSIX.Play.Applications.DataModels.Notifications;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.UseCases;
+using withSIX.Play.Applications.ViewModels;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     
     public class NotificationCenterMessageHandler :

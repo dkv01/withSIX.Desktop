@@ -5,7 +5,7 @@
 using System.Collections;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Play.Infra.Api.ContentApi
+namespace withSIX.Play.Infra.Api.ContentApi
 {
     interface IContentApiRepository
     {

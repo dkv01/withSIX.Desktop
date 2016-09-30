@@ -5,9 +5,8 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core.Helpers;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class ServerQueryOverallState : PropertyChangedBase, IServerQueryOverallState
     {

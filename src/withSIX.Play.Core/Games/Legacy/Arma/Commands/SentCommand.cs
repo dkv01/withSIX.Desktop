@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma.Commands
+namespace withSIX.Play.Core.Games.Legacy.Arma.Commands
 {
     public class SentCommand
     {

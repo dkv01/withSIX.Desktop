@@ -4,9 +4,8 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public interface ISoftwareUpdate
     {

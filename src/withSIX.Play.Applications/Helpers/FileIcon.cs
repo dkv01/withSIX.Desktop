@@ -15,7 +15,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace SN.withSIX.Play.Applications.Helpers
+namespace withSIX.Play.Applications.Helpers
 {
     public class FileIcon
     {

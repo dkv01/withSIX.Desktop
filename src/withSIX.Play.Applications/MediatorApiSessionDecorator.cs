@@ -7,11 +7,10 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Core.Connect.Infrastructure;
 
-namespace SN.withSIX.Play.Applications
+namespace withSIX.Play.Applications
 {
     public class MediatorApiContextDecorator : MediatorDecoratorBase
     {

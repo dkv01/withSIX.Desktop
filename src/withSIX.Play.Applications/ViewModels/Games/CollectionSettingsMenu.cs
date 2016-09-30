@@ -2,21 +2,14 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System.Linq;
 using System.Threading.Tasks;
-using MoreLinq;
 using MediatR;
-
 using withSIX.Api.Models.Collections;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class CollectionSettingsMenu : PopupMenuBase<CollectionLibraryItemViewModel>
     {

@@ -13,23 +13,15 @@ using NDepend.Path;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Connect.Infrastructure.Components;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Helpers;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Connect.Infrastructure.Components;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Helpers;
+using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     [DataContract(Name = "CustomModSet",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]

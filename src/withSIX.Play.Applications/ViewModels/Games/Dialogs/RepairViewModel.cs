@@ -2,16 +2,12 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Core;
+using withSIX.Play.Core;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
+namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface IRepairViewModel : ISupportsActivation, IDialog
     {

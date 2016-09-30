@@ -4,9 +4,8 @@
 
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Helpers;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public abstract class Userconfig : PropertyChangedBase
     {

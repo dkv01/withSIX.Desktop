@@ -9,16 +9,15 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Entries;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public class Arma2FreeGame : RealVirtualityGame, ISupportMissions, ISupportProfiles, ISupportServers
     {

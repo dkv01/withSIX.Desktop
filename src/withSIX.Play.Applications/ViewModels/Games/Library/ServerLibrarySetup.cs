@@ -6,15 +6,12 @@ using System;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options.Filters;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class ServerLibrarySetup : LibrarySetup<ServerLibraryItemViewModel>, IDisposable
     {
