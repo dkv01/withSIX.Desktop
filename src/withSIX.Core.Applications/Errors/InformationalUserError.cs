@@ -16,7 +16,9 @@ namespace withSIX.Core.Applications.Errors
 
     public static class UserErrorHandler
     {
-        public static Func<UserErrorModel, Task<RecoveryOptionResultModel>> HandleUserError { get; set; }
+        public static Func<UserErrorModel, Task<RecoveryOptionResultModel>> HandleUserError { get; set; } = model => {
+            throw new NotSupportedException(model.ErrorMessage, model.InnerException);
+        };
 
         public static Task<RecoveryOptionResultModel> GeneralUserError(Exception exception, string title,
                 string message)

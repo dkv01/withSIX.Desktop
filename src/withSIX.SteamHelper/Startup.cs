@@ -39,6 +39,7 @@ using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
 using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Logging;
 using withSIX.Steam.Presentation.Usecases;
 
 namespace withSIX.Steam.Presentation
@@ -148,6 +149,14 @@ namespace withSIX.Steam.Presentation
             //app.UseApplicationInsightsExceptionTelemetry();
 
             //app.UseMvc();
+            app.Use(async (ctx, next) => {
+                try {
+                    await next.Invoke().ConfigureAwait(false);
+                } catch (Exception ex) {
+                    MainLog.Logger.FormattedErrorException(ex, "Error in Owin pipeline!");
+                    throw;
+                }
+            });
             app.ConfigureCors();
             app.ConfigureApi();
             act();
