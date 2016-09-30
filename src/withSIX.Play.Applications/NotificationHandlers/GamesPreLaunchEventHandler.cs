@@ -8,20 +8,20 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     public class GamesPreLaunchEventHandler : IApplicationService
     {
@@ -262,7 +262,7 @@ Note: The conversion and patching process will take several minutes - please be 
 
         IEnumerable<Process> RunningProcesses(string gameExeName) => String.IsNullOrWhiteSpace(gameExeName)
     ? default(Process[])
-    : Tools.Processes.FindProcess(gameExeName);
+    : Tools.ProcessManager.Management.FindProcess(gameExeName);
 
         string GetGameExeName() => _event.Game.InstalledState.Executable.FileName;
 
@@ -288,10 +288,10 @@ Note: The conversion and patching process will take several minutes - please be 
                 }
 
                 if (r.IsYes())
-                    Tools.Processes.KillByName(exeName);
+                    Tools.ProcessManager.Management.KillByName(exeName);
             } else {
                 if (_settings.AppOptions.WarnOnGameRunning)
-                    Tools.Processes.KillByName(exeName);
+                    Tools.ProcessManager.Management.KillByName(exeName);
             }
         }
     }

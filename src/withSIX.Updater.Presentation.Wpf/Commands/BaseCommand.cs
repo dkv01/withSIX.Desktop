@@ -3,9 +3,9 @@
 // </copyright>
 
 using ManyConsole;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Updater.Presentation.Wpf.Commands
+namespace withSIX.Updater.Presentation.Wpf.Commands
 {
     public abstract class BaseCommand : ConsoleCommand, IEnableLogging {}
 }

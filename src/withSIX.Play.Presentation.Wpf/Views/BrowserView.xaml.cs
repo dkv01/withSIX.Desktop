@@ -5,9 +5,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views
+namespace withSIX.Play.Presentation.Wpf.Views
 {
     public class DummyWc {}
 

@@ -10,17 +10,17 @@ using System.ServiceProcess;
 using System.Threading;
 using ManyConsole;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Updater.Presentation.Wpf.Commands;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Updater.Presentation.Wpf
+namespace withSIX.Updater.Presentation.Wpf
 {
 
     [ServiceBehavior(IncludeExceptionDetailInFaults = true, InstanceContextMode = InstanceContextMode.Single)]

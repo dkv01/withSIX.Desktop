@@ -3,10 +3,10 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Play.Applications.DataModels
+namespace withSIX.Play.Applications.DataModels
 {
     public abstract class NotificationBaseDataModel : DataModel
     {

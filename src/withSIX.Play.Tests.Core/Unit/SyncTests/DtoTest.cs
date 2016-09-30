@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
+namespace withSIX.Play.Tests.Core.Unit.SyncTests
 {
     [TestFixture, Ignore("")]
     public class DtoTest

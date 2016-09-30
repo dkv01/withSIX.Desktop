@@ -8,14 +8,14 @@ using System.Linq;
 using ReactiveUI;
 using MediatR;
 
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.DataModels.Profiles;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Dialogs;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.DataModels.Profiles;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.ViewModels.Dialogs;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.UseCases
+namespace withSIX.Play.Applications.UseCases
 {
     public class ShowNewProfileDialogQuery : IRequest<NewProfileViewModel> {}
 

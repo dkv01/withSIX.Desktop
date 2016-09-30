@@ -17,18 +17,18 @@ using Newtonsoft.Json;
 using ReactiveUI;
 using SignalRNetClientProxyMapper;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Api.Hubs;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Api.Hubs;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Infra.Api
+namespace withSIX.Play.Infra.Api
 {
     class ConnectionManager : PropertyChangedBase, IDisposable, IConnectionManager, IInfrastructureService
     {

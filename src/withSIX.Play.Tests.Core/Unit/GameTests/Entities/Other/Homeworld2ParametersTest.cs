@@ -4,9 +4,9 @@
 
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Play.Core.Games.Entities.Other;
+using withSIX.Play.Core.Games.Entities.Other;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.Other
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Entities.Other
 {
     [TestFixture, Category("Homeworld 2")]
     public class Homeworld2ParametersTest

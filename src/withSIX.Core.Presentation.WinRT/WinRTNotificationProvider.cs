@@ -7,9 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Core.Presentation.WinRT
+namespace withSIX.Core.Presentation.WinRT
 {
     public class WinRTNotificationProvider : INotificationProvider
     {

@@ -8,12 +8,12 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Options.Entries;
-using SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.RealVirtuality
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Entities.RealVirtuality
 {
     [TestFixture, Category("DayZ")]
     public class DayZGameTest

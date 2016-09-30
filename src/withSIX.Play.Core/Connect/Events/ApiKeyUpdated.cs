@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Play.Core.Connect.Events
+namespace withSIX.Play.Core.Connect.Events
 {
     public class ApiKeyUpdated : EventArgs
     {

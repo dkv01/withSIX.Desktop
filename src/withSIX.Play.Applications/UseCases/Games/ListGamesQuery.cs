@@ -11,14 +11,14 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using MediatR;
 
-using SN.withSIX.Core.Applications.MVVM.Helpers;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Applications.DataModels.Games;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core.Applications.MVVM.Helpers;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Play.Applications.DataModels.Games;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Applications.UseCases.Games
+namespace withSIX.Play.Applications.UseCases.Games
 {
     public class ListGamesQuery : IRequest<SixReactiveDisposableList<GameDataModel>> {}
 

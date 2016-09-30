@@ -5,13 +5,13 @@
 using System;
 using System.Diagnostics.Contracts;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Sync.Core;
+using withSIX.Sync.Core.Legacy.SixSync;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     public class ModState : IEnableLogging
     {

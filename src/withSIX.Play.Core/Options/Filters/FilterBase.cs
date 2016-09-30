@@ -7,11 +7,11 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.Serialization;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Play.Core.Options.Filters
+namespace withSIX.Play.Core.Options.Filters
 {
     [DataContract]
     public abstract class FilterBase<T> : PropertyChangedBase, IFilter where T : class

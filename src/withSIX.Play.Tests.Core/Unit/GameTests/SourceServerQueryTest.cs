@@ -6,12 +6,12 @@ using System.Net;
 using System.Threading.Tasks;
 using FakeItEasy;
 using NUnit.Framework;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Play.Tests.Core.Support;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Tests.Core.Support;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests
+namespace withSIX.Play.Tests.Core.Unit.GameTests
 {
     [TestFixture]
     public class SourceServerQueryTest

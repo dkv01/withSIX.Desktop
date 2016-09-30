@@ -5,9 +5,9 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Entities
 {
     [TestFixture]
     public class RegistryInfoTest

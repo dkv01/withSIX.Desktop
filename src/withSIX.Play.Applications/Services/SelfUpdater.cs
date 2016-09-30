@@ -13,17 +13,17 @@ using Microsoft.Win32;
 using NDepend.Path;
 using MediatR;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Applications.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Applications.Helpers;
+using withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class SelfUpdater : ISelfUpdater, IEnableLogging, IApplicationService
     {
@@ -200,7 +200,7 @@ namespace SN.withSIX.Play.Applications.Services
         async Task<bool> ApplyUpdateIfExists(IAbsoluteFilePath exePath) {
             var exePathStr = exePath.ToString();
             if (ExistsAndIsValid(exePath)) {
-                await Tools.Processes.WaitForExitALittleMore(Path.GetFileName(exePathStr), 30).ConfigureAwait(false);
+                await Tools.ProcessManager.Management.WaitForExitALittleMore(Path.GetFileName(exePathStr), 30).ConfigureAwait(false);
                 var applied = Apply(exePath);
                 if (IsLocalUpdate(exePathStr))
                     RegisterLocalAppKeys(exePath);

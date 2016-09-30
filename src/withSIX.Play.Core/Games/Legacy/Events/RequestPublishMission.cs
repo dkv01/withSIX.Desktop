@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Missions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Events
+namespace withSIX.Play.Core.Games.Legacy.Events
 {
     public class RequestPublishMission : EventArgs
     {

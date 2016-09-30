@@ -7,9 +7,9 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows;
 using SmartAssembly.ReportException;
-using SN.withSIX.Core.Presentation.SA.ViewModels;
+using withSIX.Core.Presentation.SA.ViewModels;
 
-namespace SN.withSIX.Core.Presentation.SA.Views
+namespace withSIX.Core.Presentation.SA.Views
 {
     
     // This does not use commands but click eventhandlers because it is being used outside WindowManager usage.

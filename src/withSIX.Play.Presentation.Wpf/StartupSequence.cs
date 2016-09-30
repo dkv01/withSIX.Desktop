@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.Logging;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Play.Applications;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Assemblies;
+using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Play.Applications;
 
-namespace SN.withSIX.Play.Presentation.Wpf
+namespace withSIX.Play.Presentation.Wpf
 {
     // WARNING - DO NOT SHOW NON-FATAL DIALOGS HERE
     public static class StartupSequence

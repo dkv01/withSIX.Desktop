@@ -11,7 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 
 
-namespace SN.withSIX.Core.Presentation.SA.Views.Controls
+namespace withSIX.Core.Presentation.SA.Views.Controls
 {
     
     public class MyHyperlink : Hyperlink

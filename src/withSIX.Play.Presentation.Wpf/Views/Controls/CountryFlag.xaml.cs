@@ -4,7 +4,7 @@
 
 #region FileHeader
 
-// withSIX SN.withSIX.Core.Presentation.Wpf CountryFlagView.xaml.cs
+// withSIX withSIX.Core.Presentation.Wpf CountryFlagView.xaml.cs
 // Copyright 2009-2013 SIX Networks GmbH
 // Terms Of Service: http://www.withsix.com/tos
 
@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Resources.Services;
-using SN.withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Resources.Services;
+using withSIX.Core.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
+namespace withSIX.Play.Presentation.Wpf.Views.Controls
 {
     public partial class CountryFlagView : UserControl, IEnableLogging
     {

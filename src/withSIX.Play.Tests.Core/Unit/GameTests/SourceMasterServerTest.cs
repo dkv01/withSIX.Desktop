@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests
+namespace withSIX.Play.Tests.Core.Unit.GameTests
 {
     [TestFixture, Ignore("")]
     public class SourceMasterServerTest

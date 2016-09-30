@@ -9,7 +9,7 @@ using SignalRNetClientProxyMapper;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Collections;
 
-namespace SN.withSIX.Play.Infra.Api.Hubs
+namespace withSIX.Play.Infra.Api.Hubs
 {
 
     interface ICollectionsHub : IClientHubProxyBase

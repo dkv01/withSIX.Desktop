@@ -5,12 +5,12 @@
 using System;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Core.Options.Filters
+namespace withSIX.Play.Core.Options.Filters
 {
     public class ModLibraryFilter : FilterBase<IContent>
     {

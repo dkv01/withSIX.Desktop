@@ -8,17 +8,17 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
-using _Game = SN.withSIX.Play.Core.Games.Entities.Other.GTAIVGame;
-using _Settings = SN.withSIX.Play.Core.Games.Entities.Other.GTAIVSettings;
-using _StartupParameters = SN.withSIX.Play.Core.Games.Entities.Other.GTAIVStartupParameters;
+using _Game = withSIX.Play.Core.Games.Entities.Other.GTAIVGame;
+using _Settings = withSIX.Play.Core.Games.Entities.Other.GTAIVSettings;
+using _StartupParameters = withSIX.Play.Core.Games.Entities.Other.GTAIVStartupParameters;
 
-namespace SN.withSIX.Play.Core.Games.Entities.Other
+namespace withSIX.Play.Core.Games.Entities.Other
 {
     public class GTAIVGame : GTAGame, ISupportSteamSettings, ILaunchWith<IBasicGameLauncher>
     {

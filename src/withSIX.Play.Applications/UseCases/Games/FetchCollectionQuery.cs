@@ -6,7 +6,7 @@ using System;
 using MediatR;
 using withSIX.Api.Models.Collections;
 
-namespace SN.withSIX.Play.Applications.UseCases.Games
+namespace withSIX.Play.Applications.UseCases.Games
 {
     public class FetchCollectionQuery : IAsyncRequest<CollectionModel>, IRequireApiSession
     {

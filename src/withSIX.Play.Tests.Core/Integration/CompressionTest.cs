@@ -5,9 +5,9 @@
 using System.IO;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Play.Tests.Core.Integration
+namespace withSIX.Play.Tests.Core.Integration
 {
     [TestFixture, Ignore(""), Category("Integration")]
     public class CompressionTest

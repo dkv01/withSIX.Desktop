@@ -7,10 +7,10 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Core.Presentation.Wpf.Extensions;
 using Telerik.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
+namespace withSIX.Play.Presentation.Wpf.Behaviors
 {
     // TODO: Convert this actually to behavior directly built into the virtualizing wrap panel?
     public static class VirtualizingWrapPanelBehavior

@@ -5,7 +5,7 @@
 using System.Windows.Controls;
 
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Overlays
 {
     
     public partial class SoftwareUpdateOverlayView : UserControl

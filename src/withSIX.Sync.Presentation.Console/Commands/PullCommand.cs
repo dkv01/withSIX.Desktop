@@ -3,11 +3,11 @@
 // </copyright>
 
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class PullCommand : BaseCommand

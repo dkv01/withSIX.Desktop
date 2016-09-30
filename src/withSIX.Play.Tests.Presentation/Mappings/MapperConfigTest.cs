@@ -10,13 +10,13 @@ using FakeItEasy.ExtensionSyntax.Full;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Applications.DataModels.Games;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Presentation.Wpf.Services;
+using withSIX.Core.Extensions;
+using withSIX.Play.Applications.DataModels.Games;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Play.Tests.Presentation.Mappings
+namespace withSIX.Play.Tests.Presentation.Mappings
 {
     public abstract class GameWithDlc : Game, IHaveDlc
     {

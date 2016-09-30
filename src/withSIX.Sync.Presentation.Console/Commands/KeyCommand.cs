@@ -4,10 +4,10 @@
 
 using System.Linq;
 
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Keys;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Keys;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class KeyCommand : BaseCommand

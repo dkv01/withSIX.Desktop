@@ -5,10 +5,10 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core.Applications;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     public class ActionStatusToColorConverter : IValueConverter
     {

@@ -6,11 +6,11 @@ using System;
 using System.Windows;
 using ReactiveUI;
 
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications.ViewModels.Dialogs;
-using SN.withSIX.Play.Applications.Views.Dialogs;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Applications.ViewModels.Dialogs;
+using withSIX.Play.Applications.Views.Dialogs;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Dialogs
+namespace withSIX.Play.Presentation.Wpf.Views.Dialogs
 {
     
     public partial class LicenseDialogView : StandardDialog, ILicenseDialogView

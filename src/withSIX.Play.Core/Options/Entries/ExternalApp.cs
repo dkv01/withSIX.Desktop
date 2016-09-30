@@ -9,13 +9,13 @@ using System.Linq;
 using System.Runtime.Serialization;
 using NDepend.Path;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
 
-namespace SN.withSIX.Play.Core.Options.Entries
+namespace withSIX.Play.Core.Options.Entries
 {
 
     public enum StartupType
@@ -94,7 +94,7 @@ namespace SN.withSIX.Play.Core.Options.Entries
             if (!Directory.Exists(path) && File.Exists(path)) {
                 var fileName = System.IO.Path.GetFileName(path);
                 if (!string.IsNullOrWhiteSpace(fileName)) {
-                    var processes = Tools.Processes.FindProcess(fileName);
+                    var processes = Tools.ProcessManager.Management.FindProcess(fileName);
                     if (processes.Any())
                         return false;
                 }

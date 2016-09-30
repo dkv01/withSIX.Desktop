@@ -4,13 +4,13 @@
 
 using ReactiveUI.Legacy;
 
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
+namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     
     public class AddCustomRepoConfirmationViewModel : DialogBase, IAddCustomRepoConfirmationViewModel

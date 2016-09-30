@@ -4,11 +4,11 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Presentation.Wpf;
+using withSIX.Core.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Play.Presentation.Wpf
+namespace withSIX.Play.Presentation.Wpf
 {
     public partial class PlayApp : SingleInstanceApp
     {

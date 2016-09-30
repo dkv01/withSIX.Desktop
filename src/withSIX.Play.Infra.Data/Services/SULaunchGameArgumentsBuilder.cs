@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Services;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core.Games.Services;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Infra.Data.Services
+namespace withSIX.Play.Infra.Data.Services
 {
     abstract class SULaunchGameArgumentsBuilder
     {

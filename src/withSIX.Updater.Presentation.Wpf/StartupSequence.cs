@@ -5,15 +5,15 @@
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Windows;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.Logging;
-using SN.withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Assemblies;
+using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Updater.Presentation.Wpf
+namespace withSIX.Updater.Presentation.Wpf
 {
     public class StartupSequence
     {

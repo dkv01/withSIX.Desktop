@@ -18,38 +18,38 @@ using ReactiveUI;
 
 
 using withSIX.Api.Models.Content;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Applications.ViewModels.Dialogs;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
+using withSIX.Play.Applications.ViewModels.Dialogs;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Options;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
-using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
-using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
+using PropertyChangedBase = withSIX.Core.Helpers.PropertyChangedBase;
+using StatusRepo = withSIX.Play.Core.Games.Services.StatusRepo;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public static class StatusExtensions
     {
@@ -328,7 +328,7 @@ namespace SN.withSIX.Play.Applications.Services
                 return true;
             } catch (Exception e) {
                 await
-                    UserError.Throw(new InformationalUserError(e, "An error occurred during processing of Server Apps",
+                    UserErrorHandler.HandleUserError(new InformationalUserError(e, "An error occurred during processing of Server Apps",
                         null));
                 return false;
             }
@@ -344,7 +344,7 @@ namespace SN.withSIX.Play.Applications.Services
                 return true;
             } catch (Exception e) {
                 await
-                    UserError.Throw(new InformationalUserError(e, "An error occurred during processing of MPMissions",
+                    UserErrorHandler.HandleUserError(new InformationalUserError(e, "An error occurred during processing of MPMissions",
                         null));
             }
             return false;
@@ -379,7 +379,7 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        static bool KillTeamspeak3Processes(bool gracefully = true) => ts3Processes.Select(x => Tools.Processes.KillByName(x, null, gracefully)).ToArray()
+        static bool KillTeamspeak3Processes(bool gracefully = true) => ts3Processes.Select(x => Tools.ProcessManager.Management.KillByName(x, null, gracefully)).ToArray()
     .Any();
 
         Task FetchRepoMpMissions(IHaveCustomRepo modSet) {
@@ -480,7 +480,7 @@ namespace SN.withSIX.Play.Applications.Services
             } catch (OperationCanceledException) {
                 this.Logger().Info("User cancelled the userconfigs tasks");
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "Failure during processing of userconfigs", null));
+                UserErrorHandler.HandleUserError(new InformationalUserError(e, "Failure during processing of userconfigs", null));
             }
         }
 
@@ -978,7 +978,7 @@ namespace SN.withSIX.Play.Applications.Services
             } catch (OperationCanceledException ex) {
                 this.Logger().Info("User cancelled the postinstall/prelaunch tasks");
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "Failure during processing of postinstall/prelaunch tasks",
+                UserErrorHandler.HandleUserError(new InformationalUserError(e, "Failure during processing of postinstall/prelaunch tasks",
                     null));
             }
         }
@@ -1327,7 +1327,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
         }
 
         static void WarnAboutAllZsyncFail(AllZsyncFailException e) {
-            UserError.Throw(new InformationalUserError(e,
+            UserErrorHandler.HandleUserError(new InformationalUserError(e,
                 "This exception, if your connection is otherwise working, is usually due to interference from AV software.\n" +
                 "Try to resolve it by disabling AV or excluding the Zsync binaries.", "All Zsync mirrors failed."));
         }
@@ -1347,7 +1347,7 @@ StatusRepo statusRepo) => ProcessPackage(gm, () => gm.PackageManager.ProcessPack
                 SetMainButtonState(type, false);
                 Play();
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "Unhandled exception during Play action: " + e.Message,
+                UserErrorHandler.HandleUserError(new InformationalUserError(e, "Unhandled exception during Play action: " + e.Message,
                     null));
             } finally {
                 SetMainButtonState(

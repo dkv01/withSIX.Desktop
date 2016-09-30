@@ -3,10 +3,10 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Servers;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class SourcePlayer : Player
     {

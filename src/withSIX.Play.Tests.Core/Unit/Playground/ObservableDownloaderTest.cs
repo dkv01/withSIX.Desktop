@@ -6,13 +6,13 @@ using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Timers;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.Playground
+namespace withSIX.Play.Tests.Core.Unit.Playground
 {
     public abstract class DownloadProtocol2 : TransferProtocol
     {

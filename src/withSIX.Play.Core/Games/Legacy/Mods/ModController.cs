@@ -11,15 +11,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Sync.Core.Legacy.Status;
+using withSIX.Api.Models.Extensions;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Sync.Core.Legacy.Status;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     public class ModController : ContentController, IEnableLogging
     {
@@ -38,7 +39,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             Contract.Requires<ArgumentNullException>(mod != null);
             _contentEngine = CalculatedGameSettings.ContentManager.ContentEngine;
             Mod = mod;
-            TryGetModScript();
             _modState = new ModState(mod);
             _sixSyncModInstaller = new SixSyncModInstaller(mod, _modState);
 
@@ -50,9 +50,12 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         public bool Exists => _modState.Exists;
         public virtual ISupportModding Game { get; set; }
 
-        void TryGetModScript() {
-            if (_contentEngine.ModHasScript(Mod.NetworkId))
-                _script = _contentEngine.LoadModS(Mod, true);
+        class ContentEngineGame : IContentEngineGame
+        {
+            public ContentEngineGame(IAbsoluteDirectoryPath workingDirectory) {
+                WorkingDirectory = workingDirectory;
+            }
+            public IAbsoluteDirectoryPath WorkingDirectory { get; }
         }
 
         public void TryProcessModAppsAndUserconfig(Game currentGame, bool forceUserconfig = false) {
@@ -169,8 +172,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         void TryProcessModApps(Game currentGame) {
             try {
                 //if (_script == null)
-                TryGetModScript();
-                _script?.processMod();
+                if (_contentEngine.ModHasScript(Mod.NetworkId))
+                    _contentEngine.LoadModS(Mod, new ContentEngineGame(Game.InstalledState.WorkingDirectory), true).WaitAndUnwrapException();
             } catch (Exception e) {
                 Tools.InformUserError(null,
                     "Failure during processing of mod apps for " + Mod.Name, e);

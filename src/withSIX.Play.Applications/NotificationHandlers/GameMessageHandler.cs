@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using MediatR;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     
     public class GameMessageHandler : INotificationHandler<ModPathChangedEvent>,

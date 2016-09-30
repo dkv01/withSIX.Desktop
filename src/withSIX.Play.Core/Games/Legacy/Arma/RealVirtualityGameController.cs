@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public class RealVirtualityGameController : GameController
     {
@@ -51,6 +51,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Arma
     ? Task.Delay(1500)
     : TaskExt.Default;
 
-        bool KillBE() => battlEyeExes.Select(exe => Tools.Processes.KillByName(exe)).ToArray().Any(x => x);
+        bool KillBE() => battlEyeExes.Select(exe => Tools.ProcessManager.Management.KillByName(exe)).ToArray().Any(x => x);
     }
 }

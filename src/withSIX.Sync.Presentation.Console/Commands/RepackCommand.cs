@@ -7,10 +7,10 @@ using System.Linq;
 using ManyConsole;
 using NDepend.Path;
 
-using SN.withSIX.Sync.Core.ExternalTools;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.ExternalTools;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class RepackCommand : BaseCommand

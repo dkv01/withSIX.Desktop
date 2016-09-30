@@ -5,10 +5,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Applications.Views.Overlays;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Applications.Views.Overlays;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Overlays
 {
     /// <summary>
     ///     Interaction logic for SoftwareUpdateSquirrelOverlayView.xaml

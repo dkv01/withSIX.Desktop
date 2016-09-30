@@ -10,14 +10,14 @@ using System.Windows.Data;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Presentation.Wpf.Converters;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Applications.Views.Overlays;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Presentation.Wpf.Converters;
+using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Applications.Views.Overlays;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Overlays
 {
     /// <summary>
     ///     Interaction logic for StatusView.xaml

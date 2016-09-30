@@ -5,11 +5,11 @@
 using System.ComponentModel;
 using System.IO;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public class UserconfigBackupAndClean : UserconfigProcessorBase
     {

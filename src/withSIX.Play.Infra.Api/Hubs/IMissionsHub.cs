@@ -10,7 +10,7 @@ using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.Arma3;
 
-namespace SN.withSIX.Play.Infra.Api.Hubs
+namespace withSIX.Play.Infra.Api.Hubs
 {
 
     interface IMissionsHub : IClientHubProxyBase

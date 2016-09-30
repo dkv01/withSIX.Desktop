@@ -6,13 +6,13 @@ using System;
 using System.Reactive.Linq;
 using ReactiveUI;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Core.Connect;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Core.Connect;
 
-namespace SN.withSIX.Play.Applications.ViewModels
+namespace withSIX.Play.Applications.ViewModels
 {
     
     public interface ISoftwareUpdateViewModel : IModalScreen {}

@@ -4,10 +4,10 @@
 
 using System.IO;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
+using withSIX.Core;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Updater.Presentation.Wpf.Commands
+namespace withSIX.Updater.Presentation.Wpf.Commands
 {
     public class CopyDirectoryCommand : BaseCommand
     {

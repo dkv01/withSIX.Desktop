@@ -4,7 +4,7 @@
 
 using NUnit.Framework;
 
-namespace SN.withSIX.Play.Tests.Core.Integration.Games
+namespace withSIX.Play.Tests.Core.Integration.Games
 {
     [TestFixture, Category("Integration")]
     public class IfaTest {}

@@ -6,12 +6,12 @@ using System;
 using System.Reactive.Linq;
 using ReactiveUI;
 
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
+namespace withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class ModInfoOverlayViewModel : OverlayViewModelBase, ISingleton

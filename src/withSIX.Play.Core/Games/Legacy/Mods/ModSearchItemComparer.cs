@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Collections.Generic;
-using SN.withSIX.Play.Core.Games.Legacy.Helpers;
+using withSIX.Play.Core.Games.Legacy.Helpers;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     public class ModSearchItemComparer : IEqualityComparer<IContent>, IEqualityComparer<IMod>
     {

@@ -32,7 +32,7 @@ namespace withSIX.Core.Presentation.Bridge
                 //_migrations = migrations;
             }
 
-            static readonly string searchStr = "SN.withSIX.";
+            static readonly string searchStr = "withSIX.";
 
             public override Type BindToType(string assemblyName, string typeName) {
                 //var migration = _migrations.SingleOrDefault(p => p.FromAssembly == assemblyName && p.FromType == typeName);

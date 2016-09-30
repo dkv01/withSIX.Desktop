@@ -5,7 +5,7 @@
 using System.Windows.Controls;
 
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Overlays
 {
     /// <summary>
     ///     Interaction logic for AppOverlayView.xaml

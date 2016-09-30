@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace SN.withSIX.Play.Core.Games.Entities
+namespace withSIX.Play.Core.Games.Entities
 {
     public class RegistryInfo
     {

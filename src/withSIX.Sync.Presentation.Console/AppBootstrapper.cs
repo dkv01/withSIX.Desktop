@@ -10,22 +10,22 @@ using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Data.Services;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Presentation.Console.Commands;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Extensions;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Data.Services;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Presentation.Console.Commands;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Sync.Presentation.Console
+namespace withSIX.Sync.Presentation.Console
 {
     class AppBootstrapper : ConsoleAppBootstrapper<IConsoleLauncher>
     {

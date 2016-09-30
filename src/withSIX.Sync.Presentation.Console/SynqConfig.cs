@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Sync.Presentation.Console
+namespace withSIX.Sync.Presentation.Console
 {
     public class SynqConfig
     {

@@ -17,7 +17,7 @@ using Six.Core.Options;
 using Six.Foundation.Interfaces.Domain;
 
 
-namespace SN.withSIX.Play.Tests.Core.Support
+namespace withSIX.Play.Tests.Core.Support
 {
     public class SharedSupport
     {

@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
 
-namespace SN.withSIX.Play.Applications.Views.Games.Library.LibraryGroup
+namespace withSIX.Play.Applications.Views.Games.Library.LibraryGroup
 {
     public interface IModLibraryGroupView : IViewFor<ModLibraryGroupViewModel> {}
 }

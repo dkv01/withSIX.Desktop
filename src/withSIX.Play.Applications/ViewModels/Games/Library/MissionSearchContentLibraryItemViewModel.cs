@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Missions;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class MissionSearchContentLibraryItemViewModel : SearchContentLibraryItemViewModel
     {

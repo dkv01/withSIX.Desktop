@@ -5,11 +5,11 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
 using withSIX.Api.Models;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
+namespace withSIX.Play.Tests.Core.Unit.SyncTests
 {
     [TestFixture]
     public class DependencyTest

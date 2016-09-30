@@ -4,7 +4,7 @@
 
 using Microsoft.Win32;
 
-namespace SN.withSIX.Core.Presentation.SA
+namespace withSIX.Core.Presentation.SA
 {
     class RegistryHelper
     {

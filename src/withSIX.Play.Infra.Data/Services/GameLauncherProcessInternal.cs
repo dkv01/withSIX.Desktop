@@ -5,13 +5,13 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Infra.Data.Services
+namespace withSIX.Play.Infra.Data.Services
 {
     public class GameLauncherProcessInternal : IEnableLogging, IGameLauncherProcess
     {

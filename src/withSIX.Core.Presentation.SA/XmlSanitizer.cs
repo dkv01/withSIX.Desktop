@@ -5,7 +5,7 @@
 using System;
 using System.Text;
 
-namespace SN.withSIX.Core.Presentation.SA
+namespace withSIX.Core.Presentation.SA
 {
     public class XmlSanitizer
     {

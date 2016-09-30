@@ -12,32 +12,32 @@ using Microsoft.Win32;
 using ReactiveUI;
 using MediatR;
 using SimpleInjector;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Factories;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Api;
-using SN.withSIX.Play.Infra.Server;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Factories;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Play.Applications;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Api;
+using withSIX.Play.Infra.Server;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Services
+namespace withSIX.Play.Presentation.Wpf.Services
 {
     public class PlayStartupManager : WpfStartupManager, IPlayStartupManager
     {

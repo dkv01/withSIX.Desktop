@@ -9,11 +9,11 @@ using System.Linq;
 using ManyConsole;
 using NDepend.Path;
 
-using SN.withSIX.Core;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core;
+using withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class HandleUserconfigCommand : BaseCommand

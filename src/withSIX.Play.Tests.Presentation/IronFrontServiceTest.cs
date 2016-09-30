@@ -9,17 +9,17 @@ using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Core;
+using withSIX.Core.Infra.Services;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Mods;
 using withSIX.Api.Models.Games;
 
-namespace SN.withSIX.Play.Tests.Presentation
+namespace withSIX.Play.Tests.Presentation
 {
     [TestFixture, Ignore("")]
     public class IronFrontServiceTest

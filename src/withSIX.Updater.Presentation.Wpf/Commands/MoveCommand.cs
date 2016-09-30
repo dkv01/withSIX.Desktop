@@ -3,9 +3,9 @@
 // </copyright>
 
 using NDepend.Path;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Updater.Presentation.Wpf.Commands
+namespace withSIX.Updater.Presentation.Wpf.Commands
 {
     public class MoveCommand : BaseCommand
     {

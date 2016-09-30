@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Disposables;
 using ReactiveUI;
 
-namespace SN.withSIX.Play.Core.Glue.Helpers
+namespace withSIX.Play.Core.Glue.Helpers
 {
     public class SixReactiveDisposableList<T> : ReactiveList<T>, IDisposable
     {

@@ -5,13 +5,13 @@
 using System.Reactive.Linq;
 using System.Windows;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
-using SN.withSIX.Play.Applications.Views.Games.Popups;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation.Wpf;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Applications.ViewModels.Games.Popups;
+using withSIX.Play.Applications.Views.Games.Popups;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Popups
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Popups
 {
     public partial class AddRepositoryView : PopupControl, IAddRepositoryView
     {

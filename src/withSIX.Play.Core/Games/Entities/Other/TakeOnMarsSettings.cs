@@ -3,10 +3,10 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Games.Entities.Other
+namespace withSIX.Play.Core.Games.Entities.Other
 {
     public class TakeOnMarsSettings : RealVirtualitySettings
     {

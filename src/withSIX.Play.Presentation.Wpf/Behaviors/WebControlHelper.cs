@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
+namespace withSIX.Play.Presentation.Wpf.Behaviors
 {
     /*    public class WebControlHelper
     {

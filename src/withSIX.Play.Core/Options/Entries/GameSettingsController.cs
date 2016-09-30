@@ -13,16 +13,16 @@ using AutoMapper;
 using AutoMapper.Mappers;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.Other;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.Other;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 
-namespace SN.withSIX.Play.Core.Options.Entries
+namespace withSIX.Play.Core.Options.Entries
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     [KnownType(typeof (GlobalGameSettingsProfile)), KnownType(typeof (GameSettingsProfile)),

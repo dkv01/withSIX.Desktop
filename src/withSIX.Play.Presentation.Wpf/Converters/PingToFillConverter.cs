@@ -5,10 +5,10 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications;
+using withSIX.Core;
+using withSIX.Core.Applications;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     public class PingToFillConverter : IValueConverter
     {

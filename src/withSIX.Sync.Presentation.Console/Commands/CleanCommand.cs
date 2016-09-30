@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using MediatR;
 
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Presentation.Console.UseCases;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Presentation.Console.UseCases;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class CleanCommand : BaseCommandAsync

@@ -4,11 +4,11 @@
 
 using System;
 using CefSharp;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Services
+namespace withSIX.Play.Presentation.Wpf.Services
 {
     public static class SixCefStart
     {

@@ -12,21 +12,21 @@ using NDepend.Path;
 using NLog;
 using NLog.Config;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.Logging;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Presentation.Assemblies;
+using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Applications;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Options;
+using withSIX.Sync.Core.Transfer;
 using Action = System.Action;
 
-namespace SN.withSIX.Play.Tests.Core.Support
+namespace withSIX.Play.Tests.Core.Support
 {
     public static class SharedSupport
     {

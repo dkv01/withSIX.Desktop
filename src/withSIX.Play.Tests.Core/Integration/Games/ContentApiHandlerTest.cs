@@ -4,12 +4,12 @@
 
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Api.ContentApi;
-using SN.withSIX.Play.Tests.Core.Support;
+using withSIX.Core.Infra.Cache;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Api.ContentApi;
+using withSIX.Play.Tests.Core.Support;
 
-namespace SN.withSIX.Play.Tests.Core.Integration.Games
+namespace withSIX.Play.Tests.Core.Integration.Games
 {
     [TestFixture, Ignore(""), Category("Integration")]
     public class ContentApiHandlerTest

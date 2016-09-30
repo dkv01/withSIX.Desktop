@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Helpers;
+using withSIX.Core.Helpers;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     [DataContract]
     public abstract class OptionBase : PropertyChangedBase

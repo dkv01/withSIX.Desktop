@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
+namespace withSIX.Play.Tests.Core.Unit.SyncTests
 {
     [TestFixture]
     public class MultiThreadedQueueDownloaderTest : QueueDownloaderTest

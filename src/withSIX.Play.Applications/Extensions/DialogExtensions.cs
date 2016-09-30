@@ -16,10 +16,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using Caliburn.Micro;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 using Action = System.Action;
 
-namespace SN.withSIX.Play.Applications.Extensions
+namespace withSIX.Play.Applications.Extensions
 {
     [Obsolete("Thesea re mostly helpers for Wpf apps and have no place in VM/apps")]
     public static class DialogExtensions

@@ -6,12 +6,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.UseCases.Games
+namespace withSIX.Play.Applications.UseCases.Games
 {
     public class UnpublishCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {

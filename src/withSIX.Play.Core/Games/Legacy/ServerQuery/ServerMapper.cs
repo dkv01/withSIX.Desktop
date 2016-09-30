@@ -10,11 +10,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using AutoMapper.Mappers;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class ServerMapper
     {

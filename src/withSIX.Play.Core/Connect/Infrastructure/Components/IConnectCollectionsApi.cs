@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Collections;
 
-namespace SN.withSIX.Play.Core.Connect.Infrastructure.Components
+namespace withSIX.Play.Core.Connect.Infrastructure.Components
 {
     public interface IConnectCollectionsApi
     {

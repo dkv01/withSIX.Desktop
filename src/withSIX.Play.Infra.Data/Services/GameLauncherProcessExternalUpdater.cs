@@ -9,18 +9,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Services.GameLauncher;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Infra.Data.Services
+namespace withSIX.Play.Infra.Data.Services
 {
     public class GameLauncherProcessExternalUpdater : IEnableLogging, IGameLauncherProcess, IInfrastructureService
     {

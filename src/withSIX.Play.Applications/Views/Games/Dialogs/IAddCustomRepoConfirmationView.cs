@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using withSIX.Play.Applications.ViewModels.Games.Dialogs;
 
-namespace SN.withSIX.Play.Applications.Views.Games.Dialogs
+namespace withSIX.Play.Applications.Views.Games.Dialogs
 {
     public interface IAddCustomRepoConfirmationView : IViewFor<IAddCustomRepoConfirmationViewModel> {}
 }

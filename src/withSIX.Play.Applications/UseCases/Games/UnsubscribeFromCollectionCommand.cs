@@ -5,7 +5,7 @@
 using System;
 using MediatR;
 
-namespace SN.withSIX.Play.Applications.UseCases.Games
+namespace withSIX.Play.Applications.UseCases.Games
 {
     public class UnsubscribeFromCollectionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {

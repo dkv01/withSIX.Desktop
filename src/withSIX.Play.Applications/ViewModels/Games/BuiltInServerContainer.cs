@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class BuiltInServerContainer : BuiltInContainer<Server>
     {

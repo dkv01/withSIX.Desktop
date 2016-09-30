@@ -9,15 +9,15 @@ using NDepend.Path;
 using ReactiveUI.Legacy;
 using MediatR;
 
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Applications.DataModels;
-using SN.withSIX.Play.Applications.UseCases;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Play.Applications.DataModels;
+using withSIX.Play.Applications.UseCases;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
+namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionImageViewModel {}
 
