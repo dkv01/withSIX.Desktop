@@ -1470,10 +1470,6 @@
       <Project>{c932f21f-0324-43ee-bbd2-ca7f0e9526c0}</Project>
       <Name>withSIX.Core.Applications.MVVM</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Presentation.Assemblies\withSIX.Core.Presentation.Assemblies.csproj">
-      <Project>{8c0b69bb-0e7c-4ebf-ace1-7cfeec682822}</Project>
-      <Name>withSIX.Core.Presentation.Assemblies</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.Play.Applications\withSIX.Play.Applications.csproj">
       <Project>{1240801b-efca-4236-b3b1-e710a8694f0a}</Project>
       <Name>withSIX.Play.Applications</Name>
@@ -1548,7 +1544,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
