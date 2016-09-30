@@ -86,8 +86,32 @@ namespace withSIX.Mini.Presentation.CoreHost
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             TypeNameHandling = TypeNameHandling.All,
             Error = OnError,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            Binder = new NamespaceMigrationSerializationBinder()
         }.SetDefaultConverters();
+
+        public class NamespaceMigrationSerializationBinder : DefaultSerializationBinder
+        {
+            //private readonly INamespaceMigration[] _migrations;
+
+            public NamespaceMigrationSerializationBinder(/*params INamespaceMigration[] migrations*/) {
+                //_migrations = migrations;
+            }
+
+            static readonly string searchStr = "SN.withSIX.";
+
+            public override Type BindToType(string assemblyName, string typeName) {
+                //var migration = _migrations.SingleOrDefault(p => p.FromAssembly == assemblyName && p.FromType == typeName);
+                //if (migration != null) {
+                //return migration.ToType;
+                //}
+                if (assemblyName.StartsWith(searchStr))
+                    assemblyName = assemblyName.Substring(3);
+                if (typeName.StartsWith(searchStr))
+                    typeName = typeName.Substring(3);
+                return base.BindToType(assemblyName, typeName);
+            }
+        }
 
         private void OnError(object sender, ErrorEventArgs e) {
             //MainLog.Logger.Warn($"Error during JSON serialization for {e.CurrentObject}, {e.ErrorContext.Path} {e.ErrorContext.Member}: {e.ErrorContext.Error.Message}");
