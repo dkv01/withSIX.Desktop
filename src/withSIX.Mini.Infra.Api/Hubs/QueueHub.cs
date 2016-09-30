@@ -25,7 +25,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task Remove(Guid id) => SendAsync(new RemoveQueueItem(id));
     }
 
-    public interface IQueueClientHub : IHub
+    public interface IQueueClientHub
     {
         Task Updated(QueueUpdate update);
         Task Removed(Guid id);

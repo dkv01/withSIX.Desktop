@@ -64,7 +64,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task StartSession(StartDownloadSession command) => SendAsync(command);
     }
 
-    public interface IContentClientHub : IHub
+    public interface IContentClientHub
     {
         Task RecentItemAdded(Guid gameId, RecentContentModel recentItem);
         Task RecentItemUsed(Guid gameId, Guid recentItemId, DateTime playedAt);

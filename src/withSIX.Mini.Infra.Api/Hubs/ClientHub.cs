@@ -33,7 +33,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task UninstallExplorerExtension() => SendAsync(new RemoveExtension());
     }
 
-    public interface IClientClientHub : IHub
+    public interface IClientClientHub
     {
         void AppStateUpdated(ClientInfo appState);
         void UserErrorResolved(UserErrorResolved notification);

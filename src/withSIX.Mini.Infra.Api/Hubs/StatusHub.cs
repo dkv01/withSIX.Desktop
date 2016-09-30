@@ -39,7 +39,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
     // the domain needs to be extended to support that kind of stuff.
     // for now handle uptodate as Installed state..
 
-    public interface IStatusClientHub : IHub
+    public interface IStatusClientHub
     {
         Task LockedGame(Guid gameId, bool canAbort);
         Task UnlockedGame(Guid gameId);

@@ -20,21 +20,22 @@ namespace withSIX.Mini.Infra.Api
     public class SignalrOwinModule : OwinModule
     {
         public override void ConfigureServices(IServiceCollection services) {
-            services.AddSingleton<IAssemblyLocator, HubCouldNotBeResolvedWorkaround>();
             services.AddSignalR();
+            services.AddSingleton<IAssemblyLocator, HubCouldNotBeResolvedWorkaround>();
             var serializer = CreateJsonSerializer();
             services.AddSingleton<JsonSerializer>(serializer);
             var resolver = new Resolver(serializer);
             services.AddSingleton<IParameterResolver>(resolver);
-            //GlobalHost.HubPipeline.AddModule(new HubErrorLoggingPipelineModule());
             var sp = services.BuildServiceProvider();
-            ConnectionManager = (IConnectionManager)sp.GetService(typeof(IConnectionManager));
+            ConnectionManager = sp.GetService<IConnectionManager>();
+            //HubPipeline.AddModule(new HubErrorLoggingPipelineModule());
         }
 
         public static IConnectionManager ConnectionManager { get; private set; }
 
         public override void Configure(IApplicationBuilder builder) {
             //builder.UseSignalR2();
+            builder.UseWebSockets();
             builder.Map("/signalr", map => {
                 var debug =
 #if DEBUG
@@ -100,7 +101,7 @@ namespace withSIX.Mini.Infra.Api
         public virtual IList<Assembly> GetAssemblies() {
             if (_dependencyContext == null) {
                 // Use the entry assembly as the sole candidate.
-                return new[] { _entryAssembly };
+                return new[] { _entryAssembly, typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly };
             }
 
             return _dependencyContext
