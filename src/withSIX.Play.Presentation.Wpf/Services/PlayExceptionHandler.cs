@@ -6,18 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Presentation.Services;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Services
+namespace withSIX.Play.Presentation.Wpf.Services
 {
     public class PlayExceptionHandler : DefaultExceptionHandler
     {
         public PlayExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
 
-        protected override UserError HandleExceptionInternal(Exception ex, string action = "Action") {
+        protected override UserErrorModel HandleExceptionInternal(Exception ex, string action = "Action") {
             Contract.Requires<ArgumentNullException>(action != null);
 
             if (ex is NotConnectedException)

@@ -10,14 +10,14 @@ using System.Timers;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Net;
 using NetFwTypeLib;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using Timer = SN.withSIX.Core.Helpers.Timer;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using Timer = withSIX.Core.Helpers.Timer;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class SystemInfo : PropertyChangedBase, IApplicationService, ISystemInfo, IEnableLogging
     {

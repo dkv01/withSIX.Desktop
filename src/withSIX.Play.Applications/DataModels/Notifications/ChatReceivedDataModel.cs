@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Play.Applications.UseCases;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Play.Applications.UseCases;
 
-namespace SN.withSIX.Play.Applications.DataModels.Notifications
+namespace withSIX.Play.Applications.DataModels.Notifications
 {
     public class ChatReceivedDataModel : NotificationBaseDataModel
     {

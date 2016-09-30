@@ -4,9 +4,9 @@
 
 using System.Windows;
 
-using SN.withSIX.Play.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Presentation.Wpf.Views.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library
 {
     /// <summary>
     ///     Interaction logic for ServerLibraryView.xaml

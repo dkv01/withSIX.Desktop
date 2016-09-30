@@ -9,7 +9,7 @@ using System.Windows.Media;
 using MahApps.Metro.Controls;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
+namespace withSIX.Play.Presentation.Wpf.Behaviors
 {
     public static class PropertyGridExtensions
     {

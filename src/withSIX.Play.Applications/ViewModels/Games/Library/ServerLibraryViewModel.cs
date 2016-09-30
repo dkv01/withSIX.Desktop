@@ -12,22 +12,23 @@ using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Legacy;
 
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Filters;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options.Filters;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     
     public class ServerLibraryViewModel :

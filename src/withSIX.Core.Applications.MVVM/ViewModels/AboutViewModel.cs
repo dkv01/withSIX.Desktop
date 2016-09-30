@@ -4,10 +4,10 @@
 
 using System;
 using ReactiveUI.Legacy;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 using Six.Core;
 
-namespace SN.withSIX.Core.Applications.MVVM.ViewModels
+namespace withSIX.Core.Applications.MVVM.ViewModels
 {
     [DoNotObfuscate]
     public class AboutViewModel : ReactiveModalScreen<IShellViewModelFullBase>

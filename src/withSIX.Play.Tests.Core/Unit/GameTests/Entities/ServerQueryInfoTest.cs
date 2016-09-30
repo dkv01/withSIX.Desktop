@@ -5,9 +5,9 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Services;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Entities
 {
     [TestFixture]
     public class ServerQueryInfoTest

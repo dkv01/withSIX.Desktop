@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using MediatR;
 
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Sync.Presentation.Console.UseCases
+namespace withSIX.Sync.Presentation.Console.UseCases
 {
     public class CleanPackageCommand : IAsyncRequest<IReadOnlyCollection<string>>
     {

@@ -15,7 +15,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace SN.withSIX.Play.Applications.Helpers
+namespace withSIX.Play.Applications.Helpers
 {
     // Borrowed from VbAccelerator.Components.Shell
 

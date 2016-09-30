@@ -5,9 +5,9 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Missions;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     class MissionTypeConverter : IValueConverter
     {

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public interface ISupportProfiles
     {

@@ -7,9 +7,9 @@ using System.Diagnostics;
 using System.Linq;
 using NDepend.Path;
 
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class LockCommand : BaseCommand

@@ -13,23 +13,23 @@ using NDepend.Path;
 using ReactiveUI;
 
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Content.v3;
 
-namespace SN.withSIX.Play.Core.Games.Entities
+namespace withSIX.Play.Core.Games.Entities
 {
     public abstract class Game : PropertyChangedBase, IHaveId<Guid>, ILaunchable, IHaveInstalledState, IShortcutCreation,
         IContentEngineGame
@@ -533,7 +533,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
             var all =
                 games.Select(x => x.InstalledState).Where(x => x.IsInstalled).Select(
                     x =>
-                        Tools.Processes.FindProcess(x.Executable.FileNameWithoutExtension));
+                        Tools.ProcessManager.Management.FindProcess(x.Executable.FileNameWithoutExtension));
             return all.Aggregate(new Process[0], (current, a) => current.Concat(a).ToArray());
         }
     }

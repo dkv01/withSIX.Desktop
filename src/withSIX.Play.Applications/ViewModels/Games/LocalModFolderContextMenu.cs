@@ -6,13 +6,13 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.MVVM.Attributes;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class LocalModFolderContextMenu : ModLibraryItemMenuBase<LocalModsContainer>
     {

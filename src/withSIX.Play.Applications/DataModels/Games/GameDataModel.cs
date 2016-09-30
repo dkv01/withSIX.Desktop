@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Applications.DataModels.Games
+namespace withSIX.Play.Applications.DataModels.Games
 {
     public class GameDataModel : ContentDataModel
     {

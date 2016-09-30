@@ -9,9 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
+using withSIX.Play.Applications.ViewModels.Games.Overlays;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Overlays
 {
     
     public partial class NotesView : UserControl, IDisposable

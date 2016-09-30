@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
+namespace withSIX.Play.Presentation.Wpf.Views.Controls
 {
     public partial class SixRichTextBox : UserControl
     {

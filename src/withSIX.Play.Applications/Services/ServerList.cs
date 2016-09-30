@@ -10,22 +10,22 @@ using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.Helpers;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class ServerList : HaveReactiveItems<Server>, IServerList, IEnableLogging
     {

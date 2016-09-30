@@ -12,13 +12,13 @@ using System.Xaml;
 using System.Xml;
 using Hardcodet.Wpf.TaskbarNotification;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Events;
-using SN.withSIX.Core.Applications.MVVM;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Events;
+using withSIX.Core.Applications.MVVM;
 using XamlParseException = System.Windows.Markup.XamlParseException;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
+namespace withSIX.Play.Presentation.Wpf.Views.Controls
 {
     public partial class TrayIcon : UserControl
     {
@@ -82,7 +82,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
         }
 
         static void ProcessNotificationException(Exception e) {
-            UserError.Throw(new InformationalUserError(e,
+            UserErrorHandler.HandleUserError(new InformationalUserError(e,
                 "A problem occurred while trying to create a popup notification", null));
         }
 

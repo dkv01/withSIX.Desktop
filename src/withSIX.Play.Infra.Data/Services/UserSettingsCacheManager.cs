@@ -9,11 +9,11 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
-using SN.withSIX.Core.Infra.Cache;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core.Infra.Cache;
+using withSIX.Core.Infra.Services;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Infra.Data.Services
+namespace withSIX.Play.Infra.Data.Services
 {
     public interface IUserSettingsCacheManager
     {

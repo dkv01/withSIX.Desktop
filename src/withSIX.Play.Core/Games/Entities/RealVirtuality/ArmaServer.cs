@@ -4,9 +4,9 @@
 
 using System;
 using System.Linq;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public class ArmaServer : RealVirtualityServer<ArmaGame>
     {

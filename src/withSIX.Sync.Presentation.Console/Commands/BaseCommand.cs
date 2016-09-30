@@ -6,11 +6,11 @@ using System.IO;
 using System.Threading.Tasks;
 using ManyConsole;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
     public abstract class BaseCommand : ConsoleCommand
     {

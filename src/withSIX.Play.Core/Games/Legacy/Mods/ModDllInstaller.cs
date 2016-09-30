@@ -9,13 +9,13 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     [Obsolete]
     public class ModDllInstaller : IEnableLogging

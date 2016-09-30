@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SN.withSIX.Play.Presentation.Wpf.Properties {
+namespace withSIX.Play.Presentation.Wpf.Properties {
     using System;
     
     

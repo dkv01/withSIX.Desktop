@@ -4,7 +4,7 @@
 
 using System.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ContentLibraryItem
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library.ContentLibraryItem
 {
     /// <summary>
     ///     Interaction logic for MissionLibraryHeader.xaml

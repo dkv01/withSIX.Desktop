@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Play.Core.Games.Entities
+namespace withSIX.Play.Core.Games.Entities
 {
     public interface ISupportContent : IHaveInstalledState
     {

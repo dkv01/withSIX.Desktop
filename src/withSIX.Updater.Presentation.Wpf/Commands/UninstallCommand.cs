@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Configuration.Install;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Updater.Presentation.Wpf.Commands
+namespace withSIX.Updater.Presentation.Wpf.Commands
 {
     public class UninstallCommand : BaseCommand
     {

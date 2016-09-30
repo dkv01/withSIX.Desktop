@@ -8,11 +8,11 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core.Services;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Core.Games.Services
+namespace withSIX.Play.Core.Games.Services
 {
     public interface IGameServerQueryHandler
     {

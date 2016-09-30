@@ -4,15 +4,15 @@
 
 using System;
 using System.Diagnostics;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.MVVM.Attributes;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class RecentMenuItem : MenuItem
     {

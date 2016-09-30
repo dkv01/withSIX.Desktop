@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ReactiveUI;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
+namespace withSIX.Play.Presentation.Wpf.Views.Controls
 {
     /// <summary>
     ///     Interaction logic for InPlaceEditor.xaml

@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
+namespace withSIX.Play.Core.Games.Entities.RealVirtuality
 {
     public class Arma2OaSettings : ArmaSettings
     {

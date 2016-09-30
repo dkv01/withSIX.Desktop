@@ -9,20 +9,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.ExternalTools;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Core.Options;
+using withSIX.Sync.Core.ExternalTools;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Sync.Core.Transfer.Specs;
 using withSIX.Api.Models.Extensions;
-using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
+using StatusRepo = withSIX.Play.Core.Games.Services.StatusRepo;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public class IronFrontInstaller : IDomainService
     {

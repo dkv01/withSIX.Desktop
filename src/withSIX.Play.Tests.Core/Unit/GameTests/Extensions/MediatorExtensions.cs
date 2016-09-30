@@ -8,13 +8,13 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using FakeItEasy;
 using MediatR;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Extensions
 {
     public static class MediatorExtensions
     {

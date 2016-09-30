@@ -19,31 +19,31 @@ using MahApps.Metro.Controls;
 using ReactiveUI;
 using SimpleInjector;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Popups;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Core.Presentation.Wpf.Helpers;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels.Popups;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Core.Presentation.Wpf.Helpers;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Applications;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.ViewModels;
+using withSIX.Play.Applications.ViewModels.Connect;
 
-using SN.withSIX.Play.Applications.Views;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Applications.Views;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Presentation.Wpf.Views.Controls;
 using Telerik.Windows.Controls;
 using ThemeManager = MahApps.Metro.ThemeManager;
 using XamlParseException = System.Windows.Markup.XamlParseException;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views
+namespace withSIX.Play.Presentation.Wpf.Views
 {
     
     public partial class PlayShellView : MetroWindow, IPlayShellView
@@ -74,10 +74,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             WorkaroundSystemMenu_Init();
 
             this.WhenActivated(d => {
-                d(UserError.RegisterHandler<CanceledUserError>(x => CanceledHandler(x)));
-                d(UserError.RegisterHandler<NotLoggedInUserError>(x => NotLoggedInDialog(x)));
-                d(UserError.RegisterHandler<NotConnectedUserError>(x => NotConnectedDialog(x)));
-                d(UserError.RegisterHandler<BusyUserError>(x => BusyDialog(x)));
+                // TODO
+                //d(UserError.RegisterHandler<CanceledUserError>(x => CanceledHandler(x)));
+                //d(UserError.RegisterHandler<NotLoggedInUserError>(x => NotLoggedInDialog(x)));
+                //d(UserError.RegisterHandler<NotConnectedUserError>(x => NotConnectedDialog(x)));
+                //d(UserError.RegisterHandler<BusyUserError>(x => BusyDialog(x)));
                 d(this.WhenAnyValue(x => x.ViewModel).BindTo(this, v => v.DataContext));
                 d(this.OneWayBind(ViewModel, vm => vm.Overlay.ActiveItem, v => v.MainScreenFlyout.ViewModel));
                 d(this.OneWayBind(ViewModel, vm => vm.SubOverlay, v => v.SubscreenFlyout.ViewModel));

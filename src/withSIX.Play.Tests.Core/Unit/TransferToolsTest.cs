@@ -6,9 +6,9 @@ using System;
 using FluentAssertions;
 using NUnit.Framework;
 using Should;
-using SN.withSIX.Core;
+using withSIX.Core;
 
-namespace SN.withSIX.Play.Tests.Core.Unit
+namespace withSIX.Play.Tests.Core.Unit
 {
     [TestFixture]
     public class TransferToolsTest

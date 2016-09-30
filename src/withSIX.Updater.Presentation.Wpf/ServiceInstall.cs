@@ -5,9 +5,9 @@
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Updater.Presentation.Wpf
+namespace withSIX.Updater.Presentation.Wpf
 {
     [RunInstaller(true)]
     public class SixElevatedServiceInstaller : Installer

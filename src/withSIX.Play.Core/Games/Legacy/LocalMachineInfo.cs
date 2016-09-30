@@ -6,16 +6,16 @@ using System;
 using System.IO;
 using Microsoft.Win32;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Steam;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Steam;
 
 // ReSharper disable InconsistentNaming
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     public static class SteamInfos
     {

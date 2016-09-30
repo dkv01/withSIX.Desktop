@@ -11,9 +11,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public class GamespyServerQuery : ServerQueryBase, IServerQuery
     {

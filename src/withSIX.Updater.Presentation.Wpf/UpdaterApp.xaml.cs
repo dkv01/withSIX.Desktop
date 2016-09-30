@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.Windows;
-using SN.withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Core.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Updater.Presentation.Wpf
+namespace withSIX.Updater.Presentation.Wpf
 {
     public partial class UpdaterApp : Application
     {

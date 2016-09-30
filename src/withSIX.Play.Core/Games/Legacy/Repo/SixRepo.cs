@@ -10,21 +10,21 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Validators;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Glue.Helpers;
-using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Validators;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Glue.Helpers;
+using withSIX.Sync.Core;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Repo
+namespace withSIX.Play.Core.Games.Legacy.Repo
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
         )]

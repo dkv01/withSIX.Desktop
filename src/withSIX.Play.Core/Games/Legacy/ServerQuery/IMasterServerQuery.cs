@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public interface IMasterServerQuery
     {

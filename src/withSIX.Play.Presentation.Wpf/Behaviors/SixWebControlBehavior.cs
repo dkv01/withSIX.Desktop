@@ -6,12 +6,12 @@ using System;
 using System.Windows;
 using CefSharp;
 using CefSharp.Wpf;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Logging;
+using withSIX.Play.Core;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
+namespace withSIX.Play.Presentation.Wpf.Behaviors
 {
     public class RequestHandler : IRequestHandler
     {

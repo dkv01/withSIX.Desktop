@@ -5,9 +5,9 @@
 using Microsoft.AspNet.SignalR;
 using MediatR;
 
-using SN.withSIX.Core.Infra.Services;
+using withSIX.Core.Infra.Services;
 
-namespace SN.withSIX.Play.Infra.Server.Hubs
+namespace withSIX.Play.Infra.Server.Hubs
 {
 
     public abstract class BaseHub : Hub, IInfrastructureService

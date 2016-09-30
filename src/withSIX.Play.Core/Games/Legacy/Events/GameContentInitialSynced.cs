@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Events
+namespace withSIX.Play.Core.Games.Legacy.Events
 {
     public class GameContentInitialSynced : EventArgs {}
 }

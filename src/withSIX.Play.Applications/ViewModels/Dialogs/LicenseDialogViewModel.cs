@@ -5,12 +5,12 @@
 using System;
 using System.Collections.Generic;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Dialogs
+namespace withSIX.Play.Applications.ViewModels.Dialogs
 {
     public interface ILicenseDialogViewModel {}
 

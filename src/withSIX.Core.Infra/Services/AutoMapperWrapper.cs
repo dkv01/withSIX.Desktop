@@ -8,7 +8,7 @@ using withSIX.Core.Applications.Services;
 
 namespace withSIX.Core.Infra.Services
 {
-    abstract class AutoMapperWrapper : IAMapper
+    public abstract class AutoMapperWrapper : IAMapper
     {
         protected IMapper Engine;
 

@@ -7,9 +7,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Premium;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     public class SecretData
     {

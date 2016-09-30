@@ -5,7 +5,7 @@
 using System;
 using NDepend.Path;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Events
+namespace withSIX.Play.Core.Games.Legacy.Events
 {
     public class ModPathChanged : EventArgs
     {

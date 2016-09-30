@@ -8,15 +8,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
 
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Missions;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
+namespace withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class MissionUploadViewModel : OverlayViewModelBase

@@ -5,7 +5,7 @@
 using System.Windows.Controls;
 
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Popups
+namespace withSIX.Play.Presentation.Wpf.Views.Popups
 {
     
     public partial class OptionsMenuView : UserControl

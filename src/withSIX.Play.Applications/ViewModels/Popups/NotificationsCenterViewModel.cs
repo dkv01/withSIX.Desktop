@@ -9,16 +9,16 @@ using NDepend.Helpers;
 using ReactiveUI;
 using MediatR;
 
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Applications.DataModels;
-using SN.withSIX.Play.Applications.DataModels.Notifications;
-using SN.withSIX.Play.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Play.Applications.DataModels;
+using withSIX.Play.Applications.DataModels.Notifications;
+using withSIX.Play.Applications.Extensions;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Popups
+namespace withSIX.Play.Applications.ViewModels.Popups
 {
     
     public class NotificationsCenterViewModel : PopupBase

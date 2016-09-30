@@ -5,10 +5,10 @@
 using System;
 using System.Net;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core.Helpers;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Core.Options.Entries
+namespace withSIX.Play.Core.Options.Entries
 {
     [DataContract(Name = "FavoriteServer",
         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]

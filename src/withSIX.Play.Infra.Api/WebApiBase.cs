@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Play.Infra.Api
+namespace withSIX.Play.Infra.Api
 {
     class WebApiBase
     {

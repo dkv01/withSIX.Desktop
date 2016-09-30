@@ -4,7 +4,7 @@
 
 using System.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games
+namespace withSIX.Play.Presentation.Wpf.Views.Games
 {
     public partial class MissionsView : UserControl
     {

@@ -7,10 +7,10 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 using Xceed.Wpf.Toolkit;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
+namespace withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
 {
     public class ChatFormatter : ITextFormatter
     {

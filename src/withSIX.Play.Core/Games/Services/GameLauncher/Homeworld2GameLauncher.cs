@@ -5,10 +5,10 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Games.Entities.Other;
+using withSIX.Core;
+using withSIX.Play.Core.Games.Entities.Other;
 
-namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
+namespace withSIX.Play.Core.Games.Services.GameLauncher
 {
     class Homeworld2GameLauncher : GameLauncher, IHomeworld2Launcher
     {

@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.MVVM.ViewModels;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class DesignTimeModsViewModel : ModsViewModel, IDesignTimeViewModel
     {

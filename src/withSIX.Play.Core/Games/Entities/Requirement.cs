@@ -5,7 +5,7 @@
 using System;
 using withSIX.Api.Models.Exceptions;
 
-namespace SN.withSIX.Play.Core.Games.Entities
+namespace withSIX.Play.Core.Games.Entities
 {
     public abstract class Requirement
     {

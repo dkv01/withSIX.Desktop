@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Steam
+namespace withSIX.Play.Core.Games.Legacy.Steam
 {
     
     public class ParseException : Exception

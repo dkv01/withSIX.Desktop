@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels;
+using withSIX.Play.Applications.ViewModels;
 
-namespace SN.withSIX.Play.Applications.Views
+namespace withSIX.Play.Applications.Views
 {
     public interface IPlayShellView : IViewFor<IPlayShellViewModel> {}
 }

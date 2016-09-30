@@ -4,10 +4,10 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Legacy;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Legacy;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Repo
+namespace withSIX.Play.Core.Games.Legacy.Repo
 {
     public enum AppType
     {

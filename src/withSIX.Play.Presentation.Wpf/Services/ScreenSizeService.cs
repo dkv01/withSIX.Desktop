@@ -3,11 +3,11 @@
 // </copyright>
 
 using System.Windows;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Services
+namespace withSIX.Play.Presentation.Wpf.Services
 {
     public class ScreenSizeService : IGetScreenSize, IApplicationService
     {

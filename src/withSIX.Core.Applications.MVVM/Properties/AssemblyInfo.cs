@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("SN.withSIX.Core.Applications.MVVM")]
+[assembly: AssemblyTitle("withSIX.Core.Applications.MVVM")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SN.withSIX.Core.Applications.MVVM")]
+[assembly: AssemblyProduct("withSIX.Core.Applications.MVVM")]
 [assembly: AssemblyCopyright("Copyright © 2015-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

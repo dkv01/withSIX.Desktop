@@ -6,7 +6,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
+namespace withSIX.Play.Tests.Core.Unit.SyncTests
 {
     [TestFixture]
     public class CommitTest

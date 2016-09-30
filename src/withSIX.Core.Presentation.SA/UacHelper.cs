@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32;
 
-namespace SN.withSIX.Core.Presentation.SA
+namespace withSIX.Core.Presentation.SA
 {
     public class UacHelper
     {

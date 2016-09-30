@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Infra.Server.UseCases
+namespace withSIX.Play.Infra.Server.UseCases
 {
     public class RequestModInformation : IRequestModInformationBase, IAsyncRequest<IModInfo>
     {

@@ -4,7 +4,7 @@
 
 using System.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views
+namespace withSIX.Play.Presentation.Wpf.Views
 {
     /// <summary>
     ///     Interaction logic for TopNavigation.xaml

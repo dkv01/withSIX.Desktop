@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Play.Applications.DataModels.Games
+namespace withSIX.Play.Applications.DataModels.Games
 {
     public abstract class ContentDataModel : DataModelRequireId<Guid>
     {

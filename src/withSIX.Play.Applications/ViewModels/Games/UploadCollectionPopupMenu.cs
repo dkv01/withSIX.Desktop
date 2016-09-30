@@ -5,11 +5,11 @@
 using System.Threading.Tasks;
 
 using withSIX.Api.Models.Collections;
-using SN.withSIX.Core.Applications.MVVM.Attributes;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Core.Applications.MVVM.Attributes;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Play.Applications.ViewModels.Games.Library;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public class UploadCollectionPopupMenu : PopupMenuBase<CustomCollectionLibraryItemViewModel>
     {

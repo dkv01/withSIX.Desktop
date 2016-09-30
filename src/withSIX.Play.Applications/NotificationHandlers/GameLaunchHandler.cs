@@ -5,12 +5,12 @@
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
 
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     public class GameLaunchHandler : IAsyncNotificationHandler<PreGameLaunchEvent>,
         IAsyncNotificationHandler<PreGameLaunchCancelleableEvent>

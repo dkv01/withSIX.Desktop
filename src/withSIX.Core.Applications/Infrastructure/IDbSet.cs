@@ -8,7 +8,7 @@ using withSIX.Api.Models.Exceptions;
 
 namespace withSIX.Core.Applications.Infrastructure
 {
-    public interface IDbSet<TEntity, in TId> : IQueryable<TEntity> where TEntity : IHaveId<TId>
+    public interface IDbSet<out TEntity, in TId> : IQueryable<TEntity> where TEntity : IHaveId<TId>
     {
         TEntity Find(TId id);
     }

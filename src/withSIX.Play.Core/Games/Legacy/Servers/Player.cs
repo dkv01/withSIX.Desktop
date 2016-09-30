@@ -2,11 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core.Helpers;
+using withSIX.Play.Core.Games.Entities;
 using withSIX.Api.Models;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Servers
+namespace withSIX.Play.Core.Games.Legacy.Servers
 {
     public abstract class Player : PropertyChangedBase, IComparePK<Player>
     {

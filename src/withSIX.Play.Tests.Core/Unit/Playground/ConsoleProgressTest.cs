@@ -6,11 +6,11 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.Playground
+namespace withSIX.Play.Tests.Core.Unit.Playground
 {
     class ConsoleProgressTest {}
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace SN.withSIX.Core.Presentation.SA
+namespace withSIX.Core.Presentation.SA
 {
     public class PrettyExceptions {
         private static readonly string[] separators = {"\r\n", "\n"};

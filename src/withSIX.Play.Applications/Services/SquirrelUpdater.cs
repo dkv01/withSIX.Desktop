@@ -7,11 +7,11 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
+using withSIX.Core;
 using Splat;
 using Squirrel;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class SquirrelUpdater
     {

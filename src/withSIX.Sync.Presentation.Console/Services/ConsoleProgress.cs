@@ -7,12 +7,12 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Sync.Presentation.Console.Services
+namespace withSIX.Sync.Presentation.Console.Services
 {
     public class ConsoleProgress : IDisposable
     {

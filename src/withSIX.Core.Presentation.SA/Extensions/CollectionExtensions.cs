@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Presentation.SA.Extensions
+namespace withSIX.Core.Presentation.SA.Extensions
 {
     public static class CollectionExtensions
     {

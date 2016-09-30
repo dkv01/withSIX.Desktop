@@ -7,15 +7,15 @@ using System.ComponentModel;
 using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Core.Games.Legacy;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
+namespace withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup
 {
     public abstract class LibraryGroupViewModel : LibraryBase, IHierarchicalLibraryItem
     {

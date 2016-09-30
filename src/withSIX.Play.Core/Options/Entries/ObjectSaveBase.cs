@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
-namespace SN.withSIX.Play.Core.Options.Entries
+namespace withSIX.Play.Core.Options.Entries
 {
     [DataContract]
     public abstract class ObjectSaveBase<T> where T : class, IObjectTag

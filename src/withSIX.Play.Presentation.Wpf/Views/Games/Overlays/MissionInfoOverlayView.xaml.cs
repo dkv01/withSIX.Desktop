@@ -4,7 +4,7 @@
 
 using System.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Overlays
 {
     /// <summary>
     ///     Interaction logic for MissionInfoOverlayView.xaml
