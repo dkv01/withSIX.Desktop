@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ServerLibraryItem
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library.ServerLibraryItem
 {
     /// <summary>
     ///     Interaction logic for ServerLibraryDataGridView.xaml

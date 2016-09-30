@@ -3,13 +3,14 @@
 // </copyright>
 
 using System;
-using Microsoft.AspNet.SignalR.Client;
 using withSIX.Api.Models.Exceptions;
 
-namespace SN.withSIX.Play.Core.Extensions
+namespace withSIX.Play.Core.Extensions
 {
+    /*
     public static class HubExceptionExtensions
     {
         public static Exception GetException(this HubException hubException) => UserException.CreateException(hubException.ErrorData) ?? hubException;
     }
+    */
 }

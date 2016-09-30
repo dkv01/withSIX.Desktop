@@ -12,13 +12,13 @@ using FluentValidation;
 using FluentValidation.Results;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Play.Applications.DataModels.Games
+namespace withSIX.Play.Applications.DataModels.Games
 {
     public class GameSettingsDataModel : DataModel
     {

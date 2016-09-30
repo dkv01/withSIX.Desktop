@@ -4,10 +4,10 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Core.Games.Services;
 
-namespace SN.withSIX.Play.Core.Games.Entities
+namespace withSIX.Play.Core.Games.Entities
 {
     public interface IQueryServers
     {

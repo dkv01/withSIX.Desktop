@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SN.withSIX.Play.Infra.Data.Properties {
+namespace withSIX.Play.Infra.Data.Properties {
     using System;
     
     

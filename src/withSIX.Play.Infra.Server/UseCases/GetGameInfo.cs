@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using MediatR;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Infra.Server.UseCases
+namespace withSIX.Play.Infra.Server.UseCases
 {
     public class GetGameInfoQuery : IRequest<List<GameInfo>> {}
 
@@ -34,8 +34,8 @@ namespace SN.withSIX.Play.Infra.Server.UseCases
             //mm
             lock (_gameContext.CustomCollections.Local)
                 return
-                    Enumerable.ToList(_gameContext.CustomCollections.Where(x => x.GameMatch(game))
-                        .Select(Mapper.Map<CollectionInfo>));
+                    _gameContext.CustomCollections.Where(x => x.GameMatch(game))
+                        .Select(Mapper.Map<CollectionInfo>).ToList();
         }
     }
 

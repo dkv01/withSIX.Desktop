@@ -4,9 +4,9 @@
 
 using System.ComponentModel;
 using FluentValidation;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Arma;
 
-namespace SN.withSIX.Play.Applications.DataModels.Games
+namespace withSIX.Play.Applications.DataModels.Games
 {
     public class GTAVSettingsDataModel : GameSettingsDataModel
     {

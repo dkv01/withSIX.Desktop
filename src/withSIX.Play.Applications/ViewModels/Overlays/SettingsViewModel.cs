@@ -17,21 +17,21 @@ using MahApps.Metro;
 using NDepend.Path;
 using ReactiveUI;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
-using SN.withSIX.Play.Applications.ViewModels.Popups;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Arma;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Entries;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Connect;
+using withSIX.Play.Applications.ViewModels.Popups;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Arma;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options.Entries;
+using withSIX.Sync.Core.Transfer;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Overlays
+namespace withSIX.Play.Applications.ViewModels.Overlays
 {
     public static class SettingsCategories
     {

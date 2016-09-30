@@ -8,13 +8,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using AutoMapper;
 using ManyConsole;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Sync.Presentation.Console.Commands;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Sync.Presentation.Console.Commands;
 
-namespace SN.withSIX.Sync.Presentation.Console
+namespace withSIX.Sync.Presentation.Console
 {
     class Program : IConsoleLauncher
     {

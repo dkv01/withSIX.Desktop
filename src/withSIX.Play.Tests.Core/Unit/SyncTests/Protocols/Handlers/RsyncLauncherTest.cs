@@ -8,13 +8,13 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Tests.Core.Support;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Core;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Tests.Core.Support;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.Protocols.Handlers
+namespace withSIX.Play.Tests.Core.Unit.SyncTests.Protocols.Handlers
 {
     [TestFixture]
     public class RsyncLauncherTest

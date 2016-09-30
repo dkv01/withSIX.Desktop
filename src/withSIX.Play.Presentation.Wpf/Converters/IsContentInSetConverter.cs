@@ -6,13 +6,13 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core.Applications.MVVM.Helpers;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     public class IsContentInSetConverter : IMultiValueConverter
     {

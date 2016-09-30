@@ -4,9 +4,9 @@
 
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Packages;
 
-namespace SN.withSIX.Play.Tests.Core.Unit
+namespace withSIX.Play.Tests.Core.Unit
 {
     [TestFixture]
     public class PackageHelperTest

@@ -5,15 +5,15 @@
 using System.Configuration;
 using System.Reflection;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.Logging;
-using SN.withSIX.Core.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Assemblies;
+using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Services;
 
-namespace SN.withSIX.Sync.Presentation.Console
+namespace withSIX.Sync.Presentation.Console
 {
     // WARNING - DO NOT SHOW NON-FATAL DIALOGS HERE
     public static class StartupSequence

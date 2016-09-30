@@ -9,13 +9,13 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
-using SN.withSIX.Play.Core.Games.Services.Infrastructure;
-using SN.withSIX.Play.Core.Options.Entries;
-using SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Play.Core.Games.Services.Infrastructure;
+using withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Entities
 {
     public class TestGame : Game
     {

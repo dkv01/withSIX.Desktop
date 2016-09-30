@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Glue.Helpers;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Services;
+using withSIX.Play.Core.Glue.Helpers;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     
     public class GameScanner : SelectionList<FoundGame>, IDomainService

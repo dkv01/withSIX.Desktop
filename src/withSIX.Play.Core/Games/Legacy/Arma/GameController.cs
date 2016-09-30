@@ -8,18 +8,18 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public abstract class GameController : PropertyChangedBase
     {

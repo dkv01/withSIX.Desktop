@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Play.Core.Games.Entities
+namespace withSIX.Play.Core.Games.Entities
 {
     public abstract class MetaData
     {

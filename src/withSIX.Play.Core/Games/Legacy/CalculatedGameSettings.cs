@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Options.Entries;
-using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Options.Entries;
+using PropertyChangedBase = withSIX.Core.Helpers.PropertyChangedBase;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     [Obsolete("In process of removal")]
     public class CalculatedGameSettings : PropertyChangedBase, IEnableLogging

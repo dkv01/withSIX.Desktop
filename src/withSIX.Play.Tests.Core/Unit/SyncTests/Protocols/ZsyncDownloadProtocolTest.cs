@@ -8,12 +8,12 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
-using SN.withSIX.Sync.Core.Transfer.Specs;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Sync.Core.Transfer.Specs;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.Protocols
+namespace withSIX.Play.Tests.Core.Unit.SyncTests.Protocols
 {
     [TestFixture]
     public class ZsyncDownloadProtocolTest : DownloadProtocolTest

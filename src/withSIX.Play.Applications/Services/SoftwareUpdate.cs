@@ -6,18 +6,18 @@ using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Presentation.Wpf.Extensions;
+using withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
-using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
+using PropertyChangedBase = withSIX.Core.Helpers.PropertyChangedBase;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class SoftwareUpdate : PropertyChangedBase, IHandle<NoNewVersionAvailable>,
         IHandle<NewVersionAvailable>, IHandle<NewVersionDownloaded>,
@@ -154,7 +154,7 @@ namespace SN.withSIX.Play.Applications.Services
                 _shutdownHandler.Shutdown();
                 return true;
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e,
+                UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "An error occurred while trying to initiate self-update. See log file for details.\nPlease try again later...",
                     null));
                 return false;
@@ -193,7 +193,7 @@ namespace SN.withSIX.Play.Applications.Services
                 _shutdownHandler.Shutdown();
                 return true;
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e,
+                UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "An error occurred while trying to initiate self-update. See log file for details.\nPlease try again later...",
                     null));
                 return false;

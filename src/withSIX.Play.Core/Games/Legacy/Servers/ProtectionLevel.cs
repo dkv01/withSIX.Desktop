@@ -4,7 +4,7 @@
 
 
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Servers
+namespace withSIX.Play.Core.Games.Legacy.Servers
 {
 
     public enum ProtectionLevel

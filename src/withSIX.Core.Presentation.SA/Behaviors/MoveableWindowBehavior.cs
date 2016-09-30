@@ -5,7 +5,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace SN.withSIX.Core.Presentation.SA.Behaviors
+namespace withSIX.Core.Presentation.SA.Behaviors
 {
     public static class MoveableWindowBehavior
     {

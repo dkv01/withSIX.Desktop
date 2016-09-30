@@ -5,10 +5,10 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core.Applications;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     public class ViewModeConverter : IValueConverter
     {

@@ -10,14 +10,15 @@ using FakeItEasy.ExtensionSyntax.Full;
 using FluentAssertions;
 using NUnit.Framework;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Applications.DataModels.Games;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Infra.Services;
+using withSIX.Play.Applications.DataModels.Games;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Tests.Presentation.UseCases.Games
+namespace withSIX.Play.Tests.Presentation.UseCases.Games
 {
     [TestFixture]
     public class ListGamesQueryHandlerTest

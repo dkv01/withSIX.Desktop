@@ -3,9 +3,9 @@
 // </copyright>
 
 using MediatR;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Infra.Server.Hubs
+namespace withSIX.Play.Infra.Server.Hubs
 {
     public class ModsHubMessenger : BaseMessenger<ModsHub>, INotificationHandler<ModInfoChangedEvent>
     {

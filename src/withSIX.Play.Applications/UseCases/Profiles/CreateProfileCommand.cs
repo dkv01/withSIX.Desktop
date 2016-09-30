@@ -7,10 +7,10 @@ using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using MediatR;
 
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.UseCases.Profiles
+namespace withSIX.Play.Applications.UseCases.Profiles
 {
     public class CreateProfileCommand : IAsyncRequest<Guid>
     {

@@ -5,10 +5,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library
 {
     /// <summary>
     ///     Interaction logic for ServerItemView.xaml

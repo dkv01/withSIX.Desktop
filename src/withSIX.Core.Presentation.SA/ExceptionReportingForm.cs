@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using SmartAssembly.SmartExceptionsCore;
 using SmartAssembly.SmartExceptionsCore.UI;
 
-namespace SN.withSIX.Core.Presentation.SA
+namespace withSIX.Core.Presentation.SA
 {
     class ExceptionReportingForm : Form
     {

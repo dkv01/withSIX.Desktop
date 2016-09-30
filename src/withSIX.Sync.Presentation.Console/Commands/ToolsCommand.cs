@@ -4,11 +4,11 @@
 
 using System.Threading.Tasks;
 
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Presentation.Console.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Presentation.Console.Services;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class ToolsCommand : BaseCommandAsync

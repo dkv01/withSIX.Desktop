@@ -2,9 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Helpers
+namespace withSIX.Play.Core.Games.Legacy.Helpers
 {
     public static class ContentConverterExtension
     {

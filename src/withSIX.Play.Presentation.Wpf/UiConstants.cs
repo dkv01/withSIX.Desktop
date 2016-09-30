@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace SN.withSIX.Play.Presentation.Wpf
+namespace withSIX.Play.Presentation.Wpf
 {
     public static class UiConstants
     {

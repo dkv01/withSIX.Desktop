@@ -3,11 +3,11 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Applications.Views.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Applications.Views.Games.Library.LibraryGroup;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.LibraryGroup
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library.LibraryGroup
 {
     /// <summary>
     ///     Interaction logic for LibraryGroupDataGrid.xaml

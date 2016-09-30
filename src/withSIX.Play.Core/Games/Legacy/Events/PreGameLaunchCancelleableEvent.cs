@@ -2,12 +2,12 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Events
+namespace withSIX.Play.Core.Games.Legacy.Events
 {
     public class PreGameLaunchCancelleableEvent : CancellableEvent
     {

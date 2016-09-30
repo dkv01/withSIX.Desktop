@@ -4,11 +4,11 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     public abstract class ModMenuBase<TContent> : ContextMenuBase<TContent> where TContent : class, IContent
     {

@@ -5,10 +5,10 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Navigation;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Connect;
+using withSIX.Core;
+using withSIX.Play.Core.Connect;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
+namespace withSIX.Play.Presentation.Wpf.Views.Controls
 {
     public class RichTextBox : Xceed.Wpf.Toolkit.RichTextBox
     {

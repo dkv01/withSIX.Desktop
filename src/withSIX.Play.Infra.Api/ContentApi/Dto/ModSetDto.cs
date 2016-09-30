@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Content.v2;
 
-namespace SN.withSIX.Play.Infra.Api.ContentApi.Dto
+namespace withSIX.Play.Infra.Api.ContentApi.Dto
 {
 
     class MissionDto : MissionClientApiJson, ISyncBaseDto {}

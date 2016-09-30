@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using MediatR;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Options;
 using Synercoding.Encryption.Hashing;
 using Synercoding.Encryption.Symmetrical;
 
-namespace SN.withSIX.Play.Infra.Api
+namespace withSIX.Play.Infra.Api
 {
     public interface ILoginHandler
     {
@@ -36,10 +36,10 @@ namespace SN.withSIX.Play.Infra.Api
 
     public class LoginHandler : ILoginHandler, IInfrastructureService
     {
-        readonly IOauthConnect _connect;
+        readonly OauthConnect _connect;
         readonly PremiumHandler _premiumRefresher;
 
-        public LoginHandler(IOauthConnect connect) {
+        public LoginHandler(OauthConnect connect) {
             _connect = connect;
             _premiumRefresher = new PremiumHandler();
         }
@@ -104,7 +104,7 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
 
-        static AccountInfo BuildAccountInfo(IUserInfoResponse userInfo) {
+        static AccountInfo BuildAccountInfo(UserInfoResponse userInfo) {
             var avatarUrl = GetClaim(userInfo, CustomClaimTypes.AvatarUrl);
             var updatedAt = GetClaim(userInfo, CustomClaimTypes.AvatarUpdatedAt);
             return new AccountInfo {
@@ -119,7 +119,7 @@ namespace SN.withSIX.Play.Infra.Api
             };
         }
 
-        static string GetClaim(IUserInfoResponse userInfo, string claimType) {
+        static string GetClaim(UserInfoResponse userInfo, string claimType) {
             var claim = userInfo.Claims.FirstOrDefault(x => x.Item1 == claimType);
             return claim?.Item2;
         }

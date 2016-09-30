@@ -9,14 +9,14 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Transfer;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Services;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Transfer;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class ServerModsMigrator : IDomainService
     {
@@ -27,10 +27,10 @@ namespace SN.withSIX.Play.Applications.Services
 
             var report =
                 await
-                    UserError.Throw(new UserError("Migrate server mods?",
+                    UserErrorHandler.HandleUserError(new UserErrorModel("Migrate server mods?",
                         "It appears you still have a deprecated 'servermods' folder\nThis folder is no longer relevant, would you like to merge the mods to the mod installation path?\n\nPlease make sure the Game is closed, and no other mod files (incl readmes) or utilities are open before proceeding",
-                        RecoveryCommandsImmediate.YesNoCommands))
-                == RecoveryOptionResult.RetryOperation;
+                        RecoveryCommands.YesNoCommands))
+                == RecoveryOptionResultModel.RetryOperation;
 
             return report;
         }

@@ -5,10 +5,10 @@
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using MediatR;
-using SN.withSIX.Play.Infra.Server.Hubs;
-using SN.withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers;
+using withSIX.Play.Infra.Server.Hubs;
+using withSIX.Play.Infra.Server.Services.Messengers.ServerMessengers;
 
-namespace SN.withSIX.Play.Infra.Server.Messengers
+namespace withSIX.Play.Infra.Server.Messengers
 {
     public abstract class BaseMessenger<T> where T : IHub
     {

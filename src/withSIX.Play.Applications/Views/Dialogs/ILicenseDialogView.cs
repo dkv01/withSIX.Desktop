@@ -3,9 +3,9 @@
 // </copyright>
 
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Dialogs;
+using withSIX.Play.Applications.ViewModels.Dialogs;
 
-namespace SN.withSIX.Play.Applications.Views.Dialogs
+namespace withSIX.Play.Applications.Views.Dialogs
 {
     public interface ILicenseDialogView : IViewFor<ILicenseDialogViewModel> {}
 }

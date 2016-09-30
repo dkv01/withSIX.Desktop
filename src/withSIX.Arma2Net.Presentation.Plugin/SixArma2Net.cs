@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using Arma2Net.AddInProxy;
 
-namespace SN.withSIX.Arma2Net.Presentation.Plugin
+namespace withSIX.Arma2Net.Presentation.Plugin
 {
     [AddIn("SixArma2Net", Version = "1.0.0.0", Publisher = "SIX Networks",
         Description = "Used to plug into Play withSIX")]

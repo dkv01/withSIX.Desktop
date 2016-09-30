@@ -4,7 +4,7 @@
 
 
 
-namespace SN.withSIX.Play.Core.Connect
+namespace withSIX.Play.Core.Connect
 {
 
     public enum OnlineStatusSortKey

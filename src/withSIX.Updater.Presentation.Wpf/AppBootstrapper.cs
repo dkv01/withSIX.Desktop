@@ -11,29 +11,29 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Extensions;
-using SN.withSIX.Core.Presentation.Services;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Core.Presentation.Wpf.Views.Dialogs;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Data.Services;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Updater.Presentation.Wpf.Commands;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Services;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Core.Presentation.Wpf.Views.Dialogs;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Data.Services;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Presentation.Bridge.Extensions;
 
-namespace SN.withSIX.Updater.Presentation.Wpf
+namespace withSIX.Updater.Presentation.Wpf
 {
     public class AppBootstrapper : WpfAppBootstrapper<IShellViewModel>
     {

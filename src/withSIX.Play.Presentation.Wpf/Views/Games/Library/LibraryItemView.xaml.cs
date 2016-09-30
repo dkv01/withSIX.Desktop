@@ -5,11 +5,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Play.Applications.ViewModels.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Applications.ViewModels.Games;
+using withSIX.Play.Applications.ViewModels.Games.Library;
+using withSIX.Play.Core.Games.Legacy.Repo;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library
 {
     /// <summary>
     ///     Interaction logic for LibraryItemView.xaml

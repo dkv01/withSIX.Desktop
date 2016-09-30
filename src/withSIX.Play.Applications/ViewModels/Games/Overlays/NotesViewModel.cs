@@ -5,12 +5,12 @@
 using System;
 using ReactiveUI.Legacy;
 
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Core;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Core;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
+namespace withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class NotesViewModel : OverlayViewModelBase

@@ -1,10 +1,10 @@
 ﻿using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Core.Presentation.WinRT
+namespace withSIX.Core.Presentation.WinRT
 {
     public class Initializer : IInitializer
     {

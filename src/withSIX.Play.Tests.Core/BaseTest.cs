@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoFakeItEasy;
 
-namespace SN.withSIX.Play.Tests.Core
+namespace withSIX.Play.Tests.Core
 {
     [TestFixture]
     public abstract class BaseTest

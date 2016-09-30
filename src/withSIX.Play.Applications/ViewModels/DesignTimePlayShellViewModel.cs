@@ -2,11 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
-using SN.withSIX.Play.Applications.ViewModels.Games;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Play.Applications.ViewModels.Connect;
+using withSIX.Play.Applications.ViewModels.Games;
 
-namespace SN.withSIX.Play.Applications.ViewModels
+namespace withSIX.Play.Applications.ViewModels
 {
     public class DesignTimePlayShellViewModel : PlayShellViewModel, IDesignTimeViewModel
     {
@@ -17,7 +17,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
             //Games = new DesignTimeGamesViewModel();
             var designTimeServersViewModel = new DesignTimeServersViewModel();
             /*            ActiveGame =
-                new GameViewModel(new Arma2Game(Guid.NewGuid(), SN.withSIX.Play.Core.Options.UserSettings.Current.GameOptions.GameSettingsController),
+                new GameViewModel(new Arma2Game(Guid.NewGuid(), withSIX.Play.Core.Options.UserSettings.Current.GameOptions.GameSettingsController),
                     designTimeServersViewModel, new DesignTimeModsViewModel(), new DesignTimeMissionsViewModel());*/
 
             Connect.IsEnabled = true;

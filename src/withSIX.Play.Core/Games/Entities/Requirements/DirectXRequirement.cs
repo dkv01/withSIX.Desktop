@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Win32;
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Entities.Requirements
+namespace withSIX.Play.Core.Games.Entities.Requirements
 {
     public class DirectXRequirement : Requirement
     {

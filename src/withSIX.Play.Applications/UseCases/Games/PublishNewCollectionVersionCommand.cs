@@ -6,13 +6,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Applications.UseCases.Games
+namespace withSIX.Play.Applications.UseCases.Games
 {
     public class PublishNewCollectionVersionCommand : IAsyncRequest<Unit>, IRequireApiSession
     {

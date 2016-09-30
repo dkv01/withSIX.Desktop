@@ -4,7 +4,7 @@
 
 using withSIX.Api.Models.Exceptions;
 
-namespace SN.withSIX.Play.Core.Connect
+namespace withSIX.Play.Core.Connect
 {
     public class NotLoggedInException : UserException
     {

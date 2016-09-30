@@ -5,11 +5,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core.Extensions;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class ListCommand : BaseCommandAsync

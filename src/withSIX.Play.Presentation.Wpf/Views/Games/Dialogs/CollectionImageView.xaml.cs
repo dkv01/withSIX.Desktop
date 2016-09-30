@@ -4,11 +4,11 @@
 
 using System.Windows;
 using ReactiveUI;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using SN.withSIX.Play.Applications.Views.Games.Dialogs;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using withSIX.Play.Applications.Views.Games.Dialogs;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Dialogs
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Dialogs
 {
     /// <summary>
     ///     Interaction logic for CollectionImageView.xaml

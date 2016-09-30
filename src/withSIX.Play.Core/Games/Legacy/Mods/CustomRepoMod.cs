@@ -4,9 +4,9 @@
 
 using System;
 
-using SN.withSIX.Core.Extensions;
+using withSIX.Core.Extensions;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Mods
+namespace withSIX.Play.Core.Games.Legacy.Mods
 {
     
     public class CustomRepoMod : Mod

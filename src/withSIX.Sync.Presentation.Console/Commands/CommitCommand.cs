@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using NDepend.Path;
 
 using withSIX.Api.Models;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Services;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class CommitCommand : BaseCommandAsync

@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Telerik.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Controls
+namespace withSIX.Play.Presentation.Wpf.Views.Controls
 {
     /// <summary>
     ///     Workaround for Teleriks VirtualizingWrapPanel issues.

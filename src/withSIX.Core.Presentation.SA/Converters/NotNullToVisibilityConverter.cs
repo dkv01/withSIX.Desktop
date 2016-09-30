@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SN.withSIX.Core.Presentation.SA.Converters
+namespace withSIX.Core.Presentation.SA.Converters
 {
     public class NotNullToVisibilityConverter : IValueConverter
     {

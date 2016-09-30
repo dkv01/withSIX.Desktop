@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using ManyConsole;
 using NDepend.Path;
 
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Repositories;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Presentation.Console.Services;
+using withSIX.Core.Helpers;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Repositories;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Presentation.Console.Services;
 using withSIX.Api.Models;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
 
     public class CheckoutCommand : BaseCommandAsync

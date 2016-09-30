@@ -5,7 +5,7 @@
 using System;
 
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Overlays
+namespace withSIX.Play.Applications.ViewModels.Games.Overlays
 {
     
     public class ModVersionOverlayViewModel : ModInfoOverlayViewModel

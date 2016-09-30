@@ -3,9 +3,9 @@
 // </copyright>
 
 using System.IO;
-using SN.withSIX.Core.Logging;
+using withSIX.Core.Logging;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Arma
+namespace withSIX.Play.Core.Games.Legacy.Arma
 {
     public abstract class UserconfigProcessorBase : IEnableLogging
     {

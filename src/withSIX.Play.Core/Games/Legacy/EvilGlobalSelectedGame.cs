@@ -6,17 +6,17 @@ using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Core;
+using withSIX.Core.Extensions;
+using withSIX.Core.Services;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Extensions;
-using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
+using PropertyChangedBase = withSIX.Core.Helpers.PropertyChangedBase;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     [Obsolete("Destroy")]
     public class EvilGlobalSelectedGame : PropertyChangedBase, IDomainService

@@ -5,14 +5,14 @@
 using AutoMapper;
 using AutoMapper.Mappers;
 using NDepend.Path;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Sync.Core.Packages;
-using SN.withSIX.Sync.Core.Packages.Internals;
-using SN.withSIX.Sync.Core.Repositories;
+using withSIX.Core.Extensions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Sync.Core.Packages;
+using withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Repositories;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.Playground
+namespace withSIX.Play.Tests.Core.Unit.Playground
 {
     // TODO: Probably better to make this share-able through the website
     // reasons:

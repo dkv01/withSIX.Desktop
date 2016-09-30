@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Xml;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Connect.Parser;
+using withSIX.Core;
+using withSIX.Play.Core.Connect.Parser;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
+namespace withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
 {
     public class ChatToXamlConverter
     {

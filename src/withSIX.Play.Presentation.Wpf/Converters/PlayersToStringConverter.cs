@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Games.Legacy.Servers;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     public class PlayersToStringConverter : IValueConverter
     {

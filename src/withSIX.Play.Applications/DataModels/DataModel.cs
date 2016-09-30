@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.ViewModels;
 using withSIX.Api.Models.Content.v3;
 
-namespace SN.withSIX.Play.Applications.DataModels
+namespace withSIX.Play.Applications.DataModels
 {
     public abstract class DataModelRequireId<TId> : DataModel, IHaveId<TId>
     {

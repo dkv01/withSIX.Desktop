@@ -10,21 +10,21 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Glue.Helpers;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Extensions;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Glue.Helpers;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public class ModLibrarySetup : LibrarySetup<ContentLibraryItemViewModel>, IHandle<GamePathChanged>,
         IHandle<ModPathChanged>,

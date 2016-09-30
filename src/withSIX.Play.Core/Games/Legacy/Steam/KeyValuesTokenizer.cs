@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.Steam
+namespace withSIX.Play.Core.Games.Legacy.Steam
 {
     public enum TokenType
     {

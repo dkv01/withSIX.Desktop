@@ -11,13 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Newtonsoft.Json;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Infra.Api.ContentApi.Dto;
+using withSIX.Core;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Infra.Api.ContentApi.Dto;
 
-namespace SN.withSIX.Play.Infra.Api.ContentApi
+namespace withSIX.Play.Infra.Api.ContentApi
 {
     public static class RepoHelper
     {

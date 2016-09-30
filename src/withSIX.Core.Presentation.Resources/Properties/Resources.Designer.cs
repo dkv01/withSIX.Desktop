@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SN.withSIX.Core.Presentation.Resources.Properties {
+namespace withSIX.Core.Presentation.Resources.Properties {
     using System;
     
     

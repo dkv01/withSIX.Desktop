@@ -4,10 +4,10 @@
 
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
 
-namespace SN.withSIX.Play.Applications.NotificationHandlers
+namespace withSIX.Play.Applications.NotificationHandlers
 {
     public class GameInfoHandler : IAsyncNotificationHandler<ActiveGameChanged>,
         IAsyncNotificationHandler<SubGamesChanged>

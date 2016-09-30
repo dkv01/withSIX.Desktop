@@ -9,17 +9,17 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Microsoft.Win32;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Wpf;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Applications.Services;
+using withSIX.Core;
+using withSIX.Core.Infra.Services;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Wpf;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Applications.Services;
 using Squirrel;
 using UpdateManager = Squirrel.UpdateManager;
 
-namespace SN.withSIX.Play.Presentation.Wpf
+namespace withSIX.Play.Presentation.Wpf
 {
     public class Entrypoint
     {

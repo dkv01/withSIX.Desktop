@@ -9,20 +9,20 @@ using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
+using withSIX.Play.Applications.ViewModels.Overlays;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Options;
 using IScreen = ReactiveUI.IScreen;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     
     public class ContentViewModel : ReactiveConductor<ModuleViewModelBase>.Collection.OneActive, IContentViewModel,

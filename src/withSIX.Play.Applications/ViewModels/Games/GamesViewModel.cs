@@ -16,26 +16,26 @@ using ReactiveUI;
 using MediatR;
 
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Helpers;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Applications.DataModels.Games;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Applications.UseCases;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.Helpers;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Helpers;
+using withSIX.Play.Applications.DataModels.Games;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.Services;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Applications.UseCases;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Applications.ViewModels.Games.Overlays;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Options;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games
+namespace withSIX.Play.Applications.ViewModels.Games
 {
     
     public class GamesViewModel : ModuleViewModelBase, IHandle<RequestGameSettingsOverlay>,

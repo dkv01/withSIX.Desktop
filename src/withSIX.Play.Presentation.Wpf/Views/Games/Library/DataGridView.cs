@@ -7,9 +7,9 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library
 {
     public interface IDataGridView : IViewFor<IHaveSelectedItems> {}
 

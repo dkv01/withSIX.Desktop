@@ -7,14 +7,14 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications.Services;
 using Squirrel;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Overlays
+namespace withSIX.Play.Applications.ViewModels.Overlays
 {
     public interface ISoftwareUpdateSquirrelOverlayViewModel
     {

@@ -4,7 +4,7 @@
 
 using NUnit.Framework;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests
+namespace withSIX.Play.Tests.Core.Unit.GameTests
 {
     [TestFixture]
     public class GameServiceProviderTest

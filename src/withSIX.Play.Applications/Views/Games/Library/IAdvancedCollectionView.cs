@@ -4,7 +4,7 @@
 
 using ReactiveUI;
 
-namespace SN.withSIX.Play.Applications.Views.Games.Library
+namespace withSIX.Play.Applications.Views.Games.Library
 {
     public interface IAdvancedCollectionView : IViewFor<AdvancedCollectionViewModel> {}
 }

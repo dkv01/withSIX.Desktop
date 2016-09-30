@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SN.withSIX.Play.Applications.DataModels.Profiles
+namespace withSIX.Play.Applications.DataModels.Profiles
 {
     public class ProfileDataModel : DataModelRequireId<Guid>
     {

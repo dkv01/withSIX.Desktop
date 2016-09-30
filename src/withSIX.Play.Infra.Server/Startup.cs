@@ -14,17 +14,17 @@ using Newtonsoft.Json;
 using Owin;
 using MediatR;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Factories;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Infra.Server.Hubs;
-using SN.withSIX.Play.Infra.Server.UseCases;
+using withSIX.Core;
+using withSIX.Core.Applications.Factories;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Infra.Server.Hubs;
+using withSIX.Play.Infra.Server.UseCases;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Play.Infra.Server
+namespace withSIX.Play.Infra.Server
 {
     public class StartInternalSignalRServer : IRequest<IDisposable>
     {

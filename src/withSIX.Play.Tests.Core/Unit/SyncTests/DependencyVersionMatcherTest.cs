@@ -4,9 +4,9 @@
 
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Sync.Core.Packages.Internals;
+using withSIX.Sync.Core.Packages.Internals;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
+namespace withSIX.Play.Tests.Core.Unit.SyncTests
 {
     [TestFixture]
     public class DependencyVersionMatcherTest

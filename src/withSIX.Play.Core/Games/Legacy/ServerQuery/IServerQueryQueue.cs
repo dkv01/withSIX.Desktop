@@ -4,10 +4,10 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Play.Core.Games.Entities;
+using withSIX.Core.Helpers;
+using withSIX.Play.Core.Games.Entities;
 
-namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
+namespace withSIX.Play.Core.Games.Legacy.ServerQuery
 {
     public interface IServerQueryQueue
     {

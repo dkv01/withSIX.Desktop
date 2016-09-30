@@ -6,16 +6,16 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Caliburn.Micro;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Updater.Presentation.Wpf.Services;
+using withSIX.Core;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
+using withSIX.Core.Presentation.Wpf.Services;
+using withSIX.Updater.Presentation.Wpf.Services;
 using withSIX.Api.Models.Extensions;
 
-namespace SN.withSIX.Updater.Presentation.Wpf.Commands
+namespace withSIX.Updater.Presentation.Wpf.Commands
 {
     public class LaunchGameCommand : BaseCommand
     {

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using CefSharp;
 
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views
+namespace withSIX.Play.Presentation.Wpf.Views
 {
     
     public partial class SoftwareUpdateView : UserControl

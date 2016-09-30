@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace SN.withSIX.Play.Core.Connect.Events
+namespace withSIX.Play.Core.Connect.Events
 {
     public class RequestOpenBrowser : EventArgs
     {

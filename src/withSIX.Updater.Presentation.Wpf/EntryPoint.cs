@@ -5,11 +5,11 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
 
-namespace SN.withSIX.Updater.Presentation.Wpf
+namespace withSIX.Updater.Presentation.Wpf
 {
     public class EntryPoint
     {

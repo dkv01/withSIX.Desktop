@@ -5,9 +5,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Play.Applications.Views.Games.Library;
+using withSIX.Play.Applications.Views.Games.Library;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library
 {
     /// <summary>
     ///     Interaction logic for AdvancedCollectionView.xaml

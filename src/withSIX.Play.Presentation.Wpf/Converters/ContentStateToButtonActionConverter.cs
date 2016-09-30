@@ -5,10 +5,10 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Converters
+namespace withSIX.Play.Presentation.Wpf.Converters
 {
     public class ContentStateToButtonActionConverter : IValueConverter
     {

@@ -4,7 +4,7 @@
 
 
 
-namespace SN.withSIX.Play.Applications.ViewModels
+namespace withSIX.Play.Applications.ViewModels
 {
 
     public enum ControllerModules

@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using MediatR;
 using withSIX.Api.Models;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Core.Logging;
+using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
 
-namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
+namespace withSIX.Play.Core.Games.Services.GameLauncher
 {
     class RealVirtualityLauncher : GameLauncher, IRealVirtualityLauncher
     {

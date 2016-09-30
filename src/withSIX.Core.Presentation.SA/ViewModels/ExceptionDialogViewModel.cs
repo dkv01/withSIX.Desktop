@@ -5,7 +5,7 @@
 using System;
 using System.Security;
 
-namespace SN.withSIX.Core.Presentation.SA.ViewModels
+namespace withSIX.Core.Presentation.SA.ViewModels
 {
     
     public class ExceptionDialogViewModel

@@ -6,11 +6,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Games.Legacy;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Games.Legacy;
 
-namespace SN.withSIX.Play.Applications.UseCases
+namespace withSIX.Play.Applications.UseCases
 {
     public class GenerateNewCollectionImageCommand : IAsyncRequest<Unit>, IRequireApiSession
     {

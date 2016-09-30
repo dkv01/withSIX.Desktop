@@ -4,9 +4,9 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Play.Core.Options.Entries;
+using withSIX.Play.Core.Options.Entries;
 
-namespace SN.withSIX.Play.Core.Options
+namespace withSIX.Play.Core.Options
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class RecentGameSettings

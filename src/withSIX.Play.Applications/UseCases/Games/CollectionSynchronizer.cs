@@ -7,18 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SN.withSIX.Core;
+using withSIX.Core;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
 
-namespace SN.withSIX.Play.Applications.UseCases.Games
+namespace withSIX.Play.Applications.UseCases.Games
 {
     public class SubscribedToCollection : global::withSIX.Api.Models.Collections.SubscribedToCollection, IAsyncDomainEvent
     {

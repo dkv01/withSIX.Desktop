@@ -6,9 +6,9 @@ using System;
 using System.Diagnostics.Contracts;
 using MediatR;
 
-using SN.withSIX.Play.Core.Options;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.UseCases.Profiles
+namespace withSIX.Play.Applications.UseCases.Profiles
 {
     public class SwitchProfileCommand : IRequest<Unit>
     {

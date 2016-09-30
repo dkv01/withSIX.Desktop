@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.MirrorSelectors
+namespace withSIX.Play.Tests.Core.Unit.SyncTests.MirrorSelectors
 {
     [TestFixture]
     public class ScoreMirrorSelectorTest

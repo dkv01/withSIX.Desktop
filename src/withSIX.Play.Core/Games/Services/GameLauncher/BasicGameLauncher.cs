@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace SN.withSIX.Play.Core.Games.Services.GameLauncher
+namespace withSIX.Play.Core.Games.Services.GameLauncher
 {
     public interface IBasicGameLauncher : IGameLauncher, ILaunch, ILaunchWithSteam {}
 

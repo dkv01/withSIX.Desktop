@@ -4,11 +4,11 @@
 
 using System.Windows;
 using ReactiveUI;
-using SN.withSIX.Core.Presentation.Wpf.Views.Controls;
-using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
-using SN.withSIX.Play.Applications.Views.Games.Overlays;
+using withSIX.Core.Presentation.Wpf.Views.Controls;
+using withSIX.Play.Applications.ViewModels.Games.Popups;
+using withSIX.Play.Applications.Views.Games.Overlays;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Popups
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Popups
 {
     /// <summary>
     ///     Interaction logic for CreateCollectionView.xaml

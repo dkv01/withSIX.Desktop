@@ -4,7 +4,7 @@
 
 using System.Windows.Controls;
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.CollectionLibraryItem
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Library.CollectionLibraryItem
 {
     /// <summary>
     ///     Interaction logic for CollectionLibraryItemView.xaml

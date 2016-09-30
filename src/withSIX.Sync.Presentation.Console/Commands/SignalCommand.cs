@@ -4,9 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Sync.Core.Services;
+using withSIX.Sync.Core.Services;
 
-namespace SN.withSIX.Sync.Presentation.Console.Commands
+namespace withSIX.Sync.Presentation.Console.Commands
 {
     public class SignalCommand : BaseCommandAsync
     {

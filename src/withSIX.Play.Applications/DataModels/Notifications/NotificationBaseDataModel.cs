@@ -2,10 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications;
+using withSIX.Core.Applications.Extensions;
 
-namespace SN.withSIX.Play.Applications.DataModels.Notifications
+namespace withSIX.Play.Applications.DataModels.Notifications
 {
     // Cheating
     public class DefaultNotificationDataModel : NotificationBaseDataModel

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SN.withSIX.Updater.Presentation.Wpf.Properties {
+namespace withSIX.Updater.Presentation.Wpf.Properties {
     using System;
     
     

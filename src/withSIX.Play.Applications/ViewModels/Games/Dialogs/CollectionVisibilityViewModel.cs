@@ -5,12 +5,13 @@
 using ReactiveUI.Legacy;
 
 using withSIX.Api.Models.Collections;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.MVVM.Services;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.MVVM.Services;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Core.Applications.Services;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Dialogs
+namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
 {
     public interface ICollectionVisibilityViewModel {}
 

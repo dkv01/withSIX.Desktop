@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using NDepend.Path;
 using NUnit.Framework;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.Playground
+namespace withSIX.Play.Tests.Core.Unit.Playground
 {
     public class ConvertIcons
     {

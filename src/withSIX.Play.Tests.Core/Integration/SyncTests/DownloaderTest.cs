@@ -7,16 +7,16 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Data.Services;
-using SN.withSIX.Play.Tests.Core.Support;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Core;
+using withSIX.Core.Infra.Services;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Data.Services;
+using withSIX.Play.Tests.Core.Support;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Play.Tests.Core.Integration.SyncTests
+namespace withSIX.Play.Tests.Core.Integration.SyncTests
 {
     [TestFixture, Ignore(""), Category("Integration")]
     public class DownloaderTest

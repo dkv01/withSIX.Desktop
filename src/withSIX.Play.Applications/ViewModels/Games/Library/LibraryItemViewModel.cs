@@ -13,15 +13,15 @@ using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.MVVM;
-using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Play.Applications.Extensions;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.MVVM.ViewModels;
+using withSIX.Play.Applications.Extensions;
+using withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
+namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
     public static class HierarchicalExtensions
     {

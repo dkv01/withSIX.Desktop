@@ -12,18 +12,18 @@ using NDepend.Path;
 using NUnit.Framework;
 using MediatR;
 using SimpleInjector;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.ContentEngine.Infra;
-using SN.withSIX.ContentEngine.Infra.UseCases;
-using SN.withSIX.Core.Applications.Factories;
-using SN.withSIX.Core.Presentation.Wpf.Legacy;
-using SN.withSIX.Play.Tests.Core.Support;
+using withSIX.ContentEngine.Core;
+using withSIX.Core.Presentation;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.ContentEngine.Infra;
+using withSIX.ContentEngine.Infra.UseCases;
+using withSIX.Core.Applications.Factories;
+using withSIX.Core.Presentation.Wpf.Legacy;
+using withSIX.Play.Tests.Core.Support;
 using Splat;
-using ILogger = SN.withSIX.Core.Logging.ILogger;
+using ILogger = withSIX.Core.Logging.ILogger;
 
-namespace SN.withSIX.Play.Tests.Core.ContentEngine
+namespace withSIX.Play.Tests.Core.ContentEngine
 {
     [TestFixture]
     public class ContentEngineTests
@@ -55,7 +55,7 @@ namespace SN.withSIX.Play.Tests.Core.ContentEngine
             //_bootstrapper = new TestAppBootstrapper();
             //_bootstrapper.OnStartup();
 
-            _contentEngine = new SN.withSIX.ContentEngine.Infra.ContentEngine(_serviceRegistry, _scriptRegistry, _realResourceService);
+            _contentEngine = new withSIX.ContentEngine.Infra.ContentEngine(_serviceRegistry, _scriptRegistry, _realResourceService);
 
         }
 
@@ -68,7 +68,7 @@ namespace SN.withSIX.Play.Tests.Core.ContentEngine
         public void CanLoadModTest() {
             var serviceRegistry = new ServiceRegistry(_scriptRegistry, _depResolver);
 
-            _contentEngine = new SN.withSIX.ContentEngine.Infra.ContentEngine(serviceRegistry, _scriptRegistry, _realResourceService);
+            _contentEngine = new withSIX.ContentEngine.Infra.ContentEngine(serviceRegistry, _scriptRegistry, _realResourceService);
 
 
             var acre2 = A.Fake<IMod>();
@@ -83,7 +83,7 @@ namespace SN.withSIX.Play.Tests.Core.ContentEngine
         public void CanProcessModTest() {
             var serviceRegistry = new ServiceRegistry(_scriptRegistry, _depResolver);
 
-            _contentEngine = new SN.withSIX.ContentEngine.Infra.ContentEngine(serviceRegistry, _scriptRegistry, _realResourceService);
+            _contentEngine = new withSIX.ContentEngine.Infra.ContentEngine(serviceRegistry, _scriptRegistry, _realResourceService);
 
 
             var acre2 = A.Fake<IMod>();

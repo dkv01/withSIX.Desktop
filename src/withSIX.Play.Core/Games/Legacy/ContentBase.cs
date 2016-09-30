@@ -4,10 +4,10 @@
 
 using System;
 using System.Runtime.Serialization;
-using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Options;
+using withSIX.Core;
+using withSIX.Play.Core.Options;
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class ContentBase : SyncBase, IHaveNotes, IFavorite

@@ -10,16 +10,16 @@ using FakeItEasy;
 using FluentAssertions;
 using NDepend.Path;
 using NUnit.Framework;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Entities.RealVirtuality;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Play.Core.Games.Services.GameLauncher;
-using SN.withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Entities.RealVirtuality;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.ServerQuery;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Play.Core.Games.Services.GameLauncher;
+using withSIX.Play.Tests.Core.Unit.GameTests.Extensions;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.RealVirtuality
+namespace withSIX.Play.Tests.Core.Unit.GameTests.Entities.RealVirtuality
 {
     [TestFixture, Category("Arma Base")]
     public class ArmaGameTest

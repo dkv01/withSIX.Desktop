@@ -4,10 +4,10 @@
 
 using System;
 using MediatR;
-using SN.withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.Infrastructure;
 
-namespace SN.withSIX.Play.Applications.UseCases
-{
+namespace withSIX.Play.Applications.UseCases
+{/*
     public class ProcessLoginCommand : IRequest<IAuthorizeResponse>
     {
         public ProcessLoginCommand(Uri uri, Uri callbackUri) {
@@ -30,4 +30,5 @@ namespace SN.withSIX.Play.Applications.UseCases
 
         public IAuthorizeResponse Handle(ProcessLoginCommand request) => _connect.GetResponse(request.CallbackUri, request.Uri);
     }
+    */
 }

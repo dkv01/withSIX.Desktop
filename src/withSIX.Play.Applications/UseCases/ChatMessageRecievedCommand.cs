@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace SN.withSIX.Play.Applications.UseCases
+namespace withSIX.Play.Applications.UseCases
 {
     public class ChatMessageRecievedCommand : IAsyncRequest<Unit> {}
 

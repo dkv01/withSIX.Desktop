@@ -7,19 +7,19 @@ using System.IO;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Services;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Services;
-using SN.withSIX.Sync.Core.Legacy.Status;
-using SN.withSIX.Sync.Core.Repositories.Internals;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using StatusRepo = SN.withSIX.Play.Core.Games.Services.StatusRepo;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Helpers;
+using withSIX.Core.Services;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Services;
+using withSIX.Sync.Core.Legacy.Status;
+using withSIX.Sync.Core.Repositories.Internals;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
+using StatusRepo = withSIX.Play.Core.Games.Services.StatusRepo;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class RepoActionHandler : PropertyChangedBase, IRepoActionHandler, IDomainService
     {
@@ -68,7 +68,7 @@ namespace SN.withSIX.Play.Applications.Services
             try {
                 await action().ConfigureAwait(false);
             } catch (UserDeclinedLicenseException e) {} catch (LicenseRetrievalException e) {
-                await UserError.Throw(new InformationalUserError(e,
+                await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "One or more mod licenses failed to download and display correctly.",
                     "Mod license retrieval failed during " + task));
             } catch (HostListExhausted e) {
@@ -77,13 +77,13 @@ namespace SN.withSIX.Play.Applications.Services
                 await DealWithUpdateException(e, task);
             } catch (IOException e) {
                 if (await DealWithUpdateException(e, task))
-                    await UserError.Throw(new InformationalUserError(e, "A problem occurred during " + task, null));
+                    await UserErrorHandler.HandleUserError(new InformationalUserError(e, "A problem occurred during " + task, null));
             } catch (UnauthorizedAccessException e) {
                 if (await DealWithUpdateException(e, task))
-                    await UserError.Throw(new InformationalUserError(e, "A problem occurred during " + task, null));
+                    await UserErrorHandler.HandleUserError(new InformationalUserError(e, "A problem occurred during " + task, null));
             } catch (Exception e) {
                 if (!_busyStateHandler.IsAborted)
-                    await UserError.Throw(new InformationalUserError(e, "A problem occurred during " + task, null));
+                    await UserErrorHandler.HandleUserError(new InformationalUserError(e, "A problem occurred during " + task, null));
             }
         }
 
@@ -94,7 +94,7 @@ namespace SN.withSIX.Play.Applications.Services
 
             if (title == null)
                 title = "A problem occurred during " + task;
-            await UserError.Throw(new InformationalUserError(e, message, title));
+            await UserErrorHandler.HandleUserError(new InformationalUserError(e, message, title));
             return true;
         }
 

@@ -5,7 +5,7 @@
 using System.Windows.Controls;
 
 
-namespace SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays
+namespace withSIX.Play.Presentation.Wpf.Views.Games.Overlays
 {
     
     public partial class ModSettingsOverlayView : UserControl

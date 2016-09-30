@@ -24,45 +24,45 @@ using MediatR;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.Arma3;
-using SN.withSIX.ContentEngine.Core;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
-using SN.withSIX.Core.Applications.Infrastructure;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Applications.Helpers;
-using SN.withSIX.Play.Applications.Services.Infrastructure;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Extensions;
-using SN.withSIX.Play.Core.Games.Entities;
-using SN.withSIX.Play.Core.Games.Legacy;
-using SN.withSIX.Play.Core.Games.Legacy.Events;
-using SN.withSIX.Play.Core.Games.Legacy.Helpers;
-using SN.withSIX.Play.Core.Games.Legacy.Missions;
-using SN.withSIX.Play.Core.Games.Legacy.Mods;
-using SN.withSIX.Play.Core.Games.Legacy.Repo;
-using SN.withSIX.Play.Core.Games.Legacy.Servers;
-using SN.withSIX.Play.Core.Games.Services.Infrastructure;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Sync.Core.ExternalTools;
-using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
+using withSIX.ContentEngine.Core;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.Infrastructure;
+using withSIX.Core.Applications.MVVM.Extensions;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
+using withSIX.Play.Applications.Helpers;
+using withSIX.Play.Applications.Services.Infrastructure;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Applications.ViewModels.Games.Dialogs;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Events;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Extensions;
+using withSIX.Play.Core.Games.Entities;
+using withSIX.Play.Core.Games.Legacy;
+using withSIX.Play.Core.Games.Legacy.Events;
+using withSIX.Play.Core.Games.Legacy.Helpers;
+using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Play.Core.Games.Legacy.Repo;
+using withSIX.Play.Core.Games.Legacy.Servers;
+using withSIX.Play.Core.Games.Services.Infrastructure;
+using withSIX.Play.Core.Options;
+using withSIX.Sync.Core.ExternalTools;
+using withSIX.Sync.Core.Legacy;
+using withSIX.Sync.Core.Legacy.SixSync;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
-using Timer = SN.withSIX.Core.Helpers.Timer;
+using Timer = withSIX.Core.Helpers.Timer;
 
-namespace SN.withSIX.Play.Applications.Services
+namespace withSIX.Play.Applications.Services
 {
     public class ContentManager : IHandle<ModPathChanged>, IHandle<GamePathChanged>,
         IContentManager, IHandle<SynqPathChanged>, IHandle<GameContentAfterSynced>,
@@ -465,7 +465,7 @@ namespace SN.withSIX.Play.Applications.Services
             try {
                 await _apiHandler.LoadFromDisk().ConfigureAwait(false);
             } catch (Exception e) {
-                await UserError.Throw(new InformationalUserError(e,
+                await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "An error occurred while trying to load API SyncData: " + e.Message, null));
             }
         }
@@ -477,7 +477,7 @@ namespace SN.withSIX.Play.Applications.Services
                 if (suppressExceptionDialog)
                     this.Logger().FormattedErrorException(e);
                 else {
-                    await UserError.Throw(new InformationalUserError(e,
+                    await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                         "An issue occurred during Synchronization. If the application doesn't work properly, best try restarting\n\nMain reasons for failed sync is unable to connect to withSIX API, either due to internet outage, firewall misconfiguration or possible API outage.",
                         "An issue occurred during Synchronization"));
                 }
@@ -485,7 +485,7 @@ namespace SN.withSIX.Play.Applications.Services
                 if (suppressExceptionDialog)
                     this.Logger().FormattedErrorException(e);
                 else {
-                    await UserError.Throw(new InformationalUserError(e,
+                    await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                         "An issue occurred during Synchronization. If the application doesn't work properly, best try restarting\n\nMain reasons for failed sync is unable to connect to withSIX API, either due to internet outage, firewall misconfiguration or possible API outage.",
                         null));
                 }
@@ -552,7 +552,7 @@ namespace SN.withSIX.Play.Applications.Services
                 using (this.Bench())
                     await AfterSync().ConfigureAwait(false);
             } catch (Exception e) {
-                await UserError.Throw(new InformationalUserError(e,
+                await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "A problem occurred while processing API data, please try again later: " + e.Message, null));
             }
         }
@@ -859,8 +859,8 @@ namespace SN.withSIX.Play.Applications.Services
             Image b = overlay.ToBitmap();
             var bitmap = new Bitmap(a.Width, a.Height);
             var canvas = Graphics.FromImage(bitmap);
-            canvas.DrawImage(a, new Point(0, 0));
-            canvas.DrawImage(b, new Point(16, 16));
+            //canvas.DrawImage(a, new Point(0, 0));
+            //canvas.DrawImage(b, new Point(16, 16));
             canvas.Save();
             return Icon.FromHandle(bitmap.GetHicon());
         }
@@ -902,7 +902,7 @@ namespace SN.withSIX.Play.Applications.Services
             } catch (Exception e) {
                 if (report) {
                     await
-                        UserError.Throw(new InformationalUserError(e, "Error during processing repo from " + newUri,
+                        UserErrorHandler.HandleUserError(new InformationalUserError(e, "Error during processing repo from " + newUri,
                             null));
                 } else
                     this.Logger().FormattedWarnException(e, "Failure during processing repo from " + newUri);
@@ -914,7 +914,7 @@ namespace SN.withSIX.Play.Applications.Services
                 await UpdateCustomRepoModSet(collection).ConfigureAwait(false);
             } catch (Exception e) {
                 if (report) {
-                    await UserError.Throw(new InformationalUserError(e,
+                    await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                         "Unhandled exception during processing of repository for " + collection.Name, null));
                 } else {
                     this.Logger()
@@ -1408,16 +1408,16 @@ namespace SN.withSIX.Play.Applications.Services
             try {
                 await TryUpdateSynq().ConfigureAwait(false);
             } catch (IOException e) {
-                await UserError.Throw(new InformationalUserError(e,
+                await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "Failure during processing of Synq data, please correct the problem.\nIf you feel this is a bug, please report the issue to Support",
                     null));
             } catch (NoHostsAvailableException e) {
-                await UserError.Throw(new InformationalUserError(e,
+                await UserErrorHandler.HandleUserError(new InformationalUserError(e,
                     "Could not connect to API; No hosts available. Try adjusting Protocol Preference in the settings either to 'Any', or 'Prefer x'",
                     null));
             } catch (Exception e) {
                 await
-                    UserError.Throw(new InformationalUserError(e, "An error occurred during processing of Synq data",
+                    UserErrorHandler.HandleUserError(new InformationalUserError(e, "An error occurred during processing of Synq data",
                         null));
             }
         }
@@ -1565,7 +1565,7 @@ namespace SN.withSIX.Play.Applications.Services
                 // TODO: Improve multi handling
                 foreach (var e in ex) {
                     await
-                        UserError.Throw(new InformationalUserError(e, "A problem occurred during updating remotes", null));
+                        UserErrorHandler.HandleUserError(new InformationalUserError(e, "A problem occurred during updating remotes", null));
                 }
             }
         }

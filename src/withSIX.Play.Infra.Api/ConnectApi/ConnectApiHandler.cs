@@ -24,25 +24,25 @@ using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.Arma3;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Social;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Helpers;
-using SN.withSIX.Core.Infra.Services;
-using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Applications.UseCases.Games;
-using SN.withSIX.Play.Core;
-using SN.withSIX.Play.Core.Connect;
-using SN.withSIX.Play.Core.Connect.Infrastructure;
-using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Infra.Api.Hubs;
+using withSIX.Core;
+using withSIX.Core.Applications.Errors;
+using withSIX.Core.Extensions;
+using withSIX.Core.Helpers;
+using withSIX.Core.Infra.Services;
+using withSIX.Play.Applications;
+using withSIX.Play.Applications.UseCases.Games;
+using withSIX.Play.Core;
+using withSIX.Play.Core.Connect;
+using withSIX.Play.Core.Connect.Infrastructure;
+using withSIX.Play.Core.Options;
+using withSIX.Play.Infra.Api.Hubs;
 using withSIX.Api.Models.Content.v2;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Validators;
-using SubscribedToCollection = SN.withSIX.Play.Applications.UseCases.Games.SubscribedToCollection;
-using UnsubscribedFromCollection = SN.withSIX.Play.Applications.UseCases.Games.UnsubscribedFromCollection;
+using SubscribedToCollection = withSIX.Play.Applications.UseCases.Games.SubscribedToCollection;
+using UnsubscribedFromCollection = withSIX.Play.Applications.UseCases.Games.UnsubscribedFromCollection;
 
-namespace SN.withSIX.Play.Infra.Api.ConnectApi
+namespace withSIX.Play.Infra.Api.ConnectApi
 {
     class AvatarCalc
     {
@@ -247,10 +247,10 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             try {
                 await action(x).ConfigureAwait(false);
             } catch (Exception ex) {
-                var r = await UserError.Throw(_exHandler.HandleException(ex, "API action"));
-                if (r == RecoveryOptionResult.RetryOperation)
+                var r = await UserErrorHandler.HandleUserError(_exHandler.HandleException(ex, "API action"));
+                if (r == RecoveryOptionResultModel.RetryOperation)
                     goto retry;
-                if (r == RecoveryOptionResult.FailOperation)
+                if (r == RecoveryOptionResultModel.FailOperation)
                     throw;
             }
         }

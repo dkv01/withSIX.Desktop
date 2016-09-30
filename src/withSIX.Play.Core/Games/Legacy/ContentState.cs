@@ -4,7 +4,7 @@
 
 
 
-namespace SN.withSIX.Play.Core.Games.Legacy
+namespace withSIX.Play.Core.Games.Legacy
 {
 
     public enum ContentState

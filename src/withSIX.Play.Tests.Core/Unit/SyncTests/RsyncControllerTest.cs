@@ -6,12 +6,12 @@ using System;
 using System.Diagnostics;
 using FakeItEasy;
 using NUnit.Framework;
-using SN.withSIX.Core.Services.Infrastructure;
-using SN.withSIX.Sync.Core.Transfer;
-using SN.withSIX.Sync.Core.Transfer.Protocols;
-using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Core.Services.Infrastructure;
+using withSIX.Sync.Core.Transfer;
+using withSIX.Sync.Core.Transfer.Protocols;
+using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
+namespace withSIX.Play.Tests.Core.Unit.SyncTests
 {
     [TestFixture]
     public class RsyncControllerTest
