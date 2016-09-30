@@ -14,7 +14,6 @@ using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
-using withSIX.Core.Presentation.Extensions;
 using withSIX.Core.Presentation.Wpf.Legacy;
 using withSIX.Play.Applications.Services.Infrastructure;
 using withSIX.Play.Core;
@@ -24,6 +23,7 @@ using withSIX.Sync.Core.Repositories;
 using withSIX.Sync.Core.Transfer;
 using withSIX.Sync.Presentation.Console.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Presentation.Bridge.Extensions;
 
 namespace withSIX.Sync.Presentation.Console
 {

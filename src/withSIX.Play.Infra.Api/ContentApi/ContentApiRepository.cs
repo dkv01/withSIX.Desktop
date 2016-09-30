@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using withSIX.Core;
 using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Extensions;
+using withSIX.Core.Infra.Services;
 using withSIX.Play.Core.Games.Legacy;
 using withSIX.Play.Infra.Api.ContentApi.Dto;
 

@@ -17,7 +17,6 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using withSIX.Core;
 using withSIX.Core.Logging;
-using withSIX.Core.Presentation.Resources.Services;
 using withSIX.Core.Presentation.Wpf.Services;
 
 namespace withSIX.Play.Presentation.Wpf.Views.Controls

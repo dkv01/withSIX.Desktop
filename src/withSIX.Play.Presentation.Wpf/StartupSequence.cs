@@ -14,8 +14,8 @@ using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
-using withSIX.Core.Presentation.Assemblies;
-using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Bridge.Logging;
 using withSIX.Core.Presentation.Wpf.Services;
 using withSIX.Play.Applications;
 
@@ -63,7 +63,7 @@ namespace withSIX.Play.Presentation.Wpf
             } catch (UnauthorizedAccessException e) {
                 MainLog.Logger.FormattedWarnException(e);
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "failed to register user app keys", null));
+                UserErrorHandler.HandleUserError(new InformationalUserError(e, "failed to register user app keys", null));
             }
         }
 
@@ -73,7 +73,7 @@ namespace withSIX.Play.Presentation.Wpf
             } catch (UnauthorizedAccessException e) {
                 MainLog.Logger.FormattedWarnException(e);
             } catch (Exception e) {
-                UserError.Throw(new InformationalUserError(e, "failed to register user handlers", null));
+                UserErrorHandler.HandleUserError(new InformationalUserError(e, "failed to register user handlers", null));
             }
         }
 

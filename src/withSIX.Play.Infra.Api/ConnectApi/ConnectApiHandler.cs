@@ -247,10 +247,10 @@ namespace withSIX.Play.Infra.Api.ConnectApi
             try {
                 await action(x).ConfigureAwait(false);
             } catch (Exception ex) {
-                var r = await UserError.Throw(_exHandler.HandleException(ex, "API action"));
-                if (r == RecoveryOptionResult.RetryOperation)
+                var r = await UserErrorHandler.HandleUserError(_exHandler.HandleException(ex, "API action"));
+                if (r == RecoveryOptionResultModel.RetryOperation)
                     goto retry;
-                if (r == RecoveryOptionResult.FailOperation)
+                if (r == RecoveryOptionResultModel.FailOperation)
                     throw;
             }
         }

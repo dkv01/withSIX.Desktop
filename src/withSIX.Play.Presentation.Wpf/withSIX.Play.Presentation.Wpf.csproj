@@ -415,6 +415,10 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Akavache.Sqlite3, Version=4.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -710,6 +714,9 @@
     <Reference Include="withSIX.Api.Models, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\withSIX.Api.Models.2.0.8\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="withSIX.Core.Presentation.Bridge">
+      <HintPath>..\withSIX.Core.Presentation.Bridge\bin\Debug\withSIX.Core.Presentation.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="WpfAnimatedGif, Version=1.4.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WpfAnimatedGif.1.4.14\lib\net\WpfAnimatedGif.dll</HintPath>

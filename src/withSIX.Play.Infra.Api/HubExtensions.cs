@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Microsoft.AspNet.SignalR.Client;
 using SignalRNetClientProxyMapper;
-
+using withSIX.Api.Models.Exceptions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
 using withSIX.Play.Core.Extensions;
@@ -32,10 +32,10 @@ namespace withSIX.Play.Infra.Api
             var hub =
                 ReflectionExtensions.Call<Func<HubConnection, bool, THub>>(
                     ClientHubProxyExtensions.CreateStrongHubProxy<THub>)(connection, true);
-            return (THub) generator.CreateInterfaceProxyWithTarget(typeof (THub), hub, hubExceptionInterceptor);
+            return (THub) generator.CreateInterfaceProxyWithTarget(typeof(THub), hub, hubExceptionInterceptor);
         }
 
-        
+
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task,
             Func<AggregateException, Exception> exceptionTransformer, Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
@@ -53,7 +53,7 @@ namespace withSIX.Play.Infra.Api
             return tcs.Task;
         }
 
-        
+
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task,
             Func<AggregateException, Exception> exceptionTransformer) {
             Contract.Requires<ArgumentNullException>(task != null);
@@ -79,14 +79,14 @@ namespace withSIX.Play.Infra.Api
             }
         }
 
-        
+
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task, Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
             Contract.Requires<ArgumentNullException>(final != null);
             return SetContinuation(task, defaultExceptionTransformer, final);
         }
 
-        
+
         public static Task SetContinuation(this Task task, Func<AggregateException, Exception> exceptionTransformer,
             Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
@@ -104,7 +104,7 @@ namespace withSIX.Play.Infra.Api
             return tcs.Task;
         }
 
-        
+
         public static Task SetContinuation(this Task task, Func<AggregateException, Exception> exceptionTransformer) {
             Contract.Requires<ArgumentNullException>(task != null);
             Contract.Requires<ArgumentNullException>(exceptionTransformer != null);
@@ -129,7 +129,7 @@ namespace withSIX.Play.Infra.Api
             }
         }
 
-        
+
         public static Task SetContinuation(this Task task, Action final) {
             Contract.Requires<ArgumentNullException>(task != null);
             Contract.Requires<ArgumentNullException>(final != null);
@@ -143,7 +143,7 @@ namespace withSIX.Play.Infra.Api
             public void Intercept(IInvocation invocation) {
                 invocation.Proceed();
                 var returnType = invocation.Method.ReturnType;
-                if (!typeof (Task).IsAssignableFrom(returnType))
+                if (!typeof(Task).IsAssignableFrom(returnType))
                     return;
 
                 // Using dynamic here because we need to handle both generic and non generic methods
@@ -157,5 +157,11 @@ namespace withSIX.Play.Infra.Api
                 return hubEx != null ? hubEx.GetException() : ex;
             }
         }
+    }
+
+    public static class HubExceptionExtensions
+    {
+        public static Exception GetException(this HubException hubException)
+            => UserException.CreateException(hubException.ErrorData) ?? hubException;
     }
 }

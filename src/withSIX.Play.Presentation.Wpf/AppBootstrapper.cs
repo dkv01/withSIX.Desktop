@@ -31,7 +31,6 @@ using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation;
-using withSIX.Core.Presentation.Extensions;
 using withSIX.Core.Presentation.Services;
 using withSIX.Core.Presentation.Wpf;
 using withSIX.Core.Presentation.Wpf.Legacy;
@@ -65,6 +64,7 @@ using withSIX.Sync.Core.Transfer;
 using Splat;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Presentation.Bridge.Extensions;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace withSIX.Play.Presentation.Wpf
@@ -124,7 +124,7 @@ namespace withSIX.Play.Presentation.Wpf
                 typeof (Repository).Assembly,
                 typeof (Game).Assembly,
                 typeof (ContactList).Assembly,
-                typeof (WCFClient).Assembly,
+                typeof (AuthProvider).Assembly, //typeof (WCFClient).Assembly,
                 typeof (WindowManager).Assembly,
                 typeof (BaseHub).Assembly,
                 typeof (IContentEngineGameContext).Assembly,

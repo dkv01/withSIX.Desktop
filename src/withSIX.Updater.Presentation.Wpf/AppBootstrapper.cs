@@ -19,7 +19,6 @@ using withSIX.Core.Applications.MVVM.ViewModels;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
-using withSIX.Core.Presentation.Extensions;
 using withSIX.Core.Presentation.Services;
 using withSIX.Core.Presentation.Wpf.Legacy;
 using withSIX.Core.Presentation.Wpf.Views.Dialogs;
@@ -32,6 +31,7 @@ using withSIX.Sync.Core.Repositories;
 using withSIX.Sync.Core.Transfer;
 using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Presentation.Bridge.Extensions;
 
 namespace withSIX.Updater.Presentation.Wpf
 {

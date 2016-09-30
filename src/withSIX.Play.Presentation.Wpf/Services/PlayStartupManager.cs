@@ -20,6 +20,7 @@ using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Cache;
+using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation;
 using withSIX.Core.Presentation.Wpf.Legacy;
@@ -373,7 +374,7 @@ namespace withSIX.Play.Presentation.Wpf.Services
                         "Tools failed to download, Play withSIX will not function correctly without these files. " +
                         "Verify that your Internet connection is working and restart to try again.",
                         "A problem occurred during tools download").ConfigureAwait(false);
-                await UserError.Throw(new InformationalUserError(e, "A problem occurred during tools download", null));
+                await UserErrorHandler.HandleUserError(new InformationalUserError(e, "A problem occurred during tools download", null));
             }
         }
 

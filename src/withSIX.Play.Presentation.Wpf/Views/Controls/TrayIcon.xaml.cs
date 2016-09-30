@@ -82,7 +82,7 @@ namespace withSIX.Play.Presentation.Wpf.Views.Controls
         }
 
         static void ProcessNotificationException(Exception e) {
-            UserError.Throw(new InformationalUserError(e,
+            UserErrorHandler.HandleUserError(new InformationalUserError(e,
                 "A problem occurred while trying to create a popup notification", null));
         }
 

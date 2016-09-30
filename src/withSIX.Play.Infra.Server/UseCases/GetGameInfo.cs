@@ -34,8 +34,8 @@ namespace withSIX.Play.Infra.Server.UseCases
             //mm
             lock (_gameContext.CustomCollections.Local)
                 return
-                    Enumerable.ToList(_gameContext.CustomCollections.Where(x => x.GameMatch(game))
-                        .Select(Mapper.Map<CollectionInfo>));
+                    _gameContext.CustomCollections.Where(x => x.GameMatch(game))
+                        .Select(Mapper.Map<CollectionInfo>).ToList();
         }
     }
 

@@ -85,7 +85,7 @@ namespace withSIX.Play.Infra.Data.Services
             var startTime = Tools.Generic.GetCurrentUtcDateTime;
             var ts = TimeSpan.FromSeconds(10);
             while (!Tools.Generic.LongerAgoThan(startTime, ts)) {
-                var proc = Tools.Processes.FindProcess(procName)
+                var proc = Tools.ProcessManager.Management.FindProcess(procName)
                     .LastOrDefault();
                 if (proc != null)
                     return proc;

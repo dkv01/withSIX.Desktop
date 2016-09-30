@@ -74,10 +74,11 @@ namespace withSIX.Play.Presentation.Wpf.Views
             WorkaroundSystemMenu_Init();
 
             this.WhenActivated(d => {
-                d(UserError.RegisterHandler<CanceledUserError>(x => CanceledHandler(x)));
-                d(UserError.RegisterHandler<NotLoggedInUserError>(x => NotLoggedInDialog(x)));
-                d(UserError.RegisterHandler<NotConnectedUserError>(x => NotConnectedDialog(x)));
-                d(UserError.RegisterHandler<BusyUserError>(x => BusyDialog(x)));
+                // TODO
+                //d(UserError.RegisterHandler<CanceledUserError>(x => CanceledHandler(x)));
+                //d(UserError.RegisterHandler<NotLoggedInUserError>(x => NotLoggedInDialog(x)));
+                //d(UserError.RegisterHandler<NotConnectedUserError>(x => NotConnectedDialog(x)));
+                //d(UserError.RegisterHandler<BusyUserError>(x => BusyDialog(x)));
                 d(this.WhenAnyValue(x => x.ViewModel).BindTo(this, v => v.DataContext));
                 d(this.OneWayBind(ViewModel, vm => vm.Overlay.ActiveItem, v => v.MainScreenFlyout.ViewModel));
                 d(this.OneWayBind(ViewModel, vm => vm.SubOverlay, v => v.SubscreenFlyout.ViewModel));
