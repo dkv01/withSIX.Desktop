@@ -411,7 +411,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="AutoMapperInfraApiConfig.cs" />
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
