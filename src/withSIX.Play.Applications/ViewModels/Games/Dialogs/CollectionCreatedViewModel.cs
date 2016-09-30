@@ -8,6 +8,7 @@ using System.Reactive;
 using ReactiveUI;
 
 using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.Services;
 using withSIX.Core.Applications.MVVM.ViewModels;
 using withSIX.Core.Applications.Services;

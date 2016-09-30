@@ -18,6 +18,7 @@ using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Applications.MVVM;
+using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.Services;
 using withSIX.Core.Applications.MVVM.ViewModels;
 using withSIX.Core.Applications.Services;

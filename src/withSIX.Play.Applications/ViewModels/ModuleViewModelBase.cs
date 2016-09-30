@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Caliburn.Micro;
 using ReactiveUI.Legacy;
 using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.Services;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Helpers;

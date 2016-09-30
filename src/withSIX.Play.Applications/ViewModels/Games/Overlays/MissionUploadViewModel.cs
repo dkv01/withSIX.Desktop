@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 
 using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.Services;
 using withSIX.Core.Applications.Services;
 using withSIX.Play.Applications.ViewModels.Overlays;

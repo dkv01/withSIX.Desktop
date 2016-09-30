@@ -19,6 +19,7 @@ using MediatR;
 
 
 using withSIX.Core;
+using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Applications.MVVM.Services;
@@ -534,7 +535,7 @@ namespace withSIX.Play.Applications.ViewModels
                     }
                     if (e != null) {
                         var result = await UserErrorHandler.HandleUserError(AddRepositoryViewModel.HandleException(e));
-                        if (result == RecoveryOptionResult.RetryOperation)
+                        if (result == RecoveryOptionResultModel.RetryOperation)
                             goto retry;
                         // TODO: Strategy
                         throw e;

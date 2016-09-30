@@ -16,12 +16,12 @@ namespace withSIX.Play.Applications.Services.Infrastructure
 {
     public interface IGameContext : IUnitOfWork
     {
-        IDbSet<Game, Guid> Games { get; }
-        IDbSet<Mod, Guid> Mods { get; }
-        IDbSet<Collection, Guid> Collections { get; }
-        IDbSet<CustomCollection, Guid> CustomCollections { get; }
-        IDbSet<SubscribedCollection, Guid> SubscribedCollections { get; }
-        IDbSet<Mission, Guid> Missions { get; }
+        IReactiveDbSet<Game, Guid> Games { get; }
+        IReactiveDbSet<Mod, Guid> Mods { get; }
+        IReactiveDbSet<Collection, Guid> Collections { get; }
+        IReactiveDbSet<CustomCollection, Guid> CustomCollections { get; }
+        IReactiveDbSet<SubscribedCollection, Guid> SubscribedCollections { get; }
+        IReactiveDbSet<Mission, Guid> Missions { get; }
         ReactiveList<LocalModsContainer> LocalModsContainers { get; }
         ReactiveList<SixRepo> CustomRepositories { get; }
         ReactiveList<LocalMissionsContainer> LocalMissionsContainers { get; }

@@ -27,10 +27,10 @@ namespace withSIX.Play.Applications.Services
 
             var report =
                 await
-                    UserErrorHandler.HandleUserError(new UserError("Migrate server mods?",
+                    UserErrorHandler.HandleUserError(new UserErrorModel("Migrate server mods?",
                         "It appears you still have a deprecated 'servermods' folder\nThis folder is no longer relevant, would you like to merge the mods to the mod installation path?\n\nPlease make sure the Game is closed, and no other mod files (incl readmes) or utilities are open before proceeding",
                         RecoveryCommands.YesNoCommands))
-                == RecoveryOptionResult.RetryOperation;
+                == RecoveryOptionResultModel.RetryOperation;
 
             return report;
         }

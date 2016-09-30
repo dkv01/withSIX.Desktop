@@ -51,11 +51,11 @@ namespace withSIX.Play.Applications.ViewModels.Games.Popups
             // http://reactiveui.readthedocs.org/en/stable/basics/errors/#less-obvious-uses-of-the-handler-chain
             AddRepoCommand.ThrownExceptions
                 .Select(HandleException)
-                .SelectMany(UserError.Throw)
+                .SelectMany(UserErrorHandler.HandleUserError)
                 // This makes it delayed and therefore the command is executed properly with IsExecuting back to true etc.
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(x => {
-                    if (x == RecoveryOptionResult.RetryOperation) {
+                    if (x == RecoveryOptionResultModel.RetryOperation) {
                         // TODO: Prefer InvokeCommand, however on cancellation / failure, we still want to close the popup, and subscribing multiple times causes multiple times processing
                         AddRepoCommand.Execute(null);
                         // Put on top of the window again as the messagebox dialog seems to put it behind the window :S
@@ -84,7 +84,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Popups
         [Browsable(false)]
         public ReactiveCommand<Unit> AddRepoCommand { get; }
 
-        public static UserError HandleException(Exception ex) {
+        public static UserErrorModel HandleException(Exception ex) {
             if (ex is DownloadException)
                 return new RepositoryDownloadUserError(null, ex);
             return ErrorHandlerr.HandleException(ex);
@@ -107,12 +107,12 @@ namespace withSIX.Play.Applications.ViewModels.Games.Popups
         }
     }
 
-    public class RepositoryDownloadUserError : UserError
+    public class RepositoryDownloadUserError : UserErrorModel
     {
         public RepositoryDownloadUserError(Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
             : base("Error while trying to access the custom repo. Retry?",
                 "This is usually caused by the custom repository being down, internet connection issues, or faulty address.",
-                RecoveryCommandsImmediate.RetryCommands, contextInfo, innerException) {}
+                RecoveryCommands.RetryCommands, contextInfo, innerException) {}
     }
 }

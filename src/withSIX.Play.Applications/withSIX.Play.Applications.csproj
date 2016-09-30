@@ -639,6 +639,7 @@
     <Compile Include="Services\Infrastructure\IGameContext.cs" />
     <Compile Include="Services\Infrastructure\IUserSettingsStorage.cs" />
     <Compile Include="Services\Infrastructure\IUserSettingsStorageManager.cs" />
+    <Compile Include="Services\InMemoryDbSet.cs" />
     <Compile Include="Services\InstalledGames.cs" />
     <Compile Include="Services\IRepoActionHandler.cs" />
     <Compile Include="Services\IronFrontService.cs" />

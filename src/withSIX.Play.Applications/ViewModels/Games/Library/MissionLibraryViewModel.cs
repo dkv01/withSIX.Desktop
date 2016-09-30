@@ -29,6 +29,7 @@ using withSIX.Play.Core.Games.Legacy.Mods;
 using withSIX.Play.Core.Options;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Applications.MVVM.Extensions;
 
 namespace withSIX.Play.Applications.ViewModels.Games.Library
 {

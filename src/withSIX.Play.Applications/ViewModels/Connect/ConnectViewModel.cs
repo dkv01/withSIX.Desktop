@@ -23,6 +23,7 @@ using withSIX.Play.Core.Connect;
 using withSIX.Play.Core.Connect.Events;
 using withSIX.Play.Core.Options;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
+using withSIX.Core.Applications.MVVM.Extensions;
 
 namespace withSIX.Play.Applications.ViewModels.Connect
 {

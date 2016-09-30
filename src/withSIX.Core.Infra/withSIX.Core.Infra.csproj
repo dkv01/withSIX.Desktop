@@ -164,7 +164,6 @@
     <Compile Include="Services\IDecryption.cs" />
     <Compile Include="Services\IDownloadCacheManager.cs" />
     <Compile Include="Services\IInfrastructureService.cs" />
-    <Compile Include="Services\InMemoryDbSet.cs" />
     <Compile Include="Services\IObjectCacheManager.cs" />
     <Compile Include="Services\ISecureCacheManager.cs" />
     <Compile Include="Services\PingProvider.cs" />

@@ -859,8 +859,8 @@ namespace withSIX.Play.Applications.Services
             Image b = overlay.ToBitmap();
             var bitmap = new Bitmap(a.Width, a.Height);
             var canvas = Graphics.FromImage(bitmap);
-            canvas.DrawImage(a, new Point(0, 0));
-            canvas.DrawImage(b, new Point(16, 16));
+            //canvas.DrawImage(a, new Point(0, 0));
+            //canvas.DrawImage(b, new Point(16, 16));
             canvas.Save();
             return Icon.FromHandle(bitmap.GetHicon());
         }

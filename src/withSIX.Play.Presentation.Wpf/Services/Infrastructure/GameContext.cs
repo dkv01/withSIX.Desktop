@@ -26,6 +26,7 @@ using withSIX.Play.Core.Options;
 using withSIX.Play.Core.Options.Entries;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Games;
+using withSIX.Play.Applications.Services;
 
 namespace withSIX.Play.Presentation.Wpf.Services.Infrastructure
 {
@@ -138,7 +139,7 @@ namespace withSIX.Play.Presentation.Wpf.Services.Infrastructure
                     });
         }
 
-        public IDbSet<Collection, Guid> Collections => _collections.Value;
+        public IReactiveDbSet<Collection, Guid> Collections => _collections.Value;
         public ReactiveList<LocalMissionsContainer> LocalMissionsContainers => _localMissionsContainers.Value;
         public ReactiveList<LocalModsContainer> LocalModsContainers => _localModsContainers.Value;
         public ReactiveList<SixRepo> CustomRepositories => _customRepositories.Value;
@@ -160,11 +161,11 @@ namespace withSIX.Play.Presentation.Wpf.Services.Infrastructure
                 mods.SyncCollectionPK(Mods.Local);
         }
 
-        public IDbSet<SubscribedCollection, Guid> SubscribedCollections => _subscribedCollections.Value;
-        public IDbSet<Mission, Guid> Missions => _missions.Value;
-        public IDbSet<Mod, Guid> Mods => _mods.Value;
-        public IDbSet<CustomCollection, Guid> CustomCollections => _customCollections.Value;
-        public IDbSet<Game, Guid> Games => _games.Value;
+        public IReactiveDbSet<SubscribedCollection, Guid> SubscribedCollections => _subscribedCollections.Value;
+        public IReactiveDbSet<Mission, Guid> Missions => _missions.Value;
+        public IReactiveDbSet<Mod, Guid> Mods => _mods.Value;
+        public IReactiveDbSet<CustomCollection, Guid> CustomCollections => _customCollections.Value;
+        public IReactiveDbSet<Game, Guid> Games => _games.Value;
 
         public Task<int> SaveChanges() {
             throw new NotImplementedException();
