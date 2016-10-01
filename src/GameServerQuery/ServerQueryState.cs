@@ -40,7 +40,7 @@ namespace GameServerQuery
         public Status Status { get; private set; }
 
         public void Dispose() {
-            ReceivedPackets = null;
+            //ReceivedPackets = null;
         }
 
         public void UpdateStatus(Status status) {
@@ -95,7 +95,11 @@ namespace GameServerQuery
 
         public void UpdateServer() {
             try {
-                ProcessParser(_parser);
+                try {
+                    ProcessParser(_parser);
+                } finally {
+                    ReceivedPackets = null;
+                }
                 UpdateStatus(Status.Processing);
                 Server.UpdateInfoFromResult(Result);
             } catch {

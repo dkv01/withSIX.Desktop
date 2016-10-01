@@ -54,6 +54,7 @@ namespace GameServerQuery
                 _state.UpdateStatus(Status.InProgress);
                 _state.Client = Connect(_state.EndPoint);
                 await ProcessAllPackets().ConfigureAwait(false);
+                _state.UpdateStatus(Status.SuccessReceive);
             } catch (TimeoutException e) {
                 /*
 #if DEBUG

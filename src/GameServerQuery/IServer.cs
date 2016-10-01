@@ -24,6 +24,7 @@ namespace GameServerQuery
         InProgress,
         Parsing,
         Processing,
-        FailureProcessing
+        FailureProcessing,
+        SuccessReceive
     }
 }

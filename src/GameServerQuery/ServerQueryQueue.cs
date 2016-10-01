@@ -45,7 +45,7 @@ namespace GameServerQuery
 
             return Enumerable.Empty<ServerQueryState>().SimpleRunningQueueAsync(1,
                 blockingCollection => SyncServers(objects, token, state => {
-                    if (state.Status != Status.SuccessParsing)
+                    if (state.Status != Status.SuccessReceive)
                         return;
                     blockingCollection.Add(state, token);
                 }),
