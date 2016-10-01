@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
@@ -22,8 +23,10 @@ namespace withSIX.Mini.Applications.Usecases.Main
         public async Task<GamesApiModel> Handle(GetGames request) {
             await GameContext.LoadAll().ConfigureAwait(false);
             var games =
-                await GameContext.Games.Where(x => x.InstalledState.IsInstalled).ToListAsync().ConfigureAwait(false);
-
+                await GameContext.Games
+                    .Where(x => x.InstalledState.IsInstalled && (Consts.Features.UnreleasedGames || x.Metadata.IsPublic))
+                    .ToListAsync()
+                    .ConfigureAwait(false);
             return games.MapTo<GamesApiModel>();
         }
     }
