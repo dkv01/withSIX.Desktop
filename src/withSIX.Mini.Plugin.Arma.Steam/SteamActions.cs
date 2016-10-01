@@ -18,19 +18,19 @@ namespace withSIX.Steam.Plugin.Arma
                 ISteamSessionFactory steamSessionFactory)
             => PerformArmaSteamAction(x => action(x).Void(), appId, steamSessionFactory);
 
-        public static async Task<T> PerformArmaSteamAction<T>(Func<ISteamApi, Task<T>> action, uint appId,
+        public static Task<T> PerformArmaSteamAction<T>(Func<ISteamApi, Task<T>> action, uint appId,
             ISteamSessionFactory steamSessionFactory) {
             var steamHelper = SteamHelper.Create();
             using (var wrap = new SteamAPIWrap()) {
                 SteamApi steamApi = null;
-                return await steamSessionFactory
+                return steamSessionFactory
                     .Do(appId, steamHelper.SteamPath,
                         async s => {
                             steamApi = new SteamApi(wrap, s);
                             await
                                 steamApi.Initialize(steamHelper.TryGetSteamAppById(appId).AppPath, appId)
                                     .ConfigureAwait(false);
-                        }, SteamAPI.RunCallbacks /* wrap.Simulate */, () => action(steamApi)).ConfigureAwait(false);
+                        }, SteamAPI.RunCallbacks /* wrap.Simulate */, () => action(steamApi));
             }
         }
 
