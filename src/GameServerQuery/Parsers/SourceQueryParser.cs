@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Reactive.Linq;
 using System.Text;
 
 namespace GameServerQuery.Parsers
@@ -16,17 +18,20 @@ namespace GameServerQuery.Parsers
             var receivedPackets = state.ReceivedPackets;
             if (receivedPackets.Count != state.MaxPackets)
                 throw new Exception("Wrong number of packets");
+            return ParsePackets(state.Server.Address, state.ReceivedPackets, state.Pings);
+        }
 
+        public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
             var settings = new Dictionary<string, string>();
             ParseSettings(settings, receivedPackets[0]);
             ParseRules(settings, receivedPackets[1]);
 
-            return new SourceServerQueryResult(settings) {
+            return new SourceServerQueryResult(address, settings) {
                 Players =
                     receivedPackets.Count == 3
-                        ? ParsePlayers(state.Server, receivedPackets[2]).ToList()
+                        ? ParsePlayers(receivedPackets[2]).ToList()
                         : new List<Player>(),
-                Ping = Convert.ToInt64(state.Pings.Average())
+                Ping = pings.Any() ? Convert.ToInt32(pings.Average()) : ServerQueryState.MagicPingValue
             };
         }
 
@@ -107,7 +112,7 @@ namespace GameServerQuery.Parsers
             settings["ruleNames"] = sb.Length > 0 ? sb.ToString(0, sb.Length - 1) : string.Empty;
         }
 
-        static Player[] ParsePlayers(IServer server, byte[] players) {
+        static Player[] ParsePlayers(byte[] players) {
             //TODO: Player doesn't have same info for different game/server types
             var pos = 5; //skip header
             var cnt = players[pos++];
@@ -125,7 +130,7 @@ namespace GameServerQuery.Parsers
                 pos += 4;
                 var duration = (int) BitConverter.ToSingle(players, pos); //in seconds, dropped float precision
                 pos += 4;
-                playerAr[i] = new SourcePlayer(server, name, score, TimeSpan.FromSeconds(duration));
+                playerAr[i] = new SourcePlayer(name, score, TimeSpan.FromSeconds(duration));
                 //use i instead of pnum
             }
 
@@ -135,12 +140,10 @@ namespace GameServerQuery.Parsers
 
     public abstract class Player
     {
-        protected Player(IServer server, string name) {
-            Server = server;
+        protected Player(string name) {
             Name = name;
         }
 
-        public IServer Server { get; }
         public string Name { get; }
 
         public virtual bool ComparePK(object obj) {
@@ -167,8 +170,8 @@ namespace GameServerQuery.Parsers
 
     public class SourcePlayer : Player
     {
-        public SourcePlayer(IServer server, string name, int score, TimeSpan duration)
-            : base(server, name) {
+        public SourcePlayer(string name, int score, TimeSpan duration)
+            : base(name) {
             Duration = duration;
             Score = score;
         }

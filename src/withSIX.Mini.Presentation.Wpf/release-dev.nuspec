@@ -203,6 +203,7 @@
 <file src="bin\release\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
 <file src="bin\release\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
 <file src="bin\release\System.Text.Encodings.Web.dll" target="lib\net45\System.Text.Encodings.Web.dll" />
+<file src="bin\release\System.Threading.Tasks.Dataflow.dll" target="lib\net45\System.Threading.Tasks.Dataflow.dll" />
 <file src="bin\release\System.Threading.Tasks.Extensions.dll" target="lib\net45\System.Threading.Tasks.Extensions.dll" />
 <file src="bin\release\System.Threading.Thread.dll" target="lib\net45\System.Threading.Thread.dll" />
 <file src="bin\release\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright company="SIX Networks GmbH" file="Compression.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -12,12 +13,12 @@ namespace withSIX.Mini.Presentation.Owin.Core
     namespace Middlewares
     {
         /// <summary>
-        /// Experimental compression middleware for self-hosted web app
+        ///     Experimental compression middleware for self-hosted web app
         /// </summary>
         public class CompressionMiddleware
         {
-            private readonly RequestDelegate _next;
             private const long MinimumLength = 2700;
+            private readonly RequestDelegate _next;
 
             public CompressionMiddleware(RequestDelegate next) {
                 _next = next;
@@ -45,7 +46,7 @@ namespace withSIX.Mini.Presentation.Owin.Core
 
                                 if (compressed.Length < buffer.Length) {
                                     // write compressed data to response
-                                    context.Response.Headers.Add("Content-Encoding", new[] { "gzip" });
+                                    context.Response.Headers.Add("Content-Encoding", new[] {"gzip"});
                                     if (context.Response.Headers["Content-Length"].Count > 0) {
                                         context.Response.Headers["Content-Length"] = compressed.Length.ToString();
                                     }

@@ -3189,7 +3189,7 @@
           "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.0.0": {
@@ -3427,7 +3427,8 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "System.Net.NameResolution": "4.0.0"
+          "System.Net.NameResolution": "4.0.0",
+          "System.Reactive": "3.0.0"
         }
       },
       "GeoIP/1.0.0": {
@@ -3768,6 +3769,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0",
           "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -7252,7 +7254,7 @@
           "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.0.0": {
@@ -7491,7 +7493,8 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "System.Net.NameResolution": "4.0.0"
+          "System.Net.NameResolution": "4.0.0",
+          "System.Reactive": "3.0.0"
         }
       },
       "GeoIP/1.0.0": {
@@ -7832,6 +7835,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0",
           "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -11403,7 +11407,7 @@
           "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.0.0": {
@@ -11642,7 +11646,8 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "System.Net.NameResolution": "4.0.0"
+          "System.Net.NameResolution": "4.0.0",
+          "System.Reactive": "3.0.0"
         }
       },
       "GeoIP/1.0.0": {
@@ -11983,6 +11988,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0",
           "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -19339,7 +19345,8 @@
       "Splat >= 1.6.2",
       "System.Diagnostics.Contracts >= 4.0.1",
       "System.Runtime.Loader >= 4.0.0",
-      "System.Security.Cryptography.ProtectedData >= 4.0.0"
+      "System.Security.Cryptography.ProtectedData >= 4.0.0",
+      "System.Threading.Tasks.Dataflow >= 4.6.0"
     ],
     ".NETCoreApp,Version=v1.0": [
       "GameServerQuery",

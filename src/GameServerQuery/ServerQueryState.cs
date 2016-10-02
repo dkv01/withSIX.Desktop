@@ -12,7 +12,7 @@ namespace GameServerQuery
 {
     public class ServerQueryState : IDisposable
     {
-        public const long MagicPingValue = 9999;
+        public const int MagicPingValue = 9999;
         private readonly object _closedLock = new object();
         private readonly IServerQueryParser _parser;
         private readonly Stopwatch _stopWatch = new Stopwatch();
@@ -23,8 +23,8 @@ namespace GameServerQuery
             _parser = parser;
             MaxPackets = 7;
             EndPoint = ep ?? new IPEndPoint(IPAddress.Any, 0);
-            ReceivedPackets = new Dictionary<int, byte[]>();
-            Pings = new List<long>();
+            ReceivedPackets = new List<byte[]>();
+            Pings = new List<int>();
         }
 
         public bool HandlePlayers { get; set; }
@@ -32,9 +32,9 @@ namespace GameServerQuery
         public IPEndPoint EndPoint { get; private set; }
         public UdpClient Client { get; set; }
         public Exception Exception { get; set; }
-        public List<long> Pings { get; }
+        public List<int> Pings { get; }
         public int MaxPackets { get; set; }
-        public Dictionary<int, byte[]> ReceivedPackets { get; private set; }
+        public List<byte[]> ReceivedPackets { get; private set; }
         public ServerQueryResult Result { get; private set; }
         public IServer Server { get; }
         public Status Status { get; private set; }
@@ -68,7 +68,7 @@ namespace GameServerQuery
         public virtual void StopSW() {
             _stopWatch.Stop();
             if (_stopWatch.ElapsedMilliseconds > 0)
-                Pings.Add(_stopWatch.ElapsedMilliseconds);
+                Pings.Add((int)_stopWatch.ElapsedMilliseconds);
             _stopWatch.Reset();
         }
 

@@ -15,7 +15,7 @@ namespace GameServerQuery
 {
     public class SourceServerQuery : ServerQueryBase, IServerQuery
     {
-        private static readonly byte[] emptyChallenge = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        private readonly byte[] emptyChallenge = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
         private static readonly byte[] a2SPlayerRequestH = {0xFF, 0xFF, 0xFF, 0xFF, 0x55};
         private static readonly byte[] a2SRulesRequestH = {0xFF, 0xFF, 0xFF, 0xFF, 0x56};
 
@@ -111,9 +111,7 @@ namespace GameServerQuery
             }
         }
 
-        private static byte[] GetPlayerRequestPacket(IEnumerable<byte> challengeBytes) {
-            return a2SPlayerRequestH.Concat(challengeBytes).ToArray();
-        }
+        private static byte[] GetPlayerRequestPacket(IEnumerable<byte> challengeBytes) => a2SPlayerRequestH.Concat(challengeBytes).ToArray();
 
         private async Task<byte[]> GetRules() {
             var response = await GetChallengeResponse(0x56).ConfigureAwait(false);
@@ -130,9 +128,7 @@ namespace GameServerQuery
             }
         }
 
-        private static byte[] GetRulesRequestPacket(IEnumerable<byte> challengeBytes) {
-            return a2SRulesRequestH.Concat(challengeBytes).ToArray();
-        }
+        private static byte[] GetRulesRequestPacket(IEnumerable<byte> challengeBytes) => a2SRulesRequestH.Concat(challengeBytes).ToArray();
 
         private Task<byte[]> GetChallengeResponse(byte b) {
             emptyChallenge[4] = b;

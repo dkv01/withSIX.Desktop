@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,6 +51,23 @@ namespace GameServerQuery
             var serversResult = await RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
             return serversResult.Select(CreateServerDictionary);
         }
+
+        public virtual IObservable<ServerPageArgs> GetParsedServers2(CancellationToken cancelToken,
+            bool forceLocal = false, int limit = 0) => Observable.Create<ServerPageArgs>(async (obs) => {
+            using (BuildObservable(this).Subscribe(obs.OnNext)) {
+                await RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
+            }
+            obs.OnCompleted();
+        });
+
+
+        private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master)
+            => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
+                EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
+                return evtHandler;
+            },
+                evtHandler => master.ServerPageReceived += evtHandler,
+                evtHandler => master.ServerPageReceived -= evtHandler);
 
         public event EventHandler<ServerPageArgs> ServerPageReceived;
 
@@ -156,10 +174,10 @@ namespace GameServerQuery
         }
 
         protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address)
-            => new SourceMasterServerQueryResult(new Dictionary<string, string> {
+            => new SourceMasterServerQueryResult(address, new Dictionary<string, string> {
                 {"address", address.ToString()},
                 {"folder", ServerBrowserTag}
-            }) {Address = address};
+            });
     }
 
     public class ServerPageArgs
