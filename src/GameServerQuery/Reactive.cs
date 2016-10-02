@@ -49,29 +49,35 @@ namespace GameServerQuery
             var scheduler = new EventLoopScheduler();
 
             var count = 0;
-            var mapping = new Dictionary<IPEndPoint, EpState>();
+            var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
             var obs = Observable.Create<Result>(o => {
                 var dsp = new CompositeDisposable();
                 var receiver = CreateListener(socket)
-                    .Where(x => mapping.ContainsKey(x.RemoteEndPoint))
-                    .Select(x => Observable.FromAsync(async () => {
-                        try {
-                            heartbeat.OnNext(Unit.Default);
-                            var s = mapping[x.RemoteEndPoint];
-                            Console.WriteLine("ReceivedPackets: " + count++);
-                            var r = s.Tick(x.Buffer);
-                            if (r != null)
-                                await socket.SendAsync(r, r.Length, x.RemoteEndPoint).ConfigureAwait(false);
-                            if (s.State == EpStateState.Complete) {
-                                o.OnNext(new Result(s.Endpoint, s.ReceivedPackets.Values.ToArray()));
-                                //mapping.Remove(s.Endpoint);
-                                s.Dispose();
-                            }
-                        } catch (Exception ex) {
-                            Console.WriteLine(ex);
+                    .Select(x => {
+                        EpState s;
+                        return mapping.TryGetValue(x.RemoteEndPoint, out s)
+                            ? new {packet = x, s}
+                            : null;
+                    })
+                    .Where(x => x != null)
+                    .Do(x => {
+                        heartbeat.OnNext(Unit.Default);
+                        Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
+                    })
+                    .Select(x => new {send = x.s.Tick(x.packet.Buffer), x.s})
+                    .Do(x => {
+                        if (x.s.State == EpStateState.Complete) {
+                            o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
+                            //mapping.Remove(s.Endpoint);
+                            x.s.Dispose();
                         }
-                        return Unit.Default;
-                    }, scheduler)).Merge(1);
+                    })
+                    .Where(x => x.s.State != EpStateState.Complete && x.send != null)
+                    .Select(
+                        x =>
+                            Observable.FromAsync(() => socket.SendAsync(x.send, x.send.Length, x.s.Endpoint),
+                                scheduler))
+                    .Merge(1);
                 dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
                     .Subscribe(_ => {
                         Console.WriteLine($"" +
@@ -83,11 +89,7 @@ namespace GameServerQuery
                 dsp.Add(receiver.Subscribe());
 
                 var sender = eps2
-                    .Do(x => {
-                        lock (mapping) {
-                            mapping.Add(x.Endpoint, x);
-                        }
-                    })
+                    .Do(x => mapping.TryAdd(x.Endpoint, x))
                     .Select(x => Observable.FromAsync(async () => {
                         // TODO: We could also make an observable sequence out of the state transition of each element
                         // have each element timeout after e.g 5 seconds of non-activity
