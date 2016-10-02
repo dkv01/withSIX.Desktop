@@ -25,9 +25,17 @@ namespace GameServerQuery
     public class ReactiveSource
     {
         private readonly SourceQueryParser _parser = new SourceQueryParser();
-        public IObservable<ServerQueryResult> ProcessResults(IObservable<Result> results) => results.Select(Parse);
 
-        ServerQueryResult Parse(Result r) => _parser.ParsePackets(r.ReceivedPackets, new List<int>());
+        public IObservable<ServerQueryResult> ProcessResults(IObservable<Result> results) => results.Select(x => {
+            try {
+                return Parse(x);
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+            }
+            return null;
+        }).Where(x => x != null);
+
+        ServerQueryResult Parse(Result r) => _parser.ParsePackets(r.Endpoint, r.ReceivedPackets, new List<int>());
 
         public IObservable<Result> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket)
             => GetResults(eps.ToObservable(), socket);

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace GameServerQuery.Parsers
@@ -16,15 +17,15 @@ namespace GameServerQuery.Parsers
             var receivedPackets = state.ReceivedPackets;
             if (receivedPackets.Count != state.MaxPackets)
                 throw new Exception("Wrong number of packets");
-            return ParsePackets(state.ReceivedPackets, state.Pings);
+            return ParsePackets(state.Server.Address, state.ReceivedPackets, state.Pings);
         }
 
-        public ServerQueryResult ParsePackets(IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
+        public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
             var settings = new Dictionary<string, string>();
             ParseSettings(settings, receivedPackets[0]);
             ParseRules(settings, receivedPackets[1]);
 
-            return new SourceServerQueryResult(settings) {
+            return new SourceServerQueryResult(address, settings) {
                 Players =
                     receivedPackets.Count == 3
                         ? ParsePlayers(receivedPackets[2]).ToList()
