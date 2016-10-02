@@ -48,64 +48,56 @@ namespace GameServerQuery
 
             var scheduler = new EventLoopScheduler();
 
+
+            // TODO: We could also make an observable sequence out of the state transition of each element
+            // have each element timeout after e.g 5 seconds of non-activity
+            // and then maybe have a degreeOfParallelism mixed in..
+            // oh and retryability hm :D
+
+
             var count = 0;
             var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
             var obs = Observable.Create<Result>(o => {
-                var dsp = new CompositeDisposable();
-                var receiver = CreateListener(socket)
-                    .Select(x => {
-                        EpState s;
-                        return mapping.TryGetValue(x.RemoteEndPoint, out s)
-                            ? new {packet = x, s}
-                            : null;
-                    })
-                    .Where(x => x != null)
-                    .Do(x => {
-                        heartbeat.OnNext(Unit.Default);
-                        Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
-                    })
-                    .Select(x => new {send = x.s.Tick(x.packet.Buffer), x.s})
-                    .Do(x => {
-                        if (x.s.State == EpStateState.Complete) {
-                            o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
-                            //mapping.Remove(s.Endpoint);
-                            x.s.Dispose();
-                        }
-                    })
-                    .Where(x => x.s.State != EpStateState.Complete && x.send != null)
-                    .Select(
-                        x =>
-                            Observable.FromAsync(() => socket.SendAsync(x.send, x.send.Length, x.s.Endpoint),
-                                scheduler))
-                    .Merge(1);
-                dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
-                    .Subscribe(_ => {
-                        Console.WriteLine($"" +
-                                          $"Stats: Still in Start: {mapping.Values.Count(x => x.State == EpStateState.Start)}, Completed: {mapping.Values.Count(x => x.State == EpStateState.Complete)}  " +
-                                          $"total count: {mapping.Values.Count}" +
-                                          $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
-                        o.OnCompleted();
-                    }));
-                dsp.Add(receiver.Subscribe());
+                    var dsp = new CompositeDisposable();
+                    var receiver = CreateListener(socket)
+                        .Select(x => {
+                            EpState s;
+                            return mapping.TryGetValue(x.RemoteEndPoint, out s)
+                                ? new {packet = x, s}
+                                : null;
+                        })
+                        .Where(x => x != null)
+                        .Do(x => {
+                            heartbeat.OnNext(Unit.Default);
+                            Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
+                        })
+                        .Select(x => new {send = x.s.Tick(x.packet.Buffer), x.s})
+                        .Do(x => {
+                            if (x.s.State == EpStateState.Complete) {
+                                o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
+                                //mapping.Remove(s.Endpoint);
+                                x.s.Dispose();
+                            }
+                        })
+                        .Where(x => x.s.State != EpStateState.Complete && x.send != null)
+                        .Select(x => Send(socket, x.send, x.s.Endpoint, scheduler))
+                        .Merge(1);
+                    dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
+                        .Subscribe(_ => {
+                            Console.WriteLine($"" +
+                                              $"Stats: Still in Start: {mapping.Values.Count(x => x.State == EpStateState.Start)}, Completed: {mapping.Values.Count(x => x.State == EpStateState.Complete)}  " +
+                                              $"total count: {mapping.Values.Count}" +
+                                              $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
+                            o.OnCompleted();
+                        }));
+                    dsp.Add(receiver.Subscribe());
 
                 var sender = eps2
                     .Do(x => mapping.TryAdd(x.Endpoint, x))
-                    .Select(x => Observable.FromAsync(async () => {
-                        // TODO: We could also make an observable sequence out of the state transition of each element
-                        // have each element timeout after e.g 5 seconds of non-activity
-                        // and then maybe have a degreeOfParallelism mixed in..
-                        // oh and retryability hm :D
-                        try {
-                            var p = x.Tick(null);
-                            await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
-                            heartbeat.OnNext(Unit.Default);
-                        } catch (Exception ex) {
-                            Console.WriteLine(ex);
-                        }
-                        return Unit.Default;
-                    }, scheduler)
-                    .Delay(TimeSpan.FromMilliseconds(25), scheduler))
-                    .Merge(1);
+                    .Select(x => new {p = x.Tick(null), x.Endpoint})
+                    .Select(x => Send(socket, x.p, x.Endpoint, scheduler))
+                    .Merge(1)
+                    .Do(x => heartbeat.OnNext(Unit.Default));
                 dsp.Add(sender.Subscribe());
                 // TODO
                 return dsp;
@@ -113,6 +105,10 @@ namespace GameServerQuery
             // http://stackoverflow.com/questions/12270642/reactive-extension-onnext
             return obs.Synchronize(scheduler); // Or use lock on the onNext call..
         }
+
+        IObservable<int> Send(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) =>
+            Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler)
+                .Delay(TimeSpan.FromMilliseconds(20), scheduler);
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
             Observable.Create<UdpReceiveResult>(obs => {
