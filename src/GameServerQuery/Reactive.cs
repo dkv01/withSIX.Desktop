@@ -102,7 +102,7 @@ namespace GameServerQuery
                         }
                         return Unit.Default;
                     }, scheduler)
-                    .Delay(TimeSpan.FromMilliseconds(30), scheduler))
+                    .Delay(TimeSpan.FromMilliseconds(25), scheduler))
                     .Merge(1);
                 dsp.Add(sender.Subscribe());
                 // TODO
