@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery.Parsers;
@@ -34,33 +35,49 @@ namespace GameServerQuery
         public IObservable<Result> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket) {
             var eps2 = epsObs.Select(x => new EpState(x));
 
+            var heartbeat = Subject.Synchronize(new Subject<Unit>());
+
             var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
             var obs = Observable.Create<Result>(o => {
                 var dsp = new CompositeDisposable();
                 var receiver = CreateListener(socket)
                     .Where(x => mapping.ContainsKey(x.RemoteEndPoint))
                     .SelectMany(async x => {
-                        var s = mapping[x.RemoteEndPoint];
-                        var r = s.Tick(x.Buffer);
-                        if (r != null)
-                            await socket.SendAsync(r, r.Length, x.RemoteEndPoint).ConfigureAwait(false);
-                        if (s.State == EpStateState.Complete) {
-                            o.OnNext(new Result(s.Endpoint, s.ReceivedPackets));
-                            //mapping.Remove(s.Endpoint);
-                            s.Dispose();
+                        try {
+                            heartbeat.OnNext(Unit.Default);
+                            var s = mapping[x.RemoteEndPoint];
+                            var r = s.Tick(x.Buffer);
+                            if (r != null)
+                                await socket.SendAsync(r, r.Length, x.RemoteEndPoint).ConfigureAwait(false);
+                            if (s.State == EpStateState.Complete) {
+                                o.OnNext(new Result(s.Endpoint, s.ReceivedPackets.Values.ToArray()));
+                                //mapping.Remove(s.Endpoint);
+                                s.Dispose();
+                            }
+                        } catch (Exception ex) {
+                            Console.WriteLine(ex);
                         }
                         return Unit.Default;
                     });
+                dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
+                    .Subscribe(_ => o.OnCompleted()));
                 dsp.Add(receiver.Subscribe());
+
                 var sender = eps2
                     .Do(x => mapping.TryAdd(x.Endpoint, x))
                     .Select(x => Observable.FromAsync(async () => {
-                        var p = x.Tick(null);
-                        await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
+                        try {
+                            var p = x.Tick(null);
+                            await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
+                            heartbeat.OnNext(Unit.Default);
+                        } catch (Exception ex) {
+                            Console.WriteLine(ex);
+                        }
                         return Unit.Default;
                     }))
                     .Merge(16);
                 dsp.Add(sender.Subscribe());
+                // TODO
                 return dsp;
             });
             // http://stackoverflow.com/questions/12270642/reactive-extension-onnext
@@ -132,22 +149,20 @@ namespace GameServerQuery
         public IPEndPoint Endpoint { get; }
         public EpStateState State { get; private set; }
 
-        public List<byte[]> ReceivedPackets { get; private set; } = new List<byte[]>();
+        public Dictionary<int, byte[]> ReceivedPackets { get; private set; } = new Dictionary<int, byte[]>();
 
         public byte[] Tick(byte[] response) {
             switch (State) {
             case EpStateState.Start:
-                return a2SInfoRequest;
+                return TransitionToInfoChallenge();
             case EpStateState.InfoChallenge: {
-                if (response[4] != 0x49)
-                    throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x49.", response[4]));
                 _multiStatus = new MultiStatus();
                 var r = ProcessPacketHeader(response);
-                return r != null ? TransitionToRulesChallengeState(r) : null;
+                return r == null ? TransitionToReceivingInfoState() : TransitionToRulesChallengeState(r);
             }
             case EpStateState.ReceivingInfo: {
                 var r = ProcessPacketHeader(response);
-                return r != null ? TransitionToRulesChallengeState(r) : null;
+                return r == null ? null : TransitionToRulesChallengeState(r);
             }
             case EpStateState.RulesChallenge: {
                 _multiStatus = new MultiStatus();
@@ -169,7 +184,7 @@ namespace GameServerQuery
                 _multiStatus = new MultiStatus();
                 switch (response[4]) {
                 case 0x41: //challenge
-                    State = EpStateState.ReceivingRules;
+                    State = EpStateState.ReceivingPlayers;
                     return a2SPlayerRequestH.Concat(response.Skip(5)).ToArray();
                 case 0x44: //no challenge needed info
                     TransitionToCompleteState(response);
@@ -190,7 +205,19 @@ namespace GameServerQuery
             }
         }
 
+        private byte[] TransitionToReceivingInfoState() {
+            State = EpStateState.ReceivingInfo;
+            return null;
+        }
+
+        private byte[] TransitionToInfoChallenge() {
+            State = EpStateState.InfoChallenge;
+            return a2SInfoRequest;
+        }
+
         private byte[] TransitionToRulesChallengeState(byte[] r) {
+            if (r[4] != 0x49)
+                throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x49.", r[4]));
             ReceivedPackets[0] = r;
             State = EpStateState.RulesChallenge;
             emptyChallenge[4] = 0x56;

@@ -29,7 +29,7 @@ namespace GameServerQuery.Parsers
                     receivedPackets.Count == 3
                         ? ParsePlayers(receivedPackets[2]).ToList()
                         : new List<Player>(),
-                Ping = Convert.ToInt32(pings.Average())
+                Ping = pings.Any() ? Convert.ToInt32(pings.Average()) : ServerQueryState.MagicPingValue
             };
         }
 
