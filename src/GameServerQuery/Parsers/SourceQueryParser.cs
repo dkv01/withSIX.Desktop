@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Text;
 
 namespace GameServerQuery.Parsers
