@@ -56,6 +56,8 @@ namespace GameServerQuery
 
 
             var count = 0;
+            var count2 = 0;
+            var count3 = 0;
             var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
             var obs = Observable.Create<Result>(o => {
                 var dsp = new CompositeDisposable();
@@ -80,13 +82,15 @@ namespace GameServerQuery
                         }
                     })
                     .Where(x => x.s.State != EpStateState.Complete && x.send != null)
-                    .Select(x => Send(socket, x.send, x.s.Endpoint, scheduler))
-                    .Merge(1);
+                    .Select(x => SendPacket(socket, x.send, x.s.Endpoint, scheduler))
+                    .Merge(1)
+                    .Do(x => {
+                        Console.WriteLine("Sent other packets: " + Interlocked.Increment(ref count3));
+                    });
                 dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
                     .Subscribe(_ => {
                         Console.WriteLine($"" +
-                                          $"Stats: Still in Start: {mapping.Values.Count(x => x.State == EpStateState.Start)}, Completed: {mapping.Values.Count(x => x.State == EpStateState.Complete)}  " +
-                                          $"total count: {mapping.Values.Count}" +
+                                          $"Stats: total count: {mapping.Values.Count}\n" +
                                           $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
                         o.OnCompleted();
                     }));
@@ -97,7 +101,10 @@ namespace GameServerQuery
                     .Select(x => new {p = x.Tick(null), x.Endpoint})
                     .Select(x => Send(socket, x.p, x.Endpoint, scheduler))
                     .Merge(1)
-                    .Do(x => heartbeat.OnNext(Unit.Default));
+                    .Do(x => {
+                        Console.WriteLine("Sent initial packets: " + Interlocked.Increment(ref count2));
+                        heartbeat.OnNext(Unit.Default);
+                    });
                 dsp.Add(sender.Subscribe());
                 // TODO
                 return dsp;
@@ -108,11 +115,10 @@ namespace GameServerQuery
 
         IObservable<int> Send(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) =>
             SendPacket(socket, p, ep, scheduler)
-                .Delay(TimeSpan.FromMilliseconds(10), scheduler);
+                .Delay(TimeSpan.FromMilliseconds(25), scheduler);
 
-        private static IObservable<int> SendPacket(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) {
-            return Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler);
-        }
+        private static IObservable<int> SendPacket(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler)
+            => Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler);
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
             Observable.Create<UdpReceiveResult>(obs => {
