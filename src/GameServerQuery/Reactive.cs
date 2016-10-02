@@ -72,7 +72,7 @@ namespace GameServerQuery
                         }
                         return Unit.Default;
                     }, scheduler)).Merge(1);
-                dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(10))
+                dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
                     .Subscribe(_ => {
                         Console.WriteLine($"" +
                                           $"Stats: Still in Start: {mapping.Values.Count(x => x.State == EpStateState.Start)}, Completed: {mapping.Values.Count(x => x.State == EpStateState.Complete)}  " +
@@ -89,17 +89,20 @@ namespace GameServerQuery
                         }
                     })
                     .Select(x => Observable.FromAsync(async () => {
+                        // TODO: We could also make an observable sequence out of the state transition of each element
+                        // have each element timeout after e.g 5 seconds of non-activity
+                        // and then maybe have a degreeOfParallelism mixed in..
+                        // oh and retryability hm :D
                         try {
                             var p = x.Tick(null);
-                            await Task.Delay(25).ConfigureAwait(false);
-                            Console.WriteLine("Tick");
                             await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
                             heartbeat.OnNext(Unit.Default);
                         } catch (Exception ex) {
                             Console.WriteLine(ex);
                         }
                         return Unit.Default;
-                    }, scheduler))
+                    }, scheduler)
+                    .Delay(TimeSpan.FromMilliseconds(30), scheduler))
                     .Merge(1);
                 dsp.Add(sender.Subscribe());
                 // TODO
