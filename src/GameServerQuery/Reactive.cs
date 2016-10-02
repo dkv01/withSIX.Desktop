@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -22,14 +23,18 @@ namespace GameServerQuery
     // TODO: Pings
     public class ReactiveSource
     {
-        private SourceQueryParser _parser = new SourceQueryParser();
+        private readonly SourceQueryParser _parser = new SourceQueryParser();
         public IObservable<ServerQueryResult> ProcessResults(IObservable<Result> results) => results.Select(Parse);
 
         ServerQueryResult Parse(Result r) => _parser.ParsePackets(r.ReceivedPackets, new List<int>());
 
-        public IObservable<Result> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket) {
-            var mapping = eps.ToDictionary(x => x, x => new EpState(x));
+        public IObservable<Result> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket)
+            => GetResults(eps.ToObservable(), socket);
 
+        public IObservable<Result> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket) {
+            var eps2 = epsObs.Select(x => new EpState(x));
+
+            var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
             var obs = Observable.Create<Result>(o => {
                 var dsp = new CompositeDisposable();
                 var receiver = CreateListener(socket)
@@ -47,9 +52,8 @@ namespace GameServerQuery
                         return Unit.Default;
                     });
                 dsp.Add(receiver.Subscribe());
-                var sender = mapping
-                    .Select(x => x.Value)
-                    .ToObservable()
+                var sender = eps2
+                    .Do(x => mapping.TryAdd(x.Endpoint, x))
                     .Select(x => Observable.FromAsync(async () => {
                         var p = x.Tick(null);
                         await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
