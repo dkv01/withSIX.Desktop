@@ -201,6 +201,7 @@
 <file src="..\..\..\bin\System.Security.Cryptography.X509Certificates.dll" target="lib\net45\System.Security.Cryptography.X509Certificates.dll" />
 <file src="..\..\..\bin\System.Security.Principal.Windows.dll" target="lib\net45\System.Security.Principal.Windows.dll" />
 <file src="..\..\..\bin\System.Text.Encodings.Web.dll" target="lib\net45\System.Text.Encodings.Web.dll" />
+<file src="..\..\..\bin\System.Threading.Tasks.Dataflow.dll" target="lib\net45\System.Threading.Tasks.Dataflow.dll" />
 <file src="..\..\..\bin\System.Threading.Tasks.Extensions.dll" target="lib\net45\System.Threading.Tasks.Extensions.dll" />
 <file src="..\..\..\bin\System.Threading.Thread.dll" target="lib\net45\System.Threading.Thread.dll" />
 <file src="..\..\..\bin\System.Xml.XmlDocument.dll" target="lib\net45\System.Xml.XmlDocument.dll" />
