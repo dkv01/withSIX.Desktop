@@ -58,39 +58,39 @@ namespace GameServerQuery
             var count = 0;
             var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
             var obs = Observable.Create<Result>(o => {
-                    var dsp = new CompositeDisposable();
-                    var receiver = CreateListener(socket)
-                        .Select(x => {
-                            EpState s;
-                            return mapping.TryGetValue(x.RemoteEndPoint, out s)
-                                ? new {packet = x, s}
-                                : null;
-                        })
-                        .Where(x => x != null)
-                        .Do(x => {
-                            heartbeat.OnNext(Unit.Default);
-                            Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
-                        })
-                        .Select(x => new {send = x.s.Tick(x.packet.Buffer), x.s})
-                        .Do(x => {
-                            if (x.s.State == EpStateState.Complete) {
-                                o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
-                                //mapping.Remove(s.Endpoint);
-                                x.s.Dispose();
-                            }
-                        })
-                        .Where(x => x.s.State != EpStateState.Complete && x.send != null)
-                        .Select(x => Send(socket, x.send, x.s.Endpoint, scheduler))
-                        .Merge(1);
-                    dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
-                        .Subscribe(_ => {
-                            Console.WriteLine($"" +
-                                              $"Stats: Still in Start: {mapping.Values.Count(x => x.State == EpStateState.Start)}, Completed: {mapping.Values.Count(x => x.State == EpStateState.Complete)}  " +
-                                              $"total count: {mapping.Values.Count}" +
-                                              $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
-                            o.OnCompleted();
-                        }));
-                    dsp.Add(receiver.Subscribe());
+                var dsp = new CompositeDisposable();
+                var receiver = CreateListener(socket)
+                    .Do(x => {
+                        heartbeat.OnNext(Unit.Default);
+                        Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
+                    })
+                    .Select(x => {
+                        EpState s;
+                        return mapping.TryGetValue(x.RemoteEndPoint, out s)
+                            ? new {packet = x, s}
+                            : null;
+                    })
+                    .Where(x => x != null)
+                    .Select(x => new {send = x.s.Tick(x.packet.Buffer), x.s})
+                    .Do(x => {
+                        if (x.s.State == EpStateState.Complete) {
+                            o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
+                            //mapping.Remove(s.Endpoint);
+                            x.s.Dispose();
+                        }
+                    })
+                    .Where(x => x.s.State != EpStateState.Complete && x.send != null)
+                    .Select(x => Send(socket, x.send, x.s.Endpoint, scheduler))
+                    .Merge(1);
+                dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
+                    .Subscribe(_ => {
+                        Console.WriteLine($"" +
+                                          $"Stats: Still in Start: {mapping.Values.Count(x => x.State == EpStateState.Start)}, Completed: {mapping.Values.Count(x => x.State == EpStateState.Complete)}  " +
+                                          $"total count: {mapping.Values.Count}" +
+                                          $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
+                        o.OnCompleted();
+                    }));
+                dsp.Add(receiver.Subscribe());
 
                 var sender = eps2
                     .Do(x => mapping.TryAdd(x.Endpoint, x))
@@ -107,8 +107,12 @@ namespace GameServerQuery
         }
 
         IObservable<int> Send(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) =>
-            Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler)
-                .Delay(TimeSpan.FromMilliseconds(20), scheduler);
+            SendPacket(socket, p, ep, scheduler)
+                .Delay(TimeSpan.FromMilliseconds(10), scheduler);
+
+        private static IObservable<int> SendPacket(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) {
+            return Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler);
+        }
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
             Observable.Create<UdpReceiveResult>(obs => {
