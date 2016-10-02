@@ -13,42 +13,54 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GameServerQuery.Parsers;
 
 namespace GameServerQuery
 {
     // TODO: Scheduler?
     // TODO: Exception handling
+    // TODO: Pings
     public class ReactiveSource
     {
+        private SourceQueryParser _parser = new SourceQueryParser();
+        public IObservable<ServerQueryResult> ProcessResults(IObservable<Result> results) => results.Select(Parse);
+
+        ServerQueryResult Parse(Result r) => _parser.ParsePackets(r.ReceivedPackets, new List<int>());
+
         public IObservable<Result> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket) {
             var mapping = eps.ToDictionary(x => x, x => new EpState(x));
 
-            return Observable.Create<Result>(obs => {
+            var obs = Observable.Create<Result>(o => {
                 var dsp = new CompositeDisposable();
                 var receiver = CreateListener(socket)
                     .Where(x => mapping.ContainsKey(x.RemoteEndPoint))
                     .SelectMany(async x => {
                         var s = mapping[x.RemoteEndPoint];
-                        var r = s.ProcessPackage(x.Buffer);
+                        var r = s.Tick(x.Buffer);
                         if (r != null)
                             await socket.SendAsync(r, r.Length, x.RemoteEndPoint).ConfigureAwait(false);
                         if (s.State == EpStateState.Complete) {
-                            obs.OnNext(new Result(s.Endpoint, s.ReceivedPackets));
+                            o.OnNext(new Result(s.Endpoint, s.ReceivedPackets));
                             //mapping.Remove(s.Endpoint);
                             s.Dispose();
                         }
                         return Unit.Default;
                     });
                 dsp.Add(receiver.Subscribe());
-                var sender = mapping.Select(x => x.Value)
-                    .ToObservable().SelectMany(async x => {
-                        var p = x.Initialize();
+                var sender = mapping
+                    .Select(x => x.Value)
+                    .ToObservable()
+                    .Select(x => Observable.FromAsync(async () => {
+                        var p = x.Tick(null);
                         await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
                         return Unit.Default;
-                    });
+                    }))
+                    .Merge(16);
                 dsp.Add(sender.Subscribe());
                 return dsp;
             });
+            // http://stackoverflow.com/questions/12270642/reactive-extension-onnext
+            return obs.Synchronize(); // Or use lock on the onNext call..
         }
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
@@ -71,6 +83,16 @@ namespace GameServerQuery
             });
     }
 
+    public struct ProcessedResult
+    {
+        public ProcessedResult(IPEndPoint endpoint, Dictionary<string, string> settings) {
+            Endpoint = endpoint;
+            Settings = settings;
+        }
+        public IPEndPoint Endpoint { get; }
+        public Dictionary<string, string> Settings { get; }
+    }
+
     class MultiStatus
     {
         public Dictionary<int, byte[][]> BzipDict { get; } = new Dictionary<int, byte[][]>(10);
@@ -79,12 +101,12 @@ namespace GameServerQuery
 
     public struct Result
     {
-        public Result(IPEndPoint endpoint, IReadOnlyCollection<byte[]> receivedPackets) {
+        public Result(IPEndPoint endpoint, IReadOnlyList<byte[]> receivedPackets) {
             Endpoint = endpoint;
             ReceivedPackets = receivedPackets;
         }
         public IPEndPoint Endpoint { get; }
-        public IReadOnlyCollection<byte[]> ReceivedPackets { get; }
+        public IReadOnlyList<byte[]> ReceivedPackets { get; }
     }
 
     internal class EpState
@@ -108,31 +130,20 @@ namespace GameServerQuery
 
         public List<byte[]> ReceivedPackets { get; private set; } = new List<byte[]>();
 
-        public byte[] Initialize() {
+        public byte[] Tick(byte[] response) {
             switch (State) {
             case EpStateState.Start:
-                State = EpStateState.InfoChallenge;
                 return a2SInfoRequest;
-            }
-            throw new Exception("The state is not in Start state");
-        }
-
-        public byte[] ProcessPackage(byte[] response) {
-            switch (State) {
             case EpStateState.InfoChallenge: {
                 if (response[4] != 0x49)
                     throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x49.", response[4]));
                 _multiStatus = new MultiStatus();
                 var r = ProcessPacketHeader(response);
-                if (r != null)
-                    return TransitionToRulesChallengeState(r);
-                return null;
+                return r != null ? TransitionToRulesChallengeState(r) : null;
             }
             case EpStateState.ReceivingInfo: {
                 var r = ProcessPacketHeader(response);
-                if (r != null)
-                    return TransitionToRulesChallengeState(r);
-                return null;
+                return r != null ? TransitionToRulesChallengeState(r) : null;
             }
             case EpStateState.RulesChallenge: {
                 _multiStatus = new MultiStatus();
@@ -148,9 +159,7 @@ namespace GameServerQuery
             }
             case EpStateState.ReceivingRules: {
                 var r = ProcessPacketHeader(response);
-                if (r != null)
-                    return TransitionToPlayerChallengeState(r);
-                return null;
+                return r != null ? TransitionToPlayerChallengeState(r) : null;
             }
             case EpStateState.PlayerChallenge: {
                 _multiStatus = new MultiStatus();
@@ -171,8 +180,10 @@ namespace GameServerQuery
                     TransitionToCompleteState(r);
                 return null;
             }
+            default: {
+                throw new Exception("Is in invalid state");
             }
-            return null;
+            }
         }
 
         private byte[] TransitionToRulesChallengeState(byte[] r) {

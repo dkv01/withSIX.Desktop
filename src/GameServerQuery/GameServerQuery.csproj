@@ -138,6 +138,7 @@
     <Compile Include="IServerQueryQueue.cs" />
     <Compile Include="Parsers\SourceQueryParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reactive.cs" />
     <Compile Include="ServerQueryBase.cs" />
     <Compile Include="ServerQueryMode.cs" />
     <Compile Include="ServerQueryOverallState.cs" />

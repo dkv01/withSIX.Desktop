@@ -19,15 +19,14 @@ namespace GameServerQuery
         }
 
         public bool IsMasterResult { get; private set; }
-        public long Ping { get; set; } = ServerQueryState.MagicPingValue;
+        public int Ping { get; set; } = ServerQueryState.MagicPingValue;
         public IDictionary<string, string> Settings { get; }
         public List<Player> Players { get; set; }
         public abstract ServerQueryMode Mode { get; }
         public IPEndPoint Address { get; set; }
 
-        public string GetSettingOrDefault(string settingName) {
-            return Settings.ContainsKey(settingName) ? Settings[settingName] : null;
-        }
+        public string GetSettingOrDefault(string settingName)
+            => Settings.ContainsKey(settingName) ? Settings[settingName] : null;
     }
 
     public class GamespyServerQueryResult : ServerQueryResult
