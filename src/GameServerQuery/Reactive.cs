@@ -91,6 +91,7 @@ namespace GameServerQuery
                     .Select(x => Observable.FromAsync(async () => {
                         try {
                             var p = x.Tick(null);
+                            await Task.Delay(25).ConfigureAwait(false);
                             Console.WriteLine("Tick");
                             await socket.SendAsync(p, p.Length, x.Endpoint).ConfigureAwait(false);
                             heartbeat.OnNext(Unit.Default);
