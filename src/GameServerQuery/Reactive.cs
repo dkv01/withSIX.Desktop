@@ -62,9 +62,10 @@ namespace GameServerQuery
             var obs = Observable.Create<Result>(o => {
                 var dsp = new CompositeDisposable();
                 var receiver = CreateListener(socket)
+                    .ObserveOn(scheduler)
                     .Do(x => {
                         heartbeat.OnNext(Unit.Default);
-                        Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
+                        //Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
                     })
                     .Select(x => {
                         EpState s;
@@ -73,7 +74,7 @@ namespace GameServerQuery
                             : null;
                     })
                     .Where(x => x != null)
-                    .Select(x => new {send = x.s.Tick(x.packet.Buffer), x.s})
+                    .Select(x => new {send = TryTick(x.s, x.packet.Buffer), x.s})
                     .Do(x => {
                         if (x.s.State == EpStateState.Complete) {
                             o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
@@ -83,10 +84,8 @@ namespace GameServerQuery
                     })
                     .Where(x => x.s.State != EpStateState.Complete && x.send != null)
                     .Select(x => SendPacket(socket, x.send, x.s.Endpoint, scheduler))
-                    .Merge(1)
-                    .Do(x => {
-                        Console.WriteLine("Sent other packets: " + Interlocked.Increment(ref count3));
-                    });
+                    .Merge(1);
+                    //.Do(x => Console.WriteLine("Sent other packets: " + Interlocked.Increment(ref count3)));
                 dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
                     .Subscribe(_ => {
                         Console.WriteLine($"" +
@@ -97,12 +96,13 @@ namespace GameServerQuery
                 dsp.Add(receiver.Subscribe());
 
                 var sender = eps2
+                    .ObserveOn(scheduler)
                     .Do(x => mapping.TryAdd(x.Endpoint, x))
                     .Select(x => new {p = x.Tick(null), x.Endpoint})
                     .Select(x => Send(socket, x.p, x.Endpoint, scheduler))
                     .Merge(1)
                     .Do(x => {
-                        Console.WriteLine("Sent initial packets: " + Interlocked.Increment(ref count2));
+                        //Console.WriteLine("Sent initial packets: " + Interlocked.Increment(ref count2));
                         heartbeat.OnNext(Unit.Default);
                     });
                 dsp.Add(sender.Subscribe());
@@ -113,9 +113,18 @@ namespace GameServerQuery
             return obs.Synchronize(scheduler); // Or use lock on the onNext call..
         }
 
+        private byte[] TryTick(EpState epState, byte[] buffer) {
+            try {
+                return epState.Tick(buffer);
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
         IObservable<int> Send(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) =>
             SendPacket(socket, p, ep, scheduler)
-                .Delay(TimeSpan.FromMilliseconds(25), scheduler);
+                .Delay(TimeSpan.FromMilliseconds(50), scheduler);
 
         private static IObservable<int> SendPacket(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler)
             => Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler);
