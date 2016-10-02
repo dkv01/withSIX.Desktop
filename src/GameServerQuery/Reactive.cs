@@ -93,7 +93,9 @@ namespace GameServerQuery
                                           $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
                         o.OnCompleted();
                     }));
-                dsp.Add(receiver.Subscribe());
+                dsp.Add(receiver.Subscribe(_ => { }, ex => {
+                    Console.WriteLine(ex);
+                }, () => {}));
 
                 var sender = eps2
                     .ObserveOn(scheduler)
@@ -124,7 +126,7 @@ namespace GameServerQuery
 
         IObservable<int> Send(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) =>
             SendPacket(socket, p, ep, scheduler)
-                .Delay(TimeSpan.FromMilliseconds(50), scheduler);
+                .Delay(TimeSpan.FromMilliseconds(30), scheduler);
 
         private static IObservable<int> SendPacket(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler)
             => Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler);
