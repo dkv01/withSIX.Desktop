@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -56,14 +57,16 @@ namespace GameServerQuery
                 //var scheduler = new EventLoopScheduler();
                 //dsp.Add(scheduler);
                 var listener = CreateListener(socket)
-                    //.ObserveOn(scheduler)
                     .Publish();
 
                 dsp.Add(listener.Connect());
 
                 var sender = epsObs
                     //.ObserveOn(scheduler)
-                    .Select(x => new EpState2(x, listener.Where(r => r.RemoteEndPoint.Equals(x)).Select(r => r.Buffer),
+                    .Select(x => new EpState2(x,
+                        listener.Where(r => r.RemoteEndPoint.Equals(x))
+                            .Select(r => r.Buffer)
+                            .ObserveOn(TaskPoolScheduler.Default),
                         d => socket.SendAsync(d, d.Length, x)))
                     .Do(x => mapping.Add(x))
                     .Select(x => Observable.Create<IResult>(io => {
@@ -113,10 +116,10 @@ namespace GameServerQuery
 
     class EpState2 : EpState
     {
+        readonly List<long> _pings = new List<long>();
         private readonly IObservable<byte[]> _receiver;
         private readonly Func<byte[], Task> _sender;
         readonly Stopwatch _sw = new Stopwatch();
-        readonly List<long> _pings = new List<long>();
 
         public EpState2(IPEndPoint ep, IObservable<byte[]> receiver, Func<byte[], Task> sender) : base(ep) {
             _receiver = receiver;
@@ -126,9 +129,9 @@ namespace GameServerQuery
         public IObservable<IResult> Results => Observable.Create<IResult>(async obs => {
             var signal = new Subject<Unit>();
             var l = _receiver
+                .Do(_ => signal.OnNext(Unit.Default))
                 .Select(x => Observable.FromAsync(() => Process(x)))
                 //.Do(x => Console.WriteLine($"Receiving Package for {Endpoint}"))
-                .Do(_ => signal.OnNext(Unit.Default))
                 .Merge(1)
                 .Select(_ => State)
                 .Where(x => (x == EpStateState.Complete) || (x == EpStateState.Timeout))
