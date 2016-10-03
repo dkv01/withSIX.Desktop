@@ -54,10 +54,14 @@ namespace GameServerQuery
 
         public virtual IObservable<ServerPageArgs> GetParsedServers2(CancellationToken cancelToken,
             bool forceLocal = false, int limit = 0) => Observable.Create<ServerPageArgs>(async (obs) => {
-            using (BuildObservable(this).Subscribe(obs.OnNext)) {
-                await RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
+            try {
+                using (BuildObservable(this).Subscribe(obs.OnNext)) {
+                    await RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
+                }
+                obs.OnCompleted();
+            } catch (Exception ex) {
+                obs.OnError(ex);
             }
-            obs.OnCompleted();
         });
 
 
