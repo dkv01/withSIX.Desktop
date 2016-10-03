@@ -140,7 +140,7 @@ namespace GameServerQuery
                             obs.OnNext(await socket.ReceiveAsync().ConfigureAwait(false));
                     } catch (Exception ex) {
                         obs.OnError(ex);
-                        throw;
+                        return;
                     }
                     obs.OnCompleted();
                 }, cts.Token);
@@ -149,6 +149,31 @@ namespace GameServerQuery
                     cts.Dispose();
                 };
             });
+    }
+
+    public static class ReactiveExtensions
+    {
+        public static IObservable<ServerPageArgs> GetParsedServersObservable(this SourceMasterQuery This, CancellationToken cancelToken,
+            bool forceLocal = false, int limit = 0) => Observable.Create<ServerPageArgs>(async (obs) => {
+                try {
+                    using (BuildObservable(This).Subscribe(obs.OnNext)) {
+                        await This.RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
+                    }
+                } catch (Exception ex) {
+                    obs.OnError(ex);
+                    return;
+                }
+                obs.OnCompleted();
+            });
+
+        private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master)
+            => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
+                EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
+                return evtHandler;
+            },
+                evtHandler => master.ServerPageReceived += evtHandler,
+                evtHandler => master.ServerPageReceived -= evtHandler);
+
     }
 
     public struct ProcessedResult
