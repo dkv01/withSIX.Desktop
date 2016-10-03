@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using GameServerQuery;
 using NDepend.Path;
 using NUnit.Framework;
 using SteamLayerWrap;
@@ -52,7 +53,7 @@ namespace withSIX.Mini.Tests.Arma
             });
             var s = await
                 SteamActions.PerformArmaSteamAction(
-                    steamApi => PerformAction(steamApi, serverFilterBuilder.Value), (uint) SteamGameIds.Arma3,
+                    steamApi => PerformAction(steamApi, serverFilterBuilder.GetServerFilterWrap()), (uint) SteamGameIds.Arma3,
                     new SteamSession.SteamSessionFactory()).ConfigureAwait(false);
             s.Count.Should().Be(3);
             var json = s.ToJson(true);

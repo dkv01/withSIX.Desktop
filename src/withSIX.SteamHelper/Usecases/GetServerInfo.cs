@@ -9,6 +9,7 @@ using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Steam.Plugin.Arma;
 using System.Linq;
 using System.Reactive.Linq;
+using GameServerQuery;
 
 namespace withSIX.Steam.Presentation.Usecases
 {

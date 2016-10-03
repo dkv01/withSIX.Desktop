@@ -12,6 +12,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using GameServerQuery;
 using SteamLayerWrap;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Plugin.Arma.Models;
@@ -220,6 +221,18 @@ namespace withSIX.Steam.Plugin.Arma
         }
     }
 
+    public static class Exts
+    {
+        public static ServerFilterWrap GetServerFilterWrap(this ServerFilterBuilder This) {
+            var f = new ServerFilterWrap();
+            foreach (var d in This.Value) {
+                f.AddFilter(d.Item1, d.Item2);
+            }
+
+            return f;
+        }
+    }
+
     class ArmaServer : IDisposable
     {
         private readonly ServerInfoRulesFetcher _fetcher;
@@ -228,7 +241,7 @@ namespace withSIX.Steam.Plugin.Arma
         public ArmaServer(ArmaServerInfo info, ServerInfoRulesFetcher fetcher) {
             Info = info;
             _fetcher = fetcher;
-            _filter = ServerFilterBuilder.Build().FilterByAddress(info.ConnectionEndPoint).Value;
+            _filter = ServerFilterBuilder.Build().FilterByAddress(info.ConnectionEndPoint).GetServerFilterWrap();
         }
 
         public ArmaServer(int index, ServerKey key, ServerInfoRulesFetcher fetcher)

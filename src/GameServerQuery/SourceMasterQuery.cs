@@ -31,20 +31,15 @@ namespace GameServerQuery
             All = 0xFF
         }
 
-        readonly IDictionary<string, string> _filterSb;
+        private readonly List<Tuple<string, string>> _filter;
         readonly Region _region;
-        protected readonly string ServerBrowserTag;
 
-        public SourceMasterQuery(string serverBrowserTag, Region region = Region.All) {
-            ServerBrowserTag = serverBrowserTag;
+        public SourceMasterQuery(List<Tuple<string, string>> filter, Region region = Region.All) {
+            _filter = filter;
             _region = region;
-            _filterSb = new Dictionary<string, string>();
-            SetFilter("type", "d");
-            if (!serverBrowserTag.Equals(""))
-                SetFilter("gamedir", serverBrowserTag);
         }
 
-        string Filter => string.Join("", _filterSb.Select(x => string.Format(@"\{0}\{1}", x.Key, x.Value)));
+        string Filter => string.Join("", _filter.Select(x => string.Format(@"\{0}\{1}", x.Item1, x.Item2)));
 
         public virtual async Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken,
             bool forceLocal = false, int limit = 0) {
@@ -55,10 +50,6 @@ namespace GameServerQuery
         public event EventHandler<ServerPageArgs> ServerPageReceived;
 
         void Raise(ServerPageArgs args) => ServerPageReceived?.Invoke(this, args);
-
-        void SetFilter(string name, string value) {
-            _filterSb[name] = value;
-        }
 
         internal async Task<List<IPEndPoint>> RetrieveAsync(CancellationToken cancelToken, int limit,
             IPEndPoint remote = null, int tried = -1) {
@@ -159,7 +150,7 @@ namespace GameServerQuery
         protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address)
             => new SourceMasterServerQueryResult(address, new Dictionary<string, string> {
                 {"address", address.ToString()},
-                {"folder", ServerBrowserTag}
+                //{"folder", ServerBrowserTag}
             });
     }
 

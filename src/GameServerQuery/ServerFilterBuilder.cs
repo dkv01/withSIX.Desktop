@@ -5,25 +5,21 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using SteamLayerWrap;
 
-namespace withSIX.Steam.Plugin.Arma
+namespace GameServerQuery
 {
-    public interface IServerFilterBuilder {
+    public interface IServerFilterBuilder
+    {
         ServerFilterBuilder FilterByAddresses(IReadOnlyCollection<IPEndPoint> list);
         ServerFilterBuilder FilterByAddress(IPEndPoint point);
     }
 
     public class ServerFilterBuilder : IServerFilterBuilder
     {
-        private readonly ServerFilterWrap _filter;
+        private readonly List<Tuple<string, string>> _filter = new List<Tuple<string, string>>();
         private bool _isFinal;
 
-        public ServerFilterBuilder() {
-            _filter = new ServerFilterWrap();
-        }
-
-        public ServerFilterWrap Value
+        public List<Tuple<string, string>> Value
         {
             get
             {
@@ -32,7 +28,10 @@ namespace withSIX.Steam.Plugin.Arma
             }
         }
 
-        public static ServerFilterBuilder Build() => new ServerFilterBuilder();
+        public ServerFilterBuilder FilterByGame(string game) {
+            AddFilter("gamedir", game);
+            return this;
+        }
 
         public ServerFilterBuilder FilterByAddresses(IReadOnlyCollection<IPEndPoint> list) {
             MakeFilterStep();
@@ -40,14 +39,23 @@ namespace withSIX.Steam.Plugin.Arma
             return this;
         }
 
+        public ServerFilterBuilder FilterByAddress(IPEndPoint point) {
+            AddFilter("gameaddr", $"{point.Address}:{point.Port}");
+            return this;
+        }
+
+        void AddFilter(string key, string value) => _filter.Add(Tuple.Create(key, value));
+
+        public static ServerFilterBuilder Build() => new ServerFilterBuilder();
+
         void AddOr<T>(IReadOnlyCollection<T> list, Action<T> act) {
-            _filter.AddFilter("or", list.Count.ToString());
+            AddFilter("or", list.Count.ToString());
             foreach (var point in list)
                 act(point);
         }
 
-        public ServerFilterBuilder FilterByAddress(IPEndPoint point) {
-            _filter.AddFilter("gameaddr", $"{point.Address}:{point.Port}");
+        public ServerFilterBuilder FilterByDedicated() {
+            AddFilter("dedicated", "1");
             return this;
         }
 

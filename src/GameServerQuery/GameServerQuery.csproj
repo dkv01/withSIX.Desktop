@@ -139,6 +139,7 @@
     <Compile Include="Parsers\SourceQueryParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reactive.cs" />
+    <Compile Include="ServerFilterBuilder.cs" />
     <Compile Include="ServerQueryBase.cs" />
     <Compile Include="ServerQueryMode.cs" />
     <Compile Include="ServerQueryOverallState.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="ServerQueryResult.cs" />
     <Compile Include="ServerQueryState.cs" />
     <Compile Include="SourceMasterQuery.cs" />
-    <Compile Include="SourceMasterQueryCacheable.cs" />
     <Compile Include="SourceServerQuery.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -74,7 +74,9 @@ namespace withSIX.Mini.Plugin.Arma.Models
         protected override string[] BeGameParam { get; } = {"2", "1"};
 
         public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
-            var master = new SourceMasterQuery("arma3");
+            var f = ServerFilterBuilder.Build()
+                .FilterByGame("arma3");
+            var master = new SourceMasterQuery(f.Value);
             using (BuildObservable(master)
                 .SelectMany(x => RaiseRealtimeEvent(new ServersPageReceived(Id, x.Items)).Void())
                 .Subscribe()) {

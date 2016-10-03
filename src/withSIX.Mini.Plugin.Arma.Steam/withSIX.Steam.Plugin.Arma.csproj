@@ -45,7 +45,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerBrowser.cs" />
     <Compile Include="ServerBrowserExtensions.cs" />
-    <Compile Include="ServerFilterBuilder.cs" />
     <Compile Include="ServerKey.cs" />
     <Compile Include="ServiceRegistry.cs" />
     <Compile Include="SteamActions.cs" />
@@ -63,6 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
+      <Project>{809f10cd-988d-475a-8d5a-7fd17938053e}</Project>
+      <Name>GameServerQuery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>withSIX.Core.Applications</Name>

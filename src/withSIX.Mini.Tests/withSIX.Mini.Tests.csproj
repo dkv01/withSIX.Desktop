@@ -297,6 +297,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
+      <Project>{809f10cd-988d-475a-8d5a-7fd17938053e}</Project>
+      <Name>GameServerQuery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>
