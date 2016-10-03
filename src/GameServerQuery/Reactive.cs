@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
@@ -20,116 +21,72 @@ using GameServerQuery.Parsers;
 
 namespace GameServerQuery
 {
-    // TODO: Scheduler?
     // TODO: Exception handling
     // TODO: Pings
+    // TODO: Retry
     public class ReactiveSource
     {
         private readonly SourceQueryParser _parser = new SourceQueryParser();
 
-        public IObservable<ServerQueryResult> ProcessResults(IObservable<Result> results) => results.Select(x => {
-            try {
-                return Parse(x);
-            } catch (Exception ex) {
-                Console.WriteLine(ex);
-            }
-            return null;
-        }).Where(x => x != null);
-
-        ServerQueryResult Parse(Result r) => _parser.ParsePackets(r.Endpoint, r.ReceivedPackets, new List<int>());
-
-        public IObservable<Result> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket)
-            => GetResults(eps.ToObservable(), socket);
-
-        public IObservable<Result> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket) {
-            var eps2 = epsObs.Select(x => new EpState(x));
-
-            var heartbeat = Subject.Synchronize(new Subject<Unit>());
-
-            var scheduler = new EventLoopScheduler();
-
-
-            // TODO: We could also make an observable sequence out of the state transition of each element
-            // have each element timeout after e.g 5 seconds of non-activity
-            // and then maybe have a degreeOfParallelism mixed in..
-            // oh and retryability hm :D
-
-
-            var count = 0;
-            var count2 = 0;
-            var count3 = 0;
-            var mapping = new ConcurrentDictionary<IPEndPoint, EpState>();
-            var obs = Observable.Create<Result>(o => {
-                var dsp = new CompositeDisposable();
-                var receiver = CreateListener(socket)
-                    .ObserveOn(scheduler)
-                    .Do(x => {
-                        heartbeat.OnNext(Unit.Default);
-                        //Console.WriteLine("ReceivedPackets: " + Interlocked.Increment(ref count));
-                    })
-                    .Select(x => {
-                        EpState s;
-                        return mapping.TryGetValue(x.RemoteEndPoint, out s)
-                            ? new {packet = x, s}
-                            : null;
-                    })
-                    .Where(x => x != null)
-                    .Select(x => new {send = TryTick(x.s, x.packet.Buffer), x.s})
-                    .Do(x => {
-                        if (x.s.State == EpStateState.Complete) {
-                            o.OnNext(new Result(x.s.Endpoint, x.s.ReceivedPackets.Values.ToArray()));
-                            //mapping.Remove(s.Endpoint);
-                            x.s.Dispose();
-                        }
-                    })
-                    .Where(x => x.s.State != EpStateState.Complete && x.send != null)
-                    .Select(x => SendPacket(socket, x.send, x.s.Endpoint, scheduler))
-                    .Merge(1);
-                    //.Do(x => Console.WriteLine("Sent other packets: " + Interlocked.Increment(ref count3)));
-                dsp.Add(heartbeat.Throttle(TimeSpan.FromSeconds(5))
-                    .Subscribe(_ => {
-                        Console.WriteLine($"" +
-                                          $"Stats: total count: {mapping.Values.Count}\n" +
-                                          $"{string.Join("\n", mapping.Values.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
-                        o.OnCompleted();
-                    }));
-                dsp.Add(receiver.Subscribe(_ => { }, ex => {
+        public IObservable<ServerQueryResult> ProcessResults(IObservable<IResult> results) => results
+            .Where(x => x.Success)
+            .Select(x => {
+                try {
+                    return Parse(x);
+                } catch (Exception ex) {
                     Console.WriteLine(ex);
-                }, () => {}));
+                }
+                return null;
+            }).Where(x => x != null);
 
-                var sender = eps2
+        ServerQueryResult Parse(IResult r) => _parser.ParsePackets(r.Endpoint, r.ReceivedPackets, new List<int>());
+
+        public IObservable<IResult> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket, int degreeOfParallelism = 50)
+            => GetResults(eps.ToObservable(), socket, degreeOfParallelism);
+
+        public IObservable<IResult> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket, int degreeOfParallelism = 50) {
+            var mapping = new ConcurrentBag<EpState>();
+            var scheduler = new EventLoopScheduler();
+            var obs = Observable.Create<IResult>(o => {
+                var count = 0;
+                var count2 = 0;
+                var count3 = 0;
+
+                var dsp = new CompositeDisposable();
+                var listener = CreateListener(socket)
                     .ObserveOn(scheduler)
-                    .Do(x => mapping.TryAdd(x.Endpoint, x))
-                    .Select(x => new {p = x.Tick(null), x.Endpoint})
-                    .Select(x => Send(socket, x.p, x.Endpoint, scheduler))
-                    .Merge(1)
-                    .Do(x => {
-                        //Console.WriteLine("Sent initial packets: " + Interlocked.Increment(ref count2));
-                        heartbeat.OnNext(Unit.Default);
+                    .Publish();
+
+                dsp.Add(listener.Connect());
+
+                var sender = epsObs
+                    .ObserveOn(scheduler)
+                    .Select(x => new EpState2(x, listener.Where(r => r.RemoteEndPoint.Equals(x)).Select(r => r.Buffer),
+                        d => socket.SendAsync(d, d.Length, x)))
+                    .Do(x => mapping.Add(x))
+                    .Select(x => Observable.Create<IResult>(io => {
+                        Console.WriteLine($"Sending initial packet: {Interlocked.Increment(ref count)}");
+                        return x.Results.Subscribe(io.OnNext, io.OnError, io.OnCompleted);
+                    }))
+                    .ObserveOn(scheduler)
+                    .Merge(degreeOfParallelism) // TODO: Instead try to limit sends at a time? hm
+                    .Do(
+                        x => {
+                            Console.WriteLine($"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms");
+                        });
+                var sub = sender
+                    .Subscribe(o.OnNext, o.OnError, () => {
+                        Console.WriteLine($"" +
+                                          $"Stats: total count: {mapping.Count}\n" +
+                                          $"{string.Join("\n", mapping.GroupBy(x => x.State).OrderByDescending(x => x.Count()).Select(x => x.Key + " " + x.Count()))}");
+                        o.OnCompleted();
                     });
-                dsp.Add(sender.Subscribe());
-                // TODO
+                dsp.Add(sub);
                 return dsp;
             });
             // http://stackoverflow.com/questions/12270642/reactive-extension-onnext
             return obs.Synchronize(scheduler); // Or use lock on the onNext call..
         }
-
-        private byte[] TryTick(EpState epState, byte[] buffer) {
-            try {
-                return epState.Tick(buffer);
-            } catch (Exception ex) {
-                Console.WriteLine(ex);
-                return null;
-            }
-        }
-
-        IObservable<int> Send(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler) =>
-            SendPacket(socket, p, ep, scheduler)
-                .Delay(TimeSpan.FromMilliseconds(30), scheduler);
-
-        private static IObservable<int> SendPacket(UdpClient socket, byte[] p, IPEndPoint ep, IScheduler scheduler)
-            => Observable.FromAsync(() => socket.SendAsync(p, p.Length, ep), scheduler);
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
             Observable.Create<UdpReceiveResult>(obs => {
@@ -151,29 +108,89 @@ namespace GameServerQuery
             });
     }
 
+    class EpState2 : EpState
+    {
+        private readonly IObservable<byte[]> _receiver;
+        private readonly Func<byte[], Task> _sender;
+        readonly Stopwatch _sw = new Stopwatch();
+        readonly List<long> _pings = new List<long>();
+
+        public EpState2(IPEndPoint ep, IObservable<byte[]> receiver, Func<byte[], Task> sender) : base(ep) {
+            _receiver = receiver;
+            _sender = sender;
+        }
+
+        public IObservable<IResult> Results => Observable.Create<IResult>(async obs => {
+            var signal = new Subject<Unit>();
+            var l = _receiver
+                .Select(x => Observable.FromAsync(() => Process(x)))
+                //.Do(x => Console.WriteLine($"Receiving Package for {Endpoint}"))
+                .Do(_ => signal.OnNext(Unit.Default))
+                .Merge(1)
+                .Select(_ => State)
+                .Where(x => (x == EpStateState.Complete) || (x == EpStateState.Timeout))
+                .Merge(signal.Throttle(TimeSpan.FromSeconds(5)).Select(x => EpStateState.Timeout))
+                .Take(1);
+            //.Do(x => Console.WriteLine($"Finished Processing for {Endpoint}: {x}"));
+            var dsp = l.Subscribe(s => obs.OnNext(s == EpStateState.Complete
+                ? (IResult) new Result(Endpoint, ReceivedPackets.Values.ToArray(), (long) _pings.Average())
+                : new FailedResult(Endpoint)), obs.OnError, obs.OnCompleted);
+            var data = Tick(null);
+            await Send(data).ConfigureAwait(false);
+            signal.OnNext(Unit.Default); // kick off the hearbeat, incase we don't get anything back..
+            return () => {
+                _sw.Stop();
+                dsp.Dispose();
+            };
+        });
+
+        Task Send(byte[] data) {
+            _sw.Start();
+            return _sender(data);
+        }
+
+        async Task Process(byte[] arg) {
+            var s = TryTick(arg);
+            if (s != null)
+                await Send(s).ConfigureAwait(false);
+        }
+
+        private byte[] TryTick(byte[] buffer) {
+            _sw.Stop();
+            _pings.Add(_sw.ElapsedMilliseconds);
+            _sw.Reset();
+            try {
+                return Tick(buffer);
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+    }
+
     public static class ReactiveExtensions
     {
-        public static IObservable<ServerPageArgs> GetParsedServersObservable(this SourceMasterQuery This, CancellationToken cancelToken,
-            bool forceLocal = false, int limit = 0) => Observable.Create<ServerPageArgs>(async (obs) => {
-                try {
-                    using (BuildObservable(This).Subscribe(obs.OnNext)) {
-                        await This.RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
-                    }
-                } catch (Exception ex) {
-                    obs.OnError(ex);
-                    return;
+        public static IObservable<ServerPageArgs> GetParsedServersObservable(this SourceMasterQuery This,
+            CancellationToken cancelToken,
+            bool forceLocal = false, int limit = 0) => Observable.Create<ServerPageArgs>(async obs => {
+            try {
+                using (BuildObservable(This).Subscribe(obs.OnNext)) {
+                    await This.RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
                 }
-                obs.OnCompleted();
-            });
+            } catch (Exception ex) {
+                obs.OnError(ex);
+                return;
+            }
+            obs.OnCompleted();
+        });
 
         private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master)
             => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
-                EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
-                return evtHandler;
-            },
+                    EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
+                    return evtHandler;
+                },
                 evtHandler => master.ServerPageReceived += evtHandler,
                 evtHandler => master.ServerPageReceived -= evtHandler);
-
     }
 
     public struct ProcessedResult
@@ -182,6 +199,7 @@ namespace GameServerQuery
             Endpoint = endpoint;
             Settings = settings;
         }
+
         public IPEndPoint Endpoint { get; }
         public Dictionary<string, string> Settings { get; }
     }
@@ -192,14 +210,39 @@ namespace GameServerQuery
         public Dictionary<int, byte[][]> PlainDict { get; } = new Dictionary<int, byte[][]>(10);
     }
 
-    public struct Result
+    public interface IResult
     {
-        public Result(IPEndPoint endpoint, IReadOnlyList<byte[]> receivedPackets) {
+        IPEndPoint Endpoint { get; }
+        bool Success { get; }
+        IReadOnlyList<byte[]> ReceivedPackets { get; }
+        long Ping { get; }
+    }
+
+    public struct Result : IResult
+    {
+        public Result(IPEndPoint endpoint, IReadOnlyList<byte[]> receivedPackets, long ping) {
             Endpoint = endpoint;
             ReceivedPackets = receivedPackets;
+            Ping = ping;
         }
+
+        public bool Success => true;
         public IPEndPoint Endpoint { get; }
         public IReadOnlyList<byte[]> ReceivedPackets { get; }
+        public long Ping { get; }
+    }
+
+    public struct FailedResult : IResult
+    {
+        public IPEndPoint Endpoint { get; }
+        public IReadOnlyList<byte[]> ReceivedPackets { get; }
+        public bool Success => false;
+        public long Ping => -1;
+
+        public FailedResult(IPEndPoint endpoint) {
+            Endpoint = endpoint;
+            ReceivedPackets = new List<byte[]>();
+        }
     }
 
     internal class EpState
@@ -245,14 +288,20 @@ namespace GameServerQuery
                     State = EpStateState.ReceivingRules;
                     return a2SRulesRequestH.Concat(response.Skip(5)).ToArray();
                 case 0x45: //no challenge needed info
-                    return InclPlayers ? TransitionToPlayerChallengeState(response) : TransitionToCompleteStateFromRules(response);
+                    return InclPlayers
+                        ? TransitionToPlayerChallengeState(response)
+                        : TransitionToCompleteStateFromRules(response);
                 default:
                     throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x41 or 0x45.", response[4]));
                 }
             }
             case EpStateState.ReceivingRules: {
                 var r = ProcessPacketHeader(response);
-                return r != null ? (InclPlayers ? TransitionToPlayerChallengeState(response) : TransitionToCompleteStateFromRules(response)) : null;
+                return r != null
+                    ? (InclPlayers
+                        ? TransitionToPlayerChallengeState(response)
+                        : TransitionToCompleteStateFromRules(response))
+                    : null;
             }
             case EpStateState.PlayerChallenge: {
                 _multiStatus = new MultiStatus();
@@ -419,6 +468,7 @@ namespace GameServerQuery
         ReceivingPlayers,
         RulesChallenge,
         PlayerChallenge,
-        Complete
+        Complete,
+        Timeout
     }
 }
