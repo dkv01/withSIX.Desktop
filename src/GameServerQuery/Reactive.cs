@@ -11,7 +11,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -41,26 +40,29 @@ namespace GameServerQuery
 
         ServerQueryResult Parse(IResult r) => _parser.ParsePackets(r.Endpoint, r.ReceivedPackets, new List<int>());
 
-        public IObservable<IResult> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket, int degreeOfParallelism = 50)
+        public IObservable<IResult> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket,
+                int degreeOfParallelism = 50)
             => GetResults(eps.ToObservable(), socket, degreeOfParallelism);
 
-        public IObservable<IResult> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket, int degreeOfParallelism = 50) {
+        public IObservable<IResult> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket,
+            int degreeOfParallelism = 50) {
             var mapping = new ConcurrentBag<EpState>();
-            var scheduler = new EventLoopScheduler();
             var obs = Observable.Create<IResult>(o => {
                 var count = 0;
                 var count2 = 0;
                 var count3 = 0;
 
                 var dsp = new CompositeDisposable();
+                //var scheduler = new EventLoopScheduler();
+                //dsp.Add(scheduler);
                 var listener = CreateListener(socket)
-                    .ObserveOn(scheduler)
+                    //.ObserveOn(scheduler)
                     .Publish();
 
                 dsp.Add(listener.Connect());
 
                 var sender = epsObs
-                    .ObserveOn(scheduler)
+                    //.ObserveOn(scheduler)
                     .Select(x => new EpState2(x, listener.Where(r => r.RemoteEndPoint.Equals(x)).Select(r => r.Buffer),
                         d => socket.SendAsync(d, d.Length, x)))
                     .Do(x => mapping.Add(x))
@@ -68,11 +70,12 @@ namespace GameServerQuery
                         Console.WriteLine($"Sending initial packet: {Interlocked.Increment(ref count)}");
                         return x.Results.Subscribe(io.OnNext, io.OnError, io.OnCompleted);
                     }))
-                    .ObserveOn(scheduler)
+                    //.ObserveOn(scheduler)
                     .Merge(degreeOfParallelism) // TODO: Instead try to limit sends at a time? hm
                     .Do(
                         x => {
-                            Console.WriteLine($"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms");
+                            Console.WriteLine(
+                                $"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms");
                         });
                 var sub = sender
                     .Subscribe(o.OnNext, o.OnError, () => {
@@ -85,7 +88,7 @@ namespace GameServerQuery
                 return dsp;
             });
             // http://stackoverflow.com/questions/12270642/reactive-extension-onnext
-            return obs.Synchronize(scheduler); // Or use lock on the onNext call..
+            return obs.Synchronize(); // Or use lock on the onNext call..
         }
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
@@ -206,8 +209,134 @@ namespace GameServerQuery
 
     class MultiStatus
     {
-        public Dictionary<int, byte[][]> BzipDict { get; } = new Dictionary<int, byte[][]>(10);
-        public Dictionary<int, byte[][]> PlainDict { get; } = new Dictionary<int, byte[][]>(10);
+        private const int SinglePacket = -1;
+        private const int MultiPacket = -2;
+
+        readonly Dictionary<int, MStatus> _bzipDict = new Dictionary<int, MStatus>();
+        readonly Dictionary<int, MStatus> _plainDict = new Dictionary<int, MStatus>();
+
+        public byte[] ProcessPacketHeader(byte[] reply) {
+            Contract.Requires<ArgumentNullException>(reply != null);
+
+            var reader = new ByteArrayReader(reply);
+            var header = reader.ReadInt();
+            switch (header) {
+            case SinglePacket:
+                return reply;
+            case MultiPacket:
+                return CollectPacket(reader);
+            }
+            return null;
+        }
+
+        private byte[] CollectPacket(ByteArrayReader reader) {
+            var id = reader.ReadInt();
+            var bzipped = (id & 0x80000000) != 0;
+            var total = reader.ReadByte();
+            var number = reader.ReadByte();
+            var size = reader.ReadShort();
+            if (bzipped) {
+                throw new Exception("bzip2 compression not implemented");
+                /*
+                if (!status.BzipDict.ContainsKey(id))
+                {
+                    status.BzipDict[id] = new byte[total + 2][];
+                    status.BzipDict[id][total] = new byte[1];
+                }
+                if (number == 0)
+                {
+                    status.BzipDict[id][total + 1] = reply.Skip(pos).Take(4).ToArray();
+                    pos += 4;
+                }
+                status.BzipDict[id][number] = reply.Skip(pos).ToArray();
+                var runTotal = status.BzipDict[id][total][0]++;
+                if (runTotal == total) JoinPackets(id, total, true);
+                 */
+            }
+            //else
+            if (!_plainDict.ContainsKey(id))
+                _plainDict[id] = new MStatus(total);
+            var s = _plainDict[id];
+            s.Content[number] = reader.ReadRest();
+            var runTotal = s.Received++;
+            return runTotal == total ? JoinPackets(id, total, bzipped) : null;
+        }
+
+        private byte[] JoinPackets(int id, int total, bool bzipped) {
+            var multiPkt = bzipped ? _bzipDict[id] : _plainDict[id];
+            var c = multiPkt.Content;
+            var len = c.Sum(pkt => pkt.Length);
+            var replyPkt = new byte[len];
+            var pos = 0;
+            foreach (var t in c) {
+                Buffer.BlockCopy(t, 0, replyPkt, pos, t.Length);
+                pos += t.Length;
+            }
+            if (bzipped) {
+                //var input = new MemoryStream(replyPkt);
+                //var output = new MemoryStream();
+                //BZip2.Decompress(input, output, true);
+                //replyPkt = output.ToArray();
+            }
+            /*
+            if (total < c.Length) {
+                var valid = true;
+                var size = BitConverter.ToInt32(multiPkt[total + 1], 0);
+                var crc = BitConverter.ToInt32(multiPkt[total + 1], 4);
+                if (replyPkt.Length * 8 != size) valid = false;
+                var checkCrc = new Crc32();
+                checkCrc.Update(replyPkt);
+                if (checkCrc.Value != crc) valid = false;
+                if (!valid) {
+                  throw new Exception("split packet not decompressed properly");
+                // TODO: check if at least header is intact so query can be retried
+                }
+            }
+            */
+
+            return replyPkt;
+        }
+
+        class ByteArrayReader
+        {
+            private readonly byte[] _b;
+            private int _pos;
+
+            public ByteArrayReader(byte[] b) {
+                _b = b;
+                _pos = 0;
+            }
+
+            public int ReadInt() {
+                var r = BitConverter.ToInt32(_b, _pos);
+                _pos += 4;
+                return r;
+            }
+
+            public int ReadShort() {
+                var r = BitConverter.ToInt16(_b, _pos);
+                _pos += 2;
+                return r;
+            }
+
+            public byte ReadByte() => _b[_pos++];
+
+            public byte[] ReadRest() {
+                var r = _b.Skip(_pos).ToArray();
+                _pos = _b.Length;
+                return r;
+            }
+        }
+    }
+
+    class MStatus
+    {
+        public MStatus(int total) {
+            Content = new byte[total][];
+        }
+
+        public byte[][] Content { get; set; }
+        public int Received { get; set; }
     }
 
     public interface IResult
@@ -247,13 +376,20 @@ namespace GameServerQuery
 
     internal class EpState
     {
-        private static readonly byte[] a2SPlayerRequestH = {0xFF, 0xFF, 0xFF, 0xFF, 0x55};
-        private static readonly byte[] a2SRulesRequestH = {0xFF, 0xFF, 0xFF, 0xFF, 0x56};
+        private const byte InfoResponse = 0x49;
+        private const byte ChallengeResponse = 0x41;
+        private const byte PlayerResponse = 0x44;
+        private const byte RulesResponse = 0x45;
+        private const byte RuleRequest = 0x56;
+        private const byte PlayerRequest = 0x55;
+        private static readonly byte[] a2SPlayerRequestH = {0xFF, 0xFF, 0xFF, 0xFF, PlayerRequest};
+        private static readonly byte[] a2SRulesRequestH = {0xFF, 0xFF, 0xFF, 0xFF, RuleRequest};
         private static readonly byte[] a2SInfoRequest = {
             0xFF, 0xFF, 0xFF, 0xFF, 0x54, 0x53, 0x6F, 0x75, 0x72, 0x63, 0x65, 0x20,
             0x45, 0x6E, 0x67, 0x69, 0x6E, 0x65, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x00
         };
-        private readonly byte[] emptyChallenge = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        // reused
+        private readonly byte[] _emptyChallenge = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
         private MultiStatus _multiStatus;
 
@@ -268,26 +404,30 @@ namespace GameServerQuery
 
         public bool InclPlayers { get; set; }
 
+        private byte[] GetChallenge(byte b) {
+            _emptyChallenge[4] = b;
+            return _emptyChallenge;
+        }
+
         public byte[] Tick(byte[] response) {
             switch (State) {
             case EpStateState.Start:
                 return TransitionToInfoChallenge();
             case EpStateState.InfoChallenge: {
                 _multiStatus = new MultiStatus();
-                var r = ProcessPacketHeader(response);
+                var r = _multiStatus.ProcessPacketHeader(response);
                 return r == null ? TransitionToReceivingInfoState() : TransitionToRulesChallengeState(r);
             }
             case EpStateState.ReceivingInfo: {
-                var r = ProcessPacketHeader(response);
+                var r = _multiStatus.ProcessPacketHeader(response);
                 return r == null ? null : TransitionToRulesChallengeState(r);
             }
             case EpStateState.RulesChallenge: {
                 _multiStatus = new MultiStatus();
                 switch (response[4]) {
-                case 0x41: //challenge
-                    State = EpStateState.ReceivingRules;
-                    return a2SRulesRequestH.Concat(response.Skip(5)).ToArray();
-                case 0x45: //no challenge needed info
+                case ChallengeResponse: //challenge
+                    return TransitionToReceivingRulesState(response);
+                case RulesResponse: //no challenge needed info
                     return InclPlayers
                         ? TransitionToPlayerChallengeState(response)
                         : TransitionToCompleteStateFromRules(response);
@@ -296,7 +436,7 @@ namespace GameServerQuery
                 }
             }
             case EpStateState.ReceivingRules: {
-                var r = ProcessPacketHeader(response);
+                var r = _multiStatus.ProcessPacketHeader(response);
                 return r != null
                     ? (InclPlayers
                         ? TransitionToPlayerChallengeState(response)
@@ -306,23 +446,28 @@ namespace GameServerQuery
             case EpStateState.PlayerChallenge: {
                 _multiStatus = new MultiStatus();
                 switch (response[4]) {
-                case 0x41: //challenge
+                case ChallengeResponse: //challenge
                     State = EpStateState.ReceivingPlayers;
                     return a2SPlayerRequestH.Concat(response.Skip(5)).ToArray();
-                case 0x44: //no challenge needed info
+                case PlayerResponse: //no challenge needed info
                     return TransitionToCompleteStateFromPlayers(response);
                 default:
                     throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x41 or 0x45.", response[4]));
                 }
             }
             case EpStateState.ReceivingPlayers: {
-                var r = ProcessPacketHeader(response);
+                var r = _multiStatus.ProcessPacketHeader(response);
                 return r != null ? TransitionToCompleteStateFromPlayers(r) : null;
             }
             default: {
                 throw new Exception("Is in invalid state");
             }
             }
+        }
+
+        private byte[] TransitionToReceivingRulesState(byte[] response) {
+            State = EpStateState.ReceivingRules;
+            return a2SRulesRequestH.Concat(response.Skip(5)).ToArray();
         }
 
         private byte[] TransitionToReceivingInfoState() {
@@ -336,19 +481,23 @@ namespace GameServerQuery
         }
 
         private byte[] TransitionToRulesChallengeState(byte[] r) {
-            if (r[4] != 0x49)
-                throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x49.", r[4]));
+            _multiStatus = null;
+            ConfirmTag(r, InfoResponse);
             ReceivedPackets[0] = r;
             State = EpStateState.RulesChallenge;
-            emptyChallenge[4] = 0x56;
-            return emptyChallenge;
+            return GetChallenge(RuleRequest);
+        }
+
+        private static void ConfirmTag(byte[] r, int checkTag) {
+            if (r[4] != checkTag)
+                throw new Exception($"Wrong packet tag: 0x{r[4]:X} Expected: 0x{checkTag:X}.");
         }
 
         private byte[] TransitionToPlayerChallengeState(byte[] r) {
+            _multiStatus = null;
             ReceivedPackets[1] = r;
             State = EpStateState.PlayerChallenge;
-            emptyChallenge[4] = 0x55;
-            return emptyChallenge;
+            return GetChallenge(PlayerRequest);
         }
 
         private byte[] TransitionToCompleteStateFromRules(byte[] r) {
@@ -367,95 +516,6 @@ namespace GameServerQuery
 
         public void Dispose() {
             ReceivedPackets = null;
-        }
-
-        private byte[] ProcessPacketHeader(byte[] reply) {
-            Contract.Requires<ArgumentNullException>(reply != null);
-
-            var pos = 0;
-            byte[] header = {0xFF, 0xFF, 0xFF};
-            var match = header.All(b => reply[pos++] == b);
-            if (!match)
-                return null;
-
-            if (reply[pos] == 0xFF)
-                return reply;
-            if (reply[pos] == 0xFE)
-                return CollectPacket(reply, ++pos);
-            return null;
-        }
-
-        private byte[] CollectPacket(byte[] reply, int pos) {
-            //TODO: test if this works on old source server or mockup
-            var id = BitConverter.ToInt32(reply, pos);
-            pos += 4;
-            var bzipped = (id & 0x80000000) != 0;
-            var total = reply[pos++];
-            var number = reply[pos++];
-            pos += 2; //ignoring next short
-            if (bzipped) {
-                throw new Exception("bzip2 compression not implemented");
-                /*
-                if (!status.BzipDict.ContainsKey(id))
-                {
-                    status.BzipDict[id] = new byte[total + 2][];
-                    status.BzipDict[id][total] = new byte[1];
-                }
-                if (number == 0)
-                {
-                    status.BzipDict[id][total + 1] = reply.Skip(pos).Take(4).ToArray();
-                    pos += 4;
-                }
-                status.BzipDict[id][number] = reply.Skip(pos).ToArray();
-                var runTotal = status.BzipDict[id][total][0]++;
-                if (runTotal == total) JoinPackets(id, total, true);
-                 */
-            }
-            //else
-            if (!_multiStatus.PlainDict.ContainsKey(id)) {
-                _multiStatus.PlainDict[id] = new byte[total + 1][];
-                _multiStatus.PlainDict[id][total] = new byte[1];
-            }
-            _multiStatus.PlainDict[id][number] = reply.Skip(pos).ToArray();
-            var runTotal = _multiStatus.PlainDict[id][total][0]++;
-            if (runTotal == total)
-                return JoinPackets(id, total, false);
-
-            return null;
-        }
-
-        private byte[] JoinPackets(int id, byte total, bool bzipped) {
-            var multiPkt = bzipped ? _multiStatus.BzipDict[id] : _multiStatus.PlainDict[id];
-            var len = multiPkt.Sum(pkt => pkt.Length);
-            for (var i = total; i < multiPkt.Length; i++)
-                len -= multiPkt[i].Length;
-            var replyPkt = new byte[len];
-            var pos = 0;
-            for (var i = 0; i < total; i++) {
-                Buffer.BlockCopy(multiPkt[i], 0, replyPkt, pos, multiPkt[i].Length);
-                pos += multiPkt[i].Length;
-            }
-            if (bzipped) {
-                //var input = new MemoryStream(replyPkt);
-                //var output = new MemoryStream();
-                //BZip2.Decompress(input, output, true);
-                //replyPkt = output.ToArray();
-            }
-            var valid = true;
-            if (total + 1 < multiPkt.Length) {
-                //var size = BitConverter.ToInt32(multiPkt[total + 1], 0);
-                //var crc = BitConverter.ToInt32(multiPkt[total + 1], 4);
-                //if (replyPkt.Length * 8 != size) valid = false;
-                //var checkCrc = new Crc32();
-                //checkCrc.Update(replyPkt);
-                //if (checkCrc.Value != crc) valid = false;
-            }
-
-            if (!valid) {
-                throw new Exception("split packet not decompressed properly");
-                //TODO: check if at least header is intact so query can be retried
-            }
-            return replyPkt;
         }
     }
 
