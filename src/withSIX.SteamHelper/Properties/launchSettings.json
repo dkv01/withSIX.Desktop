@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "withSIX.SteamHelper": {
+      "commandName": "Project",
+      "commandLineArgs": "interactive -a 107410"
+    }
+  }
+}

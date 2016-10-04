@@ -746,7 +746,7 @@
           "lib/net451/protobuf-net.dll": {}
         }
       },
-      "sharpcompress/0.12.4": {
+      "SharpCompress/0.13.1": {
         "type": "package",
         "compile": {
           "lib/net45/SharpCompress.dll": {}
@@ -764,23 +764,25 @@
           "lib/net45/SimpleInjector.dll": {}
         }
       },
-      "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+      "SQLitePCLRaw.bundle_e_sqlite3/1.1.0": {
         "type": "package",
         "dependencies": {
-          "SQLitePCLRaw.core": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.0.1",
-          "SQLitePCLRaw.provider.e_sqlite3.net45": "1.0.1"
+          "SQLitePCLRaw.core": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.1.0",
+          "SQLitePCLRaw.provider.e_sqlite3.net45": "1.1.0"
         },
         "compile": {
-          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {},
+          "lib/net45/SQLitePCLRaw.batteries_v2.dll": {}
         },
         "runtime": {
-          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {},
+          "lib/net45/SQLitePCLRaw.batteries_v2.dll": {}
         }
       },
-      "SQLitePCLRaw.core/1.0.1": {
+      "SQLitePCLRaw.core/1.1.0": {
         "type": "package",
         "compile": {
           "lib/net45/SQLitePCLRaw.core.dll": {}
@@ -789,7 +791,7 @@
           "lib/net45/SQLitePCLRaw.core.dll": {}
         }
       },
-      "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.linux/1.1.0": {
         "type": "package",
         "runtimeTargets": {
           "runtimes/linux-x64/native/libe_sqlite3.so": {
@@ -798,7 +800,7 @@
           }
         }
       },
-      "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.osx/1.1.0": {
         "type": "package",
         "runtimeTargets": {
           "runtimes/osx-x64/native/libe_sqlite3.dylib": {
@@ -807,7 +809,7 @@
           }
         }
       },
-      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.1.0": {
         "type": "package",
         "runtimeTargets": {
           "runtimes/win7-x64/native/e_sqlite3.dll": {
@@ -820,10 +822,10 @@
           }
         }
       },
-      "SQLitePCLRaw.provider.e_sqlite3.net45/1.0.1": {
+      "SQLitePCLRaw.provider.e_sqlite3.net45/1.1.0": {
         "type": "package",
         "dependencies": {
-          "SQLitePCLRaw.core": "1.0.1"
+          "SQLitePCLRaw.core": "1.1.0"
         },
         "compile": {
           "lib/net45/SQLitePCLRaw.provider.e_sqlite3.dll": {}
@@ -1996,7 +1998,7 @@
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0"
         }
       },
@@ -2007,7 +2009,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Infra": "1.0.0"
@@ -2034,7 +2036,7 @@
           "System.Security.Cryptography.Algorithms": "4.2.0",
           "System.Threading": "4.0.11",
           "System.Threading.Thread": "4.0.0",
-          "withSIX.Api.Models": "2.0.8"
+          "withSIX.Api.Models": "2.0.9"
         }
       },
       "withSIX.Core.Applications/1.0.0": {
@@ -2051,7 +2053,7 @@
           "System.Reactive": "3.0.0",
           "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Runtime.Serialization.Xml": "4.1.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -2068,7 +2070,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -2080,11 +2082,11 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+          "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+          "SharpCompress": "0.13.1",
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
-          "sharpcompress": "0.12.4",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -2109,7 +2111,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -2144,7 +2146,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2187,7 +2189,7 @@
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
           "System.Threading.Tasks.Dataflow": "4.6.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -2210,7 +2212,7 @@
           "System.Net.Requests": "4.0.11",
           "System.Reactive": "3.0.0",
           "protobuf-net": "2.1.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0"
         }
@@ -2261,7 +2263,7 @@
           "System.IO.FileSystem.AccessControl": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Xml.XmlSerializer": "4.0.11",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0"
         }
       }
@@ -2969,7 +2971,7 @@
           "lib/net451/protobuf-net.dll": {}
         }
       },
-      "sharpcompress/0.12.4": {
+      "SharpCompress/0.13.1": {
         "type": "package",
         "compile": {
           "lib/net45/SharpCompress.dll": {}
@@ -2987,23 +2989,25 @@
           "lib/net45/SimpleInjector.dll": {}
         }
       },
-      "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+      "SQLitePCLRaw.bundle_e_sqlite3/1.1.0": {
         "type": "package",
         "dependencies": {
-          "SQLitePCLRaw.core": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.0.1",
-          "SQLitePCLRaw.provider.e_sqlite3.net45": "1.0.1"
+          "SQLitePCLRaw.core": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.1.0",
+          "SQLitePCLRaw.provider.e_sqlite3.net45": "1.1.0"
         },
         "compile": {
-          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {},
+          "lib/net45/SQLitePCLRaw.batteries_v2.dll": {}
         },
         "runtime": {
-          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {},
+          "lib/net45/SQLitePCLRaw.batteries_v2.dll": {}
         }
       },
-      "SQLitePCLRaw.core/1.0.1": {
+      "SQLitePCLRaw.core/1.1.0": {
         "type": "package",
         "compile": {
           "lib/net45/SQLitePCLRaw.core.dll": {}
@@ -3012,22 +3016,22 @@
           "lib/net45/SQLitePCLRaw.core.dll": {}
         }
       },
-      "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.linux/1.1.0": {
         "type": "package"
       },
-      "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.osx/1.1.0": {
         "type": "package"
       },
-      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.1.0": {
         "type": "package",
         "native": {
           "runtimes/win7-x64/native/e_sqlite3.dll": {}
         }
       },
-      "SQLitePCLRaw.provider.e_sqlite3.net45/1.0.1": {
+      "SQLitePCLRaw.provider.e_sqlite3.net45/1.1.0": {
         "type": "package",
         "dependencies": {
-          "SQLitePCLRaw.core": "1.0.1"
+          "SQLitePCLRaw.core": "1.1.0"
         },
         "compile": {
           "lib/net45/SQLitePCLRaw.provider.e_sqlite3.dll": {}
@@ -4032,7 +4036,7 @@
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0"
         }
       },
@@ -4043,7 +4047,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Infra": "1.0.0"
@@ -4070,7 +4074,7 @@
           "System.Security.Cryptography.Algorithms": "4.2.0",
           "System.Threading": "4.0.11",
           "System.Threading.Thread": "4.0.0",
-          "withSIX.Api.Models": "2.0.8"
+          "withSIX.Api.Models": "2.0.9"
         }
       },
       "withSIX.Core.Applications/1.0.0": {
@@ -4087,7 +4091,7 @@
           "System.Reactive": "3.0.0",
           "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Runtime.Serialization.Xml": "4.1.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -4104,7 +4108,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -4116,11 +4120,11 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+          "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+          "SharpCompress": "0.13.1",
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
-          "sharpcompress": "0.12.4",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -4145,7 +4149,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -4180,7 +4184,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -4223,7 +4227,7 @@
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
           "System.Threading.Tasks.Dataflow": "4.6.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -4246,7 +4250,7 @@
           "System.Net.Requests": "4.0.11",
           "System.Reactive": "3.0.0",
           "protobuf-net": "2.1.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0"
         }
@@ -4297,7 +4301,7 @@
           "System.IO.FileSystem.AccessControl": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Xml.XmlSerializer": "4.0.11",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0"
         }
       }
@@ -5005,7 +5009,7 @@
           "lib/net451/protobuf-net.dll": {}
         }
       },
-      "sharpcompress/0.12.4": {
+      "SharpCompress/0.13.1": {
         "type": "package",
         "compile": {
           "lib/net45/SharpCompress.dll": {}
@@ -5023,23 +5027,25 @@
           "lib/net45/SimpleInjector.dll": {}
         }
       },
-      "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
+      "SQLitePCLRaw.bundle_e_sqlite3/1.1.0": {
         "type": "package",
         "dependencies": {
-          "SQLitePCLRaw.core": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.0.1",
-          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.0.1",
-          "SQLitePCLRaw.provider.e_sqlite3.net45": "1.0.1"
+          "SQLitePCLRaw.core": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.linux": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.osx": "1.1.0",
+          "SQLitePCLRaw.lib.e_sqlite3.v110_xp": "1.1.0",
+          "SQLitePCLRaw.provider.e_sqlite3.net45": "1.1.0"
         },
         "compile": {
-          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {},
+          "lib/net45/SQLitePCLRaw.batteries_v2.dll": {}
         },
         "runtime": {
-          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {}
+          "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll": {},
+          "lib/net45/SQLitePCLRaw.batteries_v2.dll": {}
         }
       },
-      "SQLitePCLRaw.core/1.0.1": {
+      "SQLitePCLRaw.core/1.1.0": {
         "type": "package",
         "compile": {
           "lib/net45/SQLitePCLRaw.core.dll": {}
@@ -5048,22 +5054,22 @@
           "lib/net45/SQLitePCLRaw.core.dll": {}
         }
       },
-      "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.linux/1.1.0": {
         "type": "package"
       },
-      "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.osx/1.1.0": {
         "type": "package"
       },
-      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1": {
+      "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.1.0": {
         "type": "package",
         "native": {
           "runtimes/win7-x86/native/e_sqlite3.dll": {}
         }
       },
-      "SQLitePCLRaw.provider.e_sqlite3.net45/1.0.1": {
+      "SQLitePCLRaw.provider.e_sqlite3.net45/1.1.0": {
         "type": "package",
         "dependencies": {
-          "SQLitePCLRaw.core": "1.0.1"
+          "SQLitePCLRaw.core": "1.1.0"
         },
         "compile": {
           "lib/net45/SQLitePCLRaw.provider.e_sqlite3.dll": {}
@@ -6068,7 +6074,7 @@
           "System.Diagnostics.FileVersionInfo": "4.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0"
         }
       },
@@ -6079,7 +6085,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Infra": "1.0.0"
@@ -6106,7 +6112,7 @@
           "System.Security.Cryptography.Algorithms": "4.2.0",
           "System.Threading": "4.0.11",
           "System.Threading.Thread": "4.0.0",
-          "withSIX.Api.Models": "2.0.8"
+          "withSIX.Api.Models": "2.0.9"
         }
       },
       "withSIX.Core.Applications/1.0.0": {
@@ -6123,7 +6129,7 @@
           "System.Reactive": "3.0.0",
           "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
           "System.Runtime.Serialization.Xml": "4.1.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -6140,7 +6146,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Net.Ping": "4.0.0",
           "System.Reactive": "3.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -6152,11 +6158,11 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+          "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+          "SharpCompress": "0.13.1",
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
-          "sharpcompress": "0.12.4",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
@@ -6181,7 +6187,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -6216,7 +6222,7 @@
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -6259,7 +6265,7 @@
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
           "System.Threading.Tasks.Dataflow": "4.6.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
           "withSIX.Core": "1.0.0",
@@ -6282,7 +6288,7 @@
           "System.Net.Requests": "4.0.11",
           "System.Reactive": "3.0.0",
           "protobuf-net": "2.1.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0"
         }
@@ -6333,7 +6339,7 @@
           "System.IO.FileSystem.AccessControl": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Xml.XmlSerializer": "4.0.11",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0"
         }
       }
@@ -7102,12 +7108,12 @@
         "protobuf-net.nuspec"
       ]
     },
-    "sharpcompress/0.12.4": {
-      "sha512": "L5k2NfkJ94Zb4S0649DbJgRNy3MkaLig27UcFCcCoN3RdgOl73ViFLqgUFHw4D3gDZBIqbk3ZJZIBwOH8LHKkA==",
+    "SharpCompress/0.13.1": {
+      "sha512": "mqK00buBuROt3xsWaKMiLP/GSVd9U/qNaZSd5d/fOb0ajBKvfsIDOcKNles6D3D1dfj3zDtLppwhIYzJRzzcaQ==",
       "type": "package",
-      "path": "sharpcompress/0.12.4",
+      "path": "SharpCompress/0.13.1",
       "files": [
-        "SharpCompress.0.12.4.nupkg.sha512",
+        "SharpCompress.0.13.1.nupkg.sha512",
         "SharpCompress.nuspec",
         "lib/net35/SharpCompress.dll",
         "lib/net40/SharpCompress.dll",
@@ -7135,43 +7141,57 @@
         "lib/portable-net4+sl4+wp8+win8+wpa81/SimpleInjector.xml"
       ]
     },
-    "SQLitePCLRaw.bundle_e_sqlite3/1.0.1": {
-      "sha512": "qMHNtn1M862QczB/ZyW7jxS0M0aSjlbDIRYD/fBVHFXeNV/pae9FL/Eq4q3X4BOO6q2X2DyeIAQTWt9kjF15Ug==",
+    "SQLitePCLRaw.bundle_e_sqlite3/1.1.0": {
+      "sha512": "oJu/SK1jiFtQ46AF+TmpAWHrS1E0/QPWA17qoWgXBe/bzPGmoRpiYBipMbpMYTKIybtuJyIzWpUQRJOcGD5rFA==",
       "type": "package",
-      "path": "SQLitePCLRaw.bundle_e_sqlite3/1.0.1",
+      "path": "SQLitePCLRaw.bundle_e_sqlite3/1.1.0",
       "files": [
-        "SQLitePCLRaw.bundle_e_sqlite3.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.bundle_e_sqlite3.1.1.0.nupkg.sha512",
         "SQLitePCLRaw.bundle_e_sqlite3.nuspec",
         "build/wp8/SQLitePCLRaw.bundle_e_sqlite3.targets",
         "build/wp80/arm/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "build/wp80/arm/SQLitePCLRaw.batteries_v2.dll",
         "build/wp80/x86/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "build/wp80/x86/SQLitePCLRaw.batteries_v2.dll",
         "lib/MonoAndroid/SQLitePCLRaw.batteries_e_sqlite3.dll",
-        "lib/MonoTouch/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/MonoAndroid/SQLitePCLRaw.batteries_v2.dll",
         "lib/Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/Xamarin.iOS10/SQLitePCLRaw.batteries_v2.dll",
         "lib/net35/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net35/SQLitePCLRaw.batteries_v2.dll",
         "lib/net40/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net40/SQLitePCLRaw.batteries_v2.dll",
         "lib/net45/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/net45/SQLitePCLRaw.batteries_v2.dll",
         "lib/netcoreapp/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/netcoreapp/SQLitePCLRaw.batteries_v2.dll",
         "lib/netstandard1.1/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/netstandard1.1/SQLitePCLRaw.batteries_v2.dll",
         "lib/portable-net40+sl5+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net40+sl5+netcore45+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_v2.dll",
         "lib/portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_v2.dll",
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10/SQLitePCLRaw.batteries_v2.dll",
         "lib/uap10.0/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/uap10.0/SQLitePCLRaw.batteries_v2.dll",
         "lib/win8/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/win8/SQLitePCLRaw.batteries_v2.dll",
         "lib/win81/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/win81/SQLitePCLRaw.batteries_v2.dll",
         "lib/wp8/_._",
-        "lib/wpa81/SQLitePCLRaw.batteries_e_sqlite3.dll"
+        "lib/wpa81/SQLitePCLRaw.batteries_e_sqlite3.dll",
+        "lib/wpa81/SQLitePCLRaw.batteries_v2.dll"
       ]
     },
-    "SQLitePCLRaw.core/1.0.1": {
-      "sha512": "ih45uNC9JVk3xxkxuy1vGl6Ukn6KJkOeEXQcMoxCaGg4OrcYZQFcm9/Sq5WTElGZJ/LynpV6/OrIaLqrmsC8eQ==",
+    "SQLitePCLRaw.core/1.1.0": {
+      "sha512": "e5Bm2K2B2v9z8jHm1nyEN1M8pH6GG8emIboMhsqDzuLIf9uWvGPsdNm0WzWeG6oxSmTgSQsLajcuqA1gDAIMJw==",
       "type": "package",
-      "path": "SQLitePCLRaw.core/1.0.1",
+      "path": "SQLitePCLRaw.core/1.1.0",
       "files": [
-        "SQLitePCLRaw.core.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.core.1.1.0.nupkg.sha512",
         "SQLitePCLRaw.core.nuspec",
         "lib/MonoAndroid/SQLitePCLRaw.core.dll",
-        "lib/MonoTouch/SQLitePCLRaw.core.dll",
         "lib/Xamarin.iOS10/SQLitePCLRaw.core.dll",
         "lib/net35/SQLitePCLRaw.core.dll",
         "lib/net40/SQLitePCLRaw.core.dll",
@@ -7187,46 +7207,46 @@
         "lib/wpa81/SQLitePCLRaw.core.dll"
       ]
     },
-    "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1": {
-      "sha512": "vhHMQa6Sppy+CyuCKaK6H4PbTEAbMZ/qP5bF3JkeYVCk84rcNoVbN+dxn5PNwT3DZ5CNLI8gvxoeVjqRiqrIUw==",
+    "SQLitePCLRaw.lib.e_sqlite3.linux/1.1.0": {
+      "sha512": "s9iY4FlB32eJ/K5ApLLKiZ/RINOIxqOaKjf1rxFqbb1Di+FMr/Ajyznx19aopJu1mwHNoCLC9PgZtfrSS58T7g==",
       "type": "package",
-      "path": "SQLitePCLRaw.lib.e_sqlite3.linux/1.0.1",
+      "path": "SQLitePCLRaw.lib.e_sqlite3.linux/1.1.0",
       "files": [
-        "SQLitePCLRaw.lib.e_sqlite3.linux.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.lib.e_sqlite3.linux.1.1.0.nupkg.sha512",
         "SQLitePCLRaw.lib.e_sqlite3.linux.nuspec",
         "build/SQLitePCLRaw.lib.e_sqlite3.linux.targets",
         "runtimes/linux-x64/native/libe_sqlite3.so"
       ]
     },
-    "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1": {
-      "sha512": "frIvPFs7j8NpZXRJnvHW+HX+i8a/B4gxHdah39DWkh9+xmtluOoMjpY+D0aHMvJfBRT9G9x1TYPPQZ+pSAzT3w==",
+    "SQLitePCLRaw.lib.e_sqlite3.osx/1.1.0": {
+      "sha512": "fcP2F9Y4SHL/UNIJa3GxRZAXCeIDpaWxFijC2srBSc0vcHRwKvgp6K+p0jqL219eUgm2LVji8hwr9uW2du3sQw==",
       "type": "package",
-      "path": "SQLitePCLRaw.lib.e_sqlite3.osx/1.0.1",
+      "path": "SQLitePCLRaw.lib.e_sqlite3.osx/1.1.0",
       "files": [
-        "SQLitePCLRaw.lib.e_sqlite3.osx.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.lib.e_sqlite3.osx.1.1.0.nupkg.sha512",
         "SQLitePCLRaw.lib.e_sqlite3.osx.nuspec",
         "build/SQLitePCLRaw.lib.e_sqlite3.osx.targets",
         "runtimes/osx-x64/native/libe_sqlite3.dylib"
       ]
     },
-    "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1": {
-      "sha512": "NhCwpsy7TDzkmT2zKF24JCCdDpXbBcljqlsq/Q9ZIYs3pSzMiBN2L/V9elMXcKccvCQWzlm/xk5DNfTY3HW5Hg==",
+    "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.1.0": {
+      "sha512": "ROfUThyhS1fs9Q5fGWeE/XBFMVTeXprE7Q1AF4tCQSEVaIDULTCouLNz1jBkmpWTiB/zPbIueb1OvlP0H9eMXQ==",
       "type": "package",
-      "path": "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.0.1",
+      "path": "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.1.0",
       "files": [
-        "SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.0.nupkg.sha512",
         "SQLitePCLRaw.lib.e_sqlite3.v110_xp.nuspec",
         "build/SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets",
         "runtimes/win7-x64/native/e_sqlite3.dll",
         "runtimes/win7-x86/native/e_sqlite3.dll"
       ]
     },
-    "SQLitePCLRaw.provider.e_sqlite3.net45/1.0.1": {
-      "sha512": "E8By+8bX1FtJFtcJTS292yEWRd5aR+A1o2VayuClcYFPoeKy7Q3lWqPPBk4QjVyFgMEoKZBRgqwhJaBMlWt1Yw==",
+    "SQLitePCLRaw.provider.e_sqlite3.net45/1.1.0": {
+      "sha512": "SwDZ8pSjk9kaAfFX/o42mqXHD9o5gaahFtgaPFoBfU+BcEv+jaNsHjUVwOPSl+Z7D3TQPzQM8zEz0PZBZPT/mA==",
       "type": "package",
-      "path": "SQLitePCLRaw.provider.e_sqlite3.net45/1.0.1",
+      "path": "SQLitePCLRaw.provider.e_sqlite3.net45/1.1.0",
       "files": [
-        "SQLitePCLRaw.provider.e_sqlite3.net45.1.0.1.nupkg.sha512",
+        "SQLitePCLRaw.provider.e_sqlite3.net45.1.1.0.nupkg.sha512",
         "SQLitePCLRaw.provider.e_sqlite3.net45.nuspec",
         "lib/net45/SQLitePCLRaw.provider.e_sqlite3.dll"
       ]
@@ -11128,6 +11148,7 @@
       "Microsoft.AspNetCore.WebSockets.Server >= 0.1.0",
       "Mono.Options >= 4.4.0",
       "SimpleInjector >= 3.2.2",
+      "System.Diagnostics.Process >= 4.1.0",
       "log4net >= 2.0.5",
       "withSIX.Api.Models >= 2.0.9"
     ],

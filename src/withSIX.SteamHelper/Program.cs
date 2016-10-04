@@ -38,14 +38,14 @@ namespace withSIX.Steam.Presentation
 
         private static void Error(Exception ex, int exitCode) {
             var formatted = ex.Format();
-            MainLog.Logger.Error(formatted);
             Console.Error.WriteLine(
 #if DEBUG
-                formatted
+                    formatted
 #else
                 ex.Message
 #endif
-            );
+                );
+            MainLog.Logger.Error(formatted);
             Environment.Exit(exitCode);
         }
 
