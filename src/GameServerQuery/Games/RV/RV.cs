@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using NDepend.Helpers;
 
@@ -211,5 +212,14 @@ namespace GameServerQuery.Games.RV
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+    }
+
+    public class ServerModInfo
+    {
+        public int Hash { get; set; }
+        public bool IsOptionalOnServer { get; set; }
+        public bool IsRequiredByMission { get; set; }
+        public string Name { get; set; }
+        public ulong PublishedId { get; set; }
     }
 }

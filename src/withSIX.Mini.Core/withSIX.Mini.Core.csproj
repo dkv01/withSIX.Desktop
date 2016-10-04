@@ -126,6 +126,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AMProfile.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="CoreCheat.cs" />
     <Compile Include="Extensions\ContentActionExtensions.cs" />
@@ -183,6 +184,10 @@
     <Compile Include="SteamDirectories.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
+      <Project>{809f10cd-988d-475a-8d5a-7fd17938053e}</Project>
+      <Name>GameServerQuery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>

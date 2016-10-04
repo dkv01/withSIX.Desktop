@@ -78,29 +78,24 @@ namespace withSIX.Mini.Plugin.Arma.Models
             var f = ServerFilterBuilder.Build()
                 .FilterByGame("arma3");
             var master = new SourceMasterQuery(f.Value);
-            using (BuildObservable(master)
-                .SelectMany(x => RaiseRealtimeEvent(new ServersPageReceived(Id, x.Items)).Void())
-                .Subscribe()) {
-                var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
-                return r.Select(x => x.Address).ToList();
-            }
+            var r = await master.GetParsedServersObservable(cancelToken)
+                .Select(x =>
+                    Observable.FromAsync(async () => {
+                        await RaiseRealtimeEvent(new ServersPageReceived(Id, x.Items));
+                        return x;
+                    }))
+                .Merge(1)
+                .SelectMany(x => x.Items)
+                .ToList();
+            return r.ToList();
         }
 
         public Task<List<ServerInfo>> GetServerInfos(
                 System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses,
                 bool inclExtendedDetails = false)
-            =>
-            inclExtendedDetails
+            => inclExtendedDetails
                 ? GetFromSteam(addresses, inclExtendedDetails)
                 : GetFromGameServerQuery(addresses, inclExtendedDetails);
-
-        private static IObservable<ServerPageArgs> BuildObservable(SourceMasterQuery master)
-            => Observable.FromEvent<EventHandler<ServerPageArgs>, ServerPageArgs>(handler => {
-                    EventHandler<ServerPageArgs> evtHandler = (sender, e) => handler(e);
-                    return evtHandler;
-                },
-                evtHandler => master.ServerPageReceived += evtHandler,
-                evtHandler => master.ServerPageReceived -= evtHandler);
 
         private async Task<List<ServerInfo>> GetFromSteam(
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
@@ -154,22 +149,26 @@ namespace withSIX.Mini.Plugin.Arma.Models
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
             var infos = new List<ServerInfo>();
             // TODO: Use serverquery queue ?
-            foreach (var a in addresses) {
-                var serverInfo = new ServerInfo {Address = a};
-                infos.Add(serverInfo);
-                var server = new Server(serverInfo);
-                using (
-                    var serverQueryState = new ServerQueryState(server, sourceQueryParser) {HandlePlayers = inclPlayers}
-                ) {
-                    var q = new SourceServerQuery(serverQueryState, "arma3");
-                    await q.UpdateAsync().ConfigureAwait(false);
+            var q = new ReactiveSource();
+            using (var client = q.CreateUdpClient())
+                foreach (var a in addresses) {
+                    var serverInfo = new ArmaServerInfo { Address = a};
+                    infos.Add(serverInfo);
                     try {
-                        serverQueryState.UpdateServer();
+                        var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.Address}, client));
+                        var r = (SourceParseResult) results.Settings;
+                        r.MapTo(serverInfo);
+                        /*
+                        var tags = r.Keywords;
+                        if (tags != null) {
+                            var p = GameTags.Parse(tags);
+                            p.MapTo(server);
+                        }
+                        */
                     } catch (Exception ex) {
                         MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.Address);
                     }
                 }
-            }
             return infos;
         }
 
@@ -493,74 +492,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
         }
     }
 
-    public class Server : IServer
-    {
-        static readonly ConcurrentDictionary<string, Regex> rxCache = new ConcurrentDictionary<string, Regex>();
-
-        public Server(ServerInfo info) {
-            Info = info;
-            Address = info.Address;
-        }
-
-        public ServerInfo Info { get; }
-        public bool IsUpdating { get; set; }
-
-        public void UpdateStatus(Status status) {
-            Info.Status = (int) status;
-        }
-
-        public void UpdateInfoFromResult(ServerQueryResult result) {
-            var r = (SourceParseResult) result.Settings;
-            Info.Ping = result.Ping;
-            Info.Name = r.Name;
-            Info.MissionName = r.Game;
-            Info.MapName = r.Map;
-            Info.NumPlayers = r.PlayerCount;
-            Info.MaxPlayers = r.PlayerMax;
-            var port = r.Port;
-            if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
-                port = Info.Address.Port - 1;
-            Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
-            Info.Mods = GetList(r.Rules, "modNames").ToList();
-            Info.Signatures = GetList(r.Rules, "sigNames").ToList();
-            Info.PasswordRequired = r.Visibility > 0;
-            Info.GameVersion = GetVersion(r.Version);
-            var tags = r.Keywords;
-            if (tags != null) {
-                var parsed = GameTags.Parse(tags);
-                // TODO
-            }
-            Info.Players =
-                result.Players.OfType<SourcePlayer>()
-                    .Select(x => new Player {Name = x.Name, Score = x.Score, Duration = x.Duration})
-                    .ToList();
-        }
-
-        public IPEndPoint Address { get; }
-
-        static Version GetVersion(string version) => version?.TryParseVersion();
-
-        static IEnumerable<string> GetList(Dictionary<string, string> dict, string keyWord) {
-            var rx = GetRx(keyWord);
-            return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
-                        let w = rx.Match(kvp.Key)
-                        where w.Success
-                        select new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
-                    .OrderBy(x => x.Index).SelectMany(x => x.Value))
-                .Split(';')
-                .Where(x => !string.IsNullOrWhiteSpace(x));
-        }
-
-        static Regex GetRx(string keyWord) {
-            Regex rx;
-            if (rxCache.TryGetValue(keyWord, out rx))
-                return rx;
-            return
-                rxCache[keyWord] =
-                    new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        }
-    }
-
     public class ArmaServerInfoModel
     {
         public ArmaServerInfoModel(IPEndPoint queryEndpoint) {
@@ -619,15 +550,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
         public string Tags { get; set; }
 
         public bool ReceivedRules { get; set; }
-    }
-
-    public class ServerModInfo
-    {
-        public int Hash { get; set; }
-        public bool IsOptionalOnServer { get; set; }
-        public bool IsRequiredByMission { get; set; }
-        public string Name { get; set; }
-        public ulong PublishedId { get; set; }
     }
 
     public class ReceivedServerEvent : IEvent

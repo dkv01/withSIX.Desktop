@@ -30,4 +30,14 @@ namespace withSIX.Mini.Core
 
         public IDomainEventHandlerGrabber EventGrabber { get; }
     }
+
+
+    public class BatchResult
+    {
+        public BatchResult(int count) {
+            Count = count;
+        }
+
+        public int Count { get; }
+    }
 }

@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace GameServerQuery
 {
     public interface IMasterServerQuery
     {
-        Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken, bool forceLocal = false,
-            int limit = 0);
+        Task<List<IPEndPoint>> GetParsedServers(CancellationToken cancelToken, int limit,
+            IPEndPoint remote = null, int tried = -1);
     }
 }

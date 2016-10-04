@@ -21,7 +21,7 @@ namespace GameServerQuery
         }
 
         public bool IsMasterResult { get; private set; }
-        public int Ping { get; set; } = ServerQueryState.MagicPingValue;
+        public int Ping { get; set; } = 9999;
         public ParseResult Settings { get; }
         public List<Player> Players { get; set; }
         public abstract ServerQueryMode Mode { get; }
