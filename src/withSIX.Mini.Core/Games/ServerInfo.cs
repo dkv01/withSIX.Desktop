@@ -38,6 +38,7 @@ namespace withSIX.Mini.Core.Games
         public int Status { get; set; }
 
         public List<Player> Players { get; set; }
+        public List<string> Signatures { get; set; }
     }
 
     public class ServerInfo<T> : ServerInfo

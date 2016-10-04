@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
+using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
 using MediatR;
 using NDepend.Helpers;
@@ -509,22 +510,26 @@ namespace withSIX.Mini.Plugin.Arma.Models
         }
 
         public void UpdateInfoFromResult(ServerQueryResult result) {
+            var r = (SourceParseResult) result.Settings;
             Info.Ping = result.Ping;
-            Info.Name = result.GetSettingOrDefault<string>("name");
-            Info.MissionName = result.GetSettingOrDefault<string>("game");
-            Info.MapName = result.GetSettingOrDefault<string>("map");
-            Info.NumPlayers = result.GetSettingOrDefault<int>("playerCount");
-            Info.MaxPlayers = result.GetSettingOrDefault<int>("playerMax");
-            var port = result.GetSettingOrDefault<int>("port");
+            Info.Name = r.Name;
+            Info.MissionName = r.Game;
+            Info.MapName = r.Map;
+            Info.NumPlayers = r.PlayerCount;
+            Info.MaxPlayers = r.PlayerMax;
+            var port = r.Port;
             if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                 port = Info.Address.Port - 1;
             Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
-            Info.Mods = GetList(result.Settings, "modNames").ToList();
-            Info.PasswordRequired = result.GetSettingOrDefault<int>("visibility") > 0;
-            Info.GameVersion = GetVersion(result.GetSettingOrDefault<string>("version"));
-            var tags = result.GetSettingOrDefault<string>("keywords");
-            if (tags != null)
-                new SourceTagParser(tags, Info).HandleTags();
+            Info.Mods = GetList(r.Rules, "modNames").ToList();
+            Info.Signatures = GetList(r.Rules, "sigNames").ToList();
+            Info.PasswordRequired = r.Visibility > 0;
+            Info.GameVersion = GetVersion(r.Version);
+            var tags = r.Keywords;
+            if (tags != null) {
+                var parsed = GameTags.Parse(tags);
+                // TODO
+            }
             Info.Players =
                 result.Players.OfType<SourcePlayer>()
                     .Select(x => new Player {Name = x.Name, Score = x.Score, Duration = x.Duration})
@@ -535,13 +540,13 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         static Version GetVersion(string version) => version?.TryParseVersion();
 
-        static IEnumerable<string> GetList(IEnumerable<KeyValuePair<string, object>> dict, string keyWord) {
+        static IEnumerable<string> GetList(Dictionary<string, string> dict, string keyWord) {
             var rx = GetRx(keyWord);
             return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
                         let w = rx.Match(kvp.Key)
                         where w.Success
                         select new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
-                    .OrderBy(x => x.Index).SelectMany(x => (string)x.Value))
+                    .OrderBy(x => x.Index).SelectMany(x => x.Value))
                 .Split(';')
                 .Where(x => !string.IsNullOrWhiteSpace(x));
         }
@@ -553,74 +558,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
             return
                 rxCache[keyWord] =
                     new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        }
-
-        class SourceTagParser
-        {
-            /*
-Value in the string	 identifier	 value	 meaning
-bt,	 b	 true	 BattleEye 
-r120,	 r	 1.20	 RequiredVersion
-n0,	 n	 0	 RequiredBuildNo
-s1,	 s	 1	 ServerState
-i2,	 i	 2	 Difficulty
-mf,	 m	 false	 EqualModRequired
-lf,	 l	 false	 Lock
-vt,	 v	 true	 VerifySignatures
-dt,	 d	 true	 Dedicated
-ttdm	 t	 tdm	 GameType
-g65545,	 g	 65545	 Language
-c0-52,	 c	 long.=0 lat.=52	 LongLat
-pw	 p	 Windows	 Platform
-Example
-gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
-*/
-            readonly ServerInfo _server;
-            readonly Dictionary<string, string> _settings;
-
-            public SourceTagParser(string tags, ServerInfo server) {
-                _settings = new Dictionary<string, string>();
-                foreach (var t in tags.Split(',')) {
-                    var key = JoinChar(t.Take(1));
-                    _settings.Add(key, JoinChar(t.Skip(1)));
-                    // TODO: HACK: workaround t game mode issue; tcti,coop,dm,ctf,ff,scont,hold,unknown,a&d,aas,c&h,rpg,tdm,tvt,ans,ie&e,hunt,koth,obj,rc,vip
-                    if (key == "t")
-                        break;
-                }
-                _server = server;
-            }
-
-            static string JoinChar(IEnumerable<char> enumerable) => string.Join("", enumerable);
-
-            bool ParseBool(string key) => _settings.ContainsKey(key) && (_settings[key] == "t");
-
-            string ParseString(string key) => _settings.ContainsKey(key) ? _settings[key] : null;
-
-            int? ParseInt(string key) => _settings.ContainsKey(key) ? _settings[key].TryIntNullable() : null;
-
-            double? ParseDouble(string key) => _settings.ContainsKey(key) ? _settings[key].TryDouble() : (double?) null;
-
-            public void HandleTags() {
-                _server.VerifySignatures = ParseBool("v") ? 2 : 0;
-                _server.SvBattleye = ParseBool("b") ? 1 : 0;
-                _server.ReqBuild = ParseInt("n");
-                _server.Difficulty = ParseInt("i").GetValueOrDefault(0);
-                _server.IsDedicated = ParseBool("d");
-                _server.PasswordRequired = ParseBool("l");
-                _server.GameState = ParseInt("s").GetValueOrDefault(0);
-                _server.GameType = ParseString("t");
-                _server.ServerPlatform = ParseString("p") == "w" ? ServerPlatform.Windows : ServerPlatform.Linux;
-                _server.RequiredVersion = ParseInt("r");
-                _server.Language = ParseInt("g");
-                _server.Coordinates = ParseCoordinates(ParseString("c"));
-            }
-
-            static Coordinates ParseCoordinates(string coordinates) {
-                if (coordinates == null)
-                    return null;
-                var split = coordinates.Split('-');
-                return new Coordinates(split[0].TryDouble(), split[1].TryDouble());
-            }
         }
     }
 
@@ -692,175 +629,6 @@ gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
         public string Name { get; set; }
         public ulong PublishedId { get; set; }
     }
-
-    public enum AiLevel
-    {
-        Novice,
-        Normal,
-        Expert,
-        Custom
-    }
-
-    public enum Difficulty
-    {
-        Recruit,
-        Regular,
-        Veteran,
-        Custom
-    }
-
-    [Flags]
-    public enum Dlcs
-    {
-        Apex = 0x10,
-        Helicopters = 4,
-        Karts = 2,
-        Marksmen = 8,
-        None = 0,
-        Tanoa = 0x20,
-        Zeus = 1
-    }
-
-    public enum HelicopterFlightModel
-    {
-        Basic,
-        Advanced
-    }
-
-    public class GameTags
-    {
-        public int? AllowedFilePatching { get; set; }
-
-        public bool? BattlEye { get; set; }
-
-        public int? Build { get; set; }
-
-        public string Country { get; set; }
-
-        public bool? Dedicated { get; set; }
-
-        public int? Difficulty { get; set; }
-
-        public bool? EqualModRequired { get; set; }
-
-        public string GameType { get; set; }
-
-        public int? GlobalHash { get; set; }
-
-        public int? Language { get; set; }
-
-        public bool? Lock { get; set; }
-
-        public float? Param1 { get; set; }
-
-        public float? Param2 { get; set; }
-
-        public char? Platform { get; set; }
-
-        public int? ServerState { get; set; }
-
-        public int? TimeRemaining { get; set; }
-
-        public bool? VerifySignatures { get; set; }
-
-        public int? Version { get; set; }
-
-        public static GameTags Parse(string value) {
-            var tags = new GameTags();
-            foreach (var tuple in (from part in value.Split(',')
-                where part.Length > 0
-                select Tuple.Create(part[0], part.Substring(1))).ToHashSet()) {
-                switch (tuple.Item1) {
-                case 'b':
-                    tags.BattlEye = ReadBool(tuple.Item2);
-                    break;
-
-                case 'd':
-                    tags.Dedicated = ReadBool(tuple.Item2);
-                    break;
-
-                case 'e':
-                    tags.TimeRemaining = ReadInt(tuple.Item2);
-                    break;
-
-                case 'f':
-                    tags.AllowedFilePatching = ReadInt(tuple.Item2);
-                    break;
-
-                case 'g':
-                    tags.Language = ReadInt(tuple.Item2);
-                    break;
-
-                case 'h':
-                    tags.GlobalHash = ReadInt(tuple.Item2);
-                    break;
-
-                case 'l':
-                    tags.Lock = ReadBool(tuple.Item2);
-                    break;
-
-                case 'm':
-                    tags.EqualModRequired = ReadBool(tuple.Item2);
-                    break;
-
-                case 'n':
-                    tags.Build = ReadInt(tuple.Item2);
-                    break;
-
-                case 'o':
-                    tags.Country = tuple.Item2;
-                    break;
-
-                case 'p':
-                    tags.Platform = ReadChar(tuple.Item2);
-                    break;
-
-                case 'r':
-                    tags.Version = ReadInt(tuple.Item2);
-                    break;
-
-                case 's':
-                    tags.ServerState = ReadInt(tuple.Item2);
-                    break;
-
-                case 't':
-                    tags.GameType = tuple.Item2;
-                    break;
-
-                case 'v':
-                    tags.VerifySignatures = ReadBool(tuple.Item2);
-                    break;
-                }
-            }
-            return tags;
-        }
-
-        private static bool? ReadBool(string value) {
-            if (value == "t") {
-                return true;
-            }
-            if (value == "f") {
-                return false;
-            }
-            return null;
-        }
-
-        private static char? ReadChar(string value) {
-            if (!string.IsNullOrWhiteSpace(value)) {
-                return value[0];
-            }
-            return null;
-        }
-
-        private static int? ReadInt(string value) {
-            int num;
-            if (!int.TryParse(value, out num)) {
-                return null;
-            }
-            return num;
-        }
-    }
-
 
     public class ReceivedServerEvent : IEvent
     {

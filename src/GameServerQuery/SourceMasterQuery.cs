@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery.Extensions;
+using GameServerQuery.Parsers;
 
 namespace GameServerQuery
 {
@@ -148,10 +149,7 @@ namespace GameServerQuery
         }
 
         protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address)
-            => new SourceMasterServerQueryResult(address, new Dictionary<string, object> {
-                {"address", address.ToString()},
-                //{"folder", ServerBrowserTag}
-            });
+            => new SourceMasterServerQueryResult(address, new SourceParseResult { Address = address });
     }
 
     public class ServerPageArgs

@@ -22,11 +22,10 @@ namespace GameServerQuery.Parsers
         }
 
         public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
-            var settings = new Dictionary<string, object>();
-            ParseSettings(settings, receivedPackets[0]);
-            ParseRules(settings, receivedPackets[1]);
+            var s = ParseSettings(receivedPackets[0]);
+            s.Rules = ParseRules(receivedPackets[1]);
 
-            return new SourceServerQueryResult(address, settings) {
+            return new SourceServerQueryResult(address, s) {
                 Players =
                     receivedPackets.Count == 3
                         ? ParsePlayers(receivedPackets[2]).ToList()
@@ -38,68 +37,64 @@ namespace GameServerQuery.Parsers
         class Reader : ByteArrayReader
         {
             public Reader(byte[] b) : base(b) {}
-
-            //public string ReadByteString() => ReadByte().ToString(CultureInfo.InvariantCulture);
         }
 
-        static void ParseSettings(IDictionary<string, object> settings, byte[] info) {
+
+        static SourceParseResult ParseSettings(byte[] info) {
             var r = new Reader(info);
             r.Skip(5);
-            settings["protocol"] = r.ReadAsInt();
-            settings["name"] = r.ReadStringUntil();
-            settings["map"] = r.ReadStringUntil();
-            settings["folder"] = r.ReadStringUntil();
-            settings["game"] = r.ReadStringUntil();
-            settings["appId"] = r.ReadShort().ToString(CultureInfo.InvariantCulture);
-            settings["playerCount"] = r.ReadAsInt();
-            settings["playerMax"] = r.ReadAsInt();
-            settings["botCount"] = r.ReadAsInt();
-            settings["serverType"] = r.ReadAsInt();
-            settings["environment"] = r.ReadAsInt();
-            settings["visibility"] = r.ReadAsInt();
-            settings["vac"] = r.ReadAsInt();
+            var settings = new SourceParseResult();
+            settings.Protocol = r.ReadAsInt();
+            settings.Name = r.ReadStringUntil();
+            settings.Map = r.ReadStringUntil();
+            settings.Folder = r.ReadStringUntil();
+            settings.Game = r.ReadStringUntil();
+            settings.AppId = r.ReadShort();
+            settings.PlayerCount = r.ReadAsInt();
+            settings.PlayerMax = r.ReadAsInt();
+            settings.BotCount = r.ReadAsInt();
+            settings.ServerType = r.ReadAsInt();
+            settings.Environment = r.ReadAsInt();
+            settings.Visibility = r.ReadAsInt();
+            settings.Vac = r.ReadAsInt();
             //if The Ship, additional fields:
             //_results.mode = reply[pos++];
             //_results.witnesses = reply[pos++];
             //_results.duration = reply[pos++];
-            settings["version"] = r.ReadStringUntil();
+            settings.Version = r.ReadStringUntil();
             var edf = r.ReadByte();
-            settings["edf"] = edf.ToString(CultureInfo.InvariantCulture);
+            //settings.edf = edf.ToString(CultureInfo.InvariantCulture);
             if ((edf & 0x80) != 0)
-                settings["port"] = r.ReadShort();
+                settings.Port = r.ReadShort();
             if ((edf & 0x10) != 0)
-                settings["steamId"] = r.ReadLong();
+                settings.SteamId = r.ReadLong();
             if ((edf & 0x40) != 0) {
-                settings["tvPort"] = r.ReadShort();
-                settings["tvName"] = r.ReadStringUntil();
+                settings.TvPort = r.ReadShort();
+                settings.TvName = r.ReadStringUntil();
             }
             if ((edf & 0x20) != 0) {
-                settings["keywords"] = r.ReadStringUntil();
+                settings.Keywords = r.ReadStringUntil();
             }
             //gameID = full appID if was truncated in previous field (not always the case)
             if ((edf & 0x01) != 0)
-                settings["gameId"] = r.ReadLong().ToString(CultureInfo.InvariantCulture);
-            //TODO: find out what the extra data in this packet is from DayZ source
+                settings.AppId = r.ReadLong();
+
+            return settings;
         }
 
-        static void ParseRules(Dictionary<string, object> settings, byte[] rules) {
-            var sb = new StringBuilder();
-            var pos = 5; //skip header
-            var ruleCount = BitConverter.ToInt16(rules, pos);
-            pos += 2;
-            for (var i = 0; i < ruleCount; i++) {
-                if (pos >= rules.Length)
-                    break;
-                var start = pos;
-                while (rules[pos++] != 0x00) {}
-                var rule = Encoding.UTF8.GetString(rules, start, pos - start - 1);
-                sb.Append(rule + ",");
-                start = pos;
-                while (rules[pos++] != 0x00) {}
-                var value = Encoding.UTF8.GetString(rules, start, pos - start - 1);
-                settings[rule] = value;
-            }
-            settings["ruleNames"] = sb.Length > 0 ? sb.ToString(0, sb.Length - 1) : string.Empty;
+        static Dictionary<string, string> ParseRules(byte[] rules) {
+            var r = new Reader(rules);
+            r.Skip(5);
+            var ruleCount = r.ReadShort();
+            var dict = new Dictionary<string, string>();
+            r.Skip(2);
+            r.WhileNotOutOfBounds(ruleCount, () => {
+                var rule = r.ReadStringUntil();
+                var value = r.ReadStringUntil();
+                dict[rule] = value;
+            });
+
+            return dict;
         }
 
         static Player[] ParsePlayers(byte[] players) {
@@ -126,6 +121,34 @@ namespace GameServerQuery.Parsers
 
             return playerAr;
         }
+    }
+
+    public class ParseResult {
+        public IPEndPoint Address { get; set; }
+    }
+
+    public class SourceParseResult : ParseResult
+    {
+        public int Protocol { get; set; }
+        public string Name { get; set; }
+        public string Map { get; set; }
+        public string Folder { get; set; }
+        public string Game { get; set; }
+        public long AppId { get; set; }
+        public int PlayerCount { get; set; }
+        public int PlayerMax { get; set; }
+        public int BotCount { get; set; }
+        public int ServerType { get; set; }
+        public int Environment { get; set; }
+        public int Visibility { get; set; }
+        public int Vac { get; set; }
+        public string Version { get; set; }
+        public int Port { get; set; }
+        public long SteamId { get; set; }
+        public int TvPort { get; set; }
+        public string TvName { get; set; }
+        public string Keywords { get; set; }
+        public Dictionary<string, string> Rules { get; set; } = new Dictionary<string, string>();
     }
 
     public abstract class Player

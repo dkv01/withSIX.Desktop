@@ -13,6 +13,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
+using GameServerQuery.Games.RV;
 using SteamLayerWrap;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Plugin.Arma.Models;

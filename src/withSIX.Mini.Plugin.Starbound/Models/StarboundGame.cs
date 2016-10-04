@@ -308,22 +308,25 @@ namespace withSIX.Mini.Plugin.Starbound.Models
             }
 
             public void UpdateInfoFromResult(ServerQueryResult result) {
+                var r = (SourceParseResult) result.Settings;
                 Info.Ping = result.Ping;
-                Info.Name = result.GetSettingOrDefault<string>("name");
-                Info.MissionName = result.GetSettingOrDefault<string>("game");
-                Info.MapName = result.GetSettingOrDefault<string>("map");
-                Info.NumPlayers = result.GetSettingOrDefault<int>("playerCount");
-                Info.MaxPlayers = result.GetSettingOrDefault<int>("playerMax");
-                var port = result.GetSettingOrDefault<int>("port");
+                Info.Name = r.Name;
+                Info.MissionName = r.Game;
+                Info.MapName = r.Map;
+                Info.NumPlayers = r.PlayerCount;
+                Info.MaxPlayers = r.PlayerMax;
+                var port = r.Port;
                 if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                     port = Info.Address.Port - 1;
                 Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
-                Info.Mods = GetList(result.Settings, "modNames").ToList();
-                Info.PasswordRequired = result.GetSettingOrDefault<int>("visibility") > 0;
-                Info.GameVersion = GetVersion(result.GetSettingOrDefault<string>("version"));
-                var tags = result.GetSettingOrDefault<string>("keywords");
-                if (tags != null)
-                    new SourceTagParser(tags, Info).HandleTags();
+                Info.Mods = GetList(r.Rules, "modNames").ToList();
+                Info.PasswordRequired = r.Visibility > 0;
+                Info.GameVersion = GetVersion(r.Version);
+                //
+                //var tags = r.Keywords;
+                //if (tags != null) {
+                    //var parsed = new SourceTagParser(tags).HandleTags();
+                //}
                 Info.Players =
                     result.Players.OfType<SourcePlayer>()
                         .Select(x => new Player {Name = x.Name, Score = x.Score, Duration = x.Duration})
@@ -334,7 +337,7 @@ namespace withSIX.Mini.Plugin.Starbound.Models
 
             static Version GetVersion(string version) => version?.TryParseVersion();
 
-            static IEnumerable<string> GetList(IDictionary<string, object> dict, string keyWord) {
+            static IEnumerable<string> GetList(Dictionary<string, string> dict, string keyWord) {
                 var rx = GetRx(keyWord);
                 return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
                             let w = rx.Match(kvp.Key)
@@ -354,75 +357,6 @@ namespace withSIX.Mini.Plugin.Starbound.Models
                     rxCache[keyWord] =
                         new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$",
                             RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            }
-
-            class SourceTagParser
-            {
-                /*
-    Value in the string	 identifier	 value	 meaning
-    bt,	 b	 true	 BattleEye 
-    r120,	 r	 1.20	 RequiredVersion
-    n0,	 n	 0	 RequiredBuildNo
-    s1,	 s	 1	 ServerState
-    i2,	 i	 2	 Difficulty
-    mf,	 m	 false	 EqualModRequired
-    lf,	 l	 false	 Lock
-    vt,	 v	 true	 VerifySignatures
-    dt,	 d	 true	 Dedicated
-    ttdm	 t	 tdm	 GameType
-    g65545,	 g	 65545	 Language
-    c0-52,	 c	 long.=0 lat.=52	 LongLat
-    pw	 p	 Windows	 Platform
-    Example
-    gameTags = bt,r120,n0,s1,i2,mf,lf,vt,dt,ttdm,g65545,c0-52,pw,
-    */
-                readonly ServerInfo _server;
-                readonly Dictionary<string, string> _settings;
-
-                public SourceTagParser(string tags, ServerInfo server) {
-                    _settings = new Dictionary<string, string>();
-                    foreach (var t in tags.Split(',')) {
-                        var key = JoinChar(t.Take(1));
-                        _settings.Add(key, JoinChar(t.Skip(1)));
-                        // TODO: HACK: workaround t game mode issue; tcti,coop,dm,ctf,ff,scont,hold,unknown,a&d,aas,c&h,rpg,tdm,tvt,ans,ie&e,hunt,koth,obj,rc,vip
-                        if (key == "t")
-                            break;
-                    }
-                    _server = server;
-                }
-
-                static string JoinChar(IEnumerable<char> enumerable) => string.Join("", enumerable);
-
-                bool ParseBool(string key) => _settings.ContainsKey(key) && (_settings[key] == "t");
-
-                string ParseString(string key) => _settings.ContainsKey(key) ? _settings[key] : null;
-
-                int? ParseInt(string key) => _settings.ContainsKey(key) ? _settings[key].TryIntNullable() : null;
-
-                double? ParseDouble(string key)
-                    => _settings.ContainsKey(key) ? _settings[key].TryDouble() : (double?) null;
-
-                public void HandleTags() {
-                    _server.VerifySignatures = ParseBool("v") ? 2 : 0;
-                    _server.SvBattleye = ParseBool("b") ? 1 : 0;
-                    _server.ReqBuild = ParseInt("n");
-                    _server.Difficulty = ParseInt("i").GetValueOrDefault(0);
-                    _server.IsDedicated = ParseBool("d");
-                    _server.PasswordRequired = ParseBool("l");
-                    _server.GameState = ParseInt("s").GetValueOrDefault(0);
-                    _server.GameType = ParseString("t");
-                    _server.ServerPlatform = ParseString("p") == "w" ? ServerPlatform.Windows : ServerPlatform.Linux;
-                    _server.RequiredVersion = ParseInt("r");
-                    _server.Language = ParseInt("g");
-                    _server.Coordinates = ParseCoordinates(ParseString("c"));
-                }
-
-                static Coordinates ParseCoordinates(string coordinates) {
-                    if (coordinates == null)
-                        return null;
-                    var split = coordinates.Split('-');
-                    return new Coordinates(split[0].TryDouble(), split[1].TryDouble());
-                }
             }
         }
     }

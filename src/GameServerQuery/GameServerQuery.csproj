@@ -129,6 +129,7 @@
     <Compile Include="Extensions\SimpleQueueExtensions.cs" />
     <Compile Include="Extensions\SocketExtensions.cs" />
     <Compile Include="Extensions\SystemExtensions.cs" />
+    <Compile Include="Games\RV\RV.cs" />
     <Compile Include="IMasterServerQuery.cs" />
     <Compile Include="IProgressState.cs" />
     <Compile Include="IServer.cs" />

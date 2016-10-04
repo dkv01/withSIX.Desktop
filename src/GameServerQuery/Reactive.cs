@@ -349,6 +349,14 @@ namespace GameServerQuery
             _pos = _b.Length;
             return r;
         }
+
+        public void WhileNotOutOfBounds(int ruleCount, Action action) {
+            for (var i = 0; i < ruleCount; i++) {
+                if (_pos >= _b.Length)
+                    break;
+                action();
+            }
+        }
     }
 
     class MStatus
