@@ -129,11 +129,13 @@ namespace withSIX.Mini.Plugin.Arma.Models
                             } catch (Exception ex) {
                                 tcs.SetException(ex);
                             } finally {
+                                // ReSharper disable once MethodSupportsCancellation
                                 using (await _l.LockAsync().ConfigureAwait(false))
                                     _isRunning = false;
                             }
                         }, cts.Token);
                     await tcs.Task;
+                    // ReSharper disable once MethodSupportsCancellation
                     t = TaskExt.StartLongRunningTask(async () => {
                         using (var drainer = new Drainer()) {
                             await drainer.Drain().ConfigureAwait(false);
@@ -144,18 +146,24 @@ namespace withSIX.Mini.Plugin.Arma.Models
             }
         }
 
+        public class ArmaServerWithPing : ArmaServer
+        {
+            public int Ping { get; set; }
+        }
+
         private static async Task<List<Server>> GetFromGameServerQuery(
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
             var infos = new List<Server>();
             var q = new ReactiveSource();
             using (var client = q.CreateUdpClient())
                 foreach (var a in addresses) {
-                    var serverInfo = new ArmaServer { QueryAddress = a};
+                    var serverInfo = new ArmaServerWithPing { QueryAddress = a};
                     infos.Add(serverInfo);
                     try {
                         var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.QueryAddress }, client));
                         var r = (SourceParseResult) results.Settings;
                         r.MapTo(serverInfo);
+                        serverInfo.Ping = results.Ping;
                         /*
                         var tags = r.Keywords;
                         if (tags != null) {

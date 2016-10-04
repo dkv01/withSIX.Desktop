@@ -35,7 +35,7 @@ namespace withSIX.Core
     public static class Common
     {
         public const string DefaultCategory = "Unknown";
-        public const long MagicPingValue = 9999;
+        public const int MagicPingValue = 9999;
         public const string ClientHeader = "X-Six-Client";
         public const string ClientHeaderV = ClientHeader + "-V";
         public static AppCommon App;

@@ -12,17 +12,17 @@ namespace GameServerQuery.Parsers
 {
     public class SourceQueryParser : IServerQueryParser
     {
-        public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
-            var s = ParseSettings(receivedPackets[0]);
-            if (receivedPackets.Count > 1)
-                s.Rules = receivedPackets[1];
+        public ServerQueryResult ParsePackets(IResult r) {
+            var s = ParseSettings(r.ReceivedPackets[0]);
+            if (r.ReceivedPackets.Count > 1)
+                s.Rules = r.ReceivedPackets[1];
 
-            return new SourceServerQueryResult(address, s) {
+            return new SourceServerQueryResult(r.Endpoint, s) {
                 Players =
-                    receivedPackets.Count == 3
-                        ? ParsePlayers(receivedPackets[2]).ToList()
+                    r.ReceivedPackets.Count > 2
+                        ? ParsePlayers(r.ReceivedPackets[2]).ToList()
                         : new List<Player>(),
-                Ping = pings.Any() ? Convert.ToInt32(pings.Average()) : 9999
+                Ping = r.Ping
             };
         }
 

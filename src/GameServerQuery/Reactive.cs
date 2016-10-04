@@ -40,7 +40,7 @@ namespace GameServerQuery
                 return null;
             }).Where(x => x != null);
 
-        ServerQueryResult Parse(IResult r) => _parser.ParsePackets(r.Endpoint, r.ReceivedPackets, new List<int>());
+        ServerQueryResult Parse(IResult r) => _parser.ParsePackets(r);
 
         public UdpClient CreateUdpClient() {
             var udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
@@ -147,7 +147,7 @@ namespace GameServerQuery
                 .Take(1);
             //.Do(x => Console.WriteLine($"Finished Processing for {Endpoint}: {x}"));
             var dsp = l.Subscribe(s => obs.OnNext(s == EpStateState.Complete
-                ? (IResult) new Result(Endpoint, ReceivedPackets.Values.ToArray(), (long) _pings.Average())
+                ? (IResult) new Result(Endpoint, ReceivedPackets.Values.ToArray(), Convert.ToInt32(_pings.Average()))
                 : new FailedResult(Endpoint)), obs.OnError, obs.OnCompleted);
             var data = Tick(null);
             await Send(data).ConfigureAwait(false);
@@ -381,12 +381,12 @@ namespace GameServerQuery
         IPEndPoint Endpoint { get; }
         bool Success { get; }
         IReadOnlyList<byte[]> ReceivedPackets { get; }
-        long Ping { get; }
+        int Ping { get; }
     }
 
     public struct Result : IResult
     {
-        public Result(IPEndPoint endpoint, IReadOnlyList<byte[]> receivedPackets, long ping) {
+        public Result(IPEndPoint endpoint, IReadOnlyList<byte[]> receivedPackets, int ping) {
             Endpoint = endpoint;
             ReceivedPackets = receivedPackets;
             Ping = ping;
@@ -395,7 +395,7 @@ namespace GameServerQuery
         public bool Success => true;
         public IPEndPoint Endpoint { get; }
         public IReadOnlyList<byte[]> ReceivedPackets { get; }
-        public long Ping { get; }
+        public int Ping { get; }
     }
 
     public struct FailedResult : IResult
@@ -403,7 +403,7 @@ namespace GameServerQuery
         public IPEndPoint Endpoint { get; }
         public IReadOnlyList<byte[]> ReceivedPackets { get; }
         public bool Success => false;
-        public long Ping => -1;
+        public int Ping => -1;
 
         public FailedResult(IPEndPoint endpoint) {
             Endpoint = endpoint;

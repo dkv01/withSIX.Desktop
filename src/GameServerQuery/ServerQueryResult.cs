@@ -33,10 +33,7 @@ namespace GameServerQuery
         public GamespyServerQueryResult(IPEndPoint ep, ParseResult settings, bool isMasterResult = false)
             : base(ep, settings, isMasterResult) {}
 
-        public override ServerQueryMode Mode
-        {
-            get { return ServerQueryMode.Gamespy; }
-        }
+        public override ServerQueryMode Mode => ServerQueryMode.Gamespy;
     }
 
     public class SourceServerQueryResult : ServerQueryResult
@@ -44,18 +41,6 @@ namespace GameServerQuery
         public SourceServerQueryResult(IPEndPoint ep, SourceParseResult settings, bool isMasterResult = false)
             : base(ep, settings, isMasterResult) {}
 
-        public override ServerQueryMode Mode
-        {
-            get { return ServerQueryMode.Steam; }
-        }
-    }
-
-    public class SourceMasterServerQueryResult : ServerQueryResult
-    {
-        public SourceMasterServerQueryResult(IPEndPoint ep, SourceParseResult settings) : base(ep, settings, true) {}
-        public override ServerQueryMode Mode
-        {
-            get { return ServerQueryMode.Steam; }
-        }
+        public override ServerQueryMode Mode => ServerQueryMode.Steam;
     }
 }

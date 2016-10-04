@@ -141,9 +141,6 @@ namespace GameServerQuery
             Raise(new ServerPageArgs(page));
             return seed;
         }
-
-        protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address)
-            => new SourceMasterServerQueryResult(address, new SourceParseResult { Address = address });
     }
 
     public class ServerPageArgs
