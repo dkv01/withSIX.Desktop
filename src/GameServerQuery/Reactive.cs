@@ -77,17 +77,11 @@ namespace GameServerQuery
                             .ObserveOn(TaskPoolScheduler.Default),
                         d => socket.SendAsync(d, d.Length, x)))
                     .Do(x => mapping.Add(x))
-                    .Select(x => Observable.Create<IResult>(io => {
-                        Console.WriteLine($"Sending initial packet: {Interlocked.Increment(ref count)}");
-                        return x.Results.Subscribe(io.OnNext, io.OnError, io.OnCompleted);
-                    }))
+                    .Select(x => x.Results)
+                    //.Select(x => Intercept(_ => Console.WriteLine($"Sending initial packet: {Interlocked.Increment(ref count)}"), x))
                     //.ObserveOn(scheduler)
-                    .Merge(degreeOfParallelism) // TODO: Instead try to limit sends at a time? hm
-                    .Do(
-                        x => {
-                            Console.WriteLine(
-                                $"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms");
-                        });
+                    .Merge(degreeOfParallelism); // TODO: Instead try to limit sends at a time? hm
+                    //.Do(x => Console.WriteLine($"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms"));
                 var sub = sender
                     .Subscribe(o.OnNext, o.OnError, () => {
                         Console.WriteLine($"" +
@@ -101,6 +95,12 @@ namespace GameServerQuery
             // http://stackoverflow.com/questions/12270642/reactive-extension-onnext
             return obs.Synchronize(); // Or use lock on the onNext call..
         }
+
+        private static IObservable<T> Intercept<T>(Action<IObservable<T>> act, IObservable<T> x)
+            => Observable.Create<T>(io => {
+                act(x);
+                return x.Subscribe(io.OnNext, io.OnError, io.OnCompleted);
+            });
 
         private static IObservable<UdpReceiveResult> CreateListener(UdpClient socket) =>
             Observable.Create<UdpReceiveResult>(obs => {
