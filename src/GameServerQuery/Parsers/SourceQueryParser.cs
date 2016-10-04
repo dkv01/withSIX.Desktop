@@ -37,8 +37,8 @@ namespace GameServerQuery.Parsers
             settings.Folder = r.ReadStringUntil();
             settings.Game = r.ReadStringUntil();
             settings.AppId = r.ReadShort();
-            settings.PlayerCount = r.ReadAsInt();
-            settings.PlayerMax = r.ReadAsInt();
+            settings.CurrentPlayers = r.ReadAsInt();
+            settings.MaxPlayers = r.ReadAsInt();
             settings.BotCount = r.ReadAsInt();
             settings.ServerType = r.ReadAsInt();
             settings.Environment = r.ReadAsInt();
@@ -129,8 +129,8 @@ namespace GameServerQuery.Parsers
         public string Folder { get; set; }
         public string Game { get; set; }
         public long AppId { get; set; }
-        public int PlayerCount { get; set; }
-        public int PlayerMax { get; set; }
+        public int CurrentPlayers { get; set; }
+        public int MaxPlayers { get; set; }
         public int BotCount { get; set; }
         public int ServerType { get; set; }
         public int Environment { get; set; }
