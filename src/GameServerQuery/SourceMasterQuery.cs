@@ -148,7 +148,7 @@ namespace GameServerQuery
         }
 
         protected SourceMasterServerQueryResult CreateServerDictionary(IPEndPoint address)
-            => new SourceMasterServerQueryResult(address, new Dictionary<string, string> {
+            => new SourceMasterServerQueryResult(address, new Dictionary<string, object> {
                 {"address", address.ToString()},
                 //{"folder", ServerBrowserTag}
             });

@@ -15,6 +15,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery.Parsers;
@@ -234,10 +235,11 @@ namespace GameServerQuery
 
         private byte[] CollectPacket(ByteArrayReader reader) {
             var id = reader.ReadInt();
-            var bzipped = (id & 0x80000000) != 0;
             var total = reader.ReadByte();
             var number = reader.ReadByte();
             var size = reader.ReadShort();
+
+            var bzipped = (id & 0x80000000) != 0;
             if (bzipped) {
                 throw new Exception("bzip2 compression not implemented");
                 /*
@@ -261,8 +263,7 @@ namespace GameServerQuery
                 _plainDict[id] = new MStatus(total);
             var s = _plainDict[id];
             s.Content[number] = reader.ReadRest();
-            var runTotal = s.Received++;
-            return runTotal == total ? JoinPackets(id, total, bzipped) : null;
+            return ++s.Received == total ? JoinPackets(id, total, bzipped) : null;
         }
 
         private byte[] JoinPackets(int id, int total, bool bzipped) {
@@ -299,36 +300,54 @@ namespace GameServerQuery
 
             return replyPkt;
         }
+    }
 
-        class ByteArrayReader
-        {
-            private readonly byte[] _b;
-            private int _pos;
+    public class ByteArrayReader
+    {
+        private readonly byte[] _b;
+        private int _pos;
 
-            public ByteArrayReader(byte[] b) {
-                _b = b;
-                _pos = 0;
-            }
+        public ByteArrayReader(byte[] b) {
+            _b = b;
+            _pos = 0;
+        }
 
-            public int ReadInt() {
-                var r = BitConverter.ToInt32(_b, _pos);
-                _pos += 4;
-                return r;
-            }
+        public int ReadInt() {
+            var r = BitConverter.ToInt32(_b, _pos);
+            _pos += 4;
+            return r;
+        }
 
-            public int ReadShort() {
-                var r = BitConverter.ToInt16(_b, _pos);
-                _pos += 2;
-                return r;
-            }
+        public int ReadShort() {
+            var r = BitConverter.ToInt16(_b, _pos);
+            _pos += 2;
+            return r;
+        }
 
-            public byte ReadByte() => _b[_pos++];
 
-            public byte[] ReadRest() {
-                var r = _b.Skip(_pos).ToArray();
-                _pos = _b.Length;
-                return r;
-            }
+        public long ReadLong() {
+            var r = BitConverter.ToInt64(_b, _pos);
+            _pos += 4;
+            return r;
+        }
+
+        public byte ReadByte() => _b[_pos++];
+
+        public int ReadAsInt() => ReadByte();
+
+        public void Skip(int count) => _pos += count;
+
+        public string ReadStringUntil(byte until = 0x00) {
+            var start = _pos;
+            while (_b[_pos++] != 0x00) { }
+            return Encoding.UTF8.GetString(_b, start, _pos - start - 1);
+        }
+
+
+        public byte[] ReadRest() {
+            var r = _b.Skip(_pos).ToArray();
+            _pos = _b.Length;
+            return r;
         }
     }
 

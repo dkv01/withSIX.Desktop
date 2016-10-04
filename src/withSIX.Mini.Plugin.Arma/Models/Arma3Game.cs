@@ -510,19 +510,19 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         public void UpdateInfoFromResult(ServerQueryResult result) {
             Info.Ping = result.Ping;
-            Info.Name = result.GetSettingOrDefault("name");
-            Info.MissionName = result.GetSettingOrDefault("game");
-            Info.MapName = result.GetSettingOrDefault("map");
-            Info.NumPlayers = result.GetSettingOrDefault("playerCount").TryInt();
-            Info.MaxPlayers = result.GetSettingOrDefault("playerMax").TryInt();
-            var port = result.GetSettingOrDefault("port").TryInt();
+            Info.Name = result.GetSettingOrDefault<string>("name");
+            Info.MissionName = result.GetSettingOrDefault<string>("game");
+            Info.MapName = result.GetSettingOrDefault<string>("map");
+            Info.NumPlayers = result.GetSettingOrDefault<int>("playerCount");
+            Info.MaxPlayers = result.GetSettingOrDefault<int>("playerMax");
+            var port = result.GetSettingOrDefault<int>("port");
             if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                 port = Info.Address.Port - 1;
             Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
             Info.Mods = GetList(result.Settings, "modNames").ToList();
-            Info.PasswordRequired = result.GetSettingOrDefault("visibility").TryInt() > 0;
-            Info.GameVersion = GetVersion(result.GetSettingOrDefault("version"));
-            var tags = result.GetSettingOrDefault("keywords");
+            Info.PasswordRequired = result.GetSettingOrDefault<int>("visibility") > 0;
+            Info.GameVersion = GetVersion(result.GetSettingOrDefault<string>("version"));
+            var tags = result.GetSettingOrDefault<string>("keywords");
             if (tags != null)
                 new SourceTagParser(tags, Info).HandleTags();
             Info.Players =
@@ -535,13 +535,13 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         static Version GetVersion(string version) => version?.TryParseVersion();
 
-        static IEnumerable<string> GetList(IEnumerable<KeyValuePair<string, string>> dict, string keyWord) {
+        static IEnumerable<string> GetList(IEnumerable<KeyValuePair<string, object>> dict, string keyWord) {
             var rx = GetRx(keyWord);
             return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
                         let w = rx.Match(kvp.Key)
                         where w.Success
                         select new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
-                    .OrderBy(x => x.Index).SelectMany(x => x.Value))
+                    .OrderBy(x => x.Index).SelectMany(x => (string)x.Value))
                 .Split(';')
                 .Where(x => !string.IsNullOrWhiteSpace(x));
         }

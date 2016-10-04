@@ -22,7 +22,7 @@ namespace GameServerQuery.Parsers
         }
 
         public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
-            var settings = new Dictionary<string, string>();
+            var settings = new Dictionary<string, object>();
             ParseSettings(settings, receivedPackets[0]);
             ParseRules(settings, receivedPackets[1]);
 
@@ -35,64 +35,54 @@ namespace GameServerQuery.Parsers
             };
         }
 
-        static void ParseSettings(IDictionary<string, string> settings, byte[] info) {
-            var pos = 5; //skip header
-            settings["protocol"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            var start = pos;
-            while (info[pos++] != 0x00) {}
-            settings["name"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
-            start = pos;
-            while (info[pos++] != 0x00) {}
-            settings["map"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
-            start = pos;
-            while (info[pos++] != 0x00) {}
-            settings["folder"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
-            start = pos;
-            while (info[pos++] != 0x00) {}
-            settings["game"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
-            settings["appId"] = BitConverter.ToInt16(info, pos).ToString(CultureInfo.InvariantCulture);
-            pos += 2;
-            settings["playerCount"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            settings["playerMax"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            settings["botCount"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            settings["serverType"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            settings["environment"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            settings["visibility"] = info[pos++].ToString(CultureInfo.InvariantCulture);
-            settings["vac"] = info[pos++].ToString(CultureInfo.InvariantCulture);
+        class Reader : ByteArrayReader
+        {
+            public Reader(byte[] b) : base(b) {}
+
+            //public string ReadByteString() => ReadByte().ToString(CultureInfo.InvariantCulture);
+        }
+
+        static void ParseSettings(IDictionary<string, object> settings, byte[] info) {
+            var r = new Reader(info);
+            r.Skip(5);
+            settings["protocol"] = r.ReadAsInt();
+            settings["name"] = r.ReadStringUntil();
+            settings["map"] = r.ReadStringUntil();
+            settings["folder"] = r.ReadStringUntil();
+            settings["game"] = r.ReadStringUntil();
+            settings["appId"] = r.ReadShort().ToString(CultureInfo.InvariantCulture);
+            settings["playerCount"] = r.ReadAsInt();
+            settings["playerMax"] = r.ReadAsInt();
+            settings["botCount"] = r.ReadAsInt();
+            settings["serverType"] = r.ReadAsInt();
+            settings["environment"] = r.ReadAsInt();
+            settings["visibility"] = r.ReadAsInt();
+            settings["vac"] = r.ReadAsInt();
             //if The Ship, additional fields:
             //_results.mode = reply[pos++];
             //_results.witnesses = reply[pos++];
             //_results.duration = reply[pos++];
-            start = pos;
-            while (info[pos++] != 0x00) {}
-            settings["version"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
-            var edf = info[pos++];
+            settings["version"] = r.ReadStringUntil();
+            var edf = r.ReadByte();
             settings["edf"] = edf.ToString(CultureInfo.InvariantCulture);
             if ((edf & 0x80) != 0)
-                settings["port"] = BitConverter.ToInt16(info, pos).ToString(CultureInfo.InvariantCulture);
-            pos += 2;
+                settings["port"] = r.ReadShort();
             if ((edf & 0x10) != 0)
-                settings["steamId"] = BitConverter.ToInt64(info, pos).ToString(CultureInfo.InvariantCulture);
-            pos += 8;
+                settings["steamId"] = r.ReadLong();
             if ((edf & 0x40) != 0) {
-                settings["tvPort"] = BitConverter.ToInt16(info, pos).ToString(CultureInfo.InvariantCulture);
-                pos += 2;
-                start = pos;
-                while (info[pos++] != 0x00) {}
-                settings["tvName"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
+                settings["tvPort"] = r.ReadShort();
+                settings["tvName"] = r.ReadStringUntil();
             }
             if ((edf & 0x20) != 0) {
-                start = pos;
-                while (info[pos++] != 0x00) {}
-                settings["keywords"] = Encoding.UTF8.GetString(info, start, pos - start - 1);
+                settings["keywords"] = r.ReadStringUntil();
             }
             //gameID = full appID if was truncated in previous field (not always the case)
             if ((edf & 0x01) != 0)
-                settings["gameId"] = BitConverter.ToInt64(info, pos).ToString(CultureInfo.InvariantCulture);
+                settings["gameId"] = r.ReadLong().ToString(CultureInfo.InvariantCulture);
             //TODO: find out what the extra data in this packet is from DayZ source
         }
 
-        static void ParseRules(IDictionary<string, string> settings, byte[] rules) {
+        static void ParseRules(Dictionary<string, object> settings, byte[] rules) {
             var sb = new StringBuilder();
             var pos = 5; //skip header
             var ruleCount = BitConverter.ToInt16(rules, pos);
