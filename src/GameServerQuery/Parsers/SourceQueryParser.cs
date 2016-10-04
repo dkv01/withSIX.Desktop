@@ -23,7 +23,8 @@ namespace GameServerQuery.Parsers
 
         public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
             var s = ParseSettings(receivedPackets[0]);
-            s.Rules = ParseRules(receivedPackets[1]);
+            if (receivedPackets.Count > 1)
+                s.Rules = receivedPackets[1];
 
             return new SourceServerQueryResult(address, s) {
                 Players =
@@ -82,7 +83,8 @@ namespace GameServerQuery.Parsers
             return settings;
         }
 
-        static Dictionary<string, string> ParseRules(byte[] rules) {
+        
+        public static Dictionary<string, string> ParseRules(byte[] rules) {
             var r = new Reader(rules);
             r.Skip(5);
             var ruleCount = r.ReadShort();
@@ -148,7 +150,7 @@ namespace GameServerQuery.Parsers
         public int TvPort { get; set; }
         public string TvName { get; set; }
         public string Keywords { get; set; }
-        public Dictionary<string, string> Rules { get; set; } = new Dictionary<string, string>();
+        public byte[] Rules { get; set; }
     }
 
     public abstract class Player

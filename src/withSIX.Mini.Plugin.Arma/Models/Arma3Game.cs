@@ -521,8 +521,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
             if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                 port = Info.Address.Port - 1;
             Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
-            Info.Mods = GetList(r.Rules, "modNames").ToList();
-            Info.Signatures = GetList(r.Rules, "sigNames").ToList();
+            //Info.Mods = GetList(r.Rules, "modNames").ToList();
+            //Info.Signatures = GetList(r.Rules, "sigNames").ToList();
             Info.PasswordRequired = r.Visibility > 0;
             Info.GameVersion = GetVersion(r.Version);
             var tags = r.Keywords;
@@ -619,15 +619,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
         public string Tags { get; set; }
 
         public bool ReceivedRules { get; set; }
-    }
-
-    public class ServerModInfo
-    {
-        public int Hash { get; set; }
-        public bool IsOptionalOnServer { get; set; }
-        public bool IsRequiredByMission { get; set; }
-        public string Name { get; set; }
-        public ulong PublishedId { get; set; }
     }
 
     public class ReceivedServerEvent : IEvent

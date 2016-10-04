@@ -319,7 +319,6 @@ namespace withSIX.Mini.Plugin.Starbound.Models
                 if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
                     port = Info.Address.Port - 1;
                 Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
-                Info.Mods = GetList(r.Rules, "modNames").ToList();
                 Info.PasswordRequired = r.Visibility > 0;
                 Info.GameVersion = GetVersion(r.Version);
                 //
