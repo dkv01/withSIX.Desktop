@@ -8,12 +8,14 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NDepend.Path;
-using SharpCompress.Archive;
-using SharpCompress.Archive.GZip;
-using SharpCompress.Archive.Zip;
+using SharpCompress.Archives;
+using SharpCompress.Archives.GZip;
+using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
-using SharpCompress.Compressor.Deflate;
-using SharpCompress.Writer;
+using SharpCompress.Compressors.Deflate;
+using SharpCompress.Readers;
+using SharpCompress.Writers;
+using SharpCompress.Writers.Zip;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
@@ -29,7 +31,11 @@ namespace withSIX.Core.Presentation.Services
             Contract.Requires<ArgumentNullException>(outputFolder != null);
 
             var ext = sourceFile.FileExtension;
-            var options = fullPath ? ExtractOptions.ExtractFullPath : ExtractOptions.None;
+            var options = new ExtractionOptions {PreserveFileTime = true};
+            if (fullPath)
+                options.ExtractFullPath = true;
+            if (overwrite)
+                options.Overwrite = true;
             using (var archive = GetArchiveWithGzWorkaround(sourceFile, ext))
                 UnpackArchive(outputFolder, overwrite, archive, options, sourceFile);
         }
@@ -49,9 +55,8 @@ namespace withSIX.Core.Presentation.Services
                 foreach (var f in directory.DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                     arc.AddEntry(f.FullName.Replace(directory.ParentDirectoryPath + @"\", ""), f.FullName);
                 arc.SaveTo(outputFile.ToString(),
-                    new CompressionInfo {
-                        DeflateCompressionLevel = CompressionLevel.BestCompression,
-                        Type = CompressionType.Deflate
+                    new ZipWriterOptions(CompressionType.Deflate) {
+                        DeflateCompressionLevel = CompressionLevel.BestCompression
                     });
             }
         }
@@ -85,9 +90,8 @@ namespace withSIX.Core.Presentation.Services
                 foreach (var f in items)
                     arc.AddEntry(f.Key, f.Value);
                 arc.SaveTo(path.ToString(),
-                    new CompressionInfo {
-                        DeflateCompressionLevel = CompressionLevel.BestCompression,
-                        Type = CompressionType.Deflate
+                    new ZipWriterOptions(CompressionType.Deflate) {
+                        DeflateCompressionLevel = CompressionLevel.BestCompression
                     });
             }
         }
@@ -98,15 +102,12 @@ namespace withSIX.Core.Presentation.Services
                 : ArchiveFactory.Open(sourceFile.ToString());
 
         private void UnpackArchive(IAbsoluteDirectoryPath outputFolder, bool overwrite, IArchive archive,
-            ExtractOptions options, IAbsoluteFilePath sourceFile) {
+            ExtractionOptions options, IAbsoluteFilePath sourceFile) {
             foreach (var p in archive.Entries.Where(entry => entry.IsDirectory)
                 .Select(entry => outputFolder.GetChildDirectoryWithName(entry.Key)))
                 p.MakeSurePathExists();
 
             foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory)) {
-                if (overwrite)
-                    options = options | ExtractOptions.Overwrite;
-
                 var fileName = entry.Key ?? sourceFile.FileNameWithoutExtension;
                 var destinationFile = outputFolder.GetChildFileWithName(fileName);
                 if (overwrite) {
