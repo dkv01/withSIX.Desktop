@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;

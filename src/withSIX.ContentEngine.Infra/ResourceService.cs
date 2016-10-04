@@ -4,6 +4,7 @@
 
 using System.IO;
 using System.Reflection;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Services;
 

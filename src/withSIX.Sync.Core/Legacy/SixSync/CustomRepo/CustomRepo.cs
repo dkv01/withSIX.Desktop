@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;

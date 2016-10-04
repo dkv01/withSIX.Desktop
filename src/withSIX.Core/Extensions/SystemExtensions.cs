@@ -577,11 +577,6 @@ namespace withSIX.Core.Extensions
             return double.TryParse(val, numberStyle, culture, out result) ? result : 0;
         }
 
-        public static long TryLong(this string val) {
-            long result;
-            return long.TryParse(val, out result) ? result : 0;
-        }
-
         public static long? TryLongNullable(this string val) {
             long result;
             return long.TryParse(val, out result) ? (long?) result : null;

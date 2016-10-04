@@ -21,6 +21,7 @@ using NDepend.Path;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Api.Models.Servers;
 using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
@@ -28,7 +29,6 @@ using withSIX.Core.Services.Infrastructure;
 using withSIX.Mini.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
-using Player = withSIX.Mini.Core.Games.Player;
 
 namespace withSIX.Mini.Plugin.Starbound.Models
 {
@@ -64,17 +64,17 @@ namespace withSIX.Mini.Plugin.Starbound.Models
             return r;
         }
 
-        public async Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
+        public async Task<List<Server>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails = false) {
-            var infos = new List<ServerInfo>();
+            var infos = new List<Server>();
             // TODO: Multi
             var q = new ReactiveSource();
             using (var client = q.CreateUdpClient())
                 foreach (var a in addresses) {
-                    var serverInfo = new ServerInfo {Address = a};
+                    var serverInfo = new Server {QueryAddress = a};
                     infos.Add(serverInfo);
                     try {
-                        var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.Address}, client));
+                        var results = await q.ProcessResults(q.GetResults(new[] {serverInfo.QueryAddress}, client));
                         var r = (SourceParseResult) results.Settings;
                         r.MapTo(serverInfo);
                         var tags = r.Keywords;
@@ -83,7 +83,7 @@ namespace withSIX.Mini.Plugin.Starbound.Models
                             p.MapTo(serverInfo);
                         }
                     } catch (Exception ex) {
-                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.Address);
+                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.QueryAddress);
                     }
                 }
             return infos;
