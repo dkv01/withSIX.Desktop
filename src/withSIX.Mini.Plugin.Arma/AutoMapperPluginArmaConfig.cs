@@ -3,6 +3,7 @@
 // </copyright>
 
 using AutoMapper;
+using GameServerQuery.Games.RV;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
@@ -17,6 +18,9 @@ namespace withSIX.Mini.Plugin.Arma
                 .ForMember(x => x.Details, opt => opt.MapFrom(src => src))
                 .ForMember(x => x.Address, opt => opt.MapFrom(src => src.QueryEndPoint))
                 .ForMember(x => x.ServerAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint));
+            CreateMap<GameTags, ServerInfo>()
+                .Include<GameTags, ArmaServerInfo>();
+            CreateMap<GameTags, ArmaServerInfo>();
         }
 
         void SetupApiModels() {

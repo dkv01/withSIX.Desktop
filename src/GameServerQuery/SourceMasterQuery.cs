@@ -42,17 +42,11 @@ namespace GameServerQuery
 
         string Filter => string.Join("", _filter.Select(x => string.Format(@"\{0}\{1}", x.Item1, x.Item2)));
 
-        public virtual async Task<IEnumerable<ServerQueryResult>> GetParsedServers(CancellationToken cancelToken,
-            bool forceLocal = false, int limit = 0) {
-            var serversResult = await RetrieveAsync(cancelToken, limit).ConfigureAwait(false);
-            return serversResult.Select(CreateServerDictionary);
-        }
-
         public event EventHandler<ServerPageArgs> ServerPageReceived;
 
         void Raise(ServerPageArgs args) => ServerPageReceived?.Invoke(this, args);
 
-        internal async Task<List<IPEndPoint>> RetrieveAsync(CancellationToken cancelToken, int limit,
+        public async Task<List<IPEndPoint>> GetParsedServers(CancellationToken cancelToken, int limit = -1,
             IPEndPoint remote = null, int tried = -1) {
             var cur = -1;
             var servers = new List<IPEndPoint>();
@@ -99,7 +93,7 @@ namespace GameServerQuery
                 }
                 //only retries when remote was not passed in, on the first try, and when the first packet was never received
                 if (timedOut)
-                    return await RetrieveAsync(cancelToken, limit, null, cur).ConfigureAwait(false);
+                    return await GetParsedServers(cancelToken, limit, null, cur).ConfigureAwait(false);
                 seed = ParseResponse(servers, response, limit);
                 if (seed == null)
                     throw new Exception("Bad packet recieved.");

@@ -24,9 +24,6 @@ namespace withSIX.Mini.Core.Games
         public List<string> Mods { get; set; }
         public bool PasswordRequired { get; set; }
         public Version GameVersion { get; set; }
-        public int VerifySignatures { get; set; }
-        public int SvBattleye { get; set; }
-        public int? ReqBuild { get; set; }
         public int Difficulty { get; set; }
         public bool IsDedicated { get; set; }
         public int GameState { get; set; }
@@ -34,11 +31,20 @@ namespace withSIX.Mini.Core.Games
         public ServerPlatform ServerPlatform { get; set; }
         public int? RequiredVersion { get; set; }
         public int? Language { get; set; }
-        public Coordinates Coordinates { get; set; }
         public int Status { get; set; }
 
         public List<Player> Players { get; set; }
+    }
+
+    public class ArmaServerInfo : ServerInfo
+    {
+        public List<string> Mods { get; set; }
         public List<string> Signatures { get; set; }
+        public Coordinates Coordinates { get; set; }
+        public int VerifySignatures { get; set; }
+        public int SvBattleye { get; set; }
+        public int? ReqBuild { get; set; }
+
     }
 
     public class ServerInfo<T> : ServerInfo

@@ -9,11 +9,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
+using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
 using NDepend.Path;
 using withSIX.Api.Models.Content;
@@ -59,31 +61,31 @@ namespace withSIX.Mini.Plugin.Starbound.Models
         public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
             var master = new SourceMasterQuery(new ServerFilterBuilder().FilterByGame("starbound").Value);
             var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
-            return r.Select(x => x.Address).ToList();
+            return r;
         }
 
         public async Task<List<ServerInfo>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails = false) {
             var infos = new List<ServerInfo>();
-            // TODO: Use serverquery queue ?
-            foreach (var a in addresses) {
-                var serverInfo = new ServerInfo {Address = a};
-                infos.Add(serverInfo);
-                var server = new Server(serverInfo);
-                using (
-                    var serverQueryState = new ServerQueryState(server, sourceQueryParser) {
-                        HandlePlayers = inclExtendedDetails
-                    }
-                ) {
-                    var q = new SourceServerQuery(serverQueryState, "arma3");
-                    await q.UpdateAsync().ConfigureAwait(false);
+            // TODO: Multi
+            var q = new ReactiveSource();
+            using (var client = q.CreateUdpClient())
+                foreach (var a in addresses) {
+                    var serverInfo = new ServerInfo {Address = a};
+                    infos.Add(serverInfo);
                     try {
-                        serverQueryState.UpdateServer();
+                        var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.Address}, client));
+                        var r = (SourceParseResult) results.Settings;
+                        r.MapTo(serverInfo);
+                        var tags = r.Keywords;
+                        if (tags != null) {
+                            var p = GameTags.Parse(tags);
+                            p.MapTo(serverInfo);
+                        }
                     } catch (Exception ex) {
                         MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.Address);
                     }
                 }
-            }
             return infos;
         }
 
@@ -287,75 +289,6 @@ namespace withSIX.Mini.Plugin.Starbound.Models
                     _modDir.GetChildFileWithName($"{Mod.PackageName}.modpak")
                 }.Where(x => x.Exists).ForEach(x => x.Delete());
                 return TaskExt.Default;
-            }
-        }
-
-        // TODO: Customize
-        public class Server : IServer
-        {
-            static readonly ConcurrentDictionary<string, Regex> rxCache = new ConcurrentDictionary<string, Regex>();
-
-            public Server(ServerInfo info) {
-                Info = info;
-                Address = info.Address;
-            }
-
-            public ServerInfo Info { get; }
-            public bool IsUpdating { get; set; }
-
-            public void UpdateStatus(Status status) {
-                Info.Status = (int) status;
-            }
-
-            public void UpdateInfoFromResult(ServerQueryResult result) {
-                var r = (SourceParseResult) result.Settings;
-                Info.Ping = result.Ping;
-                Info.Name = r.Name;
-                Info.MissionName = r.Game;
-                Info.MapName = r.Map;
-                Info.NumPlayers = r.PlayerCount;
-                Info.MaxPlayers = r.PlayerMax;
-                var port = r.Port;
-                if ((port < IPEndPoint.MinPort) || (port > IPEndPoint.MaxPort))
-                    port = Info.Address.Port - 1;
-                Info.ServerAddress = new IPEndPoint(Info.Address.Address, port);
-                Info.PasswordRequired = r.Visibility > 0;
-                Info.GameVersion = GetVersion(r.Version);
-                //
-                //var tags = r.Keywords;
-                //if (tags != null) {
-                    //var parsed = new SourceTagParser(tags).HandleTags();
-                //}
-                Info.Players =
-                    result.Players.OfType<SourcePlayer>()
-                        .Select(x => new Player {Name = x.Name, Score = x.Score, Duration = x.Duration})
-                        .ToList();
-            }
-
-            public IPEndPoint Address { get; }
-
-            static Version GetVersion(string version) => version?.TryParseVersion();
-
-            static IEnumerable<string> GetList(Dictionary<string, string> dict, string keyWord) {
-                var rx = GetRx(keyWord);
-                return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
-                            let w = rx.Match(kvp.Key)
-                            where w.Success
-                            select
-                            new {Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value})
-                        .OrderBy(x => x.Index).SelectMany(x => (string)x.Value))
-                    .Split(';')
-                    .Where(x => !string.IsNullOrWhiteSpace(x));
-            }
-
-            static Regex GetRx(string keyWord) {
-                Regex rx;
-                if (rxCache.TryGetValue(keyWord, out rx))
-                    return rx;
-                return
-                    rxCache[keyWord] =
-                        new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$",
-                            RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
         }
     }

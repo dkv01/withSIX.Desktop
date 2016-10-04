@@ -4,23 +4,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
 using System.Text;
 
 namespace GameServerQuery.Parsers
 {
     public class SourceQueryParser : IServerQueryParser
     {
-        public ServerQueryResult ParsePackets(ServerQueryState state) {
-            var receivedPackets = state.ReceivedPackets;
-            if (receivedPackets.Count != state.MaxPackets)
-                throw new Exception("Wrong number of packets");
-            return ParsePackets(state.Server.Address, state.ReceivedPackets, state.Pings);
-        }
-
         public ServerQueryResult ParsePackets(IPEndPoint address, IReadOnlyList<byte[]> receivedPackets, List<int> pings) {
             var s = ParseSettings(receivedPackets[0]);
             if (receivedPackets.Count > 1)
@@ -31,13 +22,8 @@ namespace GameServerQuery.Parsers
                     receivedPackets.Count == 3
                         ? ParsePlayers(receivedPackets[2]).ToList()
                         : new List<Player>(),
-                Ping = pings.Any() ? Convert.ToInt32(pings.Average()) : ServerQueryState.MagicPingValue
+                Ping = pings.Any() ? Convert.ToInt32(pings.Average()) : 9999
             };
-        }
-
-        class Reader : ByteArrayReader
-        {
-            public Reader(byte[] b) : base(b) {}
         }
 
 
@@ -83,7 +69,7 @@ namespace GameServerQuery.Parsers
             return settings;
         }
 
-        
+
         public static Dictionary<string, string> ParseRules(byte[] rules) {
             var r = new Reader(rules);
             r.Skip(5);
@@ -123,9 +109,15 @@ namespace GameServerQuery.Parsers
 
             return playerAr;
         }
+
+        class Reader : ByteArrayReader
+        {
+            public Reader(byte[] b) : base(b) {}
+        }
     }
 
-    public class ParseResult {
+    public class ParseResult
+    {
         public IPEndPoint Address { get; set; }
     }
 
