@@ -17,7 +17,7 @@ using GameServerQuery.Parsers;
 namespace GameServerQuery
 {
     // https://developer.valvesoftware.com/wiki/Master_Server_Query_Protocol
-    public class SourceMasterQuery : ServerQueryBase, IMasterServerQuery
+    public class SourceMasterQuery : IMasterServerQuery
     {
         public enum Region
         {
@@ -63,7 +63,7 @@ namespace GameServerQuery
             }
             var e = new IPEndPoint(IPAddress.Any, 0);
             var udpClient = new UdpClient(e) {
-                Client = {ReceiveTimeout = DefaultReceiveTimeout, SendTimeout = DefaultSendTimeout}
+                Client = {ReceiveTimeout = Consts.DefaultReceiveTimeout, SendTimeout = Consts.DefaultSendTimeout }
             };
 
             var i = 0;
@@ -82,7 +82,7 @@ namespace GameServerQuery
                 try {
                     response =
                         (await
-                                udpClient.ReceiveWithTimeoutAfter(DefaultReceiveTimeout, cancelToken).ConfigureAwait(false))
+                                udpClient.ReceiveWithTimeoutAfter(Consts.DefaultReceiveTimeout, cancelToken).ConfigureAwait(false))
                             .Buffer;
                 } catch (TimeoutException) {
                     timedOut = true;

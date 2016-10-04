@@ -126,7 +126,6 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\SimpleQueueExtensions.cs" />
     <Compile Include="Extensions\SocketExtensions.cs" />
     <Compile Include="Extensions\SystemExtensions.cs" />
     <Compile Include="Games\RV\RV.cs" />
@@ -136,7 +135,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reactive.cs" />
     <Compile Include="ServerFilterBuilder.cs" />
-    <Compile Include="ServerQueryBase.cs" />
+    <Compile Include="Consts.cs" />
     <Compile Include="ServerQueryMode.cs" />
     <Compile Include="ServerQueryResult.cs" />
     <Compile Include="SourceMasterQuery.cs" />
