@@ -1721,7 +1721,7 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "withSIX.Api.Models/2.0.8": {
+      "withSIX.Api.Models/2.0.9": {
         "dependencies": {
           "AutoMapper": "5.1.1",
           "NDepend.Path.PCL": "1.0.2",
@@ -6399,13 +6399,13 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "withSIX.Api.Models/2.0.8": {
-      "sha512": "eKmlt+Beyh7bHwBnT6uyE29s23WNemzP5z9g3743/EcB101VE8REMlUWFx0W46549UFm0Gs5pUIgGzmnD0EnAA==",
+    "withSIX.Api.Models/2.0.9": {
+      "sha512": "RQhA4+cW/YV2EWdug3G/bI1ReT+qFBAGRrmLmMA5KZ2Yp7QTD9Qh5z1UWOXO8/P4HLrOKzlbvPbET9zlM6UBvA==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.8",
+      "path": "withSIX.Api.Models/2.0.9",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.8.nupkg.sha512",
+        "withSIX.Api.Models.2.0.9.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     }
@@ -6417,7 +6417,7 @@
       "NDepend.Path.PCL >= 1.0.2",
       "NETStandard.Library >= 1.6.0",
       "System.Diagnostics.Contracts >= 4.0.1",
-      "withSIX.Api.Models >= 2.0.8"
+      "withSIX.Api.Models >= 2.0.9"
     ],
     ".NETStandard,Version=v1.3": []
   }

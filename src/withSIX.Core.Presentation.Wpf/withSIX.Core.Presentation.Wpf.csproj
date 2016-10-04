@@ -611,7 +611,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="withSIX.Api.Models, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\withSIX.Api.Models.2.0.8\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
+      <HintPath>..\packages\withSIX.Api.Models.2.0.9\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WpfAnimatedGif, Version=1.4.14.0, Culture=neutral, processorArchitecture=MSIL">
@@ -962,7 +962,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.0.1\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.0.1\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />

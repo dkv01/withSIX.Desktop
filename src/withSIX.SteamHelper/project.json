@@ -22,7 +22,7 @@
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Mono.Options": "4.4.0",
     "SimpleInjector": "3.2.2",
-    "withSIX.Api.Models": "2.0.8"
+    "withSIX.Api.Models": "2.0.9"
   },
 
   "frameworks": {

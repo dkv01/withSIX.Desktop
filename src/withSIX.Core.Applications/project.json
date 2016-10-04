@@ -11,7 +11,7 @@
     "System.Reactive": "3.0.0",
     "System.Runtime.Serialization.Formatters": "4.0.0-rc3-24212-01",
     "System.Runtime.Serialization.Xml": "4.1.1",
-    "withSIX.Api.Models": "2.0.8",
+    "withSIX.Api.Models": "2.0.9",
     "withSIX.Core": "1.0.0-*",
     "withSIX.Sync.Core": "1.0.0-*"
   },

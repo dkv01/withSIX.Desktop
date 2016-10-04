@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models;
 using withSIX.Core.Logging;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Core.Extensions
 {
@@ -609,15 +610,6 @@ namespace withSIX.Core.Extensions
                                                                                              value.EndsWith(s,
                                                                                                  StringComparison
                                                                                                      .OrdinalIgnoreCase));
-
-        public static bool Contains(this string source, string toCheck,
-            StringComparison comp = StringComparison.CurrentCulture) => source.IndexOf(toCheck, comp) > -1;
-
-        public static bool ContainsIgnoreCase(this string source, string toCheck)
-            => source.Contains(toCheck, StringComparison.CurrentCultureIgnoreCase);
-
-        public static bool ContainsIgnoreCase(this IEnumerable<string> source, string toCheck)
-            => source.Contains(toCheck, StringComparer.OrdinalIgnoreCase);
 
         public static bool NullSafeContains(this IEnumerable<string> value, string toCheck,
             StringComparer comp = null) {

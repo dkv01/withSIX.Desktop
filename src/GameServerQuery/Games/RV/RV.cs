@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using NDepend.Helpers;
 
@@ -212,6 +211,12 @@ namespace GameServerQuery.Games.RV
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+    }
+
+    public enum ServerPlatform
+    {
+        Windows,
+        Linux
     }
 
     public class ServerModInfo

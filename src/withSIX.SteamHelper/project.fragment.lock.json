@@ -75,7 +75,7 @@
         "../packages/YamlDotNet.4.0.0/lib/net35/YamlDotNet.dll": {},
         "../packages/logentries.nlog.2.6.0/lib/net40/LogentriesCore.dll": {},
         "../packages/logentries.nlog.2.6.0/lib/net40/LogentriesNLog.dll": {},
-        "../packages/withSIX.Api.Models.2.0.8/lib/netstandard1.3/withSIX.Api.Models.dll": {},
+        "../packages/withSIX.Api.Models.2.0.9/lib/netstandard1.3/withSIX.Api.Models.dll": {},
         "bin/Debug/withSIX.Core.Presentation.Bridge.dll": {}
       },
       "contentFiles": {

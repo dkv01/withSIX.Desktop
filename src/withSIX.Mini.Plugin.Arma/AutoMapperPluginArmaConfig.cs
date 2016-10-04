@@ -4,6 +4,7 @@
 
 using AutoMapper;
 using GameServerQuery.Games.RV;
+using withSIX.Api.Models.Servers;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
@@ -16,11 +17,12 @@ namespace withSIX.Mini.Plugin.Arma
             SetupApiModels();
             CreateMap<ArmaServerInfoModel, ServerInfo<ArmaServerInfoModel>>()
                 .ForMember(x => x.Details, opt => opt.MapFrom(src => src))
-                .ForMember(x => x.Address, opt => opt.MapFrom(src => src.QueryEndPoint))
-                .ForMember(x => x.ServerAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint));
-            CreateMap<GameTags, ServerInfo>()
-                .Include<GameTags, ArmaServerInfo>();
-            CreateMap<GameTags, ArmaServerInfo>();
+                .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
+                .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint));
+            CreateMap<GameTags, Server>()
+                .Include<GameTags, ArmaServer>();
+            CreateMap<GameTags, ArmaServer>()
+                .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock));
         }
 
         void SetupApiModels() {

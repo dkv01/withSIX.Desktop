@@ -20,8 +20,8 @@ using NDepend.Helpers;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
+using withSIX.Api.Models.Servers;
 using withSIX.Core.Applications;
-using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
@@ -29,7 +29,6 @@ using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
 using withSIX.Mini.Plugin.Arma.Attributes;
-using Player = withSIX.Mini.Core.Games.Player;
 
 namespace withSIX.Mini.Plugin.Arma.Models
 {
@@ -90,14 +89,14 @@ namespace withSIX.Mini.Plugin.Arma.Models
             return r.ToList();
         }
 
-        public Task<List<ServerInfo>> GetServerInfos(
+        public Task<List<Server>> GetServerInfos(
                 System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses,
                 bool inclExtendedDetails = false)
             => inclExtendedDetails
                 ? GetFromSteam(addresses, inclExtendedDetails)
                 : GetFromGameServerQuery(addresses, inclExtendedDetails);
 
-        private async Task<List<ServerInfo>> GetFromSteam(
+        private async Task<List<Server>> GetFromSteam(
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
             await StartSteamHelper().ConfigureAwait(false);
             // Ports adjusted becaused it expects the Connection Port!
@@ -106,7 +105,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 IncludeRules = inclExtendedDetails,
                 Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
             }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
-            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<ServerInfo>();
+            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<Server>();
         }
 
         private async Task StartSteamHelper() {
@@ -145,17 +144,16 @@ namespace withSIX.Mini.Plugin.Arma.Models
             }
         }
 
-        private static async Task<List<ServerInfo>> GetFromGameServerQuery(
+        private static async Task<List<Server>> GetFromGameServerQuery(
             System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
-            var infos = new List<ServerInfo>();
-            // TODO: Use serverquery queue ?
+            var infos = new List<Server>();
             var q = new ReactiveSource();
             using (var client = q.CreateUdpClient())
                 foreach (var a in addresses) {
-                    var serverInfo = new ArmaServerInfo { Address = a};
+                    var serverInfo = new ArmaServer { QueryAddress = a};
                     infos.Add(serverInfo);
                     try {
-                        var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.Address}, client));
+                        var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.QueryAddress }, client));
                         var r = (SourceParseResult) results.Settings;
                         r.MapTo(serverInfo);
                         /*
@@ -166,7 +164,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                         }
                         */
                     } catch (Exception ex) {
-                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.Address);
+                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.QueryAddress);
                     }
                 }
             return infos;

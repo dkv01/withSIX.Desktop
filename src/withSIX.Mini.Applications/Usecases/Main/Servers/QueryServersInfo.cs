@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
+using withSIX.Api.Models.Servers;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
@@ -42,6 +43,6 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
 
     public class ServersInfo
     {
-        public List<ServerInfo> Servers { get; set; }
+        public List<Server> Servers { get; set; }
     }
 }

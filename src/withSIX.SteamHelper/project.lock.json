@@ -1868,6 +1868,15 @@
           "lib/net45/_._": {}
         }
       },
+      "System.Threading.Tasks.Dataflow/4.6.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
+        }
+      },
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
@@ -1934,7 +1943,7 @@
           "lib/net45/_._": {}
         }
       },
-      "withSIX.Api.Models/2.0.8": {
+      "withSIX.Api.Models/2.0.9": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "5.1.1",
@@ -1962,7 +1971,9 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "System.Net.NameResolution": "4.0.0"
+          "System.Net.NameResolution": "4.0.0",
+          "System.Reactive": "3.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0"
         }
       },
       "GeoIP/1.0.0": {
@@ -2111,6 +2122,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -2118,7 +2130,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
@@ -2154,7 +2166,7 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -2174,6 +2186,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0",
           "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -2220,6 +2233,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
@@ -2229,6 +2243,7 @@
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Plugin.Arma": "1.0.0",
+          "withSIX.Steam.Api": "1.0.0",
           "withSIX.Steam.Core": "1.0.0"
         }
       },
@@ -3889,6 +3904,15 @@
           "lib/net45/_._": {}
         }
       },
+      "System.Threading.Tasks.Dataflow/4.6.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
+        }
+      },
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
@@ -3955,7 +3979,7 @@
           "lib/net45/_._": {}
         }
       },
-      "withSIX.Api.Models/2.0.8": {
+      "withSIX.Api.Models/2.0.9": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "5.1.1",
@@ -3983,7 +4007,9 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "System.Net.NameResolution": "4.0.0"
+          "System.Net.NameResolution": "4.0.0",
+          "System.Reactive": "3.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0"
         }
       },
       "GeoIP/1.0.0": {
@@ -4132,6 +4158,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -4139,7 +4166,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
@@ -4175,7 +4202,7 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -4195,6 +4222,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0",
           "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -4241,6 +4269,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
@@ -4250,6 +4279,7 @@
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Plugin.Arma": "1.0.0",
+          "withSIX.Steam.Api": "1.0.0",
           "withSIX.Steam.Core": "1.0.0"
         }
       },
@@ -5910,6 +5940,15 @@
           "lib/net45/_._": {}
         }
       },
+      "System.Threading.Tasks.Dataflow/4.6.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {}
+        }
+      },
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
@@ -5976,7 +6015,7 @@
           "lib/net45/_._": {}
         }
       },
-      "withSIX.Api.Models/2.0.8": {
+      "withSIX.Api.Models/2.0.9": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "5.1.1",
@@ -6004,7 +6043,9 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "System.Net.NameResolution": "4.0.0"
+          "System.Net.NameResolution": "4.0.0",
+          "System.Reactive": "3.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0"
         }
       },
       "GeoIP/1.0.0": {
@@ -6153,6 +6194,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -6160,7 +6202,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.IO.FileSystem": "4.0.1",
           "System.IO.FileSystem.AccessControl": "4.0.0",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
@@ -6196,7 +6238,7 @@
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
-          "withSIX.Api.Models": "2.0.8",
+          "withSIX.Api.Models": "2.0.9",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -6216,6 +6258,7 @@
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
           "System.Security.Cryptography.ProtectedData": "4.0.0",
+          "System.Threading.Tasks.Dataflow": "4.6.0",
           "withSIX.Api.Models": "2.0.8",
           "withSIX.ContentEngine.Core": "1.0.0",
           "withSIX.ContentEngine.Infra": "1.0.0",
@@ -6262,6 +6305,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "GameServerQuery": "1.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
@@ -6271,6 +6315,7 @@
           "withSIX.Core.Applications": "1.0.0",
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Plugin.Arma": "1.0.0",
+          "withSIX.Steam.Api": "1.0.0",
           "withSIX.Steam.Core": "1.0.0"
         }
       },
@@ -10645,6 +10690,21 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Threading.Tasks.Dataflow/4.6.0": {
+      "sha512": "2hRjGu2r2jxRZ55wmcHO/WbdX+YAOz9x6FE8xqkHZgPaoFMKQZRe9dk8xTZIas8fRjxRmzawnTEWIrhlM+Un7w==",
+      "type": "package",
+      "path": "System.Threading.Tasks.Dataflow/4.6.0",
+      "files": [
+        "System.Threading.Tasks.Dataflow.4.6.0.nupkg.sha512",
+        "System.Threading.Tasks.Dataflow.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/netstandard1.0/System.Threading.Tasks.Dataflow.XML",
+        "lib/netstandard1.0/System.Threading.Tasks.Dataflow.dll",
+        "lib/netstandard1.1/System.Threading.Tasks.Dataflow.XML",
+        "lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll"
+      ]
+    },
     "System.Threading.Tasks.Extensions/4.0.0": {
       "sha512": "pH4FZDsZQ/WmgJtN4LWYmRdJAEeVkyriSwrv2Teoe5FOU0Yxlb6II6GL8dBPOfRmutHGATduj3ooMt7dJ2+i+w==",
       "type": "package",
@@ -10956,13 +11016,13 @@
         "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
     },
-    "withSIX.Api.Models/2.0.8": {
-      "sha512": "eKmlt+Beyh7bHwBnT6uyE29s23WNemzP5z9g3743/EcB101VE8REMlUWFx0W46549UFm0Gs5pUIgGzmnD0EnAA==",
+    "withSIX.Api.Models/2.0.9": {
+      "sha512": "RQhA4+cW/YV2EWdug3G/bI1ReT+qFBAGRrmLmMA5KZ2Yp7QTD9Qh5z1UWOXO8/P4HLrOKzlbvPbET9zlM6UBvA==",
       "type": "package",
-      "path": "withSIX.Api.Models/2.0.8",
+      "path": "withSIX.Api.Models/2.0.9",
       "files": [
         "lib/netstandard1.3/withSIX.Api.Models.dll",
-        "withSIX.Api.Models.2.0.8.nupkg.sha512",
+        "withSIX.Api.Models.2.0.9.nupkg.sha512",
         "withSIX.Api.Models.nuspec"
       ]
     },
@@ -11069,7 +11129,7 @@
       "Mono.Options >= 4.4.0",
       "SimpleInjector >= 3.2.2",
       "log4net >= 2.0.5",
-      "withSIX.Api.Models >= 2.0.8"
+      "withSIX.Api.Models >= 2.0.9"
     ],
     ".NETFramework,Version=v4.6": [
       "withSIX.Core",

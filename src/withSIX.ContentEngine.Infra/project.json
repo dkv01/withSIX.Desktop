@@ -4,7 +4,7 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",
-    "withSIX.Api.Models": "2.0.8",
+    "withSIX.Api.Models": "2.0.9",
     "withSIX.ContentEngine.Core": "1.0.0-*",
     "withSIX.Core": "1.0.0-*",
     "withSIX.Core.Infra": "1.0.0-*"

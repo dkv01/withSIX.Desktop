@@ -4,6 +4,7 @@
 
 using AutoMapper;
 using GameServerQuery.Parsers;
+using withSIX.Api.Models.Servers;
 using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Core
@@ -11,9 +12,11 @@ namespace withSIX.Mini.Core
     public class AMProfile : Profile
     {
         public AMProfile() {
-            CreateMap<SourceParseResult, ServerInfo>()
-                .Include<SourceParseResult, ArmaServerInfo>();
-            CreateMap<SourceParseResult, ArmaServerInfo>();
+            CreateMap<SourceParseResult, Server>()
+                .Include<SourceParseResult, ArmaServer>()
+                .ForMember(x => x.Mission, opt => opt.MapFrom(src => src.Game + "." + src.Map))
+                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.Visibility > 0));
+            CreateMap<SourceParseResult, ArmaServer>();
         }
     }
 }
