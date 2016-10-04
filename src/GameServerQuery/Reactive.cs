@@ -327,7 +327,7 @@ namespace GameServerQuery
 
         public long ReadLong() {
             var r = BitConverter.ToInt64(_b, _pos);
-            _pos += 4;
+            _pos += 8;
             return r;
         }
 
