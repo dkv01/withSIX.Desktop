@@ -14,6 +14,7 @@ namespace GameServerQuery.Parsers
     {
         public ServerQueryResult ParsePackets(IResult r) {
             var s = ParseSettings(r.ReceivedPackets[0]);
+            s.Address = r.Endpoint; // todo
             if (r.ReceivedPackets.Count > 1)
                 s.Rules = r.ReceivedPackets[1];
 
