@@ -65,12 +65,12 @@ namespace withSIX.Steam.Api.Services
         private async Task SetupSteam(uint appId, Func<IScheduler, Task> initialize, Action simulate) {
             Contract.Requires<ArgumentException>(appId > 0);
 
+            _safeCall = LockedWrapper.callFactory.Create();
             await SetupAppId(appId).ConfigureAwait(false);
             StartSteamIfRequiredAndConfirm();
             _scheduler = new EventLoopScheduler();
             await initialize(_scheduler).ConfigureAwait(false);
 
-            _safeCall = LockedWrapper.callFactory.Create();
             _callbackRunner = CreateCallbackRunner(simulate, _cts.Token);
         }
 
