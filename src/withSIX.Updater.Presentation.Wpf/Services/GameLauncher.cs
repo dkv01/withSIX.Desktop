@@ -17,6 +17,7 @@ using withSIX.Core.Presentation;
 using withSIX.Play.Core.Games.Legacy;
 using SteamWrapper;
 using Syringe;
+using withSIX.Core.Presentation.Wpf.Services;
 
 namespace withSIX.Updater.Presentation.Wpf.Services
 {
@@ -68,7 +69,7 @@ namespace withSIX.Updater.Presentation.Wpf.Services
 
         void SetAffinity() {
             try {
-                Tools.Processes.SetAffinity(_launchedGame, _spec.Affinity);
+                Tools.ProcessManager.Management.SetAffinity(_launchedGame, _spec.Affinity);
             } catch (InvalidOperationException ex) {
                 MainLog.Logger.FormattedWarnException(ex, "Error while trying to set process affinity");
             }
@@ -162,7 +163,7 @@ namespace withSIX.Updater.Presentation.Wpf.Services
                 _isSteamRunning = processes.Any();
         }
 
-        static Process[] GetSteamProcesses() => Tools.Processes.FindProcess(SteamInfos.SteamExecutable);
+        static Process[] GetSteamProcesses() => Tools.ProcessManager.Management.FindProcess(SteamInfos.SteamExecutable);
 
         bool IsSteamStartRequired() => !_isSteamRunning && !_steamError;
 
@@ -186,7 +187,7 @@ namespace withSIX.Updater.Presentation.Wpf.Services
         void WaitForSteamProcess() {
             var tries = 0;
             while (!_isSteamRunning && tries < 10) {
-                if (Tools.Processes.FindProcess(SteamInfos.SteamServiceExecutable).Any())
+                if (Tools.ProcessManager.Management.FindProcess(SteamInfos.SteamServiceExecutable).Any())
                     _isSteamRunning = true;
 
                 Thread.Sleep(1000);

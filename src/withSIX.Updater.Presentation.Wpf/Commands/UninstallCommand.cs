@@ -5,6 +5,7 @@
 using System.Configuration.Install;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
+using withSIX.Updater.Presentation.Wpf.Services;
 
 namespace withSIX.Updater.Presentation.Wpf.Commands
 {

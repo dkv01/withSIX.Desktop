@@ -12,6 +12,7 @@ using withSIX.Core.Logging;
 using withSIX.Play.Core.Games.Entities;
 using withSIX.Play.Core.Games.Legacy.Missions;
 using withSIX.Sync.Core.Repositories;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Core.Games.Legacy
 {

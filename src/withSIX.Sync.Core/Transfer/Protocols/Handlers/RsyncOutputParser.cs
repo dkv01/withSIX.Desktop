@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 
 namespace withSIX.Sync.Core.Transfer.Protocols.Handlers

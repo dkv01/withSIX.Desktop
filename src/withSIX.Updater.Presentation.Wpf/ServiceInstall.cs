@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
 using withSIX.Core.Applications.Services;
+using withSIX.Updater.Presentation.Wpf.Services;
 
 namespace withSIX.Updater.Presentation.Wpf
 {

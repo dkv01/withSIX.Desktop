@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Core.Options.Filters
 {

@@ -23,6 +23,7 @@ using withSIX.Play.Core.Games.Legacy.Repo;
 using withSIX.Play.Core.Glue.Helpers;
 using withSIX.Play.Core.Options;
 using withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
@@ -151,7 +152,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
                     reset => {
                         lock (dst) {
                             lock (CollectionsGroup.Children)
-                                CollectionExtensions.RemoveAll(dst, GetCollections().ToArray());
+                                dst.RemoveAll(GetCollections().ToArray());
                             dst.AddRange(reset.Select(CreateCustomModSet));
                         }
                     }, predicate));
@@ -246,7 +247,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
             var add = repositories.Where(x => x.GameMatch() && !repos.Select(y => y.Model).Contains(x))
                 .Select(x => CreateCustomRepo(x, OnlineGroup)).ToArray();
             lock (OnlineGroup.Children) {
-                CollectionExtensions.RemoveAll(OnlineGroup.Children, remove);
+                OnlineGroup.Children.RemoveAll(remove);
                 OnlineGroup.Children.AddRange(add);
             }
         }

@@ -517,7 +517,9 @@ namespace withSIX.Play.Core.Games.Entities
             {
                 DomainEvilGlobal.NoteStorage.SetNotes(this, value);
                 _hasNotes = !string.IsNullOrEmpty(value);
-                new[] {"Notes", "HasNotes"}.ForEach(OnPropertyChanged);
+
+                // TODO
+                //new[] {"Notes", "HasNotes"}.ForEach(x  => OnPropertyChanged(x));
             }
         }
 

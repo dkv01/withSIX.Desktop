@@ -21,7 +21,7 @@ namespace withSIX.Play.Tests.Core.Unit.SyncTests.Protocols
         public void SetUp() {
             _webClient = A.Fake<IWebClient>();
             var factory = SharedSupport.CreateFakeWebClientExportFactory(_webClient);
-            Strategy = new HttpUploadProtocol(factory);
+            //Strategy = new HttpUploadProtocol(factory);
         }
 
         IWebClient _webClient;

@@ -16,7 +16,6 @@ using withSIX.ContentEngine.Core;
 using withSIX.Core.Presentation;
 using withSIX.Play.Core.Games.Legacy.Mods;
 using withSIX.ContentEngine.Infra;
-using withSIX.ContentEngine.Infra.UseCases;
 using withSIX.Core.Applications.Factories;
 using withSIX.Core.Presentation.Wpf.Legacy;
 using withSIX.Play.Tests.Core.Support;
@@ -25,6 +24,7 @@ using ILogger = withSIX.Core.Logging.ILogger;
 
 namespace withSIX.Play.Tests.Core.ContentEngine
 {
+    /*
     [TestFixture]
     public class ContentEngineTests
     {
@@ -126,4 +126,5 @@ namespace withSIX.Play.Tests.Core.ContentEngine
             public Container PublicContainer => Container;
         }
     }
+    */
 }

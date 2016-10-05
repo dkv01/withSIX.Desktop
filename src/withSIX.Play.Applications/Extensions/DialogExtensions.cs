@@ -18,6 +18,7 @@ using System.Windows.Media.Media3D;
 using Caliburn.Micro;
 using withSIX.Core.Extensions;
 using Action = System.Action;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Applications.Extensions
 {

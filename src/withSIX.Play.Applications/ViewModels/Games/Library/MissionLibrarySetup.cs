@@ -19,6 +19,7 @@ using withSIX.Play.Core.Games.Legacy;
 using withSIX.Play.Core.Games.Legacy.Missions;
 using withSIX.Play.Core.Options;
 using withSIX.Play.Core.Options.Entries;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Applications.ViewModels.Games.Library
 {
@@ -107,7 +108,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
 
         void ResetLocalMissionContainers(IEnumerable<LocalMissionsContainer> reset) {
             lock (LocalGroup.Children) {
-                CollectionExtensions.RemoveAll(LocalGroup.Children, GetLocalMissions().ToArray());
+                LocalGroup.Children.RemoveAll(GetLocalMissions().ToArray());
                 LocalGroup.Children.AddRange(_gameFolders.Concat(reset.Select(x => CreateLocalItem(x))));
             }
         }
@@ -253,7 +254,7 @@ string path) => CreateLocalItem(new LocalMissionsContainer(name, path, _game), i
                 var items = LocalGroup.Children.OfType<ContentLibraryItemViewModel<LocalMissionsContainer>>().ToArray();
                 foreach (var contentLibraryItem in items)
                     contentLibraryItem.Model.Dispose();
-                CollectionExtensions.RemoveAll(LocalGroup.Children, items);
+                LocalGroup.Children.RemoveAll(items);
             }
 
             // free native resources

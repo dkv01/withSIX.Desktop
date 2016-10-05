@@ -10,7 +10,8 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation;
 using withSIX.Core.Presentation.Assemblies;
-using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Bridge.Logging;
 using withSIX.Core.Services;
 
 namespace withSIX.Sync.Presentation.Console

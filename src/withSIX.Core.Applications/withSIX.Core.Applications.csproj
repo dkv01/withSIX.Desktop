@@ -175,7 +175,6 @@
     <Compile Include="Services\Request.cs" />
     <Compile Include="Services\Restarter.cs" />
     <Compile Include="Services\SharedFilesInstaller.cs" />
-    <Compile Include="Services\SixElevatedServiceMisc.cs" />
     <Compile Include="Services\SixMessageBoxButton.cs" />
     <Compile Include="Services\SixMessageBoxResult.cs" />
     <Compile Include="Services\ToolsInstaller.cs" />

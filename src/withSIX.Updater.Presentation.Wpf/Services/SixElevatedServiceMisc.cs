@@ -2,9 +2,11 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace withSIX.Core.Applications.Services
+using System.Linq;
+using System.ServiceProcess;
+
+namespace withSIX.Updater.Presentation.Wpf.Services
 {
-    /*
     public static class SixElevatedServiceMisc
     {
         public static string SixElevatedServiceName = "SixElevatedService";
@@ -23,5 +25,4 @@ namespace withSIX.Core.Applications.Services
             return Controller.Status;
         }
     }
-    */
 }

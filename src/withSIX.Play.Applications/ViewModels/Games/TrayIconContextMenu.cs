@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications;
 using withSIX.Core.Applications.MVVM.Attributes;
 using withSIX.Core.Applications.MVVM.Extensions;

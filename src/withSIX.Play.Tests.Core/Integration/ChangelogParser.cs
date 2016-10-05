@@ -19,6 +19,7 @@ using withSIX.Play.Infra.Data.Services;
 using withSIX.Play.Tests.Core.Support;
 using withSIX.Sync.Core.Transfer;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Presentation.Bridge;
 
 namespace withSIX.Play.Tests.Core.Integration
 {

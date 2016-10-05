@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using NDepend.Path;
 using ReactiveUI;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Play.Core.Games.Legacy;
 using withSIX.Play.Core.Options.Entries;

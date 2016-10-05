@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Play.Core.Games.Entities.Requirements;
@@ -406,9 +407,10 @@ namespace withSIX.Play.Core.Games.Entities.RealVirtuality
                     _ifa == IfaState.Lite ? ifMainModFoldersLite : ifMainModFolders));
             }
 
-            static bool IsIronFrontFullOrLiteMod(IMod x) => ifMainModFolders.ContainsIgnoreCase(x.Name) || ifMainModFoldersLite.ContainsIgnoreCase(x.Name) ||
-       ifModFolders.ContainsIgnoreCase(x.Name)
-       || ifModFoldersLite.ContainsIgnoreCase(x.Name);
+            static bool IsIronFrontFullOrLiteMod(IMod x)
+                => ifMainModFolders.ContainsIgnoreCase(x.Name) || ifMainModFoldersLite.ContainsIgnoreCase(x.Name) ||
+                   ifModFolders.ContainsIgnoreCase(x.Name)
+                   || ifModFoldersLite.ContainsIgnoreCase(x.Name);
 
             static IEnumerable<IAbsoluteDirectoryPath> ExistingMods(IAbsoluteDirectoryPath[] paths, params string[] mods) => paths.Any()
     ? mods.Select(

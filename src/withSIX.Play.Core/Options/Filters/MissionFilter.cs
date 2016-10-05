@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using withSIX.Core.Extensions;
 using withSIX.Play.Core.Games.Legacy;
 using withSIX.Play.Core.Games.Legacy.Missions;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Core.Options.Filters
 {

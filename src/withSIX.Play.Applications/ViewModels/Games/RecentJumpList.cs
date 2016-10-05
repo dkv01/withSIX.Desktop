@@ -5,6 +5,7 @@
 using System;
 using System.Windows;
 using System.Windows.Shell;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.MVVM;
 using withSIX.Core.Applications.MVVM.Extensions;

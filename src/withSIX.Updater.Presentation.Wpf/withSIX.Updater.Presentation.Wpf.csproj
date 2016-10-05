@@ -498,6 +498,8 @@
     <Compile Include="Commands\UnpackSingleGZipCommand.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Services\GameLauncher.cs" />
+    <Compile Include="Services\IUpdaterWCF.cs" />
+    <Compile Include="Services\SixElevatedServiceMisc.cs" />
     <Compile Include="UpdaterApp.xaml.cs">
       <DependentUpon>UpdaterApp.xaml</DependentUpon>
     </Compile>

@@ -15,6 +15,7 @@ using withSIX.Play.Core.Games.Entities;
 using withSIX.Play.Core.Games.Legacy.Arma;
 using withSIX.Play.Core.Games.Legacy.Mods;
 using withSIX.Api.Models.Games;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Applications.Services
 {

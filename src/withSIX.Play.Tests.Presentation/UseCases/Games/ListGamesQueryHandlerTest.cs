@@ -11,7 +11,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using ReactiveUI;
 using withSIX.Core.Applications.Services;
-using withSIX.Core.Infra.Services;
 using withSIX.Play.Applications.DataModels.Games;
 using withSIX.Play.Applications.Services;
 using withSIX.Play.Applications.Services.Infrastructure;

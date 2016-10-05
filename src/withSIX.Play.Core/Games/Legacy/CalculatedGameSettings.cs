@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using NDepend.Path;
 using ReactiveUI;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;

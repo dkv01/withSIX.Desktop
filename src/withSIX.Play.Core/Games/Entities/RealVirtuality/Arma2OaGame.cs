@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Play.Core.Games.Legacy;
 using withSIX.Play.Core.Games.Legacy.Mods;

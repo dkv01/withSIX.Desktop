@@ -9,6 +9,7 @@ using NDepend.Path;
 using NUnit.Framework;
 using withSIX.Core;
 using withSIX.Core.Infra.Services;
+using withSIX.Core.Presentation.Bridge.Services;
 using withSIX.Play.Core.Options;
 using withSIX.Play.Infra.Data.Services;
 using withSIX.Play.Tests.Core.Support;
@@ -42,8 +43,8 @@ namespace withSIX.Play.Tests.Core.Integration.SyncTests
         public void DownloadFileFromHttp() {
             var webClientFactory = SharedSupport.CreateWebClientExportFactory();
 
-            DownloadWithStrategy("http://androidnetworktester.googlecode.com/files/1mb.txt",
-                new HttpDownloadProtocol(webClientFactory, A.Fake<Tools.FileTools.IFileOps>()));
+            //DownloadWithStrategy("http://androidnetworktester.googlecode.com/files/1mb.txt",
+              //  new HttpDownloadProtocol(webClientFactory, A.Fake<Tools.FileTools.IFileOps>()));
 
             File.Exists(TestFile).Should().BeTrue("because the file should be downloaded");
         }

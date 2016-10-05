@@ -13,6 +13,7 @@ using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Play.Core.Games.Entities;
 using withSIX.Play.Core.Games.Legacy.Mods;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Core.Options.Filters
 {

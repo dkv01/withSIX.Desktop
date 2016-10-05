@@ -19,6 +19,7 @@ using withSIX.Core.Presentation.Services;
 using withSIX.Core.Presentation.Wpf.Legacy;
 using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Updater.Presentation.Wpf.Services;
 
 namespace withSIX.Updater.Presentation.Wpf
 {

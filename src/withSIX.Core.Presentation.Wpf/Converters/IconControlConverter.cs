@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Presentation.Wpf.Views.Controls;
 

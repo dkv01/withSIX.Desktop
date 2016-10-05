@@ -2,9 +2,10 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-namespace withSIX.Core.Presentation.Services
+using System.ServiceModel;
+
+namespace withSIX.Updater.Presentation.Wpf.Services
 {
-    /*
     [ServiceContract]
     
     public interface IUpdaterWCF
@@ -15,5 +16,4 @@ namespace withSIX.Core.Presentation.Services
         [OperationContract]
         int LaunchGame(params string[] args);
     }
-    */
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Legacy;
-
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.Services;

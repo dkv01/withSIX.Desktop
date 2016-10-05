@@ -564,19 +564,6 @@ namespace withSIX.Core.Extensions
             return Version.TryParse(val, out result) ? result : default(Version);
         }
 
-        public static int? TryIntNullable(this string val) {
-            int result;
-            return int.TryParse(val, out result) ? (int?) result : null;
-        }
-
-        public static double TryDouble(this string val, NumberStyles numberStyle = NumberStyles.Float,
-            CultureInfo culture = null) {
-            if (culture == null)
-                culture = CultureInfo.InvariantCulture;
-            double result;
-            return double.TryParse(val, numberStyle, culture, out result) ? result : 0;
-        }
-
         public static long? TryLongNullable(this string val) {
             long result;
             return long.TryParse(val, out result) ? (long?) result : null;
@@ -627,9 +614,6 @@ namespace withSIX.Core.Extensions
 
             return (toCheck != null) && value.Contains(toCheck, comp);
         }
-
-        public static bool NullSafeContainsIgnoreCase(this string value, string toCheck)
-            => value.NullSafeContains(toCheck, StringComparison.CurrentCultureIgnoreCase);
 
         public static int NullSafeIndexOfIgnoreCase(this string value, string toCheck) {
             if (value == null)

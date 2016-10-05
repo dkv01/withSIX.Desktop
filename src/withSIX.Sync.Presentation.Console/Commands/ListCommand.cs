@@ -4,7 +4,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Sync.Core.Packages;
 using withSIX.Sync.Core.Repositories;

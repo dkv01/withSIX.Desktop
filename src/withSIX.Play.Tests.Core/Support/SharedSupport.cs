@@ -13,10 +13,10 @@ using NLog;
 using NLog.Config;
 using MediatR;
 using withSIX.Core;
-using withSIX.Core.Logging;
 using withSIX.Core.Infra.Services;
-using withSIX.Core.Presentation.Assemblies;
-using withSIX.Core.Presentation.Logging;
+using withSIX.Core.Presentation.Bridge;
+using withSIX.Core.Presentation.Bridge.Logging;
+using withSIX.Core.Presentation.Bridge.Services;
 using withSIX.Core.Presentation.Services;
 using withSIX.Core.Services;
 using withSIX.Core.Services.Infrastructure;
@@ -45,9 +45,11 @@ namespace withSIX.Play.Tests.Core.Support
             var ea = new EventAggregator();
             Cheat.SetServices(new CheatImpl(ea, new Mediator(null, null)));
             DomainEvilGlobal.Settings = new UserSettings();
+            /*
             Tools.RegisterServices(new ToolsServices(new ProcessManager(),
                 new Lazy<IWCFClient>(() => new WCFClient()),
                 new Lazy<IGeoIpService>(() => new GeoIpService()), new CompressionUtil()));
+                */
             ReSetupTools();
 
             if (!SingleSetup) {
@@ -58,9 +60,10 @@ namespace withSIX.Play.Tests.Core.Support
 
         static bool SingleSetup;
 
-        public static ExportFactory<IWebClient> CreateWebClientExportFactory() => new ExportFactory<IWebClient>(OnExportLifetimeContextCreator);
+        public static ExportLifetimeContext<IWebClient> CreateWebClientExportFactory() => null; //new ExportLifetimeContext<IWebClient>(OnExportLifetimeContextCreator);
 
-        public static ExportFactory<IWebClient> CreateFakeWebClientExportFactory(IWebClient webClient = null) => new ExportFactory<IWebClient>(() => OnExportLifetimeFakeContextCreator(webClient));
+        public static ExportLifetimeContext<IWebClient> CreateFakeWebClientExportFactory(IWebClient webClient = null)
+            => null; // new ExportLifetimeContext<IWebClient>(() => OnExportLifetimeFakeContextCreator(webClient));
 
         static Tuple<IWebClient, Action> OnExportLifetimeFakeContextCreator(IWebClient webClient = null) {
             if (webClient == null)
@@ -76,7 +79,6 @@ namespace withSIX.Play.Tests.Core.Support
         static void ReSetupTools() {
             Tools.Generic = new Tools.GenericTools();
             Tools.HashEncryption = new Tools.HashEncryptionTools();
-            Tools.Processes = new Tools.ProcessesTools();
             Tools.Transfer = new Tools.TransferTools();
         }
 

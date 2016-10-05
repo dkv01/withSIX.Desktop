@@ -26,6 +26,7 @@ using withSIX.Play.Core.Games.Legacy;
 using withSIX.Play.Core.Games.Legacy.Mods;
 using CollectionExtensions = withSIX.Core.Extensions.CollectionExtensions;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
+using withSIX.Api.Models.Extensions;
 
 namespace withSIX.Play.Applications.ViewModels.Games.Overlays
 {

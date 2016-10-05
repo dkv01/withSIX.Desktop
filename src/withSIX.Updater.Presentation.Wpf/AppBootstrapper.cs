@@ -31,6 +31,7 @@ using withSIX.Sync.Core.Repositories;
 using withSIX.Sync.Core.Transfer;
 using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Infra.Services;
 using withSIX.Core.Presentation.Bridge.Extensions;
 
 namespace withSIX.Updater.Presentation.Wpf
@@ -87,7 +88,7 @@ namespace withSIX.Updater.Presentation.Wpf
 
         protected override void AfterSetup() {
             base.AfterSetup();
-            DomainEvilGlobal.SecretData = Task.Run(() => BuildSecretData()).Result;
+            DomainEvilGlobal.SecretData = Task.Run(BuildSecretData).Result;
             DomainEvilGlobal.Settings = Container.GetInstance<IUserSettingsStorage>().TryLoadSettings();
         }
 
