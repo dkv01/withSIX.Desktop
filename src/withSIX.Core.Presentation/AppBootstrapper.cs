@@ -24,7 +24,9 @@ namespace withSIX.Core.Presentation
         public static void RegisterMessageBus(this Container container) {
             container.RegisterSingleton(new MessageBus());
             container.RegisterSingleton<IMessageBus>(container.GetInstance<MessageBus>);
+        }
 
+        public static void StartSQLite() {
             var l = Locator.CurrentMutable;
             // cant refer ReactiveUI atm until we put it into a package :)
             l.Register(() => new SimpleFilesystemProvider(), typeof(IFilesystemProvider), null);

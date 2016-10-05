@@ -82,6 +82,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             // cant refer ReactiveUI atm until we put it into a package :)
             //l.Register(() => null, typeof(IFilesystemProvider), null);
             withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
+            withSIX.Core.Presentation.AppBootstrapper.StartSQLite();
         }
 
 
