@@ -398,7 +398,6 @@
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
         "../packages/Mono.Options.4.4.0.0/lib/dnxcore/Mono.Options.dll": {},
-        "../packages/SimpleInjector.3.2.2/lib/net45/SimpleInjector.dll": {},
         "../packages/Splat.1.6.2/lib/Portable-net45+win+wpa81+wp80/Splat.dll": {},
         "bin/Release/withSIX.Mini.Presentation.Core.dll": {}
       },
@@ -490,6 +489,24 @@
       },
       "contentFiles": {
         "bin/Release/withSIX.Mini.Presentation.CoreCore.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "withSIX.Steam.Infra/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.3",
+      "compile": {
+        "bin/Release/withSIX.Steam.Infra.dll": {}
+      },
+      "runtime": {
+        "../packages/System.Text.Encodings.Web.4.0.0/lib/netstandard1.0/System.Text.Encodings.Web.dll": {},
+        "bin/Release/withSIX.Steam.Infra.dll": {}
+      },
+      "contentFiles": {
+        "bin/Release/withSIX.Steam.Infra.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
