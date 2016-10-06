@@ -82,6 +82,18 @@
           "lib/net45/MediatR.dll": {}
         }
       },
+      "Microsoft.AspNet.SignalR.Client/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "compile": {
+          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Cors/1.0.0": {
         "type": "package",
         "dependencies": {
@@ -617,6 +629,60 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.ComponentModel.DataAnnotations.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Core.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Net.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Numerics.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Runtime.Serialization.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.ServiceModel.Web.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.ServiceModel.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Windows.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Xml.Linq.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Xml.Serialization.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.Xml.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/System.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
+          "runtimes/aot/lib/netcore50/mscorlib.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "Microsoft.Win32.Primitives/4.0.1": {
@@ -844,6 +910,12 @@
         },
         "runtime": {
           "lib/net46/System.AppContext.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.AppContext.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "System.Buffers/4.0.0": {
@@ -945,6 +1017,12 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.Diagnostics.Contracts.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "System.Diagnostics.Debug/4.0.11": {
@@ -1015,6 +1093,10 @@
           "runtimes/win/lib/net46/System.Diagnostics.Process.dll": {
             "assetType": "runtime",
             "rid": "win"
+          },
+          "runtimes/win7/lib/netcore50/_._": {
+            "assetType": "runtime",
+            "rid": "win7"
           }
         }
       },
@@ -1194,6 +1276,10 @@
           "runtimes/win/lib/net46/System.IO.FileSystem.DriveInfo.dll": {
             "assetType": "runtime",
             "rid": "win"
+          },
+          "runtimes/win7/lib/netcore50/_._": {
+            "assetType": "runtime",
+            "rid": "win7"
           }
         }
       },
@@ -1233,6 +1319,10 @@
           "runtimes/win/lib/net46/System.IO.FileSystem.Watcher.dll": {
             "assetType": "runtime",
             "rid": "win"
+          },
+          "runtimes/win7/lib/netcore50/_._": {
+            "assetType": "runtime",
+            "rid": "win7"
           }
         }
       },
@@ -1258,6 +1348,12 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.Linq.Expressions.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "System.Net.Http/4.1.0": {
@@ -1326,6 +1422,10 @@
           "runtimes/win/lib/net46/System.Net.Ping.dll": {
             "assetType": "runtime",
             "rid": "win"
+          },
+          "runtimes/win7/lib/netcore50/_._": {
+            "assetType": "runtime",
+            "rid": "win7"
           }
         }
       },
@@ -1581,6 +1681,10 @@
           "lib/net45/System.Runtime.InteropServices.RuntimeInformation.dll": {}
         },
         "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.Runtime.InteropServices.RuntimeInformation.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          },
           "runtimes/unix/lib/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll": {
             "assetType": "runtime",
             "rid": "unix"
@@ -1629,6 +1733,12 @@
         },
         "runtime": {
           "lib/net46/System.Runtime.Serialization.Primitives.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.Runtime.Serialization.Primitives.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "System.Runtime.Serialization.Xml/4.1.1": {
@@ -1864,6 +1974,12 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.Threading.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "System.Threading.Tasks/4.0.11": {
@@ -1951,6 +2067,12 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {
+            "assetType": "runtime",
+            "rid": "aot"
+          }
         }
       },
       "withSIX.Api.Models/2.0.9": {
@@ -2208,6 +2330,7 @@
           "withSIX.Mini.Core": "1.0.0",
           "withSIX.Mini.Infra.Data": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
+          "withSIX.Steam.Infra": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
       },
@@ -2239,6 +2362,19 @@
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
           "withSIX.Core": "1.0.0"
+        }
+      },
+      "withSIX.Steam.Infra/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.3",
+        "dependencies": {
+          "Microsoft.AspNet.SignalR.Client": "2.2.1",
+          "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+          "NETStandard.Library": "1.6.0",
+          "withSIX.Api.Models": "2.0.9",
+          "withSIX.Core": "1.0.0",
+          "withSIX.Core.Infra": "1.0.0",
+          "withSIX.Steam.Core": "1.0.0"
         }
       },
       "withSIX.Steam.Plugin.Arma/1.0.0": {
@@ -2325,6 +2461,18 @@
         },
         "runtime": {
           "lib/net45/MediatR.dll": {}
+        }
+      },
+      "Microsoft.AspNet.SignalR.Client/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "compile": {
+          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
         }
       },
       "Microsoft.AspNetCore.Cors/1.0.0": {
@@ -4248,6 +4396,7 @@
           "withSIX.Mini.Core": "1.0.0",
           "withSIX.Mini.Infra.Data": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
+          "withSIX.Steam.Infra": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
       },
@@ -4279,6 +4428,19 @@
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
           "withSIX.Core": "1.0.0"
+        }
+      },
+      "withSIX.Steam.Infra/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.3",
+        "dependencies": {
+          "Microsoft.AspNet.SignalR.Client": "2.2.1",
+          "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+          "NETStandard.Library": "1.6.0",
+          "withSIX.Api.Models": "2.0.9",
+          "withSIX.Core": "1.0.0",
+          "withSIX.Core.Infra": "1.0.0",
+          "withSIX.Steam.Core": "1.0.0"
         }
       },
       "withSIX.Steam.Plugin.Arma/1.0.0": {
@@ -4365,6 +4527,18 @@
         },
         "runtime": {
           "lib/net45/MediatR.dll": {}
+        }
+      },
+      "Microsoft.AspNet.SignalR.Client/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "compile": {
+          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
         }
       },
       "Microsoft.AspNetCore.Cors/1.0.0": {
@@ -6288,6 +6462,7 @@
           "withSIX.Mini.Core": "1.0.0",
           "withSIX.Mini.Infra.Data": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
+          "withSIX.Steam.Infra": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
       },
@@ -6319,6 +6494,19 @@
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
           "withSIX.Core": "1.0.0"
+        }
+      },
+      "withSIX.Steam.Infra/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.3",
+        "dependencies": {
+          "Microsoft.AspNet.SignalR.Client": "2.2.1",
+          "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+          "NETStandard.Library": "1.6.0",
+          "withSIX.Api.Models": "2.0.9",
+          "withSIX.Core": "1.0.0",
+          "withSIX.Core.Infra": "1.0.0",
+          "withSIX.Steam.Core": "1.0.0"
         }
       },
       "withSIX.Steam.Plugin.Arma/1.0.0": {
@@ -6439,6 +6627,25 @@
         "MediatR.nuspec",
         "lib/net45/MediatR.dll",
         "lib/netstandard1.1/MediatR.dll"
+      ]
+    },
+    "Microsoft.AspNet.SignalR.Client/2.2.1": {
+      "sha512": "ecup1Ztcr9DnLOZo7VQb5ViM8tfip35Bi/IzIOc62KHLdWM5xr1tefOIeQ8sV8h4jF30PIOomFsTr/mSpuw+4Q==",
+      "type": "package",
+      "path": "Microsoft.AspNet.SignalR.Client/2.2.1",
+      "files": [
+        "Microsoft.AspNet.SignalR.Client.2.2.1.nupkg.sha512",
+        "Microsoft.AspNet.SignalR.Client.nuspec",
+        "lib/net40/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/net40/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/net45/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/net45/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/netcore50/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/netcore50/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/portable-net45+sl50+win+wpa81+wp80/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/portable-net45+sl50+win+wpa81+wp80/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/portable-win81+wpa81/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/portable-win81+wpa81/Microsoft.AspNet.SignalR.Client.dll"
       ]
     },
     "Microsoft.AspNetCore.Cors/1.0.0": {
@@ -11138,6 +11345,11 @@
       "type": "project",
       "path": "../withSIX.Steam.Core/project.json",
       "msbuildProject": "../withSIX.Steam.Core/withSIX.Steam.Core.csproj"
+    },
+    "withSIX.Steam.Infra/1.0.0": {
+      "type": "project",
+      "path": "../withSIX.Steam.Infra/project.json",
+      "msbuildProject": "../withSIX.Steam.Infra/withSIX.Steam.Infra.csproj"
     },
     "withSIX.Steam.Plugin.Arma/1.0.0": {
       "type": "project",

@@ -1,32 +1,36 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="SteamServiceSession.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR.Client;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
-using withSIX.Core.Infra.Services;
 using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Infra
 {
-    public interface ISteamServiceSession {
-        Task Start(uint appId);
+    public interface ISteamServiceSession
+    {
+        Task Start(uint appId, Uri uri);
         Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
     }
 
-    // TODO: Use factory to create based on choice
-
     public abstract class SteamServiceSession : ISteamServiceSession
     {
-        public abstract Task Start(uint appId);
+        public abstract Task Start(uint appId, Uri uri);
         public abstract Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
     }
 
-    public class SteamServiceSessionHttp : SteamServiceSession, IInfrastructureService
+    public class SteamServiceSessionHttp : SteamServiceSession
     {
-        public override Task Start(uint appId) {
+        private Uri _uri;
+
+        public override Task Start(uint appId, Uri uri) {
+            _uri = uri;
             // TODO: Test the connection? 
             return TaskExt.Default;
         }
@@ -36,24 +40,31 @@ namespace withSIX.Steam.Infra
                 IncludeDetails = true,
                 IncludeRules = inclExtendedDetails,
                 Addresses = ipEndPoints
-            }.PostJson<ServersInfo<T>>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
+            }.PostJson<ServersInfo<T>>(new Uri(_uri, "/api/get-server-info")).ConfigureAwait(false);
             return r;
         }
     }
 
-    public class SteamServiceSessionSignalR : SteamServiceSession, IInfrastructureService
+    public class SteamServiceSessionSignalR : SteamServiceSession
     {
-        public override Task Start(uint appId) {
-            // TODO: Open up the connection
-            return TaskExt.Default;
+        private HubConnection _con;
+        private IHubProxy _servers;
+
+        public override Task Start(uint appId, Uri uri) {
+            _con?.Stop();
+            _con?.Dispose();
+            var con = new HubConnection(new Uri(uri, "/signalr").ToString());
+            _servers = con.CreateHubProxy("ServerHub");
+            _con = con;
+            return con.Start();
         }
 
         public override async Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints) {
-            var r = await new {
+            var r = await _servers.Invoke<ServersInfo<T>>("GetServerInfo", new {
                 IncludeDetails = true,
                 IncludeRules = inclExtendedDetails,
                 Addresses = ipEndPoints
-            }.PostJson<ServersInfo<T>>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
+            }, Guid.NewGuid()).ConfigureAwait(false);
             return r;
         }
     }

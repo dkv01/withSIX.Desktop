@@ -31,7 +31,7 @@ namespace withSIX.Steam.Core.Services
 
     public interface ISteamServiceSession
     {
-        Task Start(uint appId);
+        Task Start(uint appId, Uri uri);
         Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
     }
 }

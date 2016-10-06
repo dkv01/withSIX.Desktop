@@ -64,7 +64,7 @@
           "target": "project"
         }
       },
-      "imports": "dnxcore50"
+      "imports": [ "netcore50", "dnxcore50" ]
     }
   }
 }

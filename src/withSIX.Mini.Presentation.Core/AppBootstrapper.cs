@@ -431,6 +431,8 @@ namespace withSIX.Mini.Presentation.Core
             RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<IHandleExceptionPlugin>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<Profile>(assemblies);
+            Container.RegisterSingleton<ISteamServiceSession, SteamServiceSessionSignalR>();
+
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(
                 () =>

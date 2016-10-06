@@ -22,6 +22,7 @@ namespace withSIX.Mini.Infra.Data.Services
         private readonly ISteamServiceSession _session;
         private static readonly AsyncLock _l = new AsyncLock();
         private static volatile bool _isRunning;
+        private static readonly Uri uri = new Uri("http://127.0.0.66:48667");
 
         public SteamHelperService(ISteamServiceSession session) {
             _session = session;
@@ -45,7 +46,7 @@ namespace withSIX.Mini.Infra.Data.Services
                         await drainer.Drain().ConfigureAwait(false);
                     }
                 }));
-                await _session.Start(appId).ConfigureAwait(false);
+                await _session.Start(appId, uri).ConfigureAwait(false);
                 _isRunning = true;
             }
         }
