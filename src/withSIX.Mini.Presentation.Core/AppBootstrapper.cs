@@ -48,6 +48,7 @@ using withSIX.Mini.Infra.Data.Services;
 using withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Core;
+using withSIX.Steam.Core.Services;
 using withSIX.Steam.Infra;
 using withSIX.Sync.Core;
 using withSIX.Sync.Core.Legacy;
