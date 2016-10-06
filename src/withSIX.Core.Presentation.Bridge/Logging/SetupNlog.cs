@@ -38,7 +38,7 @@ namespace withSIX.Core.Presentation.Bridge.Logging
             var config = new LoggingConfiguration();
             var target = CreateDefaultFileTarget(appName);
             config.AddTarget("logfile", target);
-            config.LoggingRules.Add(CreateDefaultLoggingRule(target));
+            config.LoggingRules.Add(CreateDefaultLoggingRule(target, LogLevel.Trace));
 
             if (ConfigurationManager.AppSettings["Logentries.Token"] != null)
                 SetupLogEntries(appName, config);
