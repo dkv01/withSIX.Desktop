@@ -12,6 +12,7 @@ namespace withSIX.Mini.Core.Games
 {
     public class ServerInfo<T> : Server
     {
+        public int Ping { get; set; }
         public T Details { get; set; }
     }
 

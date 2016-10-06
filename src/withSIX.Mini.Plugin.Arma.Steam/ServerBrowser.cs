@@ -46,14 +46,13 @@ namespace withSIX.Steam.Plugin.Arma
 
         public async Task<IObservable<ArmaServerInfo>> GetServersInclDetails(CancellationToken ct,
             ServerFilterWrap filter, bool inclRules) {
-            var dsp = new CompositeDisposable();
-            var obs = PrepareListener(ct, dsp, inclRules);
+            var obs = PrepareListener(ct, inclRules);
             await GetServerInfoInclDetails(filter).ConfigureAwait(false);
             return obs;
         }
 
-        private IConnectableObservable<ArmaServerInfo> PrepareListener(CancellationToken ct, CompositeDisposable dsp,
-            bool inclRules = false) {
+        private IConnectableObservable<ArmaServerInfo> PrepareListener(CancellationToken ct, bool inclRules = false) {
+            var dsp = new CompositeDisposable();
             var obs = BuildListener(dsp);
             if (inclRules)
                 obs = obs
