@@ -1,15 +1,19 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="GetServerInfo.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GameServerQuery;
 using MediatR;
 using withSIX.Core.Applications.Services;
-using withSIX.Mini.Plugin.Arma.Models;
+using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
-using System.Linq;
-using System.Reactive.Linq;
-using GameServerQuery;
 
 namespace withSIX.Steam.Presentation.Usecases
 {

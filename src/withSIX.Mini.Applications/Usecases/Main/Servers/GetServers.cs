@@ -13,6 +13,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {
@@ -27,7 +28,10 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
 
     public class GetServersHandler : ApiDbQueryBase, ICancellableAsyncRequestHandler<GetServers, BatchResult>
     {
-        public GetServersHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
+        private readonly IServerQueryFactory _sqf;
+        public GetServersHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf) : base(dbContextLocator) {
+            _sqf = sqf;
+        }
 
         public async Task<BatchResult> Handle(GetServers request, CancellationToken cancelToken) {
             var game = await GameContext.FindGameOrThrowAsync(request.Info).ConfigureAwait(false);
@@ -39,7 +43,7 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
                 DbContextLocator.GetApiContext()
                     .GetOrAddServers(game.Id, async () => {
                         fetched = true;
-                        return await sGame.GetServers(cancelToken).ConfigureAwait(false);
+                        return await sGame.GetServers(_sqf, cancelToken).ConfigureAwait(false);
                     })
                     .ConfigureAwait(false);
             if (!fetched) {

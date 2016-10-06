@@ -139,9 +139,11 @@
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\MediatorExtensions.cs" />
     <Compile Include="Extensions\UsecaseExecutorExtensions.cs" />
+    <Compile Include="Factories\AbstractFactory.cs" />
     <Compile Include="Factories\GameLauncherFactory.cs" />
     <Compile Include="Factories\GameSettingsFactory.cs" />
     <Compile Include="Factories\InstallerSessionFactory.cs" />
+    <Compile Include="Factories\ServerQueryFactory.cs" />
     <Compile Include="GameExceptionHandler.cs" />
     <Compile Include="GameWriteLockDecorator.cs" />
     <Compile Include="Initializer.cs" />

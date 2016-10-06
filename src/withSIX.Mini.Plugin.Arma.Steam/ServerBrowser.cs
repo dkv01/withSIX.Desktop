@@ -17,6 +17,7 @@ using GameServerQuery.Games.RV;
 using SteamLayerWrap;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Plugin.Arma.Models;
+using withSIX.Mini.Plugin.Arma.Services;
 using ServerModInfo = SteamLayerWrap.ServerModInfo;
 
 namespace withSIX.Steam.Plugin.Arma
@@ -271,13 +272,14 @@ namespace withSIX.Steam.Plugin.Arma
     public class ArmaServerInfo : ArmaServerInfoModel
     {
         static ArmaServerInfo() {
-            var dictionary = new Dictionary<DLC, Dlcs>();
-            dictionary.Add(DLC.EKart, Dlcs.Karts);
-            dictionary.Add(DLC.EHeli, Dlcs.Helicopters);
-            dictionary.Add(DLC.EMarksmen, Dlcs.Marksmen);
-            dictionary.Add(DLC.EZeus, Dlcs.Zeus);
-            dictionary.Add(DLC.EExpansion, Dlcs.Apex);
-            dictionary.Add(DLC.ETanoa, Dlcs.Tanoa);
+            var dictionary = new Dictionary<DLC, Dlcs> {
+                {DLC.EKart, Dlcs.Karts},
+                {DLC.EHeli, Dlcs.Helicopters},
+                {DLC.EMarksmen, Dlcs.Marksmen},
+                {DLC.EZeus, Dlcs.Zeus},
+                {DLC.EExpansion, Dlcs.Apex},
+                {DLC.ETanoa, Dlcs.Tanoa}
+            };
             NativeToManagedDlcMap = dictionary;
         }
 

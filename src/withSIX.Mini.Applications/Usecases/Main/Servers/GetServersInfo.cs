@@ -11,6 +11,7 @@ using withSIX.Api.Models.Exceptions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {
@@ -25,7 +26,10 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
 
     public class GetServersInfoHandler : ApiDbQueryBase, IAsyncRequestHandler<GetServersInfo, ServersInfo>
     {
-        public GetServersInfoHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
+        private readonly IServerQueryFactory _sqf;
+        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf) : base(dbContextLocator) {
+            _sqf = sqf;
+        }
 
         public async Task<ServersInfo> Handle(GetServersInfo request) {
             var game = await GameContext.FindGameOrThrowAsync(request.Info).ConfigureAwait(false);
@@ -35,7 +39,7 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
             return new ServersInfo {
                 Servers =
                     await
-                        sGame.GetServerInfos(request.Info.Addresses, request.Info.IncludePlayers).ConfigureAwait(false)
+                        sGame.GetServerInfos(_sqf, request.Info.Addresses, request.Info.IncludePlayers).ConfigureAwait(false)
             };
         }
     }

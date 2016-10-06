@@ -29,6 +29,7 @@ using withSIX.Core.Services.Infrastructure;
 using withSIX.Mini.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Plugin.Starbound.Models
 {
@@ -58,14 +59,13 @@ namespace withSIX.Mini.Plugin.Starbound.Models
                     : Metadata.GetServerExecutables().Skip(1).ToArray());
         }
 
-        public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
+        public async Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken) {
             var master = new SourceMasterQuery(new ServerFilterBuilder().FilterByGame("starbound").Value);
             var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
             return r;
         }
 
-        public async Task<List<Server>> GetServerInfos(IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclExtendedDetails = false) {
+        public async Task<List<Server>> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails = false) {
             var infos = new List<Server>();
             // TODO: Multi
             var q = new ReactiveSource();
