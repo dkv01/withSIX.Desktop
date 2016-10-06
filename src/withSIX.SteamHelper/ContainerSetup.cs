@@ -19,6 +19,7 @@ using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Core.Presentation.Decorators;
+using withSIX.Core.Presentation.Services;
 using withSIX.Core.Services;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Presentation.Core;
@@ -73,6 +74,7 @@ namespace withSIX.Steam.Presentation
             _container.RegisterSingleton<IActionDispatcher>(
                 () => new ActionDispatcher(_container.GetInstance<IMediator>(), null));
             BootstrapperBridge.RegisterMessageBus(_container);
+            _container.RegisterSingleton<IMessageBusProxy, MessageBusProxy>();
             _container.RegisterSingleton<ISteamHelper>(SteamHelper.Create());
             _container.RegisterPlugins<IHandleExceptionPlugin>(_assemblies, Lifestyle.Singleton);
             _container.RegisterSingleton<ISteamSessionFactory, SteamSession.SteamSessionFactory>();
