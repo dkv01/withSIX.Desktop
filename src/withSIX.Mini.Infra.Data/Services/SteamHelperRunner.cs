@@ -12,7 +12,7 @@ using withSIX.Core.Services.Infrastructure;
 using withSIX.Steam.Core;
 using withSIX.Steam.Core.Services;
 
-namespace withSIX.Steam.Api.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
     public class SteamHelperRunner : ISteamHelperRunner, IInfrastructureService
     {

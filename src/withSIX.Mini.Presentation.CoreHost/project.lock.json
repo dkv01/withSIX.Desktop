@@ -1058,7 +1058,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "sharpcompress/0.12.4": {
+      "SharpCompress/0.13.1": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -3538,10 +3538,10 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+          "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+          "SharpCompress": "0.13.1",
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
-          "sharpcompress": "0.12.4",
           "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -5290,7 +5290,7 @@
           "runtimes/unix/lib/netstandard1.5/System.Runtime.Extensions.dll": {}
         }
       },
-      "sharpcompress/0.12.4": {
+      "SharpCompress/0.13.1": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -7608,10 +7608,10 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+          "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+          "SharpCompress": "0.13.1",
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
-          "sharpcompress": "0.12.4",
           "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -9447,7 +9447,7 @@
           "runtimes/win/lib/netstandard1.0/System.Private.Uri.dll": {}
         }
       },
-      "sharpcompress/0.12.4": {
+      "SharpCompress/0.13.1": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -11765,10 +11765,10 @@
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "1.0.1",
+          "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+          "SharpCompress": "0.13.1",
           "SimpleInjector": "3.2.2",
           "System.Diagnostics.Contracts": "4.0.1",
-          "sharpcompress": "0.12.4",
           "withSIX.Api.Models": "2.0.9",
           "withSIX.Core": "1.0.0",
           "withSIX.Core.Applications": "1.0.0",
@@ -14050,12 +14050,12 @@
         "runtimes/win/lib/netstandard1.0/System.Private.Uri.dll"
       ]
     },
-    "sharpcompress/0.12.4": {
-      "sha512": "L5k2NfkJ94Zb4S0649DbJgRNy3MkaLig27UcFCcCoN3RdgOl73ViFLqgUFHw4D3gDZBIqbk3ZJZIBwOH8LHKkA==",
+    "SharpCompress/0.13.1": {
+      "sha512": "mqK00buBuROt3xsWaKMiLP/GSVd9U/qNaZSd5d/fOb0ajBKvfsIDOcKNles6D3D1dfj3zDtLppwhIYzJRzzcaQ==",
       "type": "package",
-      "path": "sharpcompress/0.12.4",
+      "path": "SharpCompress/0.13.1",
       "files": [
-        "SharpCompress.0.12.4.nupkg.sha512",
+        "SharpCompress.0.13.1.nupkg.sha512",
         "SharpCompress.nuspec",
         "lib/net35/SharpCompress.dll",
         "lib/net40/SharpCompress.dll",

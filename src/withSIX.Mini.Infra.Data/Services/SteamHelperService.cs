@@ -15,7 +15,7 @@ using withSIX.Core.Helpers;
 using withSIX.Core.Infra.Services;
 using withSIX.Steam.Core.Services;
 
-namespace withSIX.Steam.Api.Services
+namespace withSIX.Mini.Infra.Data.Services
 {
 
     public class SteamHelperService : ISteamHelperService, IInfrastructureService

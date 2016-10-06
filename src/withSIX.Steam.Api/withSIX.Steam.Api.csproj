@@ -135,8 +135,6 @@
     <Compile Include="PublishedFile.cs" />
     <Compile Include="Services\SteamApi.cs" />
     <Compile Include="Services\SteamDownloader.cs" />
-    <Compile Include="Services\SteamHelperRunner.cs" />
-    <Compile Include="Services\SteamHelperService.cs" />
     <Compile Include="Services\SteamSession.cs" />
     <Compile Include="Services\SteamUploader.cs" />
   </ItemGroup>

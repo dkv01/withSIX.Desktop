@@ -17,6 +17,8 @@
     "withSIX.Mini.Presentation.Owin.Core": "1.0.0-*"
   },
   "frameworks": {
-    "netstandard1.6": {}
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
   }
 }

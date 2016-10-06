@@ -63,8 +63,8 @@
         "withSIX.Steam.Plugin.Arma": {
           "target": "project"
         }
-      }
-      //"imports": "dnxcore50"
+      },
+      "imports": "dnxcore50"
     }
   }
 }
