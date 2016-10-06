@@ -173,7 +173,9 @@ namespace withSIX.Mini.Infra.Data.Services
             public IDictionary<Type, GameAttribute> GetGameTypesWithAttribute()
                 => FindGameTypes().ToDictionary(x => x, x => x.GetTypeInfo().GetCustomAttribute<GameAttribute>());
 
+            // TODO: Get the assemblies injected instead?
             IEnumerable<Type> FindGameTypes() => _ass.GetAllAssemblies()
+                .Where(x => x.GetName().Name.StartsWith("withSIX.Mini.Plugin."))
                 .SelectMany(x => _ass.GetTypes(x))
                 .Where(IsGameType);
 

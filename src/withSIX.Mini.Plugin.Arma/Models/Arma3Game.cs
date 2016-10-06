@@ -3,32 +3,27 @@
 // </copyright>
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
-using MediatR;
-using NDepend.Helpers;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using withSIX.Api.Models.Servers;
 using withSIX.Core.Applications;
-using withSIX.Core.Extensions;
-using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
-using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Mini.Plugin.Arma.Attributes;
+using withSIX.Mini.Plugin.Arma.Services;
 
 namespace withSIX.Mini.Plugin.Arma.Models
 {
@@ -45,21 +40,18 @@ namespace withSIX.Mini.Plugin.Arma.Models
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb" /*GameUUids.Arma3 */)
     ]
     [DataContract]
-    public class Arma3Game : Arma2OaGame, IQueryServers
+    public class Arma3Game : Arma2OaGame, IQueryServers, IServerQueryWith<IArmaServerQuery>
     {
         const string BattleEyeExe = "arma3battleye.exe";
         public static readonly string[] Arma2TerrainPacks = {
             "@A3Mp", "@AllInArmaTerrainPack",
             "@AllInArmaTerrainPackLite", "@cup_terrains_core"
         };
-        private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
         private static readonly string[] getCompatibilityMods = {"@AllInArmaStandaloneLite"};
         private static readonly string[] getCompatibilityTerrains = {"@cup_terrains_core"};
 
         static readonly string[] emptyAddons = new string[0];
 
-        private static readonly AsyncLock _l = new AsyncLock();
-        private static volatile bool _isRunning;
         readonly string[] _a3MpCategories = {"Island", "Objects (Buildings, Foliage, Trees etc)"};
         private readonly Guid[] _getCompatibleGameIds;
         readonly string[] _objectCategories = {"Objects (Buildings, Foliage, Trees etc)"};
@@ -73,7 +65,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         protected override string[] BeGameParam { get; } = {"2", "1"};
 
-        public async Task<List<IPEndPoint>> GetServers(CancellationToken cancelToken) {
+        public async Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken) {
             var f = ServerFilterBuilder.Build()
                 .FilterByGame("arma3");
             var master = new SourceMasterQuery(f.Value);
@@ -89,94 +81,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
             return r.ToList();
         }
 
-        public Task<List<Server>> GetServerInfos(
-                System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses,
-                bool inclExtendedDetails = false)
-            => inclExtendedDetails
-                ? GetFromSteam(addresses, inclExtendedDetails)
-                : GetFromGameServerQuery(addresses, inclExtendedDetails);
-
-        private async Task<List<Server>> GetFromSteam(
-            System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails) {
-            await StartSteamHelper().ConfigureAwait(false);
-            // Ports adjusted becaused it expects the Connection Port!
-            var r = await new {
-                IncludeDetails = true,
-                IncludeRules = inclExtendedDetails,
-                Addresses = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList()
-            }.PostJson<ServersInfo>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
-            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<Server>();
-        }
-
-        private async Task StartSteamHelper() {
-            using (await _l.LockAsync().ConfigureAwait(false)) {
-                if (_isRunning)
-                    return;
-                var steamH = new SteamHelperRunner();
-                var tcs = new TaskCompletionSource<Unit>();
-                using (var cts = new CancellationTokenSource()) {
-                    var t = TaskExt.StartLongRunningTask(
-                        async () => {
-                            try {
-                                await
-                                    steamH.RunHelperInternal(cts.Token,
-                                            steamH.GetHelperParameters("interactive", SteamInfo.AppId),
-                                            (process, s) => {
-                                                if (s.StartsWith("Now listening on:"))
-                                                    tcs.SetResult(Unit.Value);
-                                            }, (proces, s) => { })
-                                        .ConfigureAwait(false);
-                            } catch (Exception ex) {
-                                tcs.SetException(ex);
-                            } finally {
-                                // ReSharper disable once MethodSupportsCancellation
-                                using (await _l.LockAsync().ConfigureAwait(false))
-                                    _isRunning = false;
-                            }
-                        }, cts.Token);
-                    await tcs.Task;
-                    // ReSharper disable once MethodSupportsCancellation
-                    t = TaskExt.StartLongRunningTask(async () => {
-                        using (var drainer = new Drainer()) {
-                            await drainer.Drain().ConfigureAwait(false);
-                        }
-                    });
-                }
-                _isRunning = true;
-            }
-        }
-
-        public class ArmaServerWithPing : ArmaServer
-        {
-            public int Ping { get; set; }
-        }
-
-        private static async Task<List<Server>> GetFromGameServerQuery(
-            System.Collections.Generic.IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
-            var infos = new List<Server>();
-            var q = new ReactiveSource();
-            using (var client = q.CreateUdpClient())
-                foreach (var a in addresses) {
-                    var serverInfo = new ArmaServerWithPing { QueryAddress = a};
-                    infos.Add(serverInfo);
-                    try {
-                        var results = await q.ProcessResults(q.GetResults(new[] { serverInfo.QueryAddress }, client));
-                        var r = (SourceParseResult) results.Settings;
-                        r.MapTo(serverInfo);
-                        serverInfo.Ping = results.Ping;
-                        /*
-                        var tags = r.Keywords;
-                        if (tags != null) {
-                            var p = GameTags.Parse(tags);
-                            p.MapTo(server);
-                        }
-                        */
-                    } catch (Exception ex) {
-                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.QueryAddress);
-                    }
-                }
-            return infos;
-        }
+        public Task<List<Server>> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
+                bool inclExtendedDetails = false) => factory.Create(this).GetServers(SteamInfo.AppId, addresses, inclExtendedDetails);
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {
@@ -192,8 +98,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
             };
         }
 
-        private System.Collections.Generic.IReadOnlyCollection<IContentSpec<IInstallableContent>> HandleAia(
-            System.Collections.Generic.IReadOnlyCollection<IContentSpec<IInstallableContent>> content) {
+        private IReadOnlyCollection<IContentSpec<IInstallableContent>> HandleAia(
+            IReadOnlyCollection<IContentSpec<IInstallableContent>> content) {
             var info = new AiaInfo(content.Select(x => x.Content).OfType<IHavePackageName>().ToArray());
             var newModsList = content.ToList();
             if (info.HasAia() && info.HasCup()) {
@@ -207,8 +113,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
             return newModsList;
         }
 
-        private System.Collections.Generic.IReadOnlyCollection<ILaunchableContent> HandleAia(
-            System.Collections.Generic.IReadOnlyCollection<ILaunchableContent> content) {
+        private IReadOnlyCollection<ILaunchableContent> HandleAia(
+            IReadOnlyCollection<ILaunchableContent> content) {
             var info = new AiaInfo(content.OfType<IHavePackageName>().ToArray());
             var newModsList = content.ToList();
             if (info.HasAia() && info.HasCup()) {
@@ -222,7 +128,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
             return newModsList;
         }
 
-        protected override System.Collections.Generic.IReadOnlyCollection<ILaunchableContent> GetLaunchables(
+        protected override IReadOnlyCollection<ILaunchableContent> GetLaunchables(
                 ILaunchContentAction<IContent> action)
             => HandleAia(base.GetLaunchables(action));
 
@@ -231,24 +137,19 @@ namespace withSIX.Mini.Plugin.Arma.Models
         protected override IAbsoluteFilePath GetBattleEyeClientExectuable()
             => GetExecutable().GetBrotherFileWithName(BattleEyeExe);
 
-        public override System.Collections.Generic.IReadOnlyCollection<Guid> GetCompatibleGameIds()
+        public override IReadOnlyCollection<Guid> GetCompatibleGameIds()
             => _getCompatibleGameIds;
 
-        public override System.Collections.Generic.IReadOnlyCollection<string> GetCompatibilityMods(string packageName,
-                System.Collections.Generic.IReadOnlyCollection<string> tags)
+        public override IReadOnlyCollection<string> GetCompatibilityMods(string packageName,
+                IReadOnlyCollection<string> tags)
             => tags.Any(x => _objectCategories.ContainsIgnoreCase(x)) ? emptyAddons : TerrainsVsOther(tags);
 
         private string[] TerrainsVsOther(IEnumerable<string> tags)
             => tags.Any(x => _a3MpCategories.ContainsIgnoreCase(x)) ? getCompatibilityTerrains : getCompatibilityMods;
 
-        class ServersInfo
-        {
-            public List<ArmaServerInfoModel> Servers { get; set; }
-        }
-
         class AiaInfo
         {
-            public AiaInfo(System.Collections.Generic.IReadOnlyCollection<IHavePackageName> contentWithPackageNames) {
+            public AiaInfo(IReadOnlyCollection<IHavePackageName> contentWithPackageNames) {
                 const string allinarmaTp = "@AllInArmaTerrainPack";
                 const string allinarmaTpLite = "@AllInArmaTerrainPackLite";
                 const string cupTerrainCore = "@cup_terrains_core";
@@ -322,7 +223,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
             List<IAbsoluteDirectoryPath> _additional;
             List<IAbsoluteDirectoryPath> _additionalAiA;
             IfaState _ifa;
-            System.Collections.Generic.IReadOnlyCollection<IModContent> _nonAiaMods;
+            IReadOnlyCollection<IModContent> _nonAiaMods;
             // we dont need to support legacy AiA anymore with standalone available..
             /*
             public Arma3ModListBuilder(AllInArmaGames aiaGames)
@@ -496,74 +397,5 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 Full
             }
         }
-    }
-
-    public class ArmaServerInfoModel
-    {
-        public ArmaServerInfoModel(IPEndPoint queryEndpoint) {
-            QueryEndPoint = queryEndpoint;
-            ConnectionEndPoint = QueryEndPoint;
-            ModList = new List<ServerModInfo>();
-            SignatureList = new HashSet<string>();
-        }
-
-        public AiLevel AiLevel { get; set; }
-
-        public IPEndPoint ConnectionEndPoint { get; set; }
-
-        public int CurrentPlayers { get; set; }
-
-        public Difficulty Difficulty { get; set; }
-
-        public Dlcs DownloadableContent { get; set; }
-
-        public GameTags GameTags { get; set; }
-
-        public HelicopterFlightModel HelicopterFlightModel { get; set; }
-
-        public bool IsModListOverflowed { get; set; }
-
-        public bool IsSignatureListOverflowed { get; set; }
-
-        public bool IsThirdPersonViewEnabled { get; set; }
-
-        public bool IsVacEnabled { get; set; }
-
-        public bool IsWeaponCrosshairEnabled { get; set; }
-
-        public string Map { get; set; }
-
-        public int MaxPlayers { get; set; }
-
-        public string Mission { get; set; }
-
-        public List<ServerModInfo> ModList { get; set; }
-
-        public string Name { get; set; }
-
-        public int Ping { get; set; }
-
-        public IPEndPoint QueryEndPoint { get; }
-
-        public bool RequirePassword { get; set; }
-
-        public bool RequiresExpansionTerrain { get; set; }
-
-        public int ServerVersion { get; set; }
-
-        public HashSet<string> SignatureList { get; set; }
-
-        public string Tags { get; set; }
-
-        public bool ReceivedRules { get; set; }
-    }
-
-    public class ReceivedServerEvent : IEvent
-    {
-        public ReceivedServerEvent(ArmaServerInfoModel serverInfo) {
-            ServerInfo = serverInfo;
-        }
-
-        public ArmaServerInfoModel ServerInfo { get; }
     }
 }

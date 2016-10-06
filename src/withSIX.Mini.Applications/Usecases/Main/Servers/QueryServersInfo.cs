@@ -9,7 +9,6 @@ using MediatR;
 using withSIX.Api.Models.Servers;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {

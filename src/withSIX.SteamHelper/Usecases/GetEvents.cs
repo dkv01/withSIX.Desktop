@@ -27,8 +27,6 @@ namespace withSIX.Steam.Presentation.Usecases
         public static Task Raise(this IEvent evt) => Raiserr.AddEvent(evt);
     }
 
-
-
     public class RemoteEvent<T> : RemoteEventData where T : IEvent
     {
         public RemoteEvent(T evt) : base(evt.GetType().AssemblyQualifiedName) {

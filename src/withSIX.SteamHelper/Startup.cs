@@ -40,6 +40,7 @@ using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Logging;
+using withSIX.Steam.Presentation.Hubs;
 using withSIX.Steam.Presentation.Usecases;
 
 namespace withSIX.Steam.Presentation
@@ -180,10 +181,15 @@ namespace withSIX.Steam.Presentation
 
     public interface IMyHubHost
     {
+        IHubContext<ServerHub, IServerHubClient> ServerHub { get; }
     }
 
     public class MyHubHost : IMyHubHost
     {
+        public MyHubHost(IHubContext<ServerHub, IServerHubClient> serverHub) {
+            ServerHub = serverHub;
+        }
+        public IHubContext<ServerHub, IServerHubClient> ServerHub { get; }
     }
 
     public static class Extensions
@@ -242,7 +248,7 @@ namespace withSIX.Steam.Presentation
             public virtual IList<Assembly> GetAssemblies() {
                 if (_dependencyContext == null) {
                     // Use the entry assembly as the sole candidate.
-                    return new[] { _entryAssembly, typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly }; // , typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly
+                    return new[] { _entryAssembly }; // , typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly
                 }
 
                 return _dependencyContext

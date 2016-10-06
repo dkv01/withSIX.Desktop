@@ -19,6 +19,8 @@
     "withSIX.Mini.Presentation.Core": "1.0.0-*"
   },
   "frameworks": {
-    "netstandard1.3": {}
+    "netstandard1.3": {
+      "imports": "netcore50"
+    }
   }
 }

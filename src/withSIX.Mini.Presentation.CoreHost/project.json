@@ -112,7 +112,7 @@
           "target": "project"
         }
       },
-      "imports": [ "dnxcore50", "Portable-net45+win+wpa81+wp80" ]
+      "imports": [ "dnxcore50", "netcore50", "Portable-net45+win+wpa81+wp80" ]
     }
   }
 }

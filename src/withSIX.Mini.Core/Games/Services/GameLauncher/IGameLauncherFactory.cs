@@ -10,6 +10,15 @@ namespace withSIX.Mini.Core.Games.Services.GameLauncher
         T Create<T>(ILaunchWith<T> game) where T : class, IGameLauncher;
     }
 
+    public interface IServerQueryFactory
+    {
+        T Create<T>(IServerQueryWith<T> game) where T : class, IServerQuery;
+    }
+
+    public interface IServerQuery {}
+
+    public interface IServerQueryWith<T> {}
+
     /*    [ContractClassFor(typeof (IGameLauncherFactory))]
     public abstract class ContractClassForGameLauncherFactory : IGameLauncherFactory
     {

@@ -9,5 +9,6 @@ namespace withSIX.Core.Applications.Services
     public interface IMessageBusProxy
     {
         IObservable<T> Listen<T>();
+        void SendMessage<T>(T message, string contract = null);
     }
 }

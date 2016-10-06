@@ -9,6 +9,11 @@
     "withSIX.Api.Models": "2.0.9"
   },
   "frameworks": {
-    "netstandard1.3": {}
+    "netstandard1.3": {
+      "imports": [
+        "dnxcore50",
+        "Portable-net45+win+wpa81+wp80"
+      ]
+    }
   }
 }

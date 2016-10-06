@@ -8,6 +8,7 @@ using withSIX.Api.Models.Servers;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
+using withSIX.Mini.Plugin.Arma.Services;
 
 namespace withSIX.Mini.Plugin.Arma
 {

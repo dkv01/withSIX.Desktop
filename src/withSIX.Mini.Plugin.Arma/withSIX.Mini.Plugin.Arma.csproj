@@ -173,6 +173,7 @@
     <Compile Include="Models\TakeOnMarsGameSettings.cs" />
     <Compile Include="Models\TakeOnMarsStartupParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ArmaServerQurery.cs" />
     <Compile Include="Services\CommandAPI\CommandAPI.cs" />
     <Compile Include="Services\CommandAPI\Commands\ConnectCommand.cs" />
     <Compile Include="Services\CommandAPI\Commands\IArmaCommand.cs" />

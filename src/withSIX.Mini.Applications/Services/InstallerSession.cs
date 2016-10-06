@@ -23,10 +23,12 @@ using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Steam.Core.Services;
 using withSIX.Sync.Core;
 using withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using withSIX.Sync.Core.Legacy.Status;
@@ -93,10 +95,11 @@ namespace withSIX.Mini.Applications.Services
             new Dictionary<IPackagedContent, SpecificVersion>();
         private ProgressComponent _steamProcessing;
         private ProgressComponent _steamProgress;
+        private readonly ISteamHelperRunner _steamHelperRunner;
 
         public InstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
-            Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
-            IAuthProvider authProvider, IExternalFileDownloader dl) {
+            PremiumDelegate isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
+            IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner) {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
             if (toolsInstaller == null)
@@ -108,9 +111,10 @@ namespace withSIX.Mini.Applications.Services
             _statusChange = statusChange;
             _contentEngine = contentEngine;
             _dl = dl;
+            _steamHelperRunner = steamHelperRunner;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
-            _packageInstaller = new PackageInstaller(_action, isPremium);
+            _packageInstaller = new PackageInstaller(_action, () => isPremium());
             _sixSyncInstaller = new SixSyncInstaller(_action, TryLegacyStatusChange, authProvider);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
         }
@@ -525,7 +529,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 .GetComponents()
                 .OfType<ProgressLeaf>()
                 .ToArray();
-            var session = new SteamSession(_action, _steamContentToInstall, contentProgress);
+            var session = new SteamSession(_action, _steamContentToInstall, contentProgress, _steamHelperRunner);
             try {
                 await session.Install().ConfigureAwait(false);
             } finally {
@@ -638,12 +642,14 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private readonly IInstallContentAction<IInstallableContent> _action;
             private readonly ProgressLeaf[] _contentProgress;
             private readonly IDictionary<IPackagedContent, SpecificVersion> _steamContentToInstall;
+            private ISteamHelperRunner _steamHelperRunner;
 
             public SteamSession(IInstallContentAction<IInstallableContent> action,
-                IDictionary<IPackagedContent, SpecificVersion> steamContentToInstall, ProgressLeaf[] contentProgress) {
+                IDictionary<IPackagedContent, SpecificVersion> steamContentToInstall, ProgressLeaf[] contentProgress, ISteamHelperRunner steamHelperRunner) {
                 _action = action;
                 _steamContentToInstall = steamContentToInstall;
                 _contentProgress = contentProgress;
+                _steamHelperRunner = steamHelperRunner;
             }
 
             public async Task Install() {
@@ -672,7 +678,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                         // TODO: Specific Steam path retrieved from Steam info, and separate the custom content location
                         _steamContentToInstall.ToDictionary(
                             x => Convert.ToUInt64(x.Key.GetSource(_action.Game).PublisherId),
-                            x => _contentProgress[i++]));
+                            x => _contentProgress[i++]), _steamHelperRunner);
                 await session.Install(_action.CancelToken, _action.Force).ConfigureAwait(false);
             }
         }
@@ -920,18 +926,18 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private readonly uint _appId;
             private readonly Dictionary<ulong, ProgressLeaf> _content;
             private readonly SteamHelperParser _steamHelperParser;
-            private readonly SteamHelperRunner _steamHelperRunner;
+            private readonly ISteamHelperRunner _steamHelperRunner;
             private readonly IAbsoluteDirectoryPath _workshopPath;
 
             public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath,
-                Dictionary<ulong, ProgressLeaf> content) {
+                Dictionary<ulong, ProgressLeaf> content, ISteamHelperRunner steamHelperRunner) {
                 Contract.Requires<ArgumentNullException>(workshopPath != null);
                 Contract.Requires<ArgumentNullException>(content != null);
                 _appId = appId;
                 _workshopPath = workshopPath;
                 _content = content;
                 _steamHelperParser = new SteamHelperParser(content);
-                _steamHelperRunner = new SteamHelperRunner();
+                _steamHelperRunner = steamHelperRunner;
             }
 
             public Task Install(CancellationToken cancelToken, bool force) {
@@ -947,8 +953,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
             }
 
             private Task RunHelper(CancellationToken cancelToken, string cmd, params string[] options)
-                =>
-                _steamHelperRunner.RunHelperInternal(cancelToken, GetHelperParameters(cmd, options),
+                => _steamHelperRunner.RunHelperInternal(cancelToken, GetHelperParameters(cmd, options),
                     _steamHelperParser.ProcessProgress,
                     (process, s) => MainLog.Logger.Warn("SteamHelper ErrorOut: " + s));
 

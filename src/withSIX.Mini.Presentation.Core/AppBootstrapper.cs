@@ -48,6 +48,8 @@ using withSIX.Mini.Infra.Data.Services;
 using withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Core;
+using withSIX.Steam.Core.Services;
+using withSIX.Steam.Infra;
 using withSIX.Sync.Core;
 using withSIX.Sync.Core.Legacy;
 using withSIX.Sync.Core.Packages;
@@ -70,6 +72,7 @@ namespace withSIX.Mini.Presentation.Core
             typeof(IContentEngine).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] infraAssemblies = new[] {
+            typeof(SteamServiceSession).GetTypeInfo().Assembly,
             typeof(GameContext).GetTypeInfo().Assembly,
             typeof(ImageCacheManager).GetTypeInfo().Assembly,
             typeof(IContentEngineGameContext).GetTypeInfo().Assembly
@@ -429,6 +432,8 @@ namespace withSIX.Mini.Presentation.Core
             RegisterPlugins<IInitializer>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<IHandleExceptionPlugin>(assemblies, Lifestyle.Singleton);
             RegisterPlugins<Profile>(assemblies);
+            Container.RegisterSingleton<ISteamServiceSession, SteamServiceSessionSignalR>();
+
             // , Lifestyle.Singleton // fails
             Container.RegisterSingleton<IToolsInstaller>(
                 () =>
@@ -437,11 +442,7 @@ namespace withSIX.Mini.Presentation.Core
                             Container.GetInstance<IDialogManager>()),
                         _paths.ToolPath));
 
-            Container.RegisterSingleton<IINstallerSessionFactory>(
-                () =>
-                    new InstallerSessionFactory(() => _isPremium(), Container.GetInstance<IToolsCheat>(),
-                        Container.GetInstance<IContentEngine>(), Container.GetInstance<IAuthProvider>(),
-                        Container.GetInstance<IExternalFileDownloader>()));
+            Container.RegisterSingleton(() => new PremiumDelegate(_isPremium));
             Container.RegisterSingleton<IContentInstallationService>(
                 () =>
                     new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),

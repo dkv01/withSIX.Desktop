@@ -41,6 +41,7 @@
           "lib/netstandard1.1/MediatR.dll": {}
         }
       },
+      "Microsoft.AspNet.SignalR.Client/2.2.1": {},
       "Microsoft.CSharp/4.0.1": {
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -476,6 +477,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.ComponentModel.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/System.ComponentModel.Annotations.dll": {}
         }
       },
       "System.ComponentModel.Primitives/4.1.0": {
@@ -595,6 +599,20 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Diagnostics.Process.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux/lib/netstandard1.4/System.Diagnostics.Process.dll": {
+            "assetType": "runtime",
+            "rid": "linux"
+          },
+          "runtimes/osx/lib/netstandard1.4/System.Diagnostics.Process.dll": {
+            "assetType": "runtime",
+            "rid": "osx"
+          },
+          "runtimes/win/lib/netstandard1.4/System.Diagnostics.Process.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
         }
       },
       "System.Diagnostics.Tools/4.0.1": {
@@ -1319,6 +1337,9 @@
         },
         "compile": {
           "ref/netstandard1.3/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Reflection.TypeExtensions.dll": {}
         }
       },
       "System.Resources.ResourceManager/4.0.1": {
@@ -1431,6 +1452,9 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Runtime.Serialization.Formatters.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/System.Runtime.Serialization.Formatters.dll": {}
         }
       },
       "System.Runtime.Serialization.Primitives/4.1.1": {
@@ -1928,6 +1952,25 @@
         "MediatR.nuspec",
         "lib/net45/MediatR.dll",
         "lib/netstandard1.1/MediatR.dll"
+      ]
+    },
+    "Microsoft.AspNet.SignalR.Client/2.2.1": {
+      "sha512": "ecup1Ztcr9DnLOZo7VQb5ViM8tfip35Bi/IzIOc62KHLdWM5xr1tefOIeQ8sV8h4jF30PIOomFsTr/mSpuw+4Q==",
+      "type": "package",
+      "path": "Microsoft.AspNet.SignalR.Client/2.2.1",
+      "files": [
+        "Microsoft.AspNet.SignalR.Client.2.2.1.nupkg.sha512",
+        "Microsoft.AspNet.SignalR.Client.nuspec",
+        "lib/net40/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/net40/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/net45/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/net45/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/netcore50/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/netcore50/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/portable-net45+sl50+win+wpa81+wp80/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/portable-net45+sl50+win+wpa81+wp80/Microsoft.AspNet.SignalR.Client.dll",
+        "lib/portable-win81+wpa81/Microsoft.AspNet.SignalR.Client.XML",
+        "lib/portable-win81+wpa81/Microsoft.AspNet.SignalR.Client.dll"
       ]
     },
     "Microsoft.CSharp/4.0.1": {

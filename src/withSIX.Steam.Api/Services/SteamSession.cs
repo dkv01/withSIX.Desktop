@@ -3,13 +3,11 @@
 // </copyright>
 
 using System;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
