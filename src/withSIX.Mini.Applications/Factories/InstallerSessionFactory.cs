@@ -14,16 +14,18 @@ using withSIX.Sync.Core.Transfer;
 
 namespace withSIX.Mini.Applications.Factories
 {
+    public delegate bool PremiumDelegate();
+
     public class InstallerSessionFactory : IINstallerSessionFactory, IApplicationService
     {
         private readonly IAuthProvider _authProvider;
         readonly IContentEngine _contentEngine;
-        readonly Func<bool> _isPremium;
+        readonly PremiumDelegate _isPremium;
         readonly IToolsCheat _toolsInstaller;
         private readonly IExternalFileDownloader _dl;
-        private ISteamHelperRunner _steamHelperRunner;
+        private readonly ISteamHelperRunner _steamHelperRunner;
 
-        public InstallerSessionFactory(Func<bool> isPremium, IToolsCheat toolsInstaller,
+        public InstallerSessionFactory(PremiumDelegate isPremium, IToolsCheat toolsInstaller,
             IContentEngine contentEngine, IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner) {
             _isPremium = isPremium;
             _toolsInstaller = toolsInstaller;

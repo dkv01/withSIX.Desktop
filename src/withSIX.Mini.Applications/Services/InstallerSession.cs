@@ -23,6 +23,7 @@ using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
@@ -97,7 +98,7 @@ namespace withSIX.Mini.Applications.Services
         private readonly ISteamHelperRunner _steamHelperRunner;
 
         public InstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
-            Func<bool> isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
+            PremiumDelegate isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
             IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner) {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -113,7 +114,7 @@ namespace withSIX.Mini.Applications.Services
             _steamHelperRunner = steamHelperRunner;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
-            _packageInstaller = new PackageInstaller(_action, isPremium);
+            _packageInstaller = new PackageInstaller(_action, () => isPremium());
             _sixSyncInstaller = new SixSyncInstaller(_action, TryLegacyStatusChange, authProvider);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
         }

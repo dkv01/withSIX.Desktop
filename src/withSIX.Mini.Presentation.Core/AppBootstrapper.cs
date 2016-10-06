@@ -437,11 +437,7 @@ namespace withSIX.Mini.Presentation.Core
                             Container.GetInstance<IDialogManager>()),
                         _paths.ToolPath));
 
-            Container.RegisterSingleton<IINstallerSessionFactory>(
-                () =>
-                    new InstallerSessionFactory(() => _isPremium(), Container.GetInstance<IToolsCheat>(),
-                        Container.GetInstance<IContentEngine>(), Container.GetInstance<IAuthProvider>(),
-                        Container.GetInstance<IExternalFileDownloader>()));
+            Container.RegisterSingleton(new PremiumDelegate(_isPremium));
             Container.RegisterSingleton<IContentInstallationService>(
                 () =>
                     new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),
