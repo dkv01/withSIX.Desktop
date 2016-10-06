@@ -1,7 +1,3 @@
-// <copyright company="SIX Networks GmbH" file="SteamHelperRunner.cs">
-//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
-// </copyright>
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,12 +7,14 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
+using withSIX.Core.Infra.Services;
 using withSIX.Core.Services.Infrastructure;
 using withSIX.Steam.Core;
+using withSIX.Steam.Core.Services;
 
-namespace withSIX.Mini.Applications.Services
+namespace withSIX.Steam.Api.Services
 {
-    public class SteamHelperRunner
+    public class SteamHelperRunner : ISteamHelperRunner, IInfrastructureService
     {
         public async Task RunHelperInternal(CancellationToken cancelToken, IEnumerable<string> parameters,
             Action<Process, string> standardOutputAction, Action<Process, string> standardErrorAction) {

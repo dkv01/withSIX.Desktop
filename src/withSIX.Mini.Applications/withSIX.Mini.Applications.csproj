@@ -178,7 +178,6 @@
     <Compile Include="Services\ServiceRegistry.cs" />
     <Compile Include="Services\StateHandler.cs" />
     <Compile Include="Services\SteamDepotDownloader.cs" />
-    <Compile Include="Services\SteamHelperRunner.cs" />
     <Compile Include="Services\ToolsCheat.cs" />
     <Compile Include="Services\UninstallerSession.cs" />
     <Compile Include="SetupGameStuff.cs" />

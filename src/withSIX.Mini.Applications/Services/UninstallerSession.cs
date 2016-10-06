@@ -14,6 +14,7 @@ using withSIX.Core.Helpers;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using withSIX.Steam.Core.Services;
 using withSIX.Sync.Core.Legacy.Status;
 using withSIX.Sync.Core.Packages;
 using withSIX.Sync.Core.Repositories;
@@ -25,9 +26,11 @@ namespace withSIX.Mini.Applications.Services
         readonly IUninstallContentAction2<IUninstallableContent> _action;
         PackageManager _pm;
         Repository _repository;
+        private readonly ISteamHelperRunner _steamHelperRunner;
 
-        public UninstallerSession(IUninstallContentAction2<IUninstallableContent> action) {
+        public UninstallerSession(IUninstallContentAction2<IUninstallableContent> action, ISteamHelperRunner steamHelperRunner) {
             _action = action;
+            _steamHelperRunner = steamHelperRunner;
         }
 
         public async Task Uninstall() {
@@ -149,7 +152,7 @@ namespace withSIX.Mini.Applications.Services
                 Dictionary<ulong, ProgressLeaf> progressLeaves)
             =>
             new InstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
-                _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves);
+                _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves, _steamHelperRunner);
 
         IAbsoluteDirectoryPath GetRepositoryPath()
             => _action.Paths.RepositoryPath.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory);

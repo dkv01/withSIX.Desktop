@@ -191,7 +191,6 @@
     <Compile Include="Services\CommandAPI\Commands\ShutdownCommand.cs" />
     <Compile Include="Services\IronFrontInstaller.cs" />
     <Compile Include="Services\RealVirtualityLauncher.cs" />
-    <Compile Include="Services\SteamHelperService.cs" />
     <Compile Include="Services\UserconfigProcessor.cs" />
     <Compile Include="Services\WriteParFileInfo.cs" />
   </ItemGroup>
