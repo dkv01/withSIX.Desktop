@@ -13,12 +13,6 @@ using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Infra
 {
-    public interface ISteamServiceSession
-    {
-        Task Start(uint appId, Uri uri);
-        Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
-    }
-
     public abstract class SteamServiceSession : ISteamServiceSession
     {
         public abstract Task Start(uint appId, Uri uri);

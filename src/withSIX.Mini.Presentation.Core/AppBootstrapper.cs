@@ -441,7 +441,7 @@ namespace withSIX.Mini.Presentation.Core
                             Container.GetInstance<IDialogManager>()),
                         _paths.ToolPath));
 
-            Container.RegisterSingleton(new PremiumDelegate(_isPremium));
+            Container.RegisterSingleton(() => new PremiumDelegate(_isPremium));
             Container.RegisterSingleton<IContentInstallationService>(
                 () =>
                     new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),
