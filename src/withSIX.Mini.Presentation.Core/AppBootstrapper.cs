@@ -48,6 +48,7 @@ using withSIX.Mini.Infra.Data.Services;
 using withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Core;
+using withSIX.Steam.Infra;
 using withSIX.Sync.Core;
 using withSIX.Sync.Core.Legacy;
 using withSIX.Sync.Core.Packages;
@@ -70,6 +71,7 @@ namespace withSIX.Mini.Presentation.Core
             typeof(IContentEngine).GetTypeInfo().Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] infraAssemblies = new[] {
+            typeof(SteamServiceSession).GetTypeInfo().Assembly,
             typeof(GameContext).GetTypeInfo().Assembly,
             typeof(ImageCacheManager).GetTypeInfo().Assembly,
             typeof(IContentEngineGameContext).GetTypeInfo().Assembly

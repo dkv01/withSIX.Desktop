@@ -45,6 +45,7 @@
         <file src="..\..\..\bin\withSIX.Mini.Presentation.Shell.dll" target="lib\net45\withSIX.Mini.Presentation.Shell.dll" />
 		<file src="..\..\..\bin\withSIX.Steam.Core.dll" target="lib\net45\withSIX.Steam.Core.dll" />
 		<file src="..\..\..\bin\withSIX.Steam.Api.dll" target="lib\net45\withSIX.Steam.Api.dll" />
+		<file src="..\..\..\bin\withSIX.Steam.Infra.dll" target="lib\net45\withSIX.Steam.Infra.dll" />
         <file src="..\..\..\bin\withSIX.Sync.Core.dll" target="lib\net45\withSIX.Sync.Core.dll" />
 		
 		<file src="..\..\..\bin\withSIX.SteamHelper.exe" target="lib\net45\withSIX.SteamHelper.exe" />

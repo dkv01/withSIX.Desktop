@@ -208,6 +208,10 @@
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Steam.Infra\withSIX.Steam.Infra.csproj">
+      <Project>{5ACDEC54-063B-49CD-862B-709C9FE25B03}</Project>
+      <Name>withSIX.Steam.Infra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>withSIX.Sync.Core</Name>

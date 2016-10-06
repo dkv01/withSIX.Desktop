@@ -82,18 +82,6 @@
           "lib/net45/MediatR.dll": {}
         }
       },
-      "Microsoft.AspNet.SignalR.Client/2.2.1": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "6.0.4"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
-        }
-      },
       "Microsoft.AspNetCore.Cors/1.0.0": {
         "type": "package",
         "dependencies": {
@@ -2219,7 +2207,6 @@
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0",
           "withSIX.Mini.Infra.Data": "1.0.0",
-          "withSIX.Steam.Api": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -2228,7 +2215,6 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
-          "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Net.Requests": "4.0.11",
@@ -2339,18 +2325,6 @@
         },
         "runtime": {
           "lib/net45/MediatR.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR.Client/2.2.1": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "6.0.4"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
         }
       },
       "Microsoft.AspNetCore.Cors/1.0.0": {
@@ -4273,7 +4247,6 @@
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0",
           "withSIX.Mini.Infra.Data": "1.0.0",
-          "withSIX.Steam.Api": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -4282,7 +4255,6 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
-          "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Net.Requests": "4.0.11",
@@ -4393,18 +4365,6 @@
         },
         "runtime": {
           "lib/net45/MediatR.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR.Client/2.2.1": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "6.0.4"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.Client.dll": {}
         }
       },
       "Microsoft.AspNetCore.Cors/1.0.0": {
@@ -6327,7 +6287,6 @@
           "withSIX.Mini.Applications": "1.0.0",
           "withSIX.Mini.Core": "1.0.0",
           "withSIX.Mini.Infra.Data": "1.0.0",
-          "withSIX.Steam.Api": "1.0.0",
           "withSIX.Steam.Core": "1.0.0",
           "withSIX.Sync.Core": "1.0.0"
         }
@@ -6336,7 +6295,6 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
-          "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Net.Requests": "4.0.11",
@@ -6481,25 +6439,6 @@
         "MediatR.nuspec",
         "lib/net45/MediatR.dll",
         "lib/netstandard1.1/MediatR.dll"
-      ]
-    },
-    "Microsoft.AspNet.SignalR.Client/2.2.1": {
-      "sha512": "ecup1Ztcr9DnLOZo7VQb5ViM8tfip35Bi/IzIOc62KHLdWM5xr1tefOIeQ8sV8h4jF30PIOomFsTr/mSpuw+4Q==",
-      "type": "package",
-      "path": "Microsoft.AspNet.SignalR.Client/2.2.1",
-      "files": [
-        "Microsoft.AspNet.SignalR.Client.2.2.1.nupkg.sha512",
-        "Microsoft.AspNet.SignalR.Client.nuspec",
-        "lib/net40/Microsoft.AspNet.SignalR.Client.XML",
-        "lib/net40/Microsoft.AspNet.SignalR.Client.dll",
-        "lib/net45/Microsoft.AspNet.SignalR.Client.XML",
-        "lib/net45/Microsoft.AspNet.SignalR.Client.dll",
-        "lib/netcore50/Microsoft.AspNet.SignalR.Client.XML",
-        "lib/netcore50/Microsoft.AspNet.SignalR.Client.dll",
-        "lib/portable-net45+sl50+win+wpa81+wp80/Microsoft.AspNet.SignalR.Client.XML",
-        "lib/portable-net45+sl50+win+wpa81+wp80/Microsoft.AspNet.SignalR.Client.dll",
-        "lib/portable-win81+wpa81/Microsoft.AspNet.SignalR.Client.XML",
-        "lib/portable-win81+wpa81/Microsoft.AspNet.SignalR.Client.dll"
       ]
     },
     "Microsoft.AspNetCore.Cors/1.0.0": {

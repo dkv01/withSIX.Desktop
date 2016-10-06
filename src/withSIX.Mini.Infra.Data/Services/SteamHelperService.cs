@@ -17,21 +17,20 @@ using withSIX.Steam.Core.Services;
 
 namespace withSIX.Mini.Infra.Data.Services
 {
-
     public class SteamHelperService : ISteamHelperService, IInfrastructureService
     {
+        private readonly ISteamServiceSession _session;
         private static readonly AsyncLock _l = new AsyncLock();
         private static volatile bool _isRunning;
+
+        public SteamHelperService(ISteamServiceSession session) {
+            _session = session;
+        }
 
         public async Task<ServersInfo<T>> GetServers<T>(uint appId, bool inclExtendedDetails,
             List<IPEndPoint> ipEndPoints) {
             await StartSteamHelper(appId).ConfigureAwait(false);
-            var r = await new {
-                IncludeDetails = true,
-                IncludeRules = inclExtendedDetails,
-                Addresses = ipEndPoints
-            }.PostJson<ServersInfo<T>>(new Uri("http://127.0.0.66:48667/api/get-server-info")).ConfigureAwait(false);
-            return r;
+            return await _session.GetServers<T>(inclExtendedDetails, ipEndPoints).ConfigureAwait(false);
         }
 
         async Task StartSteamHelper(uint appId) {
@@ -46,6 +45,7 @@ namespace withSIX.Mini.Infra.Data.Services
                         await drainer.Drain().ConfigureAwait(false);
                     }
                 }));
+                await _session.Start(appId).ConfigureAwait(false);
                 _isRunning = true;
             }
         }

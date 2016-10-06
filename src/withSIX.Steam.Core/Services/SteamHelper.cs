@@ -28,4 +28,10 @@ namespace withSIX.Steam.Core.Services
 
         IEnumerable<string> GetHelperParameters(string command, uint appId, params string[] options);
     }
+
+    public interface ISteamServiceSession
+    {
+        Task Start(uint appId);
+        Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
+    }
 }
