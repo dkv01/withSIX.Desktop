@@ -61,6 +61,7 @@ namespace withSIX.Steam.Presentation
             yield return _container.GetInstance<RunInteractive>();
         }
 
+        // TODO: Use Assembly Discovery..
         void SetupContainer(Func<ISteamApi> steamApi) {
             _assemblies = new[] {Assembly.GetExecutingAssembly()};
             _container = new Container();
@@ -76,6 +77,7 @@ namespace withSIX.Steam.Presentation
             _container.RegisterPlugins<IHandleExceptionPlugin>(_assemblies, Lifestyle.Singleton);
             _container.RegisterSingleton<ISteamSessionFactory, SteamSession.SteamSessionFactory>();
             _container.RegisterSingleton<ISteamSessionLocator, SteamSession.SteamSessionFactory>();
+            _container.RegisterSingleton<IServiceMessenger, ServiceMessenger>();
             _container.RegisterSingleton<ISteamDownloader, SteamDownloader>();
             _container.RegisterSingleton<Api.Services.ISteamApi, SteamApi>();
             _container.RegisterSingleton(steamApi);
