@@ -242,7 +242,7 @@ namespace withSIX.Steam.Presentation
             public virtual IList<Assembly> GetAssemblies() {
                 if (_dependencyContext == null) {
                     // Use the entry assembly as the sole candidate.
-                    return new[] { _entryAssembly, typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly }; // , typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly
+                    return new[] { _entryAssembly }; // , typeof(HubCouldNotBeResolvedWorkaround).GetTypeInfo().Assembly
                 }
 
                 return _dependencyContext

@@ -50,7 +50,7 @@ namespace withSIX.Steam.Infra
             var con = new HubConnection(new Uri(uri, "/signalr").ToString());
             _servers = con.CreateHubProxy("ServerHub");
             _con = con;
-            return con.Start();
+            return con.Start(new DefaultHttpClient());
         }
 
         public override async Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints) {
