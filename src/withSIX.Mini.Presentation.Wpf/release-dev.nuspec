@@ -126,6 +126,7 @@
         <file src="..\packages\squirrel.windows.1.4.4\tools\Squirrel.exe" target="lib\net45\Squirrel.exe" />
 		
 		<!-- AUTOGEN -->
+<file src="bin\release\Microsoft.AspNet.SignalR.Client.dll" target="lib\net45\Microsoft.AspNet.SignalR.Client.dll" />
 <file src="bin\release\Microsoft.AspNetCore.Cors.dll" target="lib\net45\Microsoft.AspNetCore.Cors.dll" />
 <file src="bin\release\Microsoft.AspNetCore.Cryptography.Internal.dll" target="lib\net45\Microsoft.AspNetCore.Cryptography.Internal.dll" />
 <file src="bin\release\Microsoft.AspNetCore.DataProtection.Abstractions.dll" target="lib\net45\Microsoft.AspNetCore.DataProtection.Abstractions.dll" />
