@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Presentation.Usecases;
 
 namespace withSIX.Steam.Presentation.Hubs
@@ -13,5 +14,8 @@ namespace withSIX.Steam.Presentation.Hubs
         public Task<ServerInfo> GetServerInfo(GetServerInfo query, Guid requestId) => SendAsync(query, requestId);
     }
 
-    public interface IServerHubClient {}
+    public interface IServerHubClient
+    {
+        Task ServerReceived(ReceivedServerEvent receivedServerEvent);
+    }
 }

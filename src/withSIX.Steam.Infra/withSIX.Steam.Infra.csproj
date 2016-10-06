@@ -42,8 +42,14 @@
     <Compile Include="DefaultHttpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SteamServiceSession.cs" />
+    <Compile Include="SteamServiceSessionHttp.cs" />
+    <Compile Include="SteamServiceSessionSignalR.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
+      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
+      <Name>withSIX.Core.Applications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
       <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
       <Name>withSIX.Core.Infra</Name>

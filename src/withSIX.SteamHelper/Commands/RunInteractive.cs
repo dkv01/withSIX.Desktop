@@ -4,22 +4,32 @@
 
 using System;
 using System.Net;
+using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Games;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
+using withSIX.Core.Presentation;
+using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
+using withSIX.Steam.Presentation.Hubs;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 
 namespace withSIX.Steam.Presentation.Commands
 {
     public class RunInteractive : BaseSteamCommand
     {
+        private readonly IServiceMessenger _messenger;
         private readonly ISteamSessionFactory _steamSessionFactory;
 
-        public RunInteractive(ISteamSessionFactory steamSessionFactory) : base(steamSessionFactory) {
+        public RunInteractive(ISteamSessionFactory steamSessionFactory, IServiceMessenger messenger)
+            : base(steamSessionFactory) {
             IsCommand("interactive", "Run in interactive mode");
             _steamSessionFactory = steamSessionFactory;
+            _messenger = messenger;
         }
 
         public static ISteamApi SteamApi { get; private set; }
@@ -38,5 +48,26 @@ namespace withSIX.Steam.Presentation.Commands
 
         private static Task RunWebsite(CancellationToken ct)
             => new WebListener().Run(new IPEndPoint(IPAddress.Parse("127.0.0.66"), 48667), null, ct);
+    }
+
+    public interface IServiceMessenger {}
+
+    public class ServiceMessenger : IServiceMessenger, IPresentationService, IDisposable
+    {
+        private readonly CompositeDisposable _dsp;
+        private readonly Lazy<IHubContext<ServerHub, IServerHubClient>> _hubContext = SystemExtensions.CreateLazy(() =>
+                Extensions.ConnectionManager.ServerHub);
+
+        public ServiceMessenger(IMessageBusProxy mb) {
+            _dsp = new CompositeDisposable {
+                mb.Listen<ReceivedServerEvent>()
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x))
+                //_mb.Listen<ReceivedServerEvent>().Select(x => Observable.FromAsync(x.Raise)).Merge(1).Subscribe()
+            };
+        }
+
+        public void Dispose() {
+            _dsp.Dispose();
+        }
     }
 }

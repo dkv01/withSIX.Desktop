@@ -9,8 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core.Applications;
-using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Core.Infra.Services;
 using withSIX.Steam.Core.Services;
@@ -19,10 +17,10 @@ namespace withSIX.Mini.Infra.Data.Services
 {
     public class SteamHelperService : ISteamHelperService, IInfrastructureService
     {
-        private readonly ISteamServiceSession _session;
         private static readonly AsyncLock _l = new AsyncLock();
         private static volatile bool _isRunning;
         private static readonly Uri uri = new Uri("http://127.0.0.66:48667");
+        private readonly ISteamServiceSession _session;
 
         public SteamHelperService(ISteamServiceSession session) {
             _session = session;
@@ -40,12 +38,6 @@ namespace withSIX.Mini.Infra.Data.Services
                     return;
                 var steamH = new SteamHelperRunner();
                 await LaunchSteamHelper(appId, steamH).ConfigureAwait(false);
-                // ReSharper disable once MethodSupportsCancellation
-                var t2 = TaskExt.StartLongRunningTask((Func<Task>) (async () => {
-                    using (var drainer = new Drainer()) {
-                        await drainer.Drain().ConfigureAwait(false);
-                    }
-                }));
                 await _session.Start(appId, uri).ConfigureAwait(false);
                 _isRunning = true;
             }
@@ -55,7 +47,7 @@ namespace withSIX.Mini.Infra.Data.Services
             var tcs = new TaskCompletionSource<Unit>();
             using (var cts = new CancellationTokenSource()) {
                 var t = TaskExt.StartLongRunningTask(
-                    (Func<Task>) (async () => {
+                    async () => {
                         try {
                             await
                                 steamH.RunHelperInternal(cts.Token,
@@ -72,7 +64,7 @@ namespace withSIX.Mini.Infra.Data.Services
                             using (await _l.LockAsync().ConfigureAwait(false))
                                 _isRunning = false;
                         }
-                    }), cts.Token);
+                    }, cts.Token);
                 await tcs.Task;
             }
         }
