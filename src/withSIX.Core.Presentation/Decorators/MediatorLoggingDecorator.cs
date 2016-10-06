@@ -2,6 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
+using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -21,6 +23,7 @@ namespace withSIX.Core.Presentation.Decorators
         public MediatorLoggingDecorator(IMediator decorated) : base(decorated) {}
 
         public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+            Contract.Requires<ArgumentNullException>(request != null);
             using (
                 Decorated.Bench(
                     startMessage:
@@ -31,6 +34,7 @@ namespace withSIX.Core.Presentation.Decorators
         }
 
         public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+            Contract.Requires<ArgumentNullException>(request != null);
             using (Decorated.Bench(
                 startMessage:
                 "Writes: " + (request is IWrite) + ", Data: " +
@@ -41,6 +45,7 @@ namespace withSIX.Core.Presentation.Decorators
 
         public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
             CancellationToken cancellationToken) {
+            Contract.Requires<ArgumentNullException>(request != null);
             using (Decorated.Bench(
                 startMessage:
                 "Writes: " + (request is IWrite) + ", Data: " +

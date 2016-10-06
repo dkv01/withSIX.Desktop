@@ -334,18 +334,19 @@ namespace withSIX.Steam.Presentation
 
         private static readonly CancellationTokenMapping Mapping = new CancellationTokenMapping();
 
-        internal static async Task ProcessCancellableRequest<T, TOut>(this HttpContext context, Func<T, CancellationToken, Task<TOut>> handler) {
-            using (var memoryStream = new MemoryStream()) {
-                await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                var requestData = Encoding.UTF8.GetString(memoryStream.ToArray()).FromJson<T>();
-                var g = Guid.NewGuid(); // TODO: Get from request!
-                var ct = Mapping.AddToken(g);
-                try {
-                    var returnValue = await handler(requestData, ct).ConfigureAwait(false);
-                    await context.RespondJson(returnValue).ConfigureAwait(false);
-                } finally {
-                    Mapping.Remove(g);
-                }
+        internal static async Task ProcessCancellableRequest<T, TOut>(this HttpContext context,
+            Func<T, CancellationToken, Task<TOut>> handler) {
+            var requestData = await GetRequestData<T>(context).ConfigureAwait(false);
+
+            var g = context.Request.Query.ContainsKey("requestId")
+                ? Guid.Parse(context.Request.Query["requestId"])
+                : Guid.NewGuid();
+            var ct = Mapping.AddToken(g);
+            try {
+                var returnValue = await handler(requestData, ct).ConfigureAwait(false);
+                await context.RespondJson(returnValue).ConfigureAwait(false);
+            } finally {
+                Mapping.Remove(g);
             }
         }
 
@@ -356,12 +357,26 @@ namespace withSIX.Steam.Presentation
             });
 
         internal static async Task ProcessRequest<T, TOut>(this HttpContext context, Func<T, Task<TOut>> handler) {
-            using (var memoryStream = new MemoryStream()) {
-                await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
-                var requestData = Encoding.UTF8.GetString(memoryStream.ToArray()).FromJson<T>();
-                var returnValue = await handler(requestData).ConfigureAwait(false);
-                await context.RespondJson(returnValue).ConfigureAwait(false);
+            var requestData = await GetRequestData<T>(context).ConfigureAwait(false);
+            var returnValue = await handler(requestData).ConfigureAwait(false);
+            await context.RespondJson(returnValue).ConfigureAwait(false);
+        }
+
+        private static async Task<T> GetRequestData<T>(HttpContext context) {
+            T requestData;
+            if (context.Request.Method.ToLower() == "get") {
+                requestData = Activator.CreateInstance<T>(); // TODO: Create with Get variables
+            } else {
+                using (var memoryStream = new MemoryStream()) {
+                    await context.Request.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
+                    var body = Encoding.UTF8.GetString(memoryStream.ToArray());
+                    MainLog.Logger.Debug($"Received request body: {body}\nQS: {context.Request.QueryString}");
+                    requestData = body.FromJson<T>();
+                    if (requestData == null)
+                        throw new Exception("The request body object was somehow null!");
+                }
             }
+            return requestData;
         }
 
 

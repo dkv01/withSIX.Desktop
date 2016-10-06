@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Decorators;
 using withSIX.Core.Services;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Presentation.Core;
@@ -107,48 +109,6 @@ namespace withSIX.Steam.Presentation
                 //_container.RegisterSingleAllInterfacesAndType<>();
                 _container.RegisterCollection(h, _assemblies);
             }
-        }
-    }
-
-    public class MediatorLoggingDecorator : MediatorDecoratorBase, IMediator
-    {
-        protected static readonly JsonSerializerSettings JsonSerializerSettings = CreateJsonSerializerSettings();
-
-        public MediatorLoggingDecorator(IMediator decorated) : base(decorated) { }
-
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
-            using (
-                Decorated.Bench(
-                    startMessage:
-                    "Writes: " + (request is IWrite) + ", Data: " +
-                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
-                    caller: "Request" + ": " + request.GetType()))
-                return base.Send(request);
-        }
-
-        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
-            using (Decorated.Bench(
-                startMessage:
-                "Writes: " + (request is IWrite) + ", Data: " +
-                JsonConvert.SerializeObject(request, JsonSerializerSettings),
-                caller: "RequestAsync" + ": " + request.GetType()))
-                return await base.SendAsync(request).ConfigureAwait(false);
-        }
-
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) {
-            using (Decorated.Bench(
-                startMessage:
-                "Writes: " + (request is IWrite) + ", Data: " +
-                JsonConvert.SerializeObject(request, JsonSerializerSettings),
-                caller: "RequestAsync" + ": " + request.GetType()))
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-        }
-
-        static JsonSerializerSettings CreateJsonSerializerSettings() {
-            var settings = new JsonSerializerSettings().SetDefaultSettings();
-            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return settings;
         }
     }
 }

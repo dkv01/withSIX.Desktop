@@ -2,6 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
+using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -29,15 +31,31 @@ namespace withSIX.Core.Applications.Extensions
         /// <param name="request"></param>
         /// <returns></returns>
         public static Task<TResponseData> RequestAsyncWrapped<TResponseData>(this IMediator mediator,
-            IAsyncRequest<TResponseData> request) => Task.Run(() => mediator.SendAsync(request));
+            IAsyncRequest<TResponseData> request) {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(mediator != null);
+            return Task.Run(() => mediator.SendAsync(request));
+        }
 
         public static Task<TResponseData> RequestAsync<TResponseData>(this IMediator mediator,
-            ICompositeCommand<TResponseData> message) => message.Execute(mediator);
+            ICompositeCommand<TResponseData> message) {
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(mediator != null);
+            return message.Execute(mediator);
+        }
 
         public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message,
-            IMediator mediator) => mediator.SendAsync(message);
+            IMediator mediator) {
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(mediator != null);
+            return mediator.SendAsync(message);
+        }
 
         public static Task<TResponseData> Execute<TResponseData>(this ICancellableAsyncRequest<TResponseData> message,
-            IMediator mediator, CancellationToken cancelToken) => mediator.SendAsync(message, cancelToken);
+            IMediator mediator, CancellationToken cancelToken) {
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(mediator != null);
+            return mediator.SendAsync(message, cancelToken);
+        }
     }
 }

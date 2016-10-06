@@ -8,6 +8,7 @@ using MediatR;
 
 namespace withSIX.Core.Applications.Extensions
 {
+    // TODO: IWrappedMediator that adds contracts?
     public abstract class MediatorDecoratorBase : DecoratorBase<IMediator>, IMediator
     {
         protected MediatorDecoratorBase(IMediator decorated) : base(decorated) {}
