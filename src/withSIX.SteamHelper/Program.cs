@@ -20,7 +20,6 @@ namespace withSIX.Steam.Presentation
             try {
                 Common.Flags = new Common.StartupFlags(args, Environment.Is64BitOperatingSystem);
                 LoggingSetup.Setup("SteamHelper");
-                withSIX.Core.Applications.Services.ErrorHandlerr.SetExceptionHandler(new UnhandledExceptionHandler(Enumerable.Empty<IHandleExceptionPlugin>()));
                 using (var c = new ContainerSetup(() => RunInteractive.SteamApi)) {
                     Environment.Exit(new CommandRunner(c.GetCommands()).RunCommandsAndLog(args));
                 }
