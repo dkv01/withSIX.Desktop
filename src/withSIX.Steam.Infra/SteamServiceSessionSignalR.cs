@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Helpers;
 using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Infra
 {
     public class SteamServiceSessionSignalR : SteamServiceSession
     {
+        private readonly AsyncLock _l = new AsyncLock();
         private HubConnection _con;
+        private readonly DefaultHttpClient _defaultHttpClient = new DefaultHttpClient();
         private IHubProxy _servers;
 
         public override Task Start(uint appId, Uri uri) {
@@ -26,16 +29,26 @@ namespace withSIX.Steam.Infra
             };
             _servers = con.CreateHubProxy("ServerHub");
             _con = con;
-            return con.Start(new DefaultHttpClient());
+            return Connect();
         }
 
+        private Task Connect() => _con.Start(_defaultHttpClient);
+
         public override async Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints) {
+            await MakeSureConnected().ConfigureAwait(false);
             var r = await _servers.Invoke<ServersInfo<T>>("GetServerInfo", new {
                 IncludeDetails = true,
                 IncludeRules = inclExtendedDetails,
                 Addresses = ipEndPoints
             }, Guid.NewGuid()).ConfigureAwait(false);
             return r;
+        }
+
+        private async Task MakeSureConnected() {
+            using (await _l.LockAsync().ConfigureAwait(false)) {
+                if (_con.State == ConnectionState.Disconnected)
+                    await Connect().ConfigureAwait(false);
+            }
         }
     }
 }
