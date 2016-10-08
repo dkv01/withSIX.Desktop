@@ -55,7 +55,7 @@ namespace withSIX.Mini.Infra.Data.Services
                             await
                                 steamH.RunHelperInternal(cts.Token,
                                         steamH.GetHelperParameters("interactive", appId)
-                                            .Concat(new[] {"-Address", "127.0.0.66:48667"}),
+                                            .Concat(new[] {"-b", "127.0.0.66:48667"}),
                                         (process, s) => {
                                             if (s.StartsWith("Now listening on:"))
                                                 tcs.SetResult(Unit.Value);

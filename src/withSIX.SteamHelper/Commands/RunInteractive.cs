@@ -29,12 +29,12 @@ namespace withSIX.Steam.Presentation.Commands
         public RunInteractive(ISteamSessionFactory steamSessionFactory, IServiceMessenger messenger)
             : base(steamSessionFactory) {
             IsCommand("interactive", "Run in interactive mode");
-            HasOption("Address", "The address to listen on", s => Address = s);
+            HasOption("b|bind=", "The address to listen on", s => Bind = s);
             _steamSessionFactory = steamSessionFactory;
             _messenger = messenger;
         }
 
-        public string Address { get; set; }
+        public string Bind { get; set; }
 
         public static ISteamApi SteamApi { get; private set; }
 
@@ -51,7 +51,7 @@ namespace withSIX.Steam.Presentation.Commands
         }
 
         private Task RunWebsite(CancellationToken ct) {
-            var addr = GetIPEp(Address ?? "127.0.0.1:0"); // default random port
+            var addr = GetIPEp(Bind ?? "127.0.0.1:0"); // default random port
             return new WebListener().Run(addr, null, ct);
         }
 
