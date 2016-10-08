@@ -39,6 +39,7 @@ using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
 using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Steam.Presentation.Hubs;
 using withSIX.Steam.Presentation.Usecases;

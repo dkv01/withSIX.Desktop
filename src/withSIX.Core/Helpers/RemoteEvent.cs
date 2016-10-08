@@ -2,14 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Core.Applications
+namespace withSIX.Core.Helpers
 {
     public interface IEvent {}
 

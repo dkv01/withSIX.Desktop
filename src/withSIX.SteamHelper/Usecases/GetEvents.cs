@@ -5,6 +5,7 @@ using withSIX.Core.Applications;
 using withSIX.Core.Applications.Services;
 using System.Linq;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Helpers;
 
 namespace withSIX.Steam.Presentation.Usecases
 {

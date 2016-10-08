@@ -7,18 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
-using withSIX.Core.Applications;
+using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Core.Services;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
-using withSIX.Mini.Plugin.Arma.Models;
+using withSIX.Steam.Core.Requests;
 using withSIX.Steam.Core.Services;
 
 namespace withSIX.Mini.Plugin.Arma.Services
@@ -47,7 +48,12 @@ namespace withSIX.Mini.Plugin.Arma.Services
             var ipEndPoints = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList();
             var r =
                 await
-                    _steamHelperService.GetServers<ArmaServerInfoModel>(appId, inclExtendedDetails, ipEndPoints)
+                    _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
+                            new GetServerInfo {
+                                IncludeDetails = inclExtendedDetails,
+                                IncludeRules = true,
+                                Addresses = ipEndPoints
+                            }, CancellationToken.None)
                         .ConfigureAwait(false);
             return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<Server>();
         }
@@ -153,5 +159,14 @@ namespace withSIX.Mini.Plugin.Arma.Services
         }
 
         public ArmaServerInfoModel ServerInfo { get; }
+    }
+
+    public class ReceivedServerPageEvent : IEvent
+    {
+        public ReceivedServerPageEvent(IList<ArmaServerInfoModel> servers) {
+            Servers = servers;
+        }
+
+        public IList<ArmaServerInfoModel> Servers { get; }
     }
 }

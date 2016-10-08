@@ -4,7 +4,10 @@
     "Microsoft.AspNet.SignalR.Client": "2.2.1",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
-    "withSIX.Api.Models": "2.0.9"
+    "System.Reactive": "3.0.0",
+    "withSIX.Api.Models": "2.0.9",
+    "withSIX.Core": "1.0.0",
+    "withSIX.Steam.Core": "1.0.0"
   },
   "frameworks": {
     "netstandard1.3": {

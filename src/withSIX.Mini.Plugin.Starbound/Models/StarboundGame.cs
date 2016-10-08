@@ -60,7 +60,7 @@ namespace withSIX.Mini.Plugin.Starbound.Models
         }
 
         public async Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken) {
-            var master = new SourceMasterQuery(new ServerFilterBuilder().FilterByGame("starbound").Value);
+            var master = new SourceMasterQuery(ServerFilterBuilder.Build().FilterByGame("starbound").Value);
             var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
             return r;
         }

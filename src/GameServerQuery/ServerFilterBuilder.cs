@@ -16,8 +16,15 @@ namespace GameServerQuery
 
     public class ServerFilterBuilder : IServerFilterBuilder
     {
-        private readonly List<Tuple<string, string>> _filter = new List<Tuple<string, string>>();
+        private readonly List<Tuple<string, string>> _filter;
         private bool _isFinal;
+
+        ServerFilterBuilder(List<Tuple<string, string>> filter) {
+            _filter = filter;
+        }
+        ServerFilterBuilder() : this(new List<Tuple<string, string>>()) {}
+
+        public static ServerFilterBuilder FromValue(List<Tuple<string, string>> value) => new ServerFilterBuilder(value);
 
         public List<Tuple<string, string>> Value
         {

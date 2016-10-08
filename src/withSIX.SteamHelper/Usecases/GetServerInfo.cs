@@ -12,17 +12,14 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using MediatR;
 using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
-    public class GetServerInfo : ICancellableQuery<ServerInfo>
+    public class GetServerInfo : Core.Requests.GetServerInfo, ICancellableQuery<ServerInfo>
     {
-        public Guid GameId { get; set; }
-        public List<IPEndPoint> Addresses { get; set; }
-        public bool IncludeRules { get; set; }
-        public bool IncludeDetails { get; set; }
     }
 
     public class GetServerInfoHandler : ICancellableAsyncRequestHandler<GetServerInfo, ServerInfo>
