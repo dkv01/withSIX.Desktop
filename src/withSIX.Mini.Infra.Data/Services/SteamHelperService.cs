@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -52,7 +54,8 @@ namespace withSIX.Mini.Infra.Data.Services
                         try {
                             await
                                 steamH.RunHelperInternal(cts.Token,
-                                        steamH.GetHelperParameters("interactive", appId),
+                                        steamH.GetHelperParameters("interactive", appId)
+                                            .Concat(new[] {"-Address", "127.0.0.66:48667"}),
                                         (process, s) => {
                                             if (s.StartsWith("Now listening on:"))
                                                 tcs.SetResult(Unit.Value);
