@@ -94,9 +94,12 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
     public class ArmaServerInfoModel
     {
-        public ArmaServerInfoModel(IPEndPoint queryEndpoint) {
+        public ArmaServerInfoModel(IPEndPoint queryEndpoint) : this() {
             QueryEndPoint = queryEndpoint;
             ConnectionEndPoint = QueryEndPoint;
+        }
+
+        public ArmaServerInfoModel() {
             ModList = new List<ServerModInfo>();
             SignatureList = new HashSet<string>();
         }
@@ -137,7 +140,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
         public int Ping { get; set; }
 
-        public IPEndPoint QueryEndPoint { get; }
+        public IPEndPoint QueryEndPoint { get; protected set; }
 
         public bool RequirePassword { get; set; }
 

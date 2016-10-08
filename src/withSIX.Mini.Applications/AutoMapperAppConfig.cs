@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using AutoMapper;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
@@ -23,10 +24,26 @@ namespace withSIX.Mini.Applications
             SetupSettingsTabs(this);
             SetupApi(this);
 
+            CreateMap<string, IPEndPoint>()
+                .ConstructUsing(src => src == null ? null : ParseEndpoint(src))
+                .IgnoreAllMembers();
+            CreateMap<string, IPAddress>()
+                .ConstructUsing(src => src == null ? null : ParseIP(src))
+                .IgnoreAllMembers();
+
             CreateMap<ProgressComponent, FlatProgressInfo>();
             CreateMap<ProgressLeaf, FlatProgressInfo>();
             CreateMap<ProgressContainer, FlatProgressInfo>();
         }
+
+        private IPEndPoint ParseEndpoint(string str) {
+            var split = str.Split(':');
+            var ip = IPAddress.Parse(string.Join(":", split.Take(split.Length - 1)));
+            var port = System.Convert.ToInt32(split.Last());
+            return new IPEndPoint(ip, port);
+        }
+
+        private IPAddress ParseIP(string str) => IPAddress.Parse(str);
 
         static void SetupApi(IProfileExpression cfg) {
             cfg.CreateMap<Game, ClientContentInfo2>()

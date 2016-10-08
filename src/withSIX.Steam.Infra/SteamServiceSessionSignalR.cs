@@ -71,11 +71,13 @@ namespace withSIX.Steam.Infra
             }
         }
 
-        private IDisposable SetupListener<T>(Action<List<T>> pageAction) {
-            return _subject.OfType<ReceivedServerPageEvent>()
+        private IDisposable SetupListener<T>(Action<List<T>> pageAction) =>
+            _subject.OfType<ReceivedServerPageEvent>()
                 //.Where(x => x.GameId = request.GameId || requestId) 
-                .Subscribe(x => pageAction(x.Servers.Select(s => ((object) s).MapTo<T>()).ToList()));
-        }
+                // TODO: Skip json step
+                .Select(x => x.Servers.Select(s => (T)JsonSupport.FromJson<T>(JsonSupport.ToJson(s))).ToList())
+                .Do(pageAction)
+                .Subscribe();
 
         private async Task MakeSureConnected() {
             using (await _l.LockAsync().ConfigureAwait(false)) {
