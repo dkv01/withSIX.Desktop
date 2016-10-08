@@ -34,7 +34,7 @@ namespace withSIX.Steam.Core.Services
     public interface ISteamServiceSession
     {
         Task Start(uint appId, Uri uri);
-        Task<ServersInfo<T>> GetServerInfo<T>(GetServerInfo query, CancellationToken ct);
+        Task<BatchResult> GetServerInfo<T>(GetServerInfo query, Action<List<T>> pageAction, CancellationToken ct);
         Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct);
     }
 }

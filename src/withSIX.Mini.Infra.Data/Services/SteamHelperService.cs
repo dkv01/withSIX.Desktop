@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -29,7 +28,9 @@ namespace withSIX.Mini.Infra.Data.Services
 
         public async Task<ServersInfo<T>> GetServers<T>(uint appId, GetServerInfo query, CancellationToken ct) {
             await StartSteamHelper(appId).ConfigureAwait(false);
-            return await _session.GetServerInfo<T>(query, ct).ConfigureAwait(false);
+            var list = new List<T>();
+            await _session.GetServerInfo<T>(query, e => list.AddRange(e), ct).ConfigureAwait(false);
+            return new ServersInfo<T> {Servers = list};
         }
 
         async Task StartSteamHelper(uint appId) {

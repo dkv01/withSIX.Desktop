@@ -61,7 +61,9 @@ namespace withSIX.Steam.Presentation.Commands
         public ServiceMessenger(IMessageBusProxy mb) {
             _dsp = new CompositeDisposable {
                 mb.Listen<ReceivedServerEvent>()
-                    .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x))
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x)),
+                mb.Listen<ReceivedServerPageEvent>()
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerPageReceived(x)),
                 //_mb.Listen<ReceivedServerEvent>().Select(x => Observable.FromAsync(x.Raise)).Merge(1).Subscribe()
             };
         }

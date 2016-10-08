@@ -72,7 +72,8 @@ namespace withSIX.Steam.Presentation
     {
         public static void ConfigureApi(this IApplicationBuilder app) {
             app.Map("/api", api => {
-                api.AddCancellablePath<GetServerInfo, ServerInfo>("/get-server-info");
+                api.AddCancellablePath<GetServerInfo, BatchResult>("/get-server-info");
+                api.AddCancellablePath<GetServers, BatchResult>("/get-servers");
                 api.AddPath<GetEvents, EventsModel>("/get-events");
             });
         }

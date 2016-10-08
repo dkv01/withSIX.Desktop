@@ -32,9 +32,10 @@ namespace withSIX.Steam.Infra
             return TaskExt.Default;
         }
 
-        public override async Task<ServersInfo<T>> GetServerInfo<T>(GetServerInfo query, CancellationToken ct) {
+        public override async Task<BatchResult> GetServerInfo<T>(GetServerInfo query, Action<List<T>> pageAction, CancellationToken ct) {
             var r = await query.PostJson<ServersInfo<T>>(new Uri(_uri, "/api/get-server-info"), ct).ConfigureAwait(false);
-            return r;
+            pageAction(r.Servers);
+            return new BatchResult(r.Servers.Count);
         }
 
         public override async Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct) {

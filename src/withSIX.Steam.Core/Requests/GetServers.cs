@@ -23,5 +23,6 @@ namespace withSIX.Steam.Core.Requests
         public List<IPEndPoint> Addresses { get; set; }
         public bool IncludeRules { get; set; }
         public bool IncludeDetails { get; set; }
+        public int PageSize { get; set; } = 1;
     }
 }
