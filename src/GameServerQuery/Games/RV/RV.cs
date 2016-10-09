@@ -55,12 +55,12 @@ namespace GameServerQuery.Games.RV
     [Flags]
     public enum Dlcs
     {
-        Apex = 0x10,
+        Apex = 16,
         Helicopters = 4,
         Karts = 2,
         Marksmen = 8,
         None = 0,
-        Tanoa = 0x20,
+        Tanoa = 32,
         Zeus = 1
     }
 
