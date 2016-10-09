@@ -8,18 +8,18 @@ using NDepend.Helpers;
 
 namespace GameServerQuery.Games.RV
 {
-    public enum GameState
+    public enum SessionState
     {
-        Unknown,
-        Waiting,
-        Unknown2,
-        Creating,
-        Unknown3,
-        Loading,
+        None,
+        SelectingMission,
+        EditingMission,
+        AssigningRoles,
+        SendingMission,
+        LoadingGame,
         Briefing,
         Playing,
-        Unknown4,
-        Debriefing
+        Debriefing,
+        MissionAborted
     }
 
     public enum AiLevel
@@ -41,12 +41,12 @@ namespace GameServerQuery.Games.RV
     [Flags]
     public enum Dlcs
     {
-        Apex = 0x10,
+        Apex = 16,
         Helicopters = 4,
         Karts = 2,
         Marksmen = 8,
         None = 0,
-        Tanoa = 0x20,
+        Tanoa = 32,
         Zeus = 1
     }
 
@@ -205,12 +205,6 @@ namespace GameServerQuery.Games.RV
             }
             return num;
         }
-    }
-
-    public class LatLon
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
     }
 
     public enum ServerPlatform

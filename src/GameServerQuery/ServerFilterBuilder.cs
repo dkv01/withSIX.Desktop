@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Net;
 
 namespace GameServerQuery
@@ -16,8 +17,16 @@ namespace GameServerQuery
 
     public class ServerFilterBuilder : IServerFilterBuilder
     {
-        private readonly List<Tuple<string, string>> _filter = new List<Tuple<string, string>>();
+        private readonly List<Tuple<string, string>> _filter;
         private bool _isFinal;
+
+        ServerFilterBuilder(List<Tuple<string, string>> filter) {
+            Contract.Requires<ArgumentNullException>(filter != null);
+            _filter = filter;
+        }
+        ServerFilterBuilder() : this(new List<Tuple<string, string>>()) {}
+
+        public static ServerFilterBuilder FromValue(List<Tuple<string, string>> value) => new ServerFilterBuilder(value);
 
         public List<Tuple<string, string>> Value
         {

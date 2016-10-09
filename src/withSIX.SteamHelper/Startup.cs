@@ -39,6 +39,7 @@ using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Steam.Plugin.Arma;
 using Unit = System.Reactive.Unit;
 using withSIX.Core.Applications.Extensions;
+using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Steam.Presentation.Hubs;
 using withSIX.Steam.Presentation.Usecases;
@@ -71,7 +72,8 @@ namespace withSIX.Steam.Presentation
     {
         public static void ConfigureApi(this IApplicationBuilder app) {
             app.Map("/api", api => {
-                api.AddCancellablePath<GetServerInfo, ServerInfo>("/get-server-info");
+                api.AddCancellablePath<GetServerAddresses, BatchResult>("/get-server-addresses");
+                api.AddCancellablePath<GetServers, BatchResult>("/get-servers");
                 api.AddPath<GetEvents, EventsModel>("/get-events");
             });
         }

@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using withSIX.Core;
+using withSIX.Steam.Core.Requests;
 
 namespace withSIX.Steam.Core.Services
 {
@@ -18,7 +20,8 @@ namespace withSIX.Steam.Core.Services
 
     public interface ISteamHelperService
     {
-        Task<ServersInfo<T>> GetServers<T>(uint appId, bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
+        Task<ServersInfo<T>> GetServers<T>(uint appId, GetServers query, CancellationToken ct);
+        Task<List<IPEndPoint>> GetServerAddresses(uint appId, GetServerAddresses query, CancellationToken ct);
     }
 
     public interface ISteamHelperRunner
@@ -32,6 +35,7 @@ namespace withSIX.Steam.Core.Services
     public interface ISteamServiceSession
     {
         Task Start(uint appId, Uri uri);
-        Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints);
+        Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct);
+        Task<BatchResult> GetServerAddresses(GetServerAddresses query, Action<List<IPEndPoint>> pageAction, CancellationToken ct);
     }
 }

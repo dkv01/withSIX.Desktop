@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 
@@ -54,15 +56,6 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
             }
             return new BatchResult(addresses.Count);
         }
-    }
-
-    public class BatchResult
-    {
-        public BatchResult(int count) {
-            Count = count;
-        }
-
-        public int Count { get; }
     }
 
     public class GetServersQuery : IHaveGameId

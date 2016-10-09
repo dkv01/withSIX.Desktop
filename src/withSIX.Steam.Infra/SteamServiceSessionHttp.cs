@@ -9,7 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core.Applications;
+using withSIX.Core;
+using withSIX.Core.Helpers;
+using withSIX.Steam.Core.Requests;
 using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Infra
@@ -30,12 +32,17 @@ namespace withSIX.Steam.Infra
             return TaskExt.Default;
         }
 
-        public override async Task<ServersInfo<T>> GetServers<T>(bool inclExtendedDetails, List<IPEndPoint> ipEndPoints) {
-            var r = await new {
-                IncludeDetails = true,
-                IncludeRules = inclExtendedDetails,
-                Addresses = ipEndPoints
-            }.PostJson<ServersInfo<T>>(new Uri(_uri, "/api/get-server-info")).ConfigureAwait(false);
+        public override async Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct) {
+            throw new NotImplementedException();
+            var r = await query.PostJson<BatchResult>(new Uri(_uri, "/api/get-servers"), ct).ConfigureAwait(false);
+            return r;
+        }
+
+        public override async Task<BatchResult> GetServerAddresses(GetServerAddresses query,
+            Action<List<IPEndPoint>> pageAction, CancellationToken ct) {
+            throw new NotImplementedException();
+            var r =
+                await query.PostJson<BatchResult>(new Uri(_uri, "/api/get-server-addresses"), ct).ConfigureAwait(false);
             return r;
         }
     }

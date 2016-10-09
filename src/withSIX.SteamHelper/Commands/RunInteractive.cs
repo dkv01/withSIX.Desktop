@@ -17,6 +17,7 @@ using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation.Hubs;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
+using System.Linq;
 
 namespace withSIX.Steam.Presentation.Commands
 {
@@ -28,9 +29,12 @@ namespace withSIX.Steam.Presentation.Commands
         public RunInteractive(ISteamSessionFactory steamSessionFactory, IServiceMessenger messenger)
             : base(steamSessionFactory) {
             IsCommand("interactive", "Run in interactive mode");
+            HasOption("b|bind=", "The address to listen on", s => Bind = s);
             _steamSessionFactory = steamSessionFactory;
             _messenger = messenger;
         }
+
+        public string Bind { get; set; }
 
         public static ISteamApi SteamApi { get; private set; }
 
@@ -46,8 +50,17 @@ namespace withSIX.Steam.Presentation.Commands
             return 0;
         }
 
-        private static Task RunWebsite(CancellationToken ct)
-            => new WebListener().Run(new IPEndPoint(IPAddress.Parse("127.0.0.66"), 48667), null, ct);
+        private Task RunWebsite(CancellationToken ct) {
+            var addr = GetIPEp(Bind ?? "127.0.0.1:0"); // default random port
+            return new WebListener().Run(addr, null, ct);
+        }
+
+        private IPEndPoint GetIPEp(string str) {
+            var split = str.Split(':');
+            var ip = IPAddress.Parse(string.Join(":", split.Take(split.Length - 1)));
+            var port = Convert.ToInt32(split.Last());
+            return new IPEndPoint(ip, port);
+        }
     }
 
     public interface IServiceMessenger {}
@@ -61,7 +74,11 @@ namespace withSIX.Steam.Presentation.Commands
         public ServiceMessenger(IMessageBusProxy mb) {
             _dsp = new CompositeDisposable {
                 mb.Listen<ReceivedServerEvent>()
-                    .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x))
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x)),
+                mb.Listen<ReceivedServerPageEvent>()
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerPageReceived(x)),
+                mb.Listen<ReceivedServerIpPageEvent>()
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerAddressesPageReceived(x))
                 //_mb.Listen<ReceivedServerEvent>().Select(x => Observable.FromAsync(x.Raise)).Merge(1).Subscribe()
             };
         }

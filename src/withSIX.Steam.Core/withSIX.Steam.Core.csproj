@@ -130,6 +130,7 @@
     <Compile Include="ISteamApp.cs" />
     <Compile Include="ISteamHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\GetServers.cs" />
     <Compile Include="Services\SteamHelper.cs" />
     <Compile Include="SteamDirectories.cs" />
     <Compile Include="SteamHelper.cs" />

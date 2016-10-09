@@ -127,6 +127,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchResult.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="CommonBase.cs" />
     <Compile Include="CommonUrls.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Helpers\ModelBase.cs" />
     <Compile Include="Helpers\ProgressComponent.cs" />
     <Compile Include="Helpers\PropertyChangedBase.cs" />
+    <Compile Include="Helpers\RemoteEvent.cs" />
     <Compile Include="Helpers\TimeAgo.cs" />
     <Compile Include="Helpers\TimerWithElapsedCancellation.cs" />
     <Compile Include="Helpers\TmpFile.cs" />
