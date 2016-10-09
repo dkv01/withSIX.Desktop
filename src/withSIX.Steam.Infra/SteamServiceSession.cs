@@ -16,8 +16,6 @@ namespace withSIX.Steam.Infra
     public abstract class SteamServiceSession : ISteamServiceSession
     {
         public abstract Task Start(uint appId, Uri uri);
-        [Obsolete]
-        public abstract Task<BatchResult> GetServerInfo<T>(GetServerInfo query, Action<List<T>> pageAction, CancellationToken ct);
         public abstract Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct);
         public abstract Task<BatchResult> GetServerAddresses(GetServerAddresses query, Action<List<IPEndPoint>> pageAction, CancellationToken ct);
     }

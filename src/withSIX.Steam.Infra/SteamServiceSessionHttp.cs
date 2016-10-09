@@ -32,12 +32,6 @@ namespace withSIX.Steam.Infra
             return TaskExt.Default;
         }
 
-        public override async Task<BatchResult> GetServerInfo<T>(GetServerInfo query, Action<List<T>> pageAction, CancellationToken ct) {
-            var r = await query.PostJson<ServersInfo<T>>(new Uri(_uri, "/api/get-server-info"), ct).ConfigureAwait(false);
-            pageAction(r.Servers);
-            return new BatchResult(r.Servers.Count);
-        }
-
         public override async Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct) {
             throw new NotImplementedException();
             var r = await query.PostJson<BatchResult>(new Uri(_uri, "/api/get-servers"), ct).ConfigureAwait(false);

@@ -28,19 +28,15 @@ namespace withSIX.Mini.Infra.Data.Services
             _session = session;
         }
 
-        [Obsolete]
-        public async Task<ServersInfo<T>> GetServerInfo<T>(uint appId, GetServerInfo query, CancellationToken ct) {
-            await StartSteamHelper(appId).ConfigureAwait(false);
-            var list = new List<T>();
-            await _session.GetServerInfo<T>(query, e => list.AddRange(e), ct).ConfigureAwait(false);
-            return new ServersInfo<T> {Servers = list};
-        }
-
         public async Task<ServersInfo<T>> GetServers<T>(uint appId, GetServers query, CancellationToken ct) {
             await StartSteamHelper(appId).ConfigureAwait(false);
             var list = new List<T>();
             await _session.GetServers<T>(query, e => list.AddRange(e), ct).ConfigureAwait(false);
             return new ServersInfo<T> { Servers = list };
+        }
+
+        public Task<List<IPEndPoint>> GetServerAddresses(uint appId, GetServerAddresses query, CancellationToken ct) {
+            throw new NotImplementedException();
         }
 
         async Task StartSteamHelper(uint appId) {

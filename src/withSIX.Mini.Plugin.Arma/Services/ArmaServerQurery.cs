@@ -72,6 +72,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
                                 Filter = filter.Value,
                                 IncludeDetails = inclExtendedDetails,
                                 IncludeRules = true,
+                                PageSize = 1
                             }, CancellationToken.None)
                         .ConfigureAwait(false);
             return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<Server>();

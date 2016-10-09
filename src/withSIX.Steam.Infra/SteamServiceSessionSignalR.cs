@@ -54,19 +54,10 @@ namespace withSIX.Steam.Infra
 
         private Task Connect() => _con.Start(_defaultHttpClient);
 
-        public override async Task<BatchResult> GetServerInfo<T>(GetServerInfo query, Action<List<T>> pageAction,
-            CancellationToken ct) {
-            await MakeSureConnected().ConfigureAwait(false);
-            var requestId = Guid.NewGuid();
-            using (SetupListener(pageAction)) {
-                var r = await _servers.Invoke<BatchResult>("GetServerInfo", query, requestId).ConfigureAwait(false);
-                return r;
-            }
-        }
-
         public override async Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction,
             CancellationToken ct) {
             var requestId = Guid.NewGuid();
+            await MakeSureConnected().ConfigureAwait(false);
             using (SetupListener(pageAction)) {
                 var r = await _servers.Invoke<BatchResult>("GetServers", query, requestId).ConfigureAwait(false);
                 return r;
@@ -76,6 +67,8 @@ namespace withSIX.Steam.Infra
         public override async Task<BatchResult> GetServerAddresses(GetServerAddresses query,
             Action<List<IPEndPoint>> pageAction, CancellationToken ct) {
             var requestId = Guid.NewGuid();
+
+            await MakeSureConnected().ConfigureAwait(false);
             using (_subject.OfType<ReceivedServerAddressesPageEvent>()
                 //.Where(x => x.GameId = request.GameId || requestId) 
                 .Select(x => x.Servers)
