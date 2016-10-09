@@ -119,7 +119,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
             ConnectionEndPoint = QueryEndPoint;
         }
 
-        public ArmaServerInfoModel() {
+        protected ArmaServerInfoModel() {
             ModList = new List<ServerModInfo>();
             SignatureList = new HashSet<string>();
         }
