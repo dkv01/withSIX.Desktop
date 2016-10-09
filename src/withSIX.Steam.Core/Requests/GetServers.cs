@@ -4,22 +4,28 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace withSIX.Steam.Core.Requests
 {
-    public class GetServers
+    public class GetServers : GetServerAddresses
     {
-        public Guid GameId { get; set; }
-        public List<Tuple<string, string>> Filter { get; set; }
         public bool IncludeRules { get; set; }
         public bool IncludeDetails { get; set; }
+    }
+
+    public class GetServerAddresses
+    {
+        [Required]
+        public List<Tuple<string, string>> Filter { get; set; }
         public int PageSize { get; set; } = 24;
     }
 
+    [Obsolete]
     public class GetServerInfo
     {
-        public Guid GameId { get; set; }
+        [Required]
         public List<IPEndPoint> Addresses { get; set; }
         public bool IncludeRules { get; set; }
         public bool IncludeDetails { get; set; }

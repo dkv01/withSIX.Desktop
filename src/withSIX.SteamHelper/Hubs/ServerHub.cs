@@ -20,5 +20,6 @@ namespace withSIX.Steam.Presentation.Hubs
     {
         Task ServerReceived(ReceivedServerEvent receivedServerEvent);
         Task ServerPageReceived(ReceivedServerPageEvent serverPage);
+        Task ServerAddressesPageReceived(ReceivedServerIpPageEvent serverPage);
     }
 }

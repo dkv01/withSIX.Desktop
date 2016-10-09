@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using withSIX.Core;
 using withSIX.Mini.Applications.Usecases.Main.Servers;
-using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Infra.Api.Hubs

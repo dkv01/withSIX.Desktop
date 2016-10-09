@@ -77,6 +77,8 @@ namespace withSIX.Steam.Presentation.Commands
                     .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x)),
                 mb.Listen<ReceivedServerPageEvent>()
                     .Subscribe(x => _hubContext.Value.Clients.All.ServerPageReceived(x)),
+                mb.Listen<ReceivedServerIpPageEvent>()
+                    .Subscribe(x => _hubContext.Value.Clients.All.ServerAddressesPageReceived(x))
                 //_mb.Listen<ReceivedServerEvent>().Select(x => Observable.FromAsync(x.Raise)).Merge(1).Subscribe()
             };
         }

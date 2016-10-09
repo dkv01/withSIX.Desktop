@@ -43,6 +43,14 @@ namespace withSIX.Steam.Infra
             var r = await query.PostJson<BatchResult>(new Uri(_uri, "/api/get-servers"), ct).ConfigureAwait(false);
             return r;
         }
+
+        public override async Task<BatchResult> GetServerAddresses(GetServerAddresses query,
+            Action<List<IPEndPoint>> pageAction, CancellationToken ct) {
+            throw new NotImplementedException();
+            var r =
+                await query.PostJson<BatchResult>(new Uri(_uri, "/api/get-server-addresses"), ct).ConfigureAwait(false);
+            return r;
+        }
     }
 
     public static class TempExtensions

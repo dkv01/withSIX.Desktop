@@ -20,7 +20,9 @@ namespace withSIX.Steam.Core.Services
 
     public interface ISteamHelperService
     {
-        Task<ServersInfo<T>> GetServers<T>(uint appId, GetServerInfo query, CancellationToken ct);
+        [Obsolete]
+        Task<ServersInfo<T>> GetServerInfo<T>(uint appId, GetServerInfo query, CancellationToken ct);
+        Task<ServersInfo<T>> GetServers<T>(uint appId, GetServers query, CancellationToken ct);
     }
 
     public interface ISteamHelperRunner
@@ -34,7 +36,9 @@ namespace withSIX.Steam.Core.Services
     public interface ISteamServiceSession
     {
         Task Start(uint appId, Uri uri);
+        [Obsolete]
         Task<BatchResult> GetServerInfo<T>(GetServerInfo query, Action<List<T>> pageAction, CancellationToken ct);
         Task<BatchResult> GetServers<T>(GetServers query, Action<List<T>> pageAction, CancellationToken ct);
+        Task<BatchResult> GetServerAddresses(GetServerAddresses query, Action<List<IPEndPoint>> pageAction, CancellationToken ct);
     }
 }

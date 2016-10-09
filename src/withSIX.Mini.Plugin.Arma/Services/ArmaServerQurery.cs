@@ -17,6 +17,7 @@ using withSIX.Api.Models.Servers;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Core.Services;
+using withSIX.Core.Services.Infrastructure;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Steam.Core.Requests;
@@ -26,7 +27,8 @@ namespace withSIX.Mini.Plugin.Arma.Services
 {
     public interface IArmaServerQuery : IServerQuery
     {
-        Task<List<Server>> GetServers(uint appId, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails);
+        Task<List<Server>> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails);
+        Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act, CancellationToken cancelToken);
     }
 
     public class ArmaServerQuery : IArmaServerQuery, IDomainService
@@ -37,22 +39,39 @@ namespace withSIX.Mini.Plugin.Arma.Services
             _steamHelperService = steamHelperService;
         }
 
-        public Task<List<Server>> GetServers(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
+        public Task<List<Server>> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails) => inclExtendedDetails
             ? GetServersFromSteam(appId, addresses, inclExtendedDetails)
             : GetFromGameServerQuery(addresses, inclExtendedDetails);
+
+        public async Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act, CancellationToken cancelToken) {
+            var f = ServerFilterBuilder.Build()
+                .FilterByGame("arma3");
+            var master = new SourceMasterQuery(f.Value);
+            var r = await master.GetParsedServersObservable(cancelToken)
+                .Select(x =>
+                    Observable.FromAsync(async () => {
+                        await act(x.Items);
+                        return x;
+                    }))
+                .Merge(1)
+                .SelectMany(x => x.Items)
+                .ToList();
+            return r.ToList();
+        }
 
         async Task<List<Server>> GetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails) {
             // Ports adjusted because it expects the Connection Port!
             var ipEndPoints = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList();
+            var filter = ServerFilterBuilder.Build().FilterByAddresses(ipEndPoints);
             var r =
                 await
                     _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
-                            new GetServerInfo {
+                            new GetServers {
+                                Filter = filter.Value,
                                 IncludeDetails = inclExtendedDetails,
                                 IncludeRules = true,
-                                Addresses = ipEndPoints
                             }, CancellationToken.None)
                         .ConfigureAwait(false);
             return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<Server>();
@@ -164,12 +183,22 @@ namespace withSIX.Mini.Plugin.Arma.Services
         public ArmaServerInfoModel ServerInfo { get; }
     }
 
-    public class ReceivedServerPageEvent : IEvent
+    public abstract class ReceivedServerPageEvent<T> : IEvent
     {
-        public ReceivedServerPageEvent(IList<ArmaServerInfoModel> servers) {
+        protected ReceivedServerPageEvent(IList<T> servers) {
             Servers = servers;
         }
 
-        public IList<ArmaServerInfoModel> Servers { get; }
+        public IList<T> Servers { get; }
+    }
+
+    public class ReceivedServerPageEvent : ReceivedServerPageEvent<ArmaServerInfoModel>
+    {
+        public ReceivedServerPageEvent(IList<ArmaServerInfoModel> servers) : base(servers) {}
+    }
+
+    public class ReceivedServerIpPageEvent : ReceivedServerPageEvent<IPEndPoint>
+    {
+        public ReceivedServerIpPageEvent(IList<IPEndPoint> servers) : base(servers) { }
     }
 }

@@ -65,24 +65,16 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         protected override string[] BeGameParam { get; } = {"2", "1"};
 
-        public async Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken) {
-            var f = ServerFilterBuilder.Build()
-                .FilterByGame("arma3");
-            var master = new SourceMasterQuery(f.Value);
-            var r = await master.GetParsedServersObservable(cancelToken)
-                .Select(x =>
-                    Observable.FromAsync(async () => {
-                        await RaiseRealtimeEvent(new ServersPageReceived(Id, x.Items));
-                        return x;
-                    }))
-                .Merge(1)
-                .SelectMany(x => x.Items)
-                .ToList();
-            return r.ToList();
-        }
+        public Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken)
+            =>
+            factory.Create(this)
+                .GetServerAddresses(SteamInfo.AppId, x => RaiseRealtimeEvent(new ServersPageReceived(Id, x)),
+                    cancelToken);
 
+        // TODO: Servers received on event.
         public Task<List<Server>> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
-                bool inclExtendedDetails = false) => factory.Create(this).GetServers(SteamInfo.AppId, addresses, inclExtendedDetails);
+                bool inclExtendedDetails = false)
+            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, inclExtendedDetails);
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {

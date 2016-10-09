@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Net;
 
 namespace GameServerQuery
@@ -20,6 +21,7 @@ namespace GameServerQuery
         private bool _isFinal;
 
         ServerFilterBuilder(List<Tuple<string, string>> filter) {
+            Contract.Requires<ArgumentNullException>(filter != null);
             _filter = filter;
         }
         ServerFilterBuilder() : this(new List<Tuple<string, string>>()) {}
