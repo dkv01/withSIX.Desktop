@@ -38,6 +38,20 @@ namespace GameServerQuery.Games.RV
         Custom
     }
 
+    public enum SessionState
+    {
+        None,
+        SelectingMission,
+        EditingMission,
+        AssigningRoles,
+        SendingMission,
+        LoadingGame,
+        Briefing,
+        Playing,
+        Debriefing,
+        MissionAborted
+    }
+
     [Flags]
     public enum Dlcs
     {
@@ -205,12 +219,6 @@ namespace GameServerQuery.Games.RV
             }
             return num;
         }
-    }
-
-    public class LatLon
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
     }
 
     public enum ServerPlatform
