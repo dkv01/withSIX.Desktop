@@ -8,18 +8,18 @@ using NDepend.Helpers;
 
 namespace GameServerQuery.Games.RV
 {
-    public enum GameState
+    public enum SessionState
     {
-        Unknown,
-        Waiting,
-        Unknown2,
-        Creating,
-        Unknown3,
-        Loading,
+        None,
+        SelectingMission,
+        EditingMission,
+        AssigningRoles,
+        SendingMission,
+        LoadingGame,
         Briefing,
         Playing,
-        Unknown4,
-        Debriefing
+        Debriefing,
+        MissionAborted
     }
 
     public enum AiLevel
@@ -36,20 +36,6 @@ namespace GameServerQuery.Games.RV
         Regular,
         Veteran,
         Custom
-    }
-
-    public enum SessionState
-    {
-        None,
-        SelectingMission,
-        EditingMission,
-        AssigningRoles,
-        SendingMission,
-        LoadingGame,
-        Briefing,
-        Playing,
-        Debriefing,
-        MissionAborted
     }
 
     [Flags]
