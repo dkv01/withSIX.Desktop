@@ -114,7 +114,6 @@
         "bin/Debug/withSIX.Core.dll": {}
       },
       "runtime": {
-        "../../../withSIX.Web/packages/JetBrains.Annotations.10.1.5/lib/net/JetBrains.Annotations.dll": {},
         "bin/Debug/withSIX.Core.dll": {}
       },
       "contentFiles": {
