@@ -33,9 +33,6 @@
         "GameServerQuery": {
           "target": "project"
         },
-        "GeoIP": {
-          "target": "project"
-        },
         "withSIX.ContentEngine.Core": {
           "target": "project"
         },

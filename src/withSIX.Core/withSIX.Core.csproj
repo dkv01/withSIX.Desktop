@@ -187,7 +187,6 @@
     <Compile Include="Services\Infrastructure\IDomainEventHandler.cs" />
     <Compile Include="Services\Infrastructure\IDomainEventHandlerGrabber.cs" />
     <Compile Include="Services\Infrastructure\IFileWriter.cs" />
-    <Compile Include="Services\Infrastructure\IGeoIpService.cs" />
     <Compile Include="Services\Infrastructure\IPingProvider.cs" />
     <Compile Include="Services\Infrastructure\IProcessManager.cs" />
     <Compile Include="Services\Infrastructure\IWCFClient.cs" />

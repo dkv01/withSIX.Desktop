@@ -17,7 +17,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj" />
-    <ProjectReference Include="..\GeoIP\GeoIP.csproj" />
     <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj" />
     <ProjectReference Include="..\withSIX.ContentEngine.Infra\withSIX.ContentEngine.Infra.csproj" />
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />

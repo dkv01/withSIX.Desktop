@@ -531,10 +531,6 @@
     <Compile Include="WebListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeoIP\GeoIP.csproj">
-      <Project>{a041945d-1251-4799-9e31-66ee924761ab}</Project>
-      <Name>GeoIP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
       <Project>{20290456-e7cd-4b44-acea-a9f4b5b55367}</Project>
       <Name>withSIX.ContentEngine.Core</Name>

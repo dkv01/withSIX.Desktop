@@ -123,7 +123,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="config\GeoIP.dat" />
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
@@ -159,7 +158,6 @@
     <Compile Include="Services\DownloadCache.cs" />
     <Compile Include="Services\ErrorHandler.cs" />
     <Compile Include="Services\FileWriter.cs" />
-    <Compile Include="Services\GeoIpService.cs" />
     <Compile Include="Services\IApiLocalObjectCacheManager.cs" />
     <Compile Include="Services\IDecryption.cs" />
     <Compile Include="Services\IDownloadCacheManager.cs" />
@@ -183,10 +181,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeoIP\GeoIP.csproj">
-      <Project>{A041945D-1251-4799-9E31-66EE924761AB}</Project>
-      <Name>GeoIP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>withSIX.Core.Applications</Name>

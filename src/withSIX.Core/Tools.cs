@@ -11,16 +11,14 @@ namespace withSIX.Core
 {
     public class ToolsServices : IDomainService
     {
-        public ToolsServices(IProcessManager pm, Lazy<IWCFClient> wcfClient, Lazy<IGeoIpService> geoService,
+        public ToolsServices(IProcessManager pm, Lazy<IWCFClient> wcfClient, 
             ICompressionUtil compression, IUacHelper uacHelper) {
-            GeoService = geoService;
             Compression = compression;
             UacHelper = uacHelper;
             ProcessManager = pm;
             WCFClient = wcfClient;
         }
 
-        public Lazy<IGeoIpService> GeoService { get; }
         public ICompressionUtil Compression { get; }
         public IUacHelper UacHelper { get; }
         public IProcessManager ProcessManager { get; }
@@ -32,7 +30,6 @@ namespace withSIX.Core
         static Lazy<IWCFClient> _wcfClient;
         public static readonly string DefaultSizeReturn = string.Empty;
         public static IProcessManager ProcessManager { get; private set; }
-        public static Lazy<IGeoIpService> Geo { get; private set; }
 
         public static IUacHelper UacHelper { get; private set; }
 
@@ -45,7 +42,6 @@ namespace withSIX.Core
             ProcessManager = services.ProcessManager;
             _wcfClient = services.WCFClient;
             _compressionUtil = services.Compression;
-            Geo = services.GeoService;
             UacHelper = services.UacHelper;
         }
     }
