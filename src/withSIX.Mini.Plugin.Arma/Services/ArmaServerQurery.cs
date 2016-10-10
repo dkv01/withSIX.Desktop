@@ -22,6 +22,7 @@ using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Steam.Core.Requests;
 using withSIX.Steam.Core.Services;
+using ServerModInfo = GameServerQuery.Games.RV.ServerModInfo;
 
 namespace withSIX.Mini.Plugin.Arma.Services
 {
@@ -75,7 +76,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
                                 PageSize = 1
                             }, CancellationToken.None)
                         .ConfigureAwait(false);
-            return r.Servers.Select(x => x.MapTo<ServerInfo<ArmaServerInfoModel>>()).ToList<Server>();
+            return r.Servers.Select(x => x.MapTo<ArmaServer>()).ToList<Server>();
         }
 
         private static async Task<List<Server>> GetFromGameServerQuery(

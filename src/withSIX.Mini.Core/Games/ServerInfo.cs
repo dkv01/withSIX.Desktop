@@ -11,12 +11,6 @@ using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Core.Games
 {
-    public class ServerInfo<T> : Server
-    {
-        public int Ping { get; set; }
-        public T Details { get; set; }
-    }
-
     public interface IQueryServers
     {
         Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken);

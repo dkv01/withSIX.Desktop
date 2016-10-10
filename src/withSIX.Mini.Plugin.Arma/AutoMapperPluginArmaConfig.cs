@@ -2,13 +2,17 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
+using System.Net;
 using AutoMapper;
 using GameServerQuery.Games.RV;
+using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Mini.Plugin.Arma.Services;
+using ServerModInfo = GameServerQuery.Games.RV.ServerModInfo;
 
 namespace withSIX.Mini.Plugin.Arma
 {
@@ -16,14 +20,27 @@ namespace withSIX.Mini.Plugin.Arma
     {
         public AutoMapperPluginArmaConfig() {
             SetupApiModels();
-            CreateMap<ArmaServerInfoModel, ServerInfo<ArmaServerInfoModel>>()
-                .ForMember(x => x.Details, opt => opt.MapFrom(src => src))
+
+            CreateMap<ArmaServerInfoModel, ArmaServer>()
+                .AfterMap((src, dest) => src.GameTags?.MapTo(dest))
+                //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
+                .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
                 .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
-                .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint));
+                .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
+                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
+
             CreateMap<GameTags, Server>()
                 .Include<GameTags, ArmaServer>();
             CreateMap<GameTags, ArmaServer>()
-                .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock));
+                .ForMember(x => x.Country, opt => opt.Ignore())
+                .ForMember(x => x.BattlEye, opt => opt.MapFrom(src => src.BattlEye.GetValueOrDefault()))
+                .ForMember(x => x.VerifySignatures, opt => opt.MapFrom(src => src.VerifySignatures.GetValueOrDefault()))
+                .ForMember(x => x.Platform, opt => opt.MapFrom(src => src.Platform == 'w' ? ServerPlatform.Windows : ServerPlatform.Linux))
+                .ForMember(x => x.Difficulty, opt => opt.Ignore())
+                .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock))
+                .ForMember(x => x.ServerVersion, opt => opt.MapFrom(src => src.Version))
+                .ForMember(x => x.Version, opt => opt.Ignore());
+            CreateMap<ServerModInfo, Api.Models.Servers.ServerModInfo>();
         }
 
         void SetupApiModels() {
@@ -41,6 +58,16 @@ namespace withSIX.Mini.Plugin.Arma
             CreateMap<TakeOnMarsGameSettingsApiModel, TakeOnMarsGameSettings>();
             CreateMap<CarrierCommandGameSettings, CarrierCommandGameSettingsApiModel>();
             CreateMap<CarrierCommandGameSettingsApiModel, CarrierCommandGameSettings>();
+        }
+
+        static string TryUrlDecode(string str) {
+            if (str.Contains("%")) {
+                try {
+                    return WebUtility.UrlDecode(str);
+                } catch (Exception) {
+                }
+            }
+            return str;
         }
     }
 }
