@@ -1,12 +1,6 @@
 *.log
 steam_appid.txt
-/build/shared.7z
 /build/tools.7z
-/build/shared/
-/src/build/
-/src/*/[Bb]in/
-/src/*/[Oo]bj/
-/src/*.sln.ide
 /src/dll/Telerik.Windows.Controls.dll
 
 
