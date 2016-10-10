@@ -51,9 +51,6 @@
     <Compile Include="SteamApi.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="SteamLayerWrap">
       <HintPath>..\dll\SteamLayerWrap.dll</HintPath>
     </Reference>

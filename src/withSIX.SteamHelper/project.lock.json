@@ -12,6 +12,33 @@
           "lib/net45/AutoMapper.dll": {}
         }
       },
+      "IdentityModel/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/net45/IdentityModel.dll": {}
+        }
+      },
+      "JetBrains.Annotations/10.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/net/JetBrains.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/net/JetBrains.Annotations.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -2273,6 +2300,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "IdentityModel": "2.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -2361,7 +2389,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
-          "withSIX.Core": "1.0.0"
+          "withSIX.Core": "1.0.1"
         }
       },
       "withSIX.Steam.Infra/1.0.0": {
@@ -2371,10 +2399,10 @@
           "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.9",
-          "withSIX.Core": "1.0.0",
-          "withSIX.Core.Infra": "1.0.0",
-          "withSIX.Steam.Core": "1.0.0"
+          "withSIX.Core": "1.0.1",
+          "withSIX.Steam.Core": "1.0.2"
         }
       },
       "withSIX.Steam.Plugin.Arma/1.0.0": {
@@ -2382,6 +2410,7 @@
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
           "GameServerQuery": "1.0.0",
+          "JetBrains.Annotations": "10.2.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
@@ -2422,6 +2451,33 @@
         },
         "runtime": {
           "lib/net45/AutoMapper.dll": {}
+        }
+      },
+      "IdentityModel/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/net45/IdentityModel.dll": {}
+        }
+      },
+      "JetBrains.Annotations/10.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/net/JetBrains.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/net/JetBrains.Annotations.dll": {}
         }
       },
       "Libuv/1.9.0": {
@@ -4339,6 +4395,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "IdentityModel": "2.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -4427,7 +4484,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
-          "withSIX.Core": "1.0.0"
+          "withSIX.Core": "1.0.1"
         }
       },
       "withSIX.Steam.Infra/1.0.0": {
@@ -4437,10 +4494,10 @@
           "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.9",
-          "withSIX.Core": "1.0.0",
-          "withSIX.Core.Infra": "1.0.0",
-          "withSIX.Steam.Core": "1.0.0"
+          "withSIX.Core": "1.0.1",
+          "withSIX.Steam.Core": "1.0.2"
         }
       },
       "withSIX.Steam.Plugin.Arma/1.0.0": {
@@ -4448,6 +4505,7 @@
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
           "GameServerQuery": "1.0.0",
+          "JetBrains.Annotations": "10.2.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
@@ -4488,6 +4546,33 @@
         },
         "runtime": {
           "lib/net45/AutoMapper.dll": {}
+        }
+      },
+      "IdentityModel/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/net45/IdentityModel.dll": {}
+        }
+      },
+      "JetBrains.Annotations/10.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/net/JetBrains.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/net/JetBrains.Annotations.dll": {}
         }
       },
       "Libuv/1.9.0": {
@@ -6405,6 +6490,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "IdentityModel": "2.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -6493,7 +6579,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
-          "withSIX.Core": "1.0.0"
+          "withSIX.Core": "1.0.1"
         }
       },
       "withSIX.Steam.Infra/1.0.0": {
@@ -6503,10 +6589,10 @@
           "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.9",
-          "withSIX.Core": "1.0.0",
-          "withSIX.Core.Infra": "1.0.0",
-          "withSIX.Steam.Core": "1.0.0"
+          "withSIX.Core": "1.0.1",
+          "withSIX.Steam.Core": "1.0.2"
         }
       },
       "withSIX.Steam.Plugin.Arma/1.0.0": {
@@ -6514,6 +6600,7 @@
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
           "GameServerQuery": "1.0.0",
+          "JetBrains.Annotations": "10.2.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NDepend.Path.PCL": "1.0.2",
           "NETStandard.Library": "1.6.0",
@@ -6563,6 +6650,34 @@
         "lib/netstandard1.3/AutoMapper.xml",
         "lib/portable-net45+win8+wpa81/AutoMapper.dll",
         "lib/portable-net45+win8+wpa81/AutoMapper.xml"
+      ]
+    },
+    "IdentityModel/2.0.0": {
+      "sha512": "c5+zB+ADJ7QB2LC4tE5p4ESMHfR8HCBOD/LOjkNUiEh4AtbBgcZHYMKbBw/+rS5QyXNmMT0c+IMF1xb49XcYlQ==",
+      "type": "package",
+      "path": "IdentityModel/2.0.0",
+      "files": [
+        "IdentityModel.2.0.0.nupkg.sha512",
+        "IdentityModel.nuspec",
+        "lib/net45/IdentityModel.dll",
+        "lib/netstandard1.3/IdentityModel.dll"
+      ]
+    },
+    "JetBrains.Annotations/10.2.0": {
+      "sha512": "288VSJPYqBR3nKbCBAk8nR2PNANJPUqq3ru4NUb8k0aDZtcjqTfVXoZ4EQZ0Fl86BZWi0Ctyf6TEHremiuseeg==",
+      "type": "package",
+      "path": "JetBrains.Annotations/10.2.0",
+      "files": [
+        "JetBrains.Annotations.10.2.0.nupkg.sha512",
+        "JetBrains.Annotations.nuspec",
+        "lib/net/JetBrains.Annotations.dll",
+        "lib/net/JetBrains.Annotations.xml",
+        "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll",
+        "lib/netstandard1.0/JetBrains.Annotations.NetStandard.xml",
+        "lib/portable-net4+sl4+wp7+netcore45/JetBrains.Annotations.PCL1.dll",
+        "lib/portable-net4+sl4+wp7+netcore45/JetBrains.Annotations.PCL1.xml",
+        "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/JetBrains.Annotations.PCL328.dll",
+        "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/JetBrains.Annotations.PCL328.xml"
       ]
     },
     "Libuv/1.9.0": {

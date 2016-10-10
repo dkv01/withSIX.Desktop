@@ -1,6 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
+    "JetBrains.Annotations": "10.2.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NDepend.Path.PCL": "1.0.2",
     "NETStandard.Library": "1.6.0",

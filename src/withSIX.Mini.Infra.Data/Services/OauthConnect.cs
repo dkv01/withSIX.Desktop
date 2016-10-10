@@ -56,9 +56,9 @@ namespace withSIX.Mini.Infra.Data.Services
         public async Task<UserInfoResponse> GetUserInfo(Uri userInfoEndpoint, string accessToken) {
             var userInfoClient = new UserInfoClient(userInfoEndpoint.ToString());
             var response = await userInfoClient.GetAsync(accessToken).ConfigureAwait(false);
-            if (response.IsError || response.IsHttpError)
+            if (response.IsError)
                 throw new Exception(
-                    $"Error while retrieving userinfo: {response.Error} {response.HttpStatusCode} {response.HttpErrorReason}");
+                    $"Error while retrieving userinfo: {response.Error} {response.HttpStatusCode}");
             return new UserInfoResponse(response.Raw);
         }
 

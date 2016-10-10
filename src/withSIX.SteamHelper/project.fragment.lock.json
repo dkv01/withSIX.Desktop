@@ -170,7 +170,6 @@
       "runtime": {
         "../dll/SteamLayerWrap.dll": {},
         "../dll/Steamworks.NET.dll": {},
-        "../packages/JetBrains.Annotations.10.1.5/lib/net/JetBrains.Annotations.dll": {},
         "bin/Debug/withSIX.Steam.Plugin.Arma.dll": {}
       },
       "contentFiles": {
@@ -333,7 +332,6 @@
       "runtime": {
         "../dll/Akavache.Sqlite3.dll": {},
         "../dll/Akavache.dll": {},
-        "../dll/IdentityModel.dll": {},
         "bin/Debug/withSIX.Mini.Infra.Data.dll": {}
       },
       "contentFiles": {

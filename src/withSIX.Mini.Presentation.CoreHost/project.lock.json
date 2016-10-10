@@ -20,6 +20,22 @@
           "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
+      "IdentityModel/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1",
+          "System.Net.Http": "4.1.0",
+          "System.Security.Claims": "4.0.1",
+          "System.Security.Cryptography.Algorithms": "4.2.0",
+          "System.Security.Cryptography.X509Certificates": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/IdentityModel.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -3822,6 +3838,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "IdentityModel": "2.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -4065,7 +4082,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
-          "withSIX.Core": "1.0.0"
+          "withSIX.Core": "1.0.1"
         }
       },
       "withSIX.Steam.Infra/1.0.0": {
@@ -4075,10 +4092,10 @@
           "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.9",
-          "withSIX.Core": "1.0.0",
-          "withSIX.Core.Infra": "1.0.0",
-          "withSIX.Steam.Core": "1.0.0"
+          "withSIX.Core": "1.0.1",
+          "withSIX.Steam.Core": "1.0.2"
         }
       },
       "withSIX.Sync.Core/1.0.0": {
@@ -4116,6 +4133,22 @@
         },
         "runtime": {
           "lib/netstandard1.3/AutoMapper.dll": {}
+        }
+      },
+      "IdentityModel/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1",
+          "System.Net.Http": "4.1.0",
+          "System.Security.Claims": "4.0.1",
+          "System.Security.Cryptography.Algorithms": "4.2.0",
+          "System.Security.Cryptography.X509Certificates": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/IdentityModel.dll": {}
         }
       },
       "Libuv/1.9.0": {
@@ -7958,6 +7991,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "IdentityModel": "2.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -8201,7 +8235,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
-          "withSIX.Core": "1.0.0"
+          "withSIX.Core": "1.0.1"
         }
       },
       "withSIX.Steam.Infra/1.0.0": {
@@ -8211,10 +8245,10 @@
           "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.9",
-          "withSIX.Core": "1.0.0",
-          "withSIX.Core.Infra": "1.0.0",
-          "withSIX.Steam.Core": "1.0.0"
+          "withSIX.Core": "1.0.1",
+          "withSIX.Steam.Core": "1.0.2"
         }
       },
       "withSIX.Sync.Core/1.0.0": {
@@ -8252,6 +8286,22 @@
         },
         "runtime": {
           "lib/netstandard1.3/AutoMapper.dll": {}
+        }
+      },
+      "IdentityModel/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1",
+          "System.Net.Http": "4.1.0",
+          "System.Security.Claims": "4.0.1",
+          "System.Security.Cryptography.Algorithms": "4.2.0",
+          "System.Security.Cryptography.X509Certificates": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/IdentityModel.dll": {}
         }
       },
       "Libuv/1.9.0": {
@@ -12181,6 +12231,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.3",
         "dependencies": {
+          "IdentityModel": "2.0.0",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Diagnostics.Contracts": "4.0.1",
@@ -12424,7 +12475,7 @@
           "System.Diagnostics.Process": "4.1.0",
           "System.Reactive": "3.0.0",
           "System.Reactive.Interfaces": "3.0.0",
-          "withSIX.Core": "1.0.0"
+          "withSIX.Core": "1.0.1"
         }
       },
       "withSIX.Steam.Infra/1.0.0": {
@@ -12434,10 +12485,10 @@
           "Microsoft.AspNet.SignalR.Client": "2.2.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
           "NETStandard.Library": "1.6.0",
+          "System.Reactive": "3.0.0",
           "withSIX.Api.Models": "2.0.9",
-          "withSIX.Core": "1.0.0",
-          "withSIX.Core.Infra": "1.0.0",
-          "withSIX.Steam.Core": "1.0.0"
+          "withSIX.Core": "1.0.1",
+          "withSIX.Steam.Core": "1.0.2"
         }
       },
       "withSIX.Sync.Core/1.0.0": {
@@ -12476,6 +12527,17 @@
         "lib/netstandard1.3/AutoMapper.xml",
         "lib/portable-net45+win8+wpa81/AutoMapper.dll",
         "lib/portable-net45+win8+wpa81/AutoMapper.xml"
+      ]
+    },
+    "IdentityModel/2.0.0": {
+      "sha512": "c5+zB+ADJ7QB2LC4tE5p4ESMHfR8HCBOD/LOjkNUiEh4AtbBgcZHYMKbBw/+rS5QyXNmMT0c+IMF1xb49XcYlQ==",
+      "type": "package",
+      "path": "IdentityModel/2.0.0",
+      "files": [
+        "IdentityModel.2.0.0.nupkg.sha512",
+        "IdentityModel.nuspec",
+        "lib/net45/IdentityModel.dll",
+        "lib/netstandard1.3/IdentityModel.dll"
       ]
     },
     "Libuv/1.9.0": {

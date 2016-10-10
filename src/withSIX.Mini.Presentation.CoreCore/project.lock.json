@@ -34,6 +34,17 @@
           "lib/netstandard1.3/IdentityModel.dll": {}
         }
       },
+      "JetBrains.Annotations/10.2.0": {
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -3101,6 +3112,23 @@
         "IdentityModel.nuspec",
         "lib/net45/IdentityModel.dll",
         "lib/netstandard1.3/IdentityModel.dll"
+      ]
+    },
+    "JetBrains.Annotations/10.2.0": {
+      "sha512": "288VSJPYqBR3nKbCBAk8nR2PNANJPUqq3ru4NUb8k0aDZtcjqTfVXoZ4EQZ0Fl86BZWi0Ctyf6TEHremiuseeg==",
+      "type": "package",
+      "path": "JetBrains.Annotations/10.2.0",
+      "files": [
+        "JetBrains.Annotations.10.2.0.nupkg.sha512",
+        "JetBrains.Annotations.nuspec",
+        "lib/net/JetBrains.Annotations.dll",
+        "lib/net/JetBrains.Annotations.xml",
+        "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll",
+        "lib/netstandard1.0/JetBrains.Annotations.NetStandard.xml",
+        "lib/portable-net4+sl4+wp7+netcore45/JetBrains.Annotations.PCL1.dll",
+        "lib/portable-net4+sl4+wp7+netcore45/JetBrains.Annotations.PCL1.xml",
+        "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/JetBrains.Annotations.PCL328.dll",
+        "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/JetBrains.Annotations.PCL328.xml"
       ]
     },
     "Libuv/1.9.0": {
