@@ -4,9 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.Win32;
-using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Infra.Cache;
 using withSIX.Core.Logging;
@@ -16,12 +14,9 @@ namespace withSIX.Core.Presentation.Legacy
 {
     public class StartupManager : IStartupManager, IEnableLogging
     {
-        static MapperConfiguration _dummyForAutoMapper = new MapperConfiguration(cfg => { });
         readonly ICacheManager _cacheManager;
-        readonly ISystemInfo _systemInfo;
 
-        public StartupManager(ISystemInfo systemInfo, ICacheManager cacheManager) {
-            _systemInfo = systemInfo;
+        public StartupManager(ICacheManager cacheManager) {
             _cacheManager = cacheManager;
         }
 

@@ -50,12 +50,6 @@ namespace withSIX.Core.Presentation.Bridge.Extensions
         };
         static readonly List<Type> reservedRoot = new List<Type>();
 
-        public static void RegisterMediatorDecorators(Container container) {
-            container.RegisterDecorator<IMediator, MediatorValidationDecorator>(Lifestyle.Singleton);
-            if (Common.AppCommon.Type < ReleaseType.Beta)
-                container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
-        }
-
 
         public static void RegisterReserved(params Type[] ts) => reserved.AddRange(ts);
         public static void RegisterReservedRoot(params Type[] ts) => reservedRoot.AddRange(ts);

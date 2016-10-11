@@ -47,6 +47,8 @@ namespace withSIX.Core.Presentation.Legacy
 
         protected IEnumerable<Assembly> Assemblies => _assemblies.Value;
 
+        protected abstract ContainerConfiguration CreateConfiguration();
+
 
         // TODO: Add all assemblies that implement concrete types defined in setups here
         protected virtual IEnumerable<Assembly> SelectAssemblies() => new[] {
@@ -104,6 +106,8 @@ namespace withSIX.Core.Presentation.Legacy
         }
 
         protected virtual void ConfigureContainer() {
+            Container = new Container();
+            _config = CreateConfiguration();
             _config.Setup();
             SetupCaches();
         }
@@ -206,8 +210,6 @@ namespace withSIX.Core.Presentation.Legacy
             return cache;
         }
 
-        public static Action<Container> ConfigureContainer2 { get; set; }
-
         // TODO: Limit assemblies to bare minimum required for the specific Registration?
         // TODO: Stop using AllowOverridingRegistration!
         // TODO: Optimize custom extension methods
@@ -215,9 +217,9 @@ namespace withSIX.Core.Presentation.Legacy
         public abstract class ContainerConfiguration
         {
             readonly IEnumerable<Assembly> _assemblies;
-            readonly Container _container;
+            protected readonly Container _container;
 
-            public ContainerConfiguration(Container container, IEnumerable<Assembly> assemblies) {
+            protected ContainerConfiguration(Container container, IEnumerable<Assembly> assemblies) {
                 _container = container;
                 _assemblies = assemblies;
             }
@@ -232,9 +234,11 @@ namespace withSIX.Core.Presentation.Legacy
 
 
             public void Setup() {
-                ConfigureContainer2(_container);
+                ConfigureContainer2();
                 Register();
             }
+
+            protected abstract void ConfigureContainer2();
 
             void Register() {
                 //RegisterEventAggregator(_container);
@@ -246,6 +250,7 @@ namespace withSIX.Core.Presentation.Legacy
                 RegisterSingleAllInterfaces<IApplicationService>(_assemblies);
                 RegisterSingleAllInterfaces<IInfrastructureService>(_assemblies);
                 RegisterSingleAllInterfacesAndType<IPresentationService>(_assemblies);
+                RegisterAllInterfaces<ITransientService>(_assemblies);
 
                 _container.RegisterSingleton(JsonSerializer.Create(JsonSupport.DefaultSettings));
 
@@ -381,6 +386,12 @@ namespace withSIX.Core.Presentation.Legacy
                         ? _container.GetInstance<IHostCheckerWithPing>()
                         : _container.GetInstance<IHostChecker>();
                     return new ExportLifetimeContext<IHostChecker>(hostChecker, TaskExt.NullAction);
+                });
+
+                _container.RegisterSingleton<Func<ExportLifetimeContext<IWebClient>>>(() => {
+                    var wc = _container.GetInstance<Func<IWebClient>>();
+                    var webClient = wc();
+                    return new ExportLifetimeContext<IWebClient>(webClient, webClient.Dispose);
                 });
             }
 

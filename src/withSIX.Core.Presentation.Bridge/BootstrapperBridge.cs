@@ -4,8 +4,10 @@
 
 using System;
 using System.Reflection;
+using MediatR;
 using SimpleInjector;
 using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Decorators;
 
 namespace withSIX.Core.Presentation.Bridge
 {
@@ -16,6 +18,12 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public static Assembly AssemblyLoadFrom(string arg) => Assembly.LoadFrom(arg);
+
+        public static void RegisterMediatorDecorators(Container container) {
+            container.RegisterDecorator<IMediator, MediatorValidationDecorator>(Lifestyle.Singleton);
+            if (Common.AppCommon.Type < ReleaseType.Beta)
+                container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
+        }
 
         public static void ConfigureContainer(Container container) {
             // TODO: Disable this once we could disable registering inherited interfaces??
