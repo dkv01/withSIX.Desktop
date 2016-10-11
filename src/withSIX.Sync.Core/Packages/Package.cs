@@ -49,6 +49,7 @@ namespace withSIX.Sync.Core.Packages
         const string SynqInfoJoiner = "\r\n";
         public const string SynqInfoFile = ".synqinfo";
         public const string SynqSpecFile = ".synqspec";
+        public static readonly PackageFactory Factory = new PackageFactory();
         static readonly string[] synqInfoSeparator = { SynqInfoJoiner, "\n" };
 
         public Package(IAbsoluteDirectoryPath workingDirectory, string packageName, Repository repository) {

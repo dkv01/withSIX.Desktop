@@ -182,7 +182,7 @@ namespace withSIX.Sync.Core.Packages
             }
 
             Repository.Log("\nChecking out {0} into {1}, please be patient...", resolvedPackageName, dir);
-            var package = ModCppParser.Factory.Open(Repo, dir, resolvedPackageName);
+            var package = Package.Factory.Open(Repo, dir, resolvedPackageName);
             package.StatusRepo = StatusRepo;
             await package.CheckoutAsync(null).ConfigureAwait(false);
 
@@ -280,7 +280,7 @@ namespace withSIX.Sync.Core.Packages
                 useFullName = useFullNameOverride.Value;
 
             await GetAndAddPackage(depInfo).ConfigureAwait(false);
-            var package = ModCppParser.Factory.Open(Repo,
+            var package = Package.Factory.Open(Repo,
                 Repo.Config.OperationMode == RepositoryOperationMode.Default
                     ? WorkDir.GetChildDirectoryWithName(useFullName ? name : depInfo.Name)
                     : WorkDir,
@@ -528,7 +528,7 @@ namespace withSIX.Sync.Core.Packages
                 done.Add(depInfo);
             }
 
-            var package = ModCppParser.Factory.Open(Repo,
+            var package = Package.Factory.Open(Repo,
                 WorkDir.GetChildDirectoryWithName(useFullName ? name : depInfo.Name), name);
             list.Add(depInfo.Name);
             packages.Add(package);
