@@ -27,7 +27,7 @@ namespace withSIX.Mini.Presentation.Wpf
     {
         private readonly SIHandler _siHandler;
         WpfAppBootstrapper _bootstrapper;
-        private CMBootstrapper _cmBs;
+        private CMBootstrapper<string> _cmBs;
 
         public App() {
             AppEvent += OnAppEvent;
@@ -69,7 +69,7 @@ namespace withSIX.Mini.Presentation.Wpf
             _bootstrapper.Configure();
             if (_bootstrapper.CommandMode)
                 HandleSingleInstance();
-            _cmBs = new CMBootstrapper(_bootstrapper);
+            _cmBs = new CMBootstrapper<string>(_bootstrapper);
             TaskExt.StartLongRunningTask(StartupInternal).WaitSpecial();
         }
 

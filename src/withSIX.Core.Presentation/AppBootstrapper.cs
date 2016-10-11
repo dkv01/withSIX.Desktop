@@ -19,7 +19,7 @@ using Splat;
 
 namespace withSIX.Core.Presentation
 {
-    public static class AppBootstrapper
+    public static class AppBootstrapperExt
     {
         public static void RegisterMessageBus(this Container container) {
             container.RegisterSingleton(new MessageBus());

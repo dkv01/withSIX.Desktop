@@ -11,7 +11,6 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Akavache;
-using Caliburn.Micro;
 using MediatR;
 using Newtonsoft.Json;
 using SimpleInjector;
@@ -22,7 +21,6 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Infra.Cache;
 using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
-using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Core.Presentation.Decorators;
 using withSIX.Core.Presentation.Services;
 using withSIX.Core.Services;
@@ -34,57 +32,67 @@ using withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Sync.Core.Transfer.Protocols;
 using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Legacy
 {
-    public abstract class AppBootstrapperBase : BootstrapperBase
+    public abstract class AppBootstrapperBase
     {
         ContainerConfiguration _config;
 
-        protected AppBootstrapperBase(bool useApplication = true) : base(useApplication) {
-            using (this.Bench())
-                Initialize();
-        }
-
         protected Container Container { get; private set; }
+        private Lazy<IEnumerable<Assembly>> _assemblies;
 
-        protected override void Configure() {
-            Container = new Container();
-            _config = new ContainerConfiguration(Container);
+        protected AppBootstrapperBase() {
+             _assemblies = new Lazy<IEnumerable<Assembly>>(() => SelectAssemblies().ToList());
         }
 
-        protected override void StartDesignTime() {
-            base.StartDesignTime();
-            SetupContainer();
-        }
+        protected IEnumerable<Assembly> Assemblies => _assemblies.Value;
+
 
         // TODO: Add all assemblies that implement concrete types defined in setups here
-        protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
-            typeof(AppBootstrapperBase).Assembly,
-            typeof(CompressionUtil).Assembly,
-            typeof(FileWriter).Assembly,
-            typeof(Restarter).Assembly,
-            typeof(Common).Assembly,
-            typeof(Mediator).Assembly
-        }.Concat(base.SelectAssemblies()).Distinct();
+        protected virtual IEnumerable<Assembly> SelectAssemblies() => new[] {
+            typeof(AppBootstrapperBase).GetTypeInfo().Assembly,
+            typeof(CompressionUtil).GetTypeInfo().Assembly,
+            typeof(FileWriter).GetTypeInfo().Assembly,
+            typeof(Restarter).GetTypeInfo().Assembly,
+            typeof(Common).GetTypeInfo().Assembly,
+            typeof(Mediator).GetTypeInfo().Assembly
+        }.Distinct();
 
-        protected override object GetInstance(Type serviceType, string key) => Container.GetInstance(serviceType);
-
-        protected override IEnumerable<object> GetAllInstances(Type serviceType) {
-            object[] allInstances;
-            try {
-                allInstances = Container.GetAllInstances(serviceType).ToArray();
-            } catch (ActivationException) {
-                return new[] {Container.GetInstance(serviceType)};
-            }
-            // workaround for view search by getallinstances :S
-            if (!allInstances.Any())
-                return new[] {Container.GetInstance(serviceType)};
-            return allInstances;
-        }
-
-        protected override void BuildUp(object instance) {
-            //Container.InjectProperties(instance); // PropertyIjection bad..
-        }
+        /*
+                         protected AppBootstrapperBase(bool useApplication = true) : base(useApplication) {
+                    using (this.Bench())
+                        Initialize();
+                }
+        
+                         protected override void Configure() {
+                            Container = new Container();
+                            _config = new ContainerConfiguration(Container);
+                        }
+        
+                        protected override void StartDesignTime() {
+                            base.StartDesignTime();
+                            SetupContainer();
+                        }
+        
+                        protected override object GetInstance(Type serviceType, string key) => Container.GetInstance(serviceType);
+        
+                        protected override IEnumerable<object> GetAllInstances(Type serviceType) {
+                            object[] allInstances;
+                            try {
+                                allInstances = Container.GetAllInstances(serviceType).ToArray();
+                            } catch (ActivationException) {
+                                return new[] {Container.GetInstance(serviceType)};
+                            }
+                            // workaround for view search by getallinstances :S
+                            if (!allInstances.Any())
+                                return new[] {Container.GetInstance(serviceType)};
+                            return allInstances;
+                        }
+        
+                        protected override void BuildUp(object instance) {
+                            //Container.InjectProperties(instance); // PropertyIjection bad..
+                        }
+                        */
 
         protected void SetupContainer() {
             ConfigureContainer();
@@ -160,7 +168,9 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                 () =>
                     RegisterCache(
                         new SecureCache(Common.Paths.DataPath.GetChildFileWithName("secure-cache.db").ToString(),
-                            Common.IsWindows ? (IEncryptionProvider)new WindowsEncryptionProvider() : new NotWindowsEncryptionProvider(), scheduler)));
+                            Common.IsWindows
+                                ? (IEncryptionProvider) new WindowsEncryptionProvider()
+                                : new NotWindowsEncryptionProvider(), scheduler)));
         }
 
         // Until https://github.com/aarnott/pclcrypto
@@ -175,6 +185,9 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                 return Observable.Return(Convert.FromBase64String(Encoding.UTF8.GetString(block)));
             }
         }
+
+        public virtual void OnExit(object sender, EventArgs e) {}
+        public virtual void OnStartup() {}
 
         public class WindowsEncryptionProvider : IEncryptionProvider
         {
@@ -193,39 +206,46 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
             return cache;
         }
 
+        public static Action<Container> ConfigureContainer2 { get; set; }
+
         // TODO: Limit assemblies to bare minimum required for the specific Registration?
         // TODO: Stop using AllowOverridingRegistration!
         // TODO: Optimize custom extension methods
         // TODO: Get rid of Lazy/Func/ExportFactory as much as possible
-        public class ContainerConfiguration
+        public abstract class ContainerConfiguration
         {
             readonly IEnumerable<Assembly> _assemblies;
             readonly Container _container;
 
-            public ContainerConfiguration(Container container) {
+            public ContainerConfiguration(Container container, IEnumerable<Assembly> assemblies) {
                 _container = container;
-                _assemblies = AssemblySource.Instance;
+                _assemblies = assemblies;
             }
 
+            protected abstract void RegisterAllInterfaces<T>(IEnumerable<Assembly> assemblies);
+
+            protected abstract void RegisterSingleAllInterfaces<T>(IEnumerable<Assembly> assemblies);
+
+            protected abstract void RegisterSingleAllInterfacesAndType<T>(IEnumerable<Assembly> assemblies);
+
+            protected abstract void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) where T : class;
+
+
             public void Setup() {
-                _container.Options.AllowOverridingRegistrations = true;
-                _container.Options.LifestyleSelectionBehavior = new CustomLifestyleSelectionBehavior();
-                _container.AllowResolvingFuncFactories();
-                _container.AllowResolvingLazyFactories();
-                //_container.AllowResolvingExportFactories();
+                ConfigureContainer2(_container);
                 Register();
             }
 
             void Register() {
-                RegisterEventAggregator(_container);
+                //RegisterEventAggregator(_container);
 
                 _container.RegisterInitializer<IProcessManager>(ConfigureProcessManager);
 
                 _container.RegisterSingleton<Func<HostCheckerType>>(() => HostCheckerType.WithPing);
-                _container.RegisterSingleAllInterfacesAndType<IDomainService>(_assemblies);
-                _container.RegisterSingleAllInterfaces<IApplicationService>(_assemblies);
-                _container.RegisterSingleAllInterfaces<IInfrastructureService>(_assemblies);
-                _container.RegisterSingleAllInterfacesAndType<IPresentationService>(_assemblies);
+                RegisterSingleAllInterfacesAndType<IDomainService>(_assemblies);
+                RegisterSingleAllInterfaces<IApplicationService>(_assemblies);
+                RegisterSingleAllInterfaces<IInfrastructureService>(_assemblies);
+                RegisterSingleAllInterfacesAndType<IPresentationService>(_assemblies);
 
                 _container.RegisterSingleton(JsonSerializer.Create(JsonSupport.DefaultSettings));
 
@@ -252,12 +272,6 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                 RegisterTools();
             }
 
-            public static void RegisterEventAggregator(Container container) {
-                container.RegisterSingleton(new EventAggregator());
-                container.RegisterSingleton<IEventAggregator>(container.GetInstance<EventAggregator>);
-                container.RegisterInitializer<IHandle>(x => container.GetInstance<IEventAggregator>().Subscribe(x));
-            }
-
             void RegisterTools() {
                 _container.RegisterSingleton(() => Tools.Generic);
                 _container.RegisterSingleton(() => Tools.FileUtil);
@@ -277,9 +291,10 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
 
                 RegisterRequestHandlers();
                 RegisterNotificationHandlers();
-
-                SimpleInjectorContainerExtensions.RegisterMediatorDecorators(_container);
+                RegisterMediatorDecorators();
             }
+
+            protected abstract void RegisterMediatorDecorators();
 
             void RegisterRequestHandlers() {
                 var requestHandlers = new[] {
@@ -317,8 +332,8 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                 _container.Register<IHostChecker, HostChecker>();
                 _container.Register<IHostCheckerWithPing, HostCheckerWithPing>();
 
-                _container.RegisterPlugins<IDownloadProtocol>(_assemblies, Lifestyle.Singleton);
-                _container.RegisterPlugins<IUploadProtocol>(_assemblies, Lifestyle.Singleton);
+                RegisterPlugins<IDownloadProtocol>(_assemblies, Lifestyle.Singleton);
+                RegisterPlugins<IUploadProtocol>(_assemblies, Lifestyle.Singleton);
 
                 _container.RegisterSingleton<IHttpDownloadProtocol, HttpDownloadProtocol>();
                 _container.RegisterSingleton<IFileDownloader, FileDownloader>();

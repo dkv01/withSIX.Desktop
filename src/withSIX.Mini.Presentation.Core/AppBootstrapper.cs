@@ -455,7 +455,7 @@ namespace withSIX.Mini.Presentation.Core
 
             RegisterMediator();
             RegisterMessageBus();
-            withSIX.Core.Presentation.AppBootstrapper.StartSQLite();
+            withSIX.Core.Presentation.AppBootstrapperExt.StartSQLite();
             RegisterDownloader();
             RegisterTools();
             RegisterCaches();

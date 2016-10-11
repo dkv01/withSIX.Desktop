@@ -139,11 +139,15 @@
     <Compile Include="IBridge.cs" />
     <Compile Include="IFirstTimeLicense.cs" />
     <Compile Include="IPresentationService.cs" />
+    <Compile Include="Legacy\AppBootstrapperBase.cs" />
+    <Compile Include="Legacy\ConsoleAppBootstrapper.cs" />
+    <Compile Include="Legacy\StartupManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AutoMapperProfile.cs" />
     <Compile Include="Services\CompressionUtil.cs" />
     <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
     <Compile Include="Services\DepResolver.cs" />
+    <Compile Include="Services\ICMBootStrapper.cs" />
     <Compile Include="Services\IExitHandler.cs" />
     <Compile Include="Services\MessageBusProxy.cs" />
     <Compile Include="Services\UserErrorHandling.cs" />
@@ -152,6 +156,10 @@
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
+      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
+      <Name>withSIX.Core.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
@@ -174,6 +182,9 @@
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData">
+      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.0.0\lib\net46\System.Security.Cryptography.ProtectedData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

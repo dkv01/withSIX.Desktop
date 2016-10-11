@@ -27,6 +27,8 @@ using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Legacy;
+using withSIX.Core.Presentation.Services;
 using withSIX.Core.Presentation.Wpf;
 using withSIX.Core.Presentation.Wpf.Extensions;
 using withSIX.Core.Presentation.Wpf.Legacy;
@@ -38,7 +40,6 @@ using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Infra.Api;
 using withSIX.Mini.Presentation.Core;
-using withSIX.Mini.Presentation.Owin.Core;
 using withSIX.Mini.Presentation.Wpf.Services;
 using DefaultViewLocator = withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;
 using IScreen = Caliburn.Micro.IScreen;
@@ -46,15 +47,6 @@ using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace withSIX.Mini.Presentation.Wpf
 {
-    class CMBootstrapper : BootstrapperBase
-    {
-        public CMBootstrapper(WpfAppBootstrapper bs) : base(true) {
-            bs.InitializeCM();
-            // Legacy
-            Initialize(); // initialize CM framework
-        }
-    }
-
     public class WorkaroundBootstrapper : AppBootstrapper
     {
         protected WorkaroundBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
@@ -71,7 +63,7 @@ namespace withSIX.Mini.Presentation.Wpf
         protected override void RegisterMessageBus() => BootstrapperBridge.RegisterMessageBus(Container);
     }
 
-    class WpfAppBootstrapper : WorkaroundBootstrapper
+    class WpfAppBootstrapper : WorkaroundBootstrapper, ICMBootStrapper<string>
     {
         IMiniMainWindowViewModel _mainVm;
 
@@ -105,6 +97,12 @@ namespace withSIX.Mini.Presentation.Wpf
             dependencyResolver.InitializeReactiveUI();
         }
 
+        public static void RegisterEventAggregator(Container container) {
+            container.RegisterSingleton(new EventAggregator());
+            container.RegisterSingleton<IEventAggregator>(container.GetInstance<EventAggregator>);
+            container.RegisterInitializer<IHandle>(x => container.GetInstance<IEventAggregator>().Subscribe(x));
+        }
+
         protected override void RegisterServices() {
             base.RegisterServices();
             Container.RegisterSingleton<IDialogManager, WpfDialogManager>();
@@ -112,7 +110,7 @@ namespace withSIX.Mini.Presentation.Wpf
             Container.RegisterSingleton<IShutdownHandler, WpfShutdownHandler>();
 
             // Legacy
-            AppBootstrapperBase.ContainerConfiguration.RegisterEventAggregator(Container);
+            RegisterEventAggregator(Container);
         }
 
         protected override async Task PostInitialize() {
@@ -147,7 +145,7 @@ namespace withSIX.Mini.Presentation.Wpf
                 "withSIX.Core.Presentation.Wpf.Views");
         }
 
-        protected internal void InitializeCM() {
+        public void InitializeCM() {
             UiTaskHandler.RegisterCommand = (command, action) => {
                 // ThrownExceptions does not listen to Subscribe errors, but only in async task errors!
                 command.ThrownExceptions
@@ -161,6 +159,9 @@ namespace withSIX.Mini.Presentation.Wpf
             SimpleInjectorContainerExtensions.RegisterReserved(typeof(IHandle), typeof(IScreen));
             SimpleInjectorContainerExtensions.RegisterReservedRoot(typeof(IHandle));
         }
+        public bool DisplayRootView { get; }
+
+        public void DisplayRootView2() {}
 
         async Task HandlemainVm() => _mainVm = await new GetMiniMain().ExecuteWrapped().ConfigureAwait(false);
 

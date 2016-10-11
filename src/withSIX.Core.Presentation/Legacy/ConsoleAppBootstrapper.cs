@@ -5,17 +5,13 @@
 using System;
 using System.Threading.Tasks;
 using withSIX.Core.Applications.Services;
-using withSIX.Core.Presentation.Bridge;
 
-namespace withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Legacy
 {
     public abstract class ConsoleAppBootstrapper : AppBootstrapperBase
     {
-        protected ConsoleAppBootstrapper() : base(false) {}
-
         protected override void ConfigureContainer() {
             base.ConfigureContainer();
-            Container.Register<IShutdownHandler, ShutdownHandler>();
             Container.Register<IFirstTimeLicense, ConsoleFirstTimeLicense>();
             Container.Register<IDialogManager, ConsoleDialogManager>();
         }

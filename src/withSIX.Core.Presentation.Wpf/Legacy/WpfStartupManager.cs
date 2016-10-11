@@ -8,6 +8,7 @@ using withSIX.Core.Applications.Infrastructure;
 using withSIX.Core.Applications.MVVM;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Infra.Cache;
+using withSIX.Core.Presentation.Legacy;
 
 namespace withSIX.Core.Presentation.Wpf.Legacy
 {

@@ -81,8 +81,8 @@ namespace withSIX.Mini.Presentation.CoreHost
             //var l = Locator.CurrentMutable;
             // cant refer ReactiveUI atm until we put it into a package :)
             //l.Register(() => null, typeof(IFilesystemProvider), null);
-            withSIX.Core.Presentation.AppBootstrapper.RegisterMessageBus(Container);
-            withSIX.Core.Presentation.AppBootstrapper.StartSQLite();
+            withSIX.Core.Presentation.AppBootstrapperExt.RegisterMessageBus(Container);
+            withSIX.Core.Presentation.AppBootstrapperExt.StartSQLite();
         }
 
 

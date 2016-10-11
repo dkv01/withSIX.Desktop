@@ -653,13 +653,11 @@
     <Compile Include="Converters\ProgressStateConverter.cs" />
     <Compile Include="Converters\UriToStringConverter.cs" />
     <Compile Include="Helpers\SplashScreenHandler.cs" />
-    <Compile Include="Legacy\AppBootstrapperBase.cs" />
-    <Compile Include="Legacy\ConsoleAppBootstrapper.cs" />
-    <Compile Include="Legacy\StartupManager.cs" />
     <Compile Include="Legacy\WpfAppBootstrapper.cs" />
     <Compile Include="Legacy\WpfStartupManager.cs" />
     <Compile Include="Services\BasicUserErrorHandler.cs" />
     <Compile Include="Services\Cache.cs" />
+    <Compile Include="Services\CMBootstrapper.cs" />
     <Compile Include="Services\CustomThemeManager.cs" />
     <Compile Include="Services\CustomWindowManager.cs" />
     <Compile Include="Services\DefaultViewLocator.cs" />
@@ -966,7 +964,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.0\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.0\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />

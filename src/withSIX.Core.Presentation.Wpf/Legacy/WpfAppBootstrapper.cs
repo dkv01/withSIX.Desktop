@@ -21,6 +21,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Core.Presentation.Bridge.Services;
+using withSIX.Core.Presentation.Legacy;
 using withSIX.Core.Presentation.Resources;
 using withSIX.Core.Presentation.Services;
 using withSIX.Core.Presentation.Wpf.Extensions;
@@ -40,8 +41,7 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
         IExceptionHandler _exceptionHandler;
         protected bool DisplayRootView = true;
 
-        protected override void Configure() {
-            base.Configure();
+        public void ConfigureCM() {
             RxApp.SupportsRangeNotifications = false; // WPF doesnt :/
             SimpleInjectorContainerExtensions.RegisterReserved(typeof(IHandle), typeof(IScreen));
             SimpleInjectorContainerExtensions.RegisterReservedRoot(typeof(IHandle));
@@ -98,7 +98,7 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
 
         protected virtual void PreStart() {}
 
-        protected sealed override void OnStartup(object sender, StartupEventArgs e) {
+        public sealed override void OnStartup() {
             using (this.Bench()) {
                 try {
                     SetupContainer();
@@ -106,9 +106,7 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
                     using (MainLog.Bench(null, "WpfAppBootstrapper.PreStart"))
                         PreStart();
                     using (MainLog.Bench(null, "WpfAppBootstrapper.OnStartup"))
-                        base.OnStartup(sender, e);
-                    if (DisplayRootView)
-                        DisplayRootViewFor<T>();
+                        base.OnStartup();
                 } catch (Exception ex) {
                     LogError(ex, "Startup");
                     throw;
@@ -146,7 +144,7 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
             originalInvokeAction(actionExecutionContext);
         }
 
-        protected sealed override void OnExit(object sender, EventArgs e) {
+        public sealed override void OnExit(object sender, EventArgs e) {
             try {
                 base.OnExit(sender, e);
                 ExitAsync(sender, e).WaitSpecial();

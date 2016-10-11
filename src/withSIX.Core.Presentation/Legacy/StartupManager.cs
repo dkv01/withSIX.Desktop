@@ -12,7 +12,7 @@ using withSIX.Core.Infra.Cache;
 using withSIX.Core.Logging;
 using withSIX.Sync.Core.Legacy.SixSync;
 
-namespace withSIX.Core.Presentation.Wpf.Legacy
+namespace withSIX.Core.Presentation.Legacy
 {
     public class StartupManager : IStartupManager, IEnableLogging
     {
