@@ -1097,7 +1097,7 @@ namespace withSIX.Sync.Core.Repositories
             versions.Remove(versions.Last());
 
             var nextInline = new SpecificVersion(def.Name, versions.Last());
-            var package = Package.Factory.Open(this, workDir, nextInline.ToString());
+            var package = ModCppParser.Factory.Open(this, workDir, nextInline.ToString());
             await package.CheckoutAsync(null).ConfigureAwait(false);
 
             return nextInline;
@@ -1136,7 +1136,7 @@ namespace withSIX.Sync.Core.Repositories
 
             var reversionPackage = def.VersionData != null ? def : new Dependency(def.Name, versions.Last());
 
-            var package = Package.Factory.Open(this, workDir, reversionPackage.ToString());
+            var package = ModCppParser.Factory.Open(this, workDir, reversionPackage.ToString());
 
             var newDep = new SpecificVersion(def.Name, newVersion);
             DeletePackage(reversionPackage.ToSpecificVersion());

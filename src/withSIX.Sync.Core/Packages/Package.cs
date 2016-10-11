@@ -49,15 +49,7 @@ namespace withSIX.Sync.Core.Packages
         const string SynqInfoJoiner = "\r\n";
         public const string SynqInfoFile = ".synqinfo";
         public const string SynqSpecFile = ".synqspec";
-        const string Rx = "[\\s\\t]*=[\\s\\t]*\"(.*)\"[\\s\\t]*;?";
-        public static readonly PackageFactory Factory = new PackageFactory();
-        static readonly string[] synqInfoSeparator = {SynqInfoJoiner, "\n"};
-        public static readonly Regex rxCppName = new Regex("name" + Rx,
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        public static readonly Regex rxCppDescription = new Regex("description" + Rx,
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        public static readonly Regex rxCppAuthor = new Regex("author" + Rx,
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly string[] synqInfoSeparator = { SynqInfoJoiner, "\n" };
 
         public Package(IAbsoluteDirectoryPath workingDirectory, string packageName, Repository repository) {
             Contract.Requires<ArgumentNullException>(workingDirectory != null);
@@ -181,14 +173,10 @@ namespace withSIX.Sync.Core.Packages
                 return new Tuple<string, string, string>(null, null, null);
             var fileContent = File.ReadAllText(cppFile.ToString());
 
-            var match = rxCppName.Match(fileContent);
-            var name = !match.Success ? null : match.Groups[1].Value;
-
-            match = rxCppDescription.Match(fileContent);
-            var description = !match.Success ? null : match.Groups[1].Value;
-
-            match = rxCppAuthor.Match(fileContent);
-            var author = !match.Success ? null : match.Groups[1].Value;
+            var p = new ModCppParser(fileContent);
+            var name = p.GetName();
+            var description = p.GetDescription();
+            var author = p.GetAuthor();
 
             return Tuple.Create(name, description, author);
         }
@@ -335,7 +323,7 @@ namespace withSIX.Sync.Core.Packages
             ProcessCheckout(progressLeaf, false);
         }
 
-        public ObjectMap[] GetNeededObjects(bool skipWhenFileMatches = true) {
+        public Package.ObjectMap[] GetNeededObjects(bool skipWhenFileMatches = true) {
             var objects = GetMetaDataFilesOrderedBySize().ToList();
 
             var validObjects = new List<FileObjectMapping>();
@@ -344,7 +332,7 @@ namespace withSIX.Sync.Core.Packages
 
             objects.RemoveAll(validObjects);
 
-            var newObjects = objects.Select(x => new ObjectMap(x)).ToArray();
+            var newObjects = objects.Select(x => new Package.ObjectMap(x)).ToArray();
 
             var missingObjects = GetMissingObjectMapping(newObjects).ToList();
             if (missingObjects.Any())
@@ -378,7 +366,7 @@ namespace withSIX.Sync.Core.Packages
                     (ITransferStatus)
                     new Status(x.DisplayName, sr) {RealObject = x.FilePath, OnComplete = x.Complete});
 
-        void HandleMissingObjects(List<ObjectMap> missingObjects) {
+        void HandleMissingObjects(List<Package.ObjectMap> missingObjects) {
             var currentPackage = MetaData.GetFullName();
             var packages = Repository.GetPackagesList()
                 .Where(x => !x.Equals(currentPackage))
@@ -397,7 +385,7 @@ namespace withSIX.Sync.Core.Packages
 
             StatusRepo.Reset(RepoStatus.Packing, missingObjects.Count);
 
-            var resolvedObjects = new List<ObjectMap>();
+            var resolvedObjects = new List<Package.ObjectMap>();
             foreach (var o in missingObjects)
                 ProcessMissingObject(o, resolvedObjects);
             Repository.ReAddObject(resolvedObjects.Select(x => x.ExistingObject).ToArray());
@@ -411,12 +399,12 @@ namespace withSIX.Sync.Core.Packages
                 resolvedObjects.Count);
         }
 
-        IEnumerable<ObjectMap> GetMissingObjectMapping(IEnumerable<ObjectMap> objects)
+        IEnumerable<Package.ObjectMap> GetMissingObjectMapping(IEnumerable<Package.ObjectMap> objects)
             => objects.Select(o => new {o, f = Repository.GetObjectPath(o.FO)})
                 .Where(t => !t.f.Exists)
                 .Select(t => t.o);
 
-        void ProcessMissingObjects(IReadOnlyCollection<ObjectMap> missingObjects, string[] packages) {
+        void ProcessMissingObjects(IReadOnlyCollection<Package.ObjectMap> missingObjects, string[] packages) {
             var cache = new Dictionary<string, PackageMetaData>();
             foreach (var missing in missingObjects) {
                 foreach (var package in packages)
@@ -424,8 +412,7 @@ namespace withSIX.Sync.Core.Packages
             }
         }
 
-        void ProcessMissingObjects(IDictionary<string, PackageMetaData> cache, string package,
-            ObjectMap missing) {
+        void ProcessMissingObjects(IDictionary<string, PackageMetaData> cache, string package, Package.ObjectMap missing) {
             var metadata = RetrieveMetaData(cache, package);
             if ((metadata == null) || !metadata.Files.ContainsKey(missing.FO.FilePath))
                 return;
@@ -455,7 +442,7 @@ namespace withSIX.Sync.Core.Packages
             => "objects/" + fileObjectMapping.Checksum.Substring(0, 2) + "/" +
                fileObjectMapping.Checksum.Substring(2);
 
-        void ProcessMissingObject(ObjectMap o, ICollection<ObjectMap> resolvedObjects) {
+        void ProcessMissingObject(Package.ObjectMap o, ICollection<Package.ObjectMap> resolvedObjects) {
             var f = WorkingPath.GetChildFileWithName(o.FO.FilePath);
             if (!f.Exists)
                 return;
@@ -532,9 +519,9 @@ namespace withSIX.Sync.Core.Packages
             Tools.FileUtil.HandleDowncaseFolder(WorkingPath);
         }
 
-        ChangeList GetInitialChangeList(bool withRemoval, IOrderedEnumerable<FileObjectMapping> mappings) {
+        Package.ChangeList GetInitialChangeList(bool withRemoval, IOrderedEnumerable<FileObjectMapping> mappings) {
             var workingPathFiles = GetWorkingPathFiles(withRemoval, mappings);
-            var changeAg = new ChangeList(workingPathFiles, mappings, this);
+            var changeAg = new Package.ChangeList(workingPathFiles, mappings, this);
 
             PrintChangeOverview(workingPathFiles, mappings);
             Console.WriteLine();
@@ -545,7 +532,7 @@ namespace withSIX.Sync.Core.Packages
 
         // TODO: Make this a Verifying progress state?
         void ConfirmChanges(bool withRemoval, IOrderedEnumerable<FileObjectMapping> mappings) {
-            var afterChangeAg = new ChangeList(GetWorkingPathFiles(withRemoval, mappings), mappings, this);
+            var afterChangeAg = new Package.ChangeList(GetWorkingPathFiles(withRemoval, mappings), mappings, this);
             if (!afterChangeAg.HasChanges(withRemoval))
                 return;
             PrintDetailedChanges(afterChangeAg, withRemoval);
@@ -585,13 +572,13 @@ namespace withSIX.Sync.Core.Packages
                 .OrderByDescending(x => Tools.FileUtil.SizePrediction(x.FileName)).ToArray();
         }
 
-        void HandleChanges(IEnumerable<FileObjectMapping> mappings, ChangeList changeAg, ProgressLeaf progressLeaf) {
+        void HandleChanges(IEnumerable<FileObjectMapping> mappings, Package.ChangeList changeAg, ProgressLeaf progressLeaf) {
             HandleCopy(changeAg.Copy, changeAg.StatusDic);
             HandleChangedCase(changeAg.ChangedCase, changeAg.StatusDic);
             HandleModify(Convert(mappings, changeAg.GetModified()).ToArray(), changeAg.StatusDic, progressLeaf);
         }
 
-        void HandleChangesWithRemove(IEnumerable<FileObjectMapping> mappings, ChangeList changeAg,
+        void HandleChangesWithRemove(IEnumerable<FileObjectMapping> mappings, Package.ChangeList changeAg,
             ProgressLeaf progressLeaf) {
             HandleCopy(changeAg.Copy, changeAg.StatusDic);
             HandleRemove(changeAg.Remove, changeAg.StatusDic);
@@ -655,7 +642,7 @@ namespace withSIX.Sync.Core.Packages
             Repository.Log(overview.ToString());
         }
 
-        void PrintDetailedChanges(ChangeList changeAg, bool withRemoval) {
+        void PrintDetailedChanges(Package.ChangeList changeAg, bool withRemoval) {
             var overview = new StringBuilder();
             var full = new StringBuilder();
             BuildLogInfos(changeAg.Equal, overview, full, changeAg.Copy, changeAg.Update,
@@ -843,7 +830,7 @@ namespace withSIX.Sync.Core.Packages
 
             void CreateStatusObject(FileObjectMapping file, Package package) {
                 StatusDic[file.FilePath] = new Status(file.FilePath, package.StatusRepo) {
-                    RealObject = GetObjectPathFromChecksum(file)
+                    RealObject = Package.GetObjectPathFromChecksum(file)
                 };
             }
 

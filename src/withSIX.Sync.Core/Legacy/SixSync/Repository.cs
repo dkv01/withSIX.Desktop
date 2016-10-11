@@ -266,14 +266,10 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 return new Tuple<string, string, string>(null, null, null);
             var fileContent = File.ReadAllText(cppFile.ToString());
 
-            var match = Package.rxCppName.Match(fileContent);
-            var name = !match.Success ? null : match.Groups[1].Value;
-
-            match = Package.rxCppDescription.Match(fileContent);
-            var description = !match.Success ? null : match.Groups[1].Value;
-
-            match = Package.rxCppAuthor.Match(fileContent);
-            var author = !match.Success ? null : match.Groups[1].Value;
+            var p = new ModCppParser(fileContent);
+            var name = p.GetName();
+            var description = p.GetDescription();
+            var author = p.GetAuthor();
 
             return Tuple.Create(name, description, author);
         }

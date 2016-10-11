@@ -170,6 +170,7 @@
     <Compile Include="Packages\Internals\MetaDataDtoBase.cs" />
     <Compile Include="Packages\Internals\PackageMetaData.cs" />
     <Compile Include="Packages\Internals\PackageMetaDataDto.cs" />
+    <Compile Include="Packages\ModCppParser.cs" />
     <Compile Include="Packages\Package.cs" />
     <Compile Include="Packages\PackageFactory.cs" />
     <Compile Include="Packages\PackageHelper.cs" />
