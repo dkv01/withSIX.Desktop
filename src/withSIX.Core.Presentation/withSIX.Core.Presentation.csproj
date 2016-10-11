@@ -183,9 +183,6 @@
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
     </Reference>
-    <Reference Include="System.Security.Cryptography.ProtectedData">
-      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.0.0\lib\net46\System.Security.Cryptography.ProtectedData.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

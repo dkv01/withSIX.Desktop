@@ -147,14 +147,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
-      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>withSIX.Core.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
-      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>withSIX.Core.Infra</Name>
-    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>withSIX.Core</Name>
