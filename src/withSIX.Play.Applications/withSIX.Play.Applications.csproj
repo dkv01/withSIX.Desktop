@@ -465,12 +465,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\wpf\ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="ShortBus">
-      <HintPath>..\dll\ShortBus.dll</HintPath>
-    </Reference>
-    <Reference Include="ShortBus.Markers">
-      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
-    </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
@@ -890,7 +884,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
