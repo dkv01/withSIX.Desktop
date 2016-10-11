@@ -67,7 +67,7 @@ namespace withSIX.Play.Presentation.Wpf.Services
             IPreRequisitesInstaller prerequisitesInstaller, ContactList contactList,
             IContentManager contentManager, IDialogManager dialogManager,
             VersionRegistry versionRegistry, Lazy<IUpdateManager> updateManager, ISpecialDialogManager specialDialogManager)
-            : base(systemInfo, cacheManager, dialogManager, specialDialogManager) {
+            : base(cacheManager, dialogManager, specialDialogManager) {
             _settings = settings;
             _shutdownHandler = shutdownHandler;
             _firstTimeLicense = firstTimeLicense;

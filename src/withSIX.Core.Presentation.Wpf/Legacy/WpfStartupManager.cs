@@ -17,9 +17,9 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
         readonly WpfErrorHandler _wpfErrorHandler;
         readonly MetroWindow dummyWindowForSmartAssembly;
 
-        public WpfStartupManager(ISystemInfo systemInfo, ICacheManager cacheManager, IDialogManager dialogManager,
+        public WpfStartupManager(ICacheManager cacheManager, IDialogManager dialogManager,
             ISpecialDialogManager specialDialogManager)
-            : base(systemInfo, cacheManager) {
+            : base(cacheManager) {
             UiRoot.Main = new UiRoot(dialogManager, specialDialogManager);
 
             // This is the main UserError handler so that when the MainWindow is not yet existing, or no longer existing, we can handle usererrors

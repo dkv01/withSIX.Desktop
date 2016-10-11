@@ -33,6 +33,8 @@ using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Infra.Services;
 using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Legacy;
+using withSIX.Core.Presentation.Wpf;
 
 namespace withSIX.Updater.Presentation.Wpf
 {
@@ -111,7 +113,7 @@ namespace withSIX.Updater.Presentation.Wpf
         protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
                 Assembly.GetExecutingAssembly(),
                 typeof (EnterConfirmView).Assembly,
-                typeof (StartupManager).Assembly,
+                typeof (UiRoot).Assembly,
                 typeof (UserSettingsStorage).Assembly,
                 typeof (SystemInfo).Assembly,
                 typeof (ScreenBase).Assembly,

@@ -19,6 +19,7 @@ using withSIX.Core.Applications.MVVM.ViewModels;
 using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Core.Presentation.Bridge.Services;
 using withSIX.Core.Presentation.Legacy;
@@ -60,6 +61,9 @@ namespace withSIX.Core.Presentation.Wpf.Legacy
             SetupRx(mutableDependencyResolver);
         }
 
+        protected override ContainerConfiguration CreateConfiguration()
+            => new WorkaroundContainerConfiguration(Container, Assemblies);
+        
         protected override IEnumerable<Assembly> SelectAssemblies() => new[] {
             typeof(WpfAppBootstrapper<>).Assembly,
             typeof(DummyClass).Assembly

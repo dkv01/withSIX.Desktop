@@ -9,21 +9,15 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using ManyConsole;
-
-using withSIX.Core;
-using withSIX.Core.Applications.Services;
-using withSIX.Core.Extensions;
-using withSIX.Core.Logging;
-using withSIX.Core.Presentation;
-using withSIX.Core.Presentation.Services;
-using withSIX.Core.Presentation.Wpf.Legacy;
-using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
+using withSIX.Core.Logging;
+using withSIX.Core.Presentation.Legacy;
+using withSIX.Updater.Presentation.Wpf.Commands;
 using withSIX.Updater.Presentation.Wpf.Services;
 
 namespace withSIX.Updater.Presentation.Wpf
 {
-
     [ServiceBehavior(IncludeExceptionDetailInFaults = true, InstanceContextMode = InstanceContextMode.Single)]
     public class SixElevatedService : ServiceBase, IUpdaterWCF, IConsoleLauncher
     {
@@ -41,7 +35,8 @@ namespace withSIX.Updater.Presentation.Wpf
         public int Run(params string[] args) {
             MainLog.Logger.Info("Args: {0}", args.CombineParameters());
 
-            if (Environment.UserInteractive || args.Length != 0 || !SixElevatedServiceMisc.IsElevatedServiceInstalled())
+            if (Environment.UserInteractive || (args.Length != 0) ||
+                !SixElevatedServiceMisc.IsElevatedServiceInstalled())
                 return RunCommandsAndLog(args);
 
             Run(this);
@@ -62,7 +57,7 @@ namespace withSIX.Updater.Presentation.Wpf
 
         void WorkerThreadMain() {
             _host = new ServiceHost(this, new Uri("net.pipe://localhost"));
-            _host.AddServiceEndpoint(typeof (IUpdaterWCF), new NetNamedPipeBinding(), "UpdaterWCF_Pipe");
+            _host.AddServiceEndpoint(typeof(IUpdaterWCF), new NetNamedPipeBinding(), "UpdaterWCF_Pipe");
             _host.Open();
         }
 

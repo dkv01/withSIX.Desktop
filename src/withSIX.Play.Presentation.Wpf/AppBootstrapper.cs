@@ -65,6 +65,7 @@ using Splat;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using withSIX.Core.Presentation.Bridge.Extensions;
+using withSIX.Core.Presentation.Legacy;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace withSIX.Play.Presentation.Wpf
@@ -116,7 +117,7 @@ namespace withSIX.Play.Presentation.Wpf
                 typeof (PlayShellViewModel).Assembly,
                 typeof (GameMapperConfig).Assembly,
                 typeof (ScreenBase).Assembly,
-                typeof (StartupManager).Assembly,
+                typeof (UiRoot).Assembly,
                 typeof (ConnectionManager).Assembly,
                 typeof (UserSettingsStorage).Assembly,
                 typeof (ListGamesQuery).Assembly,
@@ -279,6 +280,7 @@ namespace withSIX.Play.Presentation.Wpf
         static Game FindFirstInstalledGameOrDefault(IGameContext gameContext) => gameContext.Games.LastOrDefault(x => x.InstalledState.IsInstalled)
        ?? gameContext.Games.FindOrThrow(GameGuids.Arma3);
 
+        /*
         protected override void StartDesignTime() {
             base.StartDesignTime();
 
@@ -297,6 +299,7 @@ namespace withSIX.Play.Presentation.Wpf
                     : null;
             };
         }
+        */
 
         static IEnumerable<Type> SelectDesignTimeFallbackAssemblies() => typeof(PlayShellViewModel).Assembly.GetTypes().Concat(typeof(WpfDialogManager).Assembly.GetTypes());
     }
