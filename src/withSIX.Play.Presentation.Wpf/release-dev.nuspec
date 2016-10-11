@@ -15,7 +15,6 @@
         <file src="bin\release\withSIX-Play.exe.config" target="lib\net45\Play.exe.config" />
         <file src="bin\release\withSIX.Core.Presentation.Resources.dll" target="lib\net45\withSIX.Core.Presentation.Resources.dll" />
 
-        <file src="bin\release\GeoIP.dll" target="lib\net45\GeoIP.dll" />
         <file src="bin\release\withSIX.Core.dll" target="lib\net45\withSIX.Core.dll" />
         <file src="bin\release\withSIX.Core.Applications.dll" target="lib\net45\withSIX.Core.Applications.dll" />
         <file src="bin\release\withSIX.Core.Applications.MVVM.dll" target="lib\net45\withSIX.Core.Applications.MVVM.dll" />

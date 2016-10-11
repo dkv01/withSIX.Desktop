@@ -103,7 +103,7 @@ namespace withSIX.Play.Core.Games.Entities
             _savedPassword = DomainEvilGlobal.Settings.ServerOptions.GetPassword(this);
             if (_savedPassword != null)
                 _savePassword = true;
-            TryDetermineCountry();
+            //TryDetermineCountry();
         }
 
         public bool HasFriends
@@ -605,7 +605,7 @@ namespace withSIX.Play.Core.Games.Entities
 
             return Tools.Generic.GetCurrentUtcDateTime.AddHours(offsetInt);
         }
-
+        /*
         void TryDetermineCountry() {
             try {
                 DetermineCountry();
@@ -613,6 +613,7 @@ namespace withSIX.Play.Core.Games.Entities
                 this.Logger().FormattedErrorException(e);
             }
         }
+        */
 
         public void UpdateInfoFromSettings(ServerQueryResult result) {
             ServerMapper.Instance.Map(result, this);
@@ -624,10 +625,6 @@ namespace withSIX.Play.Core.Games.Entities
 
             if (IsFavorite)
                 DomainEvilGlobal.Settings.ServerOptions.UpdateFavorite(this);
-        }
-
-        void DetermineCountry() {
-            Country = Tools.Geo.Value.GetCountryCode(Address.IP);
         }
 
         bool GetIsFeatured(Collection collection) => collection != null && collection.IsFeaturedServer(this);
