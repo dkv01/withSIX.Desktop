@@ -43,7 +43,7 @@ body {
             var cachePath = dataPath.GetChildDirectoryWithName("cache");
             cachePath.MakeSurePathExists();
 
-            Cef.OnContextInitialized += WebCoreOnStarted;
+            //CefBrowserProcessHandling.OnContextInitialized += WebCoreOnStarted;
             var cefSettings = new CefSettings {
                 LogFile = Common.Paths.LogPath.GetChildFileWithName("cef.log").ToString(),
                 UserDataPath = dataPath.ToString(),
@@ -59,9 +59,9 @@ body {
             Cef.Initialize(cefSettings);
         }
 
-        static void WebCoreOnStarted() {
-            //WebCore.ResourceInterceptor = new SixResourceInterceptor(_settings);
-        }
+        //static void WebCoreOnStarted() {
+        //    //WebCore.ResourceInterceptor = new SixResourceInterceptor(_settings);
+        //}
 
         [STAThread]
         public static void Exit() {
