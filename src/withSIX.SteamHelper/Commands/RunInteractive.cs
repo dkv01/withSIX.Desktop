@@ -90,16 +90,4 @@ namespace withSIX.Steam.Presentation.Commands
             _dsp.Dispose();
         }
     }
-
-    public class ClientEvent<T>
-    {
-        public ClientEvent(T evt, string connectionId, Guid requestId) {
-            Evt = evt;
-            ConnectionId = connectionId;
-            RequestId = requestId;
-        }
-        public string ConnectionId { get; }
-        public Guid RequestId { get; }
-        public T Evt { get; }
-    }
 }

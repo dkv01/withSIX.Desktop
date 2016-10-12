@@ -23,5 +23,6 @@ namespace withSIX.Mini.Infra.Api.Hubs
     public interface IServerHubClient
     {
         Task ServersPageReceived(ServersPageReceived info);
+        Task ServerInfoReceived(ServerInfoReceived info);
     }
 }

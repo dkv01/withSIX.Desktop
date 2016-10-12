@@ -72,7 +72,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 .GetServerAddresses(SteamInfo.AppId, x => RaiseRealtimeEvent(new ServersPageReceived(Id, x)),
                     cancelToken);
 
-        // TODO: Servers received on event.
         public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
                 Action<Server> act, bool inclExtendedDetails = false)
             => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, inclExtendedDetails, act);

@@ -4,15 +4,18 @@
 
 using System;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Services;
 using withSIX.Core.Infra.Services;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Usecases.Main.Servers;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -29,14 +32,21 @@ namespace withSIX.Mini.Infra.Api.Messengers
     {
         private readonly Lazy<IHubContext<StatusHub, IStatusClientHub>> _hubContext = SystemExtensions.CreateLazy(() =>
                 Extensions.ConnectionManager.StatusHub);
-        private readonly IDisposable _subscription;
+        private readonly Lazy<IHubContext<ServerHub, IServerHubClient>> _hubContext2 = SystemExtensions.CreateLazy(() =>
+                Extensions.ConnectionManager.ServerHub);
+        private readonly IDisposable _dsp;
 
-        public StateMessengerBus(IGameLocker gameLocker) {
-            _subscription = gameLocker.LockChanged.Subscribe(Handle);
+        public StateMessengerBus(IGameLocker gameLocker, IMessageBusProxy mb) {
+            CompositeDisposable dsp;
+             _dsp = dsp = new CompositeDisposable();
+            dsp.Add(gameLocker.LockChanged.Subscribe(Handle));
+            dsp.Add(
+                mb.Listen<ClientEvent<ServerInfoReceived>>()
+                    .Subscribe(x => _hubContext2.Value.Clients.Client(x.ConnectionId).ServerInfoReceived(x.Evt)));
         }
 
         public void Dispose() {
-            _subscription.Dispose();
+            _dsp.Dispose();
         }
 
         public void Initialize() {

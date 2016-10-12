@@ -16,20 +16,25 @@ using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {
-    public class GetServersInfo : IAsyncQuery<ServersInfo>
+    public class GetServersInfo : IAsyncQuery<ServersInfo>, IRequireConnectionId, IRequireRequestId
     {
         public GetServersInfo(GetServerQuery info) {
             Info = info;
         }
 
         public GetServerQuery Info { get; }
+        public string ConnectionId { get; set; }
+        public Guid RequestId { get; set; }
     }
 
     public class GetServersInfoHandler : ApiDbQueryBase, IAsyncRequestHandler<GetServersInfo, ServersInfo>
     {
         private readonly IServerQueryFactory _sqf;
-        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf) : base(dbContextLocator) {
+        private readonly IMessageBusProxy _mb;
+
+        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IMessageBusProxy mb) : base(dbContextLocator) {
             _sqf = sqf;
+            _mb = mb;
         }
 
         public async Task<ServersInfo> Handle(GetServersInfo request) {
@@ -39,9 +44,25 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
                 throw new ValidationException("Game does not support servers");
             var servers = new List<Server>();
             await
-                sGame.GetServerInfos(_sqf, request.Info.Addresses, servers.Add, request.Info.IncludePlayers)
+                sGame.GetServerInfos(_sqf, request.Info.Addresses,
+                        x => {
+                            _mb.SendMessage(new ServerInfoReceived(game.Id, new List<Server> {x}).ToClientEvent(request));
+                            servers.Add(x);
+                        },
+                        request.Info.IncludePlayers)
                     .ConfigureAwait(false);
-            return new ServersInfo { Servers = servers };
+            return new ServersInfo {Servers = servers};
+        }
+    }
+
+    public class ServerInfoReceived
+    {
+        public Guid GameId { get; }
+        public List<Server> Items { get; }
+
+        public ServerInfoReceived(Guid gameId, List<Server> items) {
+            GameId = gameId;
+            Items = items;
         }
     }
 

@@ -57,14 +57,4 @@ namespace withSIX.Steam.Presentation.Usecases
     {
         List<Tuple<string, string>> Filter { get; }
     }
-
-    public static class Exts
-    {
-        public static ClientEvent<T> ToClientEvent<T>(this T evt, string connectionId, Guid requestId)
-            => new ClientEvent<T>(evt, connectionId, requestId);
-
-        public static ClientEvent<T> ToClientEvent<T, T2>(this T evt, T2 message)
-            where T2 : IRequireConnectionId, IRequireRequestId
-        => evt.ToClientEvent(message.ConnectionId, message.RequestId);
-    }
 }

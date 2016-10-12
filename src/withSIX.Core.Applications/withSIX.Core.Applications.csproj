@@ -165,6 +165,7 @@
     <Compile Include="Services\IInitializer.cs" />
     <Compile Include="Services\IMessageBusProxy.cs" />
     <Compile Include="Services\INotificationProvider.cs" />
+    <Compile Include="Services\IRequireConnectionId.cs" />
     <Compile Include="Services\IShutdownHandler.cs" />
     <Compile Include="Services\IStartupManager.cs" />
     <Compile Include="Services\IToolsInstaller.cs" />

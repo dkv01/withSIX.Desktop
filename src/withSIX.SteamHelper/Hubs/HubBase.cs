@@ -25,7 +25,10 @@ namespace withSIX.Steam.Presentation.Hubs
     public abstract class HubBase<T> : Hub<T>, IUsecaseExecutor where T : class
     {
         protected Task<TResponseData> SendAsync<TResponseData>(ICompositeCommand<TResponseData> command) =>
-            A.Excecutor.ApiAction(() => UsecaseExecutorExtensions.SendAsync(this, command), command,
+            A.Excecutor.ApiAction(() => {
+                    HandleValues(command, Guid.NewGuid());
+                    return UsecaseExecutorExtensions.SendAsync(this, command);
+                }, command,
                 CreateException);
 
         // TODO: We need to actually Create a dictionary from the error data instead, so we can drop the crappy Serializing stuf
@@ -64,15 +67,5 @@ namespace withSIX.Steam.Presentation.Hubs
             => Cheat.Mediator.DispatchNextAction(SendAsync, requestId);
 
         public async Task Cancel(Guid requestId) => A.CancellationTokenMapping.Cancel(requestId);
-    }
-
-    public interface IRequireConnectionId
-    {
-        string ConnectionId { get; set; }
-    }
-
-    public interface IRequireRequestId
-    {
-        Guid RequestId { get; set; }
     }
 }
