@@ -99,6 +99,7 @@
         <file src="bin\release\ReactiveUI.Events.dll" target="lib\net45\ReactiveUI.Events.dll" />
         <file src="bin\release\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="bin\release\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
+		<file src="bin\release\SimpleInjector.Extensions.ExecutionContextScoping.dll" target="lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll" />
         <file src="bin\release\Splat.dll" target="lib\net45\Splat.dll" />
 
         <file src="bin\release\SQLitePCLRaw.batteries_e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.batteries_e_sqlite3.dll" />
