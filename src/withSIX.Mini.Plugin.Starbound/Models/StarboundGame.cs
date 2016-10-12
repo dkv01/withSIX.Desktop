@@ -65,28 +65,29 @@ namespace withSIX.Mini.Plugin.Starbound.Models
             return r;
         }
 
-        public async Task<List<Server>> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails = false) {
-            var infos = new List<Server>();
-            // TODO: Multi
+        public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
+                Action<Server> act, bool inclExtendedDetails = false)
+            => GetFromGameServerQuery(addresses, inclExtendedDetails, act);
+
+        // todo; use factory
+        private static async Task<BatchResult> GetFromGameServerQuery(
+            IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers, Action<Server> act) {
             var q = new ReactiveSource();
-            using (var client = q.CreateUdpClient())
-                foreach (var a in addresses) {
-                    var serverInfo = new Server {QueryAddress = a};
-                    infos.Add(serverInfo);
-                    try {
-                        var results = await q.ProcessResults(q.GetResults(new[] {serverInfo.QueryAddress}, client));
-                        var r = (SourceParseResult) results.Settings;
+            using (var client = q.CreateUdpClient()) {
+                return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client))
+                    .Do(x => {
+                        var serverInfo = new Server {QueryAddress = x.Address};
+                        var r = (SourceParseResult) x.Settings;
                         r.MapTo(serverInfo);
+                        serverInfo.Ping = x.Ping;
                         var tags = r.Keywords;
                         if (tags != null) {
                             var p = GameTags.Parse(tags);
                             p.MapTo(serverInfo);
                         }
-                    } catch (Exception ex) {
-                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.QueryAddress);
-                    }
-                }
-            return infos;
+                        act(serverInfo);
+                    }).Count());
+            }
         }
 
         // Temporary disabled because of server join testing

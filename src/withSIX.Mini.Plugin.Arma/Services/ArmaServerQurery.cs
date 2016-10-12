@@ -14,11 +14,9 @@ using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
+using withSIX.Core;
 using withSIX.Core.Helpers;
-using withSIX.Core.Logging;
 using withSIX.Core.Services;
-using withSIX.Core.Services.Infrastructure;
-using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Steam.Core.Requests;
 using withSIX.Steam.Core.Services;
@@ -28,8 +26,11 @@ namespace withSIX.Mini.Plugin.Arma.Services
 {
     public interface IArmaServerQuery : IServerQuery
     {
-        Task<List<Server>> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails);
-        Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act, CancellationToken cancelToken);
+        Task<BatchResult> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
+            bool inclExtendedDetails, Action<Server> act);
+
+        Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act,
+            CancellationToken cancelToken);
     }
 
     public class ArmaServerQuery : IArmaServerQuery, IDomainService
@@ -40,12 +41,13 @@ namespace withSIX.Mini.Plugin.Arma.Services
             _steamHelperService = steamHelperService;
         }
 
-        public Task<List<Server>> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclExtendedDetails) => inclExtendedDetails
-            ? GetServersFromSteam(appId, addresses, inclExtendedDetails)
-            : GetFromGameServerQuery(addresses, inclExtendedDetails);
+        public Task<BatchResult> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
+            bool inclExtendedDetails, Action<Server> act) => inclExtendedDetails
+            ? GetServersFromSteam(appId, addresses, inclExtendedDetails, act)
+            : GetFromGameServerQuery(addresses, inclExtendedDetails, act);
 
-        public async Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act, CancellationToken cancelToken) {
+        public async Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act,
+            CancellationToken cancelToken) {
             var f = ServerFilterBuilder.Build()
                 .FilterByGame("arma3");
             var master = new SourceMasterQuery(f.Value);
@@ -61,35 +63,31 @@ namespace withSIX.Mini.Plugin.Arma.Services
             return r.ToList();
         }
 
-        async Task<List<Server>> GetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
-            bool inclExtendedDetails) {
+        Task<BatchResult> GetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
+            bool inclExtendedDetails, Action<Server> act) {
             // Ports adjusted because it expects the Connection Port!
             var ipEndPoints = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList();
             var filter = ServerFilterBuilder.Build().FilterByAddresses(ipEndPoints);
-            
-            // TODO: Publish server info while they come in..
-            var r =
-                await
-                    _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
-                            new GetServers {
-                                Filter = filter.Value,
-                                IncludeDetails = inclExtendedDetails,
-                                IncludeRules = true,
-                                PageSize = 1
-                            }, CancellationToken.None)
-                        .ConfigureAwait(false);
-            return r.Servers.Select(x => x.MapTo<ArmaServer>()).ToList<Server>();
+            return
+                _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
+                    new GetServers {
+                        Filter = filter.Value,
+                        IncludeDetails = inclExtendedDetails,
+                        IncludeRules = true,
+                        PageSize = 1
+                    }, CancellationToken.None, x => {
+                        foreach (var s in x.Select(s2 => s2.MapTo<ArmaServer>()))
+                            act(s);
+                    });
         }
 
-        private static async Task<List<Server>> GetFromGameServerQuery(
-            IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
-            var infos = new List<Server>();
+        private static async Task<BatchResult> GetFromGameServerQuery(
+            IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers, Action<Server> act) {
             var q = new ReactiveSource();
             using (var client = q.CreateUdpClient()) {
-                var count = await q.ProcessResults(q.GetResults(addresses, client))
+                return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client))
                     .Do(x => {
                         var serverInfo = new ArmaServerWithPing {QueryAddress = x.Address};
-                        infos.Add(serverInfo);
                         var r = (SourceParseResult) x.Settings;
                         r.MapTo(serverInfo);
                         serverInfo.Ping = x.Ping;
@@ -98,9 +96,9 @@ namespace withSIX.Mini.Plugin.Arma.Services
                             var p = GameTags.Parse(tags);
                             p.MapTo(serverInfo);
                         }
-                    }).Count();
+                        act(serverInfo);
+                    }).Count());
             }
-            return infos;
         }
     }
 
@@ -198,6 +196,6 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
     public class ReceivedServerIpPageEvent : ReceivedServerPageEvent<IPEndPoint>
     {
-        public ReceivedServerIpPageEvent(IList<IPEndPoint> servers) : base(servers) { }
+        public ReceivedServerIpPageEvent(IList<IPEndPoint> servers) : base(servers) {}
     }
 }

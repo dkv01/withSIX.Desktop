@@ -2,11 +2,13 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Servers;
+using withSIX.Core;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Core.Games
@@ -15,6 +17,6 @@ namespace withSIX.Mini.Core.Games
     {
         Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken);
 
-        Task<List<Server>> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails = false);
+        Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses, Action<Server> act, bool inclExtendedDetails = false);
     }
 }

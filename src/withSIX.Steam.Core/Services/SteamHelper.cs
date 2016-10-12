@@ -20,7 +20,7 @@ namespace withSIX.Steam.Core.Services
 
     public interface ISteamHelperService
     {
-        Task<ServersInfo<T>> GetServers<T>(uint appId, GetServers query, CancellationToken ct);
+        Task<BatchResult> GetServers<T>(uint appId, GetServers query, CancellationToken ct, Action<List<T>> act);
         Task<List<IPEndPoint>> GetServerAddresses(uint appId, GetServerAddresses query, CancellationToken ct);
     }
 

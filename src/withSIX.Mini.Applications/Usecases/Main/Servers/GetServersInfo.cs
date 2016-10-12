@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Servers;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
@@ -36,11 +37,11 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
             var sGame = game as IQueryServers;
             if (sGame == null)
                 throw new ValidationException("Game does not support servers");
-            return new ServersInfo {
-                Servers =
-                    await
-                        sGame.GetServerInfos(_sqf, request.Info.Addresses, request.Info.IncludePlayers).ConfigureAwait(false)
-            };
+            var servers = new List<Server>();
+            await
+                sGame.GetServerInfos(_sqf, request.Info.Addresses, servers.Add, request.Info.IncludePlayers)
+                    .ConfigureAwait(false);
+            return new ServersInfo { Servers = servers };
         }
     }
 

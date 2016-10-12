@@ -17,6 +17,7 @@ using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using withSIX.Api.Models.Servers;
+using withSIX.Core;
 using withSIX.Core.Applications;
 using withSIX.Core.Logging;
 using withSIX.Mini.Core.Games;
@@ -72,9 +73,9 @@ namespace withSIX.Mini.Plugin.Arma.Models
                     cancelToken);
 
         // TODO: Servers received on event.
-        public Task<List<Server>> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
-                bool inclExtendedDetails = false)
-            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, inclExtendedDetails);
+        public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
+                Action<Server> act, bool inclExtendedDetails = false)
+            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, inclExtendedDetails, act);
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {
