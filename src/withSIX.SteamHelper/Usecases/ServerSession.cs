@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation;
 using withSIX.Steam.Plugin.Arma;
 
 namespace withSIX.Steam.Presentation.Usecases
@@ -16,11 +17,13 @@ namespace withSIX.Steam.Presentation.Usecases
     public abstract class ServerSession<TMessage> where TMessage : IHaveFilter
     {
         private readonly IMessageBusProxy _mb;
+        private readonly IRequestScope _scope;
         private readonly ISteamApi _steamApi;
 
-        protected ServerSession(ISteamApi steamApi, IMessageBusProxy mb) {
+        protected ServerSession(ISteamApi steamApi, IMessageBusProxy mb, IRequestScope scope) {
             _steamApi = steamApi;
             _mb = mb;
+            _scope = scope;
         }
 
         protected TMessage Message { get; private set; }
@@ -31,7 +34,7 @@ namespace withSIX.Steam.Presentation.Usecases
 
         protected CancellationToken Ct { get; private set; }
 
-        protected void SendEvent<T>(T evt) => _mb.SendMessage(evt);
+        protected void SendEvent<T>(T evt) => _mb.SendMessage(Tuple.Create(_scope, evt));
         protected Task<ServerBrowser> CreateServerBrowser() => SteamActions.CreateServerBrowser(_steamApi);
 
         public async Task<BatchResult> Handle(TMessage message, CancellationToken ct) {

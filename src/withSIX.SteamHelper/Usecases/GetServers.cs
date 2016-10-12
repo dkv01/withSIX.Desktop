@@ -2,13 +2,13 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
 
@@ -21,20 +21,22 @@ namespace withSIX.Steam.Presentation.Usecases
     public class GetServersHandler : ICancellableAsyncRequestHandler<GetServers, BatchResult>
     {
         private readonly IMessageBusProxy _mb;
+        private readonly IRequestScopeLocator _scopeLocator;
         private readonly ISteamApi _steamApi;
 
-        public GetServersHandler(ISteamApi steamApi, IMessageBusProxy mb) {
+        public GetServersHandler(ISteamApi steamApi, IMessageBusProxy mb, IRequestScopeLocator scopeLocator) {
             _steamApi = steamApi;
             _mb = mb;
+            _scopeLocator = scopeLocator;
         }
 
 
         public Task<BatchResult> Handle(GetServers message, CancellationToken ct)
-            => new GetServerAddressesSession(_steamApi, _mb).Handle(message, ct);
+            => new GetServersSession(_steamApi, _mb, _scopeLocator.Scope).Handle(message, ct);
 
-        class GetServerAddressesSession : ServerSession<GetServers>
+        class GetServersSession : ServerSession<GetServers>
         {
-            public GetServerAddressesSession(ISteamApi steamApi, IMessageBusProxy mb) : base(steamApi, mb) {}
+            public GetServersSession(ISteamApi steamApi, IMessageBusProxy mb, IRequestScope scope) : base(steamApi, mb, scope) {}
 
             protected override async Task<BatchResult> HandleInternal() {
                 var obs = await (Message.IncludeDetails

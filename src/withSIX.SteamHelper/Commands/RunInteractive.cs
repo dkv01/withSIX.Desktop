@@ -4,22 +4,14 @@
 
 using System;
 using System.Net;
-using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Games;
-using withSIX.Core.Applications.Services;
-using withSIX.Core.Extensions;
-using withSIX.Core.Presentation;
-using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
-using withSIX.Steam.Presentation.Hubs;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Linq;
 using withSIX.Steam.Infra;
-using ReceivedServerPageEvent = withSIX.Mini.Plugin.Arma.Services.ReceivedServerPageEvent;
 
 namespace withSIX.Steam.Presentation.Commands
 {
@@ -66,30 +58,4 @@ namespace withSIX.Steam.Presentation.Commands
     }
 
     public interface IServiceMessenger {}
-
-    public class ServiceMessenger : IServiceMessenger, IPresentationService, IDisposable
-    {
-        private readonly CompositeDisposable _dsp;
-        private readonly Lazy<IHubContext<ServerHub, IServerHubClient>> _hubContext = SystemExtensions.CreateLazy(() =>
-                Extensions.ConnectionManager.ServerHub);
-
-        public ServiceMessenger(IMessageBusProxy mb, IRequestScopeLocator scoper) {
-            _dsp = new CompositeDisposable {
-                mb.Listen<ReceivedServerPageEvent>()
-                    .Subscribe(
-                        x =>
-                            _hubContext.Value.Clients.Client(scoper.Scope.ConnectionId)
-                                .ServerPageReceived(x, scoper.Scope.RequestId)),
-                mb.Listen<ReceivedServerIpPageEvent>()
-                    .Subscribe(
-                        x =>
-                            _hubContext.Value.Clients.Client(scoper.Scope.ConnectionId)
-                                .ServerAddressesPageReceived(x, scoper.Scope.RequestId))
-            };
-        }
-
-        public void Dispose() {
-            _dsp.Dispose();
-        }
-    }
 }
