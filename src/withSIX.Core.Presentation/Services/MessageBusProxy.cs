@@ -17,6 +17,7 @@ namespace withSIX.Core.Presentation.Services
         }
 
         public IObservable<T> Listen<T>() => _messageBus.Listen<T>();
+        public IObservable<Tuple<IRequestScope, T>> ListenScopeEvent<T>() => Listen<Tuple<IRequestScope, T>>();
 
         public void SendMessage<T>(T message, string contract = null) => _messageBus.SendMessage(message, contract);
     }

@@ -9,6 +9,7 @@ namespace withSIX.Core.Applications.Services
     public interface IMessageBusProxy
     {
         IObservable<T> Listen<T>();
+        IObservable<Tuple<IRequestScope, T>> ListenScopeEvent<T>();
         void SendMessage<T>(T message, string contract = null);
     }
 }

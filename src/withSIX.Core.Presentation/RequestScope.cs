@@ -3,28 +3,30 @@
 // </copyright>
 
 using System;
+using System.Collections;
 using System.Security.Principal;
 using System.Threading;
 using SimpleInjector;
 using SimpleInjector.Extensions.ExecutionContextScoping;
+using withSIX.Core.Applications.Services;
+using withSIX.Core.Presentation.Services;
 
 namespace withSIX.Core.Presentation
 {
-    public interface IRequestScope
-    {
-        string ConnectionId { get; }
-        Guid RequestId { get; }
-        CancellationToken CancelToken { get; }
-        IPrincipal User { get; }
-    }
-
     public class RequestScope : IRequestScope
     {
+        private readonly IMessageBusProxy _mb;
         public string ConnectionId { get; private set; }
         public Guid RequestId { get; private set; }
 
         public CancellationToken CancelToken { get; private set; }
         public IPrincipal User { get; private set; }
+
+        public RequestScope(IMessageBusProxy mb) {
+            _mb = mb;
+        }
+
+        public void SendMessage<T>(T message, string contract = null) => _mb.SendMessage(Tuple.Create<IRequestScope, T>(this, message), contract);
 
         internal void Load(string connectionId, Guid requestId, IPrincipal user) {
             ConnectionId = connectionId;
@@ -42,11 +44,6 @@ namespace withSIX.Core.Presentation
     {
         IDisposable StartScope(string connectionId, Guid requestId, IPrincipal user);
         IDisposable StartScope(string connectionId, Guid requestId, IPrincipal user, CancellationToken ct);
-    }
-
-    public interface IRequestScopeLocator
-    {
-        IRequestScope Scope { get; }
     }
 
     public class RequestScopeService : IRequestScopeService, IRequestScopeLocator

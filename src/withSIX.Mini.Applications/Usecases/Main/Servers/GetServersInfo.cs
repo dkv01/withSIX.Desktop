@@ -28,12 +28,12 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
     public class GetServersInfoHandler : ApiDbQueryBase, IAsyncRequestHandler<GetServersInfo, ServersInfo>
     {
         private readonly IServerQueryFactory _sqf;
-        private readonly IMessageBusProxy _mb;
+        private readonly IRequestScopeLocator _scopeLocator;
 
-        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IMessageBusProxy mb)
+        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IRequestScopeLocator scopeLocator)
             : base(dbContextLocator) {
             _sqf = sqf;
-            _mb = mb;
+            _scopeLocator = scopeLocator;
         }
 
         public async Task<ServersInfo> Handle(GetServersInfo request) {
@@ -42,10 +42,11 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
             if (sGame == null)
                 throw new ValidationException("Game does not support servers");
             var servers = new List<Server>();
+            var scope = _scopeLocator.Scope;
             await
                 sGame.GetServerInfos(_sqf, request.Info.Addresses,
                         x => {
-                            _mb.SendMessage(new ServerInfoReceived(game.Id, new List<Server> {x}));
+                            scope.SendMessage(new ServerInfoReceived(game.Id, new List<Server> {x}));
                             servers.Add(x);
                         },
                         request.Info.IncludePlayers)

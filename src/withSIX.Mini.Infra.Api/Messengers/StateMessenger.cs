@@ -5,13 +5,13 @@
 using System;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Infra.Services;
-using withSIX.Core.Presentation;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services;
@@ -37,14 +37,14 @@ namespace withSIX.Mini.Infra.Api.Messengers
                 Extensions.ConnectionManager.ServerHub);
         private readonly IDisposable _dsp;
 
-        public StateMessengerBus(IGameLocker gameLocker, IMessageBusProxy mb, IRequestScopeLocator scoper) {
+        public StateMessengerBus(IGameLocker gameLocker, IMessageBusProxy mb) {
             CompositeDisposable dsp;
              _dsp = dsp = new CompositeDisposable();
             dsp.Add(gameLocker.LockChanged.Subscribe(Handle));
             dsp.Add(
-                mb.Listen<ServerInfoReceived>()
-                    .Subscribe(
-                        x => _hubContext2.Value.Clients.Client(scoper.Scope.ConnectionId).ServerInfoReceived(x)));
+                mb.ListenScopeEvent<ServerInfoReceived>()
+                    .Do(x => _hubContext2.Value.Clients.Client(x.Item1.ConnectionId).ServerInfoReceived(x.Item2))
+                    .Subscribe(x => { }, err => { }, () => { }));
         }
 
         public void Dispose() {
