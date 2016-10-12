@@ -44,13 +44,13 @@ namespace withSIX.Steam.Infra
                 JsonSerializer = jsonSerializer
             });
             _servers = con.CreateHubProxy("ServerHub");
-            dsp.Add(_servers.On<ReceivedServerAddressesPageEvent>("ServerAddressesPageReceived", RaiseEvent));
-            dsp.Add(_servers.On<ReceivedServerPageEvent>("ServerPageReceived", RaiseEvent));
-            dsp.Add(_servers.On<ReceivedServerEvent>("ServerReceived", RaiseEvent));
+            dsp.Add(_servers.On<ReceivedServerAddressesPageEvent, Guid>("ServerAddressesPageReceived", RaiseEvent));
+            dsp.Add(_servers.On<ReceivedServerPageEvent, Guid>("ServerPageReceived", RaiseEvent));
+            dsp.Add(_servers.On<ReceivedServerEvent, Guid>("ServerReceived", RaiseEvent));
             return Connect();
         }
 
-        private void RaiseEvent<T>(T x) where T : IEvent => _subject.OnNext(x);
+        private void RaiseEvent<T>(T x, Guid requestId) where T : IEvent => _subject.OnNext(x);
 
         private Task Connect() => _con.Start(_defaultHttpClient);
 
