@@ -66,6 +66,8 @@ namespace withSIX.Mini.Plugin.Arma.Services
             // Ports adjusted because it expects the Connection Port!
             var ipEndPoints = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList();
             var filter = ServerFilterBuilder.Build().FilterByAddresses(ipEndPoints);
+            
+            // TODO: Publish server info while they come in..
             var r =
                 await
                     _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
@@ -83,26 +85,21 @@ namespace withSIX.Mini.Plugin.Arma.Services
             IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers) {
             var infos = new List<Server>();
             var q = new ReactiveSource();
-            using (var client = q.CreateUdpClient())
-                foreach (var a in addresses) {
-                    var serverInfo = new ArmaServerWithPing {QueryAddress = a};
-                    infos.Add(serverInfo);
-                    try {
-                        var results = await q.ProcessResults(q.GetResults(new[] {serverInfo.QueryAddress}, client));
-                        var r = (SourceParseResult) results.Settings;
+            using (var client = q.CreateUdpClient()) {
+                var count = await q.ProcessResults(q.GetResults(addresses, client))
+                    .Do(x => {
+                        var serverInfo = new ArmaServerWithPing {QueryAddress = x.Address};
+                        infos.Add(serverInfo);
+                        var r = (SourceParseResult) x.Settings;
                         r.MapTo(serverInfo);
-                        serverInfo.Ping = results.Ping;
-                        /*
+                        serverInfo.Ping = x.Ping;
                         var tags = r.Keywords;
                         if (tags != null) {
                             var p = GameTags.Parse(tags);
-                            p.MapTo(server);
+                            p.MapTo(serverInfo);
                         }
-                        */
-                    } catch (Exception ex) {
-                        MainLog.Logger.FormattedWarnException(ex, "While processing server " + serverInfo.QueryAddress);
-                    }
-                }
+                    }).Count();
+            }
             return infos;
         }
     }
