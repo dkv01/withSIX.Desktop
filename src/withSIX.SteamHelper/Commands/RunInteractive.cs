@@ -73,18 +73,33 @@ namespace withSIX.Steam.Presentation.Commands
 
         public ServiceMessenger(IMessageBusProxy mb) {
             _dsp = new CompositeDisposable {
-                mb.Listen<ReceivedServerEvent>()
-                    .Subscribe(x => _hubContext.Value.Clients.All.ServerReceived(x)),
-                mb.Listen<ReceivedServerPageEvent>()
-                    .Subscribe(x => _hubContext.Value.Clients.All.ServerPageReceived(x)),
-                mb.Listen<ReceivedServerIpPageEvent>()
-                    .Subscribe(x => _hubContext.Value.Clients.All.ServerAddressesPageReceived(x))
-                //_mb.Listen<ReceivedServerEvent>().Select(x => Observable.FromAsync(x.Raise)).Merge(1).Subscribe()
+                mb.Listen<ClientEvent<ReceivedServerEvent>>()
+                    .Subscribe(x => _hubContext.Value.Clients.Client(x.ConnectionId).ServerReceived(x.Evt, x.RequestId)),
+                mb.Listen<ClientEvent<ReceivedServerPageEvent>>()
+                    .Subscribe(
+                        x => _hubContext.Value.Clients.Client(x.ConnectionId).ServerPageReceived(x.Evt, x.RequestId)),
+                mb.Listen<ClientEvent<ReceivedServerIpPageEvent>>()
+                    .Subscribe(
+                        x =>
+                            _hubContext.Value.Clients.Client(x.ConnectionId)
+                                .ServerAddressesPageReceived(x.Evt, x.RequestId))
             };
         }
 
         public void Dispose() {
             _dsp.Dispose();
         }
+    }
+
+    public class ClientEvent<T>
+    {
+        public ClientEvent(T evt, string connectionId, Guid requestId) {
+            Evt = evt;
+            ConnectionId = connectionId;
+            RequestId = requestId;
+        }
+        public string ConnectionId { get; }
+        public Guid RequestId { get; }
+        public T Evt { get; }
     }
 }

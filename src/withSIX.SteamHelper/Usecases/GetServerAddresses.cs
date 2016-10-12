@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
@@ -10,12 +11,18 @@ using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
+using withSIX.Steam.Presentation.Hubs;
 using System.Reactive.Linq;
 using System.Linq;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
-    public class GetServerAddresses : Core.Requests.GetServerAddresses, ICancellableQuery<BatchResult> {}
+    public class GetServerAddresses : Core.Requests.GetServerAddresses, ICancellableQuery<BatchResult>,
+        IRequireConnectionId, IHaveFilter, IRequireRequestId
+    {
+        public string ConnectionId { get; set; }
+        public Guid RequestId { get; set; }
+    }
 
     public class GetServerAddressesHandler : ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>
     {
@@ -27,22 +34,22 @@ namespace withSIX.Steam.Presentation.Usecases
             _mb = mb;
         }
 
-        public async Task<BatchResult> Handle(GetServerAddresses message, CancellationToken ct) {
-            using (var sb = await SteamActions.CreateServerBrowser(_steamApi).ConfigureAwait(false)) {
-                using (var cts = new CancellationTokenSource()) {
-                    var builder = ServerFilterBuilder.FromValue(message.Filter);
-                    var obs = await sb.GetServers2(cts.Token, builder);
-                    var r =
-                        await
-                            obs
-                                .Select(x => x.QueryEndPoint)
-                                .Take(10) // todo config limit
-                                .Buffer(message.PageSize)
-                                .Do(x => _mb.SendMessage(new ReceivedServerIpPageEvent(x.ToList())))
-                                .Count();
-                    cts.Cancel();
-                    return new BatchResult(r);
-                }
+        public Task<BatchResult> Handle(GetServerAddresses message, CancellationToken ct)
+            => new GetServerAddressesSession(_steamApi, _mb).Handle(message, ct);
+
+        class GetServerAddressesSession : ServerSession<GetServerAddresses>
+        {
+            public GetServerAddressesSession(ISteamApi steamApi, IMessageBusProxy mb) : base(steamApi, mb) { }
+
+            protected override async Task<BatchResult> HandleInternal() {
+                var obs = await Sb.GetServers2(Ct, Builder).ConfigureAwait(false);
+                var r =
+                    await
+                        obs.Select(x => x.QueryEndPoint).Take(10)
+                            // todo config limit
+                            .Buffer(Message.PageSize) // todo config limit
+                            .Do(x => SendEvent(new ReceivedServerIpPageEvent(x.ToList()))).Count();
+                return new BatchResult(r);
             }
         }
     }
