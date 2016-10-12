@@ -5,23 +5,19 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GameServerQuery;
 using MediatR;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
-using withSIX.Steam.Presentation.Hubs;
 using System.Reactive.Linq;
 using System.Linq;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
     public class GetServerAddresses : Core.Requests.GetServerAddresses, ICancellableQuery<BatchResult>,
-        IRequireConnectionId, IHaveFilter, IRequireRequestId
+        IHaveFilter
     {
-        public string ConnectionId { get; set; }
-        public Guid RequestId { get; set; }
     }
 
     public class GetServerAddressesHandler : ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>

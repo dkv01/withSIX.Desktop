@@ -22,7 +22,9 @@
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Mono.Options": "4.4.0",
     "SimpleInjector": "3.2.2",
+    "SimpleInjector.Extensions.ExecutionContextScoping": "3.2.2",
     "System.Diagnostics.Process": "4.1.0",
+    "System.Security.Principal": "4.0.1",
     "withSIX.Api.Models": "2.1.0"
   },
 
@@ -64,7 +66,10 @@
           "target": "project"
         }
       },
-      "imports": [ "netcore50", "dnxcore50" ]
+      "imports": [ "netcore50", "dnxcore50" ],
+      "frameworkAssemblies": {
+        "System.Security": "4.0.0.0"
+      }
     }
   }
 }

@@ -18,6 +18,8 @@ using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation.Hubs;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Linq;
+using withSIX.Steam.Infra;
+using ReceivedServerPageEvent = withSIX.Mini.Plugin.Arma.Services.ReceivedServerPageEvent;
 
 namespace withSIX.Steam.Presentation.Commands
 {
@@ -71,18 +73,18 @@ namespace withSIX.Steam.Presentation.Commands
         private readonly Lazy<IHubContext<ServerHub, IServerHubClient>> _hubContext = SystemExtensions.CreateLazy(() =>
                 Extensions.ConnectionManager.ServerHub);
 
-        public ServiceMessenger(IMessageBusProxy mb) {
+        public ServiceMessenger(IMessageBusProxy mb, IRequestScopeLocator scoper) {
             _dsp = new CompositeDisposable {
-                mb.Listen<ClientEvent<ReceivedServerEvent>>()
-                    .Subscribe(x => _hubContext.Value.Clients.Client(x.ConnectionId).ServerReceived(x.Evt, x.RequestId)),
-                mb.Listen<ClientEvent<ReceivedServerPageEvent>>()
-                    .Subscribe(
-                        x => _hubContext.Value.Clients.Client(x.ConnectionId).ServerPageReceived(x.Evt, x.RequestId)),
-                mb.Listen<ClientEvent<ReceivedServerIpPageEvent>>()
+                mb.Listen<ReceivedServerPageEvent>()
                     .Subscribe(
                         x =>
-                            _hubContext.Value.Clients.Client(x.ConnectionId)
-                                .ServerAddressesPageReceived(x.Evt, x.RequestId))
+                            _hubContext.Value.Clients.Client(scoper.Scope.ConnectionId)
+                                .ServerPageReceived(x, scoper.Scope.RequestId)),
+                mb.Listen<ReceivedServerIpPageEvent>()
+                    .Subscribe(
+                        x =>
+                            _hubContext.Value.Clients.Client(scoper.Scope.ConnectionId)
+                                .ServerAddressesPageReceived(x, scoper.Scope.RequestId))
             };
         }
 

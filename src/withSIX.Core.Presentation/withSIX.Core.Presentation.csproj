@@ -143,6 +143,7 @@
     <Compile Include="Legacy\ConsoleAppBootstrapper.cs" />
     <Compile Include="Legacy\StartupManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestScope.cs" />
     <Compile Include="Services\AutoMapperProfile.cs" />
     <Compile Include="Services\CompressionUtil.cs" />
     <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
@@ -179,6 +180,9 @@
     </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\dll\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping">
+      <HintPath>..\..\..\..\..\Users\proza\.nuget\packages\SimpleInjector.Extensions.ExecutionContextScoping\3.2.2\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>

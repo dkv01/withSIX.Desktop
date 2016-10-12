@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,14 +11,11 @@ using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
-using withSIX.Steam.Presentation.Hubs;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
-    public class GetServers : Core.Requests.GetServers, ICancellableQuery<BatchResult>, IRequireConnectionId, IHaveFilter, IRequireRequestId
+    public class GetServers : Core.Requests.GetServers, ICancellableQuery<BatchResult>, IHaveFilter
     {
-        public string ConnectionId { get; set; }
-        public Guid RequestId { get; set; }
     }
 
     public class GetServersHandler : ICancellableAsyncRequestHandler<GetServers, BatchResult>

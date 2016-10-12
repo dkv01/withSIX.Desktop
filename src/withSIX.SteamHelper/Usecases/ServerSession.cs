@@ -10,12 +10,10 @@ using GameServerQuery;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Steam.Plugin.Arma;
-using withSIX.Steam.Presentation.Commands;
-using withSIX.Steam.Presentation.Hubs;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
-    public abstract class ServerSession<TMessage> where TMessage : IRequireConnectionId, IHaveFilter, IRequireRequestId
+    public abstract class ServerSession<TMessage> where TMessage : IHaveFilter
     {
         private readonly IMessageBusProxy _mb;
         private readonly ISteamApi _steamApi;
@@ -33,7 +31,7 @@ namespace withSIX.Steam.Presentation.Usecases
 
         protected CancellationToken Ct { get; private set; }
 
-        protected void SendEvent<T>(T evt) => _mb.SendMessage(evt.ToClientEvent(Message));
+        protected void SendEvent<T>(T evt) => _mb.SendMessage(evt);
         protected Task<ServerBrowser> CreateServerBrowser() => SteamActions.CreateServerBrowser(_steamApi);
 
         public async Task<BatchResult> Handle(TMessage message, CancellationToken ct) {

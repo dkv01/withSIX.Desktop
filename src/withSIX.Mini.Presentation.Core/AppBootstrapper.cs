@@ -18,6 +18,7 @@ using AutoMapper;
 using MediatR;
 using NDepend.Path;
 using SimpleInjector;
+using SimpleInjector.Extensions.ExecutionContextScoping;
 using withSIX.Api.Models.Extensions;
 using withSIX.ContentEngine.Core;
 using withSIX.ContentEngine.Infra.Services;
@@ -158,6 +159,7 @@ namespace withSIX.Mini.Presentation.Core
             RegisterToolServices();
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
             _initializers = Container.GetAllInstances<IInitializer>();
+            RequestScopeService.Instance = new RequestScopeService(Container);
         }
 
         private void RegisterToolServices() {
@@ -324,6 +326,7 @@ namespace withSIX.Mini.Presentation.Core
         protected static string GetHumanReadableActionName(string action) => action.Split('.').Last();
 
         void SetupContainer() {
+            Container.Options.DefaultScopedLifestyle = new ExecutionContextScopeLifestyle();
             ConfigureContainer();
             RegisterServices();
             RegisterViews();
@@ -447,6 +450,9 @@ namespace withSIX.Mini.Presentation.Core
                 () =>
                     new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),
                         Container.GetInstance<IINstallerSessionFactory>()));
+
+            Container.Register<IRequestScope, RequestScope>(Lifestyle.Scoped);
+            Container.RegisterSingleton<IRequestScopeLocator, RequestScopeService>();
 
             // LEGACY
             Container.RegisterSingleton<IPathConfiguration>(() => Common.Paths);

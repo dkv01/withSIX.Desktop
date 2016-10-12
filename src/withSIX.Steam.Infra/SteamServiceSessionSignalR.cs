@@ -46,7 +46,6 @@ namespace withSIX.Steam.Infra
             _servers = con.CreateHubProxy("ServerHub");
             dsp.Add(_servers.On<ReceivedServerAddressesPageEvent, Guid>("ServerAddressesPageReceived", RaiseEvent));
             dsp.Add(_servers.On<ReceivedServerPageEvent, Guid>("ServerPageReceived", RaiseEvent));
-            dsp.Add(_servers.On<ReceivedServerEvent, Guid>("ServerReceived", RaiseEvent));
             return Connect();
         }
 
@@ -105,11 +104,5 @@ namespace withSIX.Steam.Infra
     {
         public Guid GameId { get; set; }
         public List<IPEndPoint> Servers { get; set; }
-    }
-
-    public class ReceivedServerEvent : IEvent
-    {
-        public Guid GameId { get; set; }
-        public dynamic ServerInfo { get; set; }
     }
 }

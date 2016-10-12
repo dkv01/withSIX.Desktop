@@ -4,18 +4,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using MediatR;
-using Newtonsoft.Json;
 using SimpleInjector;
-using withSIX.Api.Models.Extensions;
+using SimpleInjector.Extensions.ExecutionContextScoping;
 using withSIX.Core.Applications.Errors;
-using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
-using withSIX.Core.Logging;
+using withSIX.Core.Presentation;
 using withSIX.Core.Presentation.Bridge;
 using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Core.Presentation.Decorators;
@@ -27,11 +22,9 @@ using withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Steam.Api;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Core;
-using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation.Commands;
 using withSIX.Steam.Presentation.Usecases;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
-using SteamApi = withSIX.Steam.Api.Services.SteamApi;
 
 namespace withSIX.Steam.Presentation
 {
@@ -51,9 +44,11 @@ namespace withSIX.Steam.Presentation
 
         private void CreateInstances() {
             App.SteamHelper = _container.GetInstance<ISteamHelper>();
-            LockedWrapper.callFactory = _container.GetInstance<ISafeCallFactory>(); // workaround for accessviolation errors
+            LockedWrapper.callFactory = _container.GetInstance<ISafeCallFactory>();
+                // workaround for accessviolation errors
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
             Raiser.Raiserr = new EventStorage();
+            RequestScopeService.Instance = new RequestScopeService(_container);
         }
 
         public IEnumerable<BaseCommand> GetCommands() {
@@ -66,6 +61,7 @@ namespace withSIX.Steam.Presentation
         void SetupContainer(Func<ISteamApi> steamApi) {
             _assemblies = new[] {Assembly.GetExecutingAssembly()};
             _container = new Container();
+            _container.Options.DefaultScopedLifestyle = new ExecutionContextScopeLifestyle();
             _container.RegisterSingleton(new SingleInstanceFactory(_container.GetInstance));
             _container.RegisterSingleton(new MultiInstanceFactory(_container.GetAllInstances));
             _container.RegisterSingleton<ICheatImpl, CheatImpl>();
@@ -88,6 +84,8 @@ namespace withSIX.Steam.Presentation
             _container.RegisterDecorator<IMediator, MediatorLoggingDecorator>();
             RegisterRequestHandlers();
             RegisterNotificationHandlers();
+            _container.Register<IRequestScope, RequestScope>(Lifestyle.Scoped);
+            _container.RegisterSingleton<IRequestScopeLocator, RequestScopeService>();
         }
 
         private void RegisterRequestHandlers() {

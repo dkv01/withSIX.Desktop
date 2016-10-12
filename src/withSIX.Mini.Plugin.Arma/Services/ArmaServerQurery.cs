@@ -87,7 +87,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
             using (var client = q.CreateUdpClient()) {
                 return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client))
                     .Do(x => {
-                        var serverInfo = new ArmaServerWithPing {QueryAddress = x.Address};
+                        var serverInfo = new ArmaServer {QueryAddress = x.Address};
                         var r = (SourceParseResult) x.Settings;
                         r.MapTo(serverInfo);
                         serverInfo.Ping = x.Ping;
@@ -101,12 +101,6 @@ namespace withSIX.Mini.Plugin.Arma.Services
             }
         }
     }
-
-    class ArmaServerWithPing : ArmaServer
-    {
-        public int Ping { get; set; }
-    }
-
 
     public class ArmaServerInfoModel
     {
@@ -169,15 +163,6 @@ namespace withSIX.Mini.Plugin.Arma.Services
         public string Tags { get; set; }
 
         public bool ReceivedRules { get; set; }
-    }
-
-    public class ReceivedServerEvent : IEvent
-    {
-        public ReceivedServerEvent(ArmaServerInfoModel serverInfo) {
-            ServerInfo = serverInfo;
-        }
-
-        public ArmaServerInfoModel ServerInfo { get; }
     }
 
     public abstract class ReceivedServerPageEvent<T> : IEvent

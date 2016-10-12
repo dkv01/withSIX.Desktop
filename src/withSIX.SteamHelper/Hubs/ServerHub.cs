@@ -18,7 +18,6 @@ namespace withSIX.Steam.Presentation.Hubs
 
     public interface IServerHubClient
     {
-        Task ServerReceived(ReceivedServerEvent receivedServerEvent, Guid requestId);
         Task ServerPageReceived(ReceivedServerPageEvent serverPage, Guid requestId);
         Task ServerAddressesPageReceived(ReceivedServerIpPageEvent serverPage, Guid requestId);
     }
