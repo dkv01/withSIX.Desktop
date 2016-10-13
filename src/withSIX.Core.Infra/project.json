@@ -8,7 +8,7 @@
     "System.Diagnostics.Process": "4.1.0",
     "System.Net.Ping": "4.0.0",
     "System.Reactive": "3.0.0",
-    "withSIX.Api.Models": "2.1.0",
+    "withSIX.Api.Models": "2.1.2",
     "withSIX.Core": "1.0.1",
     "withSIX.Core.Applications": "1.0.0",
     "withSIX.Sync.Core": "1.0.0"

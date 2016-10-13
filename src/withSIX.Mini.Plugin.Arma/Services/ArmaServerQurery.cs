@@ -43,9 +43,16 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
         public Task<BatchResult> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails, Action<Server> act) => inclExtendedDetails
-            ? GetServersFromSteam(appId, addresses, inclExtendedDetails, act)
+            ? TryGetServersFromSteam(appId, addresses, inclExtendedDetails, act)
             : GetFromGameServerQuery(addresses, inclExtendedDetails, act);
 
+        private async Task<BatchResult> TryGetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails, Action<Server> act) {
+            try {
+                return await GetServersFromSteam(appId, addresses, inclExtendedDetails, act).ConfigureAwait(false);
+            } catch {
+                return await GetFromGameServerQuery(addresses, inclExtendedDetails, act).ConfigureAwait(false);
+            }
+        }
         public async Task<BatchResult> GetServerAddresses(uint appId, Action<List<IPEndPoint>> act,
             CancellationToken cancelToken) {
             var f = ServerFilterBuilder.Build()
@@ -62,17 +69,28 @@ namespace withSIX.Mini.Plugin.Arma.Services
             // Ports adjusted because it expects the Connection Port!
             var ipEndPoints = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList();
             var filter = ServerFilterBuilder.Build().FilterByAddresses(ipEndPoints);
+            var includeRules = true;
+            var cvt = GetConverter(includeRules);
             return
                 _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
                     new GetServers {
                         Filter = filter.Value,
                         IncludeDetails = inclExtendedDetails,
-                        IncludeRules = true,
+                        IncludeRules = includeRules,
                         PageSize = 1
                     }, CancellationToken.None, x => {
-                        foreach (var s in x.Select(s2 => s2.MapTo<ArmaServer>()))
+                        foreach (var s in x.Select(cvt))
                             act(s);
                     });
+        }
+
+        private static Func<ArmaServerInfoModel, Server> GetConverter(bool includeRules) {
+            Func<ArmaServerInfoModel, Server> cvt;
+            if (includeRules)
+                cvt = x => x.MapTo<ArmaServerInclRules>();
+            else
+                cvt = x => x.MapTo<ArmaServer>();
+            return cvt;
         }
 
         private static async Task<BatchResult> GetFromGameServerQuery(

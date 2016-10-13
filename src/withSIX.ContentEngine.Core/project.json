@@ -7,7 +7,7 @@
     "System.Diagnostics.FileVersionInfo": "4.0.0",
     "System.IO.FileSystem": "4.0.1",
     "System.IO.FileSystem.AccessControl": "4.0.0",
-    "withSIX.Api.Models": "2.1.0",
+    "withSIX.Api.Models": "2.1.2",
     "withSIX.Core": "1.0.1"
   },
   "frameworks": {

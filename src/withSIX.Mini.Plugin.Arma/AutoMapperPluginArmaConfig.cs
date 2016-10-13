@@ -22,12 +22,15 @@ namespace withSIX.Mini.Plugin.Arma
             SetupApiModels();
 
             CreateMap<ArmaServerInfoModel, ArmaServer>()
+                .Include<ArmaServerInfoModel, ArmaServerInclRules>()
                 .AfterMap((src, dest) => src.GameTags?.MapTo(dest))
                 //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
                 .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
                 .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
                 .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
                 .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
+
+            CreateMap<ArmaServerInfoModel, ArmaServerInclRules>();
 
             CreateMap<GameTags, Server>()
                 .Include<GameTags, ArmaServer>();

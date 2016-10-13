@@ -6,7 +6,7 @@
     "NDepend.Path.PCL": "1.0.2",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",
-    "withSIX.Api.Models": "2.1.0"
+    "withSIX.Api.Models": "2.1.2"
   },
   "frameworks": {
     "netstandard1.3": {}
