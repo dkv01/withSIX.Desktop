@@ -183,14 +183,14 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 InputMods = content.OfType<IModContent>(), //.Where(x => x.Controller.Exists),
                 AdditionalLaunchMods = GetAdditionalLaunchMods(),
                 //Mission = CalculatedSettings.Mission,
-                Server = GetServer(content, launchAction),
+                Server = GetServerOverride(action) ?? GetServerFromContent(content, launchAction),
                 // TODO: Or configurable by user?
                 StartupParameters = Settings.StartupParameters.Get(),
                 UseParFile = true
             };
         }
 
-        CollectionServer GetServer(IEnumerable<ILaunchableContent> content, LaunchAction launchAction) {
+        CollectionServer GetServerFromContent(IEnumerable<ILaunchableContent> content, LaunchAction launchAction) {
             if (launchAction == LaunchAction.Default)
                 return content.OfType<IHaveServers>().FirstOrDefault()?.Servers.FirstOrDefault();
             return launchAction == LaunchAction.Join
@@ -547,9 +547,9 @@ namespace withSIX.Mini.Plugin.Arma.Models
             */
 
             IEnumerable<string> GetServerArgs() {
-                var sa = new ServerAddress(_spec.Server.Address);
+                var sa = _spec.Server.Address;
                 var args = new List<string> {
-                    "-connect=" + GetServerIP(sa.IP),
+                    "-connect=" + GetServerIP(sa.Address),
                     "-port=" + sa.Port
                 };
 

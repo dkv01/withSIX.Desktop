@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -200,8 +201,7 @@ namespace withSIX.Mini.Core.Games
     public class CollectionServer
     {
         [DataMember]
-        // ServerAddress
-        public string Address { get; set; }
+        public IPEndPoint Address { get; set; }
         [DataMember]
         public string Password { get; set; }
     }

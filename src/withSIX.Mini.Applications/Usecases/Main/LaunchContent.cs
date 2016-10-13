@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -28,6 +29,7 @@ namespace withSIX.Mini.Applications.Usecases.Main
 
         public LaunchAction Action { get; }
         public LaunchType LaunchType { get; }
+        public IPEndPoint ServerAddress { get; set; }
         public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
@@ -40,7 +42,8 @@ namespace withSIX.Mini.Applications.Usecases.Main
                 Href =
                     Href ??
                     (hasPath == null ? null : new Uri("http://withsix.com/p/" + game.GetContentPath(hasPath, Name))),
-                Action = Action
+                Action = Action,
+                ServerAddress = ServerAddress
             };
         }
     }
@@ -56,6 +59,7 @@ namespace withSIX.Mini.Applications.Usecases.Main
 
         public LaunchType LaunchType { get; }
         public LaunchAction Action { get; }
+        public IPEndPoint ServerAddress { get; set; }
         public CancellationToken CancelToken { get; set; }
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
@@ -64,7 +68,8 @@ namespace withSIX.Mini.Applications.Usecases.Main
                 .ToArray(), cancelToken: CancelToken) {
             Action = Action,
             Name = Name,
-            Href = GetHref(game)
+            Href = GetHref(game),
+            ServerAddress = ServerAddress
         };
     }
 

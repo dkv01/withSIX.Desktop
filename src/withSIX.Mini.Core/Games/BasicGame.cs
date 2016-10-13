@@ -68,6 +68,14 @@ namespace withSIX.Mini.Core.Games
                     GetStartupParameters(action).ToArray(), action.Action));
         }
 
+        protected CollectionServer GetServerOverride(ILaunchContentAction<IContent> action) {
+            if (action.Action == LaunchAction.Default)
+                return action.ServerAddress == null ? null : new CollectionServer { Address = action.ServerAddress };
+            return action.Action == LaunchAction.Join
+                ? new CollectionServer { Address = action.ServerAddress }
+                : null;
+        }
+
         protected Task<Process> InitiateLaunch<T>(T launcher, LaunchState ls)
             where T : ILaunch, ILaunchWithSteam => ShouldLaunchWithSteam(ls)
             ? LaunchWithSteam(launcher, ls)

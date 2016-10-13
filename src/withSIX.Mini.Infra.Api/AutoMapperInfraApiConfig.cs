@@ -67,8 +67,10 @@ namespace withSIX.Mini.Infra.Api
                 .ForMember(x => x.IsOwner,
                     opt => opt.ResolveUsing((src, dst, b, ctx) => src.AuthorId == (Guid) ctx.Items["user-id"]));
 
-            CreateMap<CollectionServer, CollectionVersionServerModel>();
-            CreateMap<CollectionVersionServerModel, CollectionServer>();
+            CreateMap<CollectionServer, CollectionVersionServerModel>()
+                .ForMember(x => x.Address, opt => opt.MapFrom(src => src.Address.ToString()));
+            CreateMap<CollectionVersionServerModel, CollectionServer>()
+                .ForMember(x => x.Address, opt => opt.MapFrom(src => IPEndPointConverter.ToIpEndpoint(src.Address)));
 
             CreateMap<ModDtoV2, ModDtoV2>();
         }

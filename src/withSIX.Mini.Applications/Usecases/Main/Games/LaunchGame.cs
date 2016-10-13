@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -27,7 +28,7 @@ namespace withSIX.Mini.Applications.Usecases.Main.Games
 
         public LaunchAction Action { get; set; }
 
-        public string ServerAddress { get; set; }
+        public IPEndPoint ServerAddress { get; set; }
         public CancellationToken CancelToken { get; set; }
         public Guid Id { get; }
         public Guid GameId => Id;

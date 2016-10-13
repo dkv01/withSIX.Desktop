@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 
 namespace withSIX.Mini.Core.Games
@@ -15,7 +16,7 @@ namespace withSIX.Mini.Core.Games
             LaunchType = launchType;
         }
 
-        public string ServerAddress { get; set; }
+        public IPEndPoint ServerAddress { get; set; }
 
         public LaunchType LaunchType { get; }
         public LaunchAction Action { get; set; }
@@ -38,7 +39,7 @@ namespace withSIX.Mini.Core.Games
     {
         LaunchType LaunchType { get; }
         LaunchAction Action { get; }
-        string ServerAddress { get; }
+        IPEndPoint ServerAddress { get; }
     }
 
     public enum LaunchAction
