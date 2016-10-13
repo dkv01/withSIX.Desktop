@@ -25,13 +25,13 @@ namespace withSIX.Steam.Infra
         private static readonly JsonSerializer jsonSerializer = JsonSerializer.Create(JsonSupport.DefaultSettings);
         private readonly DefaultHttpClient _defaultHttpClient = new DefaultHttpClient();
         private readonly AsyncLock _l = new AsyncLock();
-        private readonly ISubject<IEvent> _subject;
+        private readonly ISubject<object> _subject;
         private HubConnection _con;
         private IDisposable _dsp;
         private IHubProxy _servers;
 
         public SteamServiceSessionSignalR() {
-            _subject = Subject.Synchronize(new Subject<IEvent>());
+            _subject = Subject.Synchronize(new Subject<object>());
         }
 
         public override Task Start(uint appId, Uri uri) {
@@ -49,7 +49,7 @@ namespace withSIX.Steam.Infra
             return Connect();
         }
 
-        private void RaiseEvent<T>(T x, Guid requestId) where T : IEvent => _subject.OnNext(x);
+        private void RaiseEvent<T>(T x, Guid requestId) where T : IEvent => _subject.OnNext(Tuple.Create(x, requestId));
 
         private Task Connect() => _con.Start(_defaultHttpClient);
 
@@ -57,7 +57,7 @@ namespace withSIX.Steam.Infra
             CancellationToken ct) {
             var requestId = Guid.NewGuid();
             await MakeSureConnected().ConfigureAwait(false);
-            using (SetupListener(pageAction)) {
+            using (SetupListener(pageAction, requestId)) {
                 var r = await _servers.Invoke<BatchResult>("GetServers", query, requestId).ConfigureAwait(false);
                 return r;
             }
@@ -68,9 +68,9 @@ namespace withSIX.Steam.Infra
             var requestId = Guid.NewGuid();
 
             await MakeSureConnected().ConfigureAwait(false);
-            using (_subject.OfType<ReceivedServerAddressesPageEvent>()
-                //.Where(x => x.GameId = request.GameId || requestId) 
-                .Select(x => x.Servers)
+            using (_subject.OfType<Tuple<ReceivedServerAddressesPageEvent, Guid>>()
+                .Where(x => x.Item2 == requestId)
+                .Select(x => x.Item1.Servers)
                 .Do(pageAction)
                 .Subscribe()) {
                 var r = await _servers.Invoke<BatchResult>("GetServerAddresses", query, requestId).ConfigureAwait(false);
@@ -78,11 +78,11 @@ namespace withSIX.Steam.Infra
             }
         }
 
-        private IDisposable SetupListener<T>(Action<List<T>> pageAction) =>
-            _subject.OfType<ReceivedServerPageEvent>()
-                //.Where(x => x.GameId = request.GameId || requestId) 
+        private IDisposable SetupListener<T>(Action<List<T>> pageAction, Guid requestId) =>
+            _subject.OfType<Tuple<ReceivedServerPageEvent, Guid>>()
+                .Where(x => x.Item2 == requestId) 
                 // TODO: Skip json step
-                .Select(x => x.Servers.Select(s => (T) JsonSupport.FromJson<T>(JsonSupport.ToJson(s))).ToList())
+                .Select(x => x.Item1.Servers.Select(s => (T) JsonSupport.FromJson<T>(JsonSupport.ToJson(s))).ToList())
                 .Do(pageAction)
                 .Subscribe();
 
