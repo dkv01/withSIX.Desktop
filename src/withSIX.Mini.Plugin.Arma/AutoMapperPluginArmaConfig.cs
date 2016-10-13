@@ -22,43 +22,17 @@ namespace withSIX.Mini.Plugin.Arma
             SetupApiModels();
 
             CreateMap<ArmaServerInfoModel, ArmaServer>()
-                .AfterMap((src, dest) => src.GameTags?.MapTo(dest))
-                //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
-                .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
-                .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
-                .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
-                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
+                .ArmaServerInfoModelToArmaServer();
 
             CreateMap<ArmaServerInfoModel, ArmaServerInclRules>()
-                // Inherited
-                .AfterMap((src, dest) => src.GameTags?.MapTo(dest))
-                //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
-                .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
-                .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
-                .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
-                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
+                .ArmaServerInfoModelToArmaServer();
 
             CreateMap<GameTags, Server>();
             CreateMap<GameTags, ArmaServer>()
-                .ForMember(x => x.Country, opt => opt.Ignore())
-                .ForMember(x => x.BattlEye, opt => opt.MapFrom(src => src.BattlEye.GetValueOrDefault()))
-                .ForMember(x => x.VerifySignatures, opt => opt.MapFrom(src => src.VerifySignatures.GetValueOrDefault()))
-                .ForMember(x => x.Platform,
-                    opt => opt.MapFrom(src => src.Platform == 'w' ? ServerPlatform.Windows : ServerPlatform.Linux))
-                .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock))
-                .ForMember(x => x.ServerVersion, opt => opt.MapFrom(src => src.Version))
-                .ForMember(x => x.Version, opt => opt.Ignore());
+                .GameTagsToArmaServer();
             CreateMap<GameTags, ArmaServerInclRules>()
                 .ForMember(x => x.Difficulty, opt => opt.Ignore())
-            //Inherited
-                .ForMember(x => x.Country, opt => opt.Ignore())
-                .ForMember(x => x.BattlEye, opt => opt.MapFrom(src => src.BattlEye.GetValueOrDefault()))
-                .ForMember(x => x.VerifySignatures, opt => opt.MapFrom(src => src.VerifySignatures.GetValueOrDefault()))
-                .ForMember(x => x.Platform,
-                    opt => opt.MapFrom(src => src.Platform == 'w' ? ServerPlatform.Windows : ServerPlatform.Linux))
-                .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock))
-                .ForMember(x => x.ServerVersion, opt => opt.MapFrom(src => src.Version))
-                .ForMember(x => x.Version, opt => opt.Ignore());
+               .GameTagsToArmaServer();
 
             CreateMap<ServerModInfo, Api.Models.Servers.ServerModInfo>();
         }
@@ -79,6 +53,29 @@ namespace withSIX.Mini.Plugin.Arma
             CreateMap<CarrierCommandGameSettings, CarrierCommandGameSettingsApiModel>();
             CreateMap<CarrierCommandGameSettingsApiModel, CarrierCommandGameSettings>();
         }
+    }
+
+    internal static class Exts
+    {
+        internal static IMappingExpression<T1, T2> ArmaServerInfoModelToArmaServer<T1, T2>(this IMappingExpression<T1, T2> cfg)
+            where T1 : ArmaServerInfoModel where T2 : ArmaServer =>
+            cfg.AfterMap((src, dest) => src.GameTags?.MapTo(dest))
+                //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
+                .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
+                .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
+                .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
+                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
+
+        internal static IMappingExpression<T1, T2> GameTagsToArmaServer<T1, T2>(this IMappingExpression<T1, T2> cfg)
+            where T1 : GameTags where T2 : Api.Models.Servers.ArmaServer
+        => cfg.ForMember(x => x.Country, opt => opt.Ignore())
+            .ForMember(x => x.BattlEye, opt => opt.MapFrom(src => src.BattlEye.GetValueOrDefault()))
+            .ForMember(x => x.VerifySignatures, opt => opt.MapFrom(src => src.VerifySignatures.GetValueOrDefault()))
+            .ForMember(x => x.Platform,
+                opt => opt.MapFrom(src => src.Platform == 'w' ? ServerPlatform.Windows : ServerPlatform.Linux))
+            .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock))
+            .ForMember(x => x.ServerVersion, opt => opt.MapFrom(src => src.Version))
+            .ForMember(x => x.Version, opt => opt.Ignore());
 
         static string TryUrlDecode(string str) {
             if (str.Contains("%")) {

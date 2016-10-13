@@ -102,11 +102,6 @@ namespace withSIX.Mini.Plugin.Arma.Services
                         var r = (SourceParseResult) x.Settings;
                         var serverInfo = r.MapTo<ArmaServer>();
                         serverInfo.Ping = x.Ping;
-                        var tags = r.Keywords;
-                        if (tags != null) {
-                            var p = GameTags.Parse(tags);
-                            p.MapTo(serverInfo);
-                        }
                         act(serverInfo);
                     }).Count());
             }
