@@ -22,7 +22,6 @@ namespace withSIX.Mini.Plugin.Arma
             SetupApiModels();
 
             CreateMap<ArmaServerInfoModel, ArmaServer>()
-                .Include<ArmaServerInfoModel, ArmaServerInclRules>()
                 .AfterMap((src, dest) => src.GameTags?.MapTo(dest))
                 //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
                 .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
@@ -30,19 +29,24 @@ namespace withSIX.Mini.Plugin.Arma
                 .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
                 .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
 
-            CreateMap<ArmaServerInfoModel, ArmaServerInclRules>();
+            CreateMap<ArmaServerInfoModel, ArmaServerInclRules>()
+                .IncludeBase<ArmaServerInfoModel, ArmaServer>();
 
-            CreateMap<GameTags, Server>()
-                .Include<GameTags, ArmaServer>();
+            CreateMap<GameTags, Server>();
             CreateMap<GameTags, ArmaServer>()
+                .IncludeBase<GameTags, Server>()
                 .ForMember(x => x.Country, opt => opt.Ignore())
                 .ForMember(x => x.BattlEye, opt => opt.MapFrom(src => src.BattlEye.GetValueOrDefault()))
                 .ForMember(x => x.VerifySignatures, opt => opt.MapFrom(src => src.VerifySignatures.GetValueOrDefault()))
-                .ForMember(x => x.Platform, opt => opt.MapFrom(src => src.Platform == 'w' ? ServerPlatform.Windows : ServerPlatform.Linux))
-                .ForMember(x => x.Difficulty, opt => opt.Ignore())
+                .ForMember(x => x.Platform,
+                    opt => opt.MapFrom(src => src.Platform == 'w' ? ServerPlatform.Windows : ServerPlatform.Linux))
                 .ForMember(x => x.IsLocked, opt => opt.MapFrom(src => src.Lock))
                 .ForMember(x => x.ServerVersion, opt => opt.MapFrom(src => src.Version))
                 .ForMember(x => x.Version, opt => opt.Ignore());
+            CreateMap<GameTags, ArmaServerInclRules>()
+                .IncludeBase<GameTags, Server>()
+                .IncludeBase<GameTags, ArmaServer>()
+                .ForMember(x => x.Difficulty, opt => opt.Ignore());
             CreateMap<ServerModInfo, Api.Models.Servers.ServerModInfo>();
         }
 

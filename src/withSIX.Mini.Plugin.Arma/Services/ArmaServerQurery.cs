@@ -99,9 +99,8 @@ namespace withSIX.Mini.Plugin.Arma.Services
             using (var client = q.CreateUdpClient()) {
                 return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client))
                     .Do(x => {
-                        var serverInfo = new ArmaServer {QueryAddress = x.Address};
                         var r = (SourceParseResult) x.Settings;
-                        r.MapTo(serverInfo);
+                        var serverInfo = r.MapTo<ArmaServer>();
                         serverInfo.Ping = x.Ping;
                         var tags = r.Keywords;
                         if (tags != null) {
