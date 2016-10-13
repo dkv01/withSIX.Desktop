@@ -64,15 +64,16 @@ namespace withSIX.Mini.Plugin.Arma.Services
                 .Count());
         }
 
-        Task<BatchResult> GetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
+        async Task<BatchResult> GetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails, Action<Server> act) {
-            // Ports adjusted because it expects the Connection Port!
-            var ipEndPoints = addresses.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList();
-            var filter = ServerFilterBuilder.Build().FilterByAddresses(ipEndPoints);
             var includeRules = true;
             var cvt = GetConverter(includeRules);
-            return
-                _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
+            var r = await Task.WhenAll(addresses.Batch(15).Select(b => {
+                // Ports adjusted because it expects the Connection Port!
+                var filter =
+                    ServerFilterBuilder.Build()
+                        .FilterByAddresses(b.Select(x => new IPEndPoint(x.Address, x.Port - 1)).ToList());
+                return _steamHelperService.GetServers<ArmaServerInfoModel>(appId,
                     new GetServers {
                         Filter = filter.Value,
                         IncludeDetails = inclExtendedDetails,
@@ -82,6 +83,8 @@ namespace withSIX.Mini.Plugin.Arma.Services
                         foreach (var s in x.Select(cvt))
                             act(s);
                     });
+            }));
+            return new BatchResult(r.Sum(x => x.Count));
         }
 
         private static Func<ArmaServerInfoModel, Server> GetConverter(bool includeRules) {
