@@ -15,8 +15,9 @@ namespace withSIX.Mini.Core.Games
 {
     public interface IQueryServers
     {
-        Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken);
+        Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken, Action<List<IPEndPoint>> act);
 
-        Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses, Action<Server> act, bool inclExtendedDetails = false);
+        Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
+            Action<Server> act, bool inclExtendedDetails = false);
     }
 }

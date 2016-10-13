@@ -29,7 +29,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
         Task<BatchResult> GetServerInfo(uint appId, IReadOnlyCollection<IPEndPoint> addresses,
             bool inclExtendedDetails, Action<Server> act);
 
-        Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act,
+        Task<BatchResult> GetServerAddresses(uint appId, Action<List<IPEndPoint>> act,
             CancellationToken cancelToken);
     }
 
@@ -46,21 +46,15 @@ namespace withSIX.Mini.Plugin.Arma.Services
             ? GetServersFromSteam(appId, addresses, inclExtendedDetails, act)
             : GetFromGameServerQuery(addresses, inclExtendedDetails, act);
 
-        public async Task<List<IPEndPoint>> GetServerAddresses(uint appId, Func<List<IPEndPoint>, Task> act,
+        public async Task<BatchResult> GetServerAddresses(uint appId, Action<List<IPEndPoint>> act,
             CancellationToken cancelToken) {
             var f = ServerFilterBuilder.Build()
                 .FilterByGame("arma3");
             var master = new SourceMasterQuery(f.Value);
-            var r = await master.GetParsedServersObservable(cancelToken)
-                .Select(x =>
-                    Observable.FromAsync(async () => {
-                        await act(x.Items);
-                        return x;
-                    }))
-                .Merge(1)
+            return new BatchResult(await master.GetParsedServersObservable(cancelToken)
+                .Do(x => act(x.Items))
                 .SelectMany(x => x.Items)
-                .ToList();
-            return r.ToList();
+                .Count());
         }
 
         Task<BatchResult> GetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses,

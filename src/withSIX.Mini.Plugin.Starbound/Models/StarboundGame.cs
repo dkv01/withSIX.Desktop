@@ -59,10 +59,13 @@ namespace withSIX.Mini.Plugin.Starbound.Models
                     : Metadata.GetServerExecutables().Skip(1).ToArray());
         }
 
-        public async Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken) {
+        public async Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken,
+            Action<List<IPEndPoint>> act) {
             var master = new SourceMasterQuery(ServerFilterBuilder.Build().FilterByGame("starbound").Value);
-            var r = await master.GetParsedServers(cancelToken).ConfigureAwait(false);
-            return r;
+            return new BatchResult(await master.GetParsedServersObservable(cancelToken)
+                .Do(x => act(x.Items))
+                .SelectMany(x => x.Items)
+                .Count());
         }
 
         public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,

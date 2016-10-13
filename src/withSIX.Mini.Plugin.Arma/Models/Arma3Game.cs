@@ -66,11 +66,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         protected override string[] BeGameParam { get; } = {"2", "1"};
 
-        public Task<List<IPEndPoint>> GetServers(IServerQueryFactory factory, CancellationToken cancelToken)
-            =>
-            factory.Create(this)
-                .GetServerAddresses(SteamInfo.AppId, x => RaiseRealtimeEvent(new ServersPageReceived(Id, x)),
-                    cancelToken);
+        public Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken, Action<List<IPEndPoint>> act)
+            => factory.Create(this).GetServerAddresses(SteamInfo.AppId, act, cancelToken);
 
         public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
                 Action<Server> act, bool inclExtendedDetails = false)

@@ -45,6 +45,9 @@ namespace withSIX.Mini.Infra.Api.Messengers
                 mb.ListenScopeEvent<ServerInfoReceived>()
                     .Do(x => _hubContext2.Value.Clients.Client(x.Item1.ConnectionId).ServerInfoReceived(x.Item2))
                     .Subscribe(x => { }, err => { }, () => { }));
+            dsp.Add(mb.ListenScopeEvent<ServersPageReceived>()
+                .Do(x => _hubContext2.Value.Clients.Client(x.Item1.ConnectionId).ServersPageReceived(x.Item2))
+                .Subscribe(x => { }, err => { }, () => { }));
         }
 
         public void Dispose() {
