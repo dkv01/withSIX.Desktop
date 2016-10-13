@@ -57,7 +57,11 @@ namespace withSIX.Steam.Infra
             CancellationToken ct) {
             var requestId = Guid.NewGuid();
             await MakeSureConnected().ConfigureAwait(false);
-            using (SetupListener(pageAction, requestId)) {
+            using (Listen<ReceivedServerPageEvent>(requestId)
+                // TODO: Skip json step
+                .Select(x => x.Servers.Select(s => (T) JsonSupport.FromJson<T>(JsonSupport.ToJson(s))).ToList())
+                .Do(pageAction)
+                .Subscribe()) {
                 var r = await _servers.Invoke<BatchResult>("GetServers", query, requestId).ConfigureAwait(false);
                 return r;
             }
@@ -68,9 +72,8 @@ namespace withSIX.Steam.Infra
             var requestId = Guid.NewGuid();
 
             await MakeSureConnected().ConfigureAwait(false);
-            using (_subject.OfType<Tuple<ReceivedServerAddressesPageEvent, Guid>>()
-                .Where(x => x.Item2 == requestId)
-                .Select(x => x.Item1.Servers)
+            using (Listen<ReceivedServerAddressesPageEvent>(requestId)
+                .Select(x => x.Servers)
                 .Do(pageAction)
                 .Subscribe()) {
                 var r = await _servers.Invoke<BatchResult>("GetServerAddresses", query, requestId).ConfigureAwait(false);
@@ -78,13 +81,9 @@ namespace withSIX.Steam.Infra
             }
         }
 
-        private IDisposable SetupListener<T>(Action<List<T>> pageAction, Guid requestId) =>
-            _subject.OfType<Tuple<ReceivedServerPageEvent, Guid>>()
-                .Where(x => x.Item2 == requestId) 
-                // TODO: Skip json step
-                .Select(x => x.Item1.Servers.Select(s => (T) JsonSupport.FromJson<T>(JsonSupport.ToJson(s))).ToList())
-                .Do(pageAction)
-                .Subscribe();
+        private IObservable<T> Listen<T>(Guid requestId) => _subject.OfType<Tuple<T, Guid>>()
+            .Where(x => x.Item2 == requestId)
+            .Select(x => x.Item1);
 
         private async Task MakeSureConnected() {
             using (await _l.LockAsync().ConfigureAwait(false)) {
