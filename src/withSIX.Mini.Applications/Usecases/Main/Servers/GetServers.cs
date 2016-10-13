@@ -21,26 +21,26 @@ using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Applications.Usecases.Main.Servers
 {
-    public class GetServers : ICancellableQuery<BatchResult>
+    public class GetServerAddresses : ICancellableQuery<BatchResult>
     {
-        public GetServers(GetServersQuery info) {
+        public GetServerAddresses(GetServersQuery info) {
             Info = info;
         }
 
         public GetServersQuery Info { get; }
     }
 
-    public class GetServersHandler : ApiDbQueryBase, ICancellableAsyncRequestHandler<GetServers, BatchResult>
+    public class GetServerAddressesHandler : ApiDbQueryBase, ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>
     {
         private readonly IServerQueryFactory _sqf;
         private readonly IRequestScopeLocator _scopeLoc;
 
-        public GetServersHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IRequestScopeLocator scopeLoc) : base(dbContextLocator) {
+        public GetServerAddressesHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IRequestScopeLocator scopeLoc) : base(dbContextLocator) {
             _sqf = sqf;
             _scopeLoc = scopeLoc;
         }
 
-        public async Task<BatchResult> Handle(GetServers request, CancellationToken cancelToken) {
+        public async Task<BatchResult> Handle(GetServerAddresses request, CancellationToken cancelToken) {
             var game = await GameContext.FindGameOrThrowAsync(request.Info).ConfigureAwait(false);
             var sGame = game as IQueryServers;
             if (sGame == null)
