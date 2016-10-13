@@ -9,6 +9,7 @@ using withSIX.Core.Logging;
 
 namespace withSIX.Core.Helpers
 {
+    [Obsolete]
     public class TimerWithElapsedCancellation : TimerWithElapsedCancellationAsync
     {
         public TimerWithElapsedCancellation(double time, Func<bool> onElapsed, Action onDisposed = null)
@@ -29,6 +30,7 @@ namespace withSIX.Core.Helpers
 
     public class ElapsedEventArgs {}
 
+    [Obsolete]
     public class TimerWithElapsedCancellationOnExceptionOnly : TimerWithElapsedCancellationAsync
     {
         public TimerWithElapsedCancellationOnExceptionOnly(double time, Action onElapsed)
@@ -38,6 +40,7 @@ namespace withSIX.Core.Helpers
             : this(time.TotalMilliseconds, onElapsed) {}
     }
 
+    [Obsolete]
     public class TimerWithoutOverlap : TimerWithElapsedCancellationAsync
     {
         public TimerWithoutOverlap(double time, Action onElapsed)
@@ -47,6 +50,7 @@ namespace withSIX.Core.Helpers
             : base(time, async () => onElapsed()) {}
     }
 
+    [Obsolete]
     public class TimerWithElapsedCancellationAsync : Timer
     {
         private readonly Action _onDisposed;
@@ -54,22 +58,25 @@ namespace withSIX.Core.Helpers
 
         private bool _disposed;
         private Task _task;
-        protected Func<Task<bool>> OnElapsedFunc;
 
         public TimerWithElapsedCancellationAsync(double time, Func<Task<bool>> onElapsed, Action onDisposed = null) {
             _onDisposed = onDisposed;
             _cts = new CancellationTokenSource();
             _task = Task.Run(async () => {
-                while (!_cts.IsCancellationRequested) {
-                    await Task.Delay(TimeSpan.FromMilliseconds(time), _cts.Token).ConfigureAwait(false);
-                    try {
-                        if (!await onElapsed().ConfigureAwait(false)) {
+                try {
+                    while (!_cts.IsCancellationRequested) {
+                        await Task.Delay(TimeSpan.FromMilliseconds(time), _cts.Token).ConfigureAwait(false);
+                        try {
+                            if (!await onElapsed().ConfigureAwait(false)) {
+                                break;
+                            }
+                        } catch (Exception ex) {
+                            MainLog.Logger.Warn("Unhandled Ex in timer", ex);
                             break;
                         }
-                    } catch (Exception ex) {
-                        MainLog.Logger.Warn("Unhandled Ex in timer", ex);
-                        break;
                     }
+                } finally {
+                    Dispose();
                 }
             }, _cts.Token);
         }
