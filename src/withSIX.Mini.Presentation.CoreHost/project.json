@@ -24,7 +24,8 @@
     "NDepend.Path.PCL": "1.0.2",
     "SimpleInjector": "3.2.2",
     "System.Threading.Tasks.Dataflow": "4.6.0",
-    "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0"
+    "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
+    "IdentityModel": "2.0.0"
   },
 
   "frameworks": {
