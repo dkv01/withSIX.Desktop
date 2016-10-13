@@ -17,10 +17,16 @@ namespace withSIX.Mini.Core
                 .ForMember(x => x.Mission, opt => opt.MapFrom(src => src.Game + "." + src.Map))
                 .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.Visibility > 0))
                 .ForMember(x => x.IsDedicated, opt => opt.MapFrom(src => src.ServerType > 0));
+
             CreateMap<SourceParseResult, ArmaServer>()
-                .IncludeBase<SourceParseResult, Server>()
+                //.IncludeBase<SourceParseResult, Server>()
                 .ForMember(x => x.ConnectionAddress,
-                    opt => opt.MapFrom(src => new IPEndPoint(src.Address.Address, src.Port)));
+                    opt => opt.MapFrom(src => new IPEndPoint(src.Address.Address, src.Port)))
+                // inherited
+                .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.Address))
+                .ForMember(x => x.Mission, opt => opt.MapFrom(src => src.Game + "." + src.Map))
+                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.Visibility > 0))
+                .ForMember(x => x.IsDedicated, opt => opt.MapFrom(src => src.ServerType > 0));
         }
     }
 }
