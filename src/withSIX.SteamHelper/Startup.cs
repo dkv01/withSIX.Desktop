@@ -209,7 +209,7 @@ namespace withSIX.Steam.Presentation
 
         public static void ConfigureSignalrServices(this IServiceCollection services) {
             services.AddSignalR();
-            services.AddSingleton<IAssemblyLocator, HubCouldNotBeResolvedWorkaround>();
+            services.AddSingleton<IAssemblyLocator, MyAssemblyLocator>();
             var serializer = CreateJsonSerializer();
             services.AddSingleton(serializer);
             services.AddSingleton<IMyHubHost, MyHubHost>();
@@ -219,5 +219,10 @@ namespace withSIX.Steam.Presentation
             //ConnectionManager = new HCGetter(sp);
             //HubPipeline.AddModule(new HubErrorLoggingPipelineModule());
         }
+    }
+
+    public class MyAssemblyLocator : IAssemblyLocator
+    {
+        public IList<Assembly> GetAssemblies() => new List<Assembly> { typeof(ServerHub).GetTypeInfo().Assembly };
     }
 }

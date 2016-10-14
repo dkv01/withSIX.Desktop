@@ -77,7 +77,7 @@ namespace withSIX.Mini.Infra.Api
 
         public static void ConfigureSignalrServices(this IServiceCollection services) {
             services.AddSignalR();
-            services.AddSingleton<IAssemblyLocator, HubCouldNotBeResolvedWorkaround>();
+            services.AddSingleton<IAssemblyLocator, MyAssemblyLocator>();
             var serializer = CreateJsonSerializer();
             services.AddSingleton(serializer);
             services.AddSingleton<IMyHubHost, MyHubHost>();
@@ -90,7 +90,7 @@ namespace withSIX.Mini.Infra.Api
 
         public static JsonSerializer CreateJsonSerializer()
             => JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
-
+        /*
         public class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
         {
             private static readonly string AssemblyRoot = typeof(Hub).GetTypeInfo().Assembly.GetName().Name;
@@ -122,7 +122,7 @@ namespace withSIX.Mini.Infra.Api
                         dependency => string.Equals(AssemblyRoot, dependency.Name, StringComparison.Ordinal));
             }
         }
-
+        */
 
         public class Resolver : DefaultParameterResolver
         {
@@ -146,5 +146,10 @@ namespace withSIX.Mini.Infra.Api
                     return _serializer.Deserialize(reader, descriptor.ParameterType);
             }
         }
+    }
+
+    public class MyAssemblyLocator : IAssemblyLocator
+    {
+        public IList<Assembly> GetAssemblies() => new List<Assembly> {typeof(ClientHub).GetTypeInfo().Assembly};
     }
 }
