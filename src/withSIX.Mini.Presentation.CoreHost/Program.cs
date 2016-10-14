@@ -90,6 +90,20 @@ namespace withSIX.Mini.Presentation.CoreHost
             Binder = new NamespaceMigrationSerializationBinder()
         }.SetDefaultConverters();
 
+        JsonSerializerSettings IBridge.OtherSettings() {
+            return OtherSettings();
+        }
+
+        public static JsonSerializerSettings OtherSettings() => new JsonSerializerSettings {
+            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
+            // TODO: Very dangerous because we cant load/save when versions change?!? http://stackoverflow.com/questions/32245340/json-net-error-resolving-type-in-powershell-cmdlet
+            //PreserveReferencesHandling = PreserveReferencesHandling.All,
+            TypeNameHandling = TypeNameHandling.All,
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            //Binder = new NamespaceMigrationSerializationBinder(),
+            Error = OnError,
+        }.SetDefaultConverters();
+
         public class NamespaceMigrationSerializationBinder : DefaultSerializationBinder
         {
             //private readonly INamespaceMigration[] _migrations;
@@ -113,7 +127,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             }
         }
 
-        private void OnError(object sender, ErrorEventArgs e) {
+        private static void OnError(object sender, ErrorEventArgs e) {
             //MainLog.Logger.Warn($"Error during JSON serialization for {e.CurrentObject}, {e.ErrorContext.Path} {e.ErrorContext.Member}: {e.ErrorContext.Error.Message}");
         }
     }

@@ -116,9 +116,11 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
     public class ArmaServerInfoModel : ServerInfoModel
     {
-        public ArmaServerInfoModel(IPEndPoint queryEndpoint) : this() {
-            QueryEndPoint = queryEndpoint;
+        public ArmaServerInfoModel(IPEndPoint queryEndPoint) {
+            QueryEndPoint = queryEndPoint;
             ConnectionEndPoint = QueryEndPoint;
+            ModList = new List<ServerModInfo>();
+            SignatureList = new HashSet<string>();
         }
 
         protected ArmaServerInfoModel() {

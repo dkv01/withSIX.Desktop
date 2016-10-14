@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Presentation.Bridge;
 using withSIX.Mini.Infra.Api.Hubs;
 
 namespace withSIX.Mini.Infra.Api
@@ -89,7 +90,7 @@ namespace withSIX.Mini.Infra.Api
         }
 
         public static JsonSerializer CreateJsonSerializer()
-            => JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
+            => JsonSerializer.Create(Bridge.OtherSettings());
         /*
         public class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
         {

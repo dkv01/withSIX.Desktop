@@ -160,6 +160,7 @@ namespace withSIX.Mini.Presentation.Core
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
             _initializers = Container.GetAllInstances<IInitializer>();
             RequestScopeService.Instance = new RequestScopeService(Container);
+            SteamServiceSessionSignalR.jsonSerializer = Newtonsoft.Json.JsonSerializer.Create(bridge.OtherSettings());
         }
 
         private void RegisterToolServices() {

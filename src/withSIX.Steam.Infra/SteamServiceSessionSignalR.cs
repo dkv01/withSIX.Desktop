@@ -24,7 +24,7 @@ namespace withSIX.Steam.Infra
 {
     public class SteamServiceSessionSignalR : SteamServiceSession
     {
-        public static JsonSerializer jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
+        public static JsonSerializer jsonSerializer { get; set; } = JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
         private readonly DefaultHttpClient _defaultHttpClient = new DefaultHttpClient();
         private readonly AsyncLock _l = new AsyncLock();
         private readonly ISubject<object> _subject;
