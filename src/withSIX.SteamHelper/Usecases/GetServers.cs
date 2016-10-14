@@ -11,6 +11,9 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Presentation;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
+using System.Linq;
+using withSIX.Steam.Core.Services;
+using withSIX.Steam.Infra;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
@@ -47,7 +50,7 @@ namespace withSIX.Steam.Presentation.Usecases
                         obs
                             .Cast<ArmaServerInfoModel>()
                             .Buffer(Message.PageSize)
-                            .Do(x => SendEvent(new ReceivedServerPageEvent(x)))
+                            .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                             .SelectMany(x => x)
                             .Count();
                 return new BatchResult(r);

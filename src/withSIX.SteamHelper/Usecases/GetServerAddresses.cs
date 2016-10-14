@@ -12,6 +12,7 @@ using withSIX.Steam.Plugin.Arma;
 using System.Reactive.Linq;
 using System.Linq;
 using withSIX.Core.Presentation;
+using withSIX.Steam.Infra;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
@@ -47,7 +48,7 @@ namespace withSIX.Steam.Presentation.Usecases
                         obs.Select(x => x.QueryEndPoint).Take(10)
                             // todo config limit
                             .Buffer(Message.PageSize) // todo config limit
-                            .Do(x => SendEvent(new ReceivedServerIpPageEvent(x.ToList()))).Count();
+                            .Do(x => SendEvent(new ReceivedServerAddressesPageEvent(x.ToList()))).Count();
                 return new BatchResult(r);
             }
         }

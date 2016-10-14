@@ -5,6 +5,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Core.Presentation;
 using withSIX.Mini.Plugin.Arma.Services;
+using withSIX.Steam.Infra;
 using withSIX.Steam.Presentation.Commands;
 using withSIX.Steam.Presentation.Hubs;
 
@@ -23,7 +24,7 @@ namespace withSIX.Steam.Presentation.Services
                         x =>
                             _hubContext.Value.Clients.Client(x.Item1.ConnectionId)
                                 .ServerPageReceived(x.Item2, x.Item1.RequestId)),
-                mb.Listen<Tuple<IRequestScope, ReceivedServerIpPageEvent>>()
+                mb.Listen<Tuple<IRequestScope, ReceivedServerAddressesPageEvent>>()
                     .Subscribe(
                         x =>
                             _hubContext.Value.Clients.Client(x.Item1.ConnectionId)

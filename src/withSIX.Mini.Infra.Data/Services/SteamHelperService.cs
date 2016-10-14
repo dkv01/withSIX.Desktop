@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Servers;
 using withSIX.Core;
 using withSIX.Core.Helpers;
 using withSIX.Core.Infra.Services;
@@ -29,7 +30,7 @@ namespace withSIX.Mini.Infra.Data.Services
             _session = session;
         }
 
-        public async Task<BatchResult> GetServers<T>(uint appId, GetServers query, CancellationToken ct, Action<List<T>> act) {
+        public async Task<BatchResult> GetServers<T>(uint appId, GetServers query, CancellationToken ct, Action<List<T>> act) where T : ServerInfoModel {
             await StartSteamHelper(appId).ConfigureAwait(false);
             return await _session.GetServers(query, act, ct).ConfigureAwait(false);
         }

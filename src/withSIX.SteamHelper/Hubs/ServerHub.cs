@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using withSIX.Core;
 using withSIX.Mini.Infra.Api.Hubs;
 using withSIX.Mini.Plugin.Arma.Services;
+using withSIX.Steam.Infra;
 using withSIX.Steam.Presentation.Usecases;
 
 namespace withSIX.Steam.Presentation.Hubs
@@ -20,6 +21,6 @@ namespace withSIX.Steam.Presentation.Hubs
     public interface IServerHubClient
     {
         Task ServerPageReceived(ReceivedServerPageEvent serverPage, Guid requestId);
-        Task ServerAddressesPageReceived(ReceivedServerIpPageEvent serverPage, Guid requestId);
+        Task ServerAddressesPageReceived(ReceivedServerAddressesPageEvent serverPage, Guid requestId);
     }
 }

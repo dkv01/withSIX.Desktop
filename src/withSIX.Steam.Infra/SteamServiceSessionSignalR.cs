@@ -9,6 +9,7 @@ using System.Net;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
@@ -17,12 +18,13 @@ using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Helpers;
 using withSIX.Steam.Core.Requests;
+using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Infra
 {
     public class SteamServiceSessionSignalR : SteamServiceSession
     {
-        private static readonly JsonSerializer jsonSerializer = JsonSerializer.Create(JsonSupport.DefaultSettings);
+        public static JsonSerializer jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
         private readonly DefaultHttpClient _defaultHttpClient = new DefaultHttpClient();
         private readonly AsyncLock _l = new AsyncLock();
         private readonly ISubject<object> _subject;
@@ -59,7 +61,7 @@ namespace withSIX.Steam.Infra
             await MakeSureConnected().ConfigureAwait(false);
             using (Listen<ReceivedServerPageEvent>(requestId)
                 // TODO: Skip json step
-                .Select(x => x.Servers.Select(s => (T) JsonSupport.FromJson<T>(JsonSupport.ToJson(s))).ToList())
+                .Select(x => x.Servers.Cast<T>().ToList())
                 .Do(pageAction)
                 .Subscribe()) {
                 var r = await _servers.Invoke<BatchResult>("GetServers", query, requestId).ConfigureAwait(false);
@@ -93,15 +95,22 @@ namespace withSIX.Steam.Infra
         }
     }
 
-    public class ReceivedServerPageEvent : IEvent
+    public abstract class ReceivedPageEvent<T> : IEvent
     {
-        public Guid GameId { get; set; }
-        public List<dynamic> Servers { get; set; }
+        protected ReceivedPageEvent(List<T> servers) {
+            Servers = servers;
+        }
+
+        public List<T> Servers { get; set; }
     }
 
-    public class ReceivedServerAddressesPageEvent : IEvent
+    public class ReceivedServerPageEvent : ReceivedPageEvent<ServerInfoModel>
     {
-        public Guid GameId { get; set; }
-        public List<IPEndPoint> Servers { get; set; }
+        public ReceivedServerPageEvent(List<ServerInfoModel> servers) : base(servers) {}
+    }
+
+    public class ReceivedServerAddressesPageEvent : ReceivedPageEvent<IPEndPoint>
+    {
+        public ReceivedServerAddressesPageEvent(List<IPEndPoint> servers) : base(servers) {}
     }
 }

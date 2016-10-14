@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
+using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
 using withSIX.Core;
 using withSIX.Core.Helpers;
+using withSIX.Core.Logging;
 using withSIX.Core.Services;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Steam.Core.Requests;
@@ -49,7 +51,8 @@ namespace withSIX.Mini.Plugin.Arma.Services
         private async Task<BatchResult> TryGetServersFromSteam(uint appId, IReadOnlyCollection<IPEndPoint> addresses, bool inclExtendedDetails, Action<Server> act) {
             try {
                 return await GetServersFromSteam(appId, addresses, inclExtendedDetails, act).ConfigureAwait(false);
-            } catch {
+            } catch(Exception ex) {
+                MainLog.Logger.FormattedWarnException(ex, "Problem while processing info from Steam!");
                 return await GetFromGameServerQuery(addresses, inclExtendedDetails, act).ConfigureAwait(false);
             }
         }
@@ -111,7 +114,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
         }
     }
 
-    public class ArmaServerInfoModel
+    public class ArmaServerInfoModel : ServerInfoModel
     {
         public ArmaServerInfoModel(IPEndPoint queryEndpoint) : this() {
             QueryEndPoint = queryEndpoint;
@@ -172,24 +175,5 @@ namespace withSIX.Mini.Plugin.Arma.Services
         public string Tags { get; set; }
 
         public bool ReceivedRules { get; set; }
-    }
-
-    public abstract class ReceivedServerPageEvent<T> : IEvent
-    {
-        protected ReceivedServerPageEvent(IList<T> servers) {
-            Servers = servers;
-        }
-
-        public IList<T> Servers { get; }
-    }
-
-    public class ReceivedServerPageEvent : ReceivedServerPageEvent<ArmaServerInfoModel>
-    {
-        public ReceivedServerPageEvent(IList<ArmaServerInfoModel> servers) : base(servers) {}
-    }
-
-    public class ReceivedServerIpPageEvent : ReceivedServerPageEvent<IPEndPoint>
-    {
-        public ReceivedServerIpPageEvent(IList<IPEndPoint> servers) : base(servers) {}
     }
 }
