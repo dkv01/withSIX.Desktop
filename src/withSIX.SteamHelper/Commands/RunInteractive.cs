@@ -11,7 +11,6 @@ using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Linq;
-using withSIX.Steam.Infra;
 
 namespace withSIX.Steam.Presentation.Commands
 {

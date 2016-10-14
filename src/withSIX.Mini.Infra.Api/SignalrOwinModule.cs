@@ -88,10 +88,10 @@ namespace withSIX.Mini.Infra.Api
             //HubPipeline.AddModule(new HubErrorLoggingPipelineModule());
         }
 
-        private static JsonSerializer CreateJsonSerializer()
+        public static JsonSerializer CreateJsonSerializer()
             => JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
 
-        internal class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
+        public class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
         {
             private static readonly string AssemblyRoot = typeof(Hub).GetTypeInfo().Assembly.GetName().Name;
             private readonly DependencyContext _dependencyContext;
@@ -124,7 +124,7 @@ namespace withSIX.Mini.Infra.Api
         }
 
 
-        internal class Resolver : DefaultParameterResolver
+        public class Resolver : DefaultParameterResolver
         {
             private readonly JsonSerializer _serializer;
 

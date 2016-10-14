@@ -23,8 +23,10 @@
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Mini.Infra.Api\withSIX.Mini.Presentation.Owin.Signalr.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Plugin.Arma.Steam\withSIX.Steam.Plugin.Arma.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj" />
     <ProjectReference Include="..\withSIX.Steam.Api\withSIX.Steam.Api.csproj" />
     <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
   </ItemGroup>

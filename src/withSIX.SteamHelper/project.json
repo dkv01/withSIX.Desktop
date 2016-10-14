@@ -56,6 +56,12 @@
         "withSIX.Mini.Presentation.Core": {
           "target": "project"
         },
+        "withSIX.Mini.Presentation.Owin.Core": {
+          "target": "project"
+        },
+        "withSIX.Mini.Presentation.Owin.Signalr": {
+          "target": "project"
+        },
         "withSIX.Steam.Api": {
           "target": "project"
         },

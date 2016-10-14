@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using withSIX.Core;
+using withSIX.Mini.Infra.Api.Hubs;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Presentation.Usecases;
 
