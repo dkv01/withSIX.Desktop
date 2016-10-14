@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Core.Applications;
 using withSIX.Core.Applications.Services;
 using System.Linq;
 using withSIX.Api.Models.Extensions;
@@ -10,7 +9,9 @@ using withSIX.Core.Helpers;
 namespace withSIX.Steam.Presentation.Usecases
 {
     [Obsolete("Replace with S-IR/WebSockets")]
-    public class GetEvents : IAsyncQuery<EventsModel> {}
+    public class GetEvents : IAsyncQuery<EventsModel>
+    {
+    }
 
     public class GetEventsHandler : IAsyncRequestHandler<GetEvents, EventsModel>
     {
