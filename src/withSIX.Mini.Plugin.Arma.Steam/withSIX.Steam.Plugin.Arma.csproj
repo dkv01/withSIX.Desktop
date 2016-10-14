@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
-      <Project>{809f10cd-988d-475a-8d5a-7fd17938053e}</Project>
+      <Project>{809F10CD-988D-475A-8D5A-7FD17938053E}</Project>
       <Name>GameServerQuery</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
