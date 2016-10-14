@@ -15,6 +15,7 @@ using GameServerQuery.Parsers;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
+using withSIX.Api.Models.Servers.RV;
 using withSIX.Core;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;

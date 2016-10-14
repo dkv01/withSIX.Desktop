@@ -5,9 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AutoMapper;
 using MediatR;
 using SimpleInjector;
 using SimpleInjector.Extensions.ExecutionContextScoping;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Presentation;
@@ -17,15 +19,20 @@ using withSIX.Core.Presentation.Decorators;
 using withSIX.Core.Presentation.Services;
 using withSIX.Core.Services;
 using withSIX.Mini.Applications;
+using withSIX.Mini.Infra.Api;
+using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Steam.Api;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Core;
+using withSIX.Steam.Core.Services;
+using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation.Commands;
 using withSIX.Steam.Presentation.Services;
 using withSIX.Steam.Presentation.Usecases;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
+using SteamApi = withSIX.Steam.Api.Services.SteamApi;
 
 namespace withSIX.Steam.Presentation
 {
@@ -44,12 +51,23 @@ namespace withSIX.Steam.Presentation
         }
 
         private void CreateInstances() {
+            MappingExtensions.Mapper = new MapperConfiguration(cfg => {
+                cfg.AddProfile<ArmaServerProfile>();
+            }).CreateMapper();
             App.SteamHelper = _container.GetInstance<ISteamHelper>();
             LockedWrapper.callFactory = _container.GetInstance<ISafeCallFactory>();
                 // workaround for accessviolation errors
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
             Raiser.Raiserr = new EventStorage();
             RequestScopeService.Instance = new RequestScopeService(_container);
+        }
+
+        public class ArmaServerProfile : Profile
+        {
+            public ArmaServerProfile() {
+                CreateMap<ServerInfo, ServerInfoModel>();
+                CreateMap<ArmaServerInfo, ArmaServerInfoModel>();
+            }
         }
 
         public IEnumerable<BaseCommand> GetCommands() {

@@ -5,64 +5,10 @@
 using System;
 using System.Linq;
 using NDepend.Helpers;
+using withSIX.Api.Models.Servers.RV;
 
 namespace GameServerQuery.Games.RV
 {
-    public enum SessionState
-    {
-        None,
-        SelectingMission,
-        EditingMission,
-        AssigningRoles,
-        SendingMission,
-        LoadingGame,
-        Briefing,
-        Playing,
-        Debriefing,
-        MissionAborted
-    }
-
-    public enum AiLevel
-    {
-        Novice,
-        Normal,
-        Expert,
-        Custom
-    }
-
-    public enum Difficulty
-    {
-        Recruit,
-        Regular,
-        Veteran,
-        Custom
-    }
-
-    [Flags]
-    public enum Dlcs
-    {
-        Apex = 16,
-        Helicopters = 4,
-        Karts = 2,
-        Marksmen = 8,
-        None = 0,
-        Tanoa = 32,
-        Zeus = 1
-    }
-
-    public enum HelicopterFlightModel
-    {
-        Basic,
-        Advanced
-    }
-
-
-    public enum ServerPlatform
-    {
-        Windows,
-        Linux
-    }
-
     public class ServerModInfo
     {
         public int Hash { get; set; }

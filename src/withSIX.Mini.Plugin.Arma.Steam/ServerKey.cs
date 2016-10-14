@@ -15,7 +15,6 @@ namespace withSIX.Steam.Plugin.Arma
         public ushort Port { get; }
 
         public ServerKey(uint ipAddress, ushort port) {
-            this = new ServerKey();
             IpAddress = ipAddress;
             Port = port;
         }

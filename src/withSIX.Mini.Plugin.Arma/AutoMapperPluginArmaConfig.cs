@@ -8,7 +8,7 @@ using AutoMapper;
 using GameServerQuery.Games.RV;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
-using withSIX.Mini.Core.Games;
+using withSIX.Api.Models.Servers.RV;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Mini.Plugin.Arma.Services;
@@ -34,7 +34,7 @@ namespace withSIX.Mini.Plugin.Arma
                 .ForMember(x => x.Difficulty, opt => opt.Ignore())
                .GameTagsToArmaServer();
 
-            CreateMap<ServerModInfo, Api.Models.Servers.ServerModInfo>();
+            CreateMap<ServerModInfo, Api.Models.Servers.RV.ServerModInfo>();
         }
 
         void SetupApiModels() {
@@ -57,7 +57,8 @@ namespace withSIX.Mini.Plugin.Arma
 
     internal static class Exts
     {
-        internal static IMappingExpression<T1, T2> ArmaServerInfoModelToArmaServer<T1, T2>(this IMappingExpression<T1, T2> cfg)
+        internal static IMappingExpression<T1, T2> ArmaServerInfoModelToArmaServer<T1, T2>(
+            this IMappingExpression<T1, T2> cfg)
             where T1 : ArmaServerInfoModel where T2 : ArmaServer =>
             cfg.AfterMap((src, dest) => src.GameTags?.MapTo(dest))
                 //.ForMember(x => x.Location, opt => opt.ResolveUsing<LocationResolver2>())
@@ -67,7 +68,7 @@ namespace withSIX.Mini.Plugin.Arma
                 .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
 
         internal static IMappingExpression<T1, T2> GameTagsToArmaServer<T1, T2>(this IMappingExpression<T1, T2> cfg)
-            where T1 : GameTags where T2 : Api.Models.Servers.ArmaServer
+            where T1 : GameTags where T2 : ArmaServer
         => cfg.ForMember(x => x.Country, opt => opt.Ignore())
             .ForMember(x => x.BattlEye, opt => opt.MapFrom(src => src.BattlEye.GetValueOrDefault()))
             .ForMember(x => x.VerifySignatures, opt => opt.MapFrom(src => src.VerifySignatures.GetValueOrDefault()))

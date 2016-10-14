@@ -5,7 +5,7 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "System.Reactive": "3.0.0",
-    "withSIX.Api.Models": "2.1.2",
+    "withSIX.Api.Models": "2.2.0",
     "withSIX.Core": "1.0.2",
     "withSIX.Steam.Core": "1.0.4"
   },

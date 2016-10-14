@@ -9,6 +9,7 @@ using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
+using withSIX.Api.Models.Servers.RV;
 
 namespace withSIX.Mini.Core
 {

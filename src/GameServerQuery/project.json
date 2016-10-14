@@ -7,7 +7,8 @@
     "System.Diagnostics.Contracts": "4.0.1",
     "System.Net.NameResolution": "4.0.0",
     "System.Reactive": "3.0.0",
-    "System.Threading.Tasks.Dataflow": "4.6.0"
+    "System.Threading.Tasks.Dataflow": "4.6.0",
+    "withSIX.Api.Models": "2.2.0"
   },
   "frameworks": {
     "netstandard1.3": {}
