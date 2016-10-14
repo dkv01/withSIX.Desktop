@@ -116,21 +116,12 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
     public class ArmaServerInfoModel : ServerInfoModel
     {
-        public ArmaServerInfoModel(IPEndPoint queryEndPoint) {
-            QueryEndPoint = queryEndPoint;
-            ConnectionEndPoint = QueryEndPoint;
-            ModList = new List<ServerModInfo>();
-            SignatureList = new HashSet<string>();
-        }
-
-        protected ArmaServerInfoModel() {
+        public ArmaServerInfoModel(IPEndPoint queryEndPoint) : base(queryEndPoint) {
             ModList = new List<ServerModInfo>();
             SignatureList = new HashSet<string>();
         }
 
         public AiLevel AiLevel { get; set; }
-
-        public IPEndPoint ConnectionEndPoint { get; set; }
 
         public int CurrentPlayers { get; set; }
 
@@ -163,8 +154,6 @@ namespace withSIX.Mini.Plugin.Arma.Services
         public string Name { get; set; }
 
         public int Ping { get; set; }
-
-        public IPEndPoint QueryEndPoint { get; protected set; }
 
         public bool RequirePassword { get; set; }
 

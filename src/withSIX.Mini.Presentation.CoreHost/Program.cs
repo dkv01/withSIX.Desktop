@@ -95,10 +95,11 @@ namespace withSIX.Mini.Presentation.CoreHost
         }
 
         public static JsonSerializerSettings OtherSettings() => new JsonSerializerSettings {
+            NullValueHandling = NullValueHandling.Ignore,
             TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
             // TODO: Very dangerous because we cant load/save when versions change?!? http://stackoverflow.com/questions/32245340/json-net-error-resolving-type-in-powershell-cmdlet
             //PreserveReferencesHandling = PreserveReferencesHandling.All,
-            TypeNameHandling = TypeNameHandling.All,
+            TypeNameHandling = TypeNameHandling.Auto,
             DateTimeZoneHandling = DateTimeZoneHandling.Utc,
             //Binder = new NamespaceMigrationSerializationBinder(),
             Error = OnError,

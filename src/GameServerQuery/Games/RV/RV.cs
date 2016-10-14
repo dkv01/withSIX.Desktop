@@ -56,21 +56,20 @@ namespace GameServerQuery.Games.RV
         Advanced
     }
 
-    public enum BattlEye
+
+    public enum ServerPlatform
     {
-        Off,
-        On
+        Windows,
+        Linux
     }
 
-    public class Coordinates
+    public class ServerModInfo
     {
-        public Coordinates(double longitude, double latitude) {
-            Longitude = longitude;
-            Latitude = latitude;
-        }
-
-        public double Longitude { get; protected set; }
-        public double Latitude { get; protected set; }
+        public int Hash { get; set; }
+        public bool IsOptionalOnServer { get; set; }
+        public bool IsRequiredByMission { get; set; }
+        public string Name { get; set; }
+        public ulong PublishedId { get; set; }
     }
 
     public class GameTags
@@ -103,7 +102,7 @@ namespace GameServerQuery.Games.RV
 
         public char? Platform { get; set; }
 
-        public int? ServerState { get; set; }
+        public SessionState ServerState { get; set; }
 
         public int? TimeRemaining { get; set; }
 
@@ -166,7 +165,7 @@ namespace GameServerQuery.Games.RV
                     break;
 
                 case 's':
-                    tags.ServerState = ReadInt(tuple.Item2);
+                    tags.ServerState = (SessionState) ReadInt(tuple.Item2).GetValueOrDefault(0);
                     break;
 
                 case 't':
@@ -205,20 +204,5 @@ namespace GameServerQuery.Games.RV
             }
             return num;
         }
-    }
-
-    public enum ServerPlatform
-    {
-        Windows,
-        Linux
-    }
-
-    public class ServerModInfo
-    {
-        public int Hash { get; set; }
-        public bool IsOptionalOnServer { get; set; }
-        public bool IsRequiredByMission { get; set; }
-        public string Name { get; set; }
-        public ulong PublishedId { get; set; }
     }
 }

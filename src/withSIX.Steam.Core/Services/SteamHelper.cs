@@ -21,7 +21,13 @@ namespace withSIX.Steam.Core.Services
 
     public class ServerInfoModel
     {
+        protected ServerInfoModel(IPEndPoint queryEndPoint) {
+            QueryEndPoint = queryEndPoint;
+            ConnectionEndPoint = QueryEndPoint;
+        }
 
+        public IPEndPoint ConnectionEndPoint { get; set; }
+        public IPEndPoint QueryEndPoint { get; protected set; }
     }
 
     public interface ISteamHelperService
