@@ -52,12 +52,7 @@ namespace withSIX.Mini.Presentation.Core
         async Task TryLaunchWebserver() {
             retry:
             try {
-                // We have to run this outside of a DB scope
-                // If we don't, then the AmbientScopeIdentifier will be inherited into the Web/SIR requests
-                // and remain there even when we close the scope.
-                using (_factory.SuppressAmbientContext()) {
-                    var t = SetupWebServer();
-                }
+                var t = SetupWebServer();
             } catch (CannotOpenApiPortException ex) {
                 var r = await
                     UserErrorHandler.RecoverableUserError(ex, "Unable to open required ports",
@@ -86,7 +81,11 @@ namespace withSIX.Mini.Presentation.Core
             var https = Consts.HttpsAddress;
             retry:
             try {
-                await _webServerStartup.Run(http, https, _cts.Token).ConfigureAwait(false);
+                // We have to run this outside of a DB scope
+                // If we don't, then the AmbientScopeIdentifier will be inherited into the Web/SIR requests
+                // and remain there even when we close the scope.
+                using (_factory.SuppressAmbientContext())
+                    await _webServerStartup.Run(http, https, _cts.Token).ConfigureAwait(false);
             } catch (ListenerException ex) {
                 if (tries++ >= maxTries)
                     throw GetCustomException(ex, https ?? http);
