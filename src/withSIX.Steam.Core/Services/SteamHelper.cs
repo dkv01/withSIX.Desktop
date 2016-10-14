@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using withSIX.Api.Models.Servers;
 using withSIX.Core;
 using withSIX.Steam.Core.Requests;
@@ -21,7 +22,7 @@ namespace withSIX.Steam.Core.Services
 
     public class ServerInfoModel
     {
-        protected ServerInfoModel(IPEndPoint queryEndPoint) {
+        public ServerInfoModel(IPEndPoint queryEndPoint) {
             QueryEndPoint = queryEndPoint;
             ConnectionEndPoint = QueryEndPoint;
         }

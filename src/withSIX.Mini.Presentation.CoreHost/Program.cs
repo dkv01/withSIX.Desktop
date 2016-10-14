@@ -94,9 +94,10 @@ namespace withSIX.Mini.Presentation.CoreHost
             return OtherSettings();
         }
 
+        // TODO: Consider implications for the actual S-IR system messages: http://stackoverflow.com/questions/37832165/signalr-net-core-camelcase-json-contract-resolver/39410434#39410434
         public static JsonSerializerSettings OtherSettings() => new JsonSerializerSettings {
             NullValueHandling = NullValueHandling.Ignore,
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
+            //TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
             // TODO: Very dangerous because we cant load/save when versions change?!? http://stackoverflow.com/questions/32245340/json-net-error-resolving-type-in-powershell-cmdlet
             //PreserveReferencesHandling = PreserveReferencesHandling.All,
             TypeNameHandling = TypeNameHandling.Auto,

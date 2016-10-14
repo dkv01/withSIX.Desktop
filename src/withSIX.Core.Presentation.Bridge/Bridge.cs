@@ -28,6 +28,7 @@ namespace withSIX.Core.Presentation.Bridge
             return OtherSettings();
         }
 
+        // TODO: Consider implications for the actual S-IR system messages: http://stackoverflow.com/questions/37832165/signalr-net-core-camelcase-json-contract-resolver/39410434#39410434
         public static JsonSerializerSettings OtherSettings() => new JsonSerializerSettings {
             NullValueHandling = NullValueHandling.Ignore,
             //TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
@@ -38,7 +39,6 @@ namespace withSIX.Core.Presentation.Bridge
             //Binder = new NamespaceMigrationSerializationBinder(),
             Error = OnError,
         }.SetDefaultConverters();
-
 
         public class NamespaceMigrationSerializationBinder : DefaultSerializationBinder
         {
