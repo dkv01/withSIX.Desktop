@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Games.RV;
 using SteamLayerWrap;
-using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Mini.Plugin.Arma.Services;
@@ -270,7 +269,7 @@ namespace withSIX.Steam.Plugin.Arma
         }
     }
 
-    public class ArmaServerInfo : withSIX.Api.Models.Servers.ArmaServerInclRules
+    public class ArmaServerInfo : ArmaServerInfoModel
     {
         static ArmaServerInfo() {
             var dictionary = new Dictionary<DLC, Dlcs> {
@@ -298,20 +297,20 @@ namespace withSIX.Steam.Plugin.Arma
 
         public static ArmaServerInfo FromWrap(int serverIndex, GameServerItemWrap serverData) {
             try {
-                var server = new ArmaServerInfo(serverIndex, new ServerKey(serverData.IP, serverData.QueryPort)) {
-                    ConnectionAddress = new ServerKey(serverData.IP, serverData.ConnectionPort).ToIpEndpoint(),
+                return new ArmaServerInfo(serverIndex, new ServerKey(serverData.IP, serverData.QueryPort)) {
+                    ConnectionEndPoint = new ServerKey(serverData.IP, serverData.ConnectionPort).ToIpEndpoint(),
                     Name = serverData.Name,
                     Map = serverData.Map,
                     Mission = serverData.Description,
                     ServerVersion = serverData.ServerVersion,
-                    IsPasswordProtected = serverData.RequirePassword,
-                    Vac = serverData.IsVACSecure,
+                    RequirePassword = serverData.RequirePassword,
+                    IsVacEnabled = serverData.IsVACSecure,
                     CurrentPlayers = serverData.Players,
                     MaxPlayers = serverData.MaxPlayers,
                     Ping = serverData.Ping,
+                    Tags = serverData.Tags,
+                    GameTags = GameTags.Parse(serverData.Tags)
                 };
-                GameTags.Parse(serverData.Tags).MapTo(server);
-                return server;
             } catch {
                 return new ArmaServerInfo(serverIndex, new ServerKey(serverData.IP, serverData.QueryPort));
             }
@@ -322,8 +321,8 @@ namespace withSIX.Steam.Plugin.Arma
             foreach (var str in serverData.Signatures) {
                 SignatureList.Add(str);
             }
-            Difficulty = serverData.Difficulty.Difficulty; // (Difficulty) 
-            AiLevel = serverData.Difficulty.AiLevel; // (AiLevel) 
+            Difficulty = (Difficulty) serverData.Difficulty.Difficulty;
+            AiLevel = (AiLevel) serverData.Difficulty.AiLevel;
             IsThirdPersonViewEnabled = serverData.Difficulty.IsThirdPersonCameraEnabled;
             HelicopterFlightModel = serverData.Difficulty.IsAdvancedFlightModelEnabled
                 ? HelicopterFlightModel.Advanced
@@ -338,7 +337,5 @@ namespace withSIX.Steam.Plugin.Arma
             }
             ReceivedRules = true;
         }
-
-        public bool ReceivedRules { get; set; }
     }
 }
