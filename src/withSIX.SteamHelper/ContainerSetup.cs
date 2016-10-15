@@ -73,10 +73,7 @@ namespace withSIX.Steam.Presentation
             _assemblies = new[] {Assembly.GetExecutingAssembly()};
             _container = new Container();
             _container.Options.DefaultScopedLifestyle = new ExecutionContextScopeLifestyle();
-            _container.RegisterSingleton(new SingleInstanceFactory(_container.GetInstance));
-            _container.RegisterSingleton(new MultiInstanceFactory(_container.GetAllInstances));
             _container.RegisterSingleton<ICheatImpl, CheatImpl>();
-            _container.RegisterSingleton<IMediator, Mediator>();
             _container.RegisterSingleton<IExceptionHandler, UnhandledExceptionHandler>();
             _container.RegisterSingleton<IActionDispatcher>(
                 () => new ActionDispatcher(_container.GetInstance<IMediator>(), null));
@@ -92,37 +89,13 @@ namespace withSIX.Steam.Presentation
             _container.RegisterSingleton(steamApi);
             _container.RegisterSingleton<IEventStorage, EventStorage>();
             _container.RegisterSingleton<ISafeCallFactory, SafeCallFactory>();
+
+            _container.RegisterValidation(_assemblies);
+            _container.RegisterMediator(_assemblies);
+
             _container.RegisterDecorator<IMediator, MediatorLoggingDecorator>();
-            RegisterRequestHandlers();
-            RegisterNotificationHandlers();
             _container.Register<IRequestScope, RequestScope>(Lifestyle.Scoped);
             _container.RegisterSingleton<IRequestScopeLocator, RequestScopeService>();
-            _container.RegisterValidation(_assemblies);
-        }
-
-        private void RegisterRequestHandlers() {
-            var requestHandlers = new[] {
-                typeof(IAsyncRequestHandler<,>),
-                typeof(ICancellableAsyncRequestHandler<,>),
-                typeof(IRequestHandler<,>)
-            };
-
-            foreach (var h in requestHandlers)
-                _container.Register(h, _assemblies, Lifestyle.Singleton);
-        }
-
-        private void RegisterNotificationHandlers() {
-            var notificationHandlers = new[] {
-                typeof(INotificationHandler<>),
-                typeof(IAsyncNotificationHandler<>),
-                typeof(ICancellableAsyncNotificationHandler<>)
-            };
-
-            foreach (var h in notificationHandlers) {
-                //_container.Register(h, _assemblies, Lifestyle.Singleton);
-                //_container.RegisterSingleAllInterfacesAndType<>();
-                _container.RegisterCollection(h, _assemblies);
-            }
         }
     }
 }
