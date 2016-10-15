@@ -33,6 +33,7 @@ namespace withSIX.Core.Presentation.Bridge
             }
 
             static readonly string searchStr = "SN.withSIX.";
+            static readonly string replaceStr = "withSIX.";
 
             public override Type BindToType(string assemblyName, string typeName) {
                 //var migration = _migrations.SingleOrDefault(p => p.FromAssembly == assemblyName && p.FromType == typeName);
@@ -41,8 +42,8 @@ namespace withSIX.Core.Presentation.Bridge
                 //}
                 if (assemblyName.StartsWith(searchStr))
                     assemblyName = assemblyName.Substring(3);
-                if (typeName.StartsWith(searchStr))
-                    typeName = typeName.Substring(3);
+                if (typeName.Contains(searchStr))
+                    typeName = typeName.Replace(searchStr, replaceStr);
                 return base.BindToType(assemblyName, typeName);
             }
         }
