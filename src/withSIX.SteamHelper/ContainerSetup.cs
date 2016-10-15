@@ -62,14 +62,6 @@ namespace withSIX.Steam.Presentation
             RequestScopeService.Instance = new RequestScopeService(_container);
         }
 
-        public class ArmaServerProfile : Profile
-        {
-            public ArmaServerProfile() {
-                CreateMap<ServerInfo, ServerInfoModel>();
-                CreateMap<ArmaServerInfo, ArmaServerInfoModel>();
-            }
-        }
-
         public IEnumerable<BaseCommand> GetCommands() {
             yield return _container.GetInstance<InstallCommand>();
             yield return _container.GetInstance<UninstallCommand>();

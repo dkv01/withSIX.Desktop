@@ -15,11 +15,10 @@ using System.Threading.Tasks;
 using GameServerQuery;
 using GameServerQuery.Games.RV;
 using SteamLayerWrap;
+using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers.RV;
 using withSIX.Core.Applications.Extensions;
-using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Mini.Plugin.Arma.Services;
-using ServerModInfo = SteamLayerWrap.ServerModInfo;
 
 namespace withSIX.Steam.Plugin.Arma
 {
@@ -294,8 +293,6 @@ namespace withSIX.Steam.Plugin.Arma
 
         static Dictionary<DLC, Dlcs> NativeToManagedDlcMap { get; }
 
-        public new List<ServerModInfo> ModList { get; set; }
-
         public static ArmaServerInfo FromWrap(int serverIndex, GameServerItemWrap serverData) {
             try {
                 return new ArmaServerInfo(serverIndex, new ServerKey(serverData.IP, serverData.QueryPort)) {
@@ -318,7 +315,7 @@ namespace withSIX.Steam.Plugin.Arma
         }
 
         public void ApplyServerDataToServerInfo(ServerDataWrap serverData) {
-            ModList = serverData.Mods;
+            ModList = serverData.Mods.Select(x => x.MapTo<ServerModInfo>()).ToList();
             foreach (var str in serverData.Signatures) {
                 SignatureList.Add(str);
             }
