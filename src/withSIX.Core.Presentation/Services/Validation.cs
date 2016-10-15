@@ -13,10 +13,10 @@ namespace withSIX.Core.Presentation.Services
 {
     public sealed class CompositeValidator<T> : AbstractValidator<T>
     {
-        private readonly IEnumerable<IValidator<T>> _validators;
+        private readonly IValidator<T>[] _validators;
 
         public CompositeValidator(IEnumerable<IValidator<T>> validators) {
-            _validators = validators;
+            _validators = validators.ToArray(); // let's keep them cached. Seeing as it's apparantly hard to make to configure them as singletons
         }
 
         public override ValidationResult Validate(ValidationContext<T> context) {

@@ -40,9 +40,7 @@ namespace withSIX.Core.Presentation
         }
 
         public static void RegisterValidation(this Container This, IEnumerable<Assembly> validationAssemblies) {
-            var types = This.GetTypesToRegister(typeof(IValidator<>), validationAssemblies);
-            var registrations = types.Select(type => Lifestyle.Singleton.CreateRegistration(type, This)).ToArray();
-            This.RegisterCollection(registrations);
+            This.RegisterCollection(typeof(IValidator<>), validationAssemblies);
             This.Register(typeof(IValidator<>), typeof(CompositeValidator<>), Lifestyle.Singleton);
 
             This.RegisterDecorator(typeof(IRequestHandler<,>), typeof(ValidationRequestHandler<,>));
