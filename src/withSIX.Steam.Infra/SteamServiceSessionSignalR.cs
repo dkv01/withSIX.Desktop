@@ -13,7 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
-using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Helpers;
 using withSIX.Steam.Core.Requests;
@@ -23,7 +22,7 @@ namespace withSIX.Steam.Infra
 {
     public class SteamServiceSessionSignalR : SteamServiceSession
     {
-        public static JsonSerializer jsonSerializer { get; set; } = JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
+        static readonly JsonSerializer jsonSerializer = JsonSerializer.Create(ApiSerializerSettings.GetSettings());
         private readonly DefaultHttpClient _defaultHttpClient = new DefaultHttpClient();
         private readonly AsyncLock _l = new AsyncLock();
         private readonly ISubject<object> _subject;

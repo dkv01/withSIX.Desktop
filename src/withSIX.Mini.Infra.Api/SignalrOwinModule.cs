@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Presentation.Bridge;
 using withSIX.Mini.Infra.Api.Hubs;
+using withSIX.Steam.Infra;
 
 namespace withSIX.Mini.Infra.Api
 {
@@ -89,8 +90,7 @@ namespace withSIX.Mini.Infra.Api
             //HubPipeline.AddModule(new HubErrorLoggingPipelineModule());
         }
 
-        public static JsonSerializer CreateJsonSerializer()
-            => JsonSerializer.Create(Bridge.OtherSettings());
+        public static JsonSerializer CreateJsonSerializer() => JsonSerializer.Create(ApiSerializerSettings.GetSettings());
         /*
         public class HubCouldNotBeResolvedWorkaround : IAssemblyLocator
         {

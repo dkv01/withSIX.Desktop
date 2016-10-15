@@ -483,6 +483,10 @@
       <Project>{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}</Project>
       <Name>withSIX.Mini.Presentation.Owin.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Steam.Infra\withSIX.Steam.Infra.csproj">
+      <Project>{5ACDEC54-063B-49CD-862B-709C9FE25B03}</Project>
+      <Name>withSIX.Steam.Infra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>withSIX.Sync.Core</Name>
