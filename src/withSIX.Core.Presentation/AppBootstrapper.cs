@@ -48,6 +48,9 @@ namespace withSIX.Core.Presentation
             This.RegisterDecorator(typeof(IAsyncRequestHandler<,>), typeof(ValidationAsyncRequestHandler<,>));
             This.RegisterDecorator(typeof(ICancellableAsyncRequestHandler<,>),
                 typeof(ValidationCancellableAsyncRequestHandler<,>));
+
+            This.RegisterConditional(typeof(IValidator<>), typeof(EmptyValidator<>),
+                c => !c.Handled);
         }
 
         public static void RegisterMediator(this Container This, IReadOnlyCollection<Assembly> assemblies) {

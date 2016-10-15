@@ -9,7 +9,7 @@ using FluentValidation.Results;
 
 namespace withSIX.Core.Presentation.Services
 {
-    public class CompositeValidator<T> : AbstractValidator<T>
+    public abstract class CompositeValidator<T> : AbstractValidator<T>
     {
         private readonly IEnumerable<IValidator<T>> _validators;
 
@@ -23,4 +23,6 @@ namespace withSIX.Core.Presentation.Services
             return new ValidationResult(errorsFromOtherValidators);
         }
     }
+
+    public class EmptyValidator<T> : AbstractValidator<T> {}
 }
