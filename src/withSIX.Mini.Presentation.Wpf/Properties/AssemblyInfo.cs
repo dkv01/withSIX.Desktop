@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using withSIX.Core;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -75,8 +76,8 @@ using System.Windows;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.12")]
-[assembly: AssemblyFileVersion("1.0.0.12")]
+[assembly: AssemblyVersion(BuildFlags.Version)]
+[assembly: AssemblyFileVersion(BuildFlags.Version)]
 [assembly: AssemblyInformationalVersion("1.0.0.12-dev201507123")]
 [assembly: InternalsVisibleTo("ImpromptuInterfaceDynamicAssembly")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

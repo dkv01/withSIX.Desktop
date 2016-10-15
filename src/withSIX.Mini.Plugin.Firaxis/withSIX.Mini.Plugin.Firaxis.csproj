@@ -132,6 +132,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>withSIX.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj">
       <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
       <Name>withSIX.Mini.Core</Name>

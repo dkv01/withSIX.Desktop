@@ -28,13 +28,14 @@ namespace withSIX.Core
 #elif DEBUG
             Type = ReleaseType.Dev;
 #else
-            Type = ReleaseType.Alpha; // Modify as see fit
+            Type = ReleaseType.Beta; // Modify as see fit
 #endif
         }
 
         public static bool Staging { get; }
         public static bool DevBuild { get; set; }
         public static ReleaseType Type { get; set; }
+        public const string Version = "1.7.0.0";
     }
 
     public enum ReleaseType

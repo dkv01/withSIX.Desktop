@@ -393,6 +393,10 @@
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>withSIX.Core.Applications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>withSIX.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

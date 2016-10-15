@@ -460,7 +460,7 @@
       <Name>withSIX.Core.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
