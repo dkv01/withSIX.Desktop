@@ -2,7 +2,7 @@
   "profiles": {
     "withSIX.SteamHelper": {
       "commandName": "Project",
-      "commandLineArgs": "interactive -a 107410 -b 127.0.0.1:55611"
+      "commandLineArgs": "interactive -a 107410 -b 127.0.0.66:48667"
     }
   }
 }

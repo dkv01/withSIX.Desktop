@@ -55,7 +55,9 @@ namespace withSIX.Mini.Presentation.Electron
             Version = api.version;
             if (api.args != null) {
                 Args = new ArgsO {
-                    /* Dynamic = api.args.multi, */ Port = api.args.port,
+                    /* Dynamic = api.args.multi, */
+                    // TODO: 
+                    Port = api.args.port,
                     WorkingDirectory = api.args.workingDirectory
                 };
             }
