@@ -37,6 +37,7 @@ namespace withSIX.Mini.Core
         => cfg.ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Game)))
             .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.Visibility > 0))
             .ForMember(x => x.IsDedicated, opt => opt.MapFrom(src => src.ServerType > 0))
+            .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.Address))
             .ForMember(x => x.ConnectionAddress, opt =>
                 opt.MapFrom(
                     src => new IPEndPoint(src.Address.Address, src.Port > 0 ? src.Port : src.Address.Port - 1)));
