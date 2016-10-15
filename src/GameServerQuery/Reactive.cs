@@ -44,8 +44,13 @@ namespace GameServerQuery
 
         public UdpClient CreateUdpClient() {
             var udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
-            udpClient.Client.ReceiveBufferSize = 25 * 1024 * 1024;
+            udpClient.Client.ReceiveBufferSize = 25*1024*1024;
             //udpClient.Ttl = 255;
+            // http://stackoverflow.com/questions/7201862/an-existing-connection-was-forcibly-closed-by-the-remote-host
+            uint IOC_IN = 0x80000000;
+            uint IOC_VENDOR = 0x18000000;
+            uint SIO_UDP_CONNRESET = IOC_IN | IOC_VENDOR | 12;
+            udpClient.Client.IOControl((int) SIO_UDP_CONNRESET, new[] {Convert.ToByte(false)}, null);
             return udpClient;
         }
 
