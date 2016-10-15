@@ -22,6 +22,7 @@ using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation;
+using withSIX.Mini.Infra.Api;
 using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Core.Services;
 using withSIX.Mini.Presentation.Owin.Core;
@@ -196,10 +197,6 @@ namespace withSIX.Steam.Presentation
                     false;
 #endif
 
-                //var hubConfiguration = new HubConfiguration {
-                //EnableDetailedErrors = debug
-                //};
-
                 // Run the SignalR pipeline. We're not using MapSignalR
                 // since this branch is already runs under the "/signalr"
                 // path.
@@ -208,7 +205,10 @@ namespace withSIX.Steam.Presentation
         }
 
         public static void ConfigureSignalrServices(this IServiceCollection services) {
-            services.AddSignalR();
+            services.AddSignalR(cfg => {
+                cfg.Hubs.EnableDetailedErrors = true;
+                cfg.Hubs.PipelineModules.Add(new HubErrorLoggingPipelineModule());
+            });
             services.AddSingleton<IAssemblyLocator, MyAssemblyLocator>();
             var serializer = CreateJsonSerializer();
             services.AddSingleton(serializer);

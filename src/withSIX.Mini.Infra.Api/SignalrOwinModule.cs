@@ -66,10 +66,6 @@ namespace withSIX.Mini.Infra.Api
                     false;
 #endif
 
-                //var hubConfiguration = new HubConfiguration {
-                //EnableDetailedErrors = debug
-                //};
-
                 // Run the SignalR pipeline. We're not using MapSignalR
                 // since this branch is already runs under the "/signalr"
                 // path.
@@ -78,7 +74,10 @@ namespace withSIX.Mini.Infra.Api
         }
 
         public static void ConfigureSignalrServices(this IServiceCollection services) {
-            services.AddSignalR();
+            services.AddSignalR(cfg => {
+                cfg.Hubs.EnableDetailedErrors = true;
+                cfg.Hubs.PipelineModules.Add(new HubErrorLoggingPipelineModule());
+            });
             services.AddSingleton<IAssemblyLocator, MyAssemblyLocator>();
             var serializer = CreateJsonSerializer();
             services.AddSingleton(serializer);
