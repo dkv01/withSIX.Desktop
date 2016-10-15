@@ -3,9 +3,7 @@
   "dependencies": {
     "JetBrains.Annotations": "10.2.1",
     "MediatR": "2.1.0",
-    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "Microsoft.Win32.Registry": "4.0.0",
-    "NETStandard.Library": "1.6.0",
     "System.AppContext": "4.1.0",
     "System.Diagnostics.Contracts": "4.0.1",
     "System.Diagnostics.FileVersionInfo": "4.0.0",
@@ -22,6 +20,11 @@
     "withSIX.Api.Models": "2.2.0"
   },
   "frameworks": {
-    "netstandard1.3": {}
+    "netstandard1.3": {
+      "dependencies": {
+        "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+        "NETStandard.Library": "1.6.0"
+      }
+    }
   }
 }

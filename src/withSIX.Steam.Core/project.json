@@ -1,16 +1,19 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NDepend.Path.PCL": "1.0.2",
-    "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",
     "System.Diagnostics.Process": "4.1.0",
     "System.Reactive": "3.0.0",
     "System.Reactive.Interfaces": "3.0.0",
-    "withSIX.Core": "1.0.3"
+    "withSIX.Core": "1.0.4"
   },
   "frameworks": {
-    "netstandard1.3": {}
+    "netstandard1.3": {
+      "dependencies": {
+        "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+        "NETStandard.Library": "1.6.0"
+      } 
+    }
   }
 }
