@@ -1,9 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "Microsoft.Win32.Registry": "4.0.0",
-    "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Process": "4.1.0",
     "System.Net.Requests": "4.0.11",
     "System.Reactive": "3.0.0",
@@ -14,7 +12,11 @@
       "imports": [
         "dnxcore50",
         "Portable-net45+win+wpa81+wp80"
-      ]
+      ],
+      "dependencies": {
+        "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+        "NETStandard.Library": "1.6.0"
+      }
     }
   }
 }

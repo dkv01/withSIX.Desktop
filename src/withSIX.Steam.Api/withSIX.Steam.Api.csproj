@@ -148,11 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>withSIX.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj">
-      <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
+      <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
   </ItemGroup>
