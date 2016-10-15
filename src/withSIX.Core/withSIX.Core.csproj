@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchResult.cs" />
+    <Compile Include="BuildFlags.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="CommonBase.cs" />
     <Compile Include="CommonUrls.cs" />

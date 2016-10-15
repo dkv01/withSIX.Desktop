@@ -115,38 +115,33 @@ namespace withSIX.Mini.Applications
     {
         public const string InternalTitle = "Sync";
         public const string ProductTitle = InternalTitle;
-        public const string ReleaseTitle =
-#if NIGHTLY_RELEASE
-                "ALPHA";
-#else
-#if BETA_RELEASE
-                "BETA";
-#else
-#if MAIN_RELEASE
-                null;
-#else
-            "DEV";
-#endif
-#endif
-#endif
-        public const string DirectorySubtitle =
-#if NIGHTLY_RELEASE
-                "alpha";
-#else
-#if BETA_RELEASE
-                null;
-#else
-#if MAIN_RELEASE
-                null;
-#else
-            "dev";
-#endif
-#endif
-#endif
-        public const string DirectoryTitle =
-            ProductTitle + (DirectorySubtitle == null ? null : "-" + DirectorySubtitle);
-        public const string DisplayTitle = ProductTitle + (ReleaseTitle == null ? null : " " + ReleaseTitle);
-        public const string WindowTitle = DisplayTitle;
+        public static string ReleaseTitle { get; } = GetReleaseTitle();
+
+        private static string GetReleaseTitle() {
+            switch (BuildFlags.Type) {
+            case ReleaseType.Stable:
+                return null;
+            default: {
+                return BuildFlags.Type.ToString().ToUpper();
+            }
+            }
+        }
+
+        public static string DirectorySubtitle { get; } = GetDirectorySubtitle();
+        private static string GetDirectorySubtitle() {
+            switch (BuildFlags.Type) {
+            case ReleaseType.Beta:
+            case ReleaseType.Stable:
+                return null;
+            default: {
+                return BuildFlags.Type.ToString().ToLower();
+            }
+            }
+        }
+
+        public static string DirectoryTitle { get; } = ProductTitle + (DirectorySubtitle == null ? null : "-" + DirectorySubtitle);
+        public static string DisplayTitle { get; } = ProductTitle + (ReleaseTitle == null ? null : " " + ReleaseTitle);
+        public static string WindowTitle { get; } = DisplayTitle;
         public const int DefaultHttpPort = 48665; // TODO: Randomize and make dynamic on first start
         public const int DefaultHttpsPort = 48666; // TODO: Randomize and make dynamic on first start
         public static int ApiPort { get; set; }
@@ -163,12 +158,16 @@ namespace withSIX.Mini.Applications
 
         public static string InternalVersion { get; set; }
         public static string ProductVersion { get; set; }
-        public static bool IsTestVersion { get; }
-#if DEBUG || NIGHTLY_RELEASE
-        = true;
+        public static bool IsTestVersion { get; } = GetIsTestVersion();
+
+        private static bool GetIsTestVersion() {
+#if DEBUG
+        return true;
 #else
-            = false;
+            return BuildFlags.Type == ReleaseType.Alpha;
 #endif
+        }
+
         // TODO: Consider FirstRun not just from Setup but also in terms of Settings.... so that deleting settings is a new FirstRun?
         public static bool FirstRun { get; set; }
         public static string ApiVersion { get; } = "4";
