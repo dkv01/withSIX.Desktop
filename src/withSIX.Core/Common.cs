@@ -2,17 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-#if MAIN_RELEASE
-#elif BETA_RELEASE
-#elif NIGHTLY_RELEASE
-#define STAGING
-#elif DEBUG
-#define STAGING
-#define DEV_BUILD
-#else
-#define DEV_BUILD
-#endif
-
 using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -24,14 +13,6 @@ using withSIX.Core.Logging;
 
 namespace withSIX.Core
 {
-    public enum ReleaseType
-    {
-        Dev,
-        Alpha,
-        Beta,
-        Stable
-    }
-
     public static class Common
     {
         public const string DefaultCategory = "Unknown";
@@ -84,20 +65,7 @@ namespace withSIX.Core
             static readonly bool trace;
             public static readonly TimeSpan DefaultFilterDelay = TimeSpan.FromMilliseconds(250);
             public static bool IsBusy;
-            public static readonly ReleaseType Type =
-#if BETA_RELEASE
-                ReleaseType.Beta;
-#else
-#if MAIN_RELEASE
-                ReleaseType.Stable;
-#else
-#if NIGHTLY_RELEASE
-                ReleaseType.Alpha;
-#else
-                ReleaseType.Dev;
-#endif
-#endif
-#endif
+            public static readonly ReleaseType Type = BuildFlags.Type;
             public static readonly string TitleType = Type == ReleaseType.Stable ? "" : " " + Type.ToString().ToUpper();
 
             static AppCommon() {
@@ -313,24 +281,18 @@ namespace withSIX.Core
 #endif
 */
 
-#if DEV_BUILD
-                autoUpdateEnabled = false;
-                selfUpdateSupported = false;
-#endif
+                if (BuildFlags.DevBuild) {
+                    autoUpdateEnabled = false;
+                    selfUpdateSupported = false;
+                }
 
-#if MAIN_RELEASE
-                IsStable = true;
-#endif
+                if (BuildFlags.Type == ReleaseType.Stable)
+                    IsStable = true;
 
-#if DEBUG || (!MAIN_RELEASE && !BETA_RELEASE)
-                // This is used also to determine if the local withSIX-Updater/SelfUpdater should be used...
-                IsInternal = true;
-#endif
-
-#if STAGING
-                staging = true;
-                verbose = true;
-#endif
+                if (BuildFlags.Staging) {
+                    staging = true;
+                    verbose = true;
+                }
 #if DEBUG
                 verbose = true;
 #endif
@@ -346,7 +308,6 @@ namespace withSIX.Core
             bool UseProduction { get; }
             public bool Public { get; set; }
             public bool SkipExecutionConfirmation { get; }
-            public bool IsInternal { get; }
             public bool IsStable { get; }
             public bool IgnoreErrorDialogs { get; }
             public bool SelfUpdateSupported { get; }
