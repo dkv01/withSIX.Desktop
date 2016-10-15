@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Attributes;
@@ -45,6 +46,20 @@ namespace withSIX.Mini.Applications.Usecases.Main
                 Action = Action,
                 ServerAddress = ServerAddress
             };
+        }
+    }
+
+    public class LaunchContentValidator : AbstractValidator<LaunchContent>
+    {
+        public LaunchContentValidator() {
+            RuleFor(c => c.ServerAddress).NotNull().When(c => c.Action == LaunchAction.Join);
+        }
+    }
+
+    public class LaunchContentsValidator : AbstractValidator<LaunchContents>
+    {
+        public LaunchContentsValidator() {
+            RuleFor(c => c.ServerAddress).NotNull().When(c => c.Action == LaunchAction.Join);
         }
     }
 

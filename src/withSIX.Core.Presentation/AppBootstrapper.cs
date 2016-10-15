@@ -6,16 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Akavache;
+using FluentValidation;
+using MediatR;
 using ReactiveUI;
 using SimpleInjector;
 using Splat;
+using withSIX.Core.Presentation.Decorators;
+using withSIX.Core.Presentation.Services;
+using Unit = System.Reactive.Unit;
 
 namespace withSIX.Core.Presentation
 {
@@ -33,6 +38,44 @@ namespace withSIX.Core.Presentation
             l.Register(() => TaskPoolScheduler.Default, typeof(IScheduler), "Taskpool");
             SQLitePCL.Batteries.Init();
         }
+
+        public static void RegisterValidation(this Container This, IEnumerable<Assembly> validationAssemblies) {
+            This.RegisterCollection(typeof(IValidator<>), validationAssemblies);
+            This.Register(typeof(IValidator<>), typeof(CompositeValidator<>),
+                Lifestyle.Singleton);
+
+            This.RegisterDecorator(typeof(IRequestHandler<,>), typeof(ValidationRequestHandler<,>));
+            This.RegisterDecorator(typeof(IAsyncRequestHandler<,>), typeof(ValidationAsyncRequestHandler<,>));
+            This.RegisterDecorator(typeof(ICancellableAsyncRequestHandler<,>),
+                typeof(ValidationCancellableAsyncRequestHandler<,>));
+        }
+
+        public static void RegisterMediator(this Container This, IReadOnlyCollection<Assembly> assemblies) {
+            This.RegisterSingleton(new SingleInstanceFactory(This.GetInstance));
+            This.RegisterSingleton(new MultiInstanceFactory(This.GetAllInstances));
+            This.RegisterSingleton<IMediator, Mediator>();
+
+            This.RegisterRequestHandlers(assemblies, typeof(IAsyncRequestHandler<,>),
+                typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
+            This.RegisterNotificationHandlers(assemblies, typeof(INotificationHandler<>),
+                typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>));
+        }
+
+
+        static void RegisterRequestHandlers(this Container This, IReadOnlyCollection<Assembly> assemblies, params Type[] types) {
+            foreach (var h in types) {
+                This.Register(h, assemblies, Lifestyle.Singleton);
+                // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
+            }
+        }
+
+        static void RegisterNotificationHandlers(this Container This, IReadOnlyCollection<Assembly> assemblies, params Type[] types) {
+            foreach (var h in types) {
+                This.RegisterCollection(h, assemblies);
+                // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
+            }
+        }
+
     }
 
     static class Utility

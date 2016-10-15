@@ -2,6 +2,7 @@
   "supports": {},
   "dependencies": {
     "AutoMapper": "5.1.1",
+    "FluentValidation": "6.4.0-beta3",
     "MediatR": "2.1.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",

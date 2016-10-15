@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using NDepend.Path;
 using SimpleInjector;
@@ -429,6 +430,7 @@ namespace withSIX.Mini.Presentation.Core
 
         protected virtual void RegisterServices() {
             RegisterRegisteredServices();
+            Container.RegisterValidation(GetApplicationAssemblies());
 
             RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
             var assemblies = GetAllAssemblies().ToArray();
@@ -467,6 +469,7 @@ namespace withSIX.Mini.Presentation.Core
             RegisterCaches();
         }
 
+
         protected IEnumerable<Assembly> GetAllAssemblies() => new[] {
                 pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
                 coreAssemblies
@@ -488,14 +491,7 @@ namespace withSIX.Mini.Presentation.Core
         protected abstract void RegisterSingleAllInterfaces<T>(IEnumerable<Assembly> assemblies);
 
         void RegisterMediator() {
-            Container.RegisterSingleton(new SingleInstanceFactory(Container.GetInstance));
-            Container.RegisterSingleton(new MultiInstanceFactory(Container.GetAllInstances));
-            Container.RegisterSingleton<IMediator, Mediator>();
-
-            RegisterRequestHandlers(typeof(IAsyncRequestHandler<,>),
-                typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
-            RegisterNotificationHandlers(typeof(INotificationHandler<>),
-                typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>));
+            Container.RegisterMediator(_applicationAssemblies.Concat(GetInfraAssemblies).ToArray());
 
             // Decorators execute in reverse-order. So the last one executes first, and so forth.
             Container.RegisterDecorator<IMediator, ActionNotifierDecorator>(Lifestyle.Singleton);
@@ -505,25 +501,6 @@ namespace withSIX.Mini.Presentation.Core
             if (Common.AppCommon.Type < ReleaseType.Beta)
                 Container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
             //Container.RegisterDecorator<IMediator, RequestMemoryDecorator>(Lifestyle.Singleton);
-        }
-
-        void RegisterRequestHandlers(params Type[] types) {
-            foreach (var h in types) {
-                try {
-                    Container.Register(h, _applicationAssemblies.Concat(GetInfraAssemblies), Lifestyle.Singleton);
-                } catch (Exception ex) {
-                    throw;
-                }
-                // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
-            }
-        }
-
-        void RegisterNotificationHandlers(params Type[] types) {
-            foreach (var h in types) {
-                var assemblies = _applicationAssemblies.Concat(GetInfraAssemblies).ToArray();
-                Container.RegisterCollection(h, assemblies);
-                // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
-            }
         }
 
         void RegisterDownloader() {

@@ -97,6 +97,7 @@ namespace withSIX.Steam.Presentation
             RegisterNotificationHandlers();
             _container.Register<IRequestScope, RequestScope>(Lifestyle.Scoped);
             _container.RegisterSingleton<IRequestScopeLocator, RequestScopeService>();
+            _container.RegisterValidation(_assemblies);
         }
 
         private void RegisterRequestHandlers() {

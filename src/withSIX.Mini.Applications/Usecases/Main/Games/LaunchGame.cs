@@ -6,6 +6,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Core.Applications.Services;
@@ -41,6 +42,13 @@ namespace withSIX.Mini.Applications.Usecases.Main.Games
                 Name = game.Metadata.Name,
                 ServerAddress = ServerAddress
             };
+    }
+
+    public class LaunchGameValidator : AbstractValidator<LaunchGame>
+    {
+        public LaunchGameValidator() {
+            RuleFor(c => c.ServerAddress).NotNull().When(c => c.Action == LaunchAction.Join);
+        }
     }
 
     public class LaunchGameHandler : DbCommandBase, IAsyncVoidCommandHandler<LaunchGame>

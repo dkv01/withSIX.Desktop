@@ -152,6 +152,7 @@
     <Compile Include="Services\IExitHandler.cs" />
     <Compile Include="Services\MessageBusProxy.cs" />
     <Compile Include="Services\UserErrorHandling.cs" />
+    <Compile Include="Services\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
