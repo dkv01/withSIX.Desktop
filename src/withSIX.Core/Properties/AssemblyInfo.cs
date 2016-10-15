@@ -42,6 +42,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.0.128")]
 [assembly: AssemblyFileVersion("1.0.0.128")]
-[assembly: AssemblyInformationalVersion("1.0.4")]
+[assembly: AssemblyInformationalVersion("1.0.5")]
 [assembly: InternalsVisibleTo("withSIX.Play.Tests.Core")]
 [assembly: InternalsVisibleTo("withSIX.Play.Tests.Presentation")]

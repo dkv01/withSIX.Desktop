@@ -28,7 +28,6 @@
     <ProjectReference Include="..\withSIX.Mini.Presentation.Core\withSIX.Mini.Presentation.Core.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj" />
     <ProjectReference Include="..\withSIX.Steam.Api\withSIX.Steam.Api.csproj" />
-    <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\dll\SteamLayer.dll">

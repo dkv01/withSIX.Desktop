@@ -5,6 +5,7 @@
 using AutoMapper;
 using SteamLayerWrap;
 using withSIX.Mini.Plugin.Arma.Services;
+using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Plugin.Arma
 {

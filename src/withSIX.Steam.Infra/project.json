@@ -2,18 +2,16 @@
   "supports": {},
   "dependencies": {
     "Microsoft.AspNet.SignalR.Client": "2.2.1",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
     "System.Reactive": "3.0.0",
     "withSIX.Api.Models": "2.2.0",
-    "withSIX.Core": "1.0.4",
-    "withSIX.Steam.Core": "1.0.7"
+    "withSIX.Core": "1.0.5",
+    "withSIX.Steam.Core": "1.0.8"
   },
   "frameworks": {
     "netstandard1.3": {
       "imports": "netcore50",
-      "dependencies": {
-        "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-        "NETStandard.Library": "1.6.0"
-      } 
     }
   }
 }

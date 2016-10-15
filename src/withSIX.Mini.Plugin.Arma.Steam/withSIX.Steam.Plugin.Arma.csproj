@@ -168,7 +168,7 @@
       <Name>withSIX.Mini.Plugin.Arma</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Steam.Api\withSIX.Steam.Api.csproj">
-      <Project>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</Project>
+      <Project>{fede9ebc-c0a2-49c7-a780-4a44544508b8}</Project>
       <Name>withSIX.Steam.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj">

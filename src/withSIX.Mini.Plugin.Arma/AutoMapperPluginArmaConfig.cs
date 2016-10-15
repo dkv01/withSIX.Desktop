@@ -12,6 +12,7 @@ using withSIX.Api.Models.Servers.RV;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Mini.Plugin.Arma.Services;
+using withSIX.Steam.Core.Services;
 using ServerModInfo = GameServerQuery.Games.RV.ServerModInfo;
 
 namespace withSIX.Mini.Plugin.Arma

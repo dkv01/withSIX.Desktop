@@ -8,29 +8,11 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using withSIX.Api.Models.Servers;
 using withSIX.Core;
 using withSIX.Steam.Core.Requests;
 
 namespace withSIX.Steam.Core.Services
 {
-    public class ServersInfo<T>
-    {
-        public List<T> Servers { get; set; }
-    }
-
-    public class ServerInfoModel
-    {
-        public ServerInfoModel(IPEndPoint queryEndPoint) {
-            QueryEndPoint = queryEndPoint;
-            ConnectionEndPoint = QueryEndPoint;
-        }
-
-        public IPEndPoint ConnectionEndPoint { get; set; }
-        public IPEndPoint QueryEndPoint { get; protected set; }
-    }
-
     public interface ISteamHelperService
     {
         Task<BatchResult> GetServers<T>(uint appId, GetServers query, CancellationToken ct, Action<List<T>> act) where T : ServerInfoModel;
