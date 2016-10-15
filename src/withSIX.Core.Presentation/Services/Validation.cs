@@ -4,12 +4,14 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 
 namespace withSIX.Core.Presentation.Services
 {
-    public abstract class CompositeValidator<T> : AbstractValidator<T>
+    public sealed class CompositeValidator<T> : AbstractValidator<T>
     {
         private readonly IEnumerable<IValidator<T>> _validators;
 
@@ -22,7 +24,11 @@ namespace withSIX.Core.Presentation.Services
 
             return new ValidationResult(errorsFromOtherValidators);
         }
-    }
 
-    public class EmptyValidator<T> : AbstractValidator<T> {}
+        public override async Task<ValidationResult> ValidateAsync(ValidationContext<T> context, CancellationToken ct) {
+            var errorsFromOtherValidators =
+                await Task.WhenAll(_validators.Select(x => x.ValidateAsync(context, ct))).ConfigureAwait(false);
+            return new ValidationResult(errorsFromOtherValidators.SelectMany(x => x.Errors));
+        }
+    }
 }

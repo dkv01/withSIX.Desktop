@@ -58,26 +58,18 @@ namespace withSIX.Core.Presentation.Decorators
         }
 
         [DebuggerStepThrough]
-        internal static ValidationResult Validate<TRequest>(this TRequest request, IValidator<TRequest> validator) {
-            var context = new ValidationContext<TRequest>(request);
-            return validator.Validate(context);
-        }
-
-        [DebuggerStepThrough]
-        internal static Task<ValidationResult> ValidateAsync<TRequest>(this TRequest request,
-            IValidator<TRequest> validator) {
-            var context = new ValidationContext<TRequest>(request);
-            return validator.ValidateAsync(context);
-        }
-
-        [DebuggerStepThrough]
         internal static void ConfirmValidation<TRequest>(this TRequest request, IValidator<TRequest> validator)
-            => request.Validate(validator).ConfirmValidationResult();
+            => validator.Validate(request).ConfirmValidationResult();
 
         [DebuggerStepThrough]
         internal static async Task ConfirmValidationAsync<TRequest>(this TRequest request,
                 IValidator<TRequest> validator)
-            => (await request.ValidateAsync(validator).ConfigureAwait(false)).ConfirmValidationResult();
+            => (await validator.ValidateAsync(request).ConfigureAwait(false)).ConfirmValidationResult();
+
+        [DebuggerStepThrough]
+        internal static async Task ConfirmValidationAsync<TRequest>(this TRequest request,
+                IValidator<TRequest> validator, CancellationToken ct)
+            => (await validator.ValidateAsync(request, ct).ConfigureAwait(false)).ConfirmValidationResult();
     }
 
     public class ValidationRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
@@ -130,7 +122,7 @@ namespace withSIX.Core.Presentation.Decorators
         }
 
         public async Task<TResponse> Handle(TRequest message, CancellationToken ct) {
-            await message.ConfirmValidationAsync(_validator).ConfigureAwait(false);
+            await message.ConfirmValidationAsync(_validator, ct).ConfigureAwait(false);
             return await _innerHander.Handle(message, ct).ConfigureAwait(false);
         }
     }

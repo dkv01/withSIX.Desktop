@@ -41,16 +41,12 @@ namespace withSIX.Core.Presentation
 
         public static void RegisterValidation(this Container This, IEnumerable<Assembly> validationAssemblies) {
             This.RegisterCollection(typeof(IValidator<>), validationAssemblies);
-            This.Register(typeof(IValidator<>), typeof(CompositeValidator<>),
-                Lifestyle.Singleton);
+            This.Register(typeof(IValidator<>), typeof(CompositeValidator<>));
 
             This.RegisterDecorator(typeof(IRequestHandler<,>), typeof(ValidationRequestHandler<,>));
             This.RegisterDecorator(typeof(IAsyncRequestHandler<,>), typeof(ValidationAsyncRequestHandler<,>));
             This.RegisterDecorator(typeof(ICancellableAsyncRequestHandler<,>),
                 typeof(ValidationCancellableAsyncRequestHandler<,>));
-
-            This.RegisterConditional(typeof(IValidator<>), typeof(EmptyValidator<>),
-                c => !c.Handled);
         }
 
         public static void RegisterMediator(this Container This, IReadOnlyCollection<Assembly> assemblies) {
