@@ -164,7 +164,7 @@ namespace withSIX.Mini.Applications
 #if DEBUG
         return true;
 #else
-            return BuildFlags.Type == ReleaseType.Alpha;
+            return BuildFlags.Type <= ReleaseType.Alpha;
 #endif
         }
 

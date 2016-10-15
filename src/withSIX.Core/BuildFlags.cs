@@ -28,7 +28,7 @@ namespace withSIX.Core
 #elif DEBUG
             Type = ReleaseType.Dev;
 #else
-            Type = ReleaseType.Beta; // Modify as see fit
+            Type = ReleaseType.Alpha; // Modify as see fit
 #endif
         }
 
