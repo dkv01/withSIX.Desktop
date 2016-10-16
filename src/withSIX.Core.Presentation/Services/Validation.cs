@@ -2,7 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -21,7 +21,7 @@ namespace withSIX.Core.Presentation.Services
 
         public CompositeValidator(IEnumerable<IValidator<T>> validators) {
             _validators = validators.ToArray();
-                // let's keep them cached. Seeing as it's apparantly hard to make to configure them as singletons
+            // let's keep them cached. Seeing as it's apparantly hard to make to configure them as singletons
         }
 
         public override ValidationResult Validate(ValidationContext<T> context) {
@@ -46,48 +46,72 @@ namespace withSIX.Core.Presentation.Services
         }
 
         public override async Task<IEnumerable<ValidationFailure>> ValidateAsync(PropertyValidatorContext context,
-            CancellationToken ct) {
+            CancellationToken cancellation) {
             if (context.PropertyValue == null)
                 return Enumerable.Empty<ValidationFailure>();
+
+            var value = context.PropertyValue as IEnumerable;
+            if (value != null)
+                return await ValidateCollectionAsync(context, value, cancellation).ConfigureAwait(false);
+
             var v = _resolver.GetValidatorForSpecial(context.PropertyValue);
-            var r = await v.ValidateAsync(context.PropertyValue, ct).ConfigureAwait(false);
+            var r = await v.ValidateAsync(context.PropertyValue, cancellation).ConfigureAwait(false);
             return r.Errors;
         }
 
         public override IEnumerable<ValidationFailure> Validate(PropertyValidatorContext context) {
             // bail out if the property is null 
-            if (context.PropertyValue == null) return Enumerable.Empty<ValidationFailure>();
+            if (context.PropertyValue == null)
+                return Enumerable.Empty<ValidationFailure>();
+
+            var value = context.PropertyValue as IEnumerable;
+            if (value != null)
+                return ValidateCollection(context, value);
+
             var v = _resolver.GetValidatorForSpecial(context.PropertyValue);
             return v.Validate(context.PropertyValue).Errors;
+        }
 
-
-            /*
-            // Make sure property is of correct type
-            IEnumerable<TBaseClass> collection = context.PropertyValue as IEnumerable<TBaseClass>;
-            if (collection == null) return Enumerable.Empty<ValidationFailure>();
+        private async Task<IEnumerable<ValidationFailure>> ValidateCollectionAsync(PropertyValidatorContext context,
+            IEnumerable value, CancellationToken ct) {
+            var collection = value as IEnumerable<object>;
+            if (collection == null)
+                return Enumerable.Empty<ValidationFailure>();
 
             var results = new List<ValidationFailure>();
 
-            int index = 0;
-            foreach (TBaseClass item in collection) {
-                IValidator derivedValidator;
-
-                // Find the validator to use based on actual type of the element.
-                var actualType = item.GetType();
-                if (derivedValidators.TryGetValue(actualType, out derivedValidator)) {
-                    var newContext = context.ParentContext.Clone(instanceToValidate: item);
-                    newContext.PropertyChain.Add(context.Rule.PropertyName);
-                    newContext.PropertyChain.AddIndexer(index);
-
-                    // Execute child validator. 
-                    results.AddRange(derivedValidator.Validate(newContext).Errors);
-                }
-
+            var index = 0;
+            foreach (var item in collection) {
+                var newContext = context.ParentContext.Clone(instanceToValidate: item);
+                newContext.PropertyChain.Add(context.Rule.PropertyName);
+                newContext.PropertyChain.AddIndexer(index);
+                // Execute child validator. 
+                results.AddRange((await _resolver.GetValidatorForSpecial(item).ValidateAsync(newContext, ct)).Errors);
                 index++;
             }
 
             return results;
-            */
+        }
+
+        private IEnumerable<ValidationFailure> ValidateCollection(PropertyValidatorContext context, IEnumerable value) {
+            var collection = value as IEnumerable<object>;
+            if (collection == null)
+                return Enumerable.Empty<ValidationFailure>();
+
+            var results = new List<ValidationFailure>();
+
+            var index = 0;
+            foreach (var item in collection) {
+                var newContext = context.ParentContext.Clone(instanceToValidate: item);
+                newContext.PropertyChain.Add(context.Rule.PropertyName);
+                newContext.PropertyChain.AddIndexer(index);
+
+                // Execute child validator. 
+                results.AddRange(_resolver.GetValidatorForSpecial(item).Validate(newContext).Errors);
+                index++;
+            }
+
+            return results;
         }
     }
 
