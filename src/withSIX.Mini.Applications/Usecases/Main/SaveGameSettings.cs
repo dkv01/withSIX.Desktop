@@ -4,10 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
-using Newtonsoft.Json;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Applications.Services.Infra;
@@ -15,6 +16,16 @@ using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Usecases.Main
 {
+    public class SaveGameSettingsValidator : AbstractValidator<SaveGameSettings>
+    {
+        public SaveGameSettingsValidator(IPolymorphicValidator resolver) {
+            RuleFor(x => x.Settings)
+                .NotNull()
+                .SetValidator(resolver);
+            RuleFor(x => x.Id).NotEqual(Guid.Empty);
+        }
+    }
+
     public class SaveGameSettings : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId
     {
         public GameSettingsApiModel Settings { get; set; }

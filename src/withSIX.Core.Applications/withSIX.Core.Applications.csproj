@@ -170,6 +170,7 @@
     <Compile Include="Services\IStartupManager.cs" />
     <Compile Include="Services\IToolsInstaller.cs" />
     <Compile Include="Services\ITransient.cs" />
+    <Compile Include="Services\IValidatorResolver.cs" />
     <Compile Include="Services\Licenses.cs" />
     <Compile Include="Services\MessageBoxDialogParams.cs" />
     <Compile Include="Services\Request.cs" />

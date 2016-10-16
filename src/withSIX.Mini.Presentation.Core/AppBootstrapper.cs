@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3.Internal;
 using AutoMapper;
-using FluentValidation;
 using MediatR;
 using NDepend.Path;
 using SimpleInjector;
@@ -430,7 +429,7 @@ namespace withSIX.Mini.Presentation.Core
 
         protected virtual void RegisterServices() {
             RegisterRegisteredServices();
-            Container.RegisterValidation(GetApplicationAssemblies());
+            Container.RegisterValidation(GetApplicationAssemblies().Concat(pluginAssemblies));
 
             RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
             var assemblies = GetAllAssemblies().ToArray();
