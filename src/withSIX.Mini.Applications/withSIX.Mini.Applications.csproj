@@ -180,6 +180,7 @@
     <Compile Include="Services\SteamDepotDownloader.cs" />
     <Compile Include="Services\ToolsCheat.cs" />
     <Compile Include="Services\UninstallerSession.cs" />
+    <Compile Include="Services\Validation.cs" />
     <Compile Include="SetupGameStuff.cs" />
     <Compile Include="Usecases\ContentsBase.cs" />
     <Compile Include="Usecases\DbCommandBase.cs" />

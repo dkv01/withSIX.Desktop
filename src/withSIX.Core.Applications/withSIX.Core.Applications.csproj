@@ -182,6 +182,7 @@
     <Compile Include="Services\VersionInfoData.cs" />
     <Compile Include="SixColors.cs" />
     <Compile Include="SixIconFont.cs" />
+    <Compile Include="Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">

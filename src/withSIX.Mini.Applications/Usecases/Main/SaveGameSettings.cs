@@ -8,7 +8,6 @@ using FluentValidation;
 using MediatR;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Applications.Services.Infra;

@@ -78,19 +78,23 @@ namespace withSIX.Core.Presentation.Services
             if (collection == null)
                 return Enumerable.Empty<ValidationFailure>();
 
-            var results = new List<ValidationFailure>();
-
             var index = 0;
-            foreach (var item in collection) {
-                var newContext = context.ParentContext.Clone(instanceToValidate: item);
-                newContext.PropertyChain.Add(context.Rule.PropertyName);
-                newContext.PropertyChain.AddIndexer(index);
-                // Execute child validator. 
-                results.AddRange((await _resolver.GetValidatorForSpecial(item).ValidateAsync(newContext, ct)).Errors);
-                index++;
-            }
+            var errors =
+                await
+                    Task.WhenAll(collection.Select(item => ValidateCollectionItemAsync(context, ct, item, index++)))
+                        .ConfigureAwait(false);
+            return errors.SelectMany(x => x).ToList();
+        }
 
-            return results;
+        private async Task<IList<ValidationFailure>> ValidateCollectionItemAsync(PropertyValidatorContext context,
+            CancellationToken ct, object item, int index) {
+            var newContext = context.ParentContext.Clone(instanceToValidate: item);
+            newContext.PropertyChain.Add(context.Rule.PropertyName);
+            newContext.PropertyChain.AddIndexer(index);
+            var errors =
+                (await _resolver.GetValidatorForSpecial(item).ValidateAsync(newContext, ct).ConfigureAwait(false))
+                    .Errors;
+            return errors;
         }
 
         private IEnumerable<ValidationFailure> ValidateCollection(PropertyValidatorContext context, IEnumerable value) {
@@ -98,20 +102,19 @@ namespace withSIX.Core.Presentation.Services
             if (collection == null)
                 return Enumerable.Empty<ValidationFailure>();
 
-            var results = new List<ValidationFailure>();
-
             var index = 0;
-            foreach (var item in collection) {
-                var newContext = context.ParentContext.Clone(instanceToValidate: item);
-                newContext.PropertyChain.Add(context.Rule.PropertyName);
-                newContext.PropertyChain.AddIndexer(index);
+            return collection
+                .Select(item => ValidateCollectionItem(context, item, index++))
+                .SelectMany(x => x)
+                .ToList();
+        }
 
-                // Execute child validator. 
-                results.AddRange(_resolver.GetValidatorForSpecial(item).Validate(newContext).Errors);
-                index++;
-            }
-
-            return results;
+        private IList<ValidationFailure> ValidateCollectionItem(PropertyValidatorContext context,
+            object item, int index) {
+            var newContext = context.ParentContext.Clone(instanceToValidate: item);
+            newContext.PropertyChain.Add(context.Rule.PropertyName);
+            newContext.PropertyChain.AddIndexer(index);
+            return _resolver.GetValidatorForSpecial(item).Validate(newContext).Errors;
         }
     }
 
