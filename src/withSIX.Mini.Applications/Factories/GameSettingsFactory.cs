@@ -5,7 +5,7 @@
 using System;
 using FluentValidation;
 using withSIX.Api.Models.Content.v3;
-using withSIX.Core;
+using withSIX.Core.Applications.Services;
 using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Factories
@@ -33,14 +33,12 @@ namespace withSIX.Mini.Applications.Factories
 
     public class GameSettingsApiModelValidator : AbstractValidator<GameSettingsApiModel>
     {
-        public GameSettingsApiModelValidator() {
+        public GameSettingsApiModelValidator(ValidPathValidator pathValidator) {
             RuleFor(x => x.StartupLine).NotNull();
             RuleFor(x => x.GameDirectory)
-                .Must(x => Tools.FileUtil.IsValidRootedPath(x))
-                .When(x => !string.IsNullOrEmpty(x.GameDirectory));
+                .SetValidator(pathValidator);
             RuleFor(x => x.RepoDirectory)
-                .Must(x => Tools.FileUtil.IsValidRootedPath(x))
-                .When(x => !string.IsNullOrEmpty(x.RepoDirectory));
+                .SetValidator(pathValidator);
         }
     }
 
@@ -49,12 +47,12 @@ namespace withSIX.Mini.Applications.Factories
         public string PackageDirectory { get; set; }
     }
 
-    public class GameSettingsWithConfigurablePackageApiModelValidator : AbstractValidator<GameSettingsWithConfigurablePackageApiModel>
+    public class GameSettingsWithConfigurablePackageApiModelValidator :
+        AbstractValidator<GameSettingsWithConfigurablePackageApiModel>
     {
-        public GameSettingsWithConfigurablePackageApiModelValidator() {
+        public GameSettingsWithConfigurablePackageApiModelValidator(ValidPathValidator pathValidator) {
             RuleFor(x => x.PackageDirectory)
-                .Must(x => Tools.FileUtil.IsValidRootedPath(x))
-                .When(x => !string.IsNullOrEmpty(x.PackageDirectory));
+                .SetValidator(pathValidator);
         }
     }
 }

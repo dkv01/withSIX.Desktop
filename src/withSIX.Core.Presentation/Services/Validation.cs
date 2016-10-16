@@ -104,8 +104,7 @@ namespace withSIX.Core.Presentation.Services
 
             var index = 0;
             return collection
-                .Select(item => ValidateCollectionItem(context, item, index++))
-                .SelectMany(x => x)
+                .SelectMany(item => ValidateCollectionItem(context, item, index++))
                 .ToList();
         }
 
