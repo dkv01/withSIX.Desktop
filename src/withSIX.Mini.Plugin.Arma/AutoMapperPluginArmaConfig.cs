@@ -9,6 +9,8 @@ using GameServerQuery.Games.RV;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
 using withSIX.Api.Models.Servers.RV;
+using withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Arma.ApiModels;
 using withSIX.Mini.Plugin.Arma.Models;
 using withSIX.Mini.Plugin.Arma.Services;
@@ -39,20 +41,34 @@ namespace withSIX.Mini.Plugin.Arma
         }
 
         void SetupApiModels() {
-            CreateMap<Arma2COGameSettings, Arma2COGameSettingsApiModel>();
-            CreateMap<Arma2COGameSettingsApiModel, Arma2COGameSettings>();
-            CreateMap<Arma3GameSettings, Arma3GameSettingsApiModel>();
-            CreateMap<Arma3GameSettingsApiModel, Arma3GameSettings>();
-            CreateMap<DayZGameSettings, DayZGameSettingsApiModel>();
-            CreateMap<DayZGameSettingsApiModel, DayZGameSettings>();
-            CreateMap<IronFrontGameSettings, IronFrontGameSettingsApiModel>();
-            CreateMap<IronFrontGameSettingsApiModel, IronFrontGameSettings>();
-            CreateMap<TakeOnHelicoptersGameSettings, TakeOnHelicoptersGameSettingsApiModel>();
-            CreateMap<TakeOnHelicoptersGameSettingsApiModel, TakeOnHelicoptersGameSettings>();
-            CreateMap<TakeOnMarsGameSettings, TakeOnMarsGameSettingsApiModel>();
-            CreateMap<TakeOnMarsGameSettingsApiModel, TakeOnMarsGameSettings>();
-            CreateMap<CarrierCommandGameSettings, CarrierCommandGameSettingsApiModel>();
-            CreateMap<CarrierCommandGameSettingsApiModel, CarrierCommandGameSettings>();
+            CreateMap<Arma2COGameSettings, Arma2COGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<Arma2COGameSettingsApiModel, Arma2COGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
+            CreateMap<Arma3GameSettings, Arma3GameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<Arma3GameSettingsApiModel, Arma3GameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
+            CreateMap<DayZGameSettings, DayZGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<DayZGameSettingsApiModel, DayZGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
+            CreateMap<IronFrontGameSettings, IronFrontGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<IronFrontGameSettingsApiModel, IronFrontGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
+            CreateMap<TakeOnHelicoptersGameSettings, TakeOnHelicoptersGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<TakeOnHelicoptersGameSettingsApiModel, TakeOnHelicoptersGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
+            CreateMap<TakeOnMarsGameSettings, TakeOnMarsGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<TakeOnMarsGameSettingsApiModel, TakeOnMarsGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
+            CreateMap<CarrierCommandGameSettings, CarrierCommandGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            CreateMap<CarrierCommandGameSettingsApiModel, CarrierCommandGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
         }
     }
 

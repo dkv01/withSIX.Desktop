@@ -3,6 +3,8 @@
 // </copyright>
 
 using AutoMapper;
+using withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Kerbal.ApiModels;
 using withSIX.Mini.Plugin.Kerbal.Models;
 
@@ -15,8 +17,10 @@ namespace withSIX.Mini.Plugin.Kerbal
         }
 
         static void SetupApiModels(IProfileExpression cfg) {
-            cfg.CreateMap<KerbalSPGameSettings, KerbalSPGameSettingsApiModel>();
-            cfg.CreateMap<KerbalSPGameSettingsApiModel, KerbalSPGameSettings>();
+            cfg.CreateMap<KerbalSPGameSettings, KerbalSPGameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            cfg.CreateMap<KerbalSPGameSettingsApiModel, KerbalSPGameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
         }
     }
 }

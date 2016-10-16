@@ -29,7 +29,6 @@ namespace withSIX.Mini.Infra.Data.Services
             var sourceType = game.Settings.GetType();
             var settingsTabViewModel =
                 (GameSettingsApiModel) game.Settings.MapTo(sourceType, _apiModelRegistry[sourceType]);
-            settingsTabViewModel.StartupLine = game.Settings.StartupParameters.StartupLine;
             settingsTabViewModel.Id = game.Id;
             return settingsTabViewModel;
         }

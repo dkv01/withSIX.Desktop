@@ -38,6 +38,6 @@ namespace withSIX.Mini.Applications.Usecases.Main
 
     public class GameSettings
     {
-        public object Settings { get; set; }
+        public IGameSettingsApiModel Settings { get; set; }
     }
 }

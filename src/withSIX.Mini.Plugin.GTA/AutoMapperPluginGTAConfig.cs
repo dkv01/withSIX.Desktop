@@ -3,6 +3,8 @@
 // </copyright>
 
 using AutoMapper;
+using withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.GTA.ApiModels;
 using withSIX.Mini.Plugin.GTA.Models;
 
@@ -15,11 +17,15 @@ namespace withSIX.Mini.Plugin.GTA
         }
 
         static void SetupApiModels(IProfileExpression cfg) {
-            cfg.CreateMap<GTA4GameSettings, GTA4GameSettingsApiModel>();
-            cfg.CreateMap<GTA4GameSettingsApiModel, GTA4GameSettings>();
+            cfg.CreateMap<GTA4GameSettings, GTA4GameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            cfg.CreateMap<GTA4GameSettingsApiModel, GTA4GameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
 
-            cfg.CreateMap<GTA5GameSettings, GTA5GameSettingsApiModel>();
-            cfg.CreateMap<GTA5GameSettingsApiModel, GTA5GameSettings>();
+            cfg.CreateMap<GTA5GameSettings, GTA5GameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            cfg.CreateMap<GTA5GameSettingsApiModel, GTA5GameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
         }
     }
 }

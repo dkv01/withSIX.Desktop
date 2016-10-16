@@ -9,11 +9,13 @@ using AutoMapper;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Helpers;
+using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Usecases.Main;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using GameSettings = withSIX.Mini.Core.Games.GameSettings;
 using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
 namespace withSIX.Mini.Applications
@@ -34,6 +36,11 @@ namespace withSIX.Mini.Applications
             CreateMap<ProgressComponent, FlatProgressInfo>();
             CreateMap<ProgressLeaf, FlatProgressInfo>();
             CreateMap<ProgressContainer, FlatProgressInfo>();
+
+            CreateMap<GameSettings, GameSettingsApiModel>()
+                .ForMember(x => x.StartupLine, opt => opt.MapFrom(src => src.StartupParameters.StartupLine));
+            CreateMap<GameSettingsApiModel, GameSettings>()
+                .AfterMap((src, dest) => dest.StartupParameters.StartupLine = src.StartupLine);
         }
 
         private IPEndPoint ParseEndpoint(string str) {

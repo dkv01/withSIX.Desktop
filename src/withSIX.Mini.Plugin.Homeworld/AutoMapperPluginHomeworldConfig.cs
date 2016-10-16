@@ -3,6 +3,8 @@
 // </copyright>
 
 using AutoMapper;
+using withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Homeworld.ApiModels;
 using withSIX.Mini.Plugin.Homeworld.Models;
 
@@ -15,8 +17,10 @@ namespace withSIX.Mini.Plugin.Homeworld
         }
 
         static void SetupApiModels(IProfileExpression cfg) {
-            cfg.CreateMap<Homeworld2GameSettings, Homeworld2GameSettingsApiModel>();
-            cfg.CreateMap<Homeworld2GameSettingsApiModel, Homeworld2GameSettings>();
+            cfg.CreateMap<Homeworld2GameSettings, Homeworld2GameSettingsApiModel>()
+                .IncludeBase<GameSettings, GameSettingsApiModel>();
+            cfg.CreateMap<Homeworld2GameSettingsApiModel, Homeworld2GameSettings>()
+                .IncludeBase<GameSettingsApiModel, GameSettings>();
         }
     }
 }
