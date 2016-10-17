@@ -14,6 +14,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core.Games.Attributes;
 
 namespace withSIX.Mini.Applications.Usecases.Main
 {
@@ -47,6 +48,7 @@ namespace withSIX.Mini.Applications.Usecases.Main
                 GameLock = gameLock.IsLocked,
                 CanAbort = gameLock.CanAbort,
                 Content = gameStateHandler.State.ToDictionary(x => x.Key, x => x.Value),
+                Dlcs = game.InstalledDlcs().ToList(),
                 IsRunning = gameStateHandler.IsRunning,
                 ActionInfo = _stateHandler.Current,
                 UserErrors = _stateHandler.UserErrors.ToList()
@@ -62,6 +64,7 @@ namespace withSIX.Mini.Applications.Usecases.Main
         public bool CanAbort { get; set; }
         public ActionTabState ActionInfo { get; set; }
         public List<UserErrorModel2> UserErrors { get; set; }
+        public List<Dlc> Dlcs { get; set; }
     }
 
     [Obsolete("Convert from original UserErrorModel?")]

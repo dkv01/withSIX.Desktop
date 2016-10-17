@@ -6,20 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using GameServerQuery;
-using GameServerQuery.Games.RV;
-using GameServerQuery.Parsers;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using withSIX.Api.Models.Servers;
 using withSIX.Core;
-using withSIX.Core.Applications;
-using withSIX.Core.Logging;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
@@ -32,8 +26,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
          Executables = new[] {"arma3.exe"},
          IsPublic = true,
          ServerExecutables = new[] {"arma3server.exe"},
-         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-         Dlcs = new[] {"Karts", "Helicopters", "Marksmen"})]
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer}
+         )]
     [SteamInfo(SteamGameIds.Arma3, "Arma 3", DRM = true)]
     [RegistryInfo(BohemiaRegistry + @"\ArmA 3", "main")]
     [RvProfileInfo("Arma 3", "Arma 3 - other profiles",
@@ -65,6 +59,21 @@ namespace withSIX.Mini.Plugin.Arma.Models
         }
 
         protected override string[] BeGameParam { get; } = {"2", "1"};
+
+        private static readonly Dlc[] dlcs = {
+            new Dlc {Name = "Karts", PackageName = "Kart"}, new Dlc {Name = "Helicopters", PackageName = "Heli"},
+            new Dlc {Name = "Marksmen", PackageName = "Mark"},
+            new Dlc {PackageName = "Zeus"}, new Dlc {PackageName = "Tanoa"},
+            new Dlc {PackageName = "Expansion", Name = "Apex"}
+        };
+
+        public override IReadOnlyCollection<Dlc> Dlcs => dlcs.ToList();
+
+        public override IReadOnlyCollection<Dlc> InstalledDlcs()
+            =>
+            InstalledState.IsInstalled
+                ? Dlcs.Where(x => InstalledState.Directory.GetChildDirectoryWithName(x.PackageName).Exists).ToList()
+                : new List<Dlc>();
 
         public Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken, Action<List<IPEndPoint>> act)
             => factory.Create(this).GetServerAddresses(SteamInfo.AppId, act, cancelToken);

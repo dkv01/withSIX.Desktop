@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NDepend.Path;
+using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Core;
 using withSIX.Core.Extensions;
@@ -20,7 +21,7 @@ namespace withSIX.Mini.Core.Games.Attributes
             Id = id;
             Image = Tools.Transfer.JoinUri(CommonUrls.ImageCdn, "games", Id + "-" + "40x40" + ".png");
             BackgroundImage = Tools.Transfer.JoinUri(CommonUrls.ImageCdn, "games", Id + "-" + "full" + ".png");
-            Dlcs = new string[0];
+            Dlcs = new Dlc[0];
         }
 
         public bool IsPublic { get; set; }
@@ -34,7 +35,7 @@ namespace withSIX.Mini.Core.Games.Attributes
         public LaunchType[] LaunchTypes { get; set; } = {LaunchType.Default};
         public Uri Image { get; set; }
         public Uri BackgroundImage { get; set; }
-        public string[] Dlcs { get; set; }
+        public Dlc[] Dlcs { get; set; }
         public TimeSpan? AfterLaunchDelay { get; set; } = TimeSpan.FromSeconds(10);
         public Guid Id { get; }
 
@@ -47,5 +48,12 @@ namespace withSIX.Mini.Core.Games.Attributes
 
         public IEnumerable<IRelativeFilePath> GetAllExecutables()
             => GetExecutables().Concat(GetMultiplayerExecutables()).Concat(GetServerExecutables());
+    }
+
+    public class Dlc
+    {
+        public string Name { get; internal set; }
+        public string PackageName { get; internal set; }
+        public List<ContentPublisher> Publishers { get; internal set; }
     }
 }

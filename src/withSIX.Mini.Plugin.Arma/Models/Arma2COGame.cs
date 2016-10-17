@@ -19,8 +19,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
          Executables = new[] {"arma2oa.exe"},
          ServerExecutables = new[] {"arma2oaserver.exe"},
          IsPublic = true,
-         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-         Dlcs = new[] {"BAF", "PMC", "ACR"})
+         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer})
     ]
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb"
          /*GameUUids.Arma2Co */)]
@@ -36,6 +35,13 @@ namespace withSIX.Mini.Plugin.Arma.Models
         public Arma2COGame(Guid id, Arma2COGameSettings settings) : base(id, settings) {
             _settings = settings;
         }
+
+        private static readonly Dlc[] dlcs = {
+            new Dlc {PackageName = "BAF"}, new Dlc {PackageName = "PMC"},
+            new Dlc {PackageName = "ACR"}
+        };
+
+        public override IReadOnlyCollection<Dlc> Dlcs => dlcs.ToList();
 
         void SetupDefaultDirectories() {
             // TODO: Access arma2 game class instead, and e.g dirs set there too??
