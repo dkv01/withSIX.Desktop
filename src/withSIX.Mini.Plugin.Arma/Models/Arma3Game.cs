@@ -61,14 +61,15 @@ namespace withSIX.Mini.Plugin.Arma.Models
         protected override string[] BeGameParam { get; } = {"2", "1"};
 
         private static readonly Dlc[] dlcs = {
-            new Dlc {Name = "Karts", PackageName = "Kart"}, new Dlc {Name = "Helicopters", PackageName = "Heli"},
-            new Dlc {Name = "Marksmen", PackageName = "Mark"},
-            new Dlc {PackageName = "Zeus"}, new Dlc {PackageName = "Tanoa"},
-            new Dlc {PackageName = "Expansion", Name = "Apex"}
+            new Dlc("Kart", "Karts"), new Dlc("Heli", "Helicopters"),
+            new Dlc("Mark", "Marksmen"),
+            new Dlc("Zeus"), new Dlc("Tanoa"),
+            new Dlc("Expansion", "Apex")
         };
 
         public override IReadOnlyCollection<Dlc> Dlcs => dlcs.ToList();
 
+        // TODO: Mark Premium vs Lite
         public override IReadOnlyCollection<Dlc> InstalledDlcs()
             =>
             InstalledState.IsInstalled

@@ -140,6 +140,7 @@ namespace withSIX.Mini.Core.Games
             Contents = new HashSet<Content>(Contents);
         }
 
+        [IgnoreDataMember]
         public virtual IReadOnlyCollection<Dlc> Dlcs { get; } = new Dlc[0];
 
         public virtual IReadOnlyCollection<Dlc> InstalledDlcs() => new Dlc[0];

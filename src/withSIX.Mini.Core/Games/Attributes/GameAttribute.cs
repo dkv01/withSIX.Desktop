@@ -52,8 +52,14 @@ namespace withSIX.Mini.Core.Games.Attributes
 
     public class Dlc
     {
-        public string Name { get; internal set; }
-        public string PackageName { get; internal set; }
-        public List<ContentPublisher> Publishers { get; internal set; }
+        public Dlc(string packageName) : this(packageName, packageName) {}
+
+        public Dlc(string packageName, string name) {
+            PackageName = packageName;
+            Name = name;
+        }
+        public string Name { get; }
+        public string PackageName { get; }
+        public List<ContentPublisher> Publishers { get; }
     }
 }

@@ -37,8 +37,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
         }
 
         private static readonly Dlc[] dlcs = {
-            new Dlc {PackageName = "BAF"}, new Dlc {PackageName = "PMC"},
-            new Dlc {PackageName = "ACR"}
+            new Dlc("BAF"), new Dlc("PMC"),
+            new Dlc("ACR")
         };
 
         public override IReadOnlyCollection<Dlc> Dlcs => dlcs.ToList();
