@@ -35,7 +35,7 @@ namespace withSIX.Core
         public static bool Staging { get; }
         public static bool DevBuild { get; set; }
         public static ReleaseType Type { get; set; }
-        public const string Version = "1.7.0.1";
+        public const string Version = "1.7.0.2";
         public const string ProductVersion = "1.7.0";
     }
 

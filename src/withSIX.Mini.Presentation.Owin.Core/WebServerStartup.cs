@@ -24,10 +24,17 @@ namespace withSIX.Mini.Presentation.Owin.Core
     public abstract class WebServerStartup : IWebServerStartup
     {
         public virtual Task Run(IPEndPoint http, IPEndPoint https, CancellationToken cancelToken) {
+            var urls = BuildUrls(http, https);
+
             var hostBuilder = new WebHostBuilder();
             //        .UseContentRoot(Directory.GetCurrentDirectory())
             ConfigureBuilder(hostBuilder);
+            hostBuilder.UseUrls(urls.ToArray());
+            var webHost = hostBuilder.Build();
+            return TaskExt.StartLongRunningTask(() => webHost.Run(cancelToken), cancelToken);
+        }
 
+        private static List<string> BuildUrls(IPEndPoint http, IPEndPoint https) {
             var urls = new List<string>();
             if ((http == null) && (https == null))
                 throw new CannotOpenApiPortException("No HTTP or HTTPS ports available");
@@ -35,9 +42,7 @@ namespace withSIX.Mini.Presentation.Owin.Core
                 urls.Add(http.ToHttp());
             if (https != null)
                 urls.Add(https.ToHttps());
-            hostBuilder.UseUrls(urls.ToArray());
-            var webHost = hostBuilder.Build();
-            return TaskExt.StartLongRunningTask(() => webHost.Run(cancelToken), cancelToken);
+            return urls;
         }
 
         protected abstract void ConfigureBuilder(IWebHostBuilder builder);
