@@ -505,7 +505,7 @@ namespace withSIX.Mini.Infra.Data.Services
                 return
                     await
                         Tools.Transfer.GetJson<List<CollectionModelWithLatestVersion>>(
-                                new Uri(CommonUrls.ApiUrl + "/api/collections?gameId=" + gameId +
+                                new Uri(CommonUrls.ApiUrl, "/api/collections?gameId=" + gameId +
                                         string.Join("", colIds.Select(x => "&ids=" + x))), token: token)
                             .ConfigureAwait(false);
             }
