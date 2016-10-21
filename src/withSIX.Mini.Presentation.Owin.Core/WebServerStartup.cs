@@ -5,9 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
@@ -55,7 +58,26 @@ namespace withSIX.Mini.Presentation.Owin.Core
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
                 builder.AllowCredentials();
+                builder.WithExposedHeaders("x-withsix-requestid");
                 builder.WithOrigins(Environments.Origins);
+            });
+        }
+
+        static readonly string FormContentType = "application/x-www-form-urlencoded";
+        public static void SignalRWorkaround(this IApplicationBuilder app) {
+            app.Use(async (ctx, next) => {
+                try {
+                    // Managed SignalR 2.x clients don't set content type which prevents from parsing the body as a form
+                    // https://github.com/aspnet/SignalR-Server/commit/a5a9f7a6a396a5c893a72f1a9c69bc19ca494925
+                    if (string.IsNullOrEmpty(ctx.Request.ContentType)
+                        && ctx.Request.Path.Value.StartsWith("/send")) {
+                        ctx.Request.ContentType = FormContentType;
+                    }
+                    await next().ConfigureAwait(false);
+                } catch (UnauthorizedException ex) {
+                    ctx.Response.StatusCode = 401;
+                    await ctx.Response.WriteAsync(ex.Message).ConfigureAwait(false);
+                }
             });
         }
     }

@@ -63,15 +63,6 @@ namespace withSIX.Steam.Presentation
                 api.AddPath<GetEvents, EventsModel>("/get-events");
             });
         }
-
-        public static void ConfigureCors(this IApplicationBuilder app) {
-            app.UseCors(builder => {
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-                builder.AllowCredentials();
-                builder.WithOrigins(Environments.Origins);
-            });
-        }
     }
 
     public class WebListener : WebServerStartup, IPresentationService
@@ -190,6 +181,7 @@ namespace withSIX.Steam.Presentation
             ConnectionManager = hubHost;
             app.UseWebSockets();
             app.Map("/signalr", map => {
+                map.SignalRWorkaround();
                 var debug =
 #if DEBUG
                     true;

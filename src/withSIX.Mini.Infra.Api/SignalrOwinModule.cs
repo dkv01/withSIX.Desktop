@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Presentation.Bridge;
 using withSIX.Mini.Infra.Api.Hubs;
+using withSIX.Mini.Presentation.Owin.Core;
 using withSIX.Steam.Infra;
 
 namespace withSIX.Mini.Infra.Api
@@ -59,6 +60,7 @@ namespace withSIX.Mini.Infra.Api
             ConnectionManager = hubHost;
             app.UseWebSockets();
             app.Map("/signalr", map => {
+                map.SignalRWorkaround();
                 var debug =
 #if DEBUG
                     true;
