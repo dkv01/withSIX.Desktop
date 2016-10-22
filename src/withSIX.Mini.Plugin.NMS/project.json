@@ -1,7 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "AutoMapper": "5.1.1",
+    "AutoMapper": "5.2.0-alpha-01229",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",

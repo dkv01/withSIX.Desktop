@@ -11,7 +11,7 @@
   },
 
   "dependencies": {
-    "AutoMapper": "5.1.1",
+    "AutoMapper": "5.2.0-alpha-01229",
     "log4net": "2.0.5",
     "ManyConsole.PCL": "1.0.0",
     "MediatR": "2.1.0",
