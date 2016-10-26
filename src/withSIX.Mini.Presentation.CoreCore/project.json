@@ -9,7 +9,7 @@
     "System.Diagnostics.Contracts": "4.0.1",
     "System.Diagnostics.Process": "4.1.0",
     "System.Reactive": "3.0.0",
-    "withSIX.Core": "1.0.1",
+    "withSIX.Core": "1.0.6",
     "withSIX.Core.Applications": "1.0.0",
     "withSIX.Core.Infra": "1.0.0",
     "withSIX.Core.Presentation": "1.0.0",

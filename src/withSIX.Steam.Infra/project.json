@@ -6,7 +6,7 @@
     "NETStandard.Library": "1.6.0",
     "System.Reactive": "3.0.0",
     "withSIX.Api.Models": "2.2.0",
-    "withSIX.Core": "1.0.5",
+    "withSIX.Core": "1.0.6",
     "withSIX.Steam.Core": "1.0.8"
   },
   "frameworks": {
