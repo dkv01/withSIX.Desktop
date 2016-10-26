@@ -9,5 +9,6 @@ namespace withSIX.Core.Presentation
     public interface IBridge
     {
         JsonSerializerSettings GameContextSettings();
+        void SetupSSL();
     }
 }

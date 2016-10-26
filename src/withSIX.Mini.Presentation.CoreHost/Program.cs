@@ -94,6 +94,11 @@ namespace withSIX.Mini.Presentation.CoreHost
             Binder = new NamespaceMigrationSerializationBinder()
         }.SetDefaultConverters();
 
+        public void SetupSSL() {
+            // TODO
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 |  SecurityProtocolType.Tls12;
+        }
+
         public class NamespaceMigrationSerializationBinder : DefaultSerializationBinder
         {
             //private readonly INamespaceMigration[] _migrations;

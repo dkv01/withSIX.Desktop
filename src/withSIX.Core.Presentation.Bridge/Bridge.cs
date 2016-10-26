@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Net;
 using System.Runtime.Serialization.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -23,6 +24,11 @@ namespace withSIX.Core.Presentation.Bridge
             Binder = new NamespaceMigrationSerializationBinder(),
             Error = OnError,
         }.SetDefaultConverters();
+
+        public void SetupSSL() {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 |
+                                                   SecurityProtocolType.Tls12;
+        }
 
         public class NamespaceMigrationSerializationBinder : DefaultSerializationBinder
         {

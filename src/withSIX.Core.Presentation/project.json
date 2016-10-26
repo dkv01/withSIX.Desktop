@@ -8,6 +8,7 @@
     "SimpleInjector": "3.2.3",
     "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
     "System.Diagnostics.Contracts": "4.0.1",
+    "System.Net.Http": "4.1.0",
     "System.Security.Cryptography.ProtectedData": "4.0.0",
     "withSIX.Api.Models": "2.2.0",
     "withSIX.Core": "1.0.1",

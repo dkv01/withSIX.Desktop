@@ -31,6 +31,9 @@ namespace withSIX.Updater.Presentation.Wpf
         static void Initialize() {
             AttachConsole(-1);
             CommonBase.AssemblyLoader = new AssemblyLoader(Assembly.GetEntryAssembly());
+            // TODO
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
             StartupSequence.PreInit(AppName);
             UpdaterApp.Launch();
             if (Common.OnExit != null)

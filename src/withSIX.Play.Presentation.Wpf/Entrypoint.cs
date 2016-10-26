@@ -45,6 +45,8 @@ namespace withSIX.Play.Presentation.Wpf
                     "Play withSIX", "Play"))
                 return;
 
+            // TODO
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             StartupSequence.PreInit(AppName);
             PlayApp.Launch();
 
