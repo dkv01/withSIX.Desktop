@@ -6,6 +6,7 @@ using System;
 using System.Windows;
 using System.Windows.Threading;
 using Splat;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
 

@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 

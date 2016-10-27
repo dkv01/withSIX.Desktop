@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
 using withSIX.Sync.Core.Transfer;

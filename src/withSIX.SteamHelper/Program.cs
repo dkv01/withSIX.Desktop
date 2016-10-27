@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.Errors;
 using withSIX.Core.Extensions;

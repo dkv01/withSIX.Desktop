@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using withSIX.Core.Applications.Services;

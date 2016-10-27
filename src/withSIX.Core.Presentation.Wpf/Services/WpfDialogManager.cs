@@ -13,6 +13,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using ReactiveUI;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.MVVM.Services;
 using withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using withSIX.Core.Applications.Services;

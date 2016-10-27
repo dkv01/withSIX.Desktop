@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 
 namespace withSIX.Core.Presentation.Wpf.Converters
