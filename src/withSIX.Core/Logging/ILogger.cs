@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Extensions;
 
 namespace withSIX.Core.Logging

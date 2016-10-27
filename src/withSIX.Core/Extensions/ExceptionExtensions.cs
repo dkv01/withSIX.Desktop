@@ -18,9 +18,6 @@ namespace withSIX.Core.Extensions
     {
         public static readonly Func<Exception, int, string> FormatException = PrettyExceptions.FormatException;
 
-        public static Exception UnwrapExceptionIfNeeded(this Exception ex)
-            => ex is TargetInvocationException && (ex.InnerException != null) ? ex.InnerException : ex;
-
         public static bool IsElevationCancelled(this Win32Exception ex)
             => ex.NativeErrorCode == Win32ErrorCodes.ERROR_CANCELLED_ELEVATION;
 
@@ -30,12 +27,6 @@ namespace withSIX.Core.Extensions
         public static OperationCanceledException HandleUserCancelled(this Win32Exception ex) {
             MainLog.Logger.FormattedWarnException(ex, "User canceled elevation action");
             return new OperationCanceledException("User canceled elevation action", ex);
-        }
-
-        public static string Format(this Exception e, int level = 0) {
-            Contract.Requires<ArgumentNullException>(e != null);
-
-            return FormatException(e, level);
         }
 
         public class PrettyExceptions

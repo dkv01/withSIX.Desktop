@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Helpers;
 
 namespace withSIX.Core.Extensions

@@ -8,7 +8,7 @@
     "System.Diagnostics.Contracts": "4.0.1",
     "System.Security.Cryptography.ProtectedData": "4.0.0",
     "System.Threading.Tasks.Dataflow": "4.6.0",
-    "withSIX.Api.Models": "2.2.0",
+    "withSIX.Api.Models": "2.2.2",
     "withSIX.ContentEngine.Core": "1.0.0",
     "withSIX.ContentEngine.Infra": "1.0.0",
     "withSIX.Core": "1.0.6",

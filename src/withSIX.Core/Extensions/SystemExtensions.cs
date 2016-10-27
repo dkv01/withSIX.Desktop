@@ -577,12 +577,6 @@ namespace withSIX.Core.Extensions
             return list;
         }
 
-        public static bool None<T>(this IEnumerable<T> items, Func<T, bool> predicate) {
-            Contract.Requires<ArgumentNullException>(items != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
-            return !items.Any(predicate);
-        }
-
         public static bool In(this string value, params string[] values)
             => !string.IsNullOrEmpty(value) && values.Any(s => value.Equals(s, StringComparison.OrdinalIgnoreCase));
 
