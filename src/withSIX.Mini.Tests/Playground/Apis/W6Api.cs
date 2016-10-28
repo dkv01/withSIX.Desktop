@@ -4,43 +4,53 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Polly;
+using Polly.Retry;
 using Refit;
+using SimpleInjector;
 using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
+using withSIX.Core.Logging;
 using withSIX.Mini.Core.Social;
 using withSIX.Mini.Infra.Data;
 
 namespace withSIX.Mini.Tests.Playground.Apis
 {
+    [Headers("Accept: application/json")]
+    public interface JsonApi { }
     // TODO: Split per API ep, like controllers?
-    public interface IW6Api
+    public interface IW6Api : JsonApi
     {
         [Post("/api/stats")]
-        Task StatusOverview([Body] InstallStatusOverview overview);
+        Task StatusOverview([Body] InstallStatusOverview overview, CancellationToken ct);
 
         [Headers("Authorization: Bearer")]
         [Get("/api/groups/{id}/access")]
-        Task<GroupAccess> GroupAccess(Guid id);
+        Task<GroupAccess> GroupAccess(Guid id, CancellationToken ct);
 
         [Headers("Authorization: Bearer")]
         [Get("/api/groups/{id}/contents")]
-        Task<List<GroupContent>> GroupContent(Guid id);
+        Task<List<GroupContent>> GroupContent(Guid id, CancellationToken ct);
 
         // Auth is optional
         [Headers("Authorization: Bearer")]
         [Get("/api/collections")]
-        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, CsvList<Guid> ids);
+        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, CsvList<Guid> ids, CancellationToken ct);
+    }
 
-        [Get(W6Api.ApiCdn + "/api/v3/hashes-{gameId}.json.gz")]
-        Task<ApiHashes> Hashes(Guid gameId);
+    public interface IW6CDNApi : JsonApi
+    {
+        [Get("hashes-{gameId}.json.gz")]
+        Task<ApiHashes> Hashes(Guid gameId, CancellationToken ct);
 
-        [Get(W6Api.ApiCdn + "/api/v3/mods-{gameId}.json.gz")]
-        Task<ApiHashes> Mods(Guid gameId);
+        [Get("mods-{gameId}.json.gz")]
+        Task<List<ModClientApiJson>> Mods(Guid gameId, string version, CancellationToken ct);
     }
 
     // https://github.com/paulcbetts/refit/issues/93
@@ -79,24 +89,80 @@ namespace withSIX.Mini.Tests.Playground.Apis
         }
     }
 
-    public static class W6Api
+    // TODO: Should have a different retry policy for Post! (only on Error 500, or similar?)
+    // Also on Retry, we might perhaps swallow a AlreadyExists error code, becacuse it might mean the request did work previously anyway?
+    // TODO: Why the Wrap comes with it's own CT call?!
+    // TODO: Cant we Wrap automatically and skip a manual class? (the whole idea of Refit)
+    public class W6Api
     {
-        public const string ApiCdn = "http://withsix-api.azureedge.net";
-        public static IW6Api Create(Func<Task<string>> authGetter) {
+        private IW6Api _api;
+        private IW6CDNApi _cdn;
+        private RetryPolicy _policy;
+        public const string ApiCdn = "http://withsix-api.azureedge.net/api/v3";
+
+        public static void Register(Container c, Func<Task<string>> authGetter) {
+            c.RegisterSingleton<IW6Api>(Create(authGetter));
+            c.RegisterSingleton<IW6CDNApi>(Create());
+            c.RegisterSingleton<W6Api>(() => new W6Api(c.GetInstance<IW6Api>(), c.GetInstance<IW6CDNApi>(), CreatePolicy()));
+        }
+
+        public static IW6Api Create([NotNull] Func<Task<string>> authGetter) => Create<IW6Api>(CommonUrls.SocialApiUrl, authGetter);
+        public static IW6CDNApi Create() => Create<IW6CDNApi>(new Uri(ApiCdn));
+
+        public W6Api(IW6Api api, IW6CDNApi cdn, RetryPolicy policy) {
+            _api = api;
+            _cdn = cdn;
+            _policy = policy;
+        }
+
+        public Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, CsvList<Guid> ids,
+                CancellationToken ct) =>
+            Wrap(t => _api.Collections(gameId, ids, t), ct);
+
+        public Task<ApiHashes> Hashes(Guid gameId, CancellationToken ct) =>
+            Wrap(t => _cdn.Hashes(gameId, t), ct);
+
+        public Task<List<ModClientApiJson>> Mods(Guid gameId, string version, CancellationToken ct) =>
+            Wrap(t => _cdn.Mods(gameId, version, t), ct);
+
+        public Task<List<GroupContent>> GroupContent(Guid id, CancellationToken ct)
+            => Wrap(t => _api.GroupContent(id, t), ct);
+
+        // TODO: Might this also be a candidate for Oauth2/Connect?
+        public Task<GroupAccess> GroupAccess(Guid id, CancellationToken ct)
+            => Wrap(t => _api.GroupAccess(id, t), ct);
+
+        public Task CreateStatusOverview(InstallStatusOverview stats, CancellationToken ct)
+            => Wrap(t => _api.StatusOverview(stats, t), ct);
+
+        private Task<T> Wrap<T>(Func<CancellationToken, Task<T>> fnc, CancellationToken ct)
+            => _policy.ExecuteAsync(fnc, ct);
+
+        private Task Wrap(Func<CancellationToken, Task> fnc, CancellationToken ct)
+            => _policy.ExecuteAsync(fnc, ct);
+
+        public static T Create<T>(Uri baseAddr, Func<Task<string>> authGetter = null) {
             // todo: the lifetime of the httpclient should generally be singleton
             // however care needs to be taken because of DNS cache etc, which might make cloud hosts hopping dns not so fast informing our client :)
             var httpClient = DownloaderExtensions.GetHttpClient();
-            httpClient.BaseAddress = CommonUrls.SocialApiUrl;
-            return RestService.For<IW6Api>(httpClient, new RefitSettings {
+            httpClient.BaseAddress = baseAddr;
+            return RestService.For<T>(httpClient, new RefitSettings {
                 AuthorizationHeaderValueGetter = authGetter,
                 JsonSerializerSettings = JsonSupport.DefaultSettings
             });
         }
 
         // TODO: PollyAppraoch
-        public static PolicyBuilder CreatePolicy() {
-            return Policy.Handle<ApiException>().Or<WebException>();
-        }
+        public static RetryPolicy CreatePolicy() => Policy
+            .Handle<ApiException>(TransientExceptionHelper.IsTransient)
+            .Or<WebException>()
+            .WaitAndRetryAsync(new[] {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(2),
+            }, (exception, span, arg3, arg4) => {
+                MainLog.Logger.Warn($"Error catched during api call, retrying {arg3}: {exception.Message}");
+                MainLog.Logger.FormattedDebugException(exception, "Error catched during api call");
+            });
 
         // Manual approach
         public class TransientExceptionHelper
