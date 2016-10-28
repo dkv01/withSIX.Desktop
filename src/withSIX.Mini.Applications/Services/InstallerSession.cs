@@ -288,9 +288,7 @@ namespace withSIX.Mini.Applications.Services
             => content.GetSource(_action.Game).Publisher.ShouldInstallFromExternal();
 
         private void PrepareSteamContent() {
-            MarkPrepared(_steamContent = _action.Game.IsSteamGame()
-                ? GetSteamContent()
-                : new Dictionary<IPackagedContent, SpecificVersion>());
+            MarkPrepared(_steamContent = GetSteamContent());
             _steamContentToInstall = ToProcessContent(_steamContent);
             if (!_steamContentToInstall.Any())
                 return;
