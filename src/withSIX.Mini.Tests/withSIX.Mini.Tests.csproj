@@ -218,6 +218,10 @@
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SimpleInjector, Version=3.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SimpleInjector.3.2.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="SteamLayerWrap">
       <HintPath>..\dll\SteamLayerWrap.dll</HintPath>
     </Reference>
