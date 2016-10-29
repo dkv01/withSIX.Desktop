@@ -27,30 +27,33 @@ namespace withSIX.Mini.Infra.Data.Services
         public async Task<TokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code,
             string clientId, string clientSecret,
             Dictionary<string, string> additionalValues = null) {
-            var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
-            var response =
-                await
-                    client.RequestAuthorizationCodeAsync(code, callbackUrl.ToString(), extra: additionalValues)
-                        .ConfigureAwait(false);
-            if (response.IsError) {
-                throw new Exception(
-                    $"Error while retrieving authorization: {response.Error}. Code: {response.HttpStatusCode}. Reason: {response.HttpErrorReason}");
+            using (var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret)) {
+                var response =
+                    await
+                        client.RequestAuthorizationCodeAsync(code, callbackUrl.ToString(), extra: additionalValues)
+                            .ConfigureAwait(false);
+                if (response.IsError) {
+                    throw new Exception(
+                        $"Error while retrieving authorization: {response.Error}. Code: {response.HttpStatusCode}. Reason: {response.HttpErrorReason}");
+                }
+                return new TokenResponse(response.Raw);
             }
-            return new TokenResponse(response.Raw);
         }
 
         public async Task<TokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId,
             string clientSecret,
             Dictionary<string, string> additionalValues = null) {
-            var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
-            var response = await client.RequestRefreshTokenAsync(refreshToken, additionalValues).ConfigureAwait(false);
-            if (response.IsError) {
-                if (response.Error == "invalid_grant")
-                    throw new RefreshTokenInvalidException(response.Error);
-                throw new Exception(
-                    $"Error while refreshing token: {response.Error}. Code: {response.HttpStatusCode}. Reason: {response.HttpErrorReason}");
+            using (var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret)) {
+                var response =
+                    await client.RequestRefreshTokenAsync(refreshToken, additionalValues).ConfigureAwait(false);
+                if (response.IsError) {
+                    if (response.Error == "invalid_grant")
+                        throw new RefreshTokenInvalidException(response.Error);
+                    throw new Exception(
+                        $"Error while refreshing token: {response.Error}. Code: {response.HttpStatusCode}. Reason: {response.HttpErrorReason}");
+                }
+                return new TokenResponse(response.Raw);
             }
-            return new TokenResponse(response.Raw);
         }
 
         public async Task<UserInfoResponse> GetUserInfo(Uri userInfoEndpoint, string accessToken) {
@@ -68,6 +71,7 @@ namespace withSIX.Mini.Infra.Data.Services
             return new AuthorizeResponse(currentUri.AbsoluteUri);
         }
 
+        // TODO: Re-use (uses HttpClient)?
         static TokenClient GetOAuthClient(Uri endpoint, string clientId, string clientSecret)
             => new TokenClient(endpoint.ToString(), clientId, clientSecret);
     }
