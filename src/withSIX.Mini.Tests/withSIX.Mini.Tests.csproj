@@ -354,6 +354,10 @@
       <HintPath>..\packages\withSIX.Api.Models.2.2.2\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.0.0\lib\net35\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arma\ServersTest.cs" />
@@ -363,6 +367,7 @@
     <Compile Include="InvariantTest.cs" />
     <Compile Include="LocalAddin.cs" />
     <Compile Include="Playground\Apis\W6Api.cs" />
+    <Compile Include="Playground\YamlTest.cs" />
     <Compile Include="ProgressTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SteamDownloaderTest.cs" />
