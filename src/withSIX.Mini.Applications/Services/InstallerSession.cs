@@ -98,19 +98,13 @@ namespace withSIX.Mini.Applications.Services
         private ProgressComponent _steamProgress;
         private readonly ISteamHelperRunner _steamHelperRunner;
 
-        public InstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
-            PremiumDelegate isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
+        public InstallerSession(IToolsCheat toolsInstaller,
+            PremiumDelegate isPremium, IContentEngine contentEngine,
             IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner, IW6Api api) {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
             if (toolsInstaller == null)
                 throw new ArgumentNullException(nameof(toolsInstaller));
-            if (statusChange == null)
-                throw new ArgumentNullException(nameof(statusChange));
             _toolsInstaller = toolsInstaller;
-            _statusChange = statusChange;
             _contentEngine = contentEngine;
-            _action = action;
             _dl = dl;
             _steamHelperRunner = steamHelperRunner;
             _progress = new ProgressComponent("Stage");
@@ -155,8 +149,13 @@ namespace withSIX.Mini.Applications.Services
         }
 
         public void Activate(IInstallContentAction<IInstallableContent> action, Func<ProgressInfo, Task> statusChange) {
+            // TODO: Rather pass at the entry?
             _action = action;
             _statusChange = statusChange;
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+            if (statusChange == null)
+                throw new ArgumentNullException(nameof(statusChange));
         }
 
         private async Task ProcessStates() {
