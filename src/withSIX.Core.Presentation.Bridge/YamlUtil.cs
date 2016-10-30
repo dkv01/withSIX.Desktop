@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -20,7 +21,6 @@ using withSIX.Sync.Core.Legacy;
 using YamlDotNet.Core;
 using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace withSIX.Core.Presentation.Bridge
 {
@@ -28,6 +28,13 @@ namespace withSIX.Core.Presentation.Bridge
     // So we want to move this out to the highest layer, and DI it.
     public class YamlUtil : IYamlUtil, IPresentationService
     {
+        internal static readonly Deserializer Deserializer = new DeserializerBuilder()
+            .IgnoreUnmatchedProperties()
+            .WithNamingConvention(new CustomCamelCaseNamingConvention())
+            .Build();
+        private static readonly Serializer serializer = new SerializerBuilder()
+            .WithNamingConvention(new CustomCamelCaseNamingConvention()).Build();
+
         [Obsolete("Use extensions")]
         public Task<T> GetYaml<T>(Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
             => uri.GetYaml<T>(ct, token);
@@ -45,7 +52,6 @@ namespace withSIX.Core.Presentation.Bridge
         public string ToYaml(object graph) {
             Contract.Requires<ArgumentNullException>(graph != null);
 
-            var serializer = new Serializer();
             using (var text = new StringWriter()) {
                 text.Write("--- \r\n");
                 var emitter = new Emitter(text);
@@ -184,6 +190,22 @@ namespace withSIX.Core.Presentation.Bridge
 
         public Dictionary<string, string> GetStringDictionary(YamlNode node)
             => GetStringDictionaryInternal(node) ?? new Dictionary<string, string>();
+
+
+        public sealed class CustomCamelCaseNamingConvention : INamingConvention
+        {
+            public string Apply(string value) {
+                value = value?.ToUnderscore();
+                var s = (value != null) && !value.StartsWith(":") ? ":" + value : value;
+                return s;
+            }
+
+            //readonly INamingConvention convention = new UnderscoredNamingConvention();
+            //public string Apply(string value) {
+            //var s = (value == null) || !value.StartsWith(":") ? value : value.Substring(1);
+            //return convention.Apply(s);
+            //}
+        }
     }
 
     public static class YamlIoExtensions
@@ -249,9 +271,7 @@ namespace withSIX.Core.Presentation.Bridge
 
         public static T FromYaml<T>(this string c) {
             using (var stringReader = new StringReader(c))
-                return
-                    new Deserializer(ignoreUnmatched: true, namingConvention: new CustomCamelCaseNamingConvention())
-                        .Deserialize<T>(stringReader);
+                return YamlUtil.Deserializer.Deserialize<T>(stringReader);
         }
 
         public static async Task<string> GetYamlText(this Uri uri, CancellationToken ct = default(CancellationToken),
@@ -284,15 +304,57 @@ namespace withSIX.Core.Presentation.Bridge
                 }
             }
         }
+    }
 
-        public sealed class CustomCamelCaseNamingConvention : INamingConvention
-        {
-            readonly INamingConvention convention = new UnderscoredNamingConvention();
 
-            public string Apply(string value) {
-                var s = (value == null) || !value.StartsWith(":") ? value : value.Substring(1);
-                return convention.Apply(s);
-            }
+    /// <summary>
+    ///     Various string extension methods
+    /// </summary>
+    internal static class StringExtensions
+    {
+        private static string ToCamelOrPascalCase(string str, Func<char, char> firstLetterTransform) {
+            var text = Regex.Replace(str, "([_\\-])(?<char>[a-z])",
+                match => match.Groups["char"].Value.ToUpperInvariant(), RegexOptions.IgnoreCase);
+            return firstLetterTransform(text[0]) + text.Substring(1);
+        }
+
+
+        /// <summary>
+        ///     Convert the string with underscores (this_is_a_test) or hyphens (this-is-a-test) to
+        ///     camel case (thisIsATest). Camel case is the same as Pascal case, except the first letter
+        ///     is lowercase.
+        /// </summary>
+        /// <param name="str">String to convert</param>
+        /// <returns>Converted string</returns>
+        public static string ToCamelCase(this string str) {
+            return ToCamelOrPascalCase(str, char.ToLowerInvariant);
+        }
+
+        /// <summary>
+        ///     Convert the string with underscores (this_is_a_test) or hyphens (this-is-a-test) to
+        ///     pascal case (ThisIsATest). Pascal case is the same as camel case, except the first letter
+        ///     is uppercase.
+        /// </summary>
+        /// <param name="str">String to convert</param>
+        /// <returns>Converted string</returns>
+        public static string ToPascalCase(this string str) {
+            return ToCamelOrPascalCase(str, char.ToUpperInvariant);
+        }
+
+        /// <summary>
+        ///     Convert the string from camelcase (thisIsATest) to a hyphenated (this-is-a-test) or
+        ///     underscored (this_is_a_test) string
+        /// </summary>
+        /// <param name="str">String to convert</param>
+        /// <param name="separator">Separator to use between segments</param>
+        /// <returns>Converted string</returns>
+        public static string FromCamelCase(this string str, string separator) {
+            // Ensure first letter is always lowercase
+            str = char.ToLower(str[0]) + str.Substring(1);
+
+            str = Regex.Replace(str.ToCamelCase(), "(?<char>[A-Z])",
+                match => separator + match.Groups["char"].Value.ToLowerInvariant());
+            return str;
         }
     }
 }
