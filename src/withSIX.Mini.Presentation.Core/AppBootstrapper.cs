@@ -150,6 +150,7 @@ namespace withSIX.Mini.Presentation.Core
         protected virtual void EndOv() => End().WaitAndUnwrapException();
 
         protected virtual void ConfigureInstances() {
+            AppBootstrapperExt.StartSQLite();
             Game.SteamHelper = SteamHelper.Create(); // TODO: Move
             var bridge = Container.GetInstance<IBridge>();
             GameContextJsonImplementation.Settings = bridge.GameContextSettings();
@@ -330,7 +331,7 @@ namespace withSIX.Mini.Presentation.Core
             ConfigureContainer();
             RegisterServices();
             RegisterViews();
-            Container.Register(async () => {
+            RegisterApi(Container, async () => {
                 var sContext = Container.GetInstance<IDbContextLocator>().GetSettingsContext();
                 return (await sContext.GetSettings().ConfigureAwait(false)).Secure.Login?.Authentication.AccessToken;
             });
@@ -345,7 +346,7 @@ namespace withSIX.Mini.Presentation.Core
             Container.Register<IInstallerSession, InstallerSession>();
         }
 
-        public static void Register(Container c, Func<Task<string>> authGetter) {
+        public static void RegisterApi(Container c, Func<Task<string>> authGetter) {
             c.RegisterSingleton(W6Api.Create(authGetter));
             c.RegisterSingleton(W6Api.Create());
             c.RegisterSingleton<IW6Api>(() => new W6Api(c.GetInstance<IW6MainApi>(), c.GetInstance<IW6CDNApi>(), W6Api.CreatePolicy()));
@@ -472,7 +473,6 @@ namespace withSIX.Mini.Presentation.Core
 
             RegisterMediator();
             RegisterMessageBus();
-            withSIX.Core.Presentation.AppBootstrapperExt.StartSQLite();
             RegisterDownloader();
             RegisterTools();
             RegisterCaches();
