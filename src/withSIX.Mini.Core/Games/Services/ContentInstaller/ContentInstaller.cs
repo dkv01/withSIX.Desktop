@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Content;
@@ -36,18 +37,22 @@ namespace withSIX.Mini.Core.Games.Services.ContentInstaller
             => !status.Install.Any() && !status.Uninstall.Any() && !status.Update.Any();
     }
 
+    public delegate Task EventRaiser(StatusChanged evt);
+
     public class ContentInstaller : IContentInstallationService, IDomainService
     {
         public static readonly string SyncBackupDir = @".sync-backup";
         readonly ContentCleaner _cleaner;
-        readonly Func<StatusChanged, Task> _eventRaiser;
+        readonly EventRaiser _eventRaiser;
         readonly IGameLocker _gameLocker;
         readonly IINstallerSessionFactory _sessionFactory;
+        private readonly IW6Api _api;
 
-        public ContentInstaller(Func<StatusChanged, Task> eventRaiser, IGameLocker gameLocker,
-            IINstallerSessionFactory sessionFactory) {
+        public ContentInstaller(EventRaiser eventRaiser, IGameLocker gameLocker,
+            IINstallerSessionFactory sessionFactory, IW6Api api) {
             _eventRaiser = eventRaiser;
             _sessionFactory = sessionFactory;
+            _api = api;
             _gameLocker = gameLocker;
             _cleaner = new ContentCleaner();
         }
@@ -69,7 +74,7 @@ namespace withSIX.Mini.Core.Games.Services.ContentInstaller
             await session.Uninstall().ConfigureAwait(false);
 
             if (!action.Status.IsEmpty())
-                await PostInstallStatusOverview(action.Status).ConfigureAwait(false);
+                await PostInstallStatusOverview(action.Status, action.CancelToken).ConfigureAwait(false);
         }
 
         async Task TryInstall(IInstallContentAction<IInstallableContent> action) {
@@ -91,7 +96,7 @@ namespace withSIX.Mini.Core.Games.Services.ContentInstaller
                 await (await CreateSession(action).ConfigureAwait(false)).Synchronize().ConfigureAwait(false);
             } finally {
                 if (!action.Status.IsEmpty())
-                    await PostInstallStatusOverview(action.Status).ConfigureAwait(false);
+                    await PostInstallStatusOverview(action.Status, action.CancelToken).ConfigureAwait(false);
             }
         }
 
@@ -101,8 +106,8 @@ namespace withSIX.Mini.Core.Games.Services.ContentInstaller
 
         // TODO: Post this to an async Queue that processes and retries in the background instead? (and perhaps merges queued items etc??)
         // And make the errors non fatal..
-        static Task PostInstallStatusOverview(InstallStatusOverview statusOverview)
-            => Tools.Transfer.PostJson(statusOverview, new Uri(CommonUrls.SocialApiUrl, "/api/stats"));
+        Task PostInstallStatusOverview(InstallStatusOverview statusOverview, CancellationToken ct)
+            => _api.CreateStatusOverview(statusOverview, ct);
 
         Task StatusChange(Status status, ProgressInfo info) => _eventRaiser(new StatusChanged(status, info));
 

@@ -459,12 +459,9 @@ namespace withSIX.Mini.Presentation.Core
                             Container.GetInstance<IDialogManager>()),
                         _paths.ToolPath));
 
-            Container.RegisterSingleton(() => new PremiumDelegate(_isPremium));
-            Container.RegisterSingleton<IContentInstallationService>(
-                () =>
-                    new ContentInstaller(evt => evt.Raise(), Container.GetInstance<IGameLocker>(),
-                        Container.GetInstance<IINstallerSessionFactory>()));
-
+            Container.RegisterSingleton<PremiumDelegate>(() => _isPremium());
+            Container.RegisterSingleton<EventRaiser>(evt => evt.Raise());
+            Container.RegisterSingleton<IContentInstallationService, ContentInstaller>();
             Container.Register<IRequestScope, RequestScope>(Lifestyle.Scoped);
             Container.RegisterSingleton<IRequestScopeLocator, RequestScopeService>();
 
