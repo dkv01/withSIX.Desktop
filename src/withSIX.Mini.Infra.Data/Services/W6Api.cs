@@ -43,7 +43,7 @@ namespace withSIX.Mini.Infra.Data.Services
         // Auth is optional
         [Headers("Authorization: Bearer")]
         [Get("/api/collections")]
-        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, CsvList<Guid> ids, CancellationToken ct);
+        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, string ids2, CancellationToken ct);
     }
 
     public interface IW6CDNApi : JsonApi
@@ -65,7 +65,9 @@ namespace withSIX.Mini.Infra.Data.Services
         private RetryPolicy _policy;
         public const string ApiCdn = "http://withsix-api.azureedge.net/api/v3";
 
-        public static IW6MainApi Create([NotNull] Func<Task<string>> authGetter) => Create<IW6MainApi>(CommonUrls.SocialApiUrl, authGetter);
+        public static IW6MainApi Create([NotNull] Func<Task<string>> authGetter)
+            => Create<IW6MainApi>(CommonUrls.SocialApiUrl, authGetter);
+
         public static IW6CDNApi Create() => Create<IW6CDNApi>(new Uri(ApiCdn));
 
         public W6Api(IW6MainApi api, IW6CDNApi cdn, RetryPolicy policy) {
@@ -74,9 +76,9 @@ namespace withSIX.Mini.Infra.Data.Services
             _policy = policy;
         }
 
-        public Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, CsvList<Guid> ids,
+        public Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, List<Guid> ids,
                 CancellationToken ct) =>
-            Wrap(t => _api.Collections(gameId, ids, t), ct);
+            Wrap(t => _api.Collections(gameId, string.Join(",", ids), t), ct);
 
         public Task<Core.Games.ApiHashes> Hashes(Guid gameId, CancellationToken ct) =>
             Wrap(t => _cdn.Hashes(gameId, t), ct);
@@ -133,6 +135,7 @@ namespace withSIX.Mini.Infra.Data.Services
                 HttpStatusCode.ServiceUnavailable,
                 HttpStatusCode.RequestTimeout
             });
+
             public static bool IsTransient(Exception exception) {
                 var apiException = exception as ApiException;
                 if (apiException != null) {
@@ -141,12 +144,50 @@ namespace withSIX.Mini.Infra.Data.Services
                 return exception is HttpRequestException || exception is OperationCanceledException;
             }
         }
+
         /*
-// Usage
-catch (Exception transientEx) when(TransientExceptionHelper.IsTransient(transientEx))
-{
-    // Handle retries
-}
-         */
+        // Usage
+        catch (Exception transientEx) when(TransientExceptionHelper.IsTransient(transientEx))
+        {
+            // Handle retries
+        }
+                 */
+    }
+
+
+
+    // https://github.com/paulcbetts/refit/issues/93
+    // doesnt include the multiple &key=, so should adjust server then, if possible
+    public class CsvList<T>
+    {
+        IEnumerable<T> values;
+
+        // Unfortunately, you have to use a concrete type rather than IEnumerable<T> here
+        public static implicit operator CsvList<T>(List<T> values) {
+            return new CsvList<T> { values = values };
+        }
+
+        public override string ToString() {
+            if (values == null)
+                return null;
+            return string.Join(",", values);
+        }
+    }
+
+    // bad
+    public class CsvList2<T>
+    {
+        string name;
+        IEnumerable<T> values;
+
+        public static CsvList2<T> Create(List<T> values, string name) {
+            return new CsvList2<T> { values = values, name = name };
+        }
+
+        public override string ToString() {
+            if (values == null)
+                return null;
+            return string.Join($"&ids=", values);
+        }
     }
 }
