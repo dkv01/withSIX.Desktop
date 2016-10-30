@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -48,10 +49,10 @@ namespace withSIX.Mini.Infra.Data.Services
 
     public interface IW6CDNApi : JsonApi
     {
-        [Get("hashes-{gameId}.json.gz")]
+        [Get("/hashes-{gameId}.json.gz")]
         Task<withSIX.Mini.Core.Games.ApiHashes> Hashes(Guid gameId, CancellationToken ct);
 
-        [Get("mods-{gameId}.json.gz")]
+        [Get("/mods-{gameId}.json.gz")]
         Task<List<ModClientApiJson>> Mods(Guid gameId, string version, CancellationToken ct);
     }
 
@@ -60,9 +61,9 @@ namespace withSIX.Mini.Infra.Data.Services
 
     public class W6Api : IW6Api
     {
-        private IW6MainApi _api;
-        private IW6CDNApi _cdn;
-        private RetryPolicy _policy;
+        private readonly IW6MainApi _api;
+        private readonly IW6CDNApi _cdn;
+        private readonly RetryPolicy _policy;
         public const string ApiCdn = "http://withsix-api.azureedge.net/api/v3";
 
         public static IW6MainApi Create([NotNull] Func<Task<string>> authGetter)
@@ -102,15 +103,21 @@ namespace withSIX.Mini.Infra.Data.Services
         private Task Wrap(Func<CancellationToken, Task> fnc, CancellationToken ct)
             => _policy.ExecuteAsync(fnc, ct);
 
-        public static T Create<T>(Uri baseAddr, Func<Task<string>> authGetter = null) {
-            // todo: the lifetime of the httpclient should generally be singleton
-            // however care needs to be taken because of DNS cache etc, which might make cloud hosts hopping dns not so fast informing our client :)
-            var httpClient = DownloaderExtensions.GetHttpClient();
-            httpClient.BaseAddress = baseAddr;
-            return RestService.For<T>(httpClient, new RefitSettings {
+        // todo: the lifetime of the httpclient should generally be singleton
+        // however care needs to be taken because of DNS cache etc, which might make cloud hosts hopping dns not so fast informing our client :)
+        public static T Create<T>(Uri baseAddr, Func<Task<string>> authGetter = null)
+            => RestService.For<T>(CreateHttpClient(baseAddr), new RefitSettings {
                 AuthorizationHeaderValueGetter = authGetter,
                 JsonSerializerSettings = JsonSupport.DefaultSettings
             });
+
+        private static HttpClient CreateHttpClient(Uri baseAddr) {
+            var httpClient = DownloaderExtensions.GetHttpClient();
+            httpClient.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.BaseAddress = baseAddr;
+            return httpClient;
         }
 
         // TODO: PollyAppraoch
