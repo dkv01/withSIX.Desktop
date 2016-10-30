@@ -104,6 +104,9 @@
         <file src="..\..\..\bin\SQLitePCLRaw.batteries_e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.batteries_e_sqlite3.dll" />
         <file src="..\..\..\bin\SQLitePCLRaw.core.dll" target="lib\net45\SQLitePCLRaw.core.dll" />
         <file src="..\..\..\bin\SQLitePCLRaw.provider.e_sqlite3.dll" target="lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll" />
+		
+		<file src="..\..\..\bin\Polly.dll" target="lib\net45\Polly.dll" />
+		<file src="..\..\..\bin\Refit.dll" target="lib\net45\Refit.dll" />
 
         <file src="..\..\..\bin\Synercoding.Encryption.dll" target="lib\net45\Synercoding.Encryption.dll" />
         <file src="..\..\..\bin\WpfAnimatedGif.dll" target="lib\net45\WpfAnimatedGif.dll" />
