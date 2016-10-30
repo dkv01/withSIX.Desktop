@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Core;
@@ -36,19 +37,15 @@ namespace withSIX.Mini.Core.Social
         [DataMember]
         public string Name { get; set; }
 
-        public async Task Load(string token) {
-            Access = await GetGroupAccess(token).ConfigureAwait(false);
-            Content = await GetGroupContent(token).ConfigureAwait(false);
+        public async Task Load(IW6Api api, CancellationToken ct) {
+            Access = await GetGroupAccess(api, ct).ConfigureAwait(false);
+            Content = await GetGroupContent(api, ct).ConfigureAwait(false);
         }
 
-        private Task<GroupAccess> GetGroupAccess(string token)
-            => Tools.Transfer.GetJson<GroupAccess>(GetGroupUri("/access"), token: token);
+        private Task<GroupAccess> GetGroupAccess(IW6Api api, CancellationToken ct) => api.GroupAccess(Id, ct);
 
-        private Task<List<GroupContent>> GetGroupContent(string token)
-            => Tools.Transfer.GetJson<List<GroupContent>>(GetGroupUri("/contents"), token: token);
-
-        private Uri GetGroupUri(string subPath = null) => new Uri(CommonUrls.SocialApiUrl,
-            "api/groups/" + Id + subPath);
+        private Task<List<GroupContent>> GetGroupContent(IW6Api api, CancellationToken ct)
+            => api.GroupContent(Id, ct);
 
         public bool HasMod(string name)
             => Content.Any(x => x.PackageName.Equals(name, StringComparison.CurrentCultureIgnoreCase));

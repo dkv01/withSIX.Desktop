@@ -37,11 +37,6 @@ namespace withSIX.Core
 
             // TODO: Missing serializersettings?
             [Obsolete("Use extensions")]
-            public Task<T> GetJson<T>(Uri uri, CancellationToken ct = default(CancellationToken), string token = null)
-                => uri.GetJson<T>(ct, token);
-
-            // TODO: Missing serializersettings?
-            [Obsolete("Use extensions")]
             public Task<string> PostJson(object model, Uri uri, CancellationToken ct = default(CancellationToken),
                     string token = null)
                 => model.PostJson(uri, ct, token);

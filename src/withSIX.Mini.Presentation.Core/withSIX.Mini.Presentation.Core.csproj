@@ -227,6 +227,9 @@
     <Reference Include="Mono.Options">
       <HintPath>..\packages\Mono.Options.4.4.0.0\lib\dnxcore\Mono.Options.dll</HintPath>
     </Reference>
+    <Reference Include="Polly">
+      <HintPath>..\packages\Polly.4.3.0\lib\net45\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping">
       <HintPath>..\..\..\..\..\Users\proza\.nuget\packages\SimpleInjector.Extensions.ExecutionContextScoping\3.2.2\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
     </Reference>

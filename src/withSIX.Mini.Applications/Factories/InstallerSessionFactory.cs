@@ -18,21 +18,12 @@ namespace withSIX.Mini.Applications.Factories
 
     public class InstallerSessionFactory : IINstallerSessionFactory, IApplicationService
     {
-        private readonly IAuthProvider _authProvider;
-        readonly IContentEngine _contentEngine;
-        readonly PremiumDelegate _isPremium;
-        readonly IToolsCheat _toolsInstaller;
-        private readonly IExternalFileDownloader _dl;
         private readonly ISteamHelperRunner _steamHelperRunner;
+        private readonly Func<IInstallerSession> _fact;
 
-        public InstallerSessionFactory(PremiumDelegate isPremium, IToolsCheat toolsInstaller,
-            IContentEngine contentEngine, IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner) {
-            _isPremium = isPremium;
-            _toolsInstaller = toolsInstaller;
-            _contentEngine = contentEngine;
-            _authProvider = authProvider;
-            _dl = dl;
+        public InstallerSessionFactory(ISteamHelperRunner steamHelperRunner, Func<IInstallerSession> fact) {
             _steamHelperRunner = steamHelperRunner;
+            _fact = fact;
         }
 
         public IInstallerSession Create(
@@ -40,8 +31,9 @@ namespace withSIX.Mini.Applications.Factories
             Func<ProgressInfo, Task> progress) {
             switch (action.InstallerType) {
             case InstallerType.Synq:
-                return new InstallerSession(action, _toolsInstaller, _isPremium, progress, _contentEngine,
-                    _authProvider, _dl, _steamHelperRunner);
+                var i = _fact();
+                i.Activate(action, progress);
+                return i;
             default:
                 throw new NotSupportedException(action.InstallerType + " is not supported!");
             }

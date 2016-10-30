@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AMProfile.cs" />
+    <Compile Include="Api.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="CoreCheat.cs" />
     <Compile Include="Extensions\ContentActionExtensions.cs" />

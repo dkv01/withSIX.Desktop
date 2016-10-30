@@ -24,6 +24,7 @@ using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Factories;
+using withSIX.Mini.Core;
 using withSIX.Mini.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
@@ -42,7 +43,7 @@ namespace withSIX.Mini.Applications.Services
 {
     public class InstallerSession : IInstallerSession
     {
-        readonly IInstallContentAction<IInstallableContent> _action;
+        IInstallContentAction<IInstallableContent> _action;
 
         private readonly Dictionary<IContent, SpecificVersion> _completed = new Dictionary<IContent, SpecificVersion>();
         readonly IContentEngine _contentEngine;
@@ -55,7 +56,7 @@ namespace withSIX.Mini.Applications.Services
         private readonly ProgressComponent _progress;
         private readonly SixSyncInstaller _sixSyncInstaller;
         private readonly Dictionary<IContent, SpecificVersion> _started = new Dictionary<IContent, SpecificVersion>();
-        readonly Func<ProgressInfo, Task> _statusChange;
+        Func<ProgressInfo, Task> _statusChange;
         readonly IToolsCheat _toolsInstaller;
         private IDictionary<IPackagedContent, SpecificVersion> _allContentToInstall;
         private Dictionary<IContent, SpecificVersion> _allInstallableContent =
@@ -99,23 +100,23 @@ namespace withSIX.Mini.Applications.Services
 
         public InstallerSession(IInstallContentAction<IInstallableContent> action, IToolsCheat toolsInstaller,
             PremiumDelegate isPremium, Func<ProgressInfo, Task> statusChange, IContentEngine contentEngine,
-            IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner) {
+            IAuthProvider authProvider, IExternalFileDownloader dl, ISteamHelperRunner steamHelperRunner, IW6Api api) {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
             if (toolsInstaller == null)
                 throw new ArgumentNullException(nameof(toolsInstaller));
             if (statusChange == null)
                 throw new ArgumentNullException(nameof(statusChange));
-            _action = action;
             _toolsInstaller = toolsInstaller;
             _statusChange = statusChange;
             _contentEngine = contentEngine;
+            _action = action;
             _dl = dl;
             _steamHelperRunner = steamHelperRunner;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
             _packageInstaller = new PackageInstaller(_action, () => isPremium());
-            _sixSyncInstaller = new SixSyncInstaller(_action, TryLegacyStatusChange, authProvider);
+            _sixSyncInstaller = new SixSyncInstaller(_action, TryLegacyStatusChange, authProvider, api);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
         }
 
@@ -151,6 +152,11 @@ namespace withSIX.Mini.Applications.Services
                     _action.Paths.Path.GetChildDirectoryWithName(content.PackageName),
                     content.GameId), _action.Game).ConfigureAwait(false);
             }
+        }
+
+        public void Activate(IInstallContentAction<IInstallableContent> action, Func<ProgressInfo, Task> statusChange) {
+            _action = action;
+            _statusChange = statusChange;
         }
 
         private async Task ProcessStates() {
@@ -712,12 +718,14 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private StatusRepo _statusRepo;
             internal IReadOnlyCollection<Group> Groups = new List<Group>();
             internal IReadOnlyCollection<CustomRepo> Repositories = new List<CustomRepo>();
+            private IW6Api _api;
 
             public SixSyncInstaller(IInstallContentAction<IInstallableContent> action,
-                Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider) {
+                Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider, IW6Api api) {
                 _tryLegacyStatusChange = tryLegacyStatusChange;
                 _action = action;
                 _authProvider = authProvider;
+                _api = api;
                 _statusRepo = new StatusRepo(_action.CancelToken);
             }
 
@@ -806,9 +814,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                     .Where(x => x.GroupId.HasValue)
                     .Select(x => new Group(x.GroupId.Value, "Unknown"))
                     .ToArray();
-                var token = await _authProvider.GetToken().ConfigureAwait(false);
                 foreach (var g in Groups)
-                    await g.Load(token).ConfigureAwait(false);
+                    await g.Load(_api, _action.CancelToken).ConfigureAwait(false);
             }
         }
 

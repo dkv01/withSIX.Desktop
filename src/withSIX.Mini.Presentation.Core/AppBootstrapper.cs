@@ -330,6 +330,10 @@ namespace withSIX.Mini.Presentation.Core
             ConfigureContainer();
             RegisterServices();
             RegisterViews();
+            Container.Register(async () => {
+                var sContext = Container.GetInstance<IDbContextLocator>().GetSettingsContext();
+                return (await sContext.GetSettings().ConfigureAwait(false)).Secure.Login?.Authentication.AccessToken;
+            });
 
             if (CommandMode)
                 RegisterPlugins<BaseCommand>(_presentationAssemblies);
@@ -337,7 +341,16 @@ namespace withSIX.Mini.Presentation.Core
             var serviceReg = new ServiceRegisterer(Container);
             foreach (var t in GetTypes<ServiceRegistry>(pluginAssemblies))
                 Activator.CreateInstance(t, serviceReg);
+
+            Container.Register<IInstallerSession, InstallerSession>();
         }
+
+        public static void Register(Container c, Func<Task<string>> authGetter) {
+            c.RegisterSingleton(W6Api.Create(authGetter));
+            c.RegisterSingleton(W6Api.Create());
+            c.RegisterSingleton<IW6Api>(() => new W6Api(c.GetInstance<IW6MainApi>(), c.GetInstance<IW6CDNApi>(), W6Api.CreatePolicy()));
+        }
+
 
         protected abstract IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies);
 

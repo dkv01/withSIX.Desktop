@@ -155,6 +155,7 @@
     <Compile Include="Services\SteamHelperRunner.cs" />
     <Compile Include="Services\SteamHelperService.cs" />
     <Compile Include="Services\TokenRefresher.cs" />
+    <Compile Include="Services\W6Api.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
@@ -200,6 +201,12 @@
     </Reference>
     <Reference Include="Akavache.Sqlite3">
       <HintPath>..\dll\Akavache.Sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly">
+      <HintPath>..\packages\Polly.4.3.0\lib\net45\Polly.dll</HintPath>
+    </Reference>
+    <Reference Include="Refit">
+      <HintPath>..\packages\refit.3.0.1\lib\net46\Refit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -8,14 +8,15 @@ using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Threading;
 using System.Threading.Tasks;
 using Akavache;
 using withSIX.Api.Models.Games;
-using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Cache;
 using withSIX.Core.Infra.Services;
 using withSIX.Mini.Applications.Services;
+using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Infra.Data.ApiModels;
 
@@ -25,17 +26,19 @@ namespace withSIX.Mini.Infra.Data
     {
         private static readonly Uri apiCdnHost = new Uri("http://withsix-api.azureedge.net");
         private readonly IApiLocalCache _cache;
+        private readonly IW6Api _api;
         private readonly Dictionary<string, object> _tempCache = new Dictionary<string, object>();
 
-        public ApiContext(IApiLocalCache cache) {
+        public ApiContext(IApiLocalCache cache, IW6Api api) {
             _cache = cache;
+            _api = api;
         }
 
         public Task<List<ModClientApiJsonV3WithGameId>> GetMods(Guid gameId, string version)
             => GetOrCreateInTempCache($"{gameId}_{version}", () => GetOrFetchAndCache(gameId, version));
 
-        public Task<ApiHashes> GetHashes(Guid gameId)
-            => GetOrCreateInTempCache($"{gameId}_hashes", () => GetApiHashes(gameId));
+        public Task<ApiHashes> GetHashes(Guid gameId, CancellationToken ct)
+            => GetOrCreateInTempCache($"{gameId}_hashes", () => GetApiHashes(gameId, ct));
 
         public Task<List<IPEndPoint>> GetOrAddServers(Guid gameId, Func<Task<List<IPEndPoint>>> factory)
             => _cache.GetOrFetchObject($"{gameId}_servers", factory, TimeSpan.FromMinutes(5).GetAbsoluteUtcOffset())
@@ -61,8 +64,8 @@ namespace withSIX.Mini.Infra.Data
             return result;
         }
 
-        private Task<ApiHashes> GetApiHashes(Guid gameId)
-            => Tools.Transfer.GetJson<ApiHashes>(new Uri(apiCdnHost, $"/api/v3/hashes-{gameId}.json.gz"));
+        private Task<ApiHashes> GetApiHashes(Guid gameId, CancellationToken ct)
+            => _api.Hashes(gameId, ct);
 
         private async Task<List<ModClientApiJsonV3WithGameId>> Retrieve(Guid gameId, string version) {
             var content =
