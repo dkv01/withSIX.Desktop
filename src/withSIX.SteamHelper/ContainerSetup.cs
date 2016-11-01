@@ -81,8 +81,9 @@ namespace withSIX.Steam.Presentation
             _container.RegisterSingleton<IMessageBusProxy, MessageBusProxy>();
             _container.RegisterSingleton<ISteamHelper>(SteamHelper.Create());
             _container.RegisterPlugins<IHandleExceptionPlugin>(_assemblies, Lifestyle.Singleton);
-            _container.RegisterSingleton<ISteamSessionFactory, SteamSession.SteamSessionFactory>();
-            _container.RegisterSingleton<ISteamSessionLocator, SteamSession.SteamSessionFactory>();
+            _container.RegisterSingleton<SteamSession.SteamSessionFactory>();
+            _container.RegisterSingleton<ISteamSessionFactory>(_container.GetInstance<SteamSession.SteamSessionFactory>);
+            _container.RegisterSingleton<ISteamSessionLocator>(_container.GetInstance<SteamSession.SteamSessionFactory>);
             _container.RegisterSingleton<IServiceMessenger, ServiceMessenger>();
             _container.RegisterSingleton<ISteamDownloader, SteamDownloader>();
             _container.RegisterSingleton<Api.Services.ISteamApi, SteamApi>();
