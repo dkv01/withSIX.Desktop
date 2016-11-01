@@ -850,13 +850,12 @@ Click CONTINUE to open the download page and follow the instructions until the d
         {
             private IInstallContentAction<IInstallableContent> _action;
             private readonly Func<bool> _getIsPremium;
-            private readonly StatusRepo _statusRepo;
+            private StatusRepo _statusRepo;
             private PackageManager _pm;
             private bool _synqInitialized;
 
             public PackageInstaller(Func<bool> getIsPremium) {
                 _getIsPremium = getIsPremium;
-                _statusRepo = new StatusRepo(_action.CancelToken);
             }
 
             private async Task UpdateSynqRemotes() {
@@ -870,6 +869,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
             public async Task<Package[]> Install(IInstallContentAction<IInstallableContent> action, IDictionary<IPackagedContent, SpecificVersion> packagesToInstall,
                 PackageProgress packageProgress, IAbsoluteDirectoryPath repoPath) {
                 _action = action;
+                _statusRepo = new StatusRepo(_action.CancelToken);
+
                 using (var repo = new Repository(repoPath, true)) {
                     SetupPackageManager(repo);
                     if (!_synqInitialized) {
