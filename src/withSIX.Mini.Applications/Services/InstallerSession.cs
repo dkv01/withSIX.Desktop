@@ -109,8 +109,8 @@ namespace withSIX.Mini.Applications.Services
             _steamHelperRunner = steamHelperRunner;
             _progress = new ProgressComponent("Stage");
             _averageSpeed = new AverageContainer2(20);
-            _packageInstaller = new PackageInstaller(_action, () => isPremium());
-            _sixSyncInstaller = new SixSyncInstaller(_action, TryLegacyStatusChange, authProvider, api);
+            _packageInstaller = new PackageInstaller(() => isPremium());
+            _sixSyncInstaller = new SixSyncInstaller(TryLegacyStatusChange, authProvider, api);
             //_progress.AddComponents(_preparingProgress = new ProgressLeaf("Preparing"));
         }
 
@@ -167,7 +167,7 @@ namespace withSIX.Mini.Applications.Services
         private async Task PerformInstallation() {
             try {
                 using (new TimerWithElapsedCancellationAsync(500, () => TryStatusChange())) {
-                    await _sixSyncInstaller.PrepareGroupsAndRepositories().ConfigureAwait(false);
+                    await _sixSyncInstaller.PrepareGroupsAndRepositories(_action).ConfigureAwait(false);
                     await InstallContent().ConfigureAwait(false);
                 }
             } catch (AggregateException ex) {
@@ -581,7 +581,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
             try {
                 await
-                    _packageInstaller.Install(_packagesToInstall, _action.Force, _packageProgress, _repoPath)
+                    _packageInstaller.Install(_action, _packagesToInstall, _packageProgress, _repoPath)
                         .ConfigureAwait(false);
             } finally {
                 ProcessSessionResults(_packageInstaller);
@@ -710,25 +710,24 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
         class SixSyncInstaller : Session
         {
-            readonly IInstallContentAction<IInstallableContent> _action;
+            IInstallContentAction<IInstallableContent> _action;
             private readonly IAuthProvider _authProvider;
 
             private readonly Func<double, long?, Task> _tryLegacyStatusChange;
             private StatusRepo _statusRepo;
             internal IReadOnlyCollection<Group> Groups = new List<Group>();
             internal IReadOnlyCollection<CustomRepo> Repositories = new List<CustomRepo>();
-            private IW6Api _api;
+            private readonly IW6Api _api;
 
-            public SixSyncInstaller(IInstallContentAction<IInstallableContent> action,
-                Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider, IW6Api api) {
+            public SixSyncInstaller(Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider, IW6Api api) {
                 _tryLegacyStatusChange = tryLegacyStatusChange;
-                _action = action;
                 _authProvider = authProvider;
                 _api = api;
-                _statusRepo = new StatusRepo(_action.CancelToken);
             }
 
-            public async Task PrepareGroupsAndRepositories() {
+            public async Task PrepareGroupsAndRepositories(IInstallContentAction<IInstallableContent> action) {
+                _action = action;
+                _statusRepo = new StatusRepo(_action.CancelToken);
                 //_preparingProgress.Progress = 50;
                 await HandleGroups().ConfigureAwait(false);
                 //_preparingProgress.Progress = 70;
@@ -849,14 +848,13 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
         class PackageInstaller : Session
         {
-            private readonly IInstallContentAction<IInstallableContent> _action;
+            private IInstallContentAction<IInstallableContent> _action;
             private readonly Func<bool> _getIsPremium;
             private readonly StatusRepo _statusRepo;
             private PackageManager _pm;
             private bool _synqInitialized;
 
-            public PackageInstaller(IInstallContentAction<IInstallableContent> action, Func<bool> getIsPremium) {
-                _action = action;
+            public PackageInstaller(Func<bool> getIsPremium) {
                 _getIsPremium = getIsPremium;
                 _statusRepo = new StatusRepo(_action.CancelToken);
             }
@@ -869,8 +867,9 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 _pm.StatusRepo.Reset(RepoStatus.Processing, 0);
             }
 
-            public async Task<Package[]> Install(IDictionary<IPackagedContent, SpecificVersion> packagesToInstall,
-                bool force, PackageProgress packageProgress, IAbsoluteDirectoryPath repoPath) {
+            public async Task<Package[]> Install(IInstallContentAction<IInstallableContent> action, IDictionary<IPackagedContent, SpecificVersion> packagesToInstall,
+                PackageProgress packageProgress, IAbsoluteDirectoryPath repoPath) {
+                _action = action;
                 using (var repo = new Repository(repoPath, true)) {
                     SetupPackageManager(repo);
                     if (!_synqInitialized) {
@@ -881,7 +880,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
                     _pm.Progress = packageProgress;
                     Package[] packages;
                     try {
-                        packages = await _pm.ProcessPackages(packagesToInstall.Values, skipWhenFileMatches: !force)
+                        packages = await _pm.ProcessPackages(packagesToInstall.Values, skipWhenFileMatches: !_action.Force)
                             .ConfigureAwait(false);
                     } catch (Exception) {
                         Failed.AddRange(packagesToInstall);
