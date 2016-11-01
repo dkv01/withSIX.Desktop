@@ -222,7 +222,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
             List<IAbsoluteDirectoryPath> _additional;
             List<IAbsoluteDirectoryPath> _additionalAiA;
             IfaState _ifa;
-            IReadOnlyCollection<IModContent> _nonAiaMods;
+            IReadOnlyCollection<RvMod> _nonAiaMods;
             // we dont need to support legacy AiA anymore with standalone available..
             /*
             public Arma3ModListBuilder(AllInArmaGames aiaGames)
@@ -273,7 +273,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 OutputMods.AddRange(_additionalAiA);
             }
 
-            void ProcessAiaLiteMod(IModContent mod) {
+            void ProcessAiaLiteMod(RvMod mod) {
                 _additionalAiA.AddRange(GetModPaths(mod));
                 if (_ifa > IfaState.None)
                     HandleIfa();
@@ -297,7 +297,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
             }
                 */
 
-            static bool IsAiaSAMod(IModContent x) => aiaStandaloneMods.ContainsIgnoreCase(x.PackageName);
+            static bool IsAiaSAMod(RvMod x) => aiaStandaloneMods.ContainsIgnoreCase(x.PackageName);
 
             void ProcessIronFrontMods() {
                 if (InputMods.Any(x => ifMainModFolders.ContainsIgnoreCase(x.PackageName)))
@@ -313,10 +313,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
                     _ifa == IfaState.Lite ? ifMainModFoldersLite : ifMainModFolders));
             }
 
-            static bool IsIronFrontFullOrLiteMod(IModContent x) => ifMainModFolders.ContainsIgnoreCase(x.PackageName) ||
-                                                                   ifMainModFoldersLite.ContainsIgnoreCase(x.PackageName) ||
-                                                                   ifModFolders.ContainsIgnoreCase(x.PackageName)
-                                                                   || ifModFoldersLite.ContainsIgnoreCase(x.PackageName);
+            static bool IsIronFrontFullOrLiteMod(RvMod x) => ifMainModFolders.ContainsIgnoreCase(x.PackageName) ||
+                                                             ifMainModFoldersLite.ContainsIgnoreCase(x.PackageName) ||
+                                                             ifModFolders.ContainsIgnoreCase(x.PackageName)
+                                                             || ifModFoldersLite.ContainsIgnoreCase(x.PackageName);
 
             static IEnumerable<IAbsoluteDirectoryPath> ExistingMods(IAbsoluteDirectoryPath[] paths, params string[] mods)
                 => paths.Any()

@@ -95,10 +95,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
             IEnumerable<IAbsoluteDirectoryPath> GetOaPaths() => new[] {Spec.ModPath, Spec.GamePath};
 
-            static bool IsIronFrontFullOrLiteMod(IModContent x) => ifMainModFolders.ContainsIgnoreCase(x.PackageName) ||
-                                                                   ifMainModFoldersLite.ContainsIgnoreCase(x.PackageName) ||
-                                                                   ifModFolders.ContainsIgnoreCase(x.PackageName)
-                                                                   || ifModFoldersLite.ContainsIgnoreCase(x.PackageName);
+            static bool IsIronFrontFullOrLiteMod(RvMod x) => ifMainModFolders.ContainsIgnoreCase(x.PackageName) ||
+                                                             ifMainModFoldersLite.ContainsIgnoreCase(x.PackageName) ||
+                                                             ifModFolders.ContainsIgnoreCase(x.PackageName)
+                                                             || ifModFoldersLite.ContainsIgnoreCase(x.PackageName);
 
             static IEnumerable<IAbsoluteDirectoryPath> ExistingMods(IAbsoluteDirectoryPath[] paths, params string[] mods)
                 => paths.Any()

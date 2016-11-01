@@ -23,7 +23,7 @@ namespace withSIX.Mini.Core.Extensions
         };
 
         public static IEnumerable<ILaunchableContent> GetLaunchables(this ILaunchContentAction<IContent> action)
-            => action.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint));
+            => action.Content.SelectMany(x => x.Content.GetLaunchables(x.Constraint)).Distinct();
     }
 
     public static class ContentExtensions

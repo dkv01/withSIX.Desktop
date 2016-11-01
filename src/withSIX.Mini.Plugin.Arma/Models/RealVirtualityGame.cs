@@ -17,6 +17,7 @@ using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Extensions;
+using withSIX.Mini.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
@@ -119,14 +120,12 @@ namespace withSIX.Mini.Plugin.Arma.Models
             if (launchAction.IsAsServer())
                 Tools.FileUtil.Ops.CreateDirectoryAndSetACLWithFallbackAndRetry(KeysPath);
 
-            foreach (
-                var mod in
-                action.Content.SelectMany(x => x.Content.GetLaunchables())
-                    .Distinct()
-                    .OfType<IModContent>()
-                    .Select(c => new RvMod(this, c))) {
+            var launchables = action.GetLaunchables()
+                .OfType<IModContent>()
+                .Select(c => new RvMod(this, c));
+
+            foreach (var mod in launchables)
                 await mod.PreLaunch(action.Action).ConfigureAwait(false);
-            }
             return await InitiateLaunch(launcher, ls).ConfigureAwait(false);
         }
 
@@ -177,10 +176,11 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
             return new StartupBuilderSpec {
                 GamePath = InstalledState.Directory,
+                SteamWorkshopPath = SteamDirectories.IsValid ? SteamDirectories.Workshop.ContentPath : null,
                 LaunchType = launchAction == LaunchAction.LaunchAsServer ? LaunchType.Multiplayer : action.LaunchType,
                 ModPath = ContentPaths.Path,
                 GameVersion = InstalledState.Version,
-                InputMods = content.OfType<IModContent>(), //.Where(x => x.Controller.Exists),
+                InputMods = content.OfType<IModContent>().Select(x => new RvMod(this, x)).ToList(), //.Where(x => x.Controller.Exists),
                 AdditionalLaunchMods = GetAdditionalLaunchMods(),
                 //Mission = CalculatedSettings.Mission,
                 Server = GetServerOverride(action) ?? GetServerFromContent(content, launchAction),
@@ -213,7 +213,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 : content.PackageName);
         }
 
-        class RvMod
+        protected internal class RvMod
         {
             private static readonly UserconfigProcessor ucp = new UserconfigProcessor();
             private readonly IContentWithPackageName _content;
@@ -225,6 +225,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 _content = content;
                 _myPath = game.ContentPaths.Path.GetChildDirectoryWithName(content.PackageName);
             }
+
+            public string PackageName => _content.PackageName;
+
+            public IAbsoluteDirectoryPath GetSourcePath() => _content.GetSourceDirectory(_game);
 
             internal void Register() => _content.RegisterAdditionalPostInstallTask(PostInstall);
 
@@ -255,10 +259,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
         }
 
         // TODO: Local mods in separate folders (Custom path) support
-        protected class ModListBuilder
+        protected internal class ModListBuilder
         {
             static readonly ArmaModPathValidator modPathValidator = new ArmaModPathValidator();
-            protected List<IModContent> InputMods { get; set; }
+            protected List<RvMod> InputMods { get; set; }
             protected List<IAbsoluteDirectoryPath> OutputMods { get; set; }
             protected ModListBuilderSpec Spec { get; set; }
 
@@ -272,12 +276,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 return CleanModList(OutputMods).DistinctBy(x => x.ToLower());
             }
 
-            protected IEnumerable<IAbsoluteDirectoryPath> GetModPaths(IModContent arg)
-                => Enumerable.Repeat(CombineModPathIfNeeded(arg.PackageName), 1);
+            protected IEnumerable<IAbsoluteDirectoryPath> GetModPaths(RvMod arg)
+                => Enumerable.Repeat(CombineModPathIfNeeded(arg), 1);
 
-            IAbsoluteDirectoryPath CombineModPathIfNeeded(string mod) => Spec.ModPath == null
-                ? Spec.GamePath.GetChildDirectoryWithName(mod)
-                : Spec.ModPath.GetChildDirectoryWithName(mod);
+            IAbsoluteDirectoryPath CombineModPathIfNeeded(RvMod mod) => mod.GetSourcePath();
 
             static string SubMod(IModContent mod, string name) => mod.PackageName + "/" + name;
 
@@ -301,12 +303,13 @@ namespace withSIX.Mini.Plugin.Arma.Models
             string CleanModPath(IAbsoluteDirectoryPath fullModPath) => fullModPath.GetRelativeDirectory(Spec.GamePath);
         }
 
-        protected class ModListBuilderSpec
+        protected internal class ModListBuilderSpec
         {
             public IEnumerable<IAbsoluteDirectoryPath> AdditionalLaunchMods { get; set; } =
                 new IAbsoluteDirectoryPath[0];
             public IAbsoluteDirectoryPath GamePath { get; set; }
-            public IEnumerable<IModContent> InputMods { get; set; } = new IModContent[0];
+            public IAbsoluteDirectoryPath SteamWorkshopPath { get; set; }
+            public IReadOnlyCollection<RvMod> InputMods { get; set; } = new RvMod[0];
             public IAbsoluteDirectoryPath ModPath { get; set; }
         }
 
@@ -327,7 +330,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
             public string ProfileExtension { get; }
         }
 
-        protected class StartupBuilder
+        protected internal class StartupBuilder
         {
             readonly string[] _doesNotSupportPar = {
                 "-malloc=", "-cpuCount=", "-exThreads=", "-maxMem=", "-maxVram=",
@@ -360,7 +363,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 _modListBuilder = builder;
             }
 
-            public Tuple<string[], string[]> GetStartupParameters(StartupBuilderSpec spec) {
+            internal Tuple<string[], string[]> GetStartupParameters(StartupBuilderSpec spec) {
                 _spec = spec;
                 _arguments = new List<string>();
                 _par = new List<string>();
@@ -501,6 +504,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 var modStr = string.Join(";", _modListBuilder.ProcessModList(new ModListBuilderSpec {
                     InputMods = _spec.InputMods,
                     GamePath = _spec.GamePath,
+                    SteamWorkshopPath = _spec.SteamWorkshopPath,
                     ModPath = _spec.ModPath,
                     AdditionalLaunchMods = _spec.AdditionalLaunchMods
                 }));
@@ -591,19 +595,20 @@ namespace withSIX.Mini.Plugin.Arma.Models
             static bool ValidateSpecials(string path) => gameDataDirectories.Any(dir => HasSubFolder(path, dir));
         }
 
-        protected class StartupBuilderSpec
+        internal class StartupBuilderSpec
         {
             public IEnumerable<IAbsoluteDirectoryPath> AdditionalLaunchMods { get; set; } =
                 new IAbsoluteDirectoryPath[0];
             public IAbsoluteDirectoryPath GamePath { get; set; }
             public Version GameVersion { get; set; }
-            public IEnumerable<IModContent> InputMods { get; set; } = new IModContent[0];
+            public IReadOnlyCollection<RvMod> InputMods { get; set; } = new RvMod[0];
             //public MissionBase Mission { get; set; }
             public IAbsoluteDirectoryPath ModPath { get; set; }
             public CollectionServer Server { get; set; }
             public IEnumerable<string> StartupParameters { get; set; } = new string[0];
             public bool UseParFile { get; set; }
             public LaunchType LaunchType { get; set; }
+            public IAbsoluteDirectoryPath SteamWorkshopPath { get; set; }
         }
     }
 
