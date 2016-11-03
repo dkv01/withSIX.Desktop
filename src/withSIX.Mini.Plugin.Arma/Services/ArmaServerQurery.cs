@@ -14,6 +14,7 @@ using GameServerQuery.Parsers;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
 using withSIX.Api.Models.Servers.RV;
+using withSIX.Api.Models.Servers.RV.Arma3;
 using withSIX.Core;
 using withSIX.Core.Logging;
 using withSIX.Core.Services;

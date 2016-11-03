@@ -9,6 +9,7 @@ using GameServerQuery.Games.RV;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
 using withSIX.Api.Models.Servers.RV;
+using withSIX.Api.Models.Servers.RV.Arma3;
 using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Plugin.Arma.ApiModels;
@@ -37,7 +38,7 @@ namespace withSIX.Mini.Plugin.Arma
                 .ForMember(x => x.Difficulty, opt => opt.Ignore())
                .GameTagsToArmaServer();
 
-            CreateMap<ServerModInfo, Api.Models.Servers.RV.ServerModInfo>();
+            CreateMap<ServerModInfo, Api.Models.Servers.ServerModInfo>();
         }
 
         void SetupApiModels() {

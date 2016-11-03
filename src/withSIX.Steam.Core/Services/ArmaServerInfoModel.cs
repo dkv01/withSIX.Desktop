@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using GameServerQuery.Games.RV;
+using withSIX.Api.Models.Servers;
 using withSIX.Api.Models.Servers.RV;
+using withSIX.Api.Models.Servers.RV.Arma3;
 using ServerModInfo = GameServerQuery.Games.RV.ServerModInfo;
 
 namespace withSIX.Steam.Core.Services

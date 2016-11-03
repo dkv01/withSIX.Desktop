@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using NDepend.Helpers;
+using withSIX.Api.Models.Servers;
 using withSIX.Api.Models.Servers.RV;
 
 namespace GameServerQuery.Games.RV
