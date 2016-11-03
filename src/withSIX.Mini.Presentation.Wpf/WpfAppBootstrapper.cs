@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
@@ -67,7 +68,12 @@ namespace withSIX.Mini.Presentation.Wpf
     {
         IMiniMainWindowViewModel _mainVm;
 
-        internal WpfAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {}
+        internal WpfAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) : base(args, rootPath) {
+            SIHandler.ParseQueryString = (query) => {
+                var nameValueCollection = HttpUtility.ParseQueryString(query);
+                return nameValueCollection.Cast<string>().ToDictionary(x => x, x => nameValueCollection.GetValues(x));
+            };
+        }
 
         public override void Configure() {
             base.Configure();

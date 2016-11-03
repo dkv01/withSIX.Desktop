@@ -12,12 +12,16 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Presentation.Core
 {
     public class SIHandler : IUsecaseExecutor
     {
         private readonly Excecutor _executor = new Excecutor();
+
+        public static Func<string, Dictionary<string, string[]>> ParseQueryString { get; set; }
 
         public async Task<object> HandleSingleInstanceCall(List<string> parameters) {
             foreach (var p in parameters.Where(IsSyncWsUrl)) {
@@ -28,19 +32,17 @@ namespace withSIX.Mini.Presentation.Core
         }
 
         private async Task ProcessSyncWsUrl(Uri uri) {
-            throw new NotImplementedException();
-            /*
-            var details = HttpUtility.ParseQueryString(uri.Query);
+            var details = ParseQueryString(uri.Query);
             var s = details["task"];
             var tasks = new[] {"launch"};
             if (s != null)
-                tasks = s.Split(',');
+                tasks = s.First().Split(',');
             if (!tasks.Any()) {
                 tasks = new[] {"launch"};
             }
 
             var gameId = GetGuid(uri.Host);
-            var contentId = GetGuid(details["content"]);
+            var contentId = GetGuid(details["content"].First());
             foreach (var t in tasks) {
                 switch (t) {
                 case "install": {
@@ -55,7 +57,7 @@ namespace withSIX.Mini.Presentation.Core
                 RequestAsyncExecutor(new UninstallContent(gameId, new ContentGuidSpec(contentId)))
                     .ConfigureAwait(false);
             break;
-        }*\/
+        }*/
                 case "launch": {
                     await
                         RequestAsyncExecutor(new LaunchContent(gameId, new ContentGuidSpec(contentId)))
@@ -67,7 +69,6 @@ namespace withSIX.Mini.Presentation.Core
                 }
                 }
             }
-    */
         }
 
         private static Guid GetGuid(string input) {

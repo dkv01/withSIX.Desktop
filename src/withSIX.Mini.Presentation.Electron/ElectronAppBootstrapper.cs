@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 using NDepend.Path;
 using Newtonsoft.Json;
 using ReactiveUI;
@@ -72,7 +73,12 @@ namespace withSIX.Mini.Presentation.Electron
         }
 
         public ElectronAppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath)
-            : base(args, rootPath) {}
+            : base(args, rootPath) {
+            SIHandler.ParseQueryString = (query) => {
+                var nameValueCollection = HttpUtility.ParseQueryString(query);
+                return nameValueCollection.Cast<string>().ToDictionary(x => x, x => nameValueCollection.GetValues(x));
+            };
+        }
 
         protected override void Dispose(bool d) {
             base.Dispose(d);
