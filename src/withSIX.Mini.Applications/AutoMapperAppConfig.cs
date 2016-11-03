@@ -278,10 +278,13 @@ namespace withSIX.Mini.Applications
                     .Select(x => Convert(src, x))
                     .ToPageModelFromCtx(ctx).MapTo<MissionsApiModel>());
             cfg.CreateMap<Game, ModsApiModel>()
-                .ConstructUsing((src, ctx) => src.AllAvailableContent
-                    .OfType<IModContent>()
-                    .Select(x => Convert(src, x))
-                    .ToPageModelFromCtx(ctx).MapTo<ModsApiModel>());
+                .ConstructUsing((src, ctx) => {
+                    var items = src.AllAvailableContent
+                        .OfType<IModContent>()
+                        .Select(x => Convert(src, x));
+                    var pm = items.ToPageModelFromCtx(ctx);
+                    return pm.MapTo<ModsApiModel>();
+                });
             cfg.CreateMap<Game, CollectionsApiModel>()
                 .ConstructUsing((src, ctx) => src.AllAvailableContent
                     .OfType<ICollectionContent>()

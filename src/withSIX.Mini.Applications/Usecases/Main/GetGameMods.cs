@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MediatR;
@@ -29,5 +30,9 @@ namespace withSIX.Mini.Applications.Usecases.Main
 
 
     [DataContract]
-    public class ModsApiModel : ContentsApiModel {}
+    public class ModsApiModel : ContentsApiModel
+    {
+        public ModsApiModel(List<ContentApiModel> items, int total, int pageNumber, int pageSize)
+            : base(items, total, pageNumber, pageSize) { }
+    }
 }
