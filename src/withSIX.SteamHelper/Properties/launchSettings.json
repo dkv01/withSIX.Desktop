@@ -2,7 +2,7 @@
   "profiles": {
     "withSIX.SteamHelper": {
       "commandName": "Project",
-      "commandLineArgs": "interactive -a 107410 -b 127.0.0.66:48667"
+      "commandLineArgs": "install -a 107410 !641009676 --verbose"
     }
   }
 }
