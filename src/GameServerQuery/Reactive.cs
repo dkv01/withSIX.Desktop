@@ -25,6 +25,13 @@ namespace GameServerQuery
     // TODO: Exception handling
     // TODO: Pings
     // TODO: Retry
+
+    public class QuerySettings
+    {
+        public bool InclRules { get; set; }
+        public bool InclPlayers { get; set; }
+        public int DegreeOfParallelism { get; set; } = 50;
+    }
     public class ReactiveSource
     {
         private readonly SourceQueryParser _parser = new SourceQueryParser();
@@ -55,11 +62,12 @@ namespace GameServerQuery
         }
 
         public IObservable<IResult> GetResults(IEnumerable<IPEndPoint> eps, UdpClient socket,
-                int degreeOfParallelism = 50)
-            => GetResults(eps.ToObservable(), socket, degreeOfParallelism);
+                QuerySettings settings = null)
+            => GetResults(eps.ToObservable(), socket, settings);
 
         public IObservable<IResult> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket,
-            int degreeOfParallelism = 50) {
+            QuerySettings settings) {
+            if (settings == null) settings = new QuerySettings();
             var mapping = new ConcurrentBag<EpState>();
             var obs = Observable.Create<IResult>(o => {
                 var count = 0;
@@ -76,7 +84,7 @@ namespace GameServerQuery
 
                 var sender = epsObs
                     //.ObserveOn(scheduler)
-                    .Select(x => new EpState2(x,
+                    .Select(x => new EpState2(x, settings,
                         listener.Where(r => r.RemoteEndPoint.Equals(x))
                             .Select(r => r.Buffer)
                             .ObserveOn(TaskPoolScheduler.Default),
@@ -85,7 +93,7 @@ namespace GameServerQuery
                     .Select(x => x.Results)
                     //.Select(x => Intercept(_ => Console.WriteLine($"Sending initial packet: {Interlocked.Increment(ref count)}"), x))
                     //.ObserveOn(scheduler)
-                    .Merge(degreeOfParallelism); // TODO: Instead try to limit sends at a time? hm
+                    .Merge(settings.DegreeOfParallelism); // TODO: Instead try to limit sends at a time? hm
                     //.Do(x => Console.WriteLine($"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms"));
                 var sub = sender
                     .Subscribe(o.OnNext, o.OnError, () => {
@@ -134,7 +142,7 @@ namespace GameServerQuery
         private readonly Func<byte[], Task> _sender;
         readonly Stopwatch _sw = new Stopwatch();
 
-        public EpState2(IPEndPoint ep, IObservable<byte[]> receiver, Func<byte[], Task> sender) : base(ep) {
+        public EpState2(IPEndPoint ep, QuerySettings settings, IObservable<byte[]> receiver, Func<byte[], Task> sender) : base(ep, settings) {
             _receiver = receiver;
             _sender = sender;
         }
@@ -418,6 +426,7 @@ namespace GameServerQuery
 
     internal class EpState
     {
+        private readonly QuerySettings _settings;
         private const byte InfoResponse = 0x49;
         private const byte ChallengeResponse = 0x41;
         private const byte PlayerResponse = 0x44;
@@ -435,7 +444,8 @@ namespace GameServerQuery
 
         private MultiStatus _multiStatus;
 
-        public EpState(IPEndPoint ep) {
+        public EpState(IPEndPoint ep, QuerySettings settings) {
+            _settings = settings;
             Endpoint = ep;
         }
 
@@ -443,9 +453,6 @@ namespace GameServerQuery
         public EpStateState State { get; private set; }
 
         public Dictionary<int, byte[]> ReceivedPackets { get; private set; } = new Dictionary<int, byte[]>();
-
-        public bool InclPlayers { get; set; }
-        public bool InclRules { get; set; }
 
         private byte[] GetChallenge(byte b) {
             _emptyChallenge[4] = b;
@@ -462,13 +469,13 @@ namespace GameServerQuery
                 var r = _multiStatus.ProcessPacketHeader(response);
                 return r == null
                     ? TransitionToReceivingInfoState()
-                    : (InclRules ? TransitionToRulesChallengeState(r) : TransitionToCompleteState(r, 0));
+                    : (_settings.InclRules ? TransitionToRulesChallengeState(r) : TransitionToCompleteState(r, 0));
             }
             case EpStateState.ReceivingInfo: {
                 var r = _multiStatus.ProcessPacketHeader(response);
                 return r == null
                     ? null
-                    : (InclRules ? TransitionToRulesChallengeState(r) : TransitionToCompleteState(r, 0));
+                    : (_settings.InclRules ? TransitionToRulesChallengeState(r) : TransitionToCompleteState(r, 0));
             }
             case EpStateState.RulesChallenge: {
                 _multiStatus = new MultiStatus();
@@ -476,7 +483,7 @@ namespace GameServerQuery
                 case ChallengeResponse: //challenge
                     return TransitionToReceivingRulesState(response);
                 case RulesResponse: //no challenge needed info
-                    return InclPlayers
+                    return _settings.InclPlayers
                         ? TransitionToPlayerChallengeState(response)
                         : TransitionToCompleteState(response, 1);
                 default:
@@ -486,7 +493,7 @@ namespace GameServerQuery
             case EpStateState.ReceivingRules: {
                 var r = _multiStatus.ProcessPacketHeader(response);
                 return r != null
-                    ? (InclPlayers
+                    ? (_settings.InclPlayers
                         ? TransitionToPlayerChallengeState(r)
                         : TransitionToCompleteState(r, 1))
                     : null;
