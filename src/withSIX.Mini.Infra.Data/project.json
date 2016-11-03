@@ -6,7 +6,7 @@
     "NETStandard.Library": "1.6.0",
     "refit": "3.0.1",
     "System.Diagnostics.Contracts": "4.0.1",
-    "withSIX.Api.Models": "2.2.2",
+    "withSIX.Api.Models": "2.4.0",
     "withSIX.ContentEngine.Core": "1.0.0",
     "withSIX.ContentEngine.Infra": "1.0.0",
     "withSIX.Core": "1.0.6",
