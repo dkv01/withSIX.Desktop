@@ -78,7 +78,7 @@ namespace withSIX.Mini.Presentation.Electron
                 var nameValueCollection = HttpUtility.ParseQueryString(query);
                 return nameValueCollection.Cast<string>().ToDictionary(x => x, x => nameValueCollection.GetValues(x));
             };
-            NDepend.Helpers.NDepend.Helpers.Workaround.IsNormalizedFunc = string.IsNormalized;
+            NDepend.Helpers.NDepend.Helpers.Workaround.IsNormalizedFunc = x => x.IsNormalized();
         }
 
         protected override void Dispose(bool d) {
