@@ -149,7 +149,6 @@ namespace withSIX.Mini.Infra.Data.Services
             return httpClient;
         }
 
-        // TODO: PollyAppraoch
         public static RetryPolicy CreatePolicy() => Policy
             .Handle<ApiException>(TransientExceptionHelper.IsTransient)
             .Or<WebException>()
