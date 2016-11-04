@@ -9,10 +9,10 @@
     "System.Diagnostics.Contracts": "4.0.1",
     "withSIX.Api.Models": "2.4.0",
     "withSIX.ContentEngine.Core": "1.0.0",
-    "withSIX.Core": "1.0.6",
+    "withSIX.Core": "1.1.0",
     "withSIX.Core.Applications": "1.0.0",
     "withSIX.Mini.Core": "1.0.0",
-    "withSIX.Steam.Core": "1.0.8",
+    "withSIX.Steam.Core": "1.1.0",
     "withSIX.Sync.Core": "1.0.0"
   },
   "frameworks": {
