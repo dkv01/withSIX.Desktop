@@ -28,15 +28,16 @@ namespace withSIX.Core
 #elif DEBUG
             Type = ReleaseType.Dev;
 #else
-            Type = ReleaseType.Alpha; // Modify as see fit
+            Type = ReleaseType.Stable; // Modify as see fit
 #endif
         }
 
         public static bool Staging { get; }
         public static bool DevBuild { get; set; }
         public static ReleaseType Type { get; set; }
-        public const string Version = "1.7.0.2";
-        public const string ProductVersion = "1.7.0";
+        // Don't use .0, or it will make the wrong nupkg
+        public const string Version = "1.7.5.1";
+        public const string ProductVersion = "1.7.5";
     }
 
     public enum ReleaseType
