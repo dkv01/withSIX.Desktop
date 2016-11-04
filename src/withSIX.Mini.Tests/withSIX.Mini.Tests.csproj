@@ -367,7 +367,6 @@
     <Compile Include="InvariantTest.cs" />
     <Compile Include="LocalAddin.cs" />
     <Compile Include="Playground\Apis\W6Api.cs" />
-    <Compile Include="Playground\YamlTest.cs" />
     <Compile Include="ProgressTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SteamDownloaderTest.cs" />
