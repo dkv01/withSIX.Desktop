@@ -14,13 +14,15 @@ namespace withSIX.Core
     public static class Bla
     {
         public static CommonUrls.HostType GetHostType() {
-            if (Common.Flags.Staging) {
-#if DEBUG
-                return CommonUrls.HostType.Local2;
-#else
-                return CommonUrls.HostType.Staging;
-#endif
-            }
+            /*
+                        if (Common.Flags.Staging) {
+            #if DEBUG
+                            return CommonUrls.HostType.Local2;
+            #else
+                            return CommonUrls.HostType.Staging;
+            #endif
+                        }
+            */
 
             return CommonUrls.HostType.Production;
         }
