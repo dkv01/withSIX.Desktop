@@ -21,7 +21,7 @@
     "Microsoft.AspNetCore.Server.Kestrel.Https": "1.0.1",
     "System.Security.Cryptography.ProtectedData": "4.0.0",
     "ManyConsole.PCL": "1.0.0",
-    "NDepend.Path.PCL": "1.0.2",
+    "NDepend.Path.PCL": "1.1.1",
     "System.Threading.Tasks.Dataflow": "4.6.0",
     "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
     "IdentityModel": "2.0.0",

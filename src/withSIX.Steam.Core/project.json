@@ -3,7 +3,7 @@
   "dependencies": {
     "GameServerQuery": "2.2.2",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-    "NDepend.Path.PCL": "1.0.2",
+    "NDepend.Path.PCL": "1.1.1",
     "NETStandard.Library": "1.6.0",
     "System.Diagnostics.Contracts": "4.0.1",
     "System.Diagnostics.Process": "4.1.0",
