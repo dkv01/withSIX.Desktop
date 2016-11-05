@@ -23,6 +23,7 @@ using withSIX.Sync.Core.Packages;
 using withSIX.Sync.Core.Packages.Internals;
 using withSIX.Sync.Core.Repositories.Internals;
 using withSIX.Sync.Core.Services;
+using withSIX.Sync.Core.Transfer;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
 namespace withSIX.Sync.Core.Repositories
@@ -698,6 +699,8 @@ namespace withSIX.Sync.Core.Repositories
                 Tools.FileUtil.Ops.DeleteWithRetry(zsyncFile);
         }
 
+        readonly ZsyncMake _zsyncMake = new ZsyncMake(Tools.ProcessManager, Tools.FileUtil.Ops);
+
         public string CompressObject(IAbsoluteFilePath filePath, string hash) {
             Tools.Compression.Gzip.GzipAuto(filePath, null, false);
             var tempDestFileName = (filePath + ".gz").ToAbsoluteFilePath();
@@ -706,9 +709,12 @@ namespace withSIX.Sync.Core.Repositories
             var objectPath = GetObjectPath(hash);
             objectPath.ParentDirectoryPath.MakeSurePathExists();
             Tools.FileUtil.Ops.MoveWithRetry(tempDestFileName, objectPath);
+            if (MakeZsync) _zsyncMake.CreateZsyncFile(objectPath, ZsyncMakeOptions.Overwrite);
 
             return packedHash;
         }
+
+        public bool MakeZsync { get; set; }
 
         public void CopyObject(string hash1, string hash2) {
             var dest = GetObjectPath(hash2);
@@ -780,8 +786,9 @@ namespace withSIX.Sync.Core.Repositories
 
         public Task SaveAsync() => Task.Run(() => Save());
 
-        public static void SaveDto(object dto, IAbsoluteFilePath path) {
+        public void SaveDto(object dto, IAbsoluteFilePath path) {
             Tools.Serialization.Json.SaveJsonToDiskThroughMemory(dto, path, true);
+            if (MakeZsync) _zsyncMake.CreateZsyncFile(path, ZsyncMakeOptions.Overwrite);
         }
 
         [Obsolete("Use SaveConfigAsync")]
