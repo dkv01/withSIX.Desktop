@@ -26,8 +26,9 @@ namespace withSIX.Core.Presentation.Bridge
         }.SetDefaultConverters();
 
         public void SetupSSL() {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 |
-                                                   SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol =
+                ServicePointManager.SecurityProtocol =
+                    SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         }
 
         public class NamespaceMigrationSerializationBinder : DefaultSerializationBinder
