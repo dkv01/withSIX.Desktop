@@ -62,7 +62,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
             var opts = GetOpts(packPath, status, mod);
             if (!folder.Exists) {
                 await
-                    Repository.Factory.Clone((Uri[]) opts["hosts"], folder.ToString(), opts)
+                    Repository.Factory.Clone((List<Uri>) opts["hosts"], folder.ToString(), opts)
                         .ConfigureAwait(false);
                 return;
             }
@@ -95,7 +95,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
         // pff, better use a real param object!
         Dictionary<string, object> GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
             KeyValuePair<string, SixRepoModDto> mod) => new Dictionary<string, object> {
-            {"hosts", Hosts.Select(x => new Uri(x, mod.Key)).ToArray()},
+            {"hosts", Hosts.Select(x => new Uri(x, mod.Key)).ToList()},
             {"required_version", mod.Value.Version},
             {"required_guid", mod.Value.Guid},
             {"pack_path", packPath.GetChildFileWithName(mod.Key).ToString()},

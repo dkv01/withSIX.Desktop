@@ -11,15 +11,15 @@ namespace withSIX.Sync.Core.Legacy.SixSync
     public class RepoConfig : IBaseYaml //, IYamlSerializable
     {
         public RepoConfig() {
-            Hosts = new Uri[0];
-            Exclude = new string[0];
-            Include = new string[0];
+            Hosts = new List<Uri>(0);
+            Exclude = new List<string>();
+            Include = new List<string>();
         }
 
         public string PackPath { get; set; }
-        public Uri[] Hosts { get; set; }
-        public string[] Exclude { get; set; }
-        public string[] Include { get; set; }
+        public List<Uri> Hosts { get; set; }
+        public List<string> Exclude { get; set; }
+        public List<string> Include { get; set; }
 
         public string ToYaml() {
             var graph = new Dictionary<string, object> {

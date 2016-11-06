@@ -398,12 +398,12 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             var changed = false;
 
             if (opts.ContainsKey("include")) {
-                Config.Include = (string[]) opts["include"];
+                Config.Include = (List<string>) opts["include"];
                 changed = true;
             }
 
             if (opts.ContainsKey("exclude")) {
-                Config.Exclude = (string[]) opts["exclude"];
+                Config.Exclude = (List<string>)opts["exclude"];
                 changed = true;
             }
 
@@ -411,7 +411,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 AllowFullTransferFallBack = (bool) opts["allow_full_transfer_fallback"];
 
             if (opts.ContainsKey("hosts")) {
-                Config.Hosts = (Uri[]) opts["hosts"];
+                Config.Hosts = (List<Uri>)opts["hosts"];
                 changed = true;
             }
 

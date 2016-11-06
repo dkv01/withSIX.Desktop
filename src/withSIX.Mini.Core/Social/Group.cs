@@ -86,7 +86,7 @@ namespace withSIX.Mini.Core.Social
             IAbsoluteDirectoryPath folder) {
             SetupHosts(mod, provider);
             await
-                Repository.Factory.Clone((Uri[]) opts["hosts"], folder.ToString(), opts)
+                Repository.Factory.Clone((List<Uri>) opts["hosts"], folder.ToString(), opts)
                     .ConfigureAwait(false);
         }
 

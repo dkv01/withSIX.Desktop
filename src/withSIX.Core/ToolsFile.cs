@@ -340,16 +340,16 @@ namespace withSIX.Core
 
             public string FilterPath(IPath info) => info == null ? null : FilterPath(info.ToString());
 
-            public void HandleDowncase(string entry, string[] excludes = null) {
+            public void HandleDowncase(string entry, IReadOnlyCollection<string> excludes = null) {
                 if (Directory.Exists(entry))
                     HandleDowncaseFolder(entry.ToAbsoluteDirectoryPath(), excludes);
 
                 Ops.DowncasePath(entry);
             }
 
-            public void HandleDowncaseFolder(IAbsoluteDirectoryPath entry, string[] excludes = null) {
+            public void HandleDowncaseFolder(IAbsoluteDirectoryPath entry, IReadOnlyCollection<string> excludes = null) {
                 if (excludes == null)
-                    excludes = new string[0];
+                    excludes = new List<string>();
 
                 foreach (var file in Directory.EnumerateFiles(entry.ToString(), "*.*", SearchOption.TopDirectoryOnly)
                     .Concat(Directory.EnumerateDirectories(entry.ToString(), "*.*",

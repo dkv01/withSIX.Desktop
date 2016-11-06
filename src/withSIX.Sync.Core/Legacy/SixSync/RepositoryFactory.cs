@@ -46,16 +46,16 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             rsyncFolder.MakeSurePathExists();
             packFolder.MakeSurePathExists();
 
-            var config = new RepoConfig {Hosts = hosts.ToArray()};
+            var config = new RepoConfig {Hosts = hosts.ToList()};
 
             if (opts.ContainsKey("pack_path"))
                 config.PackPath = (string) opts["pack_path"];
 
             if (opts.ContainsKey("include"))
-                config.Include = (string[]) opts["include"];
+                config.Include = (List<string>) opts["include"];
 
             if (opts.ContainsKey("exclude"))
-                config.Exclude = (string[]) opts["exclude"];
+                config.Exclude = (List<string>) opts["exclude"];
 
             var guid = opts.ContainsKey("required_guid")
                 ? (string) opts["required_guid"]
@@ -109,7 +109,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 ? new Repository(_zsyncMake, (StatusRepo) opts["status"], folder.ToString())
                 : new Repository(_zsyncMake, folder.ToString());
 
-        public async Task<Repository> Clone(Uri[] hosts, string folder, Dictionary<string, object> opts = null) {
+        public async Task<Repository> Clone(IReadOnlyCollection<Uri> hosts, string folder, Dictionary<string, object> opts = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
             Contract.Requires<ArgumentNullException>(hosts != null);
@@ -154,7 +154,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             if (opts == null)
                 opts = new Dictionary<string, object>();
 
-            var hosts = opts.ContainsKey("hosts") && (opts["hosts"] != null) ? (Uri[]) opts["hosts"] : new Uri[0];
+            var hosts = opts.ContainsKey("hosts") && (opts["hosts"] != null) ? (List<Uri>) opts["hosts"] : new List<Uri>();
             var repo = Init(folder.ToAbsoluteDirectoryPath(), hosts, opts);
             repo.Commit(false, false);
             return repo;
