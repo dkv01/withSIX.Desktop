@@ -100,7 +100,7 @@ namespace withSIX.Mini.Core.Social
         // pff, better use a real param object!
         Dictionary<string, object> GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
             GroupContent mod) => new Dictionary<string, object> {
-            {"hosts", GetHosts(mod).ToArray()},
+            {"hosts", GetHosts(mod).ToList()},
             //{"required_version", mod.Version}, // TODO
             //{"required_guid", @group.Id}, // TODO
             {"pack_path", packPath.GetChildFileWithName(mod.PackageName).ToString()},
