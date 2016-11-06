@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright company="SIX Networks GmbH" file="W6Api.cs">
+//     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +21,7 @@ using withSIX.Core;
 using withSIX.Core.Logging;
 using withSIX.Mini.Core;
 using withSIX.Mini.Core.Social;
+using ApiHashes = withSIX.Mini.Core.Games.ApiHashes;
 
 namespace withSIX.Mini.Infra.Data.Services
 {
@@ -26,7 +31,8 @@ namespace withSIX.Mini.Infra.Data.Services
     // TODO: Cant we Wrap automatically and skip a manual class? (the whole idea of Refit)
 
     [Headers("Accept: application/json")]
-    public interface JsonApi { }
+    public interface JsonApi {}
+
     // TODO: Split per API ep, like controllers?
     public interface IW6MainApi : JsonApi
     {
@@ -50,38 +56,46 @@ namespace withSIX.Mini.Infra.Data.Services
     public interface IW6CDNApi : JsonApi
     {
         [Get("/hashes-{gameId}.json.gz")]
-        Task<withSIX.Mini.Core.Games.ApiHashes> Hashes(Guid gameId, CancellationToken ct);
+        Task<ApiHashes> Hashes(Guid gameId, CancellationToken ct);
 
         [Get("/mods-{gameId}.json.gz")]
         Task<List<ModClientApiJson>> Mods(Guid gameId, string version, CancellationToken ct);
     }
 
 
-    public class SteamServiceSessionHttp { }
+    public class SteamServiceSessionHttp {}
 
-    public class W6Api : IW6Api
+    public abstract class ApiBase
     {
+        private readonly RetryPolicy _policy;
+
+        protected ApiBase(RetryPolicy policy) {
+            _policy = policy;
+        }
+
+        protected Task<T> Wrap<T>(Func<CancellationToken, Task<T>> fnc, CancellationToken ct)
+            => _policy.ExecuteAsync(fnc, ct);
+
+        protected Task Wrap(Func<CancellationToken, Task> fnc, CancellationToken ct)
+            => _policy.ExecuteAsync(fnc, ct);
+    }
+
+    public class W6Api : ApiBase, IW6Api
+    {
+        public const string ApiCdn = "http://withsix-api.azureedge.net/api/v3";
         private readonly IW6MainApi _api;
         private readonly IW6CDNApi _cdn;
-        private readonly RetryPolicy _policy;
-        public const string ApiCdn = "http://withsix-api.azureedge.net/api/v3";
 
-        public static IW6MainApi Create([NotNull] Func<Task<string>> authGetter)
-            => Create<IW6MainApi>(CommonUrls.SocialApiUrl, authGetter);
-
-        public static IW6CDNApi Create() => Create<IW6CDNApi>(new Uri(ApiCdn));
-
-        public W6Api(IW6MainApi api, IW6CDNApi cdn, RetryPolicy policy) {
+        public W6Api(IW6MainApi api, IW6CDNApi cdn, RetryPolicy policy) : base(policy) {
             _api = api;
             _cdn = cdn;
-            _policy = policy;
         }
 
         public Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, List<Guid> ids,
                 CancellationToken ct) =>
             Wrap(t => _api.Collections(gameId, string.Join(",", ids), t), ct);
 
-        public Task<Core.Games.ApiHashes> Hashes(Guid gameId, CancellationToken ct) =>
+        public Task<ApiHashes> Hashes(Guid gameId, CancellationToken ct) =>
             Wrap(t => _cdn.Hashes(gameId, t), ct);
 
         public Task<List<ModClientApiJson>> Mods(Guid gameId, string version, CancellationToken ct) =>
@@ -97,11 +111,10 @@ namespace withSIX.Mini.Infra.Data.Services
         public Task CreateStatusOverview(InstallStatusOverview stats, CancellationToken ct)
             => Wrap(t => _api.StatusOverview(stats, t), ct);
 
-        private Task<T> Wrap<T>(Func<CancellationToken, Task<T>> fnc, CancellationToken ct)
-            => _policy.ExecuteAsync(fnc, ct);
+        public static IW6MainApi Create([NotNull] Func<Task<string>> authGetter)
+            => Create<IW6MainApi>(CommonUrls.SocialApiUrl, authGetter);
 
-        private Task Wrap(Func<CancellationToken, Task> fnc, CancellationToken ct)
-            => _policy.ExecuteAsync(fnc, ct);
+        public static IW6CDNApi Create() => Create<IW6CDNApi>(new Uri(ApiCdn));
 
         // todo: the lifetime of the httpclient should generally be singleton
         // however care needs to be taken because of DNS cache etc, which might make cloud hosts hopping dns not so fast informing our client :)
@@ -110,28 +123,6 @@ namespace withSIX.Mini.Infra.Data.Services
                 AuthorizationHeaderValueGetter = authGetter,
                 JsonSerializerSettings = JsonSupport.DefaultSettings
             });
-
-        class AuthenticatedHttpClientHandler : DelegatingHandler
-        {
-            readonly Func<Task<string>> getToken;
-
-            public AuthenticatedHttpClientHandler(Func<Task<string>> getToken, HttpMessageHandler innerHandler = null)
-                : base(innerHandler ?? new HttpClientHandler()) {
-                if (getToken == null) throw new ArgumentNullException("getToken");
-                this.getToken = getToken;
-            }
-
-            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
-                // See if the request has an authorize header
-                var auth = request.Headers.Authorization;
-                if (auth != null) {
-                    var token = await getToken().ConfigureAwait(false);
-                    request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, token);
-                }
-
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            }
-        }
 
         private static HttpClient CreateHttpClient(Uri baseAddr, Func<Task<string>> authGetter) {
             HttpMessageHandler inner = new HttpClientHandler {
@@ -154,11 +145,35 @@ namespace withSIX.Mini.Infra.Data.Services
             .Or<WebException>()
             .WaitAndRetryAsync(new[] {
                 TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(2),
+                TimeSpan.FromSeconds(2)
             }, (exception, span, arg3, arg4) => {
                 MainLog.Logger.Warn($"Error catched during api call, retrying {arg3}: {exception.Message}");
                 MainLog.Logger.FormattedDebugException(exception, "Error catched during api call");
             });
+
+        class AuthenticatedHttpClientHandler : DelegatingHandler
+        {
+            readonly Func<Task<string>> getToken;
+
+            public AuthenticatedHttpClientHandler(Func<Task<string>> getToken, HttpMessageHandler innerHandler = null)
+                : base(innerHandler ?? new HttpClientHandler()) {
+                if (getToken == null)
+                    throw new ArgumentNullException("getToken");
+                this.getToken = getToken;
+            }
+
+            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                CancellationToken cancellationToken) {
+                // See if the request has an authorize header
+                var auth = request.Headers.Authorization;
+                if (auth != null) {
+                    var token = await getToken().ConfigureAwait(false);
+                    request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, token);
+                }
+
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+        }
 
         // Manual approach
         public class TransientExceptionHelper
@@ -190,7 +205,6 @@ namespace withSIX.Mini.Infra.Data.Services
     }
 
 
-
     // https://github.com/paulcbetts/refit/issues/93
     // doesnt include the multiple &key=, so should adjust server then, if possible
     public class CsvList<T>
@@ -199,7 +213,7 @@ namespace withSIX.Mini.Infra.Data.Services
 
         // Unfortunately, you have to use a concrete type rather than IEnumerable<T> here
         public static implicit operator CsvList<T>(List<T> values) {
-            return new CsvList<T> { values = values };
+            return new CsvList<T> {values = values};
         }
 
         public override string ToString() {
@@ -216,7 +230,7 @@ namespace withSIX.Mini.Infra.Data.Services
         IEnumerable<T> values;
 
         public static CsvList2<T> Create(List<T> values, string name) {
-            return new CsvList2<T> { values = values, name = name };
+            return new CsvList2<T> {values = values, name = name};
         }
 
         public override string ToString() {
