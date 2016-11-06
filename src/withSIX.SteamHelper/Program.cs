@@ -3,11 +3,8 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
-using withSIX.Core.Applications.Errors;
-using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
 using withSIX.Mini.Presentation.Core;
 using withSIX.Steam.Core;
@@ -43,11 +40,11 @@ namespace withSIX.Steam.Presentation
             var formatted = ex.Format();
             Console.Error.WriteLine(
 #if DEBUG
-                    formatted
+                formatted
 #else
                 ex.Message
 #endif
-                );
+            );
             MainLog.Logger.Error(formatted);
             Environment.Exit(exitCode);
         }

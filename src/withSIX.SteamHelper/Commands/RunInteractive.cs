@@ -32,15 +32,17 @@ namespace withSIX.Steam.Presentation.Commands
         public static ISteamApi SteamApi { get; private set; }
 
         protected override async Task<int> RunAsync(string[] remainingArguments) {
-            if (AppId == (uint) SteamGameIds.Arma3) {
-                await SteamActions.PerformArmaSteamAction(async api => {
-                    SteamApi = api;
-                    await RunWebsite(CancellationToken.None).ConfigureAwait(false);
-                }, (uint) SteamGameIds.Arma3, _steamSessionFactory).ConfigureAwait(false);
-            } else {
-                await DoWithSteamSession(() => RunWebsite(CancellationToken.None)).ConfigureAwait(false);
+            using (var cts = new CancellationTokenSource(TimeSpan.FromHours(4))) {
+                if (AppId == (uint) SteamGameIds.Arma3) {
+                    await SteamActions.PerformArmaSteamAction(async api => {
+                        SteamApi = api;
+                        await RunWebsite(cts.Token).ConfigureAwait(false);
+                    }, (uint) SteamGameIds.Arma3, _steamSessionFactory).ConfigureAwait(false);
+                } else {
+                    await DoWithSteamSession(() => RunWebsite(cts.Token)).ConfigureAwait(false);
+                }
+                return 0;
             }
-            return 0;
         }
 
         private Task RunWebsite(CancellationToken ct) {
