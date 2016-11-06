@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
+using SystemExtensions = withSIX.Core.Extensions.SystemExtensions;
 
 namespace withSIX.Mini.Core.Games
 {
@@ -48,12 +49,20 @@ namespace withSIX.Mini.Core.Games
     [DataContract]
     public class ModNetworkGroupContent : ModNetworkContent
     {
-        protected ModNetworkGroupContent() {}
+        private readonly Lazy<ContentPublisher> _source;
+
+        // TODO: technically this is supposed to be withSIXGroup publisher, as it does not exist on the Synq network, but separate.
+        protected ModNetworkGroupContent() {
+            _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
+        }
 
         public ModNetworkGroupContent(Guid id, string packageName, Guid gameId, string version)
             : base(packageName, gameId) {
             Id = id;
             Version = version;
+            _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
+
+        public override ContentPublisher GetSource(IHaveSourcePaths game) => _source.Value;
     }
 }
