@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using SteamLayerWrap;
 using Steamworks;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Steam.Api.Services;
@@ -18,21 +17,15 @@ namespace withSIX.Steam.Plugin.Arma
                 ISteamSessionFactory steamSessionFactory)
             => PerformArmaSteamAction(x => action(x).Void(), appId, steamSessionFactory);
 
-        public static async Task<T> PerformArmaSteamAction<T>(Func<ISteamApi, Task<T>> action, uint appId,
-            ISteamSessionFactory steamSessionFactory) {
-            var steamHelper = SteamHelper.Create();
-            using (var wrap = new SteamAPIWrap()) {
-                SteamApi steamApi = null;
-                return await steamSessionFactory
-                    .Do(appId, steamHelper.SteamPath,
-                        async s => {
-                            steamApi = new SteamApi(wrap, s);
-                            await
-                                steamApi.Initialize(steamHelper.TryGetSteamAppById(appId).AppPath, appId)
-                                    .ConfigureAwait(false);
-                        }, SteamAPI.RunCallbacks /* wrap.Simulate */, () => action(steamApi));
-            }
-        }
+        public static Task<T> PerformArmaSteamAction<T>(Func<ISteamApi, Task<T>> action, uint appId,
+                ISteamSessionFactory steamSessionFactory)
+            => steamSessionFactory.Do(appId, SteamHelper.Create().SteamPath, async s => {
+                var steamApi = new SteamApi(s);
+                await
+                    steamApi.Initialize(SteamHelper.Create().TryGetSteamAppById(appId).AppPath, appId)
+                        .ConfigureAwait(false);
+                return steamApi;
+            }, SteamAPI.RunCallbacks /* wrap.Simulate */, action);
 
         public static async Task<ServerBrowser> CreateServerBrowser(ISteamApi steamApi)
             => new ServerBrowser(await steamApi.CreateMatchmakingServiceWrap().ConfigureAwait(false),

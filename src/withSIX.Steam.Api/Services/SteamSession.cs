@@ -57,19 +57,20 @@ namespace withSIX.Steam.Api.Services
             }
         }
 
-        private Task Initialize(uint appId, Func<IScheduler, Task> initialize, Action simulate)
+        private Task<T> Initialize<T>(uint appId, Func<IScheduler, Task<T>> initialize, Action simulate)
             => SetupSteam(appId, initialize, simulate);
 
-        private async Task SetupSteam(uint appId, Func<IScheduler, Task> initialize, Action simulate) {
+        private async Task<T> SetupSteam<T>(uint appId, Func<IScheduler, Task<T>> initialize, Action simulate) {
             Contract.Requires<ArgumentException>(appId > 0);
 
             _safeCall = LockedWrapper.callFactory.Create();
             await SetupAppId(appId).ConfigureAwait(false);
             StartSteamIfRequiredAndConfirm();
             _scheduler = new EventLoopScheduler();
-            await initialize(_scheduler).ConfigureAwait(false);
+            var init = await initialize(_scheduler).ConfigureAwait(false);
 
             _callbackRunner = CreateCallbackRunner(simulate, _cts.Token);
+            return init;
         }
 
         private async Task SetupAppId(uint appId) {
@@ -138,22 +139,26 @@ namespace withSIX.Steam.Api.Services
         public class SteamSessionFactory : ISteamSessionFactory, ISteamSessionLocator
         {
             public Task<T> Do<T>(uint appId, IAbsoluteDirectoryPath steamPath, Func<Task<T>> action)
-                => Do(appId, steamPath, Steamworks.ConfirmSteamInitialization, SteamAPI.RunCallbacks, action);
+                => Do(appId, steamPath, async s => {
+                    await Steamworks.ConfirmSteamInitialization(s).ConfigureAwait(false);
+                    return (IDisposable) null;
+                }, SteamAPI.RunCallbacks, _ => action());
 
-            public async Task<T> Do<T>(uint appId, IAbsoluteDirectoryPath steamPath,
-                Func<IScheduler, Task> initializer, Action simulate, Func<Task<T>> action) {
+            public async Task<T> Do<T, TInit>(uint appId, IAbsoluteDirectoryPath steamPath,
+                Func<IScheduler, Task<TInit>> initializer, Action simulate, Func<TInit, Task<T>> action) where TInit : IDisposable {
                 using (var session = new SteamSession(steamPath)) {
-                    await session.Initialize(appId, initializer, simulate).ConfigureAwait(false);
-                    Session = session;
-                    return await session.Do(action).ConfigureAwait(false);
+                    using (var api = await session.Initialize(appId, initializer, simulate).ConfigureAwait(false)) {
+                        Session = session;
+                        return await session.Do(() => action(api)).ConfigureAwait(false);
+                    }
                 }
             }
 
             // TODO: Improved approach like DbContextLocator ;-)
             public SteamSession Session { get; private set; }
 
-            async Task<SteamSession> Start(uint appId, IAbsoluteDirectoryPath steamPath,
-                Func<IScheduler, Task> initializer, Action simulate) {
+            async Task<SteamSession> Start<T>(uint appId, IAbsoluteDirectoryPath steamPath,
+                Func<IScheduler, Task<T>> initializer, Action simulate) {
                 var session = new SteamSession(steamPath);
                 await session.Initialize(appId, initializer, simulate).ConfigureAwait(false);
                 Session = session;
@@ -195,7 +200,7 @@ namespace withSIX.Steam.Api.Services
     {
         Task<T> Do<T>(uint appId, IAbsoluteDirectoryPath steamPath, Func<Task<T>> action);
 
-        Task<T> Do<T>(uint appId, IAbsoluteDirectoryPath steamPath, Func<IScheduler, Task> initializer, Action simulate,
-            Func<Task<T>> action);
+        Task<T> Do<T, TInit>(uint appId, IAbsoluteDirectoryPath steamPath, Func<IScheduler, Task<TInit>> initializer, Action simulate,
+            Func<TInit, Task<T>> action) where TInit : IDisposable;
     }
 }

@@ -11,11 +11,16 @@ using withSIX.Core.Services;
 
 namespace withSIX.Steam.Plugin.Arma
 {
-    public class LockedWrapper<T> : LockedWrapper where T : class
+    public class LockedWrapper<T> : LockedWrapper, IDisposable where T : class, IDisposable
     {
         private readonly T _obj;
         private readonly ISafeCall _safeCall;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj">Takes responsibility over this object to ease disposing</param>
+        /// <param name="scheduler"></param>
         public LockedWrapper(T obj, IScheduler scheduler) {
             if (obj == null) {
                 throw new ArgumentNullException("obj");
@@ -37,5 +42,8 @@ namespace withSIX.Steam.Plugin.Arma
         public void DoWithoutLock(Action<T> action) => _safeCall.Do(() => action(_obj));
 
         public TResult DoWithoutLock<TResult>(Func<T, TResult> action) => _safeCall.Do(() => action(_obj));
+        public void Dispose() {
+            _obj.Dispose();
+        }
     }
 }

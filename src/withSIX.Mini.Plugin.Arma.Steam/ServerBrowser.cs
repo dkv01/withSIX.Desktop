@@ -17,10 +17,8 @@ using GameServerQuery.Games.RV;
 using SteamLayerWrap;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
-using withSIX.Api.Models.Servers.RV;
 using withSIX.Api.Models.Servers.RV.Arma3;
 using withSIX.Core.Applications.Extensions;
-using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Core.Services;
 using ServerModInfo = GameServerQuery.Games.RV.ServerModInfo;
 
@@ -30,9 +28,13 @@ namespace withSIX.Steam.Plugin.Arma
     {
         private readonly Func<IPEndPoint, Task<ServerInfoRulesFetcher>> _fetcherFact;
 
+        /// <summary>
+        /// </summary>
+        /// <param name="api">Takes control over to ease disposal</param>
+        /// <param name="fetcherFact"></param>
         public ServerBrowser(LockedWrapper<MatchmakingServiceWrap> api,
             Func<IPEndPoint, Task<ServerInfoRulesFetcher>> fetcherFact) : base(api) {
-            _fetcherFact = fetcherFact; 
+            _fetcherFact = fetcherFact;
         }
 
         public async Task<IObservable<ArmaServerInfo>> GetServers(CancellationToken ct, ServerFilterWrap filter) {
@@ -155,7 +157,7 @@ namespace withSIX.Steam.Plugin.Arma
 
         protected virtual void Dispose(bool disposing) {
             _api.Do(api => api.CancelRequest()); // hmm
-            _api.DoWithoutLock(api => api.Dispose());
+            _api.Dispose();
         }
     }
 
@@ -164,6 +166,12 @@ namespace withSIX.Steam.Plugin.Arma
         private readonly IPEndPoint _ep;
         private readonly LockedWrapper<ServerRulesServiceWrap> _srs;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ep"></param>
+        /// <param name="s">Takes control over to ease disposal</param>
+        /// <param name="a">Takes control over to ease disposal</param>
         public ServerInfoRulesFetcher(IPEndPoint ep, LockedWrapper<ServerRulesServiceWrap> s,
             LockedWrapper<MatchmakingServiceWrap> a) : base(a) {
             _ep = ep;
@@ -200,7 +208,7 @@ namespace withSIX.Steam.Plugin.Arma
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
             _srs.Do(srs => srs.CancelRequest()); // hm
-            _srs.DoWithoutLock(srs => srs.Dispose());
+            _srs.Dispose();
         }
 
         public async Task<ServerDataWrap> Fetch(CancellationToken ct) {

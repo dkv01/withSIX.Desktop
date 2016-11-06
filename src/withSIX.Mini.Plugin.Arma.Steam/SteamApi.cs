@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -10,12 +11,12 @@ using withSIX.Steam.Core;
 
 namespace withSIX.Steam.Plugin.Arma
 {
-    public class SteamApi : ISteamApi
+    public class SteamApi : ISteamApi, IDisposable
     {
-        private readonly LockedWrapper<ISteamAPIWrap> _steamApi;
+        private readonly LockedWrapper<SteamAPIWrap> _steamApi;
 
-        public SteamApi(ISteamAPIWrap apiWrap, IScheduler scheduler) {
-            _steamApi = new LockedWrapper<ISteamAPIWrap>(apiWrap, scheduler);
+        public SteamApi(IScheduler s) {
+            _steamApi = new LockedWrapper<SteamAPIWrap>(new SteamAPIWrap(), s);
         }
 
         public Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap()
@@ -49,6 +50,10 @@ namespace withSIX.Steam.Plugin.Arma
             if (r == InitResult.Disabled)
                 throw new SteamInitializationException(
                     "Steam initialization failed. Disabled");
+        }
+
+        public void Dispose() {
+            _steamApi.Dispose();
         }
     }
 
