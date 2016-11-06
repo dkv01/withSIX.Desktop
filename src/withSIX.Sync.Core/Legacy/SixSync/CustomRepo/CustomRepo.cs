@@ -62,7 +62,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
             var opts = GetOpts(packPath, status, mod);
             if (!folder.Exists) {
                 await
-                    Repository.Factory.Clone((List<Uri>) opts["hosts"], folder.ToString(), opts)
+                    Repository.Factory.Clone(opts.Hosts, folder.ToString(), opts)
                         .ConfigureAwait(false);
                 return;
             }
@@ -88,19 +88,19 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
         }
 
         static Repository GetRepo(IAbsoluteDirectoryPath rsyncDir,
-            IAbsoluteDirectoryPath folder, Dictionary<string, object> opts) => rsyncDir.Exists
-            ? Repository.Factory.Open(folder.ToString(), opts)
-            : Repository.Factory.Convert(folder.ToString(), opts);
+            IAbsoluteDirectoryPath folder, SyncOptions opts) => rsyncDir.Exists
+            ? Repository.Factory.Open(folder, opts)
+            : Repository.Factory.Convert(folder, opts);
 
-        // pff, better use a real param object!
-        Dictionary<string, object> GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
-            KeyValuePair<string, SixRepoModDto> mod) => new Dictionary<string, object> {
-            {"hosts", Hosts.Select(x => new Uri(x, mod.Key)).ToList()},
-            {"required_version", mod.Value.Version},
-            {"required_guid", mod.Value.Guid},
-            {"pack_path", packPath.GetChildFileWithName(mod.Key).ToString()},
-            {"status", status}
+        SyncOptions GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
+            KeyValuePair<string, SixRepoModDto> mod) => new SyncOptions {
+            Hosts = Hosts.Select(x => new Uri(x, mod.Key)).ToList(),
+            RequiredVersion = mod.Value.Version,
+            RequiredGuid = mod.Value.Guid,
+            PackPath = packPath.GetChildDirectoryWithName(mod.Key),
+            Status = status
         };
+
 
         public bool HasMod(string name) => Mods.Keys.ContainsIgnoreCase(name);
 

@@ -26,12 +26,12 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public Repository Init(IAbsoluteDirectoryPath folder, IReadOnlyCollection<Uri> hosts,
-            Dictionary<string, object> opts = null) {
+            SyncOptions opts = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
             Contract.Requires<ArgumentNullException>(hosts != null);
 
             if (opts == null)
-                opts = new Dictionary<string, object>();
+                opts = new SyncOptions();
 
             var rsyncFolder = folder.GetChildDirectoryWithName(Repository.RepoFolderName);
             if (rsyncFolder.Exists)
@@ -48,22 +48,19 @@ namespace withSIX.Sync.Core.Legacy.SixSync
 
             var config = new RepoConfig {Hosts = hosts.ToList()};
 
-            if (opts.ContainsKey("pack_path"))
-                config.PackPath = (string) opts["pack_path"];
+            config.PackPath = opts.PackPath?.ToString();
 
-            if (opts.ContainsKey("include"))
-                config.Include = (List<string>) opts["include"];
+            if (opts.Include != null)
+                config.Include = opts.Include;
 
-            if (opts.ContainsKey("exclude"))
-                config.Exclude = (List<string>) opts["exclude"];
+            if (opts.Exclude != null)
+                config.Include = opts.Exclude;
 
-            var guid = opts.ContainsKey("required_guid")
-                ? (string) opts["required_guid"]
-                : Guid.NewGuid().ToString();
+            var guid = opts.RequiredGuid ?? Guid.NewGuid().ToString();
 
             var packVersion = new RepoVersion {Guid = guid};
-            if (opts.ContainsKey("archive_format"))
-                packVersion.ArchiveFormat = (string) opts["archive_format"];
+            if (opts.ArchiveFormat != null)
+                packVersion.ArchiveFormat = (string) opts.ArchiveFormat;
 
             var wdVersion = SyncEvilGlobal.Yaml.NewFromYaml<RepoVersion>(packVersion.ToYaml());
 
@@ -74,27 +71,25 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             return TryGetRepository(folder, opts, rsyncFolder);
         }
 
-        private static IAbsoluteDirectoryPath GetPackFolder(IReadOnlyDictionary<string, object> opts,
-            IAbsoluteDirectoryPath rsyncFolder) => opts.ContainsKey("pack_path")
-            ? ((string) opts["pack_path"]).ToAbsoluteDirectoryPath()
-            : rsyncFolder.GetChildDirectoryWithName(Repository.PackFolderName);
+        private static IAbsoluteDirectoryPath GetPackFolder(SyncOptions opts,
+            IAbsoluteDirectoryPath rsyncFolder) => opts.PackPath ?? rsyncFolder.GetChildDirectoryWithName(Repository.PackFolderName);
 
-        Repository TryGetRepository(IAbsoluteDirectoryPath folder, Dictionary<string, object> opts,
+        Repository TryGetRepository(IAbsoluteDirectoryPath folder, SyncOptions opts,
             IAbsoluteDirectoryPath rsyncFolder) {
             try {
                 var repo = GetRepository(folder, opts);
 
-                if (opts.ContainsKey("max_threads"))
-                    repo.MultiThreadingSettings.MaxThreads = (int) opts["max_threads"];
+                if (opts.MaxThreads.HasValue)
+                    repo.MultiThreadingSettings.MaxThreads = opts.MaxThreads.Value;
 
-                if (opts.ContainsKey("required_version"))
-                    repo.RequiredVersion = (long?) opts["required_version"];
+                if (opts.RequiredVersion.HasValue)
+                    repo.RequiredVersion = opts.RequiredVersion;
 
-                if (opts.ContainsKey("required_guid"))
-                    repo.RequiredGuid = (string) opts["required_guid"];
+                if (opts.RequiredGuid != null)
+                    repo.RequiredGuid = opts.RequiredGuid;
 
-                if (opts.ContainsKey("output"))
-                    repo.Output = (string) opts["output"];
+                if (opts.Output != null)
+                    repo.Output = opts.Output;
 
                 repo.LoadHosts();
                 return repo;
@@ -104,60 +99,78 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             }
         }
 
-        Repository GetRepository(IAbsoluteDirectoryPath folder, IDictionary<string, object> opts)
-            => opts.ContainsKey("status")
-                ? new Repository(_zsyncMake, (StatusRepo) opts["status"], folder.ToString())
+        Repository GetRepository(IAbsoluteDirectoryPath folder, SyncOptions opts)
+            => opts.Status != null
+                ? new Repository(_zsyncMake, opts.Status, folder.ToString())
                 : new Repository(_zsyncMake, folder.ToString());
 
-        public async Task<Repository> Clone(IReadOnlyCollection<Uri> hosts, string folder, Dictionary<string, object> opts = null) {
+        public async Task<Repository> Clone(IReadOnlyCollection<Uri> hosts, string folder, SyncOptions opts = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
             Contract.Requires<ArgumentNullException>(hosts != null);
 
             if (opts == null)
-                opts = new Dictionary<string, object>();
-            if (opts.ContainsKey("path"))
-                folder = Path.Combine((string) opts["path"], folder);
+                opts = new SyncOptions();
+            if (opts.Path != null)
+                folder = opts.Path.GetChildDirectoryWithName(folder).ToString();
             var repo = Init(folder.ToAbsoluteDirectoryPath(), hosts, opts);
             await repo.Update(opts).ConfigureAwait(false);
             return repo;
         }
 
-        public Repository OpenOrInit(IAbsoluteDirectoryPath folder, Dictionary<string, object> opts = null)
+        public Repository OpenOrInit(IAbsoluteDirectoryPath folder, SyncOptions opts = null)
             => folder.GetChildDirectoryWithName(".rsync").Exists
                 ? Open(folder, opts)
                 : Init(folder, new Uri[0], opts);
 
-        public Repository Open(IAbsoluteDirectoryPath folder, Dictionary<string, object> opts = null) {
+        public Repository Open(IAbsoluteDirectoryPath folder, SyncOptions opts = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
 
             if (opts == null)
-                opts = new Dictionary<string, object>();
+                opts = new SyncOptions();
 
             var repo = GetRepository(folder, opts);
-            if (opts.ContainsKey("output"))
-                repo.Output = (string) opts["output"];
+            if (opts.Output != null)
+                repo.Output = opts.Output;
 
             return repo;
         }
 
-        public Repository Open(string folder, Dictionary<string, object> opts = null) {
+        public Repository Open(string folder, SyncOptions opts = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
             return Open(folder.ToAbsoluteDirectoryPath(), opts);
         }
 
-        public Repository Convert(string folder, Dictionary<string, object> opts = null) {
+        public Repository Convert(IAbsoluteDirectoryPath folder, SyncOptions opts = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
 
             if (opts == null)
-                opts = new Dictionary<string, object>();
+                opts = new SyncOptions();
 
-            var hosts = opts.ContainsKey("hosts") && (opts["hosts"] != null) ? (List<Uri>) opts["hosts"] : new List<Uri>();
-            var repo = Init(folder.ToAbsoluteDirectoryPath(), hosts, opts);
+            var hosts = opts.Hosts;
+            var repo = Init(folder, hosts, opts);
             repo.Commit(false, false);
             return repo;
         }
+    }
+
+
+    public class SyncOptions
+    {
+        public List<Uri> Hosts { get; set; } = new List<Uri>();
+        public List<string> Include { get; set; } = new List<string>();
+        public List<string> Exclude { get; set; } = new List<string>();
+        public IAbsoluteDirectoryPath PackPath { get; set; }
+        public StatusRepo Status { get; set; }
+        public string Output { get; set; }
+        public IAbsoluteDirectoryPath Path { get; set; }
+        public string RequiredGuid { get; set; }
+        public string ArchiveFormat { get; set; }
+        public int? MaxThreads { get; set; }
+        public long? RequiredVersion { get; set; }
+        public bool LocalOnly { get; set; }
+        public bool AllowFullTransferFallBack { get; set; }
+        public bool KeepCompressedFiles { get; set; }
     }
 }

@@ -392,43 +392,40 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             return true;
         }
 
-        bool HandleOpts(Dictionary<string, object> opts, bool save = true) {
+        bool HandleOpts(SyncOptions opts, bool save = true) {
             Contract.Requires<ArgumentNullException>(opts != null);
 
             var changed = false;
 
-            if (opts.ContainsKey("include")) {
-                Config.Include = (List<string>) opts["include"];
+            if (opts.Include != null) {
+                Config.Include = opts.Include;
                 changed = true;
             }
 
-            if (opts.ContainsKey("exclude")) {
-                Config.Exclude = (List<string>)opts["exclude"];
+            if (opts.Exclude != null) {
+                Config.Exclude = opts.Exclude;
+                changed = true;
+            }
+            AllowFullTransferFallBack = opts.AllowFullTransferFallBack;
+
+            if (opts.Hosts != null) {
+                Config.Hosts = opts.Hosts;
                 changed = true;
             }
 
-            if (opts.ContainsKey("allow_full_transfer_fallback"))
-                AllowFullTransferFallBack = (bool) opts["allow_full_transfer_fallback"];
+            if (opts.MaxThreads.HasValue)
+                MultiThreadingSettings.MaxThreads = opts.MaxThreads.Value;
+            
+                KeepCompressedFiles = opts.KeepCompressedFiles;
 
-            if (opts.ContainsKey("hosts")) {
-                Config.Hosts = (List<Uri>)opts["hosts"];
-                changed = true;
-            }
+            if (opts.Status != null)
+                StatusRepo = opts.Status;
 
-            if (opts.ContainsKey("max_threads"))
-                MultiThreadingSettings.MaxThreads = (int) opts["max_threads"];
+            if (opts.RequiredVersion.HasValue)
+                RequiredVersion = opts.RequiredVersion;
 
-            if (opts.ContainsKey("keep_compressed_files"))
-                KeepCompressedFiles = (bool) opts["keep_compressed_files"];
-
-            if (opts.ContainsKey("status"))
-                StatusRepo = (StatusRepo) opts["status"];
-
-            if (opts.ContainsKey("required_version"))
-                RequiredVersion = (long?) opts["required_version"];
-
-            if (opts.ContainsKey("required_guid"))
-                RequiredGuid = (string) opts["required_guid"];
+            if (opts.RequiredGuid != null)
+                RequiredGuid = opts.RequiredGuid;
 
             if (save && changed)
                 SaveAndReloadConfig();
@@ -479,15 +476,15 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 WdVersion.WdSize = Tools.FileUtil.GetDirectorySize(Folder, "*.zsync");
         }
 
-        public virtual async Task Update(Dictionary<string, object> opts = null) {
+        public virtual async Task Update(SyncOptions opts = null) {
             if (opts == null)
-                opts = new Dictionary<string, object>();
+                opts = new SyncOptions();
 
             HandleOpts(opts);
 
             StatusRepo.Action = RepoStatus.Verifying;
 
-            var localOnly = opts.ContainsKey("local_only") && (bool) opts["local_only"];
+            var localOnly = opts.LocalOnly;
             if (!localOnly) {
                 this.Logger().Info("Required Version: {0}, Required GUID: {1}", RequiredVersion, RequiredGuid);
                 await UpdateRepository().ConfigureAwait(false);
