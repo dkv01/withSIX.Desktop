@@ -8,15 +8,13 @@ namespace withSIX.Sync.Core.Legacy.SixSync
 {
     public class RepoVersion : IBaseYaml
     {
-        public Dictionary<string, string> Pack = new Dictionary<string, string>();
-        public Dictionary<string, string> WD = new Dictionary<string, string>();
-
         public RepoVersion() {
             ArchiveFormat = Repository.DefaultArchiveFormat;
             FormatVersion = 1;
-            Pack = new Dictionary<string, string>();
-            WD = new Dictionary<string, string>();
         }
+
+        public Dictionary<string, string> Pack { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> WD { get; set; } = new Dictionary<string, string>();
 
         public string ArchiveFormat { get; set; }
         public long Version { get; set; }
