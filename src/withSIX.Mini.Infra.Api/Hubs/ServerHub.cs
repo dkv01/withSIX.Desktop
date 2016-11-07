@@ -16,8 +16,6 @@ namespace withSIX.Mini.Infra.Api.Hubs
             => SendAsync(new GetServerAddresses(info), requestId);
 
         public Task<ServersInfo> GetServersInfo(GetServerQuery info) => SendAsync(new GetServersInfo(info));
-
-        public Task<ServersInfo> QueryServers(GetServersInfoQuery info) => SendAsync(new QueryServersInfo(info));
     }
 
     public interface IServerHubClient

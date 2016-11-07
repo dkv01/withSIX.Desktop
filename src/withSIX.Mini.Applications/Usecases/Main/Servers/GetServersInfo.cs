@@ -49,10 +49,16 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
                             scope.SendMessage(new ServerInfoReceived(game.Id, new List<Server> {x}));
                             servers.Add(x);
                         },
+                        request.Info.IncludeExtendedDetails,
                         request.Info.IncludePlayers)
                     .ConfigureAwait(false);
             return new ServersInfo {Servers = servers};
         }
+    }
+
+    public class ServersInfo
+    {
+        public List<Server> Servers { get; set; }
     }
 
     public class ServerInfoReceived
@@ -70,6 +76,7 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
     {
         public List<IPEndPoint> Addresses { get; set; }
         public bool IncludePlayers { get; set; }
+        public bool IncludeExtendedDetails { get; set; }
         public Guid GameId { get; set; }
     }
 }
