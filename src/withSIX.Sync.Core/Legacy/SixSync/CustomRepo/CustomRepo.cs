@@ -59,10 +59,12 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
             var mod = GetMod(name);
             var folder = destination.GetChildDirectoryWithName(mod.Key);
 
-            var opts = GetOpts(packPath, status, mod);
+            var config = GetOpts(packPath, status, mod);
             if (!folder.Exists) {
+                var opts = new SyncOptions();
+                config(opts);
                 await
-                    Repository.Factory.Clone(opts.Hosts, folder.ToString(), opts)
+                    Repository.Factory.Clone(opts.Hosts, folder.ToString(), config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -71,8 +73,8 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
             if (!force && rsyncDir.Exists && IsRightVersion(rsyncDir, mod))
                 return;
 
-            var repo = GetRepo(rsyncDir, folder, opts);
-            await repo.Update(opts).ConfigureAwait(false);
+            var repo = GetRepo(rsyncDir, folder, config);
+            await repo.Update(config).ConfigureAwait(false);
         }
 
         public KeyValuePair<string, SixRepoModDto> GetMod(string name)
@@ -88,19 +90,18 @@ namespace withSIX.Sync.Core.Legacy.SixSync.CustomRepo
         }
 
         static Repository GetRepo(IAbsoluteDirectoryPath rsyncDir,
-            IAbsoluteDirectoryPath folder, SyncOptions opts) => rsyncDir.Exists
-            ? Repository.Factory.Open(folder, opts)
-            : Repository.Factory.Convert(folder, opts);
+            IAbsoluteDirectoryPath folder, Action<SyncOptions> config) => rsyncDir.Exists
+            ? Repository.Factory.Open(folder, config)
+            : Repository.Factory.Convert(folder, config);
 
-        SyncOptions GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
-            KeyValuePair<string, SixRepoModDto> mod) => new SyncOptions {
-            Hosts = Hosts.Select(x => new Uri(x, mod.Key)).ToList(),
-            RequiredVersion = mod.Value.Version,
-            RequiredGuid = mod.Value.Guid,
-            PackPath = packPath.GetChildDirectoryWithName(mod.Key),
-            Status = status
+        Action<SyncOptions> GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
+            KeyValuePair<string, SixRepoModDto> mod) => opt => {
+            opt.Hosts = Hosts.Select(x => new Uri(x, mod.Key)).ToList();
+            opt.RequiredVersion = mod.Value.Version;
+            opt.RequiredGuid = mod.Value.Guid;
+            opt.PackPath = packPath.GetChildDirectoryWithName(mod.Key);
+            opt.Status = status;
         };
-
 
         public bool HasMod(string name) => Mods.Keys.ContainsIgnoreCase(name);
 

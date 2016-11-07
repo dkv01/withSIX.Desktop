@@ -25,14 +25,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             _zsyncMake = zsyncMake;
         }
 
-        public Repository Init(IAbsoluteDirectoryPath folder, IReadOnlyCollection<Uri> hosts,
-            SyncOptions opts = null) {
-            Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(hosts != null);
-
-            if (opts == null)
-                opts = new SyncOptions();
-
+        internal Repository Init(IAbsoluteDirectoryPath folder, IReadOnlyCollection<Uri> hosts, SyncOptions opts) {
             var rsyncFolder = folder.GetChildDirectoryWithName(Repository.RepoFolderName);
             if (rsyncFolder.Exists)
                 throw new Exception("Already appears to be a repository");
@@ -46,7 +39,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             rsyncFolder.MakeSurePathExists();
             packFolder.MakeSurePathExists();
 
-            var config = new RepoConfig {Hosts = hosts.ToList()};
+            var config = new RepoConfig { Hosts = hosts.ToList() };
 
             config.PackPath = opts.PackPath?.ToString();
 
@@ -58,9 +51,9 @@ namespace withSIX.Sync.Core.Legacy.SixSync
 
             var guid = opts.RequiredGuid ?? Guid.NewGuid().ToString();
 
-            var packVersion = new RepoVersion {Guid = guid};
+            var packVersion = new RepoVersion { Guid = guid };
             if (opts.ArchiveFormat != null)
-                packVersion.ArchiveFormat = (string) opts.ArchiveFormat;
+                packVersion.ArchiveFormat = (string)opts.ArchiveFormat;
 
             var wdVersion = SyncEvilGlobal.Yaml.NewFromYaml<RepoVersion>(packVersion.ToYaml());
 
@@ -69,6 +62,17 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             SyncEvilGlobal.Yaml.ToYamlFile(wdVersion, wdVersionFile);
 
             return TryGetRepository(folder, opts, rsyncFolder);
+        }
+
+        public Repository Init(IAbsoluteDirectoryPath folder, IReadOnlyCollection<Uri> hosts,
+            Action<SyncOptions> cfg = null) {
+            Contract.Requires<ArgumentNullException>(folder != null);
+            Contract.Requires<ArgumentNullException>(hosts != null);
+
+            var opts = new SyncOptions();
+            cfg?.Invoke(opts);
+
+            return Init(folder, hosts, opts);
         }
 
         private static IAbsoluteDirectoryPath GetPackFolder(SyncOptions opts,
@@ -104,13 +108,13 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 ? new Repository(_zsyncMake, opts.Status, folder.ToString())
                 : new Repository(_zsyncMake, folder.ToString());
 
-        public async Task<Repository> Clone(IReadOnlyCollection<Uri> hosts, string folder, SyncOptions opts = null) {
+        public async Task<Repository> Clone(IReadOnlyCollection<Uri> hosts, string folder, Action<SyncOptions> config = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
             Contract.Requires<ArgumentNullException>(hosts != null);
 
-            if (opts == null)
-                opts = new SyncOptions();
+            var opts = new SyncOptions();
+            config?.Invoke(opts);
             if (opts.Path != null)
                 folder = opts.Path.GetChildDirectoryWithName(folder).ToString();
             var repo = Init(folder.ToAbsoluteDirectoryPath(), hosts, opts);
@@ -118,16 +122,16 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             return repo;
         }
 
-        public Repository OpenOrInit(IAbsoluteDirectoryPath folder, SyncOptions opts = null)
+        public Repository OpenOrInit(IAbsoluteDirectoryPath folder, Action<SyncOptions> config = null)
             => folder.GetChildDirectoryWithName(".rsync").Exists
-                ? Open(folder, opts)
-                : Init(folder, new Uri[0], opts);
+                ? Open(folder, config)
+                : Init(folder, new Uri[0], config);
 
-        public Repository Open(IAbsoluteDirectoryPath folder, SyncOptions opts = null) {
+        public Repository Open(IAbsoluteDirectoryPath folder, Action<SyncOptions> config = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
 
-            if (opts == null)
-                opts = new SyncOptions();
+            var opts = new SyncOptions();
+            config?.Invoke(opts);
 
             var repo = GetRepository(folder, opts);
             if (opts.Output != null)
@@ -136,17 +140,17 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             return repo;
         }
 
-        public Repository Open(string folder, SyncOptions opts = null) {
+        public Repository Open(string folder, Action<SyncOptions> config = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
-            return Open(folder.ToAbsoluteDirectoryPath(), opts);
+            return Open(folder.ToAbsoluteDirectoryPath(), config);
         }
 
-        public Repository Convert(IAbsoluteDirectoryPath folder, SyncOptions opts = null) {
+        public Repository Convert(IAbsoluteDirectoryPath folder, Action<SyncOptions> config = null) {
             Contract.Requires<ArgumentNullException>(folder != null);
 
-            if (opts == null)
-                opts = new SyncOptions();
+            var opts = new SyncOptions();
+            config?.Invoke(opts);
 
             var hosts = opts.Hosts;
             var repo = Init(folder, hosts, opts);

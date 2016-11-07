@@ -76,17 +76,19 @@ namespace withSIX.Mini.Core.Social
         }
 
         private async Task UpdateExisting(GroupContent mod, IAuthProvider provider, IAbsoluteDirectoryPath rsyncDir,
-            IAbsoluteDirectoryPath folder, SyncOptions opts) {
+            IAbsoluteDirectoryPath folder, Action<SyncOptions> config = null) {
             SetupHosts(mod, provider);
-            var repo = GetRepo(rsyncDir, folder, opts);
-            await repo.Update(opts).ConfigureAwait(false);
+            var repo = GetRepo(rsyncDir, folder, config);
+            await repo.Update(config).ConfigureAwait(false);
         }
 
-        private async Task InstallNew(GroupContent mod, IAuthProvider provider, SyncOptions opts,
+        private async Task InstallNew(GroupContent mod, IAuthProvider provider, Action<SyncOptions> config,
             IAbsoluteDirectoryPath folder) {
             SetupHosts(mod, provider);
+            var opts = new SyncOptions();
+            config(opts);
             await
-                Repository.Factory.Clone(opts.Hosts, folder.ToString(), opts)
+                Repository.Factory.Clone(opts.Hosts, folder.ToString(), config)
                     .ConfigureAwait(false);
         }
 
@@ -97,19 +99,19 @@ namespace withSIX.Mini.Core.Social
             }
         }
 
-        SyncOptions GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
-            GroupContent mod) => new SyncOptions {
-            Hosts = GetHosts(mod).ToList(),
+        Action<SyncOptions> GetOpts(IAbsoluteDirectoryPath packPath, StatusRepo status,
+            GroupContent mod) => opts => {
+            opts.Hosts = GetHosts(mod).ToList();
             //{"required_version", mod.Version}, // TODO
             //{"required_guid", @group.Id}, // TODO
-            PackPath = packPath.GetChildDirectoryWithName(mod.PackageName),
-            Status = status
+            opts.PackPath = packPath.GetChildDirectoryWithName(mod.PackageName);
+            opts.Status = status;
         };
 
         static Repository GetRepo(IAbsoluteDirectoryPath rsyncDir, IAbsoluteDirectoryPath folder,
-            SyncOptions opts) => rsyncDir.Exists
-            ? Repository.Factory.Open(folder, opts)
-            : Repository.Factory.Convert(folder, opts);
+            Action<SyncOptions> config = null) => rsyncDir.Exists
+            ? Repository.Factory.Open(folder, config)
+            : Repository.Factory.Convert(folder, config);
 
         // TODO
         private bool IsRightVersion(IAbsoluteDirectoryPath rsyncDir, GroupContent mod) => false;

@@ -476,10 +476,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 WdVersion.WdSize = Tools.FileUtil.GetDirectorySize(Folder, "*.zsync");
         }
 
-        public virtual async Task Update(SyncOptions opts = null) {
-            if (opts == null)
-                opts = new SyncOptions();
-
+        internal async Task Update(SyncOptions opts) {
             HandleOpts(opts);
 
             StatusRepo.Action = RepoStatus.Verifying;
@@ -508,7 +505,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             if (await ProcessWdChanges(differences, changesOnly).ConfigureAwait(false))
                 changeLock = true;
 
-            if (CollectTransferLogs) {}
+            if (CollectTransferLogs) { }
 
             TryCleanupTmpFiles();
 
@@ -521,12 +518,18 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             if (changeLock || (WdVersion.Version != PackVersion.Version)) {
                 UpdateRepoInfo();
                 this.Logger().Info("New repository version: {0}, Pack Size: {1}, WD Size: {2}",
-                    WdVersion.Version, WdVersion.PackSize*1024,
-                    WdVersion.WdSize*1024);
+                    WdVersion.Version, WdVersion.PackSize * 1024,
+                    WdVersion.WdSize * 1024);
             }
 
             SyncEvilGlobal.Yaml.ToYamlFile(WdVersion, WdVersionFile);
             StatusRepo.Finish();
+        }
+
+        public virtual Task Update(Action<SyncOptions> config = null) {
+            var opts = new SyncOptions();
+            config?.Invoke(opts);
+            return Update(opts);
         }
 
         void TryConfirmChecksumValidity(bool localOnly) {
