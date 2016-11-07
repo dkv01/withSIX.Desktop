@@ -80,8 +80,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
             => factory.Create(this).GetServerAddresses(SteamInfo.AppId, act, cancelToken);
 
         public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
-                Action<Server> act, bool inclExtendedDetails = false)
-            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, inclExtendedDetails, act);
+                Action<Server> act, ServerQueryOptions options)
+            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, options, act);
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {

@@ -44,7 +44,6 @@ namespace withSIX.Mini.Plugin.Starbound.Models
     [DataContract]
     public class StarboundGame : BasicSteamGame, IQueryServers
     {
-        private static readonly SourceQueryParser sourceQueryParser = new SourceQueryParser();
         private readonly Lazy<IRelativeFilePath[]> _executables;
         private readonly Lazy<IRelativeFilePath[]> _serverExecutables;
 
@@ -69,15 +68,18 @@ namespace withSIX.Mini.Plugin.Starbound.Models
         }
 
         public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
-                Action<Server> act, bool inclExtendedDetails = false)
-            => GetFromGameServerQuery(addresses, inclExtendedDetails, act);
+                Action<Server> act, ServerQueryOptions options)
+            => GetFromGameServerQuery(addresses, options, act);
 
         // todo; use factory
         private static async Task<BatchResult> GetFromGameServerQuery(
-            IReadOnlyCollection<IPEndPoint> addresses, bool inclPlayers, Action<Server> act) {
+            IEnumerable<IPEndPoint> addresses, ServerQueryOptions options, Action<Server> act) {
             var q = new ReactiveSource();
             using (var client = q.CreateUdpClient()) {
-                return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client))
+                return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client, new QuerySettings {
+                        InclPlayers = options.InclPlayers,
+                        InclRules = options.InclExtendedDetails
+                    }))
                     .Do(x => {
                         var serverInfo = new Server {QueryAddress = x.Address};
                         var r = (SourceParseResult) x.Settings;

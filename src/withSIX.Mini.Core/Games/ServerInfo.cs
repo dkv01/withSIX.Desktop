@@ -18,6 +18,12 @@ namespace withSIX.Mini.Core.Games
         Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken, Action<List<IPEndPoint>> act);
 
         Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
-            Action<Server> act, bool inclExtendedDetails = false);
+            Action<Server> act, ServerQueryOptions options);
+    }
+
+    public class ServerQueryOptions
+    {
+        public bool InclExtendedDetails { get; set; }
+        public bool InclPlayers { get; set; }
     }
 }

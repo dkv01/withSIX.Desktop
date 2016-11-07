@@ -49,8 +49,10 @@ namespace withSIX.Mini.Applications.Usecases.Main.Servers
                             scope.SendMessage(new ServerInfoReceived(game.Id, new List<Server> {x}));
                             servers.Add(x);
                         },
-                        request.Info.IncludeExtendedDetails,
-                        request.Info.IncludePlayers)
+                        new ServerQueryOptions {
+                            InclExtendedDetails = request.Info.IncludeExtendedDetails,
+                            InclPlayers = request.Info.IncludePlayers
+                        })
                     .ConfigureAwait(false);
             return new ServersInfo {Servers = servers};
         }
