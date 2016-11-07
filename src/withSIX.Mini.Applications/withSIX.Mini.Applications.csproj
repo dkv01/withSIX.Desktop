@@ -230,7 +230,6 @@
     <Compile Include="Usecases\Main\SaveGeneralSettings.cs" />
     <Compile Include="Usecases\Main\Servers\GetServers.cs" />
     <Compile Include="Usecases\Main\Servers\GetServersInfo.cs" />
-    <Compile Include="Usecases\Main\Servers\QueryServersInfo.cs" />
     <Compile Include="Usecases\Main\SetLogin.cs" />
     <Compile Include="Usecases\Main\SettingsUpdated.cs" />
     <Compile Include="Usecases\Main\SingleCntentBase.cs" />
