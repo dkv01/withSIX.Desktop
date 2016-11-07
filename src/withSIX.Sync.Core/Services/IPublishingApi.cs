@@ -11,8 +11,9 @@ namespace withSIX.Sync.Core.Services
 {
     public interface IPublishingApi
     {
-        Task<Guid> Publish(PublishModModel model, string registerKey);
-        Task Signal(string registerKey);
-        Task Deversion(SpecificVersion nextInline, string registerKey);
+        Task<Guid> Publish(PublishModModel model);
+        Task Signal();
+        Task Deversion(SpecificVersion nextInline);
+        Task PublishState(StateChangeMessageModel model);
     }
 }

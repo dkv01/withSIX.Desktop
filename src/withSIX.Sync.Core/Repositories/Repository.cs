@@ -1110,27 +1110,24 @@ namespace withSIX.Sync.Core.Repositories
             return nextInline;
         }
 
-        public async Task YankAndDeregister(Dependency def, IAbsoluteDirectoryPath workDir, IPublishingApi publishingApi,
-            string registerKey) {
+        public async Task YankAndDeregister(Dependency def, IAbsoluteDirectoryPath workDir, IPublishingApi publishingApi) {
             //            Contract.Requires<ArgumentNullException>(def != null);
             //            Contract.Requires<ArgumentNullException>(workDir != null);
             //            Contract.Requires<ArgumentNullException>(publishingApi != null);
-            //            Contract.Requires<ArgumentNullException>(registerKey != null);
 
             var nextInline = await Yank(def, workDir).ConfigureAwait(false);
-            await publishingApi.Deversion(nextInline, registerKey).ConfigureAwait(false);
+            await publishingApi.Deversion(nextInline).ConfigureAwait(false);
         }
 
         public async Task ReversionAndRegister(Dependency dependency, string newVersion, IAbsoluteDirectoryPath workDir,
-            IPublishingApi publishingApi, string registerKey) {
+            IPublishingApi publishingApi) {
             //            Contract.Requires<ArgumentNullException>(dependency != null);
             //            Contract.Requires<ArgumentNullException>(newVersion != null);
             //            Contract.Requires<ArgumentNullException>(workDir != null);
             //            Contract.Requires<ArgumentNullException>(publishingApi != null);
-            //            Contract.Requires<ArgumentNullException>(registerKey != null);
 
             var package = await Reversion(dependency, workDir, newVersion).ConfigureAwait(false);
-            await package.Register(publishingApi, null, registerKey).ConfigureAwait(false);
+            await package.Register(publishingApi, null).ConfigureAwait(false);
         }
 
         public async Task<Package> Reversion(Dependency def, IAbsoluteDirectoryPath workDir, string newVersion) {

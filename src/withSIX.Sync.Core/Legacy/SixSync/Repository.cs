@@ -236,11 +236,11 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             }
        */
 
-        public Task<Guid> Register(IPublishingApi api, string name, string version, string registerInfo,
-            string registerKey) => api.Publish(BuildPublishModel(name, version, registerInfo), registerKey);
+        public Task<Guid> Register(IPublishingApi api, string name, string version, string registerInfo)
+            => api.Publish(BuildPublishModel(name, version, registerInfo));
 
-        public Task<Guid> DeRegister(IPublishingApi api, string name, string version, string registerInfo,
-            string registerKey) => api.Publish(BuildPublishModel(name, version, registerInfo), registerKey);
+        public Task<Guid> DeRegister(IPublishingApi api, string name, string version, string registerInfo)
+            => api.Publish(BuildPublishModel(name, version, registerInfo));
 
         PublishModModel BuildPublishModel(string name, string version, string registerInfo) {
             var cppInfo = GetCppInfo();

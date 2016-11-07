@@ -139,11 +139,11 @@ namespace withSIX.Sync.Core.Packages
             return true;
         }
 
-        public Task<Guid> Register(IPublishingApi api, string registerInfo, string registerKey)
-            => api.Publish(BuildPublishModel(registerInfo), registerKey);
+        public Task<Guid> Register(IPublishingApi api, string registerInfo)
+            => api.Publish(BuildPublishModel(registerInfo));
 
-        public Task<Guid> DeRegister(IPublishingApi api, string registerInfo, string registerKey)
-            => api.Publish(BuildPublishModel(registerInfo), registerKey);
+        public Task<Guid> DeRegister(IPublishingApi api, string registerInfo)
+            => api.Publish(BuildPublishModel(registerInfo));
 
         PublishModModel BuildPublishModel(string registerInfo) {
             var yml = WorkingPath.GetChildDirectoryWithName(".rsync\\.pack")
