@@ -35,7 +35,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb" /*GameUUids.Arma3 */)
     ]
     [DataContract]
-    public class Arma3Game : Arma2OaGame, IQueryServers, IServerQueryWith<IArmaServerQuery>
+    public class Arma3Game : Arma2OaGame
     {
         const string BattleEyeExe = "arma3battleye.exe";
         public static readonly string[] Arma2TerrainPacks = {
@@ -75,13 +75,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
             InstalledState.IsInstalled
                 ? Dlcs.Where(x => InstalledState.Directory.GetChildDirectoryWithName(x.PackageName).Exists).ToList()
                 : new List<Dlc>();
-
-        public Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken, Action<List<IPEndPoint>> act)
-            => factory.Create(this).GetServerAddresses(SteamInfo.AppId, act, cancelToken);
-
-        public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
-                Action<Server> act, ServerQueryOptions options)
-            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, options, act);
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {

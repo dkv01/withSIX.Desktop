@@ -36,7 +36,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
          "ArmA2OaProfile")]
     [SteamInfo(33930, "Arma 2 Operation Arrowhead")]
     [DataContract]
-    public abstract class Arma2OaGame : Arma2Game, IServerQueryWith<IArmaServerQuery>
+    public abstract class Arma2OaGame : Arma2Game, IQueryServers, IServerQueryWith<IArmaServerQuery>
     {
         const string BattleEyeExe = "ArmA2OA_BE.exe";
         static readonly IReadOnlyCollection<string> defaultModFolders = new[] {"expansion"};
