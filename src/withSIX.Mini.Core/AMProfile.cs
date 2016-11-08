@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using AutoMapper;
 using GameServerQuery.Games.RV;
@@ -17,8 +18,11 @@ namespace withSIX.Mini.Core
     {
         public AMProfile() {
             CreateMap<SourceParseResult, Server>()
+                .Include<SourceParseResult, ArmaServer>()
+                .Include<SourceParseResult, ArmaServerWithPlayers>()
                 .SourceParseResultToServer();
             CreateMap<SourceParseResult, ArmaServer>()
+                .Include<SourceParseResult, ArmaServerWithPlayers>()
                 .SourceParseResultToServer()
                 .AfterMap((src, dest) => {
                     var tags = src.Keywords;
@@ -27,7 +31,14 @@ namespace withSIX.Mini.Core
                         p.MapTo(dest);
                     }
                 });
+            CreateMap<SourceParseResult, ArmaServerWithPlayers>();
         }
+    }
+
+
+    public class ArmaServerWithPlayers : ArmaServer
+    {
+        public List<SourcePlayer> Players { get; set; }
     }
 
     internal static class Exts

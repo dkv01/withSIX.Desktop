@@ -18,6 +18,7 @@ using withSIX.Api.Models.Servers.RV.Arma3;
 using withSIX.Core;
 using withSIX.Core.Logging;
 using withSIX.Core.Services;
+using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Steam.Core.Requests;
@@ -104,17 +105,50 @@ namespace withSIX.Mini.Plugin.Arma.Services
             IEnumerable<IPEndPoint> addresses, ServerQueryOptions options, Action<Server> act) {
             var q = new ReactiveSource();
             using (var client = q.CreateUdpClient()) {
-                return new BatchResult(await q.ProcessResults(q.GetResults(addresses, client, new QuerySettings {
-                        InclPlayers = options.InclPlayers,
-                        InclRules = options.InclExtendedDetails
-                    }))
-                    .Do(x => {
-                        var r = (SourceParseResult) x.Settings;
-                        var serverInfo = r.MapTo<ArmaServer>();
-                        serverInfo.Ping = x.Ping;
-                        act(serverInfo);
-                    }).Count());
+                var results = q.ProcessResults(q.GetResults(addresses, client, new QuerySettings {
+                    InclPlayers = options.InclPlayers,
+                    InclRules = options.InclExtendedDetails
+                }));
+                results = options.InclPlayers ? results.Do(x => MapServerInclPlayers(act, x)) : results.Do(x => MapServer(act, x));
+
+                return new BatchResult(await results.Count());
             }
         }
+
+        private static void MapServer(Action<Server> act, ServerQueryResult x) {
+            var r = (SourceParseResult) x.Settings;
+            // TODO: Why not map from x instead?
+            var serverInfo = r.MapTo<ArmaServer>();
+            serverInfo.Ping = x.Ping;
+            act(serverInfo);
+        }
+
+        private static void MapServerInclPlayers(Action<Server> act, ServerQueryResult x) {
+            var r = (SourceParseResult)x.Settings;
+            // TODO: Why not map from x instead?
+            var serverInfo = r.MapTo<ArmaServerWithPlayers>();
+            serverInfo.Ping = x.Ping;
+            serverInfo.Players = x.Players.OfType<SourcePlayer>().ToList();
+            act(serverInfo);
+        }
     }
+
+    /*
+public static class RulesHandler
+{
+    public static Tuple<List<string>, List<string>, List<Api.Models.Servers.RV.Arma2.Dlcs>> GetParsedRulesA2(this SourceParseResult src) {
+        if (src.Rules == null)
+            return Tuple.Create(new List<string>(), new List<string>(), new List<Api.Models.Servers.RV.Arma2.Dlcs>());
+        var rules = SourceQueryParser.ParseRules(src.Rules);
+        var modList = SourceQueryParser.GetList(rules, "modNames").Where(x => !a2Useless.ContainsIgnoreCase(x)).ToList();
+        var mods = modList.Where(x => !a2Dlcs.ContainsKey(x.Replace(" (Lite)", ""))).ToList();
+        var sigs = SourceQueryParser.GetList(rules, "sigNames").ToList();
+        return Tuple.Create(mods, sigs,
+            modList.Select(x => x.Replace(" (Lite)", ""))
+                .Where(x => a2Dlcs.ContainsKey(x))
+                .Select(x => a2Dlcs[x])
+                .ToList());
+    }
+}
+    */
 }

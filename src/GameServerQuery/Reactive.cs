@@ -253,7 +253,8 @@ namespace GameServerQuery
             case MultiPacket:
                 return CollectPacket(reader);
             }
-            return null;
+            throw new InvalidOperationException(
+                $"Did not find the right packet header, found: {header}, expected {SinglePacket} or {MultiPacket}");
         }
 
         private byte[] CollectPacket(ByteArrayReader reader) {
