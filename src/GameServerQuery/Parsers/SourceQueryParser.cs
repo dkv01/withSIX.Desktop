@@ -3,30 +3,32 @@
 // </copyright>
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
+using withSIX.Api.Models.Extensions;
 
 namespace GameServerQuery.Parsers
 {
     public class SourceQueryParser : IServerQueryParser
     {
         public ServerQueryResult ParsePackets(IResult r) {
-            var s = ParseSettings(r.ReceivedPackets[0]);
+            var s = ParseSettings(r.ReceivedPackets["settings"]);
             s.Address = r.Endpoint; // todo
-            if (r.ReceivedPackets.Count > 1)
-                s.Rules = r.ReceivedPackets[1];
+            if (r.ReceivedPackets.ContainsKey("rules"))
+                s.Rules = r.ReceivedPackets["rules"];
 
             return new SourceServerQueryResult(r.Endpoint, s) {
                 Players =
-                    r.ReceivedPackets.Count > 2
-                        ? ParsePlayers(r.ReceivedPackets[2]).ToList()
+                    r.ReceivedPackets.ContainsKey("players")
+                        ? ParsePlayers(r.ReceivedPackets["players"]).ToList()
                         : new List<Player>(),
                 Ping = r.Ping
             };
         }
-
 
         static SourceParseResult ParseSettings(byte[] info) {
             var r = new Reader(info);
@@ -70,7 +72,6 @@ namespace GameServerQuery.Parsers
             return settings;
         }
 
-
         public static Dictionary<string, string> ParseRules(byte[] rules) {
             var r = new Reader(rules);
             r.Skip(5);
@@ -84,6 +85,27 @@ namespace GameServerQuery.Parsers
             });
 
             return dict;
+        }
+
+        static Regex GetRx(string keyWord) {
+            Regex rx;
+            if (rxCache.TryGetValue(keyWord, out rx))
+                return rx;
+            return
+                rxCache[keyWord] =
+                    new Regex(@"^" + keyWord + @":([0-9]+)\-([0-9]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        }
+        static readonly ConcurrentDictionary<string, Regex> rxCache = new ConcurrentDictionary<string, Regex>();
+
+        public static IEnumerable<string> GetList(IEnumerable<KeyValuePair<string, string>> dict, string keyWord) {
+            var rx = GetRx(keyWord);
+            return string.Join("", (from kvp in dict.Where(x => x.Key.StartsWith(keyWord))
+                                    let w = rx.Match(kvp.Key)
+                                    where w.Success
+                                    select new { Index = w.Groups[1].Value.TryInt(), Total = w.Groups[2].Value.TryInt(), kvp.Value })
+                    .OrderBy(x => x.Index).SelectMany(x => x.Value))
+                .Split(';')
+                .Where(x => !string.IsNullOrWhiteSpace(x));
         }
 
         static Player[] ParsePlayers(byte[] players) {

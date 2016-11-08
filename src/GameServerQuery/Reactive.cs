@@ -32,6 +32,7 @@ namespace GameServerQuery
         public bool InclPlayers { get; set; }
         public int DegreeOfParallelism { get; set; } = 50;
     }
+
     public class ReactiveSource
     {
         private readonly SourceQueryParser _parser = new SourceQueryParser();
@@ -54,9 +55,9 @@ namespace GameServerQuery
             udpClient.Client.ReceiveBufferSize = 25*1024*1024;
             //udpClient.Ttl = 255;
             // http://stackoverflow.com/questions/7201862/an-existing-connection-was-forcibly-closed-by-the-remote-host
-            uint IOC_IN = 0x80000000;
+            var IOC_IN = 0x80000000;
             uint IOC_VENDOR = 0x18000000;
-            uint SIO_UDP_CONNRESET = IOC_IN | IOC_VENDOR | 12;
+            var SIO_UDP_CONNRESET = IOC_IN | IOC_VENDOR | 12;
             udpClient.Client.IOControl((int) SIO_UDP_CONNRESET, new[] {Convert.ToByte(false)}, null);
             return udpClient;
         }
@@ -67,7 +68,8 @@ namespace GameServerQuery
 
         public IObservable<IResult> GetResults(IObservable<IPEndPoint> epsObs, UdpClient socket,
             QuerySettings settings) {
-            if (settings == null) settings = new QuerySettings();
+            if (settings == null)
+                settings = new QuerySettings();
             var mapping = new ConcurrentBag<EpState>();
             var obs = Observable.Create<IResult>(o => {
                 var count = 0;
@@ -94,7 +96,7 @@ namespace GameServerQuery
                     //.Select(x => Intercept(_ => Console.WriteLine($"Sending initial packet: {Interlocked.Increment(ref count)}"), x))
                     //.ObserveOn(scheduler)
                     .Merge(settings.DegreeOfParallelism); // TODO: Instead try to limit sends at a time? hm
-                    //.Do(x => Console.WriteLine($"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms"));
+                //.Do(x => Console.WriteLine($"Finished Processing: {Interlocked.Increment(ref count3)}. {x.Success} {x.Ping}ms"));
                 var sub = sender
                     .Subscribe(o.OnNext, o.OnError, () => {
                         Console.WriteLine($"" +
@@ -142,7 +144,8 @@ namespace GameServerQuery
         private readonly Func<byte[], Task> _sender;
         readonly Stopwatch _sw = new Stopwatch();
 
-        public EpState2(IPEndPoint ep, QuerySettings settings, IObservable<byte[]> receiver, Func<byte[], Task> sender) : base(ep, settings) {
+        public EpState2(IPEndPoint ep, QuerySettings settings, IObservable<byte[]> receiver, Func<byte[], Task> sender)
+            : base(ep, settings) {
             _receiver = receiver;
             _sender = sender;
         }
@@ -160,7 +163,7 @@ namespace GameServerQuery
                 .Take(1);
             //.Do(x => Console.WriteLine($"Finished Processing for {Endpoint}: {x}"));
             var dsp = l.Subscribe(s => obs.OnNext(s == EpStateState.Complete
-                ? (IResult) new Result(Endpoint, ReceivedPackets.Values.ToArray(), Convert.ToInt32(_pings.Average()))
+                ? (IResult) new Result(Endpoint, ReceivedPackets, Convert.ToInt32(_pings.Average()))
                 : new FailedResult(Endpoint)), obs.OnError, obs.OnCompleted);
             var data = Tick(null);
             await Send(data).ConfigureAwait(false);
@@ -359,7 +362,7 @@ namespace GameServerQuery
 
         public string ReadStringUntil(byte until = 0x00) {
             var start = _pos;
-            while (_b[_pos++] != 0x00) { }
+            while (_b[_pos++] != 0x00) {}
             return Encoding.UTF8.GetString(_b, start, _pos - start - 1);
         }
 
@@ -393,13 +396,13 @@ namespace GameServerQuery
     {
         IPEndPoint Endpoint { get; }
         bool Success { get; }
-        IReadOnlyList<byte[]> ReceivedPackets { get; }
+        IDictionary<string, byte[]> ReceivedPackets { get; }
         int Ping { get; }
     }
 
     public struct Result : IResult
     {
-        public Result(IPEndPoint endpoint, IReadOnlyList<byte[]> receivedPackets, int ping) {
+        public Result(IPEndPoint endpoint, IDictionary<string, byte[]> receivedPackets, int ping) {
             Endpoint = endpoint;
             ReceivedPackets = receivedPackets;
             Ping = ping;
@@ -407,26 +410,25 @@ namespace GameServerQuery
 
         public bool Success => true;
         public IPEndPoint Endpoint { get; }
-        public IReadOnlyList<byte[]> ReceivedPackets { get; }
+        public IDictionary<string, byte[]> ReceivedPackets { get; }
         public int Ping { get; }
     }
 
     public struct FailedResult : IResult
     {
         public IPEndPoint Endpoint { get; }
-        public IReadOnlyList<byte[]> ReceivedPackets { get; }
+        public IDictionary<string, byte[]> ReceivedPackets { get; }
         public bool Success => false;
         public int Ping => -1;
 
         public FailedResult(IPEndPoint endpoint) {
             Endpoint = endpoint;
-            ReceivedPackets = new List<byte[]>();
+            ReceivedPackets = new Dictionary<string, byte[]>();
         }
     }
 
     internal class EpState
     {
-        private readonly QuerySettings _settings;
         private const byte InfoResponse = 0x49;
         private const byte ChallengeResponse = 0x41;
         private const byte PlayerResponse = 0x44;
@@ -441,6 +443,7 @@ namespace GameServerQuery
         };
         // reused
         private readonly byte[] _emptyChallenge = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        private readonly QuerySettings _settings;
 
         private MultiStatus _multiStatus;
 
@@ -452,7 +455,7 @@ namespace GameServerQuery
         public IPEndPoint Endpoint { get; }
         public EpStateState State { get; private set; }
 
-        public Dictionary<int, byte[]> ReceivedPackets { get; private set; } = new Dictionary<int, byte[]>();
+        public Dictionary<string, byte[]> ReceivedPackets { get; private set; } = new Dictionary<string, byte[]>();
 
         private byte[] GetChallenge(byte b) {
             _emptyChallenge[4] = b;
@@ -467,15 +470,13 @@ namespace GameServerQuery
             case EpStateState.InfoChallenge: {
                 _multiStatus = new MultiStatus();
                 var r = _multiStatus.ProcessPacketHeader(response);
-                return r == null
-                    ? TransitionToReceivingInfoState()
-                    : (_settings.InclRules ? TransitionToRulesChallengeState(r) : TransitionToCompleteState(r, 0));
+                return r == null ? TransitionToReceivingInfoState() : HandleInfoEnd(r);
             }
             case EpStateState.ReceivingInfo: {
                 var r = _multiStatus.ProcessPacketHeader(response);
                 return r == null
                     ? null
-                    : (_settings.InclRules ? TransitionToRulesChallengeState(r) : TransitionToCompleteState(r, 0));
+                    : HandleInfoEnd(r);
             }
             case EpStateState.RulesChallenge: {
                 _multiStatus = new MultiStatus();
@@ -483,9 +484,7 @@ namespace GameServerQuery
                 case ChallengeResponse: //challenge
                     return TransitionToReceivingRulesState(response);
                 case RulesResponse: //no challenge needed info
-                    return _settings.InclPlayers
-                        ? TransitionToPlayerChallengeState(response)
-                        : TransitionToCompleteState(response, 1);
+                    return HandleRulesEnd(response);
                 default:
                     throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x41 or 0x45.", response[4]));
                 }
@@ -493,9 +492,7 @@ namespace GameServerQuery
             case EpStateState.ReceivingRules: {
                 var r = _multiStatus.ProcessPacketHeader(response);
                 return r != null
-                    ? (_settings.InclPlayers
-                        ? TransitionToPlayerChallengeState(r)
-                        : TransitionToCompleteState(r, 1))
+                    ? HandleRulesEnd(r)
                     : null;
             }
             case EpStateState.PlayerChallenge: {
@@ -504,19 +501,37 @@ namespace GameServerQuery
                 case ChallengeResponse: //challenge
                     return TransitionToReceivingPlayers(response);
                 case PlayerResponse: //no challenge needed info
-                    return TransitionToCompleteState(response, 2);
+                    return HandlePlayersEnd(response);
                 default:
                     throw new Exception(string.Format("Wrong packet tag: 0x{0:X} Expected: 0x41 or 0x45.", response[4]));
                 }
             }
             case EpStateState.ReceivingPlayers: {
                 var r = _multiStatus.ProcessPacketHeader(response);
-                return r != null ? TransitionToCompleteState(r, 2) : null;
+                return r != null ? HandlePlayersEnd(r) : null;
             }
             default: {
                 throw new Exception("Is in invalid state");
             }
             }
+        }
+
+        private byte[] HandleInfoEnd(byte[] r) {
+            ConfirmTag(r, InfoResponse);
+            Save(r, "settings");
+            if (_settings.InclRules)
+                return TransitionToRulesChallengeState();
+            return _settings.InclPlayers ? TransitionToPlayerChallengeState() : TransitionToCompleteState();
+        }
+
+        private byte[] HandleRulesEnd(byte[] r) {
+            Save(r, "rules");
+            return _settings.InclPlayers ? TransitionToPlayerChallengeState() : TransitionToCompleteState();
+        }
+
+        private byte[] HandlePlayersEnd(byte[] r) {
+            Save(r, "players");
+            return TransitionToCompleteState();
         }
 
         private byte[] TransitionToInfoChallenge() {
@@ -529,23 +544,22 @@ namespace GameServerQuery
             return null;
         }
 
-        private byte[] TransitionToRulesChallengeState(byte[] r) {
-            _multiStatus = null;
-            ConfirmTag(r, InfoResponse);
-            ReceivedPackets[0] = r;
+        private byte[] TransitionToRulesChallengeState() {
             State = EpStateState.RulesChallenge;
             return GetChallenge(RuleRequest);
         }
 
+        private void Save(byte[] r, string type) {
+            _multiStatus = null;
+            ReceivedPackets[type] = r;
+        }
 
         private byte[] TransitionToReceivingRulesState(byte[] response) {
             State = EpStateState.ReceivingRules;
             return a2SRulesRequestH.Concat(response.Skip(5)).ToArray();
         }
 
-        private byte[] TransitionToPlayerChallengeState(byte[] r) {
-            _multiStatus = null;
-            ReceivedPackets[1] = r;
+        private byte[] TransitionToPlayerChallengeState() {
             State = EpStateState.PlayerChallenge;
             return GetChallenge(PlayerRequest);
         }
@@ -555,10 +569,8 @@ namespace GameServerQuery
             return a2SPlayerRequestH.Concat(response.Skip(5)).ToArray();
         }
 
-        private byte[] TransitionToCompleteState(byte[] r, int key) {
-            ReceivedPackets[key] = r;
+        private byte[] TransitionToCompleteState() {
             State = EpStateState.Complete;
-            _multiStatus = null;
             return null;
         }
 
@@ -566,7 +578,6 @@ namespace GameServerQuery
             if (r[4] != checkTag)
                 throw new Exception($"Wrong packet tag: 0x{r[4]:X} Expected: 0x{checkTag:X}.");
         }
-
 
         public void Dispose() {
             ReceivedPackets = null;
