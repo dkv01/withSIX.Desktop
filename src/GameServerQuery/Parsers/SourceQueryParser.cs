@@ -24,7 +24,7 @@ namespace GameServerQuery.Parsers
             return new SourceServerQueryResult(r.Endpoint, s) {
                 Players =
                     r.ReceivedPackets.ContainsKey("players")
-                        ? ParsePlayers(r.ReceivedPackets["players"]).ToList()
+                        ? TryParsePlayers(r.ReceivedPackets["players"]).ToList()
                         : new List<Player>(),
                 Ping = r.Ping
             };
@@ -106,6 +106,14 @@ namespace GameServerQuery.Parsers
                     .OrderBy(x => x.Index).SelectMany(x => x.Value))
                 .Split(';')
                 .Where(x => !string.IsNullOrWhiteSpace(x));
+        }
+
+        static Player[] TryParsePlayers(byte[] players) {
+            try {
+                return ParsePlayers(players);
+            } catch (Exception ex) {
+                return new Player[0];
+            }
         }
 
         static Player[] ParsePlayers(byte[] players) {
