@@ -5,13 +5,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
+using withSIX.Api.Models.Servers;
+using withSIX.Core;
 using withSIX.Core.Extensions;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
+using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Mini.Plugin.Arma.Attributes;
 using withSIX.Mini.Plugin.Arma.Services;
 
@@ -31,7 +36,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
          "ArmA2OaProfile")]
     [SteamInfo(33930, "Arma 2 Operation Arrowhead")]
     [DataContract]
-    public abstract class Arma2OaGame : Arma2Game
+    public abstract class Arma2OaGame : Arma2Game, IServerQueryWith<IArmaServerQuery>
     {
         const string BattleEyeExe = "ArmA2OA_BE.exe";
         static readonly IReadOnlyCollection<string> defaultModFolders = new[] {"expansion"};
@@ -73,6 +78,13 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         protected override IEnumerable<IAbsoluteDirectoryPath> GetAdditionalLaunchMods()
             => defaultModFolders.Select(x => InstalledState.Directory.GetChildDirectoryWithName(x));
+
+        public Task<BatchResult> GetServers(IServerQueryFactory factory, CancellationToken cancelToken, Action<List<IPEndPoint>> act)
+    => factory.Create(this).GetServerAddresses(SteamInfo.AppId, act, cancelToken);
+
+        public Task<BatchResult> GetServerInfos(IServerQueryFactory factory, IReadOnlyCollection<IPEndPoint> addresses,
+                Action<Server> act, ServerQueryOptions options)
+            => factory.Create(this).GetServerInfo(SteamInfo.AppId, addresses, options, act);
 
         protected class Arma2OaModListBuilder : ModListBuilder
         {
