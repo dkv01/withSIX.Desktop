@@ -77,7 +77,7 @@ using withSIX.Core;
 
 [assembly: AssemblyVersion(BuildFlags.Version)]
 [assembly: AssemblyFileVersion(BuildFlags.Version)]
-[assembly: AssemblyInformationalVersion("1.0.0.12-dev201507123")]
+[assembly: AssemblyInformationalVersion(BuildFlags.ProductVersion)]
 [assembly: InternalsVisibleTo("ImpromptuInterfaceDynamicAssembly")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("Castle.Core")]
