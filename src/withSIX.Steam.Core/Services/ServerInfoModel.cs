@@ -15,5 +15,7 @@ namespace withSIX.Steam.Core.Services
 
         public IPEndPoint ConnectionEndPoint { get; set; }
         public IPEndPoint QueryEndPoint { get; protected set; }
+
+        public string Version { get; set; }
     }
 }

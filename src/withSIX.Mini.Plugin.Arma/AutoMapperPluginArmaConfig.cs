@@ -83,7 +83,13 @@ namespace withSIX.Mini.Plugin.Arma
                 .ForMember(x => x.ConnectionAddress, opt => opt.MapFrom(src => src.ConnectionEndPoint))
                 .ForMember(x => x.QueryAddress, opt => opt.MapFrom(src => src.QueryEndPoint))
                 .ForMember(x => x.Game, opt => opt.MapFrom(src => TryUrlDecode(src.Mission)))
-                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword));
+                .ForMember(x => x.IsPasswordProtected, opt => opt.MapFrom(src => src.RequirePassword))
+                .ForMember(x => x.Version, opt => opt.ResolveUsing(src => {
+                    if (src.Version == null)
+                        return null;
+                    Version v;
+                    return Version.TryParse(src.Version, out v) ? v : null;
+                }));
 
         internal static IMappingExpression<T1, T2> GameTagsToArmaServer<T1, T2>(this IMappingExpression<T1, T2> cfg)
             where T1 : GameTags where T2 : ArmaServer
