@@ -23,7 +23,7 @@ namespace withSIX.Steam.Api.Helpers
             => Observable.Create<T>(o => ex.Subscribe(o.OnError));
 
         public static IObservable<T> ConnectErrorSource<T>(this IObservable<T> src, IObservable<Exception> errorSource)
-            => src.Merge(errorSource.CreateErrorSource<T>());
+            => src.Merge(errorSource.CreateErrorSource<T>().TakeUntil(src)); // TODO: Consider switch?
 
         public static bool RequiresDownloading(this EItemState state) => !state.IsInstalled() || state.NeedsUpdate();
 

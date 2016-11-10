@@ -74,8 +74,8 @@ namespace withSIX.Steam.Presentation.Usecases
                             .ObserveOn(TaskPoolScheduler.Default)
                             .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                             .SelectMany(x => x)
-                            .ConnectErrorSource(_sessionLocator.Session.ThrownExceptions)
-                            .Count().ToTask();
+                            .Count()
+                            .ToTask();
                         var c =
                             await
                                 SteamServers.GetServers(_sessionLocator, Message.IncludeRules, Message.Filter, obs2.OnNext)
