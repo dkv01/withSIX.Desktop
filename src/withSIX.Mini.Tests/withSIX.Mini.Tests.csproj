@@ -282,6 +282,10 @@
       <HintPath>..\packages\System.Net.Http.4.1.0\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.NameResolution, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.NameResolution.4.0.0\lib\net46\System.Net.NameResolution.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Sockets.4.1.0\lib\net46\System.Net.Sockets.dll</HintPath>
       <Private>True</Private>
@@ -367,6 +371,7 @@
     <Compile Include="InvariantTest.cs" />
     <Compile Include="LocalAddin.cs" />
     <Compile Include="Playground\Apis\W6Api.cs" />
+    <Compile Include="Playground\QueryTest.cs" />
     <Compile Include="Playground\Yamltest.cs" />
     <Compile Include="ProgressTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -434,6 +439,10 @@
       <Project>{7AA7DA2C-BE4F-4472-B929-37B8284987B3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\withSIX.Steam.Infra\withSIX.Steam.Infra.csproj">
+      <Project>{5ACDEC54-063B-49CD-862B-709C9FE25B03}</Project>
+      <Name>withSIX.Steam.Infra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
       <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
       <Name>withSIX.Sync.Core</Name>
@@ -452,4 +461,3 @@
   </Target>
   -->
 </Project>
-
