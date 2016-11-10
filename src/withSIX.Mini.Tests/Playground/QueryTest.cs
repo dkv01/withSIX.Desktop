@@ -11,6 +11,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using FakeItEasy;
 using GameServerQuery;
 using GameServerQuery.Games.RV;
@@ -29,6 +30,7 @@ using withSIX.Steam.Core;
 using withSIX.Steam.Core.Requests;
 using withSIX.Steam.Core.Services;
 using withSIX.Steam.Infra;
+using withSIX.Steam.Plugin.Arma;
 
 namespace withSIX.Mini.Tests.Playground
 {
@@ -62,6 +64,10 @@ namespace withSIX.Mini.Tests.Playground
         [Test]
         public async Task Test3() {
             SetupNlog.Initialize("bla");
+            MappingExtensions.Mapper = new MapperConfiguration(cfg => {
+                cfg.AddProfile<ArmaServerProfile>();
+            }).CreateMapper();
+
             var f = new SteamSession.SteamSessionFactory();
             var id = (uint)SteamGameIds.Arma2Oa;
             LockedWrapper.callFactory = new SafeCallFactory(); // workaround for accessviolation errors
@@ -74,7 +80,7 @@ namespace withSIX.Mini.Tests.Playground
                                 .Count().ToTask();
                             var c2 =
                                 await
-                                    SteamServers.GetServers(f,
+                                    SteamServers.GetServers(f, true,
                                             ServerFilterBuilder.Build().FilterByAppId(id).FilterByDedicated().Value,
                                             obs2.OnNext)
                                         .ConfigureAwait(false);

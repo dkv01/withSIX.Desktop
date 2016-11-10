@@ -7,8 +7,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using GameServerQuery;
 using GameServerQuery.Games.RV;
 using GameServerQuery.Parsers;
 using NDepend.Helpers;
@@ -19,15 +23,27 @@ namespace withSIX.Steam.Api.Services
 {
     public static class SteamServers
     {
-        public static async Task<int> GetServers(ISteamSessionLocator locator, bool inclRules, List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
+        public static Task<int> GetServers(ISteamSessionLocator locator, bool inclRules,
+            List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
+            return HandleAlt(locator, filter, act); // HandleNative(locator, inclRules, filter, act
+        }
+
+        private static async Task<int> HandleNative(ISteamSessionLocator locator, bool inclRules,
+            List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
             var api = new SteamApi(locator);
+
+            var degreeOfParallelism = inclRules ? 1 : 1;
             using (var bc = new BlockingCollection<ArmaServerInfoModel>()) {
                 // TODO: better MT model
                 var bcT = TaskExt.StartLongRunningTask(async () => {
-                    foreach (var s in bc.GetConsumingEnumerable()) {
-                        await UpdateServerInfo(s, api, inclRules).ConfigureAwait(false);
-                        act(s);
-                    }
+                    await Task.WhenAll(Enumerable.Range(1, degreeOfParallelism).Select(_ =>
+                            Task.Run(async () => {
+                                foreach (var s in bc.GetConsumingEnumerable()) {
+                                    await UpdateServerInfo(s, api, inclRules).ConfigureAwait(false);
+                                    act(s);
+                                }
+                            })
+                    ));
                 });
                 var c2 = await api.GetServerInfo(locator.Session.AppId, x => {
                     try {
@@ -58,6 +74,47 @@ namespace withSIX.Steam.Api.Services
             }
         }
 
+        private static async Task<int> HandleAlt(ISteamSessionLocator locator, List<Tuple<string, string>> filter,
+            Action<ArmaServerInfoModel> act) {
+            var api = new SteamApi(locator);
+
+            var bc = new Subject<IPEndPoint>();
+
+            var dq = new DirectQuerier();
+            var t = dq.Load(page => {
+                foreach (var i in page) {
+                    var r = (SourceParseResult) i.Settings;
+                    var s = r.MapTo<ArmaServerInfoModel>();
+                    s.Ping = i.Ping;
+                    if (r.Rules != null) {
+                        try {
+                            var rules = SourceQueryParser.ParseRules(r.Rules);
+                            var mods = SourceQueryParser.GetList(rules, "modNames");
+                            s.SignatureList = SourceQueryParser.GetList(rules, "sigNames").ToHashSet();
+                            s.ModList = mods.Select(x => new ServerModInfo {Name = x}).ToList();
+                            s.ReceivedRules = true;
+                        } catch (Exception ex) {
+                            Console.WriteLine(ex);
+                        }
+                    }
+                    act(s);
+                }
+            }, bc);
+
+            var c2 = await api.GetServerInfo(locator.Session.AppId, x => {
+                try {
+                    var ip = x.m_NetAdr.GetQueryAddressString().Split(':').First();
+                    var ipAddress = IPAddress.Parse(ip);
+                    bc.OnNext(new IPEndPoint(ipAddress, x.m_NetAdr.GetQueryPort()));
+                } catch (Exception ex) {
+                    Console.WriteLine(ex);
+                }
+            }, filter).ConfigureAwait(false);
+            bc.OnCompleted();
+            await t;
+            return c2;
+        }
+
         private static async Task UpdateServerInfo(ArmaServerInfoModel s, SteamApi api, bool inclRules) {
             s.GameTags = s.Tags == null ? null : GameTags.Parse(s.Tags);
             if (inclRules) {
@@ -65,6 +122,31 @@ namespace withSIX.Steam.Api.Services
                 var mods = SourceQueryParser.GetList(rules, "modNames");
                 s.SignatureList = SourceQueryParser.GetList(rules, "sigNames").ToHashSet();
                 s.ModList = mods.Select(x => new ServerModInfo {Name = x}).ToList();
+            }
+        }
+
+        public class DirectQuerier
+        {
+            internal async Task Load(Action<IList<ServerQueryResult>> onNext, IObservable<IPEndPoint> masterObservable) {
+                var rs = new ReactiveSource();
+                using (var udpClient = CreateUdpClient()) {
+                    var directObs = rs.GetResults(
+                            masterObservable,
+                            udpClient, new QuerySettings {
+                                DegreeOfParallelism = 40,
+                                InclRules = true
+                            });
+                    await
+                        rs.ProcessResults(directObs.ObserveOn(TaskPoolScheduler.Default)).Buffer(231)
+                            .Do(onNext);
+                }
+            }
+
+            private static UdpClient CreateUdpClient() {
+                var udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
+                udpClient.Client.ReceiveBufferSize = 25 * 1024 * 1024;
+                //udpClient.Ttl = 255;
+                return udpClient;
             }
         }
     }
