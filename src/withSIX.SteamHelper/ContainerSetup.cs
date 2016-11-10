@@ -56,8 +56,8 @@ namespace withSIX.Steam.Presentation
                 cfg.AddProfile<ArmaServerProfile>();
             }).CreateMapper();
             App.SteamHelper = _container.GetInstance<ISteamHelper>();
+            // workaround for accessviolation errors
             LockedWrapper.callFactory = _container.GetInstance<ISafeCallFactory>();
-                // workaround for accessviolation errors
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
             Raiser.Raiserr = new EventStorage();
             RequestScopeService.Instance = new RequestScopeService(_container);

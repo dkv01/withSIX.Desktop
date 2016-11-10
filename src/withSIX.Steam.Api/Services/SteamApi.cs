@@ -123,15 +123,17 @@ namespace withSIX.Steam.Api.Services
 
             public async Task<int> GetServerList(uint appId, List<Tuple<string, string>> filter) {
                 var r = RefreshComplete.Take(1).ToTask();
-                _scheduler.Schedule(() => {
-                    _request = SteamMatchmakingServers.RequestInternetServerList(new AppId_t(appId),
-                        filter.Select(x => new MatchMakingKeyValuePair_t {m_szKey = x.Item1, m_szValue = x.Item2})
-                            .ToArray(),
-                        (uint) filter.Count, m_ServerListResponse);
-                });
+                await Schedule(() => _request = SteamMatchmakingServers.RequestInternetServerList(new AppId_t(appId),
+                    filter.Select(x => new MatchMakingKeyValuePair_t {m_szKey = x.Item1, m_szValue = x.Item2})
+                        .ToArray(),
+                    (uint) filter.Count, m_ServerListResponse));
+
                 await r;
                 return _resultsReceived;
             }
+
+            private IObservable<Unit> Schedule(Action act) => Observable.Return(Unit.Default, _scheduler)
+                .Do(_ => act());
 
             private void OnRefreshComplete(HServerListRequest hrequest, EMatchMakingServerResponse response) {
                 _refreshComplete.OnNext(Unit.Default);
@@ -139,8 +141,8 @@ namespace withSIX.Steam.Api.Services
 
             private void OnServerFailedToRespond(HServerListRequest hrequest, int iserver) {}
 
-            private void OnServerResponded(HServerListRequest hrequest, int iserver) {
-                _scheduler.Schedule(() => {
+            private async void OnServerResponded(HServerListRequest hrequest, int iserver) {
+                await Schedule(() => {
                     var s = SteamMatchmakingServers.GetServerDetails(hrequest, iserver);
                     _resultsReceived++;
                     _serverInfoReceived.OnNext(s);
@@ -195,25 +197,21 @@ namespace withSIX.Steam.Api.Services
 
             public async Task<gameserveritem_t> GetDetails() {
                 var r = _pingResponded.Take(1).TakeUntil(_pingFailed).ToTask();
-                _scheduler.Schedule(() => _request = SteamMatchmakingServers.PingServer(_ip, _port, _mPingResponse));
+                await Schedule(() => _request = SteamMatchmakingServers.PingServer(_ip, _port, _mPingResponse));
                 return await r;
             }
 
             public async Task<IDictionary<string, string>> GetRules() {
                 var completeObs = _rulesCompleted.Take(1).Merge(_rulesFailed.Take(1));
                 var dict = _rulesResponded.TakeUntil(completeObs).ToDictionary(x => x.Item1, x => x.Item2).ToTask();
-                _scheduler.Schedule(() => {
-                    _request = SteamMatchmakingServers.ServerRules(_ip, _port, _mRulesResponse);
-                });
+                await Schedule(() => _request = SteamMatchmakingServers.ServerRules(_ip, _port, _mRulesResponse));
                 return await dict;
             }
 
             public async Task<IList<Tuple<string, int, float>>> GetPlayers() {
                 var completeObs = _playerCompleted.Take(1).Merge(_playerFailed.Take(1));
                 var dict = _playerResponded.TakeUntil(completeObs).ToList().ToTask();
-                _scheduler.Schedule(() => {
-                    _request = SteamMatchmakingServers.PlayerDetails(_ip, _port, _mPlayersResponse);
-                });
+                await Schedule(() => _request = SteamMatchmakingServers.PlayerDetails(_ip, _port, _mPlayersResponse));
                 return await dict;
             }
 
@@ -234,6 +232,9 @@ namespace withSIX.Steam.Api.Services
             private void OnServerFailedToRespond() => _pingFailed.OnNext(Unit.Default);
 
             private void OnServerResponded(gameserveritem_t server) => _pingResponded.OnNext(server);
+
+            private IObservable<Unit> Schedule(Action act) => Observable.Return(Unit.Default, _scheduler)
+                .Do(_ => act());
         }
     }
 
