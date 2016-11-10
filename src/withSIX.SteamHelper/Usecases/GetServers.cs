@@ -12,6 +12,7 @@ using withSIX.Core.Presentation;
 using withSIX.Mini.Plugin.Arma.Services;
 using withSIX.Steam.Plugin.Arma;
 using System.Linq;
+using withSIX.Api.Models.Exceptions;
 using withSIX.Steam.Core.Services;
 using withSIX.Steam.Infra;
 using withSIX.Api.Models.Extensions;
@@ -43,6 +44,9 @@ namespace withSIX.Steam.Presentation.Usecases
             public GetServersSession(ISteamApi steamApi, IMessageBusProxy mb, IRequestScope scope) : base(steamApi, mb, scope) {}
 
             protected override async Task<BatchResult> HandleInternal() {
+                if (!Message.IncludeDetails)
+                    throw new ValidationException(
+                        "Retrieving without details is currently unsupported due to limitation in A3 query implementation");
                 var obs = await (Message.IncludeDetails
                     ? Sb.GetServersInclDetails2(Ct, Builder, Message.IncludeRules)
                     : Sb.GetServers2(Ct, Builder)).ConfigureAwait(false);
@@ -51,11 +55,7 @@ namespace withSIX.Steam.Presentation.Usecases
                         obs
                             .Cast<ArmaServerInfoModel>()
                             .Buffer(Message.PageSize)
-                            .Do(
-                                x =>
-                                    SendEvent(
-                                        new ReceivedServerPageEvent(
-                                            x.Select(s => s.MapTo<ArmaServerInfoModel>()).ToList<ServerInfoModel>())))
+                            .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                             .SelectMany(x => x)
                             .Count();
                 return new BatchResult(r);

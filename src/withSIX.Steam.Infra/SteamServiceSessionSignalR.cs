@@ -58,7 +58,6 @@ namespace withSIX.Steam.Infra
             var requestId = Guid.NewGuid();
             await MakeSureConnected().ConfigureAwait(false);
             using (Listen<ReceivedServerPageEvent>(requestId)
-                // TODO: Skip json step
                 .Select(x => x.Servers.Cast<T>().ToList())
                 .Do(pageAction)
                 .Subscribe()) {
