@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using GameServerQuery;
+using withSIX.Api.Models.Games;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Presentation;
@@ -30,6 +31,7 @@ namespace withSIX.Steam.Presentation.Usecases
 
         protected ServerFilterBuilder Builder { get; private set; }
 
+        // TODO: Remove from non arma3specific
         protected ServerBrowser Sb { get; private set; }
 
         protected CancellationToken Ct { get; private set; }
@@ -40,7 +42,7 @@ namespace withSIX.Steam.Presentation.Usecases
         public async Task<BatchResult> Handle(TMessage message, CancellationToken ct) {
             Message = message;
             Builder = ServerFilterBuilder.FromValue(Message.Filter);
-            using (var sb = await CreateServerBrowser().ConfigureAwait(false)) {
+            using (var sb = Cheat.AppId == (uint)SteamGameIds.Arma3 ? (await CreateServerBrowser().ConfigureAwait(false)) : null) {
                 using (var cts = new CancellationTokenSource()) {
                     ct.Register(cts.Cancel);
                     Ct = ct;
