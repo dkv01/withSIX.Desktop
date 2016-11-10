@@ -8,6 +8,7 @@ using System.IO;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using Steamworks;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Logging;
 using withSIX.Core.Services;
+using withSIX.Steam.Api.Helpers;
 using withSIX.Steam.Core;
 
 namespace withSIX.Steam.Api.Services
@@ -24,6 +26,7 @@ namespace withSIX.Steam.Api.Services
     {
         IScheduler Scheduler { get; }
         uint AppId { get; }
+        IObservable<Exception> ThrownExceptions { get; }
     }
 
     public class SteamSession : IDisposable, ISteamSession
@@ -110,20 +113,28 @@ namespace withSIX.Steam.Api.Services
                 throw new SteamInitializationException("Steam does not appear to be running");
         }
 
+        private readonly Subject<Exception> _thrownExceptions = new Subject<Exception>();
+
+        public IObservable<Exception> ThrownExceptions => _thrownExceptions.AsObservable();
+
 
         private async Task CreateCallbackRunner(Action act, CancellationToken ct) {
             while (!ct.IsCancellationRequested) {
-                await Observable.Return(Unit.Default, _scheduler)
-                    .Do(x => {
-                        if (!ct.IsCancellationRequested)
-                            try {
-                                _safeCall.Do(act);
-                            } catch (Exception ex) {
-                                //Trace.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
-                                Console.Error.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
-                                throw;
-                            }
-                    });
+                await _scheduler.Execute(() => {
+                    if (ct.IsCancellationRequested)
+                        return;
+                    try {
+                        _safeCall.Do(act);
+                    } catch (Exception ex) {
+                        //Trace.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
+                        MainLog.Logger.Warn($"Exception occurred during SteamCallbackRunner: {ex.Message}");
+                        Console.Error.WriteLine($"Exception occurred during SteamCallbackRunner: {ex}");
+                        if (_thrownExceptions.HasObservers)
+                            _thrownExceptions.OnNext(ex);
+                        else
+                            throw; // TODO: How to terminate the process without access to Environment.Exit ?!
+                    }
+                });
                 await Task.Delay(TimeSpan.FromMilliseconds(50), ct).ConfigureAwait(false);
             }
         }

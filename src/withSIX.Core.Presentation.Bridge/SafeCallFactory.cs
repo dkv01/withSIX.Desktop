@@ -20,11 +20,12 @@ namespace withSIX.Core.Presentation.Bridge
             try {
                 act();
             } catch (AccessViolationException ex) {
-                throw new Exception($"Native exception ocurred while SteamAPI.RunCallbacks(): {ex}");
+                // Not setting the exception as inner exception because it probably still terminates the process.
+                throw new Exception($"Native exception ocurred while SafeCall.Do(): {ex}");
             } catch (Exception) {
                 throw;
             } catch {
-                throw new Exception("Unmanged ex");
+                throw new Exception("Unmanaged ex");
             }
         }
 
@@ -33,7 +34,8 @@ namespace withSIX.Core.Presentation.Bridge
             try {
                 return act();
             } catch (AccessViolationException ex) {
-                throw new Exception($"Native exception ocurred while SteamAPI.RunCallbacks(): {ex}");
+                // Not setting the exception as inner exception because it probably still terminates the process.
+                throw new Exception($"Native exception ocurred while SafeCall.Do<TResult>(): {ex}");
             } catch (Exception) {
                 throw;
             } catch {

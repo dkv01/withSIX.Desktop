@@ -8,6 +8,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using withSIX.Core.Services;
+using withSIX.Steam.Api.Helpers;
 
 namespace withSIX.Steam.Plugin.Arma
 {
@@ -32,8 +33,7 @@ namespace withSIX.Steam.Plugin.Arma
 
         public IScheduler Scheduler { get; }
 
-        public async Task Do(Action<T> action) => await Observable.Return(Unit.Default, Scheduler)
-            .Do(_ => _safeCall.Do(() => action(_obj)));
+        public async Task Do(Action<T> action) => await Scheduler.Execute(() => _safeCall.Do(() => action(_obj)));
 
         public async Task<TResult> Do<TResult>(Func<T, TResult> action)
             => await Observable.Return(Unit.Default, Scheduler)

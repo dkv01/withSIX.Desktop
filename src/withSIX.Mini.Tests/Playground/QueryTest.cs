@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
@@ -77,6 +78,7 @@ namespace withSIX.Mini.Tests.Playground
                         using (var obs2 = new Subject<ArmaServerInfoModel>()) {
                             var s = obs2.Synchronize()
                                 .Buffer(24)
+                                .ObserveOn(TaskPoolScheduler.Default)
                                 //.Do(x => Console.WriteLine("r" + x.ToList<ServerInfoModel>()))
                                 .SelectMany(x => x)
                                 .Count()

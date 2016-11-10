@@ -4,6 +4,7 @@
 
 using System;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
 using NDepend.Path;
@@ -14,6 +15,16 @@ namespace withSIX.Steam.Api.Helpers
 {
     public static class Extensions
     {
+        public static IObservable<Unit> Execute(this IScheduler This, Action act)
+            => Observable.Return(Unit.Default, This)
+                .Do(_ => act());
+
+        public static IObservable<T> CreateErrorSource<T>(this IObservable<Exception> ex)
+            => Observable.Create<T>(o => ex.Subscribe(o.OnError));
+
+        public static IObservable<T> ConnectErrorSource<T>(this IObservable<T> src, IObservable<Exception> errorSource)
+            => src.Merge(errorSource.CreateErrorSource<T>());
+
         public static bool RequiresDownloading(this EItemState state) => !state.IsInstalled() || state.NeedsUpdate();
 
         public static bool IsSubscribed(this EItemState state) => state.HasFlag(EItemState.k_EItemStateSubscribed);

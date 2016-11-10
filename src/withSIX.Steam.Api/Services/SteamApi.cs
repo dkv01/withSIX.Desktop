@@ -67,14 +67,14 @@ namespace withSIX.Steam.Api.Services
 
         public async Task<int> GetServerInfo(uint appId, Action<gameserveritem_t> act,
             List<Tuple<string, string>> filter) {
-            using (var sb = new ServerBrowser(Scheduler)) {
+            using (var sb = new ServerBrowser(_sessionLocator.Session)) {
                 using (sb.ServerInfoReceived.Subscribe(act))
                     return await sb.GetServerList(appId, filter).ConfigureAwait(false);
             }
         }
 
         public async Task<IDictionary<string, string>> GetServerRules(IPEndPoint ep) {
-            using (var sb = new ServerResponder(ep, Scheduler))
+            using (var sb = new ServerResponder(ep, _sessionLocator.Session))
                 return await sb.GetRules().ConfigureAwait(false);
         }
 
@@ -97,22 +97,24 @@ namespace withSIX.Steam.Api.Services
 
         class ServerBrowser : IDisposable
         {
-            private readonly IScheduler _scheduler;
+            private readonly ISteamMatchmakingServerListResponse _mServerListResponse;
             private readonly Subject<Unit> _refreshComplete = new Subject<Unit>();
             private readonly Subject<gameserveritem_t> _serverInfoReceived = new Subject<gameserveritem_t>();
-            private readonly ISteamMatchmakingServerListResponse m_ServerListResponse;
+            private readonly ISteamSession _session;
             private HServerListRequest _request;
             private int _resultsReceived;
 
-            public ServerBrowser(IScheduler scheduler) {
-                _scheduler = scheduler;
-                m_ServerListResponse = new ISteamMatchmakingServerListResponse(OnServerResponded,
+            public ServerBrowser(ISteamSession session) {
+                _session = session;
+                _mServerListResponse = new ISteamMatchmakingServerListResponse(OnServerResponded,
                     OnServerFailedToRespond, OnRefreshComplete);
             }
 
-            public IObservable<Unit> RefreshComplete => _refreshComplete.AsObservable();
+            public IObservable<Unit> RefreshComplete
+                => _refreshComplete.AsObservable().ConnectErrorSource(_session.ThrownExceptions);
 
-            public IObservable<gameserveritem_t> ServerInfoReceived => _serverInfoReceived.AsObservable();
+            public IObservable<gameserveritem_t> ServerInfoReceived
+                => _serverInfoReceived.AsObservable().ConnectErrorSource(_session.ThrownExceptions);
 
             public void Dispose() {
                 if (_request != default(HServerListRequest))
@@ -126,18 +128,16 @@ namespace withSIX.Steam.Api.Services
                 await Schedule(() => _request = SteamMatchmakingServers.RequestInternetServerList(new AppId_t(appId),
                     filter.Select(x => new MatchMakingKeyValuePair_t {m_szKey = x.Item1, m_szValue = x.Item2})
                         .ToArray(),
-                    (uint) filter.Count, m_ServerListResponse));
-
+                    (uint) filter.Count, _mServerListResponse));
                 await r;
                 return _resultsReceived;
             }
 
-            private IObservable<Unit> Schedule(Action act) => Observable.Return(Unit.Default, _scheduler)
+            private IObservable<Unit> Schedule(Action act) => Observable.Return(Unit.Default, _session.Scheduler)
                 .Do(_ => act());
 
-            private void OnRefreshComplete(HServerListRequest hrequest, EMatchMakingServerResponse response) {
-                _refreshComplete.OnNext(Unit.Default);
-            }
+            private void OnRefreshComplete(HServerListRequest hrequest, EMatchMakingServerResponse response)
+                => _refreshComplete.OnNext(Unit.Default);
 
             private void OnServerFailedToRespond(HServerListRequest hrequest, int iserver) {}
 
@@ -152,26 +152,26 @@ namespace withSIX.Steam.Api.Services
 
         class ServerResponder : IDisposable
         {
-            private readonly IScheduler _scheduler;
-            private readonly Subject<Unit> _pingFailed = new Subject<Unit>();
             private readonly uint _ip;
 
             private readonly ISteamMatchmakingPingResponse _mPingResponse;
             private readonly ISteamMatchmakingPlayersResponse _mPlayersResponse;
             private readonly ISteamMatchmakingRulesResponse _mRulesResponse;
+            private readonly Subject<Unit> _pingFailed = new Subject<Unit>();
+            private readonly Subject<gameserveritem_t> _pingResponded = new Subject<gameserveritem_t>();
             private readonly Subject<Unit> _playerCompleted = new Subject<Unit>();
             private readonly Subject<Unit> _playerFailed = new Subject<Unit>();
             private readonly Subject<Tuple<string, int, float>> _playerResponded =
                 new Subject<Tuple<string, int, float>>();
             private readonly ushort _port;
-            private readonly Subject<gameserveritem_t> _pingResponded = new Subject<gameserveritem_t>();
             private readonly Subject<Unit> _rulesCompleted = new Subject<Unit>();
             private readonly Subject<Unit> _rulesFailed = new Subject<Unit>();
             private readonly Subject<Tuple<string, string>> _rulesResponded = new Subject<Tuple<string, string>>();
             private HServerQuery _request;
+            private readonly ISteamSession _session;
 
-            public ServerResponder(IPEndPoint ep, IScheduler scheduler) {
-                _scheduler = scheduler;
+            public ServerResponder(IPEndPoint ep, ISteamSession session) {
+                _session = session;
                 _ip = (uint) BitConverter.ToInt32(ep.Address.GetAddressBytes().Reverse().ToArray(), 0);
                 _port = (ushort) ep.Port;
 
@@ -196,22 +196,22 @@ namespace withSIX.Steam.Api.Services
             }
 
             public async Task<gameserveritem_t> GetDetails() {
-                var r = _pingResponded.Take(1).TakeUntil(_pingFailed).ToTask();
-                await Schedule(() => _request = SteamMatchmakingServers.PingServer(_ip, _port, _mPingResponse));
+                var r = _pingResponded.ConnectErrorSource(_session.ThrownExceptions).Take(1).TakeUntil(_pingFailed).ToTask();
+                await _session.Scheduler.Execute(() => _request = SteamMatchmakingServers.PingServer(_ip, _port, _mPingResponse));
                 return await r;
             }
 
             public async Task<IDictionary<string, string>> GetRules() {
-                var completeObs = _rulesCompleted.Take(1).Merge(_rulesFailed.Take(1));
+                var completeObs = _rulesCompleted.ConnectErrorSource(_session.ThrownExceptions).Take(1).Merge(_rulesFailed.Take(1));
                 var dict = _rulesResponded.TakeUntil(completeObs).ToDictionary(x => x.Item1, x => x.Item2).ToTask();
-                await Schedule(() => _request = SteamMatchmakingServers.ServerRules(_ip, _port, _mRulesResponse));
+                await _session.Scheduler.Execute(() => _request = SteamMatchmakingServers.ServerRules(_ip, _port, _mRulesResponse));
                 return await dict;
             }
 
             public async Task<IList<Tuple<string, int, float>>> GetPlayers() {
-                var completeObs = _playerCompleted.Take(1).Merge(_playerFailed.Take(1));
+                var completeObs = _playerCompleted.ConnectErrorSource(_session.ThrownExceptions).Take(1).Merge(_playerFailed.Take(1));
                 var dict = _playerResponded.TakeUntil(completeObs).ToList().ToTask();
-                await Schedule(() => _request = SteamMatchmakingServers.PlayerDetails(_ip, _port, _mPlayersResponse));
+                await _session.Scheduler.Execute(() => _request = SteamMatchmakingServers.PlayerDetails(_ip, _port, _mPlayersResponse));
                 return await dict;
             }
 
@@ -232,9 +232,6 @@ namespace withSIX.Steam.Api.Services
             private void OnServerFailedToRespond() => _pingFailed.OnNext(Unit.Default);
 
             private void OnServerResponded(gameserveritem_t server) => _pingResponded.OnNext(server);
-
-            private IObservable<Unit> Schedule(Action act) => Observable.Return(Unit.Default, _scheduler)
-                .Do(_ => act());
         }
     }
 

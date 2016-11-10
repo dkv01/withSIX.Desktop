@@ -2,7 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -18,6 +20,7 @@ using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Reactive.Threading.Tasks;
 using withSIX.Api.Models.Games;
+using withSIX.Steam.Api.Helpers;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
@@ -61,12 +64,17 @@ namespace withSIX.Steam.Presentation.Usecases
                     throw new ValidationException(
                         "Retrieving without details is currently unsupported due to limitation in query implementation");
 
+
+                // TODO: We should abort the whole thing when an exception is thrown on the Session
+
                 if (Cheat.AppId != (uint)SteamGameIds.Arma3) {
                     using (var obs2 = new Subject<ArmaServerInfoModel>()) {
                         var s = obs2.Synchronize()
                             .Buffer(Message.PageSize)
+                            .ObserveOn(TaskPoolScheduler.Default)
                             .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                             .SelectMany(x => x)
+                            .ConnectErrorSource(_sessionLocator.Session.ThrownExceptions)
                             .Count().ToTask();
                         var c =
                             await
