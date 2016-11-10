@@ -43,6 +43,7 @@ namespace withSIX.Steam.Plugin.Arma
             var obs = ServerResponses
                 .TakeUntil(RefreshComplete)
                 .Select(x => x.ServerInfo == null ? null : ArmaServerInfo.FromWrap(x.ServerIndex, x.ServerInfo))
+                .Where(x => x != null)
                 .Replay();
             dsp.Add(obs.Connect());
             obs.Subscribe(_ => { }, x => dsp.Dispose(), dsp.Dispose, ct);

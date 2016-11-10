@@ -42,6 +42,11 @@ namespace GameServerQuery
             return this;
         }
 
+        public ServerFilterBuilder FilterByAppId(uint appId) {
+            AddFilter("appid", appId.ToString());
+            return this;
+        }
+
         public ServerFilterBuilder FilterByAddresses(IReadOnlyCollection<IPEndPoint> list) {
             MakeFilterStep();
             AddOr(list, x => FilterByAddress(x));

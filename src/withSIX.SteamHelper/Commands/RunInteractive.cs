@@ -40,7 +40,7 @@ namespace withSIX.Steam.Presentation.Commands
         }
 
         private Task Run(CancellationToken ct) {
-            if (AppId == (uint) SteamGameIds.Arma3) {
+            if (AppId == (uint) SteamGameIds.Arma3 || AppId == (uint)SteamGameIds.Arma2Oa) {
                 return SteamActions.PerformArmaSteamAction(async api => {
                     SteamApi = api;
                     await RunWebsite(ct).ConfigureAwait(false);
