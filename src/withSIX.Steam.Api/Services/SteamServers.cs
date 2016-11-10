@@ -19,13 +19,13 @@ namespace withSIX.Steam.Api.Services
 {
     public static class SteamServers
     {
-        public static async Task<int> GetServers(ISteamSessionLocator locator, List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
+        public static async Task<int> GetServers(ISteamSessionLocator locator, bool inclRules, List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
             var api = new SteamApi(locator);
             using (var bc = new BlockingCollection<ArmaServerInfoModel>()) {
                 // TODO: better MT model
                 var bcT = TaskExt.StartLongRunningTask(async () => {
                     foreach (var s in bc.GetConsumingEnumerable()) {
-                        await UpdateServerInfo(s, api).ConfigureAwait(false);
+                        await UpdateServerInfo(s, api, inclRules).ConfigureAwait(false);
                         act(s);
                     }
                 });
@@ -58,12 +58,14 @@ namespace withSIX.Steam.Api.Services
             }
         }
 
-        private static async Task UpdateServerInfo(ArmaServerInfoModel s, SteamApi api) {
+        private static async Task UpdateServerInfo(ArmaServerInfoModel s, SteamApi api, bool inclRules) {
             s.GameTags = s.Tags == null ? null : GameTags.Parse(s.Tags);
-            var rules = await api.GetServerRules(s.QueryEndPoint).ConfigureAwait(false);
-            var mods = SourceQueryParser.GetList(rules, "modNames");
-            s.SignatureList = SourceQueryParser.GetList(rules, "sigNames").ToHashSet();
-            s.ModList = mods.Select(x => new ServerModInfo {Name = x}).ToList();
+            if (inclRules) {
+                var rules = await api.GetServerRules(s.QueryEndPoint).ConfigureAwait(false);
+                var mods = SourceQueryParser.GetList(rules, "modNames");
+                s.SignatureList = SourceQueryParser.GetList(rules, "sigNames").ToHashSet();
+                s.ModList = mods.Select(x => new ServerModInfo {Name = x}).ToList();
+            }
         }
     }
 }

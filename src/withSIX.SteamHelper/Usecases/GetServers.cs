@@ -64,7 +64,7 @@ namespace withSIX.Steam.Presentation.Usecases
                             .Count().ToTask();
                         var c =
                             await
-                                SteamServers.GetServers(_sessionLocator, Message.Filter, obs2.OnNext)
+                                SteamServers.GetServers(_sessionLocator, Message.IncludeRules, Message.Filter, obs2.OnNext)
                                     .ConfigureAwait(false);
                         return new BatchResult(await s);
                     }
