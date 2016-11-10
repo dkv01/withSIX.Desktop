@@ -57,7 +57,8 @@ namespace withSIX.Steam.Presentation.Usecases
 
                 if (_sessionLocator.Session != null) {
                     using (var obs2 = new Subject<ArmaServerInfoModel>()) {
-                        var s = obs2.Buffer(Message.PageSize)
+                        var s = obs2.Synchronize()
+                            .Buffer(Message.PageSize)
                             .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                             .SelectMany(x => x)
                             .Count().ToTask();

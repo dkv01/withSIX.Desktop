@@ -185,28 +185,22 @@ namespace withSIX.Steam.Api.Services
             }
 
             public async Task<gameserveritem_t> GetDetails() {
-                var complete = _pingFailed.Take(1).Merge(_pingResponded.Take(1).Select(x => Unit.Default)).ToTask();
-                var r = _pingResponded.TakeUntil(_pingFailed);
+                var r = _pingResponded.Take(1).TakeUntil(_pingFailed).ToTask();
                 _request = SteamMatchmakingServers.PingServer(_ip, _port, _mPingResponse);
-                await complete;
                 return await r;
             }
 
             public async Task<IDictionary<string, string>> GetRules() {
                 var completeObs = _rulesCompleted.Take(1).Merge(_rulesFailed.Take(1));
-                //var complete = completeObs.ToTask();
-                var dict = _rulesResponded.TakeUntil(completeObs).ToDictionary(x => x.Item1, x => x.Item2);
+                var dict = _rulesResponded.TakeUntil(completeObs).ToDictionary(x => x.Item1, x => x.Item2).ToTask();
                 _request = SteamMatchmakingServers.ServerRules(_ip, _port, _mRulesResponse);
-                //await complete;
                 return await dict;
             }
 
             public async Task<IList<Tuple<string, int, float>>> GetPlayers() {
                 var completeObs = _playerCompleted.Take(1).Merge(_playerFailed.Take(1));
-                var complete = completeObs.ToTask();
-                var dict = _playerResponded.TakeUntil(completeObs).ToList();
+                var dict = _playerResponded.TakeUntil(completeObs).ToList().ToTask();
                 _request = SteamMatchmakingServers.PlayerDetails(_ip, _port, _mPlayersResponse);
-                await complete;
                 return await dict;
             }
 

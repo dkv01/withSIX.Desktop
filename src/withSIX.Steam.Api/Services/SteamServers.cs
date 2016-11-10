@@ -24,32 +24,33 @@ namespace withSIX.Steam.Api.Services
             using (var bc = new BlockingCollection<ArmaServerInfoModel>()) {
                 // TODO: better MT model
                 var bcT = TaskExt.StartLongRunningTask(async () => {
-                    await Task.WhenAll(Enumerable.Range(1, 10).Select(_ =>
-                            Task.Run(async () => {
-                                foreach (var s in bc.GetConsumingEnumerable()) {
-                                    await UpdateServerInfo(s, api).ConfigureAwait(false);
-                                    act(s);
-                                }
-                            })
-                    ));
+                    foreach (var s in bc.GetConsumingEnumerable()) {
+                        await UpdateServerInfo(s, api).ConfigureAwait(false);
+                        act(s);
+                    }
                 });
                 var c2 = await api.GetServerInfo(locator.Session.AppId, x => {
-                    var ip = x.m_NetAdr.GetQueryAddressString().Split(':').First();
-                    var ipAddress = IPAddress.Parse(ip);
-                    var s = new ArmaServerInfoModel(new IPEndPoint(ipAddress, x.m_NetAdr.GetQueryPort())) {
-                        ConnectionEndPoint = new IPEndPoint(ipAddress, x.m_NetAdr.GetConnectionPort()),
-                        Name = x.GetServerName(),
-                        Tags = x.GetGameTags(),
-                        Mission = x.GetGameDescription(),
-                        Map = x.GetMap(),
-                        Ping = x.m_nPing,
-                        MaxPlayers = x.m_nMaxPlayers,
-                        CurrentPlayers = x.m_nPlayers,
-                        RequirePassword = x.m_bPassword,
-                        IsVacEnabled = x.m_bSecure,
-                        ServerVersion = x.m_nServerVersion
-                    };
-                    bc.Add(s);
+                    try {
+                        var ip = x.m_NetAdr.GetQueryAddressString().Split(':').First();
+                        var ipAddress = IPAddress.Parse(ip);
+                        var map = x.GetMap();
+                        var s = new ArmaServerInfoModel(new IPEndPoint(ipAddress, x.m_NetAdr.GetQueryPort())) {
+                            ConnectionEndPoint = new IPEndPoint(ipAddress, x.m_NetAdr.GetConnectionPort()),
+                            Name = x.GetServerName(),
+                            Tags = x.GetGameTags(),
+                            Mission = string.IsNullOrEmpty(map) ? null : x.GetGameDescription(),
+                            Map = map,
+                            Ping = x.m_nPing,
+                            MaxPlayers = x.m_nMaxPlayers,
+                            CurrentPlayers = x.m_nPlayers,
+                            RequirePassword = x.m_bPassword,
+                            IsVacEnabled = x.m_bSecure,
+                            ServerVersion = x.m_nServerVersion
+                        };
+                        bc.Add(s);
+                    } catch (Exception ex) {
+                        Console.WriteLine(ex);
+                    }
                 }, filter);
                 bc.CompleteAdding();
                 await bcT;
