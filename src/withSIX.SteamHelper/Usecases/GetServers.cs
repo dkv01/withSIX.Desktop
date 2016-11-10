@@ -17,10 +17,16 @@ using withSIX.Steam.Infra;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Reactive.Threading.Tasks;
+using withSIX.Api.Models.Games;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
     public class GetServers : Core.Requests.GetServers, ICancellableQuery<BatchResult>, IHaveFilter {}
+
+    public static class Cheat
+    {
+        public static uint AppId { get; set; }
+    }
 
     public class GetServersHandler : ICancellableAsyncRequestHandler<GetServers, BatchResult>
     {
@@ -55,7 +61,7 @@ namespace withSIX.Steam.Presentation.Usecases
                     throw new ValidationException(
                         "Retrieving without details is currently unsupported due to limitation in query implementation");
 
-                if (_sessionLocator.Session != null) {
+                if (Cheat.AppId != (uint)SteamGameIds.Arma3) {
                     using (var obs2 = new Subject<ArmaServerInfoModel>()) {
                         var s = obs2.Synchronize()
                             .Buffer(Message.PageSize)

@@ -31,6 +31,7 @@ using withSIX.Steam.Plugin.Arma;
 using withSIX.Steam.Presentation.Commands;
 using withSIX.Steam.Presentation.Services;
 using withSIX.Steam.Presentation.Usecases;
+using Cheat = withSIX.Mini.Applications.Cheat;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using SteamApi = withSIX.Steam.Api.Services.SteamApi;
 

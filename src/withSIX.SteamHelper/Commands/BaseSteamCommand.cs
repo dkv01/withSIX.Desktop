@@ -12,6 +12,7 @@ using withSIX.Mini.Presentation.Core.Commands;
 using withSIX.Steam.Api;
 using withSIX.Steam.Api.Services;
 using withSIX.Steam.Core;
+using withSIX.Steam.Presentation.Usecases;
 
 namespace withSIX.Steam.Presentation.Commands
 {
@@ -27,7 +28,7 @@ namespace withSIX.Steam.Presentation.Commands
             HasFlag("v|verbose", "Verbose", f => Common.Flags.Verbose = f);
         }
 
-        public uint AppId { get; private set; }
+        public uint AppId {  get { return Cheat.AppId; } set { Cheat.AppId = value; } }
         protected App App => _app.Value;
 
         protected Task DoWithSteamSession<T>(Func<Task<T>> act) => _factory.Do(AppId, SteamPathHelper.SteamPath, act);

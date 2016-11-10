@@ -75,9 +75,12 @@ namespace withSIX.Mini.Tests.Playground
                 f.Do(id, SteamHelper.Create().SteamPath,
                     async () => {
                         using (var obs2 = new Subject<ArmaServerInfoModel>()) {
-                            var s = obs2.Synchronize().Buffer(24)
-                                .Do(x => Console.WriteLine("r" + x.ToList<ServerInfoModel>()))
-                                .Count().ToTask();
+                            var s = obs2.Synchronize()
+                                .Buffer(24)
+                                //.Do(x => Console.WriteLine("r" + x.ToList<ServerInfoModel>()))
+                                .SelectMany(x => x)
+                                .Count()
+                                .ToTask();
                             var c2 =
                                 await
                                     SteamServers.GetServers(f, true,
@@ -88,7 +91,6 @@ namespace withSIX.Mini.Tests.Playground
                             return new BatchResult(await s);
                         }
                     }).ConfigureAwait(false);
-            Console.WriteLine($"C {c}");
         }
     }
 }
