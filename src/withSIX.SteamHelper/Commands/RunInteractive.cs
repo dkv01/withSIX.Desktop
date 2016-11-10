@@ -11,6 +11,7 @@ using withSIX.Steam.Api.Services;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Linq;
+using NDepend.Path;
 
 namespace withSIX.Steam.Presentation.Commands
 {
@@ -40,12 +41,13 @@ namespace withSIX.Steam.Presentation.Commands
         }
 
         private Task Run(CancellationToken ct) {
-            if (AppId == (uint) SteamGameIds.Arma3 || AppId == (uint)SteamGameIds.Arma2Oa) {
+            if (AppId == (uint) SteamGameIds.Arma3) {
                 return SteamActions.PerformArmaSteamAction(async api => {
                     SteamApi = api;
                     await RunWebsite(ct).ConfigureAwait(false);
                 }, (uint) SteamGameIds.Arma3, _steamSessionFactory);
             }
+            SteamApi = new DummyApi();
             return DoWithSteamSession(() => RunWebsite(ct));
         }
 
@@ -61,6 +63,7 @@ namespace withSIX.Steam.Presentation.Commands
             return new IPEndPoint(ip, port);
         }
     }
+
 
     public interface IServiceMessenger {}
 }

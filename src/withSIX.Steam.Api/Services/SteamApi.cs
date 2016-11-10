@@ -73,6 +73,11 @@ namespace withSIX.Steam.Api.Services
             }
         }
 
+        public async Task<IDictionary<string, string>> GetServerRules(IPEndPoint ep) {
+            using (var sb = new ServerResponder(ep))
+                return await sb.GetRules().ConfigureAwait(false);
+        }
+
         private IObservable<RemoteStorageSubscribePublishedFileResult_t> SubscribeToContent(PublishedFileId_t pid)
             => ProcessCallback<RemoteStorageSubscribePublishedFileResult_t>(SteamUGC.SubscribeItem(pid));
 
@@ -115,7 +120,7 @@ namespace withSIX.Steam.Api.Services
             }
 
             public async Task<int> GetServerList(uint appId, List<Tuple<string, string>> filter) {
-                var r = RefreshComplete.ToTask();
+                var r = RefreshComplete.Take(1).ToTask();
                 _request = SteamMatchmakingServers.RequestInternetServerList(new AppId_t(appId),
                     filter.Select(x => new MatchMakingKeyValuePair_t {m_szKey = x.Item1, m_szValue = x.Item2}).ToArray(),
                     (uint) filter.Count, m_ServerListResponse);
@@ -136,66 +141,92 @@ namespace withSIX.Steam.Api.Services
             }
         }
 
-        class ServerResponder
+        class ServerResponder : IDisposable
         {
-            private readonly int _serverId;
-            private readonly uint ip;
-            private readonly ushort port;
+            private readonly Subject<Unit> _pingFailed = new Subject<Unit>();
+            private readonly uint _ip;
 
-            private ISteamMatchmakingPingResponse m_PingResponse;
-            private readonly ISteamMatchmakingPlayersResponse m_PlayersResponse;
-            private readonly ISteamMatchmakingRulesResponse m_RulesResponse;
-
+            private readonly ISteamMatchmakingPingResponse _mPingResponse;
+            private readonly ISteamMatchmakingPlayersResponse _mPlayersResponse;
+            private readonly ISteamMatchmakingRulesResponse _mRulesResponse;
+            private readonly Subject<Unit> _playerCompleted = new Subject<Unit>();
+            private readonly Subject<Unit> _playerFailed = new Subject<Unit>();
+            private readonly Subject<Tuple<string, int, float>> _playerResponded =
+                new Subject<Tuple<string, int, float>>();
+            private readonly ushort _port;
+            private readonly Subject<gameserveritem_t> _pingResponded = new Subject<gameserveritem_t>();
+            private readonly Subject<Unit> _rulesCompleted = new Subject<Unit>();
+            private readonly Subject<Unit> _rulesFailed = new Subject<Unit>();
+            private readonly Subject<Tuple<string, string>> _rulesResponded = new Subject<Tuple<string, string>>();
+            private HServerQuery _request;
 
             public ServerResponder(IPEndPoint ep) {
-                // todo ep to ip/port;
+                _ip = (uint) BitConverter.ToInt32(ep.Address.GetAddressBytes().Reverse().ToArray(), 0);
+                _port = (ushort) ep.Port;
 
-                m_PingResponse = new ISteamMatchmakingPingResponse(OnServerResponded, OnServerFailedToRespond);
-                m_PlayersResponse = new ISteamMatchmakingPlayersResponse(OnAddPlayerToList, OnPlayersFailedToRespond,
+                _mPingResponse = new ISteamMatchmakingPingResponse(OnServerResponded, OnServerFailedToRespond);
+                _mPlayersResponse = new ISteamMatchmakingPlayersResponse(OnAddPlayerToList, OnPlayersFailedToRespond,
                     OnPlayersRefreshComplete);
-                m_RulesResponse = new ISteamMatchmakingRulesResponse(OnRulesResponded, OnRulesFailedToRespond,
+                _mRulesResponse = new ISteamMatchmakingRulesResponse(OnRulesResponded, OnRulesFailedToRespond,
                     OnRulesRefreshComplete);
             }
 
-            // TODO: Update ServerDetails; Use ServerBrowser, filter by specific IP, then get details
+            public void Dispose() {
+                _rulesCompleted.Dispose();
+                _rulesFailed.Dispose();
+                _rulesResponded.Dispose();
 
-            public void GetRules() {
-                var q = SteamMatchmakingServers.ServerRules(ip, port, m_RulesResponse);
+                _pingFailed.Dispose();
+                _pingResponded.Dispose();
+
+                _playerResponded.Dispose();
+                _playerCompleted.Dispose();
+                _playerFailed.Dispose();
             }
 
-            public void GetPlayers() {
-                var q = SteamMatchmakingServers.PlayerDetails(ip, port, m_PlayersResponse);
+            public async Task<gameserveritem_t> GetDetails() {
+                var complete = _pingFailed.Take(1).Merge(_pingResponded.Take(1).Select(x => Unit.Default)).ToTask();
+                var r = _pingResponded.TakeUntil(_pingFailed);
+                _request = SteamMatchmakingServers.PingServer(_ip, _port, _mPingResponse);
+                await complete;
+                return await r;
             }
 
-            private void OnRulesRefreshComplete() {
-                throw new NotImplementedException();
+            public async Task<IDictionary<string, string>> GetRules() {
+                var completeObs = _rulesCompleted.Take(1).Merge(_rulesFailed.Take(1));
+                //var complete = completeObs.ToTask();
+                var dict = _rulesResponded.TakeUntil(completeObs).ToDictionary(x => x.Item1, x => x.Item2);
+                _request = SteamMatchmakingServers.ServerRules(_ip, _port, _mRulesResponse);
+                //await complete;
+                return await dict;
             }
 
-            private void OnPlayersRefreshComplete() {
-                throw new NotImplementedException();
+            public async Task<IList<Tuple<string, int, float>>> GetPlayers() {
+                var completeObs = _playerCompleted.Take(1).Merge(_playerFailed.Take(1));
+                var complete = completeObs.ToTask();
+                var dict = _playerResponded.TakeUntil(completeObs).ToList();
+                _request = SteamMatchmakingServers.PlayerDetails(_ip, _port, _mPlayersResponse);
+                await complete;
+                return await dict;
             }
 
-            private void OnRulesFailedToRespond() {
-                throw new NotImplementedException();
-            }
+            private void OnRulesRefreshComplete() => _rulesCompleted.OnNext(Unit.Default);
 
-            private void OnPlayersFailedToRespond() {
-                throw new NotImplementedException();
-            }
+            private void OnPlayersRefreshComplete() => _playerCompleted.OnNext(Unit.Default);
 
-            private void OnRulesResponded(string pchrule, string pchvalue) {
-                throw new NotImplementedException();
-            }
+            private void OnRulesFailedToRespond() => _rulesFailed.OnNext(Unit.Default);
 
-            private void OnAddPlayerToList(string pchname, int nscore, float fltimeplayed) {
-                throw new NotImplementedException();
-            }
+            private void OnRulesResponded(string pchrule, string pchvalue)
+                => _rulesResponded.OnNext(Tuple.Create(pchrule, pchvalue));
 
-            private void OnServerFailedToRespond() {
-                throw new NotImplementedException();
-            }
+            private void OnPlayersFailedToRespond() => _playerFailed.OnNext(Unit.Default);
 
-            private void OnServerResponded(gameserveritem_t server) {}
+            private void OnAddPlayerToList(string pchname, int nscore, float fltimeplayed)
+                => _playerResponded.OnNext(Tuple.Create(pchname, nscore, fltimeplayed));
+
+            private void OnServerFailedToRespond() => _pingFailed.OnNext(Unit.Default);
+
+            private void OnServerResponded(gameserveritem_t server) => _pingResponded.OnNext(server);
         }
     }
 

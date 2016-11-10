@@ -63,4 +63,20 @@ namespace withSIX.Steam.Plugin.Arma
         Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap();
         Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap();
     }
+
+
+    public class DummyApi : ISteamApi
+    {
+        public Task Initialize(IAbsoluteDirectoryPath gamePath, uint appId) {
+            throw new NotImplementedException();
+        }
+
+        public Task<LockedWrapper<MatchmakingServiceWrap>> CreateMatchmakingServiceWrap() {
+            throw new NotImplementedException();
+        }
+
+        public Task<LockedWrapper<ServerRulesServiceWrap>> CreateRulesManagerWrap() {
+            throw new NotImplementedException();
+        }
+    }
 }

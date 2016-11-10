@@ -135,6 +135,7 @@
     <Compile Include="PublishedFile.cs" />
     <Compile Include="Services\SteamApi.cs" />
     <Compile Include="Services\SteamDownloader.cs" />
+    <Compile Include="Services\SteamServers.cs" />
     <Compile Include="Services\SteamSession.cs" />
     <Compile Include="Services\SteamUploader.cs" />
   </ItemGroup>
@@ -147,6 +148,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
+      <Project>{809F10CD-988D-475A-8D5A-7FD17938053E}</Project>
+      <Name>GameServerQuery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
       <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
       <Name>withSIX.Core</Name>
