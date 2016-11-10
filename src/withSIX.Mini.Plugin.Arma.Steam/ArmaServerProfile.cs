@@ -18,12 +18,14 @@ namespace withSIX.Steam.Plugin.Arma
             CreateMap<ServerModInfo, GameServerQuery.Games.RV.ServerModInfo>();
             CreateMap<SourceParseResult, ArmaServerInfoModel>()
                 .ConstructUsing((src) => new ArmaServerInfoModel(src.Address))
-                .ForMember(x => x.ConnectionEndPoint,
-                    opt => opt.MapFrom(src => new IPEndPoint(src.Address.Address, src.Port)))
+            .ForMember(x => x.ConnectionEndPoint, opt =>
+                opt.MapFrom(
+                    src => new IPEndPoint(src.Address.Address, src.Port > 0 ? src.Port : src.Address.Port - 1)))
                 .ForMember(x => x.Mission, opt => opt.MapFrom(src => src.Game))
+                //.ForMember(x => x.IsDedicated, opt => opt.MapFrom(src => src.ServerType > 0))
                 .ForMember(x => x.Tags, opt => opt.MapFrom(src => src.Keywords))
-                .ForMember(x => x.RequirePassword, opt => opt.MapFrom(src => src.Visibility == 1))
-                .ForMember(x => x.IsVacEnabled, opt => opt.MapFrom(src => src.Vac == 1))
+                .ForMember(x => x.RequirePassword, opt => opt.MapFrom(src => src.Visibility > 0))
+                .ForMember(x => x.IsVacEnabled, opt => opt.MapFrom(src => src.Vac > 0))
                 .ForMember(x => x.GameTags,
                     opt => opt.MapFrom(src => src.Keywords == null ? null : GameTags.Parse(src.Keywords)));
         }

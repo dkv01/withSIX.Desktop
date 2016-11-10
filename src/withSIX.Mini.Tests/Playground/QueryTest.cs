@@ -84,6 +84,7 @@ namespace withSIX.Mini.Tests.Playground
                                             ServerFilterBuilder.Build().FilterByAppId(id).FilterByDedicated().Value,
                                             obs2.OnNext)
                                         .ConfigureAwait(false);
+                            obs2.OnCompleted();
                             return new BatchResult(await s);
                         }
                     }).ConfigureAwait(false);
