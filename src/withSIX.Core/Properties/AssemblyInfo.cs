@@ -43,6 +43,6 @@ using withSIX.Core;
 
 [assembly: AssemblyVersion(BuildFlags.Version)]
 [assembly: AssemblyFileVersion(BuildFlags.Version)]
-[assembly: AssemblyInformationalVersion("1.1.0")]
+[assembly: AssemblyInformationalVersion("1.1.1")]
 [assembly: InternalsVisibleTo("withSIX.Play.Tests.Core")]
 [assembly: InternalsVisibleTo("withSIX.Play.Tests.Presentation")]
