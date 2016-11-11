@@ -52,52 +52,62 @@ namespace withSIX.Steam.Presentation.Usecases
 
         class GetServersSession : ServerSession<GetServers>
         {
-            private readonly ISteamSessionLocator _sessionLocator;
-
+            private readonly ISteamApi _steamApi;
             public GetServersSession(ISteamApi steamApi, IMessageBusProxy mb, IRequestScope scope,
-                ISteamSessionLocator sessionLocator) : base(steamApi, mb, scope) {
-                _sessionLocator = sessionLocator;
+                ISteamSessionLocator sessionLocator) : base(mb, scope, sessionLocator) {
+                _steamApi = steamApi;
             }
 
-            protected override async Task<BatchResult> HandleInternal() {
+            protected override Task<BatchResult> HandleInternal() {
                 if (!Message.IncludeDetails)
                     throw new ValidationException(
                         "Retrieving without details is currently unsupported due to limitation in query implementation");
 
+                return Cheat.AppId == (uint) SteamGameIds.Arma3 ? GetArma3SteamServers() : GetSteamServers();
+            }
 
-                // TODO: We should abort the whole thing when an exception is thrown on the Session
+            private async Task<BatchResult> GetArma3SteamServers() {
+                using (var scheduler = new EventLoopScheduler()) {
+                    using (var sb = await CreateArma3ServerBrowser().ConfigureAwait(false)) {
+                        var obs = await (Message.IncludeDetails
+                            ? sb.GetServersInclDetails2(Ct, Builder, Message.IncludeRules)
+                            : sb.GetServers2(Ct, Builder)).ConfigureAwait(false);
+                        var r =
+                            await
+                                obs.Synchronize()
+                                    .ObserveOn(scheduler)
+                                    .Cast<ArmaServerInfoModel>()
+                                    .Buffer(Message.PageSize)
+                                    .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
+                                    .SelectMany(x => x)
+                                    .Count();
+                        return new BatchResult(r);
+                    }
+                }
+            }
 
-                if (Cheat.AppId != (uint)SteamGameIds.Arma3) {
+            private async Task<BatchResult> GetSteamServers() {
+                using (var scheduler = new EventLoopScheduler()) {
                     using (var obs2 = new Subject<ArmaServerInfoModel>()) {
                         var s = obs2.Synchronize()
+                            .ObserveOn(scheduler)
                             .Buffer(Message.PageSize)
-                            .ObserveOn(TaskPoolScheduler.Default)
                             .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                             .SelectMany(x => x)
                             .Count()
                             .ToTask();
                         var c =
                             await
-                                SteamServers.GetServers(_sessionLocator, Message.IncludeRules, Message.Filter, obs2.OnNext)
+                                SteamServers.GetServers(SessionLocator, Message.IncludeRules, Message.Filter,
+                                        obs2.OnNext)
                                     .ConfigureAwait(false);
                         obs2.OnCompleted();
                         return new BatchResult(await s);
                     }
                 }
-
-                var obs = await (Message.IncludeDetails
-                    ? Sb.GetServersInclDetails2(Ct, Builder, Message.IncludeRules)
-                    : Sb.GetServers2(Ct, Builder)).ConfigureAwait(false);
-                var r =
-                    await
-                        obs
-                            .Cast<ArmaServerInfoModel>()
-                            .Buffer(Message.PageSize)
-                            .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
-                            .SelectMany(x => x)
-                            .Count();
-                return new BatchResult(r);
             }
+
+            protected Task<ServerBrowser> CreateArma3ServerBrowser() => SteamActions.CreateServerBrowser(_steamApi);
         }
     }
 }

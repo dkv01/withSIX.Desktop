@@ -2,54 +2,70 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
+using System.Linq;
+using System.Net;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
-using withSIX.Mini.Plugin.Arma.Services;
-using withSIX.Steam.Plugin.Arma;
-using System.Reactive.Linq;
-using System.Linq;
-using withSIX.Core.Presentation;
+using withSIX.Steam.Api.Services;
 using withSIX.Steam.Infra;
+using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
+    [Obsolete("What would you do with just the addresses?")]
     public class GetServerAddresses : Core.Requests.GetServerAddresses, ICancellableQuery<BatchResult>,
-        IHaveFilter
-    {
-    }
+        IHaveFilter {}
 
     public class GetServerAddressesHandler : ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>
     {
-        private readonly IMessageBusProxy _mb;
         private readonly IRequestScopeLocator _locator;
-        private readonly ISteamApi _steamApi;
+        private readonly IMessageBusProxy _mb;
+        private readonly ISteamSessionLocator _sessionLocator;
 
-        public GetServerAddressesHandler(ISteamApi steamApi, IMessageBusProxy mb, IRequestScopeLocator locator) {
-            _steamApi = steamApi;
+        public GetServerAddressesHandler(IMessageBusProxy mb, IRequestScopeLocator locator,
+            ISteamSessionLocator sessionLocator) {
             _mb = mb;
             _locator = locator;
+            _sessionLocator = sessionLocator;
         }
 
         public Task<BatchResult> Handle(GetServerAddresses message, CancellationToken ct)
-            => new GetServerAddressesSession(_steamApi, _mb, _locator.Scope).Handle(message, ct);
+            => new GetServerAddressesSession(_mb, _locator.Scope, _sessionLocator).Handle(message, ct);
 
         class GetServerAddressesSession : ServerSession<GetServerAddresses>
         {
-            public GetServerAddressesSession(ISteamApi steamApi, IMessageBusProxy mb, IRequestScope scope)
-                : base(steamApi, mb, scope) {}
+            public GetServerAddressesSession(IMessageBusProxy mb, IRequestScope scope,
+                ISteamSessionLocator sessionLocator)
+                : base(mb, scope, sessionLocator) {
+            }
 
             protected override async Task<BatchResult> HandleInternal() {
-                var obs = await Sb.GetServers2(Ct, Builder).ConfigureAwait(false);
-                var r =
-                    await
-                        obs.Select(x => x.QueryEndPoint).Take(10)
-                            // todo config limit
-                            .Buffer(Message.PageSize) // todo config limit
-                            .Do(x => SendEvent(new ReceivedServerAddressesPageEvent(x.ToList()))).Count();
-                return new BatchResult(r);
+                using (var scheduler = new EventLoopScheduler()) {
+                    using (var obs2 = new Subject<IPEndPoint>()) {
+                        var s = obs2.Synchronize()
+                            .ObserveOn(scheduler)
+                            .Buffer(Message.PageSize)
+                            .Do(x => SendEvent(new ReceivedServerAddressesPageEvent(x.ToList())))
+                            .SelectMany(x => x)
+                            .Count()
+                            .ToTask();
+                        var c =
+                            await
+                                SteamServers.GetServers(SessionLocator, false, Message.Filter,
+                                        x => obs2.OnNext(x.QueryEndPoint))
+                                    .ConfigureAwait(false);
+                        obs2.OnCompleted();
+                        return new BatchResult(await s);
+                    }
+                }
             }
         }
     }
