@@ -19,6 +19,7 @@ using withSIX.Steam.Infra;
 using withSIX.Steam.Plugin.Arma;
 using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 using System.Reactive.Threading.Tasks;
+using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
 using withSIX.Steam.Api.Helpers;
 
@@ -76,7 +77,8 @@ namespace withSIX.Steam.Presentation.Usecases
                             await
                                 obs.Synchronize()
                                     .ObserveOn(scheduler)
-                                    .Cast<ArmaServerInfoModel>()
+                                    // We have to map it to a Model that's redistributed for the remote client to pick it up..
+                                    .Select(x => x.MapTo<ArmaServerInfoModel>())
                                     .Buffer(Message.PageSize)
                                     .Do(x => SendEvent(new ReceivedServerPageEvent(x.ToList<ServerInfoModel>())))
                                     .SelectMany(x => x)
