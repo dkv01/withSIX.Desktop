@@ -371,7 +371,7 @@ namespace withSIX.Mini.Core.Games
 
         internal void GetRelatedContent(ICollection<IContentSpec<Content>> l, string constraint)
             =>
-            l.BuildDependencies(() => CreateRelatedSpec(constraint), x => Enumerable.Select<IContentSpec<Content>, Content>(x, c => c.Content).Contains(this),
+            l.BuildDependencies(() => CreateRelatedSpec(constraint), x => x.Select(c => c.Content).Contains(this),
                 HandleRelatedContentChildren);
 
         protected abstract IContentSpec<Content> CreateRelatedSpec(string constraint);

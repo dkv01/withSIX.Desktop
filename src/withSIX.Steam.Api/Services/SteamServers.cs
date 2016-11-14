@@ -25,14 +25,14 @@ namespace withSIX.Steam.Api.Services
     {
         public static Task<int> GetServers(ISteamSessionLocator locator, bool inclRules,
             List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
-            return HandleAlt(locator, filter, act); // HandleNative(locator, inclRules, filter, act
+            return HandleAlt(locator, filter, act); // HandleNative(locator, inclRules, filter, act)
         }
 
         private static async Task<int> HandleNative(ISteamSessionLocator locator, bool inclRules,
             List<Tuple<string, string>> filter, Action<ArmaServerInfoModel> act) {
             var api = new SteamApi(locator);
 
-            var degreeOfParallelism = inclRules ? 1 : 1;
+            var degreeOfParallelism = inclRules ? 30 : 1;
             using (var bc = new BlockingCollection<ArmaServerInfoModel>()) {
                 // TODO: better MT model
                 var bcT = TaskExt.StartLongRunningTask(async () => {
