@@ -75,7 +75,13 @@ namespace withSIX.Sync.Core.Repositories
             MappingEngine = GetMappingEngine().CreateMapper();
         }
 
-        public Repository(IAbsoluteDirectoryPath directory, bool createWhenNotExisting = false) {
+        public static Repository OpenReadOnly(IAbsoluteDirectoryPath directory) {
+            var repo = new Repository(directory);
+            repo.LoadReadOnly();
+            return repo;
+        }
+
+        private Repository(IAbsoluteDirectoryPath directory) {
             RootPath = directory;
             _configPath = RootPath.GetChildFileWithName(ConfigFile);
             _remotesPath = RootPath.GetChildDirectoryWithName(RemotesDirectory);
@@ -87,7 +93,20 @@ namespace withSIX.Sync.Core.Repositories
             _collectionIndexPath = RootPath.GetChildFileWithName(CollectionIndexFile);
             _serialPath = RootPath.GetChildFileWithName(SerialFile);
             _lockFilePath = RootPath.GetChildFileWithName(LockFile);
+        }
 
+        private void LoadReadOnly() {
+            VerifyExistingRepository();
+
+            Config = Load<RepositoryConfigDto, RepositoryConfig>(_configPath);
+            Index = LoadIndex();
+            Serial = LoadSerial();
+            IsReadOnly = true;
+        }
+
+        public bool IsReadOnly { get; set; }
+
+        public Repository(IAbsoluteDirectoryPath directory, bool createWhenNotExisting = false) : this(directory) {
             if (createWhenNotExisting)
                 VerifyNewOrExistingRepository();
             else
@@ -778,6 +797,7 @@ namespace withSIX.Sync.Core.Repositories
 
         [Obsolete("Use SaveAsync")]
         public void Save() {
+            if (IsReadOnly) throw new InvalidOperationException("The repository is in read-only mode");
             lock (_saveLock) {
                 SaveConfig();
                 SaveIndex();
@@ -786,13 +806,14 @@ namespace withSIX.Sync.Core.Repositories
 
         public Task SaveAsync() => Task.Run(() => Save());
 
-        public void SaveDto(object dto, IAbsoluteFilePath path) {
+        private void SaveDto(object dto, IAbsoluteFilePath path) {
             Tools.Serialization.Json.SaveJsonToDiskThroughMemory(dto, path, true);
             if (MakeZsync) _zsyncMake.CreateZsyncFile(path, ZsyncMakeOptions.Overwrite);
         }
 
         [Obsolete("Use SaveConfigAsync")]
         public void SaveConfig() {
+            if (IsReadOnly) throw new InvalidOperationException("The repository is in read-only mode");
             lock (_saveLock)
                 SaveDto(new RepositoryConfigDto(Config), _configPath);
         }
@@ -847,6 +868,7 @@ namespace withSIX.Sync.Core.Repositories
         }
 
         void SaveIndex() {
+            if (IsReadOnly) throw new InvalidOperationException("The repository is in read-only mode");
             lock (_saveLock) {
                 SaveDto(MappingEngine.Map<RepositoryStoreObjectsDto>(Index), _objectIndexPath);
                 SaveDto(MappingEngine.Map<RepositoryStorePackagesDto>(Index), _packageIndexPath);
