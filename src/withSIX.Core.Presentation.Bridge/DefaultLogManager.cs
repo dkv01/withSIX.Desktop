@@ -19,19 +19,19 @@ namespace withSIX.Core.Presentation.Bridge
         public virtual ILogger GetLogger(string type) => new LoggerBase(type);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public virtual ILogger GetCurrentClassLogger() {
+        public virtual ILogger GetCurrentClassLogger([CallerMemberName]string method = "") {
             var frame = new StackFrame(1, false);
             return new LoggerBase(LogManager.GetLogger(frame.GetMethod().DeclaringType.FullName));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public virtual ILogger GetCurrentClassLogger(Type loggerType) {
+        public virtual ILogger GetCurrentClassLogger(Type loggerType, [CallerMemberName]string method = "") {
             var frame = new StackFrame(1, false);
             return new LoggerBase(Factory.GetLogger(frame.GetMethod().DeclaringType.FullName, loggerType));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public virtual ILogger GetCurrentClassLoggerOrMerged() {
+        public virtual ILogger GetCurrentClassLoggerOrMerged([CallerMemberName]string method = "") {
             var frame = new StackFrame(1, false);
             return
                 new LoggerBase(
@@ -39,7 +39,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public virtual ILogger GetCurrentClassLoggerOrMerged(Type loggerType) {
+        public virtual ILogger GetCurrentClassLoggerOrMerged(Type loggerType, [CallerMemberName]string method = "") {
             var frame = new StackFrame(1, false);
             return
                 new LoggerBase(Factory.GetLogger(frame.GetMethod().DeclaringType.FullName, loggerType));

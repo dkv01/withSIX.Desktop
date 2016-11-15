@@ -26,7 +26,7 @@ namespace withSIX.Core
         {
             public class FileOps : IEnableLogging, IFileOps
             {
-                public static Func<string, string, Exception, Task<bool>> ShouldRetry;
+                public static Func<string, string, Exception, Task<bool>> ShouldRetry = (_, __, ___) => Task.FromResult(false);
 
                 public void Copy(IAbsoluteFilePath source, IAbsoluteFilePath destination, bool overwrite = true,
                     bool checkMd5 = false) {

@@ -19,8 +19,8 @@ namespace withSIX.Core.Presentation.Bridge.Logging
             var loggingConfiguration = LogManager.Configuration;
             if (loggingConfiguration == null)
                 LogManager.Configuration = CreateDefaultConfig(appName);
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             DefaultLogManager.Factory = new LogFactory(LogManager.Configuration);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
         }
 
 
