@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Threading.Tasks;
 using MediatR;
@@ -155,12 +156,12 @@ namespace withSIX.Mini.Presentation.CoreHost
     public class DummyLogManager : ILogManager {
         public ILogger GetLogger(string type) => new DummyLogger();
 
-        public ILogger GetCurrentClassLogger() => new DummyLogger();
+        public ILogger GetCurrentClassLogger([CallerMemberName] string name = null) => new DummyLogger();
 
-        public ILogger GetCurrentClassLogger(Type loggerType) => new DummyLogger();
+        public ILogger GetCurrentClassLogger(Type loggerType, [CallerMemberName] string name = null) => new DummyLogger();
 
-        public ILogger GetCurrentClassLoggerOrMerged() => new DummyLogger();
-        public ILogger GetCurrentClassLoggerOrMerged(Type loggerType) => new DummyLogger();
+        public ILogger GetCurrentClassLoggerOrMerged([CallerMemberName] string name = null) => new DummyLogger();
+        public ILogger GetCurrentClassLoggerOrMerged(Type loggerType, [CallerMemberName] string name = null) => new DummyLogger();
 
         public ILogger GetLoggerOrMerged(Type type) => new DummyLogger();
     }
