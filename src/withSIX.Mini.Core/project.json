@@ -10,8 +10,8 @@
     "System.IO.FileSystem.AccessControl": "4.0.0",
     "withSIX.Api.Models": "2.4.0",
     "withSIX.ContentEngine.Core": "1.0.0",
-    "withSIX.Core": "1.1.0",
-    "withSIX.Steam.Core": "1.1.0",
+    "withSIX.Core": "1.1.1",
+    "withSIX.Steam.Core": "1.1.1",
     "withSIX.Sync.Core": "1.0.0"
   },
   "frameworks": {
