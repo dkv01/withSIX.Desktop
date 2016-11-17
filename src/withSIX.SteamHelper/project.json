@@ -26,7 +26,7 @@
     "SimpleInjector.Extensions.ExecutionContextScoping": "3.2.7",
     "System.Diagnostics.Process": "4.3.0",
     "System.Reactive.Core": "3.1.0",
-    "System.Security.Principal": "4.0.1",
+    "System.Security.Principal": "4.0.0",
     "withSIX.Api.Models": "2.4.0"
   },
 
@@ -74,10 +74,7 @@
           "target": "project"
         }
       },
-      "imports": [ "netcore50", "dnxcore50" ],
-      "frameworkAssemblies": {
-        "System.Security": "4.0.0.0"
-      }
+      "imports": [ "netcore50", "dnxcore50" ]
     }
   }
 }
