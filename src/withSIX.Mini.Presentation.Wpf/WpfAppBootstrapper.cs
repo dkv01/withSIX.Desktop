@@ -229,8 +229,8 @@ namespace withSIX.Mini.Presentation.Wpf
             new[] {typeof(App).Assembly}.Concat(
                 base.GetPresentationAssemblies().Concat(new[] {typeof(SingleInstanceApp).Assembly}));
 
-        protected override void ConfigureInstances() {
-            base.ConfigureInstances();
+        protected override void ConfigureUiInstances() {
+            base.ConfigureUiInstances();
             Cache.ImageFiles = Container.GetInstance<Cache.IImageFileCache>();
             UiRoot.Main = new UiRoot(Container.GetInstance<IDialogManager>(),
                 Container.GetInstance<ISpecialDialogManager>());

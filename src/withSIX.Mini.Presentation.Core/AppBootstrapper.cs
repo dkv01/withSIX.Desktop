@@ -150,21 +150,19 @@ namespace withSIX.Mini.Presentation.Core
         protected virtual void EndOv() => End().WaitAndUnwrapException();
 
         protected virtual void ConfigureInstances() {
-            AppBootstrapperExt.StartSQLite();
             Game.SteamHelper = SteamHelper.Create(); // TODO: Move
-            var bridge = Container.GetInstance<IBridge>();
-            GameContextJsonImplementation.Settings = bridge.GameContextSettings();
             DataCheat.Instance = Container.GetInstance<ICallContextService>();
             CoreCheat.SetServices(Container.GetInstance<ICoreCheatImpl>());
-            Cheat.SetServices(Container.GetInstance<ICheatImpl>());
-            RegisterToolServices();
+            Tools.RegisterServices(Container.GetInstance<ToolsServices>());
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
-            _initializers = Container.GetAllInstances<IInitializer>();
-            RequestScopeService.Instance = new RequestScopeService(Container);
         }
 
-        private void RegisterToolServices() {
-            Tools.RegisterServices(Container.GetInstance<ToolsServices>());
+        void ConfigureUiInstances() {
+            AppBootstrapperExt.StartSQLite();
+            RequestScopeService.Instance = new RequestScopeService(Container);
+            var bridge = Container.GetInstance<IBridge>();
+            GameContextJsonImplementation.Settings = bridge.GameContextSettings();
+            Cheat.SetServices(Container.GetInstance<ICheatImpl>());
             Tools.FileTools.FileOps.ShouldRetry = async (s, s1, e) => {
                 var result =
                     await
@@ -173,6 +171,7 @@ namespace withSIX.Mini.Presentation.Core
                 return result == RecoveryOptionResultModel.RetryOperation;
             };
             Tools.InformUserError = (s, s1, e) => UserErrorHandler.HandleUserError(new InformationalUserError(e, s1, s));
+            _initializers = Container.GetAllInstances<IInitializer>();
         }
 
         IEnumerable<Assembly> DiscoverAndLoadPlatform() => DiscoverPlatformDlls()
@@ -213,6 +212,8 @@ namespace withSIX.Mini.Presentation.Core
         }
 
         public async Task Startup(Func<Task> act) {
+            ConfigureInstances();
+
             if (CommandMode)
                 RunCommands();
             else
@@ -221,7 +222,7 @@ namespace withSIX.Mini.Presentation.Core
 
         private async Task StartupUiMode(Func<Task> act) {
             try {
-                ConfigureInstances();
+                ConfigureUiInstances();
                 var dbContextFactory = Container.GetInstance<IDbContextFactory>();
                 using (var scope = dbContextFactory.Create()) {
                     await StartupInternal().ConfigureAwait(false);
