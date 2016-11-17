@@ -56,7 +56,7 @@ namespace withSIX.Mini.Presentation.Electron
         }
 
         static void SetupRegistry() {
-            var registry = new AssemblyRegistry();
+            var registry = new AssemblyRegistry(CommonBase.AssemblyLoader.GetNetEntryPath());
             AppDomain.CurrentDomain.AssemblyResolve += registry.CurrentDomain_AssemblyResolve;
         }
 
@@ -70,12 +70,12 @@ namespace withSIX.Mini.Presentation.Electron
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));
+            new AssemblyHandler().Register();
 
             Common.Flags =
                 new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray(),
                     Environment.Is64BitOperatingSystem);
             SetupLogging("e0dbaa42-f633-4df4-a6d2-a415c5e49fd0");
-            new AssemblyHandler().Register();
             SetupVersion();
             Consts.InternalVersion += $" (runtime: {Api.Version}, engine: {Consts.ProductVersion})";
             Consts.ProductVersion = Api.Version;

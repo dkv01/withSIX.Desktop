@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NDepend.Path;
 
 namespace withSIX.Core.Presentation.Bridge
 {
@@ -13,6 +14,7 @@ namespace withSIX.Core.Presentation.Bridge
     {
         //static Assembly _assembly;
         readonly ReferencedAssemblyFinder _finder = new ReferencedAssemblyFinder();
+        private readonly IAbsoluteDirectoryPath _netEntryPath;
         //readonly string _sharedDllPath = AssemblyHandler.GetSharedDllPath();
         //static Assembly ResourceAssembly => _assembly ?? (_assembly = Assembly.Load("withSIX.Core.Presentation.Assemblies"));
 
@@ -27,6 +29,10 @@ namespace withSIX.Core.Presentation.Bridge
             SetupPath(path);
         }*/
 
+        public AssemblyRegistry(IAbsoluteDirectoryPath netEntryPath) {
+            _netEntryPath = netEntryPath;
+        }
+
         public Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args) {
             var requestedAssemblyName = new AssemblyName(args.Name);
             /*            Assembly load;
@@ -34,7 +40,7 @@ namespace withSIX.Core.Presentation.Bridge
                 return load;*/
 
             var localFile =
-                CommonBase.AssemblyLoader.GetNetEntryPath().GetChildFileWithName(requestedAssemblyName.Name + ".dll");
+                _netEntryPath.GetChildFileWithName(requestedAssemblyName.Name + ".dll");
             if (localFile.Exists)
                 return Assembly.LoadFile(localFile.ToString());
 

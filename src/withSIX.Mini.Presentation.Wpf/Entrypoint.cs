@@ -26,10 +26,13 @@ namespace withSIX.Mini.Presentation.Wpf
             Consts.ProductVersion = CommonBase.AssemblyLoader.GetInformationalVersion();
         }
 
-        static void SetupAssemblyLoader() => CommonBase.AssemblyLoader = new AssemblyLoader(typeof(Entrypoint).Assembly);
+        static void SetupAssemblyLoader() {
+            CommonBase.AssemblyLoader = new AssemblyLoader(typeof(Entrypoint).Assembly);
+            SetupRegistry();
+        }
 
         static void SetupRegistry() {
-            var registry = new AssemblyRegistry();
+            var registry = new AssemblyRegistry(CommonBase.AssemblyLoader.GetNetEntryPath());
             AppDomain.CurrentDomain.AssemblyResolve += registry.CurrentDomain_AssemblyResolve;
         }
 
@@ -45,15 +48,14 @@ namespace withSIX.Mini.Presentation.Wpf
         [STAThread]
         public static void Main() {
             AttachConsole(-1);
+            new RuntimeCheckWpf().Check();
+            SetupAssemblyLoader();
+            new AssemblyHandler().Register();
 
             Common.Flags = new Common.StartupFlags(_args = Environment.GetCommandLineArgs().Skip(1).ToArray(),
                 Environment.Is64BitOperatingSystem);
-            SetupRegistry();
-            new RuntimeCheckWpf().Check();
 
-            SetupAssemblyLoader();
             LoggingSetup.Setup(Consts.ProductTitle);
-            new AssemblyHandler().Register();
             SetupVersion();
             Init();
             //Cheat.Args = new ArgsO { Port =, WorkingDirectory = Directory.GetCurrentDirectory() } // todo;
