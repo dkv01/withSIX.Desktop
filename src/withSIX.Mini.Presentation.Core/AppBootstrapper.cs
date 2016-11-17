@@ -157,7 +157,7 @@ namespace withSIX.Mini.Presentation.Core
             SyncEvilGlobal.Setup(Container.GetInstance<EvilGlobalServices>(), () => _isPremium() ? 6 : 3);
         }
 
-        void ConfigureUiInstances() {
+        protected virtual void ConfigureUiInstances() {
             AppBootstrapperExt.StartSQLite();
             RequestScopeService.Instance = new RequestScopeService(Container);
             var bridge = Container.GetInstance<IBridge>();
