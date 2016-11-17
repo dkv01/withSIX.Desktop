@@ -33,7 +33,11 @@ namespace withSIX.Core
 
         public static IUacHelper UacHelper { get; private set; }
 
-        public static Func<string, string, Exception, Task> InformUserError { get; set; }
+        public static Func<string, string, Exception, Task> InformUserError { get; set; } =
+            (msg, title, ex) => {
+                Console.WriteLine($"{title}: {msg}\n{ex}");
+                return Task.FromResult(true);
+            };
 
         private static ICompressionUtil _compressionUtil { get; set; }
         public static ICompressionUtil CompressionUtil => _compressionUtil;
