@@ -1,11 +1,11 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "IdentityModel": "2.0.0",
+    "IdentityModel": "2.0.1",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "refit": "3.0.1",
-    "System.Diagnostics.Contracts": "4.0.1",
+    "System.Diagnostics.Contracts": "4.3.0",
     "withSIX.Api.Models": "2.4.0",
     "withSIX.ContentEngine.Core": "1.0.0",
     "withSIX.ContentEngine.Infra": "1.0.0",
