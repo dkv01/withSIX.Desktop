@@ -28,6 +28,8 @@ namespace withSIX.Core
 #elif DEBUG
             Type = ReleaseType.Dev;
 #else
+            // TODO: Handle the Type on the Entrypoint, so that we can set it from Electron instead!
+
             Type = ReleaseType.Stable; // Modify as see fit
 #endif
         }
@@ -36,8 +38,8 @@ namespace withSIX.Core
         public static bool DevBuild { get; set; }
         public static ReleaseType Type { get; set; }
         // Don't use .0, or it will make the wrong nupkg
-        public const string Version = "1.7.5.1";
-        public const string ProductVersion = "1.7.5";
+        public const string Version = "1.8.1.0";
+        public const string ProductVersion = "1.8.1";
     }
 
     public enum ReleaseType
