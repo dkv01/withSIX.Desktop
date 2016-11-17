@@ -10,7 +10,7 @@
     "NETStandard.Library": "1.6.1",
     "SimpleInjector.Extensions.ExecutionContextScoping": "3.2.7",
     "System.Runtime": "4.3.0",
-    "withSIX.Api.Models": "2.4.0",
+    "withSIX.Api.Models": "2.4.1",
     "withSIX.Core": "1.1.1",
     "withSIX.Core.Applications": "1.0.0",
     "withSIX.Core.Infra": "1.0.0",

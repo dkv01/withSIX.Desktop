@@ -6,7 +6,7 @@
     "NETStandard.Library": "1.6.1",
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Xml.XmlDocument": "4.3.0",
-    "withSIX.Api.Models": "2.4.0"
+    "withSIX.Api.Models": "2.4.1"
   },
   "frameworks": {
     "netstandard1.3": {}

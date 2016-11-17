@@ -11,7 +11,7 @@
     "System.IO.FileSystem.AccessControl": "4.3.0",
     "System.Net.Requests": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
-    "withSIX.Api.Models": "2.4.0",
+    "withSIX.Api.Models": "2.4.1",
     "withSIX.Core": "1.1.1"
   },
   "frameworks": {

@@ -10,7 +10,7 @@
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Net.Http": "4.3.0",
     "System.Security.Cryptography.ProtectedData": "4.3.0",
-    "withSIX.Api.Models": "2.4.0",
+    "withSIX.Api.Models": "2.4.1",
     "withSIX.Core": "1.1.1",
     "withSIX.Core.Applications": "1.0.0",
     "withSIX.Sync.Core": "1.0.0"
