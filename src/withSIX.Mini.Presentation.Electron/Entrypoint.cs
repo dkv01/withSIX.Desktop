@@ -52,6 +52,7 @@ namespace withSIX.Mini.Presentation.Electron
             var entryAssembly = typeof(Entrypoint).GetTypeInfo().Assembly;
             var entryPath = entryAssembly.Location.ToAbsoluteFilePath().ParentDirectoryPath; 
             CommonBase.AssemblyLoader = new AssemblyLoader(entryAssembly, locationOverride, entryPath);
+            SetupRegistry();
         }
 
         static void SetupRegistry() {
@@ -62,18 +63,17 @@ namespace withSIX.Mini.Presentation.Electron
         static async Task LaunchWithNode() {
             await new RuntimeCheckNode().Check().ConfigureAwait(false);
 
-            SetupRegistry();
-
             var cla = Environment.GetCommandLineArgs();
             var exe = cla.First();
             if (!exe.EndsWith(".exe"))
                 exe = exe + ".exe";
-            Common.Flags =
-                new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray(),
-                    Environment.Is64BitOperatingSystem);
             SetupAssemblyLoader(exe.IsValidAbsoluteFilePath()
                 ? exe.ToAbsoluteFilePath()
                 : Cheat.Args.WorkingDirectory.ToAbsoluteDirectoryPath().GetChildFileWithName(exe));
+
+            Common.Flags =
+                new Common.StartupFlags(_args = cla.Skip(exe.ContainsIgnoreCase("Electron") ? 2 : 1).ToArray(),
+                    Environment.Is64BitOperatingSystem);
             SetupLogging("e0dbaa42-f633-4df4-a6d2-a415c5e49fd0");
             new AssemblyHandler().Register();
             SetupVersion();
