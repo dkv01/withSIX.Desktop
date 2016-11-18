@@ -110,8 +110,8 @@ namespace withSIX.Mini.Presentation.Core
     public class PortsInfo
     {
         public PortsInfo(IProcessManagerSync pm, IPEndPoint http, IPEndPoint https) {
-            IsHttpPortRegistered = (http != null) && QueryPortRegistered(pm, http.ToHttp());
-            IsHttpsPortRegistered = (https != null) && QueryPortRegistered(pm, https.ToHttps());
+            //IsHttpPortRegistered = (http != null) && QueryPortRegistered(pm, http.ToHttp());
+            //IsHttpsPortRegistered = (https != null) && QueryPortRegistered(pm, https.ToHttps());
             IsCertRegistered = QueryCertRegistered(pm, https);
             MainLog.Logger.Info(
                 $"HttpRegistered: {IsHttpPortRegistered} ({http}), HttpsRegistered: {IsHttpsPortRegistered} ({https}), CertRegistered: {IsCertRegistered}");

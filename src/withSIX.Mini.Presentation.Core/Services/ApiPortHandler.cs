@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
@@ -19,7 +20,7 @@ namespace withSIX.Mini.Presentation.Core.Services
 {
     public class WindowsApiPortHandlerBase
     {
-        protected static void BuildAndRunBatFile(IProcessManager pm, IAbsoluteDirectoryPath tmpFolder,
+        protected static async Task BuildAndRunBatFile(IProcessManager pm, IAbsoluteDirectoryPath tmpFolder,
             IEnumerable<string> commands, bool asAdministrator = false, bool noisy = false) {
             var batFile = tmpFolder.GetChildFileWithName("install.bat");
             var actualCommands =
@@ -41,7 +42,8 @@ namespace withSIX.Mini.Presentation.Core.Services
                 }.Build();
                 pInfo.CreateNoWindow = true;
                 var basicLaunchInfo = new BasicLaunchInfo(pInfo) {StartMinimized = true};
-                var r = asAdministrator ? pm.LaunchElevated(basicLaunchInfo) : pm.Launch(basicLaunchInfo);
+                var r =
+                    await (asAdministrator ? pm.LaunchElevatedAsync(basicLaunchInfo) : pm.LaunchAsync(basicLaunchInfo));
                 r.ConfirmSuccess();
             } catch (Win32Exception ex) {
                 if (ex.IsElevationCancelled())

@@ -58,6 +58,7 @@ using withSIX.Sync.Core.Transfer;
 using withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Sync.Core.Transfer.Protocols;
 using withSIX.Sync.Core.Transfer.Protocols.Handlers;
+using withSIX.Mini.Presentation.Core;
 
 namespace withSIX.Mini.Presentation.Core
 {
@@ -262,7 +263,8 @@ namespace withSIX.Mini.Presentation.Core
         private async Task StartupInternal() {
             var settingsStorage = Container.GetInstance<ISettingsStorage>();
             var settings = await settingsStorage.GetSettings().ConfigureAwait(false);
-            await SetupApiPort(settings, settingsStorage).ConfigureAwait(false);
+            await
+                SetupApiPort(settings, settingsStorage, Container.GetInstance<IProcessManager>()).ConfigureAwait(false);
             TryHandleFirefoxInBackground();
             //TryInstallFlashInBackground();
             _isPremium = () => (settings.Secure.Login?.IsPremium).GetValueOrDefault();
@@ -277,17 +279,19 @@ namespace withSIX.Mini.Presentation.Core
             await RunInitializers().ConfigureAwait(false);
         }
 
-        private static async Task SetupApiPort(Settings settings, ISettingsStorage settingsStorage) {
+        private static async Task SetupApiPort(Settings settings, ISettingsStorage settingsStorage, IProcessManager pm) {
             if (Cheat.Args.Port.HasValue && (settings.Local.ApiPort != Cheat.Args.Port)) {
                 settings.Local.ApiPort = Cheat.Args.Port;
                 await settingsStorage.SaveChanges().ConfigureAwait(false);
             }
             Consts.ApiPort = settings.ApiPort;
+            var pi = new PortsInfo(pm, Consts.HttpAddress, Consts.HttpsAddress);
+            if (!pi.IsCertRegistered)
+                await WindowsApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm).ConfigureAwait(false);
         }
 
         private void TryHandleFirefoxInBackground()
             => BackgroundTasks.RegisterTask(TaskExt.StartLongRunningTask(() => TryHandleFirefox()));
-
 
         // TODO: Move to windows specific
         private void TryHandleFirefox() {
