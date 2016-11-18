@@ -109,10 +109,10 @@ namespace withSIX.Mini.Presentation.Core
 
     public class PortsInfo
     {
-        public PortsInfo(IProcessManagerSync pm, IPEndPoint http, IPEndPoint https) {
+        public PortsInfo(IProcessManagerSync pm, IPEndPoint http, IPEndPoint https, string thumbprint) {
             //IsHttpPortRegistered = (http != null) && QueryPortRegistered(pm, http.ToHttp());
             //IsHttpsPortRegistered = (https != null) && QueryPortRegistered(pm, https.ToHttps());
-            IsCertRegistered = QueryCertRegistered(pm, https);
+            IsCertRegistered = QueryCertRegistered(pm, https, thumbprint);
             MainLog.Logger.Info(
                 $"HttpRegistered: {IsHttpPortRegistered} ({http}), HttpsRegistered: {IsHttpsPortRegistered} ({https}), CertRegistered: {IsCertRegistered}");
         }
@@ -129,12 +129,15 @@ namespace withSIX.Mini.Presentation.Core
                    || output.StandardError.Contains(value);
         }
 
-        static bool QueryCertRegistered(IProcessManagerSync pm, IPEndPoint value) {
+        static bool QueryCertRegistered(IProcessManagerSync pm, IPEndPoint value, string thumbprint) {
             var output = pm.LaunchAndGrabToolCmd(new ProcessStartInfo("netsh", "http show sslcert"), "netsh");
             var epStr = value.ToString();
-            return output.StandardOutput.Contains(epStr)
-                   || output.StandardError.Contains(epStr);
+            return ContainsCert(output.StandardOutput, thumbprint, epStr)
+                   || ContainsCert(output.StandardError, thumbprint, epStr);
         }
+
+        private static bool ContainsCert(string s, string thumbprint, string epStr)
+            => s.Contains(epStr) && s.Contains(thumbprint);
     }
 
     public interface IWebServerStartup

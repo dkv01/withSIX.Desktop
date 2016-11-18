@@ -172,6 +172,7 @@ namespace withSIX.Mini.Applications
         public static bool FirstRun { get; set; }
         public static string ApiVersion { get; } = "4";
         public static Browser PluginBrowserFound { get; set; }
+        public static string CertThumb { get; } = "fca9282c0cd0394f61429bbbfdb59bacfc7338c9";
 
         public static class Features
         {

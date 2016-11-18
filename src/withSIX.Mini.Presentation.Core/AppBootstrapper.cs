@@ -285,7 +285,7 @@ namespace withSIX.Mini.Presentation.Core
                 await settingsStorage.SaveChanges().ConfigureAwait(false);
             }
             Consts.ApiPort = settings.ApiPort;
-            var pi = new PortsInfo(pm, Consts.HttpAddress, Consts.HttpsAddress);
+            var pi = new PortsInfo(pm, Consts.HttpAddress, Consts.HttpsAddress, Consts.CertThumb);
             if (!pi.IsCertRegistered)
                 await WindowsApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm).ConfigureAwait(false);
         }

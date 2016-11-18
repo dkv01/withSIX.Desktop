@@ -7,8 +7,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Core;
-using withSIX.Core.Logging;
 using withSIX.Core.Services.Infrastructure;
+using withSIX.Mini.Applications;
 
 namespace withSIX.Mini.Presentation.Core.Services
 {
@@ -18,11 +18,11 @@ namespace withSIX.Mini.Presentation.Core.Services
             if ((https == null) && (http == null))
                 throw new ArgumentException("Both value and valueHttp are unspecified");
 
-            //var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-            //var acct = sid.Translate(typeof(NTAccount)) as NTAccount;
+            var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            var acct = sid.Translate(typeof(NTAccount)) as NTAccount;
 
             var tmpFolder = Common.Paths.TempPath.GetChildDirectoryWithName("apisetup");
-            var commands = BuildCommands(http, https, tmpFolder).ToList();
+            var commands = BuildCommands(http, https, tmpFolder, acct).ToList();
             if (!commands.Any())
                 return;
             if (!tmpFolder.Exists)
@@ -38,16 +38,16 @@ namespace withSIX.Mini.Presentation.Core.Services
         }
 
         private static IEnumerable<string> BuildCommands(IPEndPoint http, IPEndPoint https,
-            IAbsoluteDirectoryPath tmpFolder) {
+            IAbsoluteDirectoryPath tmpFolder, NTAccount acct) {
             var commands = new List<string> {
                 "cd \"" + tmpFolder + "\""
             };
 
             //if (http != null)
-            //  commands.Add(BuildHttp(http));
+            //  commands.Add(BuildHttp(http, acct));
 
             if (https != null) {
-                commands.AddRange(BuildHttps(https));
+                commands.AddRange(BuildHttps(https, acct));
             }
             return commands;
         }
@@ -55,10 +55,11 @@ namespace withSIX.Mini.Presentation.Core.Services
         private static string BuildHttp(IPEndPoint valueHttp, NTAccount acct)
             => "netsh http add urlacl url=http://" + valueHttp + "/ user=\"" + acct + "\"";
 
-        private static string[] BuildHttps(IPEndPoint value) => new[] {
-            //"netsh http add urlacl url=https://" + value + "/ user=\"" + acct + "\"",
+        private static string[] BuildHttps(IPEndPoint value, NTAccount acct) => new[] {
             "certutil -p localhost -importPFX server.pfx",
-            //"netsh http add sslcert ipport=" + value + " appid={12345678-db90-4b66-8b01-88f7af2e36bf} certhash=fca9282c0cd0394f61429bbbfdb59bacfc7338c9"
+            "netsh http add sslcert ipport=" + value + " appid={12345678-db90-4b66-8b01-88f7af2e36bf} certhash=" +
+            Consts.CertThumb,
+            "netsh http add urlacl url=https://" + value + "/ user=\"" + acct + "\"",
         };
     }
 }
