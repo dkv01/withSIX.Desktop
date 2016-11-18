@@ -28,6 +28,8 @@ namespace withSIX.Mini.Presentation.Core.Services
             if (!tmpFolder.Exists)
                 Directory.CreateDirectory(tmpFolder.ToString());
             try {
+                if (https != null)
+                    ExtractFile(tmpFolder, "server.pfx");
                 await BuildAndRunBatFile(pm, tmpFolder, commands, true, true).ConfigureAwait(false);
             } finally {
                 if (tmpFolder.Exists)
@@ -45,7 +47,6 @@ namespace withSIX.Mini.Presentation.Core.Services
             //  commands.Add(BuildHttp(http));
 
             if (https != null) {
-                ExtractFile(tmpFolder, "server.pfx");
                 commands.AddRange(BuildHttps(https));
             }
             return commands;
