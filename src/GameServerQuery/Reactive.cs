@@ -44,16 +44,20 @@ namespace GameServerQuery
                     return Parse(x);
                 } catch (Exception ex) {
                     Console.WriteLine(ex);
+                    return null;
                 }
-                return null;
             }).Where(x => x != null);
 
         ServerQueryResult Parse(IResult r) => _parser.ParsePackets(r);
 
         public UdpClient CreateUdpClient() {
-            var udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
-            udpClient.Client.ReceiveBufferSize = 25*1024*1024;
-            //udpClient.Ttl = 255;
+            var udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0)) {
+                Client = {
+                    ReceiveBufferSize = 25*1024*1024,
+                    // http://stackoverflow.com/questions/1016655/socket-error-10052-on-udp-socket
+                    Ttl = 255
+                }
+            };
             // http://stackoverflow.com/questions/7201862/an-existing-connection-was-forcibly-closed-by-the-remote-host
             var IOC_IN = 0x80000000;
             uint IOC_VENDOR = 0x18000000;
@@ -124,6 +128,9 @@ namespace GameServerQuery
                     try {
                         while (!cts.IsCancellationRequested)
                             obs.OnNext(await socket.ReceiveAsync().ConfigureAwait(false));
+                    } catch (SocketException ex) {
+                        // e.g: 10052: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress
+                        Console.WriteLine(ex.Message);
                     } catch (Exception ex) {
                         obs.OnError(ex);
                         return;
