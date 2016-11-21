@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -133,7 +134,9 @@ namespace withSIX.Steam.Core
         SteamApp GetSteamAppById(uint appId, bool noCache) {
             if (!noCache && _appCache.ContainsKey(appId))
                 return _appCache[appId];
-            var app = new SteamApp(appId, GetAppManifestLocation(appId), TryGetConfigByAppId(appId));
+            var appManifestLocation = GetAppManifestLocation(appId);
+            if (appManifestLocation == null) return SteamApp.Default;
+            var app = new SteamApp(appId, appManifestLocation, TryGetConfigByAppId(appId));
             if (app.InstallBase != null)
                 _appCache[appId] = app;
             return app;
@@ -174,11 +177,11 @@ namespace withSIX.Steam.Core
         protected SteamApp() {}
 
         public SteamApp(uint appId, IAbsoluteDirectoryPath installBase, KeyValue appConfig) {
+            Contract.Requires<ArgumentNullException>(installBase != null);
             AppId = appId;
             InstallBase = installBase;
             AppConfig = appConfig;
-            if (installBase != null)
-                LoadManifest();
+            LoadManifest();
             SetAppPath();
         }
 
