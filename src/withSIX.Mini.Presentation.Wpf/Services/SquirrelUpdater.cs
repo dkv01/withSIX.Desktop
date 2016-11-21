@@ -68,17 +68,17 @@ namespace withSIX.Mini.Presentation.Wpf.Services
                     },
                     onFirstRun: () => Consts.FirstRun = true);
             }
-            RunVcRedist();
+            //RunVcRedist();
         }
 
         static void Update(IUpdateManager mgr) {
             mgr.CreateShortcutForThisExe();
-            RunVcRedist();
+            //RunVcRedist();
         }
 
         static void InitialInstall(IUpdateManager mgr) {
             mgr.CreateShortcutForThisExe();
-            RunVcRedist();
+            //RunVcRedist();
         }
 
         static void RunVcRedist(bool force = false) {
