@@ -68,7 +68,7 @@ namespace withSIX.Core.Presentation.Bridge.Logging
             HttpPut = false,
             Ssl = false,
             Layout =
-                "${logger} : ${LEVEL} [${assembly-version:name=Sync}], ${message}"
+                "${logger} : ${LEVEL} [${assembly-version:name=withSIX.Mini.Presentation.Core}], ${message}"
         };
 
         static FileTarget CreateDefaultFileTarget(string appName) => new FileTarget {
@@ -84,7 +84,7 @@ namespace withSIX.Core.Presentation.Bridge.Logging
             MaxArchiveFiles = 5,
             ConcurrentWrites = true,
             CreateDirs = true,
-            Layout = "${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} : ${LEVEL} [${assembly-version:name=Sync}], ${message}"
+            Layout = "${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} : ${LEVEL} [${assembly-version:name=withSIX.Mini.Presentation.Core}], ${message}"
         };
     }
 }
