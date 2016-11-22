@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace withSIX.Mini.Core.Games.Services
 {
-    public class Info : IDisposable
+    public class GameLockInfo : IDisposable
     {
         private readonly IDisposable _disp;
 
-        public Info(IDisposable disp, CancellationToken token) {
+        public GameLockInfo(IDisposable disp, CancellationToken token) {
             Token = token;
             _disp = disp;
         }
@@ -29,7 +29,7 @@ namespace withSIX.Mini.Core.Games.Services
         IObservable<GameLockChanged> LockChanged { get; }
         Task<CancellationTokenRegistration> RegisterCancel(Guid gameId, Action cancelAction);
         Task Cancel(Guid gameId);
-        Task<Info> ConfirmLock(Guid gameId, bool canAbort = false);
+        Task<GameLockInfo> ConfirmLock(Guid gameId, bool canAbort = false);
         void ReleaseLock(Guid gameId);
         Task Cancel();
     }

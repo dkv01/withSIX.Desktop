@@ -70,7 +70,7 @@ namespace withSIX.Mini.Infra.Data.Services
             }
         }
 
-        private async Task<Info> TryLock(Guid id) {
+        private async Task<GameLockInfo> TryLock(Guid id) {
             try {
                 return await _gameLocker.ConfirmLock(id).ConfigureAwait(false);
             } catch (AlreadyLockedException) {}

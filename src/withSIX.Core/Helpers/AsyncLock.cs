@@ -89,7 +89,17 @@ namespace withSIX.Core.Helpers
         }
 
         public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            // We always call this, because we always want to handle the disposing - the Finalizer won't help us here
             _dispose();
+        }
+
+        ~Disposable() {
+            Dispose(false);
         }
     }
 }

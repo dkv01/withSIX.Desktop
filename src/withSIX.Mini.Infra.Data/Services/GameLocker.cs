@@ -47,9 +47,9 @@ namespace withSIX.Mini.Infra.Data.Services
                 return RegisterCancelInternal(gameId, cancelAction);
         }
 
-        public async Task<Info> ConfirmLock(Guid gameId, bool canAbort = false) {
+        public async Task<GameLockInfo> ConfirmLock(Guid gameId, bool canAbort = false) {
             using (await _lock.LockAsync().ConfigureAwait(false))
-                return new Info(new Disposable(() => ReleaseLock(gameId)), ConfirmLockInternal(gameId, canAbort));
+                return new GameLockInfo(new Disposable(() => ReleaseLock(gameId)), ConfirmLockInternal(gameId, canAbort));
         }
 
         public void ReleaseLock(Guid gameId) {
