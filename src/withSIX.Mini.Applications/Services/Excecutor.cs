@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core;
 using withSIX.Core.Applications;
 using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.Services;
@@ -37,8 +38,17 @@ namespace withSIX.Mini.Applications.Services
                 MainLog.Logger.FormattedWarnException(e,
                     "UserException catched during hub action: " + command.GetType().Name);
                 throw createException(e.Message, e);
-            } // TODO: A better way to handle this actually from within frontends...
-            catch (Exception ex) {
+                // TODO: A better way to handle this actually from within frontends...
+            }
+
+            // TODO: More general ignore when is shutting down?
+            catch (OperationCanceledException ex) when (Common.Flags.ShuttingDown) {
+                throw createException("The system is shutting down",
+                    new CanceledException("The operation was aborted because the system is shutting down", ex));
+            } catch (ObjectDisposedException ex) when (Common.Flags.ShuttingDown) {
+                throw createException("The system is shutting down",
+                    new CanceledException("The operation was aborted because the system is shutting down", ex));
+            } catch (Exception ex) {
                 var handleException = ErrorHandlerr.HandleException(ex, "Action: " + command.GetType().Name);
                 var result =
                     await UserErrorHandler.HandleUserError(handleException);
