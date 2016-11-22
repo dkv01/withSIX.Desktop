@@ -15,7 +15,10 @@ namespace withSIX.Mini.Core.Extensions
         // TODO: Remove need to recreate Specs..
         public static IDownloadContentAction<IInstallableContent> ToInstall(
             this IPlayContentAction<IContent> action) => new DownloadContentAction(
-            action.Content.Where(x => x.Content is IInstallableContent)
+            action
+                .Content
+                .DistinctBy(x => x.Content)
+                .Where(x => x.Content is IInstallableContent)
                 .Select(x => new InstallContentSpec((IInstallableContent) x.Content, x.Constraint))
                 .ToArray(), action.CancelToken) {
             Force = action.Force,

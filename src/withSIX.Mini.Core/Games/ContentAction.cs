@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Threading;
 
 namespace withSIX.Mini.Core.Games
@@ -25,7 +27,10 @@ namespace withSIX.Mini.Core.Games
         where T : IContent
     {
         protected ContentAction(IReadOnlyCollection<IContentSpec<T>> content,
-            CancellationToken cancelToken = default(CancellationToken)) : base(content, cancelToken) {}
+            CancellationToken cancelToken = default(CancellationToken)) : base(content, cancelToken) {
+            Contract.Requires<ArgumentOutOfRangeException>(!content.GroupBy(x => x.Content).Any(x => x.Count() > 1),
+                "A content action should not contain duplicates");
+        }
 
         public string Name { get; set; }
         public Uri Href { get; set; }
@@ -35,7 +40,7 @@ namespace withSIX.Mini.Core.Games
 
     public abstract class ContentAction : ContentAction<Content>
     {
-        public ContentAction(CancellationToken cancelToken = default(CancellationToken),
+        protected ContentAction(CancellationToken cancelToken = default(CancellationToken),
             params IContentSpec<Content>[] content)
             : base(content, cancelToken) {}
     }

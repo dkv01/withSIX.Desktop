@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Services.Infra;
@@ -79,7 +80,9 @@ namespace withSIX.Mini.Applications.Usecases.Main
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
 
         public ILaunchContentAction<Content> GetAction(Game game) => new LaunchContentAction(
-            Contents.Select(x => new ContentSpec(game.Contents.FindContentOrThrow(x.Id), x.Constraint))
+            Contents
+                .DistinctBy(x => x.Id)
+                .Select(x => new ContentSpec(game.Contents.FindContentOrThrow(x.Id), x.Constraint))
                 .ToArray(), cancelToken: CancelToken) {
             Action = Action,
             Name = Name,

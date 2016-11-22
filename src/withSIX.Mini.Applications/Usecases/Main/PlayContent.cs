@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Services.Infra;
@@ -47,7 +48,9 @@ namespace withSIX.Mini.Applications.Usecases.Main
 
         public PlayContentAction GetAction(Game game)
             => new PlayContentAction(
-                Contents.Select(x => new ContentSpec(game.Contents.FindContentOrThrow(x.Id), x.Constraint))
+                Contents
+                    .DistinctBy(x => x.Id)
+                    .Select(x => new ContentSpec(game.Contents.FindContentOrThrow(x.Id), x.Constraint))
                     .ToArray(), cancelToken: CancelToken) {Name = Name, Href = GetHref(game)};
     }
 

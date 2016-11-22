@@ -70,8 +70,10 @@ namespace withSIX.Mini.Applications.Usecases.Main
         public string PauseTitleOverride => Force ? "Cancel" : null;
 
         public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CancelToken,
-            Contents.Select(x => new {Content = game.Contents.FindContentOrThrow(x.Id), x.Constraint})
-                .Select(x => new {Content = x.Content as IInstallableContent, x.Constraint})
+            Contents
+                // Specifying multiple times the same content is invalid - we should block this already on input?
+                .DistinctBy(x => x.Id)
+                .Select(x => new {Content = game.Contents.FindContentOrThrow(x.Id) as IInstallableContent, x.Constraint})
                 .Where(x => x.Content != null)
                 .Select(x => new InstallContentSpec(x.Content, x.Constraint))
                 .ToArray()) {
@@ -109,9 +111,11 @@ namespace withSIX.Mini.Applications.Usecases.Main
         public string PauseTitleOverride => Force ? "Cancel" : null;
 
         public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CancelToken,
-            Contents.Select(x => new {Content = GetOrCreateContent(game, x), x.Constraint})
+            Contents
+                .Select(x => new {Content = GetOrCreateContent(game, x) as IInstallableContent, x.Constraint})
                 .Select(x => new {Content = x.Content as IInstallableContent, x.Constraint})
                 .Where(x => x.Content != null)
+                .DistinctBy(x => x.Content)
                 .Select(x => new InstallContentSpec(x.Content, x.Constraint))
                 .ToArray()) {
             Name = Name,

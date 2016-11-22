@@ -384,6 +384,7 @@
     <Compile Include="InvariantTest.cs" />
     <Compile Include="LocalAddin.cs" />
     <Compile Include="Playground\Apis\W6Api.cs" />
+    <Compile Include="Playground\Equality.cs" />
     <Compile Include="Playground\QueryTest.cs" />
     <Compile Include="Playground\Yamltest.cs" />
     <Compile Include="ProgressTest.cs" />

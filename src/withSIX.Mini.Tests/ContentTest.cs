@@ -13,7 +13,7 @@ using withSIX.Mini.Infra.Data.Services;
 
 namespace withSIX.Mini.Tests
 {
-    class Dummy : IDomainEventHandlerGrabber
+    internal class Dummy : IDomainEventHandlerGrabber
     {
         public IDomainEventHandler Get() => new DefaultDomainEventHandler();
         public IDomainEventHandler GetSettings() => new DefaultDomainEventHandler();
