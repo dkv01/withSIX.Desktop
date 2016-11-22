@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Net;
 using System.Reactive.Concurrency;
@@ -75,22 +76,24 @@ namespace withSIX.Mini.Tests.Playground
             var c = await
                 f.Do(id, SteamHelper.Create().SteamPath,
                     async () => {
-                        using (var obs2 = new Subject<ArmaServerInfoModel>()) {
-                            var s = obs2.Synchronize()
-                                .Buffer(24)
-                                .ObserveOn(TaskPoolScheduler.Default)
-                                //.Do(x => Console.WriteLine("r" + x.ToList<ServerInfoModel>()))
-                                .SelectMany(x => x)
-                                .Count()
-                                .ToTask();
-                            var c2 =
-                                await
-                                    SteamServers.GetServers(f, true,
-                                            ServerFilterBuilder.Build().FilterByAppId(id).FilterByDedicated().Value,
-                                            obs2.OnNext)
-                                        .ConfigureAwait(false);
-                            obs2.OnCompleted();
-                            return new BatchResult(await s);
+                        using (var scheduler = new EventLoopScheduler()) {
+                            using (var obs2 = new Subject<ArmaServerInfoModel>()) {
+                                var s = obs2.Synchronize()
+                                    .ObserveOn(scheduler)
+                                    .Buffer(24)
+                                    //.Do(x => Console.WriteLine("r" + x.ToList<ServerInfoModel>()))
+                                    .SelectMany(x => x)
+                                    .Count()
+                                    .ToTask();
+                                var c2 =
+                                    await
+                                        SteamServers.GetServers(f, true,
+                                                ServerFilterBuilder.Build().FilterByAppId(id).FilterByDedicated().Value,
+                                                obs2.OnNext)
+                                            .ConfigureAwait(false);
+                                obs2.OnCompleted();
+                                return new BatchResult(await s);
+                            }
                         }
                     }).ConfigureAwait(false);
         }
