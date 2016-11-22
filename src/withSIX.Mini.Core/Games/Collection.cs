@@ -108,7 +108,7 @@ namespace withSIX.Mini.Core.Games
 
             // Workaround for top level version overrides should take precedence.
             foreach (var c in Contents) {
-                var e = list.First(x => x.Content == c.Content);
+                var e = list.First(x => x.Content.Equals(c.Content));
                 if (c.Constraint != null)
                     e.Constraint = c.Constraint;
             }
