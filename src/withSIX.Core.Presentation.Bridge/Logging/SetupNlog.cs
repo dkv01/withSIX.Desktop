@@ -68,7 +68,7 @@ namespace withSIX.Core.Presentation.Bridge.Logging
             HttpPut = false,
             Ssl = false,
             Layout =
-                "${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} : ${LEVEL}, ${message}"
+                "${logger} : ${LEVEL} [${assembly-version}], ${message}"
         };
 
         static FileTarget CreateDefaultFileTarget(string appName) => new FileTarget {
@@ -83,7 +83,8 @@ namespace withSIX.Core.Presentation.Bridge.Logging
             ArchiveNumbering = ArchiveNumberingMode.Sequence,
             MaxArchiveFiles = 5,
             ConcurrentWrites = true,
-            CreateDirs = true
+            CreateDirs = true,
+            Layout = "${date:format=ddd MMM dd} ${time:format=HH:mm:ss} ${date:format=zzz yyyy} ${logger} : ${LEVEL} [${assembly-version}], ${message}"
         };
     }
 }
