@@ -250,9 +250,13 @@ namespace withSIX.Mini.Applications.Services
                 .ToDictionary(x => x.Key, x => x.Value);
 
         private void BuildAllInstallableContent() => _allInstallableContent =
-            _installableContent.ToDictionary(x => (IContent) x.Key, x => x.Value)
-                .Concat(_action.Content.ToDictionary(x => (IContent) x.Content,
-                    x => new SpecificVersion(x.Constraint ?? x.Content.Version)))
+            _installableContent
+                .ToDictionary(x => (IContent) x.Key, x => x.Value)
+                .Concat(
+                    _action.Content
+                        .DistinctBy(x => x.Content)
+                        .ToDictionary(x => (IContent) x.Content,
+                            x => new SpecificVersion(x.Constraint ?? x.Content.Version)))
                 .DistinctBy(x => x.Key)
                 .ToDictionary(x => x.Key, x => x.Value);
 
