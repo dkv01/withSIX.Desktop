@@ -33,12 +33,18 @@ namespace withSIX.Core.Presentation.Decorators
             => this.Logger().Info("Finished download of {0} to {1}", spec.Uri, spec.LocalFile);
 
         protected override void OnError(TransferSpec spec, Exception e) {
+            if (e is OperationCanceledException) {
+                this.Logger()
+                    .Warn(
+                        $"Cancelled download of {spec.Uri} to {spec.LocalFile}, try {spec.Progress.Tries} ({e.Message})");
+                return;
+            }
             var msg =
                 $"Failed download of {spec.Uri} to {spec.LocalFile}, try {spec.Progress.Tries} ({e.Message})\nOutput: {spec.Progress.Output}\n\nError report: {e.Format(1)}";
-            if (spec.Progress.Tries <= 1)
-                this.Logger().Error(msg);
-            else
+            if (spec.Progress.Tries > 1)
                 this.Logger().Warn(msg);
+            else
+                this.Logger().Error(msg);
         }
     }
 }
