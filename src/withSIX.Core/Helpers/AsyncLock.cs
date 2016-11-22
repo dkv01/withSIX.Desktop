@@ -10,45 +10,51 @@ namespace withSIX.Core.Helpers
 {
     public sealed class AsyncLock : IDisposable
     {
+        private readonly SemaphoreSlim _mSemaphore = new SemaphoreSlim(1, 1);
         private readonly IDisposable _releaser;
-        private readonly Task<IDisposable> m_releaser;
-        private readonly SemaphoreSlim m_semaphore = new SemaphoreSlim(1, 1);
 
         public AsyncLock() {
             _releaser = new Releaser(this);
-            m_releaser = Task.FromResult(_releaser);
         }
 
         public void Dispose() {
-            m_semaphore.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~AsyncLock() {
+            Dispose(false);
+        }
+
+        protected void Dispose(bool disposing) {
+            if (disposing) {
+                _mSemaphore.Dispose();
+            }
         }
 
         public Task<IDisposable> LockAsync() {
-            var wait = m_semaphore.WaitAsync();
-            return wait.IsCompleted
-                ? m_releaser
-                : wait.ContinueWith((_, state) => (IDisposable) state,
-                    _releaser, CancellationToken.None,
-                    TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+            var wait = _mSemaphore.WaitAsync();
+            return Wait(wait);
         }
 
         public Task<IDisposable> LockAsync(CancellationToken token) {
-            var wait = m_semaphore.WaitAsync(token);
-            return wait.IsCompleted
-                ? m_releaser
-                : wait.ContinueWith((_, state) => (IDisposable) state,
-                    _releaser, CancellationToken.None,
-                    TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+            var wait = _mSemaphore.WaitAsync(token);
+            return Wait(wait);
         }
 
-        public IDisposable Lock() {
-            m_semaphore.Wait();
+        private async Task<IDisposable> Wait(Task wait) {
+            if (wait.IsCompleted)
+                return _releaser;
+            await wait.ConfigureAwait(false);
             return _releaser;
         }
 
-        private void Release() {
-            m_semaphore.Release();
+        public IDisposable Lock() {
+            _mSemaphore.Wait();
+            return _releaser;
         }
+
+        private void Release() => _mSemaphore.Release();
 
         private sealed class Releaser : IDisposable
         {
@@ -59,7 +65,17 @@ namespace withSIX.Core.Helpers
             }
 
             public void Dispose() {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected void Dispose(bool disposing) {
+                // We always call this, because we always want to release the lock - the Finalizer won't help us here
                 m_toRelease.Release();
+            }
+
+            ~Releaser() {
+                Dispose(false);
             }
         }
     }

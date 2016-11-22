@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using withSIX.Core.Applications.Services;
@@ -17,7 +18,7 @@ namespace withSIX.Mini.Applications.Services
         Task SingleToolsInstallTask(CancellationToken token = default(CancellationToken));
     }
 
-    public class ToolsCheat : IToolsCheat, IApplicationService
+    public class ToolsCheat : IToolsCheat, IApplicationService, IDisposable
     {
         private readonly AsyncLock _lock = new AsyncLock();
         private readonly IToolsInstaller _toolsInstaller;
@@ -25,6 +26,11 @@ namespace withSIX.Mini.Applications.Services
 
         public ToolsCheat(IToolsInstaller toolsInstaller) {
             _toolsInstaller = toolsInstaller;
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public async Task SingleToolsInstallTask(CancellationToken token = default(CancellationToken)) {
@@ -49,6 +55,16 @@ namespace withSIX.Mini.Applications.Services
             //using (new RepoWatcher(repo))
             //using (new StatusRepoMonitor(repo, (Func<double, double, Task>)StatusChange))
             await _toolsInstaller.DownloadAndInstallTools(repo).ConfigureAwait(false);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            if (disposing) {
+                _lock.Dispose();
+            }
+        }
+
+        ~ToolsCheat() {
+            Dispose(false);
         }
     }
 }
