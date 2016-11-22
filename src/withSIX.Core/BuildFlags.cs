@@ -38,8 +38,8 @@ namespace withSIX.Core
         public static bool DevBuild { get; set; }
         public static ReleaseType Type { get; set; }
         // Don't use .0, or it will make the wrong nupkg
-        public const string Version = "1.8.0.1";
-        public const string ProductVersion = "1.8.0";
+        public const string Version = "1.7.11.1";
+        public const string ProductVersion = "1.7.11";
     }
 
     public enum ReleaseType
