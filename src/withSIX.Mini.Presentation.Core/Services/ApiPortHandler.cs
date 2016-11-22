@@ -94,7 +94,7 @@ namespace withSIX.Mini.Presentation.Core.Services
 
         private class FireFoxCertInstaller
         {
-            internal void Install(IProcessManager pm) {
+            internal async Task Install(IProcessManager pm) {
                 const string certFileName = "server.cer";
 
                 // 1. Find the FF Profiles, if found, proceed
@@ -118,7 +118,7 @@ namespace withSIX.Mini.Presentation.Core.Services
                     TerminateFirefox();
 
                     // 4. add lib and bin to path, Install cert
-                    InstallCerts(pm, toolLocation, tmpFolder, todoProfiles, certFileName);
+                    await InstallCerts(pm, toolLocation, tmpFolder, todoProfiles, certFileName).ConfigureAwait(false);
                 } finally {
                     if (tmpFolder.Exists)
                         tmpFolder.Delete(true);
@@ -143,38 +143,37 @@ namespace withSIX.Mini.Presentation.Core.Services
 
             private IAbsoluteDirectoryPath[] GetTodos(IProcessManager pm, IAbsoluteDirectoryPath[] profiles,
                     IAbsoluteDirectoryPath toolLocation, IAbsoluteDirectoryPath tmpFolder)
-                => profiles.Where(x => ShouldInstall(pm, toolLocation, tmpFolder, x)).ToArray();
+                => profiles.Where(x => ShouldInstall(pm, toolLocation, tmpFolder, x).Result).ToArray();
 
             private static void TerminateFirefox() {
                 foreach (var p in Tools.ProcessManager.Management.FindProcess("firefox.exe"))
                     Tools.ProcessManager.Management.KillProcess(p);
             }
 
-            private static void InstallCerts(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,
+            private async Task InstallCerts(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,
                 IAbsoluteDirectoryPath tmpFolder, IEnumerable<IAbsoluteDirectoryPath> todoProfiles,
                 string certFileName) {
                 ExtractFile(tmpFolder, certFileName);
                 var certFile = tmpFolder.GetChildFileWithName(certFileName);
-                RunCertCommands(pm, toolLocation, tmpFolder,
-                    todoProfiles.Select(p => BuildInstallCommand(toolLocation, certFile, p)).ToArray());
+                await RunCertCommands(pm, toolLocation, tmpFolder, todoProfiles.Select(p => BuildInstallCommand(toolLocation, certFile, p)).ToArray()).ConfigureAwait(false);
             }
 
-            private bool ShouldInstall(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,
+            private async Task<bool> ShouldInstall(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,
                 IAbsoluteDirectoryPath tmpFolder, IAbsoluteDirectoryPath p) {
-                RunCertCommands(pm, toolLocation, tmpFolder, BuildCheckCommand(toolLocation, p));
+                await RunCertCommands(pm, toolLocation, tmpFolder, BuildCheckCommand(toolLocation, p));
                 return
                     !File.ReadAllText(tmpFolder.GetChildFileWithName("install.log").ToString())
                         .Contains("FC:A9:28:2C:0C:D0:39:4F:61:42:9B:BB:FD:B5:9B:AC:FC:73:38:C9");
             }
 
-            private static void RunCertCommands(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,
+            private static async Task RunCertCommands(IProcessManager pm, IAbsoluteDirectoryPath toolLocation,
                 IAbsoluteDirectoryPath tmpFolder, params string[] certCommands) {
                 var commands =
                     new List<string> {
                         $@"set PATH={toolLocation}\bin;{toolLocation}\lib;%PATH%"
                     };
                 commands.AddRange(certCommands);
-                BuildAndRunBatFile(pm, tmpFolder, commands);
+                await BuildAndRunBatFile(pm, tmpFolder, commands);
             }
 
             private static string BuildCheckCommand(IAbsoluteDirectoryPath toolLocation, IAbsoluteDirectoryPath p)
