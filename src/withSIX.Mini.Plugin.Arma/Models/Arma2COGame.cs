@@ -26,15 +26,11 @@ namespace withSIX.Mini.Plugin.Arma.Models
     [DataContract]
     public class Arma2COGame : Arma2OaGame
     {
-        readonly Arma2COGameSettings _settings;
+        private Arma2COGameSettings _settings => (Arma2COGameSettings)Settings;
 
-        protected Arma2COGame(Guid id) : this(id, new Arma2COGameSettings()) {
-            SetupDefaultDirectories();
-        }
+        protected Arma2COGame(Guid id) : this(id, new Arma2COGameSettings()) {}
 
-        public Arma2COGame(Guid id, Arma2COGameSettings settings) : base(id, settings) {
-            _settings = settings;
-        }
+        public Arma2COGame(Guid id, Arma2COGameSettings settings) : base(id, settings) {}
 
         private static readonly Dlc[] dlcs = {
             new Dlc("BAF"), new Dlc("PMC"),
@@ -43,10 +39,12 @@ namespace withSIX.Mini.Plugin.Arma.Models
 
         public override IReadOnlyCollection<Dlc> Dlcs => dlcs.ToList();
 
-        void SetupDefaultDirectories() {
+        protected override void SetupDefaultDirectories(GameSettings settings) {
+            base.SetupDefaultDirectories(settings);
+            var s = (Arma2COGameSettings) settings;
             // TODO: Access arma2 game class instead, and e.g dirs set there too??
-            if (_settings.Arma2GameDirectory == null)
-                _settings.Arma2GameDirectory = GetDefaultArma2Directory();
+            if (s.Arma2GameDirectory == null)
+                s.Arma2GameDirectory = GetDefaultArma2Directory();
         }
 
         static IAbsoluteDirectoryPath GetDefaultArma2Directory() => GetDirectoryFromRegistryOrSteam(typeof(Arma2Game));

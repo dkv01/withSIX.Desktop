@@ -33,13 +33,12 @@ namespace withSIX.Mini.Plugin.Arma.Models
         public const string BohemiaRegistry = @"SOFTWARE\Bohemia Interactive";
 
         readonly Lazy<IAbsoluteDirectoryPath> _keysPath;
-        readonly RealVirtualityGameSettings _settings;
+        private RealVirtualityGameSettings _settings => (RealVirtualityGameSettings)Settings;
 
         [Obsolete("deprecate")] private readonly Lazy<bool> _shouldLaunchAsDedicatedServer;
         readonly Lazy<IAbsoluteDirectoryPath> _userconfigPath;
 
         protected RealVirtualityGame(Guid id, RealVirtualityGameSettings settings) : base(id, settings) {
-            _settings = settings;
             ProfileInfo = this.GetMetaData<RvProfileInfoAttribute>();
             _shouldLaunchAsDedicatedServer = new Lazy<bool>(() => {
                 var casted = Settings as ILaunchAsDedicatedServer;
@@ -49,23 +48,21 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 new Lazy<IAbsoluteDirectoryPath>(() => InstalledState.Directory.GetChildDirectoryWithName("keys"));
             _userconfigPath =
                 new Lazy<IAbsoluteDirectoryPath>(() => InstalledState.Directory.GetChildDirectoryWithName("userconfig"));
-
-            SetupDefaultDirectories();
         }
 
         RvProfileInfoAttribute ProfileInfo { get; }
-        protected override bool DefaultDirectoriesOverriden => true;
         private IAbsoluteDirectoryPath KeysPath => _keysPath.Value;
 
         private IAbsoluteDirectoryPath UserconfigPath => _userconfigPath.Value;
 
-        void SetupDefaultDirectories() {
-            if (Settings.GameDirectory == null)
-                Settings.GameDirectory = GetDefaultDirectory();
-            if (_settings.PackageDirectory == null)
-                _settings.PackageDirectory = GetDefaultPackageDirectory();
-            if ((_settings.RepoDirectory == null) && (_settings.PackageDirectory != null))
-                _settings.RepoDirectory = _settings.PackageDirectory;
+        protected override void SetupDefaultDirectories(GameSettings settings) {
+            var s = (RealVirtualityGameSettings) settings;
+            if (s.GameDirectory == null)
+                s.GameDirectory = GetDefaultDirectory();
+            if (s.PackageDirectory == null)
+                s.PackageDirectory = GetDefaultPackageDirectory();
+            if ((s.RepoDirectory == null) && (s.PackageDirectory != null))
+                s.RepoDirectory = s.PackageDirectory;
         }
 
         protected override Task ScanForLocalContentImpl()

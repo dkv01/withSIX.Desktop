@@ -40,12 +40,11 @@ namespace withSIX.Mini.Plugin.Arma.Models
     {
         const string BattleEyeExe = "ArmA2OA_BE.exe";
         static readonly IReadOnlyCollection<string> defaultModFolders = new[] {"expansion"};
-        private readonly Arma2OaGameSettings _settings;
+        private Arma2OaGameSettings _settings => (Arma2OaGameSettings)Settings;
+
         protected Arma2OaGame(Guid id) : this(id, new Arma2OaGameSettings()) {}
 
-        protected Arma2OaGame(Guid id, Arma2OaGameSettings settings) : base(id, settings) {
-            _settings = settings;
-        }
+        protected Arma2OaGame(Guid id, Arma2OaGameSettings settings) : base(id, settings) {}
 
         protected virtual string[] BeGameParam { get; } = {"2", "0"};
 

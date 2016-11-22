@@ -45,6 +45,7 @@ namespace withSIX.Mini.Core.Games
         private readonly Lazy<SteamDirectories> _steamDirectories;
         Lazy<ContentPaths> _contentPaths;
         Lazy<GameInstalledState> _installedState;
+        private Lazy<GameSettings> _settings;
 
         protected Game(Guid id, GameSettings settings) {
             Id = id;
@@ -62,17 +63,11 @@ namespace withSIX.Mini.Core.Games
             _contentPaths = new Lazy<ContentPaths>(GetContentPathsState);
             _compatibleGameIds = Enumerable.Repeat(Id, 1).ToList();
             _steamDirectories = SystemExtensions.CreateLazy(GetSteamDirectories);
-
-            if (!DefaultDirectoriesOverriden)
-                SetupDefaultDirectories();
         }
 
         // TODO: Extract
         public static ISteamHelper SteamHelper { get; set; }
 
-        // We use this because of chicken-egg problems because of constructor inheritance load order
-        // Where usually overriden behavior depends on state that is not yet available in the base class constructor
-        protected virtual bool DefaultDirectoriesOverriden => false;
         [IgnoreDataMember]
         protected ContentCleaningAttribute ContentCleaning { get; }
         [IgnoreDataMember]
@@ -82,7 +77,17 @@ namespace withSIX.Mini.Core.Games
         [IgnoreDataMember]
         protected RegistryInfoAttribute RegistryInfo { get; }
         [DataMember]
-        public GameSettings Settings { get; protected set; }
+        public GameSettings Settings
+        {
+            get { return _settings.Value; }
+            protected set
+            {
+                _settings = new Lazy<GameSettings>(() => {
+                    SetupDefaultDirectories(value);
+                    return value;
+                });
+            }
+        }
         [IgnoreDataMember]
         public GameAttribute Metadata { get; }
         [IgnoreDataMember]
@@ -210,11 +215,11 @@ namespace withSIX.Mini.Core.Games
         public virtual IReadOnlyCollection<string> GetCompatibilityMods(string packageName,
             IReadOnlyCollection<string> tags) => getCompatibilityMods;
 
-        void SetupDefaultDirectories() {
-            if (Settings.GameDirectory == null)
-                Settings.GameDirectory = GetDefaultDirectory();
-            if ((Settings.RepoDirectory == null) && (Settings.GameDirectory != null))
-                Settings.RepoDirectory = Settings.GameDirectory;
+        protected virtual void SetupDefaultDirectories(GameSettings settings) {
+            if (settings.GameDirectory == null)
+                settings.GameDirectory = GetDefaultDirectory();
+            if ((settings.RepoDirectory == null) && (settings.GameDirectory != null))
+                settings.RepoDirectory = settings.GameDirectory;
         }
 
         GameInstalledState GetInstalledState() {
