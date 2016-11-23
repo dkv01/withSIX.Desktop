@@ -33,9 +33,14 @@ namespace withSIX.Sync.Core.Repositories
 
             directory.MakeSurePathExists();
             var repo = new Repository(directory, true);
-            if (mode != null)
-                repo.Config.OperationMode = mode.Value;
-            repo.Save();
+            try {
+                if (mode != null)
+                    repo.Config.OperationMode = mode.Value;
+                repo.Save();
+            } catch {
+                repo.Dispose();
+                throw;
+            }
             return repo;
         }
 

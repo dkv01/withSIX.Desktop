@@ -81,9 +81,11 @@ namespace withSIX.Mini.Presentation.Electron
             NDepend.Helpers.NDepend.Helpers.Workaround.IsNormalizedFunc = x => x.IsNormalized();
         }
 
-        protected override void Dispose(bool d) {
-            base.Dispose(d);
-            _stateSetter?.Dispose();
+        protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
+            if (disposing) {
+                _stateSetter?.Dispose();
+            }
         }
 
         protected override IEnumerable<Assembly> GetPresentationAssemblies()

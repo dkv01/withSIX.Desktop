@@ -113,12 +113,16 @@ namespace withSIX.Sync.Core.Repositories
                 VerifyExistingRepository();
 
             Lock();
-
-            Config = createWhenNotExisting
-                ? TryLoad<RepositoryConfigDto, RepositoryConfig>(_configPath)
-                : Load<RepositoryConfigDto, RepositoryConfig>(_configPath);
-            Index = LoadIndex();
-            Serial = LoadSerial();
+            try {
+                Config = createWhenNotExisting
+                    ? TryLoad<RepositoryConfigDto, RepositoryConfig>(_configPath)
+                    : Load<RepositoryConfigDto, RepositoryConfig>(_configPath);
+                Index = LoadIndex();
+                Serial = LoadSerial();
+            } catch {
+                Unlock();
+                throw;
+            }
         }
 
         public IAbsoluteDirectoryPath BundlesPath { get; }

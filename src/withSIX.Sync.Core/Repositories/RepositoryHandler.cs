@@ -13,6 +13,7 @@ using withSIX.Sync.Core.Packages;
 
 namespace withSIX.Sync.Core.Repositories
 {
+    [Obsolete("Move to Play")]
     public class RepositoryHandler
     {
         static readonly ConcurrentDictionary<IAbsoluteDirectoryPath, Repository> repositories =
