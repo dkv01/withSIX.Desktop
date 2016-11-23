@@ -116,8 +116,7 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
         }
 
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _subjects.Dispose();
         }
 
         public IManagement Management { get; }
@@ -160,15 +159,6 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
               //  disposable.Add(MonitorProcessResponding(process, monitorResponding.Value));
 
             return disposable;
-        }
-
-        ~ProcessManager() {
-            Dispose(false);
-        }
-
-        protected virtual void Dispose(bool disposing) {
-            if (disposing)
-                _subjects.Dispose();
         }
 
         public class ManagementInternal : IManagement, IEnableLogging

@@ -29,8 +29,7 @@ namespace withSIX.Mini.Applications.Services
         }
 
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _lock.Dispose();
         }
 
         public async Task SingleToolsInstallTask(CancellationToken token = default(CancellationToken)) {
@@ -55,16 +54,6 @@ namespace withSIX.Mini.Applications.Services
             //using (new RepoWatcher(repo))
             //using (new StatusRepoMonitor(repo, (Func<double, double, Task>)StatusChange))
             await _toolsInstaller.DownloadAndInstallTools(repo).ConfigureAwait(false);
-        }
-
-        protected virtual void Dispose(bool disposing) {
-            if (disposing) {
-                _lock.Dispose();
-            }
-        }
-
-        ~ToolsCheat() {
-            Dispose(false);
         }
     }
 }

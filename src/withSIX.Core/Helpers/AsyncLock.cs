@@ -18,18 +18,7 @@ namespace withSIX.Core.Helpers
         }
 
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~AsyncLock() {
-            Dispose(false);
-        }
-
-        protected void Dispose(bool disposing) {
-            if (disposing) {
-                _mSemaphore.Dispose();
-            }
+            _mSemaphore.Dispose();
         }
 
         public Task<IDisposable> LockAsync() {
@@ -65,17 +54,7 @@ namespace withSIX.Core.Helpers
             }
 
             public void Dispose() {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            protected void Dispose(bool disposing) {
-                // We always call this, because we always want to release the lock - the Finalizer won't help us here
                 m_toRelease.Release();
-            }
-
-            ~Releaser() {
-                Dispose(false);
             }
         }
     }
@@ -89,17 +68,7 @@ namespace withSIX.Core.Helpers
         }
 
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing) {
-            // We always call this, because we always want to handle the disposing - the Finalizer won't help us here
             _dispose();
-        }
-
-        ~Disposable() {
-            Dispose(false);
         }
     }
 }

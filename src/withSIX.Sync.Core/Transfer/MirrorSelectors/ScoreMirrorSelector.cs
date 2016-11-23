@@ -39,7 +39,7 @@ namespace withSIX.Sync.Core.Transfer.MirrorSelectors
         public int ProgramFailures { get; private set; }
 
         public void Dispose() {
-            Dispose(true);
+            _scoreMonitor.Dispose();
         }
 
         public Uri GetHost() {
@@ -115,16 +115,6 @@ namespace withSIX.Sync.Core.Transfer.MirrorSelectors
         IEnumerable<HostState> GetStatesToIncrease() => _hostScores.Values
             .Where(state => (state.Score < 0)
                             && Tools.Generic.LongerAgoThan(state.FailStamp, FailedScoreIncreaseEvery));
-
-        protected virtual void Dispose(bool disposing) {
-            if (disposing)
-                _scoreMonitor.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-        ~ScoreMirrorSelector() {
-            Dispose(false);
-        }
 
         class HostState
         {

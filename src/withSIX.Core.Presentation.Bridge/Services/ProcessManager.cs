@@ -114,10 +114,7 @@ namespace withSIX.Core.Presentation.Bridge.Services
             Management = new ManagementInternal();
         }
 
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public void Dispose() => _subjects.Dispose();
 
         public IManagement Management { get; }
 
@@ -159,15 +156,6 @@ namespace withSIX.Core.Presentation.Bridge.Services
                 disposable.Add(MonitorProcessResponding(process, monitorResponding.Value));
 
             return disposable;
-        }
-
-        ~ProcessManager() {
-            Dispose(false);
-        }
-
-        protected virtual void Dispose(bool disposing) {
-            if (disposing)
-                _subjects.Dispose();
         }
 
         public class ManagementInternal : IManagement, IEnableLogging

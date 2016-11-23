@@ -137,22 +137,13 @@ namespace withSIX.Mini.Presentation.Core
         private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
 
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => globalApplicationAssemblies;
-
-        protected virtual void Dispose(bool d) {
             Common.Flags.ShuttingDown = true;
             if (!CommandMode)
                 EndOv();
             Container.Dispose();
         }
 
-        ~AppBootstrapper() {
-            Dispose(false);
-        }
+        protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => globalApplicationAssemblies;
 
         protected virtual void EndOv() => End().WaitAndUnwrapException();
 

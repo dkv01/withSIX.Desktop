@@ -48,7 +48,7 @@ namespace withSIX.Mini.Infra.Data.Services
 
         public static IDictionary<Type, GameAttribute> GameSpecs { get; private set; }
 
-        public void Dispose() => Dispose(true);
+        public void Dispose() => _timer.Dispose();
 
         public Task Initialize() {
             GameSpecs = _gameFactory.GetGameTypesWithAttribute();
@@ -86,10 +86,6 @@ namespace withSIX.Mini.Infra.Data.Services
             } catch (Exception ex) {
                 MainLog.Logger.FormattedWarnException(ex, "Error trying to sync game/content info");
             }
-        }
-
-        ~SetupGameStuff() {
-            Dispose(false);
         }
 
         async Task Migrate() {
@@ -138,11 +134,6 @@ namespace withSIX.Mini.Infra.Data.Services
                 MainLog.Logger.Info($"Syncing collections for games: {string.Join(", ", games.Select(x => x.Id))}");
             return
                 _networkContentSyncer.SyncCollections(games.SelectMany(x => x.SubscribedCollections).ToArray(), false);
-        }
-
-        private void Dispose(bool isDisposing) {
-            if (isDisposing)
-                _timer.Dispose();
         }
 
         class GameFactory

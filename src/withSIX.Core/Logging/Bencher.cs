@@ -33,19 +33,9 @@ namespace withSIX.Core.Logging
         public object AdditionalInfo { get; set; }
 
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing) {
             _stopWatch.Stop();
-            MainLog.BenchLog(disposing
-                ? $"END: {_stopWatch.Elapsed.ToString("mm':'ss':'fff")} [{_caller}] {_message} ({AdditionalInfo})"
-                : $"END (WARN FINALIZED): {_stopWatch.Elapsed.ToString("mm':'ss':'fff")} [{_caller}] {_message} ({AdditionalInfo})");
-        }
-
-        ~Bencher() {
-            Dispose(false);
+            MainLog.BenchLog(
+                $"END: {_stopWatch.Elapsed.ToString("mm':'ss':'fff")} [{_caller}] {_message} ({AdditionalInfo})");
         }
     }
 }
