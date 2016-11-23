@@ -4,7 +4,7 @@
     "Microsoft.AspNet.SignalR.Client": "2.2.1",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
-    "System.Reactive": "3.1.0",
+    "System.Reactive": "3.1.1",
     "withSIX.Api.Models": "2.4.1",
     "withSIX.Core": "1.1.1",
     "withSIX.Steam.Core": "1.1.1"

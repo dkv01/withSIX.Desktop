@@ -6,7 +6,7 @@
     "NETStandard.Library": "1.6.1",
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Net.NameResolution": "4.3.0",
-    "System.Reactive": "3.1.0",
+    "System.Reactive": "3.1.1",
     "System.Threading.Tasks.Dataflow": "4.7.0",
     "withSIX.Api.Models": "2.4.1"
   },

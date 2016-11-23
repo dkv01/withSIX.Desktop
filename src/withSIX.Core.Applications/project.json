@@ -9,7 +9,7 @@
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Diagnostics.Process": "4.3.0",
     "System.ObjectModel": "4.3.0",
-    "System.Reactive": "3.1.0",
+    "System.Reactive": "3.1.1",
     "System.Runtime.Serialization.Formatters": "4.3.0",
     "System.Runtime.Serialization.Xml": "4.3.0",
     "withSIX.Api.Models": "2.4.1",

@@ -6,7 +6,7 @@
     "NETStandard.Library": "1.6.1",
     "System.Diagnostics.Process": "4.3.0",
     "System.Net.Requests": "4.3.0",
-    "System.Reactive": "3.1.0",
+    "System.Reactive": "3.1.1",
     "withSIX.Api.Models": "2.4.1"
   },
   "frameworks": {
