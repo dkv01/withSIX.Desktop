@@ -898,7 +898,8 @@ namespace withSIX.Sync.Core.Legacy.SixSync
 
             FixMissingPackFiles(WdVersion.WD.Keys.ToArray());
 
-            foreach (var pair in WdVersion.Pack)
+            // ToArray this one because we actually adjust the WdVersion.Pack through RemoveIfObsolete :/
+            foreach (var pair in WdVersion.Pack.ToArray())
                 RemoveIfObsolete(pair);
 
             r = CompareSums(RepositoryFileType.Pack, 1);
