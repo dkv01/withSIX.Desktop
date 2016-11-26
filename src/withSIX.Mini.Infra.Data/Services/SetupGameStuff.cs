@@ -55,16 +55,13 @@ namespace withSIX.Mini.Infra.Data.Services
             return Migrate();
         }
 
-        public Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds,
-            ContentQuery query = null) => HandleGameContents(gameIds, query);
-
         async Task HandleGameContentsWhenNeededIndividualLock(params Guid[] tryGameIds) {
             foreach (var g in tryGameIds) {
                 using (var i = await TryLock(g).ConfigureAwait(false))
                     if (i == null)
                         continue;
                 using (var scope = _factory.Create()) {
-                    await HandleGameContents(gameIds: g).ConfigureAwait(false);
+                    await this.HandleGameContentsWhenNeeded(gameIds: g).ConfigureAwait(false);
                     await scope.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
@@ -110,10 +107,7 @@ namespace withSIX.Mini.Infra.Data.Services
                 await gc.SaveChanges().ConfigureAwait(false);
         }
 
-        Task HandleGameContents(ContentQuery query = null, params Guid[] gameIds)
-            => HandleGameContents(gameIds, query);
-
-        async Task HandleGameContents(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
+        public async Task HandleGameContentsWhenNeeded(IReadOnlyCollection<Guid> gameIds, ContentQuery query = null) {
             if (Common.Flags.Verbose)
                 MainLog.Logger.Info($"Handling game contents for {string.Join(", ", gameIds)}");
 
