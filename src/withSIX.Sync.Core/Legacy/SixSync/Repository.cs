@@ -37,7 +37,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         public static string[] ArchiveFormats = {DefaultArchiveFormat, ".7z"};
         public static string[] RsyncableArchiveFormats = {DefaultArchiveFormat};
         readonly IZsyncMake _zsyncMake;
-        public bool KeepCompressedFiles = true;
+        bool _keepCompressedFiles = true;
         public Repository(IZsyncMake zsyncMake, string folder = ".") : this(zsyncMake, new StatusRepo(), folder) {}
 
         public Repository(IZsyncMake zsyncMake, StatusRepo statusRepo, string folder = ".") {
@@ -55,7 +55,6 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             StatusRepo = statusRepo;
             Output = "print";
             MultiThreadingSettings = new MultiThreadingSettings();
-            CollectTransferLogs = true;
 
             LoadConfig(true);
             LoadVersions();
@@ -65,22 +64,21 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         public static string RepoFolderName { get; } = ".rsync";
         public static string PackFolderName { get; } = ".pack";
 
-        protected FileDownloadManager DownloadManager { get; set; }
-        public bool CollectTransferLogs { get; set; }
-        public static RepoMainConfig MainConfig { get; set; }
-        public RepoVersion PackVersion { get; set; }
-        public RepoVersion WdVersion { get; set; }
-        public string Output { get; set; }
-        public RepoConfig Config { get; set; }
-        public IAbsoluteDirectoryPath Folder { get; set; }
-        public MultiThreadingSettings MultiThreadingSettings { get; set; }
-        public string RepoName { get; set; }
-        public IAbsoluteDirectoryPath RsyncFolder { get; set; }
-        public IAbsoluteDirectoryPath PackFolder { get; set; }
-        public IAbsoluteFilePath WdVersionFile { get; set; }
-        public IAbsoluteFilePath PackVersionFile { get; set; }
-        public long? RequiredVersion { get; set; }
-        public string RequiredGuid { get; set; }
+        protected FileDownloadManager DownloadManager { get; private set; }
+        public static RepoMainConfig MainConfig { get; private set; }
+        public RepoVersion PackVersion { get; private set; }
+        public RepoVersion WdVersion { get; private set; }
+        public string Output { get; protected internal set; }
+        public RepoConfig Config { get; private set; }
+        public IAbsoluteDirectoryPath Folder { get; }
+        public MultiThreadingSettings MultiThreadingSettings { get; }
+        public string RepoName { get; }
+        public IAbsoluteDirectoryPath RsyncFolder { get; }
+        public IAbsoluteDirectoryPath PackFolder { get; private set; }
+        public IAbsoluteFilePath WdVersionFile { get; private set; }
+        public IAbsoluteFilePath PackVersionFile { get; private set; }
+        public long? RequiredVersion { get; protected internal set; }
+        public string RequiredGuid { get; protected internal set; }
         public StatusRepo StatusRepo { get; protected set; }
         protected string ArchiveFormat
         {
@@ -93,8 +91,8 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 WdVersion.ArchiveFormat = value;
             }
         }
-        protected IAbsoluteFilePath ConfigFile { get; set; }
-        public bool AllowFullTransferFallBack { get; set; }
+        protected IAbsoluteFilePath ConfigFile { get; }
+        public bool AllowFullTransferFallBack { get; private set; }
 
         public static void InitializeConfig(IAbsoluteDirectoryPath path) {
             var configFile = path.GetChildFileWithName(ConfigFileName);
@@ -416,7 +414,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             if (opts.MaxThreads.HasValue)
                 MultiThreadingSettings.MaxThreads = opts.MaxThreads.Value;
             
-                KeepCompressedFiles = opts.KeepCompressedFiles;
+            _keepCompressedFiles = opts.KeepCompressedFiles;
 
             if (opts.Status != null)
                 StatusRepo = opts.Status;
@@ -498,14 +496,12 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             var removed = differences[0];
             var changed = differences[1];
 
-            var changesOnly = !KeepCompressedFiles;
+            var changesOnly = !_keepCompressedFiles;
             var changeLock = !localOnly && (changed.Any() || removed.Any()) &&
                              await ProcessPackChanges(changed.Concat(removed), changesOnly).ConfigureAwait(false);
 
             if (await ProcessWdChanges(differences, changesOnly).ConfigureAwait(false))
                 changeLock = true;
-
-            if (CollectTransferLogs) { }
 
             TryCleanupTmpFiles();
 
