@@ -700,34 +700,34 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             StatusRepo.Restart();
 
             var r = CompareSums(RepositoryFileType.Pack, 1);
-            var removed = r[0];
+            var toAdd = r[0];
             var changed = r[1];
-            var added = r[2];
+            var toRemove = r[2];
             var unchanged = r[3];
 
-            if (removed.Any() || changed.Any() || added.Any())
+            if (toAdd.Any() || changed.Any() || toRemove.Any())
                 changeLock = true;
 
             this.Logger()
-                .Info("Pack Changes: {0}, New: {1}, Obsolete: {2}", changed.Length, added.Length, removed.Length);
+                .Info("Pack Changes: {0}, New: {1}, Obsolete: {2}", changed.Length, toAdd.Length, toRemove.Length);
 
 
-            if (added.Any()) {
-                this.Logger().Info("Removing: {0}", string.Join(", ", added));
-                foreach (var change in added)
+            if (toRemove.Any()) {
+                this.Logger().Info("Removing: {0}", string.Join(", ", toRemove));
+                foreach (var change in toRemove)
                     RemovedPack(change);
             }
 
-            var gzWdChanges = wdChanges.Select(x => x + ArchiveFormat).ToString();
-            var differences = removed.Concat(changed).Distinct();
+            var differences = toAdd.Concat(changed).Distinct();
             if (changesOnly) {
+                var gzWdChanges = wdChanges.Select(x => x + ArchiveFormat).ToArray();
                 differences = differences.Where(x => gzWdChanges.Contains(x));
-                removed = removed.Where(x => gzWdChanges.Contains(x)).ToArray();
+                toAdd = toAdd.Where(x => gzWdChanges.Contains(x)).ToArray();
                 // TODO: Must we filter Unchanged too (used for file size calc)
             }
 
             var list = Tools.FileUtil.OrderBySize(differences, true);
-            FixMissingPackFiles(removed, false);
+            FixMissingPackFiles(toAdd, false);
             if (list.Any())
                 await DownloadPackChanges(unchanged, list, changesOnly).ConfigureAwait(false);
 
