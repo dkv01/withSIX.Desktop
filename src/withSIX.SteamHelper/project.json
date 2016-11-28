@@ -11,7 +11,7 @@
   },
 
   "dependencies": {
-    "AutoMapper": "5.2.0-alpha-01229",
+    "AutoMapper": "5.2.0",
     "log4net": "2.0.5",
     "ManyConsole.PCL": "1.0.0",
     "MediatR": "2.1.0",
@@ -22,8 +22,8 @@
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Mono.Options": "4.4.0",
     "NDepend.Path.PCL": "1.1.3",
-    "SimpleInjector": "3.3.0",
-    "SimpleInjector.Extensions.ExecutionContextScoping": "3.3.0",
+    "SimpleInjector": "3.3.1",
+    "SimpleInjector.Extensions.ExecutionContextScoping": "3.3.1",
     "System.Diagnostics.Process": "4.3.0",
     "System.Reactive.Core": "3.1.1",
     "System.Security.Principal": "4.0.0",
