@@ -6,6 +6,7 @@
     "NETStandard.Library": "1.6.1",
     "SharpCompress": "0.14.0",
     "SimpleInjector": "3.3.1",
+    "SimpleInjector.Extensions.ExecutionContextScoping": "3.3.1",
     "SQLitePCLRaw.bundle_e_sqlite3": "1.1.0",
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Net.Http": "4.3.0",
