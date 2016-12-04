@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Factories;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class SaveGameSettingsValidator : AbstractValidator<SaveGameSettings>
     {

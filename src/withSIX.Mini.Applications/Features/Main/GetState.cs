@@ -16,7 +16,7 @@ using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games.Attributes;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class GetState : IAsyncQuery<ClientContentInfo>, IHaveId<Guid>
     {

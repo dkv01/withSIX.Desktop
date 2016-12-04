@@ -6,7 +6,7 @@ using System;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using withSIX.Api.Models.Extensions;
-using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Infra.Api.Hubs;
 

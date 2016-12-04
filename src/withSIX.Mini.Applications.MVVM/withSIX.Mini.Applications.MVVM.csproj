@@ -267,7 +267,7 @@
     <Compile Include="Services\IFlyoutOpener.cs" />
     <Compile Include="Services\IPlatformProvider.cs" />
     <Compile Include="Services\IScreenOpener.cs" />
-    <Compile Include="Usecases\GetMiniMain.cs" />
+    <Compile Include="Features\GetMiniMain.cs" />
     <Compile Include="ViewModels\CMBase.cs" />
     <Compile Include="ViewModels\FlyoutViewModel.cs" />
     <Compile Include="ViewModels\Main\StatusViewModel.cs" />

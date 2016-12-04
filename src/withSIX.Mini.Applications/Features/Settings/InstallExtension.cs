@@ -11,7 +11,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases.Settings
+namespace withSIX.Mini.Applications.Features.Settings
 {
     public class InstallExtension : IAsyncVoidCommand {}
 

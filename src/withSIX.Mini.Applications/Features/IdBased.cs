@@ -5,7 +5,7 @@
 using System;
 using withSIX.Api.Models.Content.v3;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public abstract class IdBased : GameContentBase, IHaveId<Guid>
     {

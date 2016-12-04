@@ -11,7 +11,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     // If a command IHaveGameId, then it is assumed it must lock the game. Use this to disable this behavior.
     public interface IExcludeGameWriteLock {}

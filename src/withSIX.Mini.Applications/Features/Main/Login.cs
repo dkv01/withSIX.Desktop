@@ -8,7 +8,7 @@ using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class Login : IAsyncVoidCommand
     {

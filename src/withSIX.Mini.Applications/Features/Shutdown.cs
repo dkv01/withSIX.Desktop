@@ -7,7 +7,7 @@ using MediatR;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     // We don't want a DB scope+save
     public class Shutdown : IAsyncRequest<Unit> {}

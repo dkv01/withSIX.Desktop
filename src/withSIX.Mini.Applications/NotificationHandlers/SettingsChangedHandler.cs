@@ -5,9 +5,9 @@
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Core;
+using withSIX.Mini.Applications.Features;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Applications.NotificationHandlers
 {

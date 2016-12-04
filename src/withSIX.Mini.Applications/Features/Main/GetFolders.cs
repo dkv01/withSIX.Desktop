@@ -10,7 +10,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class GetFolders : IAsyncQuery<List<FolderInfo>>
     {

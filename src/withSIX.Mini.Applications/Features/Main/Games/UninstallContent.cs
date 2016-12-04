@@ -18,7 +18,7 @@ using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 using ContentGuidSpec = withSIX.Mini.Core.Games.ContentGuidSpec;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Features.Main.Games
 {
     public static class ContentExtensions
     {

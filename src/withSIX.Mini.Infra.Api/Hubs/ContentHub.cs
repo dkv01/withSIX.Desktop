@@ -6,9 +6,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using NDepend.Path;
-using withSIX.Mini.Applications.Usecases;
-using withSIX.Mini.Applications.Usecases.Main;
-using withSIX.Mini.Applications.Usecases.Main.Games;
+using withSIX.Mini.Applications.Features;
+using withSIX.Mini.Applications.Features.Main;
+using withSIX.Mini.Applications.Features.Main.Games;
 
 namespace withSIX.Mini.Infra.Api.Hubs
 {

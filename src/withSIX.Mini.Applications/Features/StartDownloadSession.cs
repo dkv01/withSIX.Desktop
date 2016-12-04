@@ -10,7 +10,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public class StartDownloadSession : IAsyncVoidCommand, IExcludeGameWriteLock, IHaveId<Guid>
     {

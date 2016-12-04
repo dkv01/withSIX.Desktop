@@ -9,9 +9,9 @@ using withSIX.Core.Infra.Cache;
 using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Infra.Data.Services
 {

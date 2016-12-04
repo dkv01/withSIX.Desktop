@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Features.Main;
 
 namespace withSIX.Mini.Infra.Api.Hubs
 {

@@ -16,9 +16,9 @@ using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Applications.Extensions;
-using withSIX.Mini.Applications.Usecases;
-using withSIX.Mini.Applications.Usecases.Main;
-using withSIX.Mini.Applications.Usecases.Main.Games;
+using withSIX.Mini.Applications.Features;
+using withSIX.Mini.Applications.Features.Main;
+using withSIX.Mini.Applications.Features.Main.Games;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Presentation.Core;
 

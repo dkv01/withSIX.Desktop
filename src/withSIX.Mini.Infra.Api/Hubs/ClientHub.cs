@@ -5,10 +5,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Hubs;
+using withSIX.Mini.Applications.Features.Main;
+using withSIX.Mini.Applications.Features.Settings;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases.Main;
-using withSIX.Mini.Applications.Usecases.Settings;
 
 namespace withSIX.Mini.Infra.Api.Hubs
 {
@@ -25,7 +25,7 @@ namespace withSIX.Mini.Infra.Api.Hubs
 
         public Task ResolveUserError(ResolveUserError command) => SendAsync(command);
 
-        public Task Login(AccessInfo info) => SendAsync(new Applications.Usecases.Main.Login(info));
+        public Task Login(AccessInfo info) => SendAsync(new Login(info));
 
         public Task PerformUpdate() => SendAsync(new PerformUpdate());
 

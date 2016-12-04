@@ -8,7 +8,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public enum UpdateState
     {

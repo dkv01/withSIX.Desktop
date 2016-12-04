@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Presentation;
-using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Presentation.Wpf.Services;
 
 namespace withSIX.Mini.Presentation.Wpf

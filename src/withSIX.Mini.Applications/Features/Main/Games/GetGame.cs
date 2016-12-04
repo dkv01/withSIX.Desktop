@@ -9,7 +9,7 @@ using withSIX.Api.Models.Content.v3;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Features.Main.Games
 {
     [Obsolete]
     public class GetGame : IAsyncVoidCommand, IHaveId<Guid>

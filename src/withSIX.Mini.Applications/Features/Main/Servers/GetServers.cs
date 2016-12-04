@@ -13,13 +13,11 @@ using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
-using withSIX.Mini.Applications.Extensions;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Servers
+namespace withSIX.Mini.Applications.Features.Main.Servers
 {
     public class GetServerAddresses : ICancellableQuery<BatchResult>
     {

@@ -12,8 +12,8 @@ using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Services;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Infra.Api
 {

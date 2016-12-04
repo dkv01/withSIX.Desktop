@@ -8,7 +8,7 @@ using MediatR;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public class OpenWebLink : IAsyncVoidCommand
     {

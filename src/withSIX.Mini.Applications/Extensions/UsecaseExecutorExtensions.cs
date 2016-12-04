@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Core.Applications.Services;
-using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Features;
 
 namespace withSIX.Mini.Applications.Extensions
 {

@@ -5,7 +5,7 @@
 using System;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public abstract class GameContentBase : RequestBase, IHaveGameId, INeedGameContents, IHaveRequestName
     {

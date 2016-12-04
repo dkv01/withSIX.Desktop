@@ -15,7 +15,7 @@ using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Features.Main.Games
 {
     [ApiUserAction("Launch")]
     public class LaunchGame : RequestBase, IHaveId<Guid>, ICancellable, INotifyAction

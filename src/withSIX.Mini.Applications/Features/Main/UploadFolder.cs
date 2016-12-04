@@ -21,7 +21,7 @@ using withSIX.Mini.Core.Games;
 using withSIX.Sync.Core.Transfer;
 using withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     /*
 var client = w6Cheat.container.get(w6Cheat.containerObjects.client);

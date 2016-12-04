@@ -11,8 +11,8 @@ using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
 using withSIX.Core.Presentation;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Features;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases;
 
 namespace withSIX.Mini.Presentation.Owin.Core
 {

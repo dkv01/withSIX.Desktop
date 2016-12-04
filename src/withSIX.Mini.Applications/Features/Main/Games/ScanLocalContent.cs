@@ -11,7 +11,7 @@ using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Features.Main.Games
 {
     [Obsolete("No longer used")]
     public class ScanLocalContent : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId

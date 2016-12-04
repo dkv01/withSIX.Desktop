@@ -8,8 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Core.Presentation;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Presentation.Electron
 {

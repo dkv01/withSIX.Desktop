@@ -8,8 +8,8 @@ using ReactiveUI;
 using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.Services;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
 {

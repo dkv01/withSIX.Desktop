@@ -5,8 +5,8 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Hubs;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Infra.Api.Hubs
 {

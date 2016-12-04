@@ -5,14 +5,14 @@
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Features;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.MVVM.ViewModels;
 using withSIX.Mini.Applications.MVVM.ViewModels.Main;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases;
 
-namespace withSIX.Mini.Applications.MVVM.Usecases
+namespace withSIX.Mini.Applications.MVVM.Features
 {
     public class GetMiniMain : IAsyncQuery<IMiniMainWindowViewModel> {}
 

@@ -10,7 +10,7 @@ using withSIX.Api.Models.Extensions;
 using withSIX.Core;
 using withSIX.Core.Applications.Services;
 
-namespace withSIX.Mini.Applications.Usecases.Settings
+namespace withSIX.Mini.Applications.Features.Settings
 {
     public class SaveLogs : IAsyncVoidCommand {}
 

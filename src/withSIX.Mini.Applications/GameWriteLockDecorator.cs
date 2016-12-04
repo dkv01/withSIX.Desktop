@@ -9,7 +9,7 @@ using MediatR;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
-using withSIX.Mini.Applications.Usecases;
+using withSIX.Mini.Applications.Features;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services;
 

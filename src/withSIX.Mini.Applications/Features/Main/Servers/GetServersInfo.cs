@@ -14,7 +14,7 @@ using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Servers
+namespace withSIX.Mini.Applications.Features.Main.Servers
 {
     public class GetServersInfo : IAsyncQuery<ServersInfo>
     {

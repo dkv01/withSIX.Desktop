@@ -4,7 +4,7 @@
 
 using withSIX.Core;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class SettingsUpdated : AsyncDomainEvent<Models.Settings>
     {

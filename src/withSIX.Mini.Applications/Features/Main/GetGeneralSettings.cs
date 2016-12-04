@@ -8,7 +8,7 @@ using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class GetGeneralSettings : IAsyncQuery<GeneralSettings> {}
 

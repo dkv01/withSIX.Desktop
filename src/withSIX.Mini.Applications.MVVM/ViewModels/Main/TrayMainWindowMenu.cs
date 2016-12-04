@@ -11,9 +11,9 @@ using withSIX.Core.Applications.MVVM.Extensions;
 using withSIX.Core.Applications.MVVM.ViewModels;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Features;
 using withSIX.Mini.Applications.Models;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases;
 
 namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
 {

@@ -17,11 +17,11 @@ using withSIX.Core.Logging;
 using withSIX.Core.Presentation.Services;
 using withSIX.Mini.Applications;
 using withSIX.Mini.Applications.Extensions;
+using withSIX.Mini.Applications.Features;
+using withSIX.Mini.Applications.Features.Main;
+using withSIX.Mini.Applications.Features.Main.Games;
+using withSIX.Mini.Applications.Features.Settings;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases;
-using withSIX.Mini.Applications.Usecases.Main;
-using withSIX.Mini.Applications.Usecases.Main.Games;
-using withSIX.Mini.Applications.Usecases.Settings;
 using withSIX.Mini.Presentation.Core;
 
 namespace withSIX.Mini.Presentation.Electron

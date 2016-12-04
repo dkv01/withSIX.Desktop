@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Extensions;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     [DataContract]
     public abstract class ContentsApiModel : PageModel<ContentApiModel>

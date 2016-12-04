@@ -7,7 +7,7 @@ using MediatR;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class GetClientInfo : IAsyncQuery<ClientInfo> {}
 

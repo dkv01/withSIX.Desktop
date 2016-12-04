@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public interface INeedContents
     {

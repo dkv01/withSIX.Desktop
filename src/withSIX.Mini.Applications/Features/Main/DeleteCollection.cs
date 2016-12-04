@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
     public class DeleteCollection : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId

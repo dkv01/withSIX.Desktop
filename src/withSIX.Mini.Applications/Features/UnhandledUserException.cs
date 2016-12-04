@@ -4,7 +4,7 @@
 
 using System;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public class UnhandledUserException : Exception
     {

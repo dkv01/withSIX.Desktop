@@ -35,7 +35,7 @@ using withSIX.Core.Presentation.Wpf.Extensions;
 using withSIX.Core.Presentation.Wpf.Legacy;
 using withSIX.Core.Presentation.Wpf.Services;
 using withSIX.Mini.Applications.Extensions;
-using withSIX.Mini.Applications.MVVM.Usecases;
+using withSIX.Mini.Applications.MVVM.Features;
 using withSIX.Mini.Applications.MVVM.ViewModels;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;

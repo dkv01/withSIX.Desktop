@@ -13,12 +13,12 @@ using MediatR;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Attributes;
+using withSIX.Mini.Applications.Features.Main.Games;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases.Main.Games;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction("Launch")]
     public class LaunchContent : SingleCntentBase, ICancellable, INotifyAction, IUseContent, IDisableDesktopNotification

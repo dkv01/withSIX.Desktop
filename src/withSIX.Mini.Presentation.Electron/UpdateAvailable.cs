@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Extensions;
-using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Features.Main;
 
 namespace withSIX.Mini.Presentation.Electron
 {
@@ -15,7 +15,7 @@ namespace withSIX.Mini.Presentation.Electron
             var state = (UpdateState) (int) input.state;
             var version = input.version as string;
             await
-                this.SendAsync(new Applications.Usecases.Main.UpdateAvailable(state, version))
+                this.SendAsync(new Applications.Features.Main.UpdateAvailable(state, version))
                     .ConfigureAwait(false);
             return true;
         }

@@ -13,8 +13,8 @@ using ReactiveUI;
 using withSIX.Core;
 using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.Services;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
-using withSIX.Mini.Applications.Usecases.Main;
 
 namespace withSIX.Mini.Applications
 {

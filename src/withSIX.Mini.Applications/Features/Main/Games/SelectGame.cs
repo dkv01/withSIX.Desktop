@@ -11,7 +11,7 @@ using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 
-namespace withSIX.Mini.Applications.Usecases.Main.Games
+namespace withSIX.Mini.Applications.Features.Main.Games
 {
     public class SelectGame : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId, IExcludeGameWriteLock
     {

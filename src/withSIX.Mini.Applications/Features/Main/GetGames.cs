@@ -7,12 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class GetGames : IAsyncQuery<GamesApiModel> {}
 

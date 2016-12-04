@@ -10,10 +10,10 @@ using MediatR;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Extensions;
+using withSIX.Mini.Applications.Features;
+using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
-using withSIX.Mini.Applications.Usecases;
-using withSIX.Mini.Applications.Usecases.Main;
 using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications

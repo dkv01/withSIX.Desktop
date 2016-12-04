@@ -6,7 +6,7 @@ using System;
 using withSIX.Api.Models.Content.v3;
 using ContentGuidSpec = withSIX.Mini.Core.Games.ContentGuidSpec;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public abstract class SingleCntentBase : GameContentBase, IHaveId<Guid>, IHaveContent
     {

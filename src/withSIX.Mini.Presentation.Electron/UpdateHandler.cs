@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 using withSIX.Core.Presentation;
-using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Features.Main;
 
 namespace withSIX.Mini.Presentation.Electron
 {

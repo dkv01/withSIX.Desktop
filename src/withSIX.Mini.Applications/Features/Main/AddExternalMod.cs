@@ -20,7 +20,7 @@ using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
-namespace withSIX.Mini.Applications.Usecases.Main
+namespace withSIX.Mini.Applications.Features.Main
 {
     public class ExternalDownloadStarted : IAsyncCommand<Guid>
     {

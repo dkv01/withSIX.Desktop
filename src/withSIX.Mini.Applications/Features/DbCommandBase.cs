@@ -4,7 +4,7 @@
 
 using withSIX.Mini.Applications.Services.Infra;
 
-namespace withSIX.Mini.Applications.Usecases
+namespace withSIX.Mini.Applications.Features
 {
     public abstract class DbRequestBase
     {

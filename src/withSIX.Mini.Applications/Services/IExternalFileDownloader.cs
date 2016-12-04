@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Core;
-using withSIX.Mini.Applications.Usecases.Main;
+using withSIX.Mini.Applications.Features.Main;
 
 namespace withSIX.Mini.Applications.Services
 {
