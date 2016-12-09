@@ -282,15 +282,15 @@ namespace withSIX.Sync.Core.Packages
             return relObjects.Select(x => x.FilePath).ToArray();
         }
 
-        public Task CheckoutAsync(ProgressLeaf progressLeaf)
-            => TaskExt.StartLongRunningTask(() => Checkout(progressLeaf));
+        public Task CheckoutAsync(ProgressLeaf progressLeaf, bool confirmChecksums = true)
+            => TaskExt.StartLongRunningTask(() => Checkout(progressLeaf, confirmChecksums));
 
         public Task CheckoutWithoutRemovalAsync(ProgressLeaf progressLeaf)
             => TaskExt.StartLongRunningTask(() => CheckoutWithoutRemoval(progressLeaf));
 
-        public void Checkout(ProgressLeaf progressLeaf) {
+        public void Checkout(ProgressLeaf progressLeaf, bool confirmChecksums = true) {
             WorkingPath.MakeSurePathExists();
-            ProcessCheckout(progressLeaf);
+            ProcessCheckout(progressLeaf, true, confirmChecksums);
             WriteTag();
         }
 
@@ -501,7 +501,7 @@ namespace withSIX.Sync.Core.Packages
             }
         }
 
-        void ProcessCheckout(ProgressLeaf progressLeaf, bool withRemoval = true) {
+        void ProcessCheckout(ProgressLeaf progressLeaf, bool withRemoval = true, bool confirmChecksums = true) {
             HandleDownCase();
             var mappings = GetMetaDataFilesOrderedBySize();
             var changeAg = GetInitialChangeList(withRemoval, mappings);
@@ -513,7 +513,7 @@ namespace withSIX.Sync.Core.Packages
             else
                 HandleChanges(mappings, changeAg, progressLeaf);
 
-            ConfirmChanges(withRemoval, mappings);
+            if (confirmChecksums) ConfirmChanges(withRemoval, mappings);
         }
 
         void HandleDownCase() {
