@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:8716/",
+      "applicationUrl": "http://localhost:8115/",
       "sslPort": 0
     }
   },
@@ -15,9 +15,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "withSIX.SteamHelper": {
-      "commandName": "Project",
-      "commandLineArgs": "install -a 107410 !641009676 --verbose"
+    "withSIX.Mini.Presentation.CoreHost": {
+      "commandName": "Project"
     }
   }
 }

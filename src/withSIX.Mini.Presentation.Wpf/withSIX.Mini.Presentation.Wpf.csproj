@@ -539,6 +539,9 @@
       <HintPath>..\packages\System.Reflection.Metadata.1.4.1\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.3.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>True</Private>
@@ -882,7 +885,7 @@
       <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
       <Name>withSIX.Steam.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\withSIX.SteamHelper\withSIX.SteamHelper.xproj">
+    <ProjectReference Include="..\withSIX.SteamHelper\withSIX.SteamHelper.csproj">
       <Project>{e5f1dce5-83e8-4681-a28e-7904d45c6576}</Project>
       <Name>withSIX.SteamHelper</Name>
     </ProjectReference>

@@ -1,8 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26009.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{30890E9A-47CB-4724-9382-1AC3825028D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Applications", "2. Applications", "{5F569806-CD48-49F7-A5E9-285BACEF1CD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infra", "3. Infra", "{62CDFF8C-090F-4066-8933-6E663C158D52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Presentation", "3. Presentation", "{10FB421A-9FD0-4C67-BCB7-79409926533D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Tests", "3. Tests", "{EEE093F1-33CD-445B-B311-FA04166D4B23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Plugins", "3. Plugins", "{F603012F-9B8E-4E3D-AC1F-F98C495E3944}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73542228-9692-4657-B75B-EA8FFEF55960}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.cake = ..\build.cake
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Presentation.Wpf", "withSIX.Mini.Presentation.Wpf\withSIX.Mini.Presentation.Wpf.csproj", "{53EDBB19-D2AB-4F06-B830-15CEFB50CF2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Applications", "withSIX.Mini.Applications\withSIX.Mini.Applications.csproj", "{83C185F7-79EC-47A3-98DA-07A00DFF1B42}"
@@ -18,18 +35,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Core", "withSIX.Core\withSIX.Core.csproj", "{49CB7023-7511-41AB-8E00-91CB98667895}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Sync.Core", "withSIX.Sync.Core\withSIX.Sync.Core.csproj", "{AC8C7390-6947-48EF-A717-5FDFCA799158}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{30890E9A-47CB-4724-9382-1AC3825028D4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Applications", "2. Applications", "{5F569806-CD48-49F7-A5E9-285BACEF1CD1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infra", "3. Infra", "{62CDFF8C-090F-4066-8933-6E663C158D52}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Presentation", "3. Presentation", "{10FB421A-9FD0-4C67-BCB7-79409926533D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Tests", "3. Tests", "{EEE093F1-33CD-445B-B311-FA04166D4B23}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Plugins", "3. Plugins", "{F603012F-9B8E-4E3D-AC1F-F98C495E3944}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Plugin.GTA", "withSIX.Mini.Plugin.GTA\withSIX.Mini.Plugin.GTA.csproj", "{5A250859-12A8-4F9F-8A76-41BB1CB1E082}"
 EndProject
@@ -52,11 +57,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Plugin.Homeworld", "withSIX.Mini.Plugin.Homeworld\withSIX.Mini.Plugin.Homeworld.csproj", "{F711C10C-1E23-4EE2-8C26-4524D7D468F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Plugin.Kerbal", "withSIX.Mini.Plugin.Kerbal\withSIX.Mini.Plugin.Kerbal.csproj", "{C048FE9D-CE82-456B-933F-51DD5D7318F0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73542228-9692-4657-B75B-EA8FFEF55960}"
-	ProjectSection(SolutionItems) = preProject
-		..\build.cake = ..\build.cake
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Plugin.Witcher3", "withSIX.Mini.Plugin.Witcher3\withSIX.Mini.Plugin.Witcher3.csproj", "{8A5BB322-D0FD-4FC3-B2FA-4ED1ECCC089D}"
 EndProject
@@ -90,13 +90,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Steam.Plugin.Arma",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Core.Presentation.Bridge", "withSIX.Core.Presentation.Bridge\withSIX.Core.Presentation.Bridge.csproj", "{777EA4EB-495C-411C-9F65-510874368861}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "withSIX.Mini.Presentation.CoreHost", "withSIX.Mini.Presentation.CoreHost\withSIX.Mini.Presentation.CoreHost.xproj", "{36BEAEAF-A786-4A56-B2DE-20303BFB961F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "withSIX.Mini.Presentation.CoreHost", "withSIX.Mini.Presentation.CoreHost\withSIX.Mini.Presentation.CoreHost.csproj", "{36BEAEAF-A786-4A56-B2DE-20303BFB961F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Presentation.CoreCore", "withSIX.Mini.Presentation.CoreCore\withSIX.Mini.Presentation.CoreCore.csproj", "{37206117-956B-43D1-9E7C-E37100C20A06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Mini.Presentation.Owin.Core", "withSIX.Mini.Presentation.Owin.Core\withSIX.Mini.Presentation.Owin.Core.csproj", "{15BDA7D0-B1A9-4561-B0AA-ADC8B689F1F9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "withSIX.SteamHelper", "withSIX.SteamHelper\withSIX.SteamHelper.xproj", "{E5F1DCE5-83E8-4681-A28E-7904D45C6576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "withSIX.SteamHelper", "withSIX.SteamHelper\withSIX.SteamHelper.csproj", "{E5F1DCE5-83E8-4681-A28E-7904D45C6576}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "withSIX.Steam.Infra", "withSIX.Steam.Infra\withSIX.Steam.Infra.csproj", "{5ACDEC54-063B-49CD-862B-709C9FE25B03}"
 EndProject
