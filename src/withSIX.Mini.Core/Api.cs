@@ -15,7 +15,7 @@ namespace withSIX.Mini.Core
 {
     public interface IW6Api
     {
-        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, List<Guid> ids, CancellationToken ct);
+        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, List<Guid> ids, CancellationToken ct, Guid userId);
         Task<Games.ApiHashes> Hashes(Guid gameId, CancellationToken ct);
         Task<List<ModClientApiJson>> Mods(Guid gameId, string version, CancellationToken ct);
         Task<List<GroupContent>> GroupContent(Guid id, CancellationToken ct);
