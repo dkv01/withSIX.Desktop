@@ -40,6 +40,7 @@ using withSIX.Mini.Applications.MVVM.ViewModels;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Infra.Api;
+using withSIX.Mini.Infra.Data;
 using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Wpf.Services;
 using DefaultViewLocator = withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;

@@ -22,6 +22,7 @@ using withSIX.Core.Presentation.Bridge.Extensions;
 using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Infra.Api;
+using withSIX.Mini.Infra.Data;
 using withSIX.Mini.Presentation.Core;
 using withSIX.Mini.Presentation.Owin.Core;
 

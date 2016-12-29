@@ -158,7 +158,7 @@ namespace withSIX.Mini.Infra.Data.Services
             public AuthenticatedHttpClientHandler(Func<Task<string>> getToken, HttpMessageHandler innerHandler = null)
                 : base(innerHandler ?? new HttpClientHandler()) {
                 if (getToken == null)
-                    throw new ArgumentNullException("getToken");
+                    throw new ArgumentNullException(nameof(getToken));
                 this.getToken = getToken;
             }
 

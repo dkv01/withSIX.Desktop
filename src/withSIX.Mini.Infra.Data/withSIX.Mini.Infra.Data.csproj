@@ -132,6 +132,7 @@
     <Compile Include="ApiModels\ContentDto.cs" />
     <Compile Include="ApiModels\MissionDto.cs" />
     <Compile Include="ApiModels\ModDto.cs" />
+    <Compile Include="AutoMapperInfraApiConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthProviderStorage.cs" />
     <Compile Include="Services\ContentEngineGameContext.cs" />
