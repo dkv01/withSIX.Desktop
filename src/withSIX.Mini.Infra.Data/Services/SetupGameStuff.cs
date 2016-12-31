@@ -46,7 +46,7 @@ namespace withSIX.Mini.Infra.Data.Services
             _gameFactory = new GameFactory(ass);
         }
 
-        public static IDictionary<Type, GameAttribute> GameSpecs { get; private set; }
+        public static IDictionary<Type, GameAttribute> GameSpecs { get; set; }
 
         public void Dispose() => _timer.Dispose();
 
