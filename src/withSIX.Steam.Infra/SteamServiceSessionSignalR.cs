@@ -20,7 +20,7 @@ using withSIX.Steam.Core.Services;
 
 namespace withSIX.Steam.Infra
 {
-    public class SteamServiceSessionSignalR : SteamServiceSession
+    public class SteamServiceSessionSignalR : SteamServiceSession, IDisposable
     {
         static readonly JsonSerializer jsonSerializer = JsonSerializer.Create(ApiSerializerSettings.GetSettings());
         private readonly DefaultHttpClient _defaultHttpClient = new DefaultHttpClient();
@@ -89,6 +89,11 @@ namespace withSIX.Steam.Infra
                 if (_con.State == ConnectionState.Disconnected)
                     await Connect().ConfigureAwait(false);
             }
+        }
+
+        public void Dispose() {
+            _con?.Stop();
+            _dsp?.Dispose();
         }
     }
 
