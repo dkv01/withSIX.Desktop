@@ -1,4 +1,4 @@
-﻿// <copyright company="SIX Networks GmbH" file="AutoMapperInfraApiConfig.cs">
+// <copyright company="SIX Networks GmbH" file="AutoMapperInfraApiConfig.cs">
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
@@ -14,7 +14,7 @@ using withSIX.Mini.Infra.Data.ApiModels;
 using CollectionServer = withSIX.Mini.Core.Games.CollectionServer;
 using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
-namespace withSIX.Mini.Infra.Api
+namespace withSIX.Mini.Infra.Data
 {
     public class AutoMapperInfraApiConfig : Profile
     {

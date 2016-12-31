@@ -50,7 +50,7 @@ namespace withSIX.Mini.Infra.Data.Services
         // Auth is optional
         [Headers("Authorization: Bearer")]
         [Get("/api/collections")]
-        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, string ids2, CancellationToken ct);
+        Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, string ids2, Guid userId, CancellationToken ct);
     }
 
     public interface IW6CDNApi : JsonApi
@@ -92,8 +92,8 @@ namespace withSIX.Mini.Infra.Data.Services
         }
 
         public Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, List<Guid> ids,
-                CancellationToken ct) =>
-            Wrap(t => _api.Collections(gameId, string.Join(",", ids), t), ct);
+            CancellationToken ct, Guid userId) =>
+            Wrap(t => _api.Collections(gameId, string.Join(",", ids), userId, t), ct);
 
         public Task<ApiHashes> Hashes(Guid gameId, CancellationToken ct) =>
             Wrap(t => _cdn.Hashes(gameId, t), ct);
@@ -158,7 +158,7 @@ namespace withSIX.Mini.Infra.Data.Services
             public AuthenticatedHttpClientHandler(Func<Task<string>> getToken, HttpMessageHandler innerHandler = null)
                 : base(innerHandler ?? new HttpClientHandler()) {
                 if (getToken == null)
-                    throw new ArgumentNullException("getToken");
+                    throw new ArgumentNullException(nameof(getToken));
                 this.getToken = getToken;
             }
 

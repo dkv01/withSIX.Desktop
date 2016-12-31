@@ -17,6 +17,7 @@ namespace withSIX.Steam.Presentation
         static void Main(string[] args) {
             try {
                 Common.Flags = new Common.StartupFlags(args, Environment.Is64BitOperatingSystem);
+                Console.WriteLine("Hello!" + (IntPtr.Size == 4));
                 LoggingSetup.Setup("SteamHelper");
                 using (var c = new ContainerSetup(() => RunInteractive.SteamApi)) {
                     Environment.Exit(new CommandRunner(c.GetCommands()).RunCommandsAndLog(args));

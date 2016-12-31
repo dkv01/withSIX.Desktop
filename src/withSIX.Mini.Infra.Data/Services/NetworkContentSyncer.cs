@@ -11,6 +11,7 @@ using withSIX.Api.Models.Collections;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
+using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Extensions;
 using withSIX.Core.Infra.Services;
 using withSIX.Core.Logging;
@@ -23,7 +24,6 @@ using withSIX.Mini.Core.Social;
 using withSIX.Sync.Core;
 using withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
-using CollectionExtensions = withSIX.Core.Applications.Extensions.CollectionExtensions;
 using ContentGuidSpec = withSIX.Api.Models.Content.v3.ContentGuidSpec;
 using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
@@ -33,11 +33,11 @@ namespace withSIX.Mini.Infra.Data.Services
     public class NetworkContentSyncer : IInfrastructureService, INetworkContentSyncer
     {
         private readonly CollectionSyncer _collectionSyncer;
-        readonly IDbContextLocator _locator;
+        private readonly ICollectionInfoFetcher _infoFetcher;
 
-        public NetworkContentSyncer(IDbContextLocator locator, IW6Api api) {
-            _locator = locator;
-            _collectionSyncer = new CollectionSyncer(locator, this, api);
+        public NetworkContentSyncer(ICollectionInfoFetcher infoFetcher, IW6Api api) {
+            _infoFetcher = infoFetcher;
+            _collectionSyncer = new CollectionSyncer(_infoFetcher, this, api);
         }
 
         public async Task SyncContent(IReadOnlyCollection<Game> games, ContentQuery filterFunc = null) {
@@ -56,7 +56,7 @@ namespace withSIX.Mini.Infra.Data.Services
             => _collectionSyncer.GetCollections(gameId, collectionIds);
 
         async Task<Dictionary<Guid, ModClientApiJsonV3WithGameId>> GetContentList(Guid gameId, ApiHashes hashes) {
-            var r = await _locator.GetApiContext().GetMods(gameId, hashes.Mods).ConfigureAwait(false);
+            var r = await _infoFetcher.GetApiContext().GetMods(gameId, hashes.Mods).ConfigureAwait(false);
             return r.ToDictionary(x => x.Id, x => x);
         }
 
@@ -97,12 +97,12 @@ namespace withSIX.Mini.Infra.Data.Services
             return hashStats;
         }
 
-        Task<ApiHashes> GetHashesV3(Guid gameId, CancellationToken ct) => _locator.GetApiContext().GetHashes(gameId, ct);
+        Task<ApiHashes> GetHashesV3(Guid gameId, CancellationToken ct) => _infoFetcher.GetApiContext().GetHashes(gameId, ct);
 
         private async Task<Dictionary<Guid, ModClientApiJsonV3WithGameId>> GetContent(Game game, ApiHashes latestHashes) {
             var compatGameIds = game.GetCompatibleGameIds();
-            var ctx = _locator.GetGameContext();
-            await ctx.Load(compatGameIds).ConfigureAwait(false);
+            // TODO: Do we actually have to load these?? seems unused...
+            await _infoFetcher.Load(compatGameIds).ConfigureAwait(false);
 
             // TODO: Only process and keep content that we actually are looking for (1. Installed content, 2. Desired content)
             var mods = new Dictionary<Guid, ModClientApiJsonV3WithGameId>();
@@ -244,15 +244,50 @@ namespace withSIX.Mini.Infra.Data.Services
             public bool ShouldSyncBecauseVersion { get; set; }
         }
 
+        public interface ICollectionInfoFetcher {
+            Task<Game> GetGame(Guid gameId);
+            Task<Guid> GetUserId();
+            IApiContext GetApiContext();
+            Task Load(IReadOnlyCollection<Guid> compatGameIds);
+            Task<Guid> GetImpersonatedUserId();
+        }
+
+        public class CollectionInfoFetcher : ICollectionInfoFetcher, IInfrastructureService
+        {
+            private readonly IDbContextLocator _locator;
+
+            public CollectionInfoFetcher(IDbContextLocator locator) {
+                _locator = locator;
+            }
+
+            public Task<Game> GetGame(Guid gameId) => _locator.GetGameContext().Games.FindOrThrowAsync(gameId);
+
+            public async Task<Guid> GetUserId() {
+                var settings = await _locator.GetSettingsContext().GetSettings().ConfigureAwait(false);
+                return settings.Secure.Login.IsLoggedIn ? settings.Secure.Login.Account.Id : Guid.Empty;
+            }
+
+            public IApiContext GetApiContext() => _locator.GetApiContext();
+
+            public async Task Load(IReadOnlyCollection<Guid> compatGameIds) {
+                var ctx = _locator.GetGameContext();
+                await ctx.Load(compatGameIds).ConfigureAwait(false);
+            }
+
+            public Task<Guid> GetImpersonatedUserId() {
+                return GetUserId();
+            }
+        }
+
         public class CollectionSyncer
         {
             private readonly IW6Api _api;
-            private readonly IDbContextLocator _locator;
-            private readonly NetworkContentSyncer _networkContentSyncer;
+            private readonly ICollectionInfoFetcher _collectionInfoFetcher;
+            private readonly INetworkContentSyncer _syncer;
 
-            public CollectionSyncer(IDbContextLocator locator, NetworkContentSyncer networkContentSyncer, IW6Api api) {
-                _locator = locator;
-                _networkContentSyncer = networkContentSyncer;
+            public CollectionSyncer(ICollectionInfoFetcher collectionInfoFetcher, INetworkContentSyncer syncer, IW6Api api) {
+                _collectionInfoFetcher = collectionInfoFetcher;
+                _syncer = syncer;
                 _api = api;
             }
 
@@ -301,10 +336,7 @@ namespace withSIX.Mini.Infra.Data.Services
                 var collectionSpecs = await ProcessEmbeddedCollections(c, collections, ct).ConfigureAwait(false);
                 var modSpecs =
                     await
-                        ProcessMods(col, c,
-                                await
-                                    CollectionExtensions.FindOrThrowAsync(_locator.GetGameContext().Games, col.GameId)
-                                        .ConfigureAwait(false))
+                        ProcessMods(col, c, await _collectionInfoFetcher.GetGame(col.GameId).ConfigureAwait(false))
                             .ConfigureAwait(false);
                 col.ReplaceContent(modSpecs.Concat(collectionSpecs));
             }
@@ -327,7 +359,8 @@ namespace withSIX.Mini.Infra.Data.Services
                 }
                 var todo = deps.Except(found.Select(x => x.Item3)).ToArray();
                 if (todo.Any())
-                    await SynchronizeContent(game, todo.Select(x => x.Dependency)).ConfigureAwait(false);
+                    await SynchronizeContent(game, todo.Select(x => x.Dependency))
+                        .ConfigureAwait(false);
 
                 return
                     todo.Select(x => new ContentSpec(ConvertToContentOrLocal(x, col, game), x.Constraint))
@@ -335,10 +368,6 @@ namespace withSIX.Mini.Infra.Data.Services
                         .Concat(found.Select(x => new ContentSpec(x.Item1, x.Item2)))
                         .ToArray();
             }
-
-            private Task SynchronizeContent(Game game, IEnumerable<string> packageNames)
-                => _networkContentSyncer.SyncContent(
-                    new[] {game}, new ContentQuery {PackageNames = packageNames.ToList()});
 
             private async Task<IEnumerable<ContentSpec>> ProcessEmbeddedCollections(CollectionModelWithLatestVersion c,
                 List<NetworkCollection> collections, CancellationToken ct) {
@@ -385,7 +414,7 @@ namespace withSIX.Mini.Infra.Data.Services
 
             private async Task MapExistingCollection(CollectionModelWithLatestVersion rc,
                 SubscribedCollection collection, CancellationToken ct) {
-                var userId = await GetUserId().ConfigureAwait(false);
+                var userId = await _collectionInfoFetcher.GetUserId().ConfigureAwait(false);
                 var conv = rc.MapTo(collection, opts => opts.Items["user-id"] = userId);
                 // TODO: Allow parent repos to be used for children etc? :-)
                 await HandleContent(conv, rc, ct).ConfigureAwait(false);
@@ -394,18 +423,12 @@ namespace withSIX.Mini.Infra.Data.Services
 
             private async Task<SubscribedCollection> MapCollection(CollectionModelWithLatestVersion rc,
                 CancellationToken ct, List<NetworkCollection> collections = null) {
-                var userId = await GetUserId().ConfigureAwait(false);
+                var userId = await _collectionInfoFetcher.GetUserId().ConfigureAwait(false);
                 var conv = rc.MapTo<SubscribedCollection>(opts => opts.Items["user-id"] = userId);
                 // TODO: Allow parent repos to be used for children etc? :-)
                 await HandleContent(conv, rc, ct, collections).ConfigureAwait(false);
                 conv.UpdateState();
                 return conv;
-            }
-
-            private async Task<Guid> GetUserId() {
-                var settings = await _locator.GetSettingsContext().GetSettings().ConfigureAwait(false);
-                var userId = settings.Secure.Login.IsLoggedIn ? settings.Secure.Login.Account.Id : Guid.Empty;
-                return userId;
             }
 
             private async Task<Content> ConvertToGroupOrRepoContent(CollectionVersionDependencyModel x, Collection col,
@@ -486,6 +509,9 @@ namespace withSIX.Mini.Infra.Data.Services
                 dependencies.Add(name);
             }
 
+            Task SynchronizeContent(Game game, IEnumerable<string> packageNames) => _syncer.SyncContent(
+                new[] {game}, new ContentQuery {PackageNames = packageNames.ToList()});
+
             private static Content ConvertToContentOrLocal(CollectionVersionDependencyModel x, IHaveGameId col,
                 Game game) => (Content) game.NetworkContent.FirstOrDefault(
                                   cnt =>
@@ -505,8 +531,12 @@ namespace withSIX.Mini.Infra.Data.Services
                 return list;
             }
 
-            private Task<List<CollectionModelWithLatestVersion>> RetrieveCollections(Guid gameId,
-                IEnumerable<Guid> colIds, CancellationToken ct) => _api.Collections(gameId, colIds.ToList(), ct);
+            private async Task<List<CollectionModelWithLatestVersion>> RetrieveCollections(Guid gameId,
+                IEnumerable<Guid> colIds, CancellationToken ct)
+                =>
+                    await _api.Collections(gameId, colIds.ToList(), ct,
+                            await _collectionInfoFetcher.GetImpersonatedUserId().ConfigureAwait(false))
+                        .ConfigureAwait(false);
 
             public async Task<IReadOnlyCollection<SubscribedCollection>> GetCollections(Guid gameId,
                 IReadOnlyCollection<Guid> collectionIds) {
