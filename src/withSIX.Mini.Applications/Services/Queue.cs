@@ -40,7 +40,7 @@ namespace withSIX.Mini.Applications.Services
         public DateTime? Finished { get; protected set; }
 
         [JsonIgnore]
-        public CancellationTokenSource CancelToken { get; protected internal set; }
+        public CancellationTokenSource CancelToken { get; protected internal set; } = new CancellationTokenSource();
 
         [JsonIgnore]
         public Task Task { get; set; }
@@ -85,10 +85,10 @@ namespace withSIX.Mini.Applications.Services
             Speed = speed;
             Action = action;
         }
-
         public double Progress { get; }
-        public string Action { get; }
         public long? Speed { get; }
+
+        public string Action { get; }
         public DateTime LastUpdate { get; protected set; } = DateTime.UtcNow;
 
         public bool Equals(ProgressState other) => (other != null) && (other.GetHashCode() == GetHashCode());
@@ -126,8 +126,7 @@ namespace withSIX.Mini.Applications.Services
         // TODO: progress handling
         public async Task<Guid> AddToQueue(string title,
             Func<Action<ProgressState>, CancellationToken, Task> taskFactory) {
-            var cts = new CancellationTokenSource();
-            var item = new QueueItem(title, taskFactory) {CancelToken = cts};
+            var item = new QueueItem(title, taskFactory);
 
             item.Start(() => _messenger.Update(item));
             BuildContinuation(item);
