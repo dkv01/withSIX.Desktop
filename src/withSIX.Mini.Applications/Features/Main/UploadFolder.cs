@@ -17,6 +17,7 @@ using withSIX.Core.Services.Infrastructure;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
+using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
 using withSIX.Sync.Core.Transfer;
 using withSIX.Sync.Core.Transfer.Protocols.Handlers;
@@ -62,13 +63,15 @@ client.prepareFolder()
         readonly IFolderHandler _folderHandler;
         private readonly IQueueManager _queueManager;
         private readonly IRsyncLauncher _rsyncLauncher;
+        private readonly IW6Api _api;
 
         public UploadFolderHandler(IDbContextLocator dbContextLocator, IFolderHandler folderHandler,
-            IQueueManager queueManager, IRsyncLauncher rsyncLauncher)
+            IQueueManager queueManager, IRsyncLauncher rsyncLauncher, IW6Api api)
             : base(dbContextLocator) {
             _folderHandler = folderHandler;
             _queueManager = queueManager;
             _rsyncLauncher = rsyncLauncher;
+            _api = api;
         }
 
         public async Task<Guid> Handle(UploadFolder request) {
@@ -82,13 +85,20 @@ client.prepareFolder()
 
             var id = await
                 _queueManager.AddToQueue("Upload " + path.DirectoryName,
-                    (progress, ct) => UploadFolder(request, ct, progress)).ConfigureAwait(false);
+                    (progress, ct) => UploadFolder(request, ct, s => { progress(s);
+                        UpdateProgress(s, request.ContentId, request.GameId);
+                    })).ConfigureAwait(false);
 
             // Not retry compatible atm, also this is more a workaround for the upload stuff
             var item = _queueManager.Queue.Items.First(x => x.Id == id);
             await item.Task.ConfigureAwait(false);
 
             return id;
+        }
+
+        private async void UpdateProgress(ProgressState progress, Guid requestContentId, Guid requestGameId) {
+            await _api.PostUploadProgress(requestContentId,
+                new ProgressStateInfo { Progress = progress.Progress, Speed = progress.Speed}).ConfigureAwait(false);
         }
 
         private async Task UpdateOrAddContentInfo(UploadFolder request, IAbsoluteDirectoryPath path) {

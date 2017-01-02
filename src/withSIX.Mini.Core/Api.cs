@@ -21,5 +21,13 @@ namespace withSIX.Mini.Core
         Task<List<GroupContent>> GroupContent(Guid id, CancellationToken ct);
         Task<GroupAccess> GroupAccess(Guid id, CancellationToken ct);
         Task CreateStatusOverview(InstallStatusOverview stats, CancellationToken ct);
+        Task PostUploadProgress(Guid contentId, ProgressStateInfo progressInfo);
+    }
+
+    public class ProgressStateInfo
+    {
+        public double Progress { get; set; }
+        public long? Speed { get; set; }
+
     }
 }

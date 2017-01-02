@@ -51,6 +51,9 @@ namespace withSIX.Mini.Infra.Data.Services
         [Headers("Authorization: Bearer")]
         [Get("/api/collections")]
         Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, string ids2, Guid userId, CancellationToken ct);
+
+        [Post("/api/mods/{id}/progress")]
+        Task PostUploadProgress(Guid id, [Body] ProgressStateInfo progress);
     }
 
     public interface IW6CDNApi : JsonApi
@@ -150,6 +153,9 @@ namespace withSIX.Mini.Infra.Data.Services
                 MainLog.Logger.Warn($"Error catched during api call, retrying {arg3}: {exception.Message}");
                 MainLog.Logger.FormattedDebugException(exception, "Error catched during api call");
             });
+
+        public Task PostUploadProgress(Guid contentId, ProgressStateInfo progressInfo)
+            => Wrap(t => _api.PostUploadProgress(contentId, progressInfo), CancellationToken.None);
 
         class AuthenticatedHttpClientHandler : DelegatingHandler
         {
