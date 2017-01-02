@@ -58,7 +58,7 @@ namespace withSIX.Mini.Presentation.Wpf
         protected override IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies) => assemblies.GetTypes<T>();
         protected override void RegisterAllInterfaces<T>(IEnumerable<Assembly> assemblies) => Container.RegisterAllInterfaces<T>(assemblies);
         protected override void RegisterSingleAllInterfaces<T>(IEnumerable<Assembly> assemblies) => Container.RegisterSingleAllInterfaces<T>(assemblies);
-        protected override IEnumerable<Assembly> GetInfraAssemblies => new[] {typeof(AutoMapperInfraApiConfig).GetTypeInfo().Assembly}.Concat(base.GetInfraAssemblies);
+        protected override IEnumerable<Assembly> GetInfraAssemblies => new[] {typeof(AutoMapperInfraDataConfig).GetTypeInfo().Assembly, typeof(StateHandler).GetTypeInfo().Assembly }.Concat(base.GetInfraAssemblies);
         protected override Assembly AssemblyLoadFrom(string arg) => BootstrapperBridge.AssemblyLoadFrom(arg);
         protected override void ConfigureContainer() => BootstrapperBridge.ConfigureContainer(Container);
         protected override void EnvironmentExit(int exitCode) => BootstrapperBridge.EnvironmentExit(exitCode);

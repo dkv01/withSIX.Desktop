@@ -16,9 +16,9 @@ using SubscribedCollection = withSIX.Mini.Core.Games.SubscribedCollection;
 
 namespace withSIX.Mini.Infra.Data
 {
-    public class AutoMapperInfraApiConfig : Profile
+    public class AutoMapperInfraDataConfig : Profile
     {
-        public AutoMapperInfraApiConfig() {
+        public AutoMapperInfraDataConfig() {
             CreateMap<ModClientApiJson, ModNetworkContent>()
                 .Include<ModClientApiJsonV3WithGameId, ModNetworkContent>()
                 .BeforeMap((json, content) => { content?.Publishers.Clear(); })
