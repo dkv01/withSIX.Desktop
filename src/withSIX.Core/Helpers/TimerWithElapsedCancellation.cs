@@ -71,7 +71,7 @@ namespace withSIX.Core.Helpers
                                 break;
                             }
                         } catch (Exception ex) {
-                            MainLog.Logger.Warn("Unhandled Ex in timer", ex);
+                            MainLog.Logger.Warn("Unhandled Ex in timer. " + ex.GetType() + ": " + ex.Message);
                             break;
                         }
                     }
