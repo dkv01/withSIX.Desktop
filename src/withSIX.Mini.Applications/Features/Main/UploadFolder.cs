@@ -101,7 +101,7 @@ client.prepareFolder()
             Action<ProgressState> progress) {
             using (var sub = new Subject<ProgressState>())
             using (sub
-                .Sample(TimeSpan.FromSeconds(2))
+                .Sample(TimeSpan.FromSeconds(5))
                 .ConcatTask(s => TryUpdateProgress(request, s)).Subscribe()) {
                 await UploadFolder(request, ct, s => {
                     sub.OnNext(s);
