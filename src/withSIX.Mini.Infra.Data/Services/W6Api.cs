@@ -53,6 +53,7 @@ namespace withSIX.Mini.Infra.Data.Services
         Task<List<CollectionModelWithLatestVersion>> Collections(Guid gameId, string ids2, Guid userId, CancellationToken ct);
 
         [Post("/api/mods/{id}/progress")]
+        [Headers("Authorization: Bearer")]
         Task PostUploadProgress(Guid id, [Body] ProgressStateInfo progress);
     }
 
