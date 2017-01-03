@@ -4,12 +4,15 @@
 
 using System;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
 using withSIX.Api.Models;
 using withSIX.Api.Models.Exceptions;
+using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Helpers;
 using withSIX.Core.Logging;
@@ -85,9 +88,7 @@ client.prepareFolder()
 
             var id = await
                 _queueManager.AddToQueue("Upload " + path.DirectoryName,
-                    (progress, ct) => UploadFolder(request, ct, s => { progress(s);
-                        UpdateProgress(s, request.ContentId, request.GameId);
-                    })).ConfigureAwait(false);
+                    (progress, ct) => UploadAndProgressHandling(request, ct, progress)).ConfigureAwait(false);
 
             // Not retry compatible atm, also this is more a workaround for the upload stuff
             var item = _queueManager.Queue.Items.First(x => x.Id == id);
@@ -96,10 +97,30 @@ client.prepareFolder()
             return id;
         }
 
-        private async void UpdateProgress(ProgressState progress, Guid requestContentId, Guid requestGameId) {
-            await _api.PostUploadProgress(requestContentId,
-                new ProgressStateInfo { Progress = progress.Progress, Speed = progress.Speed}).ConfigureAwait(false);
+        private async Task UploadAndProgressHandling(UploadFolder request, CancellationToken ct,
+            Action<ProgressState> progress) {
+            using (var sub = new Subject<ProgressState>())
+            using (sub
+                .Sample(TimeSpan.FromSeconds(2))
+                .ConcatTask(s => TryUpdateProgress(request, s)).Subscribe()) {
+                await UploadFolder(request, ct, s => {
+                    sub.OnNext(s);
+                    progress(s);
+                }).ConfigureAwait(false);
+            }
         }
+
+        private async Task TryUpdateProgress(UploadFolder request, ProgressState s) {
+            try {
+                await UpdateProgress(s, request.ContentId, request.GameId).ConfigureAwait(false);
+            } catch (Exception ex) {
+                MainLog.Logger.FormattedWarnException(ex);
+            }
+        }
+
+        private Task UpdateProgress(ProgressState progress, Guid requestContentId, Guid requestGameId)
+            => _api.PostUploadProgress(requestContentId,
+                new ProgressStateInfo {Progress = progress.Progress, Speed = progress.Speed});
 
         private async Task UpdateOrAddContentInfo(UploadFolder request, IAbsoluteDirectoryPath path) {
             var cl = await ContentLinkContext.GetFolderLink().ConfigureAwait(false);
