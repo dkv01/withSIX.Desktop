@@ -8,9 +8,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
 using withSIX.Core.Applications.Errors;
 using withSIX.Core.Applications.Services;
+using withSIX.Core.Extensions;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Sync.Core.Legacy.Status;
 
@@ -22,16 +24,18 @@ namespace withSIX.Mini.Applications.Services
         public List<QueueItem> Items { get; protected set; } = new List<QueueItem>();
     }
 
-    public class QueueItem
+    public class QueueItem : IHaveId<Guid>
     {
-        public QueueItem(string title, Func<Action<ProgressState>, CancellationToken, Task> taskFactory) {
+        public QueueItem(string title, Guid contentId, Func<Action<ProgressState>, CancellationToken, Task> taskFactory) {
             Title = title;
+            ContentId = contentId;
             TaskFactory = taskFactory;
         }
 
         public Func<Action<ProgressState>, CancellationToken, Task> TaskFactory { get; protected set; }
 
         public Guid Id { get; protected set; } = Guid.NewGuid();
+        public Guid ContentId { get; }
         public string Title { get; protected set; }
         public ProgressState ProgressState { get; set; }
         public CompletionState State { get; protected set; }
@@ -85,17 +89,18 @@ namespace withSIX.Mini.Applications.Services
             Speed = speed;
             Action = action;
         }
+
         public double Progress { get; }
         public long? Speed { get; }
 
         public string Action { get; }
         public DateTime LastUpdate { get; protected set; } = DateTime.UtcNow;
 
-        public bool Equals(ProgressState other) => (other != null) && (other.GetHashCode() == GetHashCode());
+        public bool Equals(ProgressState other) => other != null && other.GetHashCode() == GetHashCode();
 
         public override bool Equals(object other) {
             var o = other as ProgressState;
-            return (o != null) && Equals(o);
+            return o != null && Equals(o);
         }
 
         public override int GetHashCode() => HashCode.Start.Hash(Progress).Hash(Action).Hash(Speed);
@@ -124,9 +129,9 @@ namespace withSIX.Mini.Applications.Services
         }
 
         // TODO: progress handling
-        public async Task<Guid> AddToQueue(string title,
+        public async Task<Guid> AddToQueue(string title, Guid contentId,
             Func<Action<ProgressState>, CancellationToken, Task> taskFactory) {
-            var item = new QueueItem(title, taskFactory);
+            var item = new QueueItem(title, contentId, taskFactory);
 
             item.Start(() => _messenger.Update(item));
             BuildContinuation(item);
@@ -137,23 +142,17 @@ namespace withSIX.Mini.Applications.Services
         }
 
         public Task RemoveFromQueue(Guid id) {
-            var item = Queue.Items.First(x => x.Id == id);
+            var item = Queue.Items.FindOrThrow(id);
             if (item.State == CompletionState.NotComplete)
                 throw new ValidationException("Item is not in completed state");
             Queue.Items.Remove(item);
             return _messenger.RemoveFromQueue(id);
         }
 
-        public Task Cancel(Guid id) {
-            var item = Queue.Items.First(x => x.Id == id);
-            if (item.State != CompletionState.NotComplete)
-                throw new ValidationException("Item is not in progress state");
-            item.Cancel();
-            return _messenger.Update(item);
-        }
+        public Task Cancel(Guid id) => CancelInternal(Queue.Items.FindOrThrow(id));
 
         public Task Retry(Guid id) {
-            var item = Queue.Items.First(x => x.Id == id);
+            var item = Queue.Items.FindOrThrow(id);
             if (item.State == CompletionState.NotComplete)
                 throw new ValidationException("Item is not in completed state");
             item.Retry(() => _messenger.Update(item));
@@ -164,6 +163,16 @@ namespace withSIX.Mini.Applications.Services
         public Task Update(QueueItem item) => _messenger.Update(item);
 
         public QueueInfo Queue { get; } = new QueueInfo();
+
+        public Task CancelByContentId(Guid contentId)
+            => CancelInternal(Queue.Items.FirstOrThrow(x => x.ContentId == contentId));
+
+        private Task CancelInternal(QueueItem item) {
+            if (item.State != CompletionState.NotComplete)
+                throw new ValidationException("Item is not in progress state");
+            item.Cancel();
+            return _messenger.Update(item);
+        }
 
         private void BuildContinuation(QueueItem item) {
             item.Task = BuildContinuationInternal(item);

@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR.Hubs;
 using withSIX.Mini.Applications.Features.Main;
 using withSIX.Mini.Applications.Services;
 
@@ -17,6 +16,8 @@ namespace withSIX.Mini.Infra.Api.Hubs
         public Task Retry(Guid id) => SendAsync(new RetryQueueItem(id));
 
         public Task Cancel(Guid id) => SendAsync(new CancelQueueItem(id));
+
+        public Task CancelByContentId(Guid contentId) => SendAsync(new CancelQueueItemByContentId(contentId));
 
         public Task Pause(Guid id) {
             throw new NotImplementedException();

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using withSIX.Api.Models;
@@ -72,6 +73,14 @@ namespace withSIX.Core.Extensions
             if (item == null)
                 throw new NotFoundException("Item with ID not found: " + id);
             return item;
+        }
+
+        public static T FirstOrThrow<T>(this IEnumerable<T> This, Func<T, bool> predicate) {
+            try {
+                return This.First(predicate);
+            } catch (InvalidOperationException ex) {
+                throw new NotFoundException("No item found that matches", ex);
+            }
         }
 
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> enumerable, T item)

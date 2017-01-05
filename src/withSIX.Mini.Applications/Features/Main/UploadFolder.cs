@@ -87,7 +87,7 @@ client.prepareFolder()
             await ContentLinkContext.SaveChanges().ConfigureAwait(false);
 
             var id = await
-                _queueManager.AddToQueue("Upload " + path.DirectoryName,
+                _queueManager.AddToQueue("Upload " + path.DirectoryName, request.ContentId,
                     (progress, ct) => UploadAndProgressHandling(request, ct, progress)).ConfigureAwait(false);
 
             // Not retry compatible atm, also this is more a workaround for the upload stuff

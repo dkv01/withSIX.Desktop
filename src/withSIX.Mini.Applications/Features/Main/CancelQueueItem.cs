@@ -21,8 +21,16 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
+    public class CancelQueueItemByContentId : IAsyncVoidCommand
+    {
+        public CancelQueueItemByContentId(Guid contentId) {
+            ContentId = contentId;
+        }
 
-    public class CancelQueueItemHandler : DbRequestBase, IAsyncVoidCommandHandler<CancelQueueItem>
+        public Guid ContentId { get; }
+    }
+
+    public class CancelQueueItemHandler : DbRequestBase, IAsyncVoidCommandHandler<CancelQueueItem>, IAsyncVoidCommandHandler<CancelQueueItemByContentId>
     {
         private readonly IQueueManager _queueManager;
 
@@ -32,5 +40,6 @@ namespace withSIX.Mini.Applications.Features.Main
         }
 
         public Task<Unit> Handle(CancelQueueItem request) => _queueManager.Cancel(request.Id).Void();
+        public Task<Unit> Handle(CancelQueueItemByContentId request) => _queueManager.CancelByContentId(request.ContentId).Void();
     }
 }
