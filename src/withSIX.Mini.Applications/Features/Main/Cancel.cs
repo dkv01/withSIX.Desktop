@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Content.v3;
-using withSIX.Core.Applications.Services;
 using withSIX.Core.Logging;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Core.Games.Services;
@@ -39,7 +38,6 @@ namespace withSIX.Mini.Applications.Features.Main
             //await new ActionNotification(Guid.Empty, "Aborting", "", request.ClientId, request.RequestId).Raise() .ConfigureAwait(false);
             await _contentInstallation.Abort().ConfigureAwait(false);
             //            await new ActionNotification(Guid.Empty, "Aborted", "", request.ClientId, request.RequestId).Raise().ConfigureAwait(false);
-            
         }
 
         public async Task Handle(Pause request) {
@@ -50,7 +48,6 @@ namespace withSIX.Mini.Applications.Features.Main
                 MainLog.Logger.Info($"The game with ID {request.Id} does not appear to be locked. (Already done?)");
             }
             //await new ActionNotification(request.Id, "Aborted", "", request.ClientId, request.RequestId).Raise().ConfigureAwait(false);
-            
         }
     }
 }

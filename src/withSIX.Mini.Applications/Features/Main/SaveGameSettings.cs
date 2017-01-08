@@ -41,8 +41,6 @@ namespace withSIX.Mini.Applications.Features.Main
             var settings = game.Settings;
             request.Settings.MapTo(settings);
             await game.UpdateSettings(settings).ConfigureAwait(false);
-
-            
         }
     }
 }

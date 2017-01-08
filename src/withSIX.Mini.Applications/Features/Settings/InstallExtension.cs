@@ -37,7 +37,6 @@ namespace withSIX.Mini.Applications.Features.Settings
             await
                 _installer.UpgradeOrInstall(_destination, await ctx.GetSettings().ConfigureAwait(false), _filePaths)
                     .ConfigureAwait(false);
-            
         }
 
         public async Task Handle(RemoveExtension request) {
@@ -45,7 +44,6 @@ namespace withSIX.Mini.Applications.Features.Settings
             await
                 _installer.Uninstall(_destination, await ctx.GetSettings().ConfigureAwait(false), _filePaths)
                     .ConfigureAwait(false);
-            
         }
     }
 }

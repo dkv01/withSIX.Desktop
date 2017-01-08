@@ -29,7 +29,6 @@ namespace withSIX.Mini.Applications.Features.Settings
             Common.Paths.TempPath.MakeSurePathExists();
             await ErrorHandlerr.GenerateDiagnosticZip(path).ConfigureAwait(false);
             Tools.FileUtil.SelectInExplorer(path.ToString());
-            
         }
     }
 
@@ -47,7 +46,6 @@ namespace withSIX.Mini.Applications.Features.Settings
             Common.Flags.Verbose = true;
             _restarter.RestartWithoutElevation(
                 Tools.UacHelper.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
-            
         }
     }
 }

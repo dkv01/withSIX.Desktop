@@ -37,7 +37,6 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public async Task Handle(ResolveUserError request) {
             await _handler.ResolveError(request.Id, request.Result, request.Data).ConfigureAwait(false);
-            
         }
     }
 }

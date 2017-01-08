@@ -33,6 +33,6 @@ namespace withSIX.Mini.Applications.Features.Main
     public class ModsApiModel : ContentsApiModel
     {
         public ModsApiModel(List<ContentApiModel> items, int total, int pageNumber, int pageSize)
-            : base(items, total, pageNumber, pageSize) { }
+            : base(items, total, pageNumber, pageSize) {}
     }
 }

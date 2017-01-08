@@ -27,8 +27,6 @@ namespace withSIX.Mini.Applications.Features.Main
                 request.ApiKey;
             // TODO: Now handle the AccountInfo + PremiumToken
             // TODO: Refresh token when webbrowser refreshes...
-
-            
         }
     }
 }

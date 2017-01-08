@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Features.Main.Games;
@@ -97,14 +96,14 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public IVoidCommandBase GetNextAction()
             =>
-            new LaunchContents(GameId,
-                Contents.Select(
-                    x =>
-                        new ContentGuidSpec(
-                            GameExtensions.CreateSteamContentIdGuid(x.Id),
-                            x.Constraint)).ToList()) {
-                Name = Name
-            };
+                new LaunchContents(GameId,
+                    Contents.Select(
+                        x =>
+                            new ContentGuidSpec(
+                                x.Id.CreateSteamContentIdGuid(),
+                                x.Constraint)).ToList()) {
+                    Name = Name
+                };
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
         public string ActionTitleOverride => Force ? "Diagnose" : null;
@@ -113,7 +112,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public DownloadContentAction GetAction(Game game) => new DownloadContentAction(CancelToken,
             Contents
                 .Select(x => new {Content = GetOrCreateContent(game, x) as IInstallableContent, x.Constraint})
-                .Select(x => new {Content = x.Content as IInstallableContent, x.Constraint})
+                .Select(x => new {x.Content, x.Constraint})
                 .Where(x => x.Content != null)
                 .DistinctBy(x => x.Content)
                 .Select(x => new InstallContentSpec(x.Content, x.Constraint))
@@ -125,7 +124,7 @@ namespace withSIX.Mini.Applications.Features.Main
         };
 
         private static Content GetOrCreateContent(Game game, ContentIntSpec x) {
-            var guid = GameExtensions.CreateSteamContentIdGuid(x.Id);
+            var guid = x.Id.CreateSteamContentIdGuid();
             var content = game.Contents.Find(guid);
             if (content != null)
                 return content;
@@ -163,25 +162,21 @@ namespace withSIX.Mini.Applications.Features.Main
         public async Task Handle(InstallCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await InstallContent(request, game).ConfigureAwait(false);
-            
         }
 
         public async Task Handle(InstallContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await InstallContent(request, game).ConfigureAwait(false);
-            
         }
 
         public async Task Handle(InstallContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            
         }
 
         public async Task Handle(InstallSteamContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            
         }
 
         private Task InstallContent(InstallContent request, Game game)

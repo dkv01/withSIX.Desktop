@@ -19,7 +19,7 @@ namespace withSIX.Mini.Applications
     public static class GameStuffExtensions
     {
         public static Task HandleGameContentsWhenNeeded(this ISetupGameStuff This,
-                ContentQuery query = null, params Guid[] gameIds)
+            ContentQuery query = null, params Guid[] gameIds)
             => This.HandleGameContentsWhenNeeded(gameIds, query);
     }
 }

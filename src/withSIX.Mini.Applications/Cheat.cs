@@ -32,7 +32,8 @@ namespace withSIX.Mini.Applications
         public Task DispatchNextAction(Func<IVoidCommand, CancellationToken, Task> dispatcher, Guid requestId)
             => _stateHandler.DispatchNextAction(dispatcher, requestId, CancellationToken.None);
 
-        public Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken))
+        public Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request,
+            CancellationToken cancelToken = default(CancellationToken))
             => _mediator.Send(request, cancelToken);
 
         public Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken))
@@ -110,7 +111,37 @@ namespace withSIX.Mini.Applications
     {
         public const string InternalTitle = "Sync";
         public const string ProductTitle = InternalTitle;
+        public const int DefaultHttpPort = 48665; // TODO: Randomize and make dynamic on first start
+        public const int DefaultHttpsPort = 48666; // TODO: Randomize and make dynamic on first start
+
+        public const int SyncVersion = 14;
+        private static readonly IPAddress srvAddress = IPAddress.Parse("127.0.0.66");
+        private static readonly Lazy<IPEndPoint> httpsAddress =
+            new Lazy<IPEndPoint>(() => ApiPort == 0 ? null : new IPEndPoint(srvAddress, ApiPort));
+        private static readonly Lazy<IPEndPoint> httpAddress =
+            new Lazy<IPEndPoint>(() => ApiHttpPort == 0 ? null : new IPEndPoint(srvAddress, ApiHttpPort));
         public static string ReleaseTitle { get; } = GetReleaseTitle();
+
+        public static string DirectorySubtitle { get; } = GetDirectorySubtitle();
+
+        public static string DirectoryTitle { get; } = ProductTitle +
+                                                       (DirectorySubtitle == null ? null : "-" + DirectorySubtitle);
+        public static string DisplayTitle { get; } = ProductTitle + (ReleaseTitle == null ? null : " " + ReleaseTitle);
+        public static string WindowTitle { get; } = DisplayTitle;
+        public static int ApiPort { get; set; }
+        public static int ApiHttpPort { get; set; }
+        public static IPEndPoint HttpsAddress => httpsAddress.Value;
+        public static IPEndPoint HttpAddress => httpAddress.Value;
+
+        public static string InternalVersion { get; set; }
+        public static string ProductVersion { get; set; }
+        public static bool IsTestVersion { get; } = GetIsTestVersion();
+
+        // TODO: Consider FirstRun not just from Setup but also in terms of Settings.... so that deleting settings is a new FirstRun?
+        public static bool FirstRun { get; set; }
+        public static string ApiVersion { get; } = "4";
+        public static Browser PluginBrowserFound { get; set; }
+        public static string CertThumb { get; } = "fca9282c0cd0394f61429bbbfdb59bacfc7338c9";
 
         private static string GetReleaseTitle() {
             switch (BuildFlags.Type) {
@@ -122,7 +153,6 @@ namespace withSIX.Mini.Applications
             }
         }
 
-        public static string DirectorySubtitle { get; } = GetDirectorySubtitle();
         private static string GetDirectorySubtitle() {
             switch (BuildFlags.Type) {
             case ReleaseType.Beta:
@@ -134,40 +164,13 @@ namespace withSIX.Mini.Applications
             }
         }
 
-        public static string DirectoryTitle { get; } = ProductTitle + (DirectorySubtitle == null ? null : "-" + DirectorySubtitle);
-        public static string DisplayTitle { get; } = ProductTitle + (ReleaseTitle == null ? null : " " + ReleaseTitle);
-        public static string WindowTitle { get; } = DisplayTitle;
-        public const int DefaultHttpPort = 48665; // TODO: Randomize and make dynamic on first start
-        public const int DefaultHttpsPort = 48666; // TODO: Randomize and make dynamic on first start
-        public static int ApiPort { get; set; }
-        public static int ApiHttpPort { get; set; }
-        private static readonly IPAddress srvAddress = IPAddress.Parse("127.0.0.66");
-        private static readonly Lazy<IPEndPoint> httpsAddress =
-            new Lazy<IPEndPoint>(() => ApiPort == 0 ? null : new IPEndPoint(srvAddress, ApiPort));
-        public static IPEndPoint HttpsAddress => httpsAddress.Value;
-        private static readonly Lazy<IPEndPoint> httpAddress =
-            new Lazy<IPEndPoint>(() => ApiHttpPort == 0 ? null : new IPEndPoint(srvAddress, ApiHttpPort));
-        public static IPEndPoint HttpAddress => httpAddress.Value;
-
-        public const int SyncVersion = 14;
-
-        public static string InternalVersion { get; set; }
-        public static string ProductVersion { get; set; }
-        public static bool IsTestVersion { get; } = GetIsTestVersion();
-
         private static bool GetIsTestVersion() {
 #if DEBUG
-        return true;
+            return true;
 #else
             return BuildFlags.Type <= ReleaseType.Alpha;
 #endif
         }
-
-        // TODO: Consider FirstRun not just from Setup but also in terms of Settings.... so that deleting settings is a new FirstRun?
-        public static bool FirstRun { get; set; }
-        public static string ApiVersion { get; } = "4";
-        public static Browser PluginBrowserFound { get; set; }
-        public static string CertThumb { get; } = "fca9282c0cd0394f61429bbbfdb59bacfc7338c9";
 
         public static class Features
         {

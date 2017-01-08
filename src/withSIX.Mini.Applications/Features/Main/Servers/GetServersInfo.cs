@@ -27,10 +27,11 @@ namespace withSIX.Mini.Applications.Features.Main.Servers
 
     public class GetServersInfoHandler : ApiDbQueryBase, IAsyncRequestHandler<GetServersInfo, ServersInfo>
     {
-        private readonly IServerQueryFactory _sqf;
         private readonly IRequestScopeLocator _scopeLocator;
+        private readonly IServerQueryFactory _sqf;
 
-        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IRequestScopeLocator scopeLocator)
+        public GetServersInfoHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf,
+            IRequestScopeLocator scopeLocator)
             : base(dbContextLocator) {
             _sqf = sqf;
             _scopeLocator = scopeLocator;
@@ -65,13 +66,13 @@ namespace withSIX.Mini.Applications.Features.Main.Servers
 
     public class ServerInfoReceived
     {
-        public Guid GameId { get; }
-        public List<Server> Items { get; }
-
         public ServerInfoReceived(Guid gameId, List<Server> items) {
             GameId = gameId;
             Items = items;
         }
+
+        public Guid GameId { get; }
+        public List<Server> Items { get; }
     }
 
     public class GetServerQuery : IHaveGameId

@@ -46,14 +46,12 @@ namespace withSIX.Mini.Applications.Features.Main
         public async Task Handle(ClearRecent request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             game.ClearRecent();
-            
         }
 
         public async Task Handle(RemoveRecent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var content = await game.Contents.FindOrThrowFromRequestAsync(request).ConfigureAwait(false);
             content.RemoveRecentInfo();
-            
         }
     }
 }

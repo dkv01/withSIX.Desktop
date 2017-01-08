@@ -54,7 +54,6 @@ namespace withSIX.Mini.Applications.Features.Main
             // TODO: Progress reporting etc
             await _stateHandler.StartUpdating().ConfigureAwait(false);
             await _updateHandler.SelfUpdate().ConfigureAwait(false);
-            
         }
 
         public async Task Handle(UpdateAvailable request) {
@@ -63,7 +62,6 @@ namespace withSIX.Mini.Applications.Features.Main
                     request.State == UpdateState.UpdateDownloading
                         ? AppUpdateState.UpdateDownloading
                         : AppUpdateState.UpdateAvailable).ConfigureAwait(false);
-            
         }
     }
 }

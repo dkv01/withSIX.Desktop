@@ -52,7 +52,7 @@ namespace withSIX.Mini.Applications.Services
             var ctx = _locator.GetSettingsContext();
             var settings = await ctx.GetSettings().ConfigureAwait(false);
             return !settings.Local.DeclinedPlaywithSixImport &&
-                   (settings.Local.PlayWithSixImportVersion != ImportVersion);
+                   settings.Local.PlayWithSixImportVersion != ImportVersion;
         }
 
         public async Task ImportPwsSettings(IAbsoluteFilePath filePath) {
@@ -71,7 +71,7 @@ namespace withSIX.Mini.Applications.Services
             await db.LoadAll().ConfigureAwait(false);
             foreach (var g in db.Games) {
                 var ss = pwsSettings.GameOptions.GameSettingsController.Profiles.FirstOrDefault()?.GameSettings;
-                if ((ss != null) && ss.ContainsKey(g.Id))
+                if (ss != null && ss.ContainsKey(g.Id))
                     HandleGameSettings(pwsSettings, g);
                 HandleGameContent(pwsSettings, g);
             }
@@ -121,7 +121,7 @@ namespace withSIX.Mini.Applications.Services
         static void HandleGameSettings(UserSettings pwsSettings, Game g) {
             var gs = g.Settings as IHavePackageDirectory;
             var modDir = GetGameValue<string>(pwsSettings, g, "ModDirectory");
-            if ((gs != null) && (modDir != null))
+            if (gs != null && modDir != null)
                 gs.PackageDirectory = modDir.ToAbsoluteDirectoryPath();
             var repoDir = GetGameValue<string>(pwsSettings, g, "RepositoryDirectory");
             if (repoDir != null)
@@ -173,7 +173,7 @@ namespace withSIX.Mini.Applications.Services
                 throw new Exception("Invalid address format: " + address);
 
             var port = TryInt(addrs.Last());
-            if ((port < 1) || (port > IPEndPoint.MaxPort))
+            if (port < 1 || port > IPEndPoint.MaxPort)
                 throw new ArgumentOutOfRangeException(port.ToString());
 
             _ip = IPAddress.Parse(string.Join(":", addrs.Take(addrs.Length - 1)));
@@ -184,7 +184,7 @@ namespace withSIX.Mini.Applications.Services
         public ServerAddress(string ip, int port) {
             if (string.IsNullOrWhiteSpace(ip))
                 throw new ArgumentNullException(nameof(ip));
-            if ((port < 1) || (port > IPEndPoint.MaxPort))
+            if (port < 1 || port > IPEndPoint.MaxPort)
                 throw new ArgumentOutOfRangeException(port.ToString());
 
             _ip = IPAddress.Parse(ip);
@@ -196,7 +196,7 @@ namespace withSIX.Mini.Applications.Services
         public ServerAddress(IPAddress ip, int port) {
             if (ip == null)
                 throw new ArgumentNullException(nameof(ip));
-            if ((port < 1) || (port > IPEndPoint.MaxPort))
+            if (port < 1 || port > IPEndPoint.MaxPort)
                 throw new ArgumentOutOfRangeException(port.ToString());
 
             _ip = ip;
@@ -228,14 +228,14 @@ namespace withSIX.Mini.Applications.Services
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            return (obj.GetType() == GetType()) && Equals((ServerAddress) obj);
+            return obj.GetType() == GetType() && Equals((ServerAddress) obj);
         }
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext context) {
             if (_ip == null)
                 throw new Exception("IP cant be null");
-            if ((_port < 1) || (_port > IPEndPoint.MaxPort))
+            if (_port < 1 || _port > IPEndPoint.MaxPort)
                 throw new ArgumentOutOfRangeException(_port.ToString());
 
             _stringFormat = GetStringFormat();
@@ -278,23 +278,23 @@ namespace withSIX.Mini.Applications.Services
     }
 
     [DataContract(Name = "AccountOptions",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class AccountOptions {}
 
     [DataContract(Name = "RecentCollection",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class RecentCollection {}
 
     [DataContract(Name = "FavoriteCollection",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class FavoriteCollection {}
 
     [DataContract(Name = "FavoriteMod",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class FavoriteMod {}
 
     [DataContract(Name = "SyncBase",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class SyncBase
     {
         [DataMember] Guid _id;
@@ -308,15 +308,15 @@ namespace withSIX.Mini.Applications.Services
     }
 
     [DataContract(Name = "AdvancedCollection",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public abstract class AdvancedCollection : SyncBase
     {
+        [DataMember] readonly List<Uri> _repositories = new List<Uri>();
+        [DataMember] readonly List<CollectionServer> _servers = new List<CollectionServer>();
         [DataMember] List<string> _additionalMods;
         [DataMember] protected List<string> _Mods;
         [DataMember] List<string> _optionalMods;
         [DataMember] Guid _realGameUuid;
-        [DataMember] readonly List<Uri> _repositories = new List<Uri>();
-        [DataMember] readonly List<CollectionServer> _servers = new List<CollectionServer>();
         public Guid GameId => _realGameUuid;
         public List<CollectionServer> Servers => _servers;
         public List<Uri> Repositories => _repositories;
@@ -326,7 +326,7 @@ namespace withSIX.Mini.Applications.Services
     }
 
     [DataContract(Name = "SubscribedCollection",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class SubscribedCollection : AdvancedCollection
     {
         [DataMember] Guid _collectionID;
@@ -334,7 +334,7 @@ namespace withSIX.Mini.Applications.Services
     }
 
     [DataContract(Name = "CustomModSet",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class CustomCollection : AdvancedCollection
     {
         [DataMember] string _CustomRepoUrl;
@@ -344,7 +344,7 @@ namespace withSIX.Mini.Applications.Services
     }
 
     [DataContract(Name = "CollectionServer",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class CollectionServer
     {
         [DataMember]
@@ -374,7 +374,7 @@ namespace withSIX.Mini.Applications.Services
     }
 
     [DataContract(Name = "ServerFilter",
-         Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
     public class ArmaServerFilter {}
 
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]

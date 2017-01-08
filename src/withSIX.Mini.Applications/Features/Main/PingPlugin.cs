@@ -37,7 +37,6 @@ namespace withSIX.Mini.Applications.Features.Main
                 Consts.PluginBrowserFound = message.Browser;
             else
                 Consts.PluginBrowserFound &= message.Browser;
-            
         }
     }
 }

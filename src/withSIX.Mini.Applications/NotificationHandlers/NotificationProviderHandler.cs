@@ -53,7 +53,10 @@ namespace withSIX.Mini.Applications.NotificationHandlers
             if (notification.NextAction != null) {
                 actions.Add(new TrayAction {
                     DisplayName = notification.NextActionInfo.Title,
-                    Command = () => _stateHandler.DispatchNextAction((c, t) => this.SendAsync(c, t), notification.NextAction.RequestId, CancellationToken.None)
+                    Command =
+                        () =>
+                            _stateHandler.DispatchNextAction((c, t) => this.SendAsync(c, t),
+                                notification.NextAction.RequestId, CancellationToken.None)
                 });
             }
             return actions;

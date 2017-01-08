@@ -32,7 +32,6 @@ namespace withSIX.Mini.Applications.Features.Main
                 _tokenRefresher.HandleLogin(request.Info, await SettingsContext.GetSettings().ConfigureAwait(false))
                     .Void()
                     .ConfigureAwait(false);
-            
         }
     }
 }

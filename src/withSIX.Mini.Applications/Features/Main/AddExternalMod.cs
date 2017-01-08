@@ -108,7 +108,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public DownloadContentAction GetAction(Game game) {
             var c =
                 game.NetworkContent.FirstOrDefault(
-                    x => x.Publishers.Any(p => (p.Publisher == Publisher) && (p.PublisherId == PubId)));
+                    x => x.Publishers.Any(p => p.Publisher == Publisher && p.PublisherId == PubId));
             if (c == null)
                 throw new NotFoundException("Content not found");
             Content = new ContentGuidSpec(c.Id, null);
@@ -168,11 +168,6 @@ namespace withSIX.Mini.Applications.Features.Main
             _state = state;
         }
 
-        public async Task<Guid> Handle(ExternalDownloadStarted message) {
-            await _state.UpdateState(message.Id, 0, 0).ConfigureAwait(false);
-            return Guid.Empty;
-        }
-
         public async Task Handle(AddExternalModRead request) {
             // TODO
             if (request.Error != null)
@@ -187,8 +182,6 @@ namespace withSIX.Mini.Applications.Features.Main
                 if (!_fd.RegisterExisting(game.GetPublisherUrl(content), request.FileName.ToAbsoluteFilePath()))
                     await SendWrite(request).ConfigureAwait(false);
             }
-
-            
         }
 
         public async Task Handle(AddExternalModWrite request) {
@@ -202,14 +195,15 @@ namespace withSIX.Mini.Applications.Features.Main
             content.OverrideSource(request.Publisher);
             //_fd.RegisterExisting(game.GetPublisherUrl(action.Content.Select(x => x.Content).OfType<NetworkContent>().First().Source),request.FileName.ToAbsoluteFilePath());
             await game.Install(_contentInstallation, action).ConfigureAwait(false);
-
-            
         }
 
         public async Task Handle(ExternalDownloadProgressing message) {
             await _state.UpdateState(message.Id, message.BytesReceived, message.TotalBytes).ConfigureAwait(false);
+        }
 
-            
+        public async Task<Guid> Handle(ExternalDownloadStarted message) {
+            await _state.UpdateState(message.Id, 0, 0).ConfigureAwait(false);
+            return Guid.Empty;
         }
 
         private static Task SendWrite(AddExternalModRead request)

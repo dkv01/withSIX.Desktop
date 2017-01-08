@@ -28,12 +28,14 @@ namespace withSIX.Mini.Applications.Features.Main.Servers
         public GetServersQuery Info { get; }
     }
 
-    public class GetServerAddressesHandler : ApiDbQueryBase, ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>
+    public class GetServerAddressesHandler : ApiDbQueryBase,
+        ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>
     {
-        private readonly IServerQueryFactory _sqf;
         private readonly IRequestScopeLocator _scopeLoc;
+        private readonly IServerQueryFactory _sqf;
 
-        public GetServerAddressesHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf, IRequestScopeLocator scopeLoc) : base(dbContextLocator) {
+        public GetServerAddressesHandler(IDbContextLocator dbContextLocator, IServerQueryFactory sqf,
+            IRequestScopeLocator scopeLoc) : base(dbContextLocator) {
             _sqf = sqf;
             _scopeLoc = scopeLoc;
         }

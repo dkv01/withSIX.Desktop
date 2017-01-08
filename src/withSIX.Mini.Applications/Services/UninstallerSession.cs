@@ -24,11 +24,12 @@ namespace withSIX.Mini.Applications.Services
     public class UninstallerSession : IUninstallSession
     {
         readonly IUninstallContentAction2<IUninstallableContent> _action;
+        private readonly ISteamHelperRunner _steamHelperRunner;
         PackageManager _pm;
         Repository _repository;
-        private readonly ISteamHelperRunner _steamHelperRunner;
 
-        public UninstallerSession(IUninstallContentAction2<IUninstallableContent> action, ISteamHelperRunner steamHelperRunner) {
+        public UninstallerSession(IUninstallContentAction2<IUninstallableContent> action,
+            ISteamHelperRunner steamHelperRunner) {
             _action = action;
             _steamHelperRunner = steamHelperRunner;
         }
@@ -87,7 +88,7 @@ namespace withSIX.Mini.Applications.Services
             await new ContentStatusChanged(content, ItemState.Uninstalling, 25).Raise().ConfigureAwait(false);
             try {
                 var contentSpecs = content.GetRelatedContent(constraint)
-                    .Where(x => x.Content is IUninstallableContent && (x.Content != content)).ToArray();
+                    .Where(x => x.Content is IUninstallableContent && x.Content != content).ToArray();
 
                 var packedContent = contentSpecs.Where(x => x.Content is IContentWithPackageName);
                 var steamContent = packedContent.Where(
@@ -149,10 +150,10 @@ namespace withSIX.Mini.Applications.Services
 */
 
         private InstallerSession.SteamExternalInstallerSession CreateSteamSession(
-                Dictionary<ulong, ProgressLeaf> progressLeaves)
+            Dictionary<ulong, ProgressLeaf> progressLeaves)
             =>
-            new InstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
-                _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves, _steamHelperRunner);
+                new InstallerSession.SteamExternalInstallerSession(_action.Game.SteamInfo.AppId,
+                    _action.Game.SteamDirectories.Workshop.ContentPath, progressLeaves, _steamHelperRunner);
 
         IAbsoluteDirectoryPath GetRepositoryPath()
             => _action.Paths.RepositoryPath.GetChildDirectoryWithName(Repository.DefaultRepoRootDirectory);

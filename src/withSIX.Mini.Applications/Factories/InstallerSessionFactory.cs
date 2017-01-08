@@ -4,13 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
-using withSIX.ContentEngine.Core;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Steam.Core.Services;
-using withSIX.Sync.Core.Transfer;
 
 namespace withSIX.Mini.Applications.Factories
 {
@@ -18,8 +16,8 @@ namespace withSIX.Mini.Applications.Factories
 
     public class InstallerSessionFactory : IINstallerSessionFactory, IApplicationService
     {
-        private readonly ISteamHelperRunner _steamHelperRunner;
         private readonly Func<IInstallerSession> _fact;
+        private readonly ISteamHelperRunner _steamHelperRunner;
 
         public InstallerSessionFactory(ISteamHelperRunner steamHelperRunner, Func<IInstallerSession> fact) {
             _steamHelperRunner = steamHelperRunner;

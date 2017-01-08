@@ -27,8 +27,6 @@ namespace withSIX.Mini.Applications.Features.Settings
             if (path == null)
                 throw new ValidationException("PwS is not detected");
             await _importer.ImportPwsSettings(path).ConfigureAwait(false);
-
-            
         }
     }
 }

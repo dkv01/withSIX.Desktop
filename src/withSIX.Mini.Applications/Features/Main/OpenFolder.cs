@@ -45,8 +45,6 @@ namespace withSIX.Mini.Applications.Features.Main
             var path = GetPath(game, request.Id, request.FolderType);
 
             Tools.FileUtil.OpenFolderInExplorer(path.GetNearestExisting());
-
-            
         }
 
         private static IAbsoluteDirectoryPath GetPath(Game game, Guid? id, FolderType type) {

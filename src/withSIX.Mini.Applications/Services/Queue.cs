@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -33,8 +32,6 @@ namespace withSIX.Mini.Applications.Services
         }
 
         public Func<Action<ProgressState>, CancellationToken, Task> TaskFactory { get; protected set; }
-
-        public Guid Id { get; protected set; } = Guid.NewGuid();
         public Guid ContentId { get; }
         public string Title { get; protected set; }
         public ProgressState ProgressState { get; set; }
@@ -48,6 +45,8 @@ namespace withSIX.Mini.Applications.Services
 
         [JsonIgnore]
         public Task Task { get; set; }
+
+        public Guid Id { get; protected set; } = Guid.NewGuid();
 
         public void Start(Action stateUpdated) {
             Task = TaskFactory(ps => {

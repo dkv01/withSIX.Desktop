@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using withSIX.Api.Models.Content;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core.Extensions;
 using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Services.Infra
@@ -31,12 +30,12 @@ namespace withSIX.Mini.Applications.Services.Infra
         public List<Guid> Ids { get; set; } = new List<Guid>();
 
         public bool IsMatch(ModClientApiJsonV3WithGameId c)
-            => c.Publishers.Any(x => Publishers.Any(p => (p.Id == x.Id) && (p.Type == x.Type)))
+            => c.Publishers.Any(x => Publishers.Any(p => p.Id == x.Id && p.Type == x.Type))
                || PackageNames.ContainsIgnoreCase(c.PackageName)
                || Ids.Contains(c.Id);
 
         public bool IsMatch(ModNetworkContent c)
-            => c.Publishers.Any(x => Publishers.Any(p => (p.Id == x.PublisherId) && (p.Type == x.Publisher)))
+            => c.Publishers.Any(x => Publishers.Any(p => p.Id == x.PublisherId && p.Type == x.Publisher))
                || PackageNames.ContainsIgnoreCase(c.PackageName)
                || Ids.Contains(c.Id);
     }

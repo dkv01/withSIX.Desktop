@@ -42,8 +42,6 @@ namespace withSIX.Mini.Applications.Features.Main.Games
                         PackageNames = game.LocalContent.OfType<ModLocalContent>().Select(x => x.PackageName).ToList()
                     }, game.Id)
                     .ConfigureAwait(false);
-
-            
         }
     }
 }

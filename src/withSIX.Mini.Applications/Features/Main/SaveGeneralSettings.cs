@@ -21,8 +21,6 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public async Task Handle(SaveGeneralSettings request) {
             request.Settings.MapTo(await SettingsContext.GetSettings().ConfigureAwait(false));
-
-            
         }
     }
 }

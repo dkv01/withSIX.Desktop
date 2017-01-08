@@ -35,8 +35,6 @@ namespace withSIX.Mini.Applications.Features.Main.Games
 
         public async Task Handle(SelectGame request) {
             await _gameSwitcher.SwitchGame(request.Id).ConfigureAwait(false);
-
-            
         }
     }
 }

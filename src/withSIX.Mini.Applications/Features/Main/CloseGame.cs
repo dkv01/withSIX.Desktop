@@ -29,7 +29,6 @@ namespace withSIX.Mini.Applications.Features.Main
         public async Task Handle(CloseGame request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             game.Close();
-            
         }
     }
 }

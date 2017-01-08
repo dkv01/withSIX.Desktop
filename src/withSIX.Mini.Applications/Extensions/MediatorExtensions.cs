@@ -13,13 +13,16 @@ namespace withSIX.Mini.Applications.Extensions
 {
     public static class MediatorExtensions
     {
-        public static Task<TResponseData> ExecuteWrapped<TResponseData>(this IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken))
+        public static Task<TResponseData> ExecuteWrapped<TResponseData>(this IRequest<TResponseData> message,
+            CancellationToken cancelToken = default(CancellationToken))
             => Task.Run(() => message.Execute(cancelToken));
 
-        public static Task<TResponseData> Execute<TResponseData>(this IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken))
+        public static Task<TResponseData> Execute<TResponseData>(this IRequest<TResponseData> message,
+            CancellationToken cancelToken = default(CancellationToken))
             => message.Execute(Cheat.Mediator, cancelToken);
 
-        public static Task ExecuteWrapped(this IRequest message, CancellationToken cancelToken = default(CancellationToken))
+        public static Task ExecuteWrapped(this IRequest message,
+            CancellationToken cancelToken = default(CancellationToken))
             => Task.Run(() => message.Execute(cancelToken));
 
         public static Task Execute(this IRequest message, CancellationToken cancelToken = default(CancellationToken))
@@ -27,6 +30,7 @@ namespace withSIX.Mini.Applications.Extensions
 
         [Obsolete]
         static Task PublishToMediatorDynamically(this IDomainEvent message) => PublishToMediator(message);
+
         static Task PublishToMediator(INotification evt) => Cheat.Mediator.Publish(evt);
 
         public static async Task Raise(this IDomainEvent message) {

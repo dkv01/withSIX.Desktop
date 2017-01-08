@@ -14,7 +14,8 @@ namespace withSIX.Mini.Applications.Extensions
     public static class UsecaseExecutorExtensions
     {
         public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
-            IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken)) => message.ExecuteWrapped(cancelToken);
+            IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken))
+            => message.ExecuteWrapped(cancelToken);
 
         public static Task SendAsync(this IUsecaseExecutor _,
             IRequest message, CancellationToken cancelToken = default(CancellationToken))

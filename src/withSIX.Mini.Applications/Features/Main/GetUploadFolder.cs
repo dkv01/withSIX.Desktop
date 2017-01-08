@@ -29,7 +29,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public async Task<IAbsoluteDirectoryPath> Handle(GetUploadFolder request)
             =>
-            (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.FirstOrDefault(
+                (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.FirstOrDefault(
                     x => x.ContentInfo.ContentId == request.ContentId)?
                 .Path;
     }

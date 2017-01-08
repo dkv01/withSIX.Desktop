@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Content;
-using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Mini.Applications.Features;
 using withSIX.Mini.Applications.Features.Main;

@@ -43,8 +43,6 @@ namespace withSIX.Mini.Applications.Services
 {
     public class InstallerSession : IInstallerSession
     {
-        IInstallContentAction<IInstallableContent> _action;
-
         private readonly Dictionary<IContent, SpecificVersion> _completed = new Dictionary<IContent, SpecificVersion>();
         readonly IContentEngine _contentEngine;
         private readonly IExternalFileDownloader _dl;
@@ -56,8 +54,9 @@ namespace withSIX.Mini.Applications.Services
         private readonly ProgressComponent _progress;
         private readonly SixSyncInstaller _sixSyncInstaller;
         private readonly Dictionary<IContent, SpecificVersion> _started = new Dictionary<IContent, SpecificVersion>();
-        Func<ProgressInfo, Task> _statusChange;
+        private readonly ISteamHelperRunner _steamHelperRunner;
         readonly IToolsCheat _toolsInstaller;
+        IInstallContentAction<IInstallableContent> _action;
         private IDictionary<IPackagedContent, SpecificVersion> _allContentToInstall;
         private Dictionary<IContent, SpecificVersion> _allInstallableContent =
             new Dictionary<IContent, SpecificVersion>();
@@ -89,6 +88,7 @@ namespace withSIX.Mini.Applications.Services
             new Dictionary<IPackagedContent, SpecificVersion>();
         private IAbsoluteDirectoryPath _repoPath;
         private SixSyncProgress _repoProgress;
+        Func<ProgressInfo, Task> _statusChange;
 
         private Dictionary<IPackagedContent, SpecificVersion> _steamContent =
             new Dictionary<IPackagedContent, SpecificVersion>();
@@ -96,7 +96,6 @@ namespace withSIX.Mini.Applications.Services
             new Dictionary<IPackagedContent, SpecificVersion>();
         private ProgressComponent _steamProcessing;
         private ProgressComponent _steamProgress;
-        private readonly ISteamHelperRunner _steamHelperRunner;
 
         public InstallerSession(IToolsCheat toolsInstaller,
             PremiumDelegate isPremium, IContentEngine contentEngine,
@@ -404,8 +403,8 @@ namespace withSIX.Mini.Applications.Services
 
         LocalCollection ConvertToTemporaryCollection()
             =>
-            new LocalCollection(_action.Game.Id, "Temp collection",
-                _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
+                new LocalCollection(_action.Game.Id, "Temp collection",
+                    _action.Content.Select(x => new ContentSpec((Content) x.Content, x.Constraint)).ToList());
 
         Task TryInstallContent() => TaskExtExt.Create(
             InstallPackages,
@@ -568,7 +567,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
         }
 
         private static IEnumerable<KeyValuePair<IContent, SpecificVersion>> ConvertPairs(
-                IDictionary<IPackagedContent, SpecificVersion> r)
+            IDictionary<IPackagedContent, SpecificVersion> r)
             => r.Select(x => new KeyValuePair<IContent, SpecificVersion>(x.Key, x.Value));
 
         async Task InstallRepoContent() {
@@ -605,14 +604,14 @@ Click CONTINUE to open the download page and follow the instructions until the d
         }
 
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable(
-                IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
+            IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> dict)
             => dict.Where(x => x.Key.GetState(x.Value) != ItemState.Uptodate);
 
         private IEnumerable<KeyValuePair<IPackagedContent, SpecificVersion>> OnlyWhenNewOrUpdateAvailable()
             => _packageContent.Where(x => {
                 var syncInfo = GetInstalledInfo(x);
                 // syncINfo = null: new download, VersionData not equal: new update
-                return (syncInfo == null) || !syncInfo.VersionData.Equals(x.Value.VersionData);
+                return syncInfo == null || !syncInfo.VersionData.Equals(x.Value.VersionData);
             });
 
         private Dictionary<IPackagedContent, SpecificVersion> GetRepoContentToInstallOrUpdate()
@@ -649,10 +648,11 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private readonly IInstallContentAction<IInstallableContent> _action;
             private readonly ProgressLeaf[] _contentProgress;
             private readonly IDictionary<IPackagedContent, SpecificVersion> _steamContentToInstall;
-            private ISteamHelperRunner _steamHelperRunner;
+            private readonly ISteamHelperRunner _steamHelperRunner;
 
             public SteamSession(IInstallContentAction<IInstallableContent> action,
-                IDictionary<IPackagedContent, SpecificVersion> steamContentToInstall, ProgressLeaf[] contentProgress, ISteamHelperRunner steamHelperRunner) {
+                IDictionary<IPackagedContent, SpecificVersion> steamContentToInstall, ProgressLeaf[] contentProgress,
+                ISteamHelperRunner steamHelperRunner) {
                 _action = action;
                 _steamContentToInstall = steamContentToInstall;
                 _contentProgress = contentProgress;
@@ -699,7 +699,7 @@ Click CONTINUE to open the download page and follow the instructions until the d
             }
 
             public Task PostInstallHandler(IEnumerable<KeyValuePair<IContent, SpecificVersion>> toPostProcess,
-                    CancellationToken cancellationToken, IReadOnlyCollection<SpecificVersion> installedContent) =>
+                CancellationToken cancellationToken, IReadOnlyCollection<SpecificVersion> installedContent) =>
                 RunAndThrow(toPostProcess, async c => {
                     try {
                         await
@@ -714,16 +714,17 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
         class SixSyncInstaller : Session
         {
-            IInstallContentAction<IInstallableContent> _action;
+            private readonly IW6Api _api;
             private readonly IAuthProvider _authProvider;
 
             private readonly Func<double, long?, Task> _tryLegacyStatusChange;
+            IInstallContentAction<IInstallableContent> _action;
             private StatusRepo _statusRepo;
             internal IReadOnlyCollection<Group> Groups = new List<Group>();
             internal IReadOnlyCollection<CustomRepo> Repositories = new List<CustomRepo>();
-            private readonly IW6Api _api;
 
-            public SixSyncInstaller(Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider, IW6Api api) {
+            public SixSyncInstaller(Func<double, long?, Task> tryLegacyStatusChange, IAuthProvider authProvider,
+                IW6Api api) {
                 _tryLegacyStatusChange = tryLegacyStatusChange;
                 _authProvider = authProvider;
                 _api = api;
@@ -759,9 +760,9 @@ Click CONTINUE to open the download page and follow the instructions until the d
             private async Task InstallGroupC(SpecificVersion dep, IPackagedContent c, ProgressLeaf progressComponent,
                 IAbsoluteDirectoryPath packPath) {
                 var group = Groups.First(x => x.HasMod(dep.Name));
-                var modInfo = @group.GetMod(dep.Name);
+                var modInfo = group.GetMod(dep.Name);
                 await
-                    @group.GetMod(modInfo, _action.Paths.Path, packPath,
+                    group.GetMod(modInfo, _action.Paths.Path, packPath,
                             _statusRepo, _authProvider, _action.Force)
                         .ConfigureAwait(false);
                 progressComponent.Finish();
@@ -852,10 +853,10 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
         class PackageInstaller : Session
         {
-            private IInstallContentAction<IInstallableContent> _action;
             private readonly Func<bool> _getIsPremium;
-            private StatusRepo _statusRepo;
+            private IInstallContentAction<IInstallableContent> _action;
             private PackageManager _pm;
+            private StatusRepo _statusRepo;
             private bool _synqInitialized;
 
             public PackageInstaller(Func<bool> getIsPremium) {
@@ -870,7 +871,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                 _pm.StatusRepo.Reset(RepoStatus.Processing, 0);
             }
 
-            public async Task<Package[]> Install(IInstallContentAction<IInstallableContent> action, IDictionary<IPackagedContent, SpecificVersion> packagesToInstall,
+            public async Task<Package[]> Install(IInstallContentAction<IInstallableContent> action,
+                IDictionary<IPackagedContent, SpecificVersion> packagesToInstall,
                 PackageProgress packageProgress, IAbsoluteDirectoryPath repoPath) {
                 _action = action;
                 _statusRepo = new StatusRepo(_action.CancelToken);
@@ -885,7 +887,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
                     _pm.Progress = packageProgress;
                     Package[] packages;
                     try {
-                        packages = await _pm.ProcessPackages(packagesToInstall.Values, skipWhenFileMatches: !_action.Force)
+                        packages = await _pm.ProcessPackages(packagesToInstall.Values,
+                                skipWhenFileMatches: !_action.Force)
                             .ConfigureAwait(false);
                     } catch (Exception) {
                         Failed.AddRange(packagesToInstall);

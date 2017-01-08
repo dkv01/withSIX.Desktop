@@ -14,7 +14,8 @@ namespace withSIX.Mini.Applications
     {
         public RequestMemoryDecorator(IMediator target) : base(target) {}
 
-        public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken)) {
+        public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request,
+            CancellationToken cancelToken = default(CancellationToken)) {
             try {
                 return await base.Send(request, cancelToken).ConfigureAwait(false);
             } finally {

@@ -73,12 +73,12 @@ namespace withSIX.Mini.Applications.Models
 
     public static class PremiumTokenExtensions
     {
-        public static bool IsPremium(this PremiumAccessTokenV1 token) => (token != null) &&
-                                                                         (token.PremiumUntil >
-                                                                          Tools.Generic.GetCurrentUtcDateTime);
+        public static bool IsPremium(this PremiumAccessTokenV1 token) => token != null &&
+                                                                         token.PremiumUntil >
+                                                                         Tools.Generic.GetCurrentUtcDateTime;
 
         public static bool IsValidInNearFuture(this PremiumAccessTokenV1 token)
-            => (token != null) && (token.ValidUntil > Tools.Generic.GetCurrentUtcDateTime.AddHours(6));
+            => token != null && token.ValidUntil > Tools.Generic.GetCurrentUtcDateTime.AddHours(6);
     }
 
     [DataContract]
@@ -197,7 +197,7 @@ namespace withSIX.Mini.Applications.Models
                 return true;
             if (other == null)
                 return false;
-            return (other.AccessToken == AccessToken) && (other.PremiumKey == PremiumKey);
+            return other.AccessToken == AccessToken && other.PremiumKey == PremiumKey;
         }
 
         public override int GetHashCode() => HashCode.Start.Hash(AccessToken).Hash(PremiumKey);

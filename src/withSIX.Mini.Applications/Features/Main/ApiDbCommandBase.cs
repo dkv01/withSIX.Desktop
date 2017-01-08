@@ -97,12 +97,12 @@ namespace withSIX.Mini.Applications.Features.Main
         }
 
         private static string GetActionName<T>(this T action) where T : IRequestBase
-        => action.GetActionInfo()?.NameOverride ?? action.GetType().Name;
+            => action.GetActionInfo()?.NameOverride ?? action.GetType().Name;
 
         private static ApiUserActionAttribute GetActionInfo<T>(this T successAction) where T : IRequestBase
-        =>
-            (ApiUserActionAttribute)
-            successAction.GetType().GetTypeInfo().GetCustomAttribute(typeof(ApiUserActionAttribute));
+            =>
+                (ApiUserActionAttribute)
+                successAction.GetType().GetTypeInfo().GetCustomAttribute(typeof(ApiUserActionAttribute));
 
         private static Tuple<NextActionInfo, IVoidCommandBase> CreateNextActionFromRequest<T>(this T request,
             string text = null, Uri href = null,
@@ -115,23 +115,23 @@ namespace withSIX.Mini.Applications.Features.Main
                 (IVoidCommandBase) request);
 
         private static NotifyingActionOverrideAttribute GetInfo<T>(this T request) where T : IRequestBase
-        => (NotifyingActionOverrideAttribute)
-           request.GetType().GetTypeInfo().GetCustomAttribute(typeof(NotifyingActionOverrideAttribute)) ??
-           new NotifyingActionOverrideAttribute(GetActionName(request));
+            => (NotifyingActionOverrideAttribute)
+               request.GetType().GetTypeInfo().GetCustomAttribute(typeof(NotifyingActionOverrideAttribute)) ??
+               new NotifyingActionOverrideAttribute(GetActionName(request));
 
         private static ActionNotification FromRequest<T>(this T request, string title, string text, Uri href = null,
             ActionType type = ActionType.Start, Tuple<NextActionInfo, IVoidCommandBase> nextAction = null)
             where T : IHaveGameId, IHaveClientId, IHaveRequestId
-        =>
-            new ActionNotification(request.GameId, title, text, request.ClientId, request.RequestId) {
-                Type = type,
-                NextAction = nextAction?.Item2,
-                NextActionInfo = nextAction?.Item1,
-                Href = href,
-                DesktopNotification =
-                    (type != ActionType.Start) &&
-                    ((type != ActionType.End) || !(request is IDisableDesktopNotification))
-            };
+            =>
+                new ActionNotification(request.GameId, title, text, request.ClientId, request.RequestId) {
+                    Type = type,
+                    NextAction = nextAction?.Item2,
+                    NextActionInfo = nextAction?.Item1,
+                    Href = href,
+                    DesktopNotification =
+                        type != ActionType.Start &&
+                        (type != ActionType.End || !(request is IDisableDesktopNotification))
+                };
     }
 
     // TODO: This should rather be configurable on the action attribute instead?

@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Extensions;
-using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Features.Main.Games;
 using withSIX.Mini.Applications.Services.Infra;
@@ -70,13 +69,11 @@ namespace withSIX.Mini.Applications.Features.Main
         public async Task Handle(PlayContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Play(_factory, _contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            
         }
 
         public async Task Handle(PlayContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Play(_factory, _contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            
         }
     }
 }

@@ -16,7 +16,8 @@ namespace withSIX.Mini.Applications.NotificationHandlers
     public class StartWithWindowsHandler
     {
         public void HandleStartWithWindows(bool startWithWindows) {
-            if (!Common.IsWindows) throw new PlatformNotSupportedException();
+            if (!Common.IsWindows)
+                throw new PlatformNotSupportedException();
             var rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (startWithWindows) {
@@ -32,7 +33,7 @@ namespace withSIX.Mini.Applications.NotificationHandlers
         public static IEnumerable<string> GenerateCommandLineExecution(IAbsoluteFilePath location, string executable,
             params string[] desiredParams) {
             var updateExe = GetUpdateExe(location);
-            return (updateExe != null) && updateExe.Exists
+            return updateExe != null && updateExe.Exists
                 ? new[] {updateExe.ToString()}.Concat(Restarter.BuildUpdateExeArguments(executable, desiredParams))
                 : new[] {location.ToString()}.Concat(desiredParams);
         }

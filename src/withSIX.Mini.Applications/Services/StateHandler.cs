@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Newtonsoft.Json;
 using withSIX.Api.Models.Extensions;
 using withSIX.Core;
@@ -44,7 +43,10 @@ namespace withSIX.Mini.Applications.Services
         ClientInfo ClientInfo { get; }
         Guid SelectedGameId { get; set; }
         Task Initialize();
-        Task DispatchNextAction(Func<IVoidCommand, CancellationToken, Task> dispatcher, Guid requestId, CancellationToken ct);
+
+        Task DispatchNextAction(Func<IVoidCommand, CancellationToken, Task> dispatcher, Guid requestId,
+            CancellationToken ct);
+
         Task ResolveError(Guid id, string result, Dictionary<string, object> data);
         Task AddUserError(UserErrorModel2 error);
         Task StartUpdating();
@@ -115,9 +117,9 @@ namespace withSIX.Mini.Applications.Services
         // TODO: Merge Acting and State?
         public State State { get; }
 
-        public bool Equals(StatusModel other) => (other != null)
+        public bool Equals(StatusModel other) => other != null
                                                  && (ReferenceEquals(this, other)
-                                                     || (other.GetHashCode() == GetHashCode()));
+                                                     || other.GetHashCode() == GetHashCode());
 
         public override int GetHashCode() => HashCode.Start
             .Hash(Text)

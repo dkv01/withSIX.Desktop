@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using MediatR;
 using withSIX.Api.Models.Content.v3;
 using withSIX.Api.Models.Exceptions;
-using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Services.Infra;
@@ -84,14 +83,12 @@ namespace withSIX.Mini.Applications.Features.Main.Games
                     await
                         GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
                 await game.Uninstall(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-                
             }
 
             // TODO: LocalContent doesnt need a spec??
             public async Task Handle(UninstallContents request) {
                 var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
                 await game.Uninstall(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-                
             }
         }
     }

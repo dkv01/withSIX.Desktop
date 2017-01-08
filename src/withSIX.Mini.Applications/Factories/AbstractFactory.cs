@@ -16,7 +16,7 @@ namespace withSIX.Mini.Applications.Factories
             Contract.Requires<ArgumentNullException>(depResolver != null);
             _depResolver = depResolver;
         }
-    
+
         protected T GetInstance<T>() where T : class => _depResolver.GetInstance<T>();
     }
 }

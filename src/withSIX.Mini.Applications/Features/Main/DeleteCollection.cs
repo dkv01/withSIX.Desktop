@@ -34,7 +34,6 @@ namespace withSIX.Mini.Applications.Features.Main
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var findCollection = game.Collections.FindOrThrowFromRequest(request);
             game.RemoveCollection(findCollection);
-            
         }
     }
 }

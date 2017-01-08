@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using withSIX.Api.Models.Content.v3;
-using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Attributes;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core.Games;
@@ -63,7 +62,6 @@ namespace withSIX.Mini.Applications.Features.Main.Games
         public async Task Handle(LaunchGame request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             await game.Launch(_launcherFactory, request.GetAction(game)).ConfigureAwait(false);
-            
         }
     }
 }

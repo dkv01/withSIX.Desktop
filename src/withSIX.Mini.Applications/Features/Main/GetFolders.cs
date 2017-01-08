@@ -27,7 +27,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public async Task<List<FolderInfo>> Handle(GetFolders request)
             =>
-            (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.Where(
-                x => request.Folders.Contains(x.Path.ToString())).ToList();
+                (await ContentLinkContext.GetFolderLink().ConfigureAwait(false)).Infos.Where(
+                    x => request.Folders.Contains(x.Path.ToString())).ToList();
     }
 }

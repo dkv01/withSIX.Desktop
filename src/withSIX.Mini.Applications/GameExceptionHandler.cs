@@ -50,13 +50,13 @@ namespace withSIX.Mini.Applications
         // TODO: Better handler where we guide the user to go to the settings, and configure the game, then retry?
         protected static RecoverableUserError Handle(GameNotInstalledException ex, string action)
             =>
-            new ConfigureGameFirstUserError(ex, ex.Message,
-                "Please configure the game first in the Settings, then retry");
+                new ConfigureGameFirstUserError(ex, ex.Message,
+                    "Please configure the game first in the Settings, then retry");
 
         protected static RecoverableUserError Handle(AlreadyLockedException ex, string action)
             =>
-            new RecoverableUserError(ex, "Unsupported",
-                "Currently only one action per game is supported. Wait until the action is finished and try again");
+                new RecoverableUserError(ex, "Unsupported",
+                    "Currently only one action per game is supported. Wait until the action is finished and try again");
 
         protected static RecoverableUserError Handle(QueueProcessingError ex, string action)
             => new RecoverableUserError(ex,
@@ -66,9 +66,9 @@ namespace withSIX.Mini.Applications
 
         protected static InformationalUserError Handle(NoSourceFoundException ex, string action)
             =>
-            new InformationalUserError(ex,
-                "Could not find the desired content",
-                CurrentlyNotAvailable);
+                new InformationalUserError(ex,
+                    "Could not find the desired content",
+                    CurrentlyNotAvailable);
 
         protected static InformationalUserError Handle(RequestedResourceNotFoundException ex, string action)
             => new InformationalUserError(ex,

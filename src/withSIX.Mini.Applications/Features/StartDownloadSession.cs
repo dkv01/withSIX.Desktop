@@ -33,7 +33,6 @@ namespace withSIX.Mini.Applications.Features
         public async Task Handle(StartDownloadSession message) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(message).ConfigureAwait(false);
             await _downloader.StartSession(game.GetPublisherUrl(), game.GetContentPath()).ConfigureAwait(false);
-            
         }
     }
 }

@@ -39,8 +39,6 @@ namespace withSIX.Mini.Applications.Features.Main
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
 
             await DealWithCollections(game, request.Contents).ConfigureAwait(false);
-
-            
         }
 
         Task DealWithCollections(Game game, IEnumerable<ContentGuidSpec> contents)

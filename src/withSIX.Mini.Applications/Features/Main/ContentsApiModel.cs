@@ -12,6 +12,7 @@ namespace withSIX.Mini.Applications.Features.Main
     [DataContract]
     public abstract class ContentsApiModel : PageModel<ContentApiModel>
     {
-        protected ContentsApiModel(List<ContentApiModel> items, int total, int pageNumber, int pageSize) : base(items, new PagingInfo(pageNumber, total, pageSize)) {}
+        protected ContentsApiModel(List<ContentApiModel> items, int total, int pageNumber, int pageSize)
+            : base(items, new PagingInfo(pageNumber, total, pageSize)) {}
     }
 }

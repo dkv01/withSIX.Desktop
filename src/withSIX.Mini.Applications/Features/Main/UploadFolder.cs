@@ -63,10 +63,10 @@ client.prepareFolder()
 
     public class UploadFolderHandler : DbCommandBase, IAsyncRequestHandler<UploadFolder, Guid>
     {
+        private readonly IW6Api _api;
         readonly IFolderHandler _folderHandler;
         private readonly IQueueManager _queueManager;
         private readonly IRsyncLauncher _rsyncLauncher;
-        private readonly IW6Api _api;
 
         public UploadFolderHandler(IDbContextLocator dbContextLocator, IFolderHandler folderHandler,
             IQueueManager queueManager, IRsyncLauncher rsyncLauncher, IW6Api api)

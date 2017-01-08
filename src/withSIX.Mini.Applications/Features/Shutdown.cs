@@ -25,8 +25,6 @@ namespace withSIX.Mini.Applications.Features
         public async Task Handle(Shutdown request) {
             await _contentInstallation.Abort().ConfigureAwait(false);
             _shutdownHandler.Shutdown();
-
-            
         }
     }
 }
