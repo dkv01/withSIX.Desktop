@@ -214,14 +214,14 @@ namespace withSIX.Mini.Presentation.Electron
             var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
             return
-                await _executor.ApiAction(() => this.SendAsync(request), request, CreateException).ConfigureAwait(false);
+                await _executor.ApiAction(() => this.Send(request), request, CreateException).ConfigureAwait(false);
         }
 
         async Task Request<T>(object requestData) where T : IRequest
         {
             var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
-            await _executor.ApiAction(() => this.SendAsync(request), request, CreateException).ConfigureAwait(false);
+            await _executor.ApiAction(() => this.Send(request), request, CreateException).ConfigureAwait(false);
         }
 
         private static T Unpack<T>(object requestData) {

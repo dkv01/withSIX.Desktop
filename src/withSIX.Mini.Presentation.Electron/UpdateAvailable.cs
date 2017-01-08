@@ -15,7 +15,7 @@ namespace withSIX.Mini.Presentation.Electron
             var state = (UpdateState) (int) input.state;
             var version = input.version as string;
             await
-                this.SendAsync(new Applications.Features.Main.UpdateAvailable(state, version))
+                this.Send(new Applications.Features.Main.UpdateAvailable(state, version))
                     .ConfigureAwait(false);
             return true;
         }

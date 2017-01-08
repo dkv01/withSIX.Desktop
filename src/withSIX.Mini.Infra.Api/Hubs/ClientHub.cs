@@ -14,23 +14,23 @@ namespace withSIX.Mini.Infra.Api.Hubs
 {
     public class ClientHub : HubBase<IClientClientHub>
     {
-        public Task<ClientInfo> GetInfo() => SendAsync(new GetClientInfo());
+        public Task<ClientInfo> GetInfo() => Send(new GetClientInfo());
 
-        public Task SetLogin(string apiKey) => SendAsync(new SetLogin(apiKey));
+        public Task SetLogin(string apiKey) => Send(new SetLogin(apiKey));
 
-        public Task<string> BrowseFolderDialog(FolderDialogOptions options) => SendAsync(new BrowseFolder(options));
+        public Task<string> BrowseFolderDialog(FolderDialogOptions options) => Send(new BrowseFolder(options));
 
         [Obsolete]
         public async Task ConfirmPremium() {}
 
-        public Task ResolveUserError(ResolveUserError command) => SendAsync(command);
+        public Task ResolveUserError(ResolveUserError command) => Send(command);
 
-        public Task Login(AccessInfo info) => SendAsync(new Login(info));
+        public Task Login(AccessInfo info) => Send(new Login(info));
 
-        public Task PerformUpdate() => SendAsync(new PerformUpdate());
+        public Task PerformUpdate() => Send(new PerformUpdate());
 
-        public Task InstallExplorerExtension() => SendAsync(new InstallExtension());
-        public Task UninstallExplorerExtension() => SendAsync(new RemoveExtension());
+        public Task InstallExplorerExtension() => Send(new InstallExtension());
+        public Task UninstallExplorerExtension() => Send(new RemoveExtension());
     }
 
     public interface IClientClientHub

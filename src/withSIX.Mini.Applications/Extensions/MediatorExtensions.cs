@@ -28,10 +28,8 @@ namespace withSIX.Mini.Applications.Extensions
         public static Task Execute(this IRequest message, CancellationToken cancelToken = default(CancellationToken))
             => message.Execute(Cheat.Mediator, cancelToken);
 
-        [Obsolete]
-        static Task PublishToMediatorDynamically(this IDomainEvent message) => PublishToMediator(message);
-
-        static Task PublishToMediator(INotification evt) => Cheat.Mediator.Publish(evt);
+        // We are using dynamic here because the mediator relies on generic typing
+        static Task PublishToMediatorDynamically(this IDomainEvent message) => Cheat.Mediator.Publish((dynamic) message);
 
         public static async Task Raise(this IDomainEvent message) {
             await message.PublishToMediatorDynamically().ConfigureAwait(false);

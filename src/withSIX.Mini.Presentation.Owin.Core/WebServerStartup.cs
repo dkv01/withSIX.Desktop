@@ -159,14 +159,14 @@ namespace withSIX.Mini.Presentation.Owin.Core
                         builder.Run(
                             context =>
                                 context.ProcessRequest<List<string>, List<FolderInfo>>(
-                                    folders => A.Excecutor.SendAsync(new GetFolders(folders)))));
+                                    folders => A.Excecutor.Send(new GetFolders(folders)))));
 
                 api.Map("/whitelist-upload-folders",
                     builder =>
                         builder.Run(
                             context =>
                                 context.ProcessRequest<List<string>>(
-                                    folders => A.Excecutor.SendAsync(new WhiteListFolders(folders)))));
+                                    folders => A.Excecutor.Send(new WhiteListFolders(folders)))));
             });
         }
 

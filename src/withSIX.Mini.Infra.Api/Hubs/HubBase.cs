@@ -23,20 +23,19 @@ namespace withSIX.Mini.Infra.Api.Hubs
         private Exception CreateException(string msg, Exception inner)
             => new HubException(msg, (inner as UserException)?.GetObjectData());
 
-        protected Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> command, CancellationToken ct2 = default(CancellationToken))
-            => A.ApiAction(ct => A.Excecutor.SendAsync(command, cancelToken: ct), command,
+        protected Task<TResponse> Send<TResponse>(IRequest<TResponse> command, CancellationToken ct2 = default(CancellationToken))
+            => A.ApiAction(ct => A.Excecutor.Send(command, cancelToken: ct), command,
                 CreateException, Guid.NewGuid(), Context.ConnectionId, Context.User, RequestScopeService.Instance);
 
-        protected Task SendAsync(IRequest command, CancellationToken ct2 = default(CancellationToken))
-            => A.ApiAction(ct => A.Excecutor.SendAsync(command, cancelToken: ct), command,
+        protected Task Send(IRequest command, CancellationToken ct2 = default(CancellationToken))
+            => A.ApiAction(ct => A.Excecutor.Send(command, cancelToken: ct), command,
                 CreateException, Guid.NewGuid(), Context.ConnectionId, Context.User, RequestScopeService.Instance);
 
-        protected Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> command, Guid requestId)
-            => A.ApiAction(async ct => await A.Excecutor.SendAsync(command, ct).ConfigureAwait(false), command,
+        protected Task<TResponse> Send<TResponse>(IRequest<TResponse> command, Guid requestId)
+            => A.ApiAction(async ct => await A.Excecutor.Send(command, ct).ConfigureAwait(false), command,
                 CreateException, requestId, Context.ConnectionId, Context.User, RequestScopeService.Instance);
 
-        protected Task DispatchNextAction(Guid requestId)
-            => Cheat.Mediator.DispatchNextAction((x, ct) => SendAsync(x, ct), requestId);
+        protected Task DispatchNextAction(Guid requestId) => Cheat.Mediator.DispatchNextAction(Send, requestId);
 
         public async Task Cancel(Guid requestId) => A.CancellationTokenMapping.Cancel(requestId);
     }

@@ -77,10 +77,10 @@ namespace withSIX.Mini.Presentation.Core
         }
 
         private Task<TResponse> RequestAsyncExecutor<TResponse>(IRequest<TResponse> request)
-            => _executor.ApiAction(() => this.SendAsync(request), request, CreateException);
+            => _executor.ApiAction(() => this.Send(request), request, CreateException);
 
         private Task RequestAsyncExecutor(IRequest request)
-            => _executor.ApiAction(() => this.SendAsync(request), request, CreateException);
+            => _executor.ApiAction(() => this.Send(request), request, CreateException);
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
 

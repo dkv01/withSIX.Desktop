@@ -13,18 +13,18 @@ namespace withSIX.Mini.Applications.Extensions
 {
     public static class UsecaseExecutorExtensions
     {
-        public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
+        public static Task<TResponseData> Send<TResponseData>(this IUsecaseExecutor _,
             IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken))
             => message.ExecuteWrapped(cancelToken);
 
-        public static Task SendAsync(this IUsecaseExecutor _,
+        public static Task Send(this IUsecaseExecutor _,
             IRequest message, CancellationToken cancelToken = default(CancellationToken))
             => message.ExecuteWrapped(cancelToken);
 
 
         public static Task DispatchNextAction(this IUsecaseExecutor executor, Guid requestId,
             CancellationToken cancelToken = default(CancellationToken))
-            => Cheat.Mediator.DispatchNextAction((message, ct) => SendAsync(executor, message, cancelToken), requestId);
+            => Cheat.Mediator.DispatchNextAction((message, ct) => Send(executor, message, cancelToken), requestId);
 
         /*
         public static Task<T> OpenScreenAsync<T>(this IUsecaseExecutor executor, IAsyncQuery<T> query) where T : class, IScreenViewModel
@@ -35,6 +35,6 @@ namespace withSIX.Mini.Applications.Extensions
             */
 
         public static Task OpenWebLink(this IUsecaseExecutor executor, ViewType type, string additional = null)
-            => executor.SendAsync(new OpenWebLink(type, additional));
+            => executor.Send(new OpenWebLink(type, additional));
     }
 }

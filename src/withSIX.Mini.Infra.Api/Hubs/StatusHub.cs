@@ -14,19 +14,19 @@ namespace withSIX.Mini.Infra.Api.Hubs
 {
     public class StatusHub : HubBase<IStatusClientHub>
     {
-        public Task<ClientContentInfo> GetState(Guid gameId) => SendAsync(new GetState(gameId));
+        public Task<ClientContentInfo> GetState(Guid gameId) => Send(new GetState(gameId));
 
-        public Task<GamesApiModel> GetGames() => SendAsync(new GetGames());
+        public Task<GamesApiModel> GetGames() => Send(new GetGames());
 
-        public Task<HomeApiModel> GetHome() => SendAsync(new GetHome());
+        public Task<HomeApiModel> GetHome() => Send(new GetHome());
 
-        public Task<GameHomeApiModel> GetGameHome(Guid id) => SendAsync(new GetGameHome(id));
+        public Task<GameHomeApiModel> GetGameHome(Guid id) => Send(new GetGameHome(id));
 
-        public Task<CollectionsApiModel> GetGameCollections(GetGameCollections request) => SendAsync(request);
+        public Task<CollectionsApiModel> GetGameCollections(GetGameCollections request) => Send(request);
 
-        public Task<ModsApiModel> GetGameMods(GetGameMods request) => SendAsync(request);
+        public Task<ModsApiModel> GetGameMods(GetGameMods request) => Send(request);
 
-        public Task<MissionsApiModel> GetGameMissions(GetGameMissions request) => SendAsync(request);
+        public Task<MissionsApiModel> GetGameMissions(GetGameMissions request) => Send(request);
     }
 
     public class ContentStateChange

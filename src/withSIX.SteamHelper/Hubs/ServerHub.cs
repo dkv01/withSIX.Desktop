@@ -13,8 +13,8 @@ namespace withSIX.Steam.Presentation.Hubs
 {
     public class ServerHub : HubBase<IServerHubClient>
     {
-        public Task<BatchResult> GetServers(GetServers query, Guid requestId) => SendAsync(query, requestId);
-        public Task<BatchResult> GetServerAddresses(GetServerAddresses query, Guid requestId) => SendAsync(query, requestId);
+        public Task<BatchResult> GetServers(GetServers query, Guid requestId) => Send(query, requestId);
+        public Task<BatchResult> GetServerAddresses(GetServerAddresses query, Guid requestId) => Send(query, requestId);
     }
 
     public interface IServerHubClient

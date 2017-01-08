@@ -35,7 +35,7 @@ namespace withSIX.Mini.Applications.MVVM.ViewModels
             Close = ReactiveCommand.CreateAsyncTask(async x => x as bool?).DefaultSetup("Close");
             Help =
                 ReactiveCommand.CreateAsyncTask(
-                        async x => await this.SendAsync(new OpenWebLink(ViewType.Help)).ConfigureAwait(false))
+                        async x => await this.Send(new OpenWebLink(ViewType.Help)).ConfigureAwait(false))
                     .DefaultSetup("Help");
         }
 

@@ -47,10 +47,10 @@ namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
         }
 
         [MenuItem]
-        public Task Login() => this.SendAsync(new OpenWebLink(ViewType.Profile));
+        public Task Login() => this.Send(new OpenWebLink(ViewType.Profile));
 
         [MenuItem]
-        public Task Logout() => this.SendAsync(new OpenWebLink(ViewType.Profile));
+        public Task Logout() => this.Send(new OpenWebLink(ViewType.Profile));
 
         [MenuItem]
         public Task Settings() => this.OpenWebLink(ViewType.Settings); //OpenScreenCached(new GetSettings());
@@ -59,16 +59,16 @@ namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
         public void Separator1() {}
 
         [MenuItem]
-        public Task Community() => this.SendAsync(new OpenWebLink(ViewType.Community));
+        public Task Community() => this.Send(new OpenWebLink(ViewType.Community));
 
         [MenuItem]
-        public Task ReportIssues() => this.SendAsync(new OpenWebLink(ViewType.Issues));
+        public Task ReportIssues() => this.Send(new OpenWebLink(ViewType.Issues));
 
         [MenuItem]
-        public Task ShareYourSuggestions() => this.SendAsync(new OpenWebLink(ViewType.Suggestions));
+        public Task ShareYourSuggestions() => this.Send(new OpenWebLink(ViewType.Suggestions));
 
         [MenuItem]
-        public Task Help() => this.SendAsync(new OpenWebLink(ViewType.Help));
+        public Task Help() => this.Send(new OpenWebLink(ViewType.Help));
 
         /*
         [MenuItem]
@@ -81,6 +81,6 @@ namespace withSIX.Mini.Applications.MVVM.ViewModels.Main
         public void Separator2() {}
 
         [MenuItem]
-        public Task Exit() => this.SendAsync(new Shutdown());
+        public Task Exit() => this.Send(new Shutdown());
     }
 }

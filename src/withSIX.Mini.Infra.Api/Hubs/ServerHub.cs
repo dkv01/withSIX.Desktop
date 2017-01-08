@@ -13,9 +13,9 @@ namespace withSIX.Mini.Infra.Api.Hubs
     public class ServerHub : HubBase<IServerHubClient>
     {
         public Task<BatchResult> GetServers(GetServersQuery info, Guid requestId)
-            => SendAsync(new GetServerAddresses(info), requestId);
+            => Send(new GetServerAddresses(info), requestId);
 
-        public Task<ServersInfo> GetServersInfo(GetServerQuery info) => SendAsync(new GetServersInfo(info));
+        public Task<ServersInfo> GetServersInfo(GetServerQuery info) => Send(new GetServersInfo(info));
     }
 
     public interface IServerHubClient

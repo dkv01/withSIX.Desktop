@@ -11,19 +11,19 @@ namespace withSIX.Mini.Infra.Api.Hubs
 {
     public class QueueHub : HubBase<IQueueClientHub>
     {
-        public Task<QueueInfo> GetQueueInfo() => SendAsync(new GetQueue());
+        public Task<QueueInfo> GetQueueInfo() => Send(new GetQueue());
 
-        public Task Retry(Guid id) => SendAsync(new RetryQueueItem(id));
+        public Task Retry(Guid id) => Send(new RetryQueueItem(id));
 
-        public Task Cancel(Guid id) => SendAsync(new CancelQueueItem(id));
+        public Task Cancel(Guid id) => Send(new CancelQueueItem(id));
 
-        public Task CancelByContentId(Guid contentId) => SendAsync(new CancelQueueItemByContentId(contentId));
+        public Task CancelByContentId(Guid contentId) => Send(new CancelQueueItemByContentId(contentId));
 
         public Task Pause(Guid id) {
             throw new NotImplementedException();
         }
 
-        public Task Remove(Guid id) => SendAsync(new RemoveQueueItem(id));
+        public Task Remove(Guid id) => Send(new RemoveQueueItem(id));
     }
 
     public interface IQueueClientHub

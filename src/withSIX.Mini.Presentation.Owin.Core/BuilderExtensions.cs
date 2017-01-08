@@ -40,19 +40,19 @@ namespace withSIX.Mini.Presentation.Owin.Core
         static Task ExecuteRequest<T, TOut>(HttpContext context) where T : IRequest<TOut>
         =>
             context.ProcessRequest<T, TOut>(
-                request => A.ApiAction(ct => A.Excecutor.SendAsync(request, cancelToken: ct), request,
+                request => A.ApiAction(ct => A.Excecutor.Send(request, cancelToken: ct), request,
                     CreateException, GetRequestId(context), null, context.User, RequestScopeService.Instance));
 
         static Task ExecuteRequest<T>(HttpContext context) where T : IRequest
             =>
                 context.ProcessRequest<T>(
-                    request => A.ApiAction(ct => A.Excecutor.SendAsync(request, cancelToken: ct), request,
+                    request => A.ApiAction(ct => A.Excecutor.Send(request, cancelToken: ct), request,
                         CreateException, GetRequestId(context), null, context.User, RequestScopeService.Instance));
 
 
         static Task ExecuteCancellableRequest<T, TOut>(HttpContext context) where T : IRequest<TOut>
         => context.ProcessRequest<T, TOut>(
-            request => A.ApiAction(ct => A.Excecutor.SendAsync(request, ct), request,
+            request => A.ApiAction(ct => A.Excecutor.Send(request, ct), request,
                 CreateException, GetRequestId(context), null, context.User, RequestScopeService.Instance));
 
         private static Guid GetRequestId(HttpContext context) => context.Request.Query.ContainsKey("requestId")

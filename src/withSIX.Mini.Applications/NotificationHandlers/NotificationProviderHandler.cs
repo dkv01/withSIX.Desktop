@@ -47,7 +47,7 @@ namespace withSIX.Mini.Applications.NotificationHandlers
             if (notification.Href != null) {
                 actions.Add(new TrayAction {
                     DisplayName = "Info",
-                    Command = () => this.SendAsync(new OpenArbWebLink(notification.Href))
+                    Command = () => this.Send(new OpenArbWebLink(notification.Href))
                 });
             }
             if (notification.NextAction != null) {
@@ -55,7 +55,7 @@ namespace withSIX.Mini.Applications.NotificationHandlers
                     DisplayName = notification.NextActionInfo.Title,
                     Command =
                         () =>
-                            _stateHandler.DispatchNextAction((c, t) => this.SendAsync(c, t),
+                            _stateHandler.DispatchNextAction((c, t) => this.Send(c, t),
                                 notification.NextAction.RequestId, CancellationToken.None)
                 });
             }
@@ -127,7 +127,7 @@ namespace withSIX.Mini.Applications.NotificationHandlers
         IReactiveCommand<Unit> CreateCommand(InstallActionCompleted notification, PlayAction playAction)
             => ReactiveCommand.CreateAsyncTask(
                 async x =>
-                    await this.SendAsync(
+                    await this.Send(
                         new LaunchContents(notification.Game.Id,
                             notification.Action.Content.Select(c => new ContentGuidSpec(c.Content.Id)).ToList(),
                             action: playAction.ToLaunchAction()))
