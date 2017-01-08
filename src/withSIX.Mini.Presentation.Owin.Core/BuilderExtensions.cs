@@ -26,6 +26,14 @@ namespace withSIX.Mini.Presentation.Owin.Core
             where T : IRequest<TResponse>
         => content.Map(path, builder => builder.Run(ExecuteRequest<T, TResponse>));
 
+        public static IApplicationBuilder AddCancellablePath<T>(this IApplicationBuilder content, string path)
+            where T : IRequest<Unit>
+        => content.AddCancellablePath<T, Unit>(path);
+
+        public static IApplicationBuilder AddCancellablePath<T, TResponse>(this IApplicationBuilder content, string path)
+            where T : IRequest<TResponse>
+        => content.Map(path, builder => builder.Run(ExecuteCancellableRequest<T, TResponse>));
+
         static Task ExcecuteVoidCommand<T>(HttpContext context) where T : IRequest<Unit>
         => ExecuteRequest<T, Unit>(context);
 
@@ -41,13 +49,6 @@ namespace withSIX.Mini.Presentation.Owin.Core
                     request => A.ApiAction(ct => A.Excecutor.SendAsync(request, cancelToken: ct), request,
                         CreateException, GetRequestId(context), null, context.User, RequestScopeService.Instance));
 
-        public static IApplicationBuilder AddCancellablePath<T>(this IApplicationBuilder content, string path)
-            where T : IRequest<Unit>
-        => content.AddCancellablePath<T, Unit>(path);
-
-        public static IApplicationBuilder AddCancellablePath<T, TResponse>(this IApplicationBuilder content, string path)
-            where T : IRequest<TResponse>
-        => content.Map(path, builder => builder.Run(ExecuteCancellableRequest<T, TResponse>));
 
         static Task ExecuteCancellableRequest<T, TOut>(HttpContext context) where T : IRequest<TOut>
         => context.ProcessRequest<T, TOut>(
