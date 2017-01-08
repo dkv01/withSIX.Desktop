@@ -23,6 +23,10 @@ namespace withSIX.Mini.Applications.Services
         public Task<TResponse> ApiAction<TResponse>(Func<Task<TResponse>> action, object command,
             Func<string, Exception, Exception> createException) => ExecuteCommand(action, command, createException);
 
+        public Task ApiAction(Func<Task> action, object command,
+    Func<string, Exception, Exception> createException) => ExecuteCommand(action, command, createException);
+
+
         public async Task<TResponse> ExecuteCommand<TResponse>(Func<Task<TResponse>> action, object command,
             Func<string, Exception, Exception> createException) {
             retry:
@@ -79,6 +83,90 @@ namespace withSIX.Mini.Applications.Services
                     throw new ValidationException(e.Message, e);
                 }
             } catch (OperationCanceledException ex) {
+                MainLog.Logger.FormattedDebugException(ex, "The user cancelled the operation");
+                throw new CanceledException(ex);
+            }
+        }
+
+        public async Task ExecuteCommand(Func<Task> action, object command,
+    Func<string, Exception, Exception> createException)
+        {
+            retry:
+            try
+            {
+                await TryExecuteCommand(action).ConfigureAwait(false);
+            }
+            catch (AlreadyExistsException e)
+            {
+                // don't log
+                throw createException(e.Message, e);
+            }
+            catch (ValidationException e)
+            {
+                // don't log
+                throw createException(e.Message, e);
+            }
+            catch (UserException e)
+            {
+                MainLog.Logger.FormattedWarnException(e,
+                    "UserException catched during hub action: " + command.GetType().Name);
+                throw createException(e.Message, e);
+                // TODO: A better way to handle this actually from within frontends...
+            }
+
+            // TODO: More general ignore when is shutting down?
+            catch (OperationCanceledException ex) when (Common.Flags.ShuttingDown)
+            {
+                throw createException("The system is shutting down",
+                    new CanceledException("The operation was aborted because the system is shutting down", ex));
+            }
+            catch (ObjectDisposedException ex) when (Common.Flags.ShuttingDown)
+            {
+                throw createException("The system is shutting down",
+                    new CanceledException("The operation was aborted because the system is shutting down", ex));
+            }
+            catch (Exception ex)
+            {
+                var handleException = ErrorHandlerr.HandleException(ex, "Action: " + command.GetType().Name);
+                var result =
+                    await UserErrorHandler.HandleUserError(handleException);
+                if (result == RecoveryOptionResultModel.RetryOperation)
+                    goto retry;
+                throw createException("Operation aborted", new CanceledException("The operation was aborted", ex));
+            }
+        }
+
+        private async Task TryExecuteCommand(Func<Task> action)
+        {
+            // TODO: Handle more global or deeper
+            try
+            {
+                try
+                {
+                    await action().ConfigureAwait(false);
+                }
+                catch (Win32Exception ex)
+                {
+                    if (ex.NativeErrorCode == 112)
+                        throw GetException(ex.NativeErrorCode, ex);
+                    if (ex.IsElevationCancelled())
+                        throw ex.HandleUserCancelled();
+                    throw;
+                }
+                catch (IOException ex)
+                {
+                    var error = Marshal.GetLastWin32Error();
+                    if (error == 112)
+                        throw GetException(error, ex);
+                    throw;
+                }
+                catch (System.ComponentModel.DataAnnotations.ValidationException e)
+                {
+                    throw new ValidationException(e.Message, e);
+                }
+            }
+            catch (OperationCanceledException ex)
+            {
                 MainLog.Logger.FormattedDebugException(ex, "The user cancelled the operation");
                 throw new CanceledException(ex);
             }

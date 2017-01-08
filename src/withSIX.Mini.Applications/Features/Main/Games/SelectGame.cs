@@ -24,7 +24,7 @@ namespace withSIX.Mini.Applications.Features.Main.Games
         public Guid Id { get; }
     }
 
-    public class SelectGameHandler : DbCommandBase, IAsyncVoidCommandHandler<SelectGame>
+    public class SelectGameHandler : DbCommandBase, IAsyncRequestHandler<SelectGame>
     {
         readonly IGameSwitcher _gameSwitcher;
 
@@ -33,10 +33,10 @@ namespace withSIX.Mini.Applications.Features.Main.Games
             _gameSwitcher = gameSwitcher;
         }
 
-        public async Task<Unit> Handle(SelectGame request) {
+        public async Task Handle(SelectGame request) {
             await _gameSwitcher.SwitchGame(request.Id).ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
     }
 }

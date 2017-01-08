@@ -37,14 +37,14 @@ namespace withSIX.Mini.Applications.Features
     // One issue with that is that we are normally supposed to pass back and forth data-containers without logic inside them..
     // Which is not the case with WPF ViewModels, as they include: Commands and methods that need to interact with the Mediator, and perhaps a DialogManager?
     // Idea: What if we do pass only data containers back, but then construct the ViewModels on the other side? Kind of like we do in Angular?
-    public class OpenViewHandler : IAsyncVoidCommandHandler<OpenWebLink>, IAsyncVoidCommandHandler<OpenArbWebLink>
+    public class OpenViewHandler : IAsyncRequestHandler<OpenWebLink>, IAsyncRequestHandler<OpenArbWebLink>
     {
-        public Task<Unit> Handle(OpenArbWebLink request) => UriOpener.OpenUri(request.Uri).Void();
+        public Task Handle(OpenArbWebLink request) => UriOpener.OpenUri(request.Uri).Void();
 
         // TODO: This makes most sense for Online links...
         // Less sense for LOCAL, as most if not all views require queries to be executed to fill the ViewModels...
         // Unless we want to perform those inside the factories, or in here - not too bad idea actually but seems like the enum is then less useful as we can achieve the same with proper query objects?
-        public Task<Unit> Handle(OpenWebLink request) => OpenUri(request).Void();
+        public Task Handle(OpenWebLink request) => OpenUri(request).Void();
 
         static Task OpenUri(OpenWebLink request) {
             switch (request.Type) {

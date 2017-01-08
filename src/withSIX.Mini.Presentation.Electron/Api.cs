@@ -11,6 +11,7 @@ using MediatR;
 using NDepend.Path;
 using ReactiveUI;
 using withSIX.Api.Models.Extensions;
+using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Core.Extensions;
 using withSIX.Core.Logging;
@@ -171,7 +172,7 @@ namespace withSIX.Mini.Presentation.Electron
             case "getSettings":
                 return Request<GetGeneralSettings, GeneralSettings>(requestData);
             case "saveSettings":
-                return Request<SaveGeneralSettings, Unit>(requestData);
+                return VoidCommand<SaveGeneralSettings>(requestData);
             case "saveLogs":
                 return VoidCommand<SaveLogs>(requestData);
             case "enableDiagnostics":
@@ -206,14 +207,21 @@ namespace withSIX.Mini.Presentation.Electron
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
-        Task<object> VoidCommand<T>(object requestData) where T : IRequest<Unit>
-            => Request<T, Unit>(requestData);
+        Task<object> VoidCommand<T>(object requestData) where T : IAsyncVoidCommand
+            => Request<T>(requestData).VoidObject();
 
         async Task<object> Request<T, T2>(object requestData) where T : IRequest<T2> {
             var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
             return
                 await _executor.ApiAction(() => this.SendAsync(request), request, CreateException).ConfigureAwait(false);
+        }
+
+        async Task Request<T>(object requestData) where T : IRequest
+        {
+            var request = Unpack<T>(requestData);
+            //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
+            await _executor.ApiAction(() => this.SendAsync(request), request, CreateException).ConfigureAwait(false);
         }
 
         private static T Unpack<T>(object requestData) {

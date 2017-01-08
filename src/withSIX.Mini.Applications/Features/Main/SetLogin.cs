@@ -18,17 +18,17 @@ namespace withSIX.Mini.Applications.Features.Main
         public string ApiKey { get; }
     }
 
-    public class SetLoginHandler : DbCommandBase, IAsyncVoidCommandHandler<SetLogin>
+    public class SetLoginHandler : DbCommandBase, IAsyncRequestHandler<SetLogin>
     {
         public SetLoginHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(SetLogin request) {
+        public async Task Handle(SetLogin request) {
             (await SettingsContext.GetSettings().ConfigureAwait(false)).Secure.Login.Authentication.AccessToken =
                 request.ApiKey;
             // TODO: Now handle the AccountInfo + PremiumToken
             // TODO: Refresh token when webbrowser refreshes...
 
-            return Unit.Value;
+            
         }
     }
 }

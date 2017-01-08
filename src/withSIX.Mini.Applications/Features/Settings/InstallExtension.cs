@@ -17,8 +17,8 @@ namespace withSIX.Mini.Applications.Features.Settings
 
     public class RemoveExtension : IAsyncVoidCommand {}
 
-    public class ExtensionHandler : DbCommandBase, IAsyncVoidCommandHandler<InstallExtension>,
-        IAsyncVoidCommandHandler<RemoveExtension>
+    public class ExtensionHandler : DbCommandBase, IAsyncRequestHandler<InstallExtension>,
+        IAsyncRequestHandler<RemoveExtension>
     {
         private readonly IAbsoluteDirectoryPath _destination =
             Common.Paths.LocalDataSharedPath.GetChildDirectoryWithName("ExplorerExtension");
@@ -32,20 +32,20 @@ namespace withSIX.Mini.Applications.Features.Settings
             _installer = installer;
         }
 
-        public async Task<Unit> Handle(InstallExtension request) {
+        public async Task Handle(InstallExtension request) {
             var ctx = DbContextLocator.GetSettingsContext();
             await
                 _installer.UpgradeOrInstall(_destination, await ctx.GetSettings().ConfigureAwait(false), _filePaths)
                     .ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(RemoveExtension request) {
+        public async Task Handle(RemoveExtension request) {
             var ctx = DbContextLocator.GetSettingsContext();
             await
                 _installer.Uninstall(_destination, await ctx.GetSettings().ConfigureAwait(false), _filePaths)
                     .ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

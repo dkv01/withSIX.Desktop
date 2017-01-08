@@ -21,7 +21,7 @@ namespace withSIX.Mini.Applications.Features
         public Guid Id { get; }
     }
 
-    public class StartDownloadSessionHandler : DbCommandBase, IAsyncVoidCommandHandler<StartDownloadSession>
+    public class StartDownloadSessionHandler : DbCommandBase, IAsyncRequestHandler<StartDownloadSession>
     {
         private readonly IExternalFileDownloader _downloader;
 
@@ -30,10 +30,10 @@ namespace withSIX.Mini.Applications.Features
             _downloader = downloader;
         }
 
-        public async Task<Unit> Handle(StartDownloadSession message) {
+        public async Task Handle(StartDownloadSession message) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(message).ConfigureAwait(false);
             await _downloader.StartSession(game.GetPublisherUrl(), game.GetContentPath()).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

@@ -58,7 +58,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             return TaskExt.Default;
         }
 
-        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId, CancellationToken cancelToken) {
+        public Task DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task> dispatcher, Guid requestId, CancellationToken cancelToken) {
             throw new NotImplementedException();
         }
 

@@ -26,7 +26,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid GameId { get; }
     }
 
-    public class SyncCollectionsHandler : DbCommandBase, IAsyncVoidCommandHandler<SyncCollections>
+    public class SyncCollectionsHandler : DbCommandBase, IAsyncRequestHandler<SyncCollections>
     {
         readonly INetworkContentSyncer _contentSyncer;
 
@@ -35,12 +35,12 @@ namespace withSIX.Mini.Applications.Features.Main
             _contentSyncer = contentSyncer;
         }
 
-        public async Task<Unit> Handle(SyncCollections request) {
+        public async Task Handle(SyncCollections request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
 
             await DealWithCollections(game, request.Contents).ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
 
         Task DealWithCollections(Game game, IEnumerable<ContentGuidSpec> contents)

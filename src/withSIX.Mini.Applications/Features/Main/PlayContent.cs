@@ -55,8 +55,8 @@ namespace withSIX.Mini.Applications.Features.Main
     }
 
 
-    public class PlayContentHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<PlayContent>,
-        IAsyncVoidCommandHandler<PlayContents>
+    public class PlayContentHandler : ApiDbCommandBase, IAsyncRequestHandler<PlayContent>,
+        IAsyncRequestHandler<PlayContents>
     {
         readonly IContentInstallationService _contentInstallation;
         readonly IGameLauncherFactory _factory;
@@ -67,16 +67,16 @@ namespace withSIX.Mini.Applications.Features.Main
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<Unit> Handle(PlayContent request) {
+        public async Task Handle(PlayContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Play(_factory, _contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(PlayContents request) {
+        public async Task Handle(PlayContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Play(_factory, _contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

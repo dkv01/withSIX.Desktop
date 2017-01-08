@@ -104,7 +104,7 @@ namespace withSIX.Mini.Infra.Api
             }
         }
 
-        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid actionId, CancellationToken ct) {
+        public Task DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task> dispatcher, Guid actionId, CancellationToken ct) {
             var action = Current?.NextAction;
             if (action == null)
                 throw new ValidationException("There was no next action available");

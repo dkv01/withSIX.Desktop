@@ -15,14 +15,14 @@ namespace withSIX.Mini.Applications.Features.Main
         public GeneralSettings Settings { get; set; }
     }
 
-    public class SaveGeneralSettingsHandler : DbCommandBase, IAsyncVoidCommandHandler<SaveGeneralSettings>
+    public class SaveGeneralSettingsHandler : DbCommandBase, IAsyncRequestHandler<SaveGeneralSettings>
     {
         public SaveGeneralSettingsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(SaveGeneralSettings request) {
+        public async Task Handle(SaveGeneralSettings request) {
             request.Settings.MapTo(await SettingsContext.GetSettings().ConfigureAwait(false));
 
-            return Unit.Value;
+            
         }
     }
 }

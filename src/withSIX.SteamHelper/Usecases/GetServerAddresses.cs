@@ -21,7 +21,7 @@ using ISteamApi = withSIX.Steam.Plugin.Arma.ISteamApi;
 namespace withSIX.Steam.Presentation.Usecases
 {
     [Obsolete("What would you do with just the addresses?")]
-    public class GetServerAddresses : Core.Requests.GetServerAddresses, IQuery<BatchResult>,
+    public class GetServerAddresses : Core.Requests.GetServerAddresses, IAsyncQuery<BatchResult>,
         IHaveFilter {}
 
     public class GetServerAddressesHandler : ICancellableAsyncRequestHandler<GetServerAddresses, BatchResult>

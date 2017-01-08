@@ -151,9 +151,9 @@ namespace withSIX.Mini.Applications.Features.Main
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
     }
 
-    public class AddExternalModHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<AddExternalModRead>,
-        IAsyncVoidCommandHandler<AddExternalModWrite>, IAsyncRequestHandler<ExternalDownloadStarted, Guid>,
-        IAsyncVoidCommandHandler<ExternalDownloadProgressing>
+    public class AddExternalModHandler : ApiDbCommandBase, IAsyncRequestHandler<AddExternalModRead>,
+        IAsyncRequestHandler<AddExternalModWrite>, IAsyncRequestHandler<ExternalDownloadStarted, Guid>,
+        IAsyncRequestHandler<ExternalDownloadProgressing>
     {
         readonly IContentInstallationService _contentInstallation;
         private readonly IExternalFileDownloader _fd;
@@ -173,7 +173,7 @@ namespace withSIX.Mini.Applications.Features.Main
             return Guid.Empty;
         }
 
-        public async Task<Unit> Handle(AddExternalModRead request) {
+        public async Task Handle(AddExternalModRead request) {
             // TODO
             if (request.Error != null)
                 throw request.Error;
@@ -188,10 +188,10 @@ namespace withSIX.Mini.Applications.Features.Main
                     await SendWrite(request).ConfigureAwait(false);
             }
 
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(AddExternalModWrite request) {
+        public async Task Handle(AddExternalModWrite request) {
             // This shouldnt happen because we already check it in Read..
             if (request.Error != null)
                 throw request.Error;
@@ -203,16 +203,16 @@ namespace withSIX.Mini.Applications.Features.Main
             //_fd.RegisterExisting(game.GetPublisherUrl(action.Content.Select(x => x.Content).OfType<NetworkContent>().First().Source),request.FileName.ToAbsoluteFilePath());
             await game.Install(_contentInstallation, action).ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(ExternalDownloadProgressing message) {
+        public async Task Handle(ExternalDownloadProgressing message) {
             await _state.UpdateState(message.Id, message.BytesReceived, message.TotalBytes).ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
 
-        private static Task<Unit> SendWrite(AddExternalModRead request)
+        private static Task SendWrite(AddExternalModRead request)
             => Cheat.Mediator.Send(new AddExternalModWrite(request.FileName, request.Referrer));
 
         public class ExternalDownloadState

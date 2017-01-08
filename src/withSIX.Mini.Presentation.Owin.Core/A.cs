@@ -28,6 +28,18 @@ namespace withSIX.Mini.Presentation.Owin.Core
                 CancellationTokenMapping.Remove(requestId);
             }
         }
+
+        public static async Task ApiAction(Func<CancellationToken, Task> action, object command,
+            Func<string, Exception, Exception> createException, Guid requestId, string connectionId, IPrincipal user,
+            IRequestScopeService scope) {
+            var ct = CancellationTokenMapping.AddToken(requestId);
+            try {
+                using (scope.StartScope(connectionId, requestId, user, ct))
+                    await Excecutor.ApiAction(() => action(ct), command, createException).ConfigureAwait(false);
+            } finally {
+                CancellationTokenMapping.Remove(requestId);
+            }
+        }
     }
 
 }

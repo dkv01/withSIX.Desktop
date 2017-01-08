@@ -51,7 +51,7 @@ namespace withSIX.Mini.Applications.Features.Main.Games
         }
     }
 
-    public class LaunchGameHandler : DbCommandBase, IAsyncVoidCommandHandler<LaunchGame>
+    public class LaunchGameHandler : DbCommandBase, IAsyncRequestHandler<LaunchGame>
     {
         readonly IGameLauncherFactory _launcherFactory;
 
@@ -60,10 +60,10 @@ namespace withSIX.Mini.Applications.Features.Main.Games
             _launcherFactory = launcherFactory;
         }
 
-        public async Task<Unit> Handle(LaunchGame request) {
+        public async Task Handle(LaunchGame request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             await game.Launch(_launcherFactory, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

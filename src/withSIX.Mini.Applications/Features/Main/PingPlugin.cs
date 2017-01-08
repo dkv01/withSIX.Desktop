@@ -28,16 +28,16 @@ namespace withSIX.Mini.Applications.Features.Main
         public Browser Browser { get; }
     }
 
-    public class PingPluginHandler : DbRequestBase, IAsyncVoidCommandHandler<PingPlugin>
+    public class PingPluginHandler : DbRequestBase, IAsyncRequestHandler<PingPlugin>
     {
         public PingPluginHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(PingPlugin message) {
+        public async Task Handle(PingPlugin message) {
             if (Consts.PluginBrowserFound == Browser.None)
                 Consts.PluginBrowserFound = message.Browser;
             else
                 Consts.PluginBrowserFound &= message.Browser;
-            return Unit.Value;
+            
         }
     }
 }

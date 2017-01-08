@@ -16,7 +16,12 @@ namespace withSIX.Mini.Applications.Extensions
         public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
             IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken)) => message.ExecuteWrapped(cancelToken);
 
-        public static Task<Unit> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId,
+        public static Task SendAsync(this IUsecaseExecutor _,
+            IRequest message, CancellationToken cancelToken = default(CancellationToken))
+            => message.ExecuteWrapped(cancelToken);
+
+
+        public static Task DispatchNextAction(this IUsecaseExecutor executor, Guid requestId,
             CancellationToken cancelToken = default(CancellationToken))
             => Cheat.Mediator.DispatchNextAction((message, ct) => SendAsync(executor, message, cancelToken), requestId);
 

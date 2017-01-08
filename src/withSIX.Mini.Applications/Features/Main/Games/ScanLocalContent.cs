@@ -25,7 +25,7 @@ namespace withSIX.Mini.Applications.Features.Main.Games
         public Guid Id { get; }
     }
 
-    public class ScanLocalContentHandler : DbCommandBase, IAsyncVoidCommandHandler<ScanLocalContent>
+    public class ScanLocalContentHandler : DbCommandBase, IAsyncRequestHandler<ScanLocalContent>
     {
         readonly ISetupGameStuff _setup;
 
@@ -34,7 +34,7 @@ namespace withSIX.Mini.Applications.Features.Main.Games
             _setup = setup;
         }
 
-        public async Task<Unit> Handle(ScanLocalContent request) {
+        public async Task Handle(ScanLocalContent request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
 
             await
@@ -43,7 +43,7 @@ namespace withSIX.Mini.Applications.Features.Main.Games
                     }, game.Id)
                     .ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
     }
 }

@@ -26,7 +26,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public Dictionary<string, object> Data { get; set; }
     }
 
-    public class ResolveUserErrorHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<ResolveUserError>
+    public class ResolveUserErrorHandler : ApiDbCommandBase, IAsyncRequestHandler<ResolveUserError>
     {
         private readonly IStateHandler _handler;
 
@@ -35,9 +35,9 @@ namespace withSIX.Mini.Applications.Features.Main
             _handler = handler;
         }
 
-        public async Task<Unit> Handle(ResolveUserError request) {
+        public async Task Handle(ResolveUserError request) {
             await _handler.ResolveError(request.Id, request.Result, request.Data).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

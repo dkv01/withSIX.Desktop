@@ -148,9 +148,9 @@ namespace withSIX.Mini.Applications.Features.Main
         Task Synchronize(Game game, INetworkContentSyncer syncer);
     }
 
-    public class InstallContentHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<InstallContent>,
-        IAsyncVoidCommandHandler<InstallCollection>, IAsyncVoidCommandHandler<InstallContents>,
-        IAsyncVoidCommandHandler<InstallSteamContents>
+    public class InstallContentHandler : ApiDbCommandBase, IAsyncRequestHandler<InstallContent>,
+        IAsyncRequestHandler<InstallCollection>, IAsyncRequestHandler<InstallContents>,
+        IAsyncRequestHandler<InstallSteamContents>
     {
         readonly IContentInstallationService _contentInstallation;
 
@@ -160,28 +160,28 @@ namespace withSIX.Mini.Applications.Features.Main
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<Unit> Handle(InstallCollection request) {
+        public async Task Handle(InstallCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await InstallContent(request, game).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(InstallContent request) {
+        public async Task Handle(InstallContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await InstallContent(request, game).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(InstallContents request) {
+        public async Task Handle(InstallContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(InstallSteamContents request) {
+        public async Task Handle(InstallSteamContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Install(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
         private Task InstallContent(InstallContent request, Game game)

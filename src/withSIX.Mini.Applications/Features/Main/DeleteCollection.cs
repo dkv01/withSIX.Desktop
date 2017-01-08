@@ -26,15 +26,15 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
-    public class DeleteCollectionHandler : DbCommandBase, IAsyncVoidCommandHandler<DeleteCollection>
+    public class DeleteCollectionHandler : DbCommandBase, IAsyncRequestHandler<DeleteCollection>
     {
         public DeleteCollectionHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(DeleteCollection request) {
+        public async Task Handle(DeleteCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var findCollection = game.Collections.FindOrThrowFromRequest(request);
             game.RemoveCollection(findCollection);
-            return Unit.Value;
+            
         }
     }
 }

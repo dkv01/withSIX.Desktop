@@ -12,7 +12,7 @@ namespace withSIX.Mini.Applications.Features
     // We don't want a DB scope+save
     public class Shutdown : IAsyncVoidCommand, IExcludeGameWriteLock {}
 
-    public class ShutdownCommandHandler : IAsyncVoidCommandHandler<Shutdown>
+    public class ShutdownCommandHandler : IAsyncRequestHandler<Shutdown>
     {
         readonly IContentInstallationService _contentInstallation;
         readonly IShutdownHandler _shutdownHandler;
@@ -22,11 +22,11 @@ namespace withSIX.Mini.Applications.Features
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<Unit> Handle(Shutdown request) {
+        public async Task Handle(Shutdown request) {
             await _contentInstallation.Abort().ConfigureAwait(false);
             _shutdownHandler.Shutdown();
 
-            return Unit.Value;
+            
         }
     }
 }

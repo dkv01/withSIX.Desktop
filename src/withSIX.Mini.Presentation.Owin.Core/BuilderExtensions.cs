@@ -19,8 +19,8 @@ namespace withSIX.Mini.Presentation.Owin.Core
     public static class BuilderExtensions
     {
         public static IApplicationBuilder AddPath<T>(this IApplicationBuilder content, string path)
-            where T : IRequest<Unit>
-        => content.AddPath<T, Unit>(path);
+            where T : IRequest
+            => content.Map(path, builder => builder.Run(ExecuteRequest<T>));
 
         public static IApplicationBuilder AddPath<T, TResponse>(this IApplicationBuilder content, string path)
             where T : IRequest<TResponse>
@@ -34,6 +34,12 @@ namespace withSIX.Mini.Presentation.Owin.Core
             context.ProcessRequest<T, TOut>(
                 request => A.ApiAction(ct => A.Excecutor.SendAsync(request, cancelToken: ct), request,
                     CreateException, GetRequestId(context), null, context.User, RequestScopeService.Instance));
+
+        static Task ExecuteRequest<T>(HttpContext context) where T : IRequest
+            =>
+                context.ProcessRequest<T>(
+                    request => A.ApiAction(ct => A.Excecutor.SendAsync(request, cancelToken: ct), request,
+                        CreateException, GetRequestId(context), null, context.User, RequestScopeService.Instance));
 
         public static IApplicationBuilder AddCancellablePath<T>(this IApplicationBuilder content, string path)
             where T : IRequest<Unit>

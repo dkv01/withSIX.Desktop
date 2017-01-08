@@ -27,12 +27,16 @@ namespace withSIX.Mini.Infra.Api.Hubs
             => A.ApiAction(ct => A.Excecutor.SendAsync(command, cancelToken: ct), command,
                 CreateException, Guid.NewGuid(), Context.ConnectionId, Context.User, RequestScopeService.Instance);
 
+        protected Task SendAsync(IRequest command, CancellationToken ct2 = default(CancellationToken))
+            => A.ApiAction(ct => A.Excecutor.SendAsync(command, cancelToken: ct), command,
+                CreateException, Guid.NewGuid(), Context.ConnectionId, Context.User, RequestScopeService.Instance);
+
         protected Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> command, Guid requestId)
             => A.ApiAction(async ct => await A.Excecutor.SendAsync(command, ct).ConfigureAwait(false), command,
                 CreateException, requestId, Context.ConnectionId, Context.User, RequestScopeService.Instance);
 
-        protected Task<Unit> DispatchNextAction(Guid requestId)
-            => Cheat.Mediator.DispatchNextAction(SendAsync, requestId);
+        protected Task DispatchNextAction(Guid requestId)
+            => Cheat.Mediator.DispatchNextAction((x, ct) => SendAsync(x, ct), requestId);
 
         public async Task Cancel(Guid requestId) => A.CancellationTokenMapping.Cancel(requestId);
     }

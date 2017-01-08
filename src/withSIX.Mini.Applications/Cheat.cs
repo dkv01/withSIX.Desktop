@@ -29,7 +29,7 @@ namespace withSIX.Mini.Applications
             _stateHandler = stateHandler;
         }
 
-        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId)
+        public Task DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task> dispatcher, Guid requestId)
             => _stateHandler.DispatchNextAction(dispatcher, requestId, CancellationToken.None);
 
         public Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken))
@@ -45,7 +45,7 @@ namespace withSIX.Mini.Applications
 
     public interface IActionDispatcher : IMediator
     {
-        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId);
+        Task DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task> dispatcher, Guid requestId);
     }
 
     public class ArgsO

@@ -194,7 +194,6 @@
     <Compile Include="Features\Main\CloseGame.cs" />
     <Compile Include="Features\Main\ContentsApiModel.cs" />
     <Compile Include="Features\Main\DeleteCollection.cs" />
-    <Compile Include="Features\Main\Games\GetGame.cs" />
     <Compile Include="Features\Main\Games\LaunchGame.cs" />
     <Compile Include="Features\Main\Games\ScanLocalContent.cs" />
     <Compile Include="Features\Main\Games\SelectGame.cs" />

@@ -91,8 +91,8 @@ namespace withSIX.Mini.Applications.Features.Main
         };
     }
 
-    public class LaunchContentHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<LaunchContent>,
-        IAsyncVoidCommandHandler<LaunchContents>
+    public class LaunchContentHandler : ApiDbCommandBase, IAsyncRequestHandler<LaunchContent>,
+        IAsyncRequestHandler<LaunchContents>
     {
         readonly IGameLauncherFactory _factory;
 
@@ -100,16 +100,16 @@ namespace withSIX.Mini.Applications.Features.Main
             _factory = factory;
         }
 
-        public async Task<Unit> Handle(LaunchContent request) {
+        public async Task Handle(LaunchContent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Launch(_factory, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(LaunchContents request) {
+        public async Task Handle(LaunchContents request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             await game.Launch(_factory, request.GetAction(game)).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

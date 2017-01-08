@@ -79,6 +79,9 @@ namespace withSIX.Mini.Presentation.Core
         private Task<TResponse> RequestAsyncExecutor<TResponse>(IRequest<TResponse> request)
             => _executor.ApiAction(() => this.SendAsync(request), request, CreateException);
 
+        private Task RequestAsyncExecutor(IRequest request)
+            => _executor.ApiAction(() => this.SendAsync(request), request, CreateException);
+
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);
 
         private static bool IsSyncWsUrl(string par)

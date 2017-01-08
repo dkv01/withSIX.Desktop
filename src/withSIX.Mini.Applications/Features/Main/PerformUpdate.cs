@@ -34,8 +34,8 @@ namespace withSIX.Mini.Applications.Features.Main
         Task SelfUpdate();
     }
 
-    public class PerformUpdateHandler : IAsyncVoidCommandHandler<PerformUpdate>,
-        IAsyncVoidCommandHandler<UpdateAvailable>
+    public class PerformUpdateHandler : IAsyncRequestHandler<PerformUpdate>,
+        IAsyncRequestHandler<UpdateAvailable>
     {
         private readonly IContentInstallationService _contentInstallation;
         private readonly IStateHandler _stateHandler;
@@ -48,22 +48,22 @@ namespace withSIX.Mini.Applications.Features.Main
             _updateHandler = updateHandler;
         }
 
-        public async Task<Unit> Handle(PerformUpdate request) {
+        public async Task Handle(PerformUpdate request) {
             await _contentInstallation.Abort().ConfigureAwait(false);
 
             // TODO: Progress reporting etc
             await _stateHandler.StartUpdating().ConfigureAwait(false);
             await _updateHandler.SelfUpdate().ConfigureAwait(false);
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(UpdateAvailable request) {
+        public async Task Handle(UpdateAvailable request) {
             await
                 _stateHandler.UpdateAvailable(request.Version ?? "6.6.6",
                     request.State == UpdateState.UpdateDownloading
                         ? AppUpdateState.UpdateDownloading
                         : AppUpdateState.UpdateAvailable).ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

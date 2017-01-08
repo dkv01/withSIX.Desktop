@@ -44,7 +44,7 @@ namespace withSIX.Mini.Applications.Services
         ClientInfo ClientInfo { get; }
         Guid SelectedGameId { get; set; }
         Task Initialize();
-        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId, CancellationToken ct);
+        Task DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task> dispatcher, Guid requestId, CancellationToken ct);
         Task ResolveError(Guid id, string result, Dictionary<string, object> data);
         Task AddUserError(UserErrorModel2 error);
         Task StartUpdating();

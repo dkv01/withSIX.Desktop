@@ -36,17 +36,17 @@ namespace withSIX.Mini.Applications.Features.Main
         Config
     }
 
-    public class OpenFolderHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<OpenFolder>
+    public class OpenFolderHandler : ApiDbCommandBase, IAsyncRequestHandler<OpenFolder>
     {
         public OpenFolderHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(OpenFolder request) {
+        public async Task Handle(OpenFolder request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var path = GetPath(game, request.Id, request.FolderType);
 
             Tools.FileUtil.OpenFolderInExplorer(path.GetNearestExisting());
 
-            return Unit.Value;
+            
         }
 
         private static IAbsoluteDirectoryPath GetPath(Game game, Guid? id, FolderType type) {

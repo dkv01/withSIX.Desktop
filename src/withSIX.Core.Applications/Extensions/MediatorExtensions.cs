@@ -7,18 +7,25 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Core.Applications.Services;
 
 namespace withSIX.Core.Applications.Extensions
 {
     public static class MediatorExtensions
     {
+        [Obsolete]
         public static async Task<Unit> Void<T>(this Task<T> task) {
             await task.ConfigureAwait(false);
             return Unit.Value;
         }
 
+        [Obsolete]
         public static async Task<Unit> Void(this Task task) {
+            await task.ConfigureAwait(false);
+            return Unit.Value;
+        }
+
+        public static async Task<object> VoidObject(this Task task)
+        {
             await task.ConfigureAwait(false);
             return Unit.Value;
         }

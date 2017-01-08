@@ -22,14 +22,14 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
-    public class CloseGameHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<CloseGame>
+    public class CloseGameHandler : ApiDbCommandBase, IAsyncRequestHandler<CloseGame>
     {
         public CloseGameHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(CloseGame request) {
+        public async Task Handle(CloseGame request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             game.Close();
-            return Unit.Value;
+            
         }
     }
 }

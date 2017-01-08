@@ -32,17 +32,17 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; set; }
     }
 
-    public class SaveGameSettingsHandler : DbCommandBase, IAsyncVoidCommandHandler<SaveGameSettings>
+    public class SaveGameSettingsHandler : DbCommandBase, IAsyncRequestHandler<SaveGameSettings>
     {
         public SaveGameSettingsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(SaveGameSettings request) {
+        public async Task Handle(SaveGameSettings request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var settings = game.Settings;
             request.Settings.MapTo(settings);
             await game.UpdateSettings(settings).ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
     }
 }

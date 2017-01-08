@@ -14,7 +14,7 @@ namespace withSIX.Mini.Applications.Features.Settings
 {
     public class SaveLogs : IAsyncVoidCommand {}
 
-    public class SaveLogsHandler : IAsyncVoidCommandHandler<SaveLogs>
+    public class SaveLogsHandler : IAsyncRequestHandler<SaveLogs>
     {
         readonly IRestarter _restarter;
 
@@ -22,20 +22,20 @@ namespace withSIX.Mini.Applications.Features.Settings
             _restarter = restarter;
         }
 
-        public async Task<Unit> Handle(SaveLogs request) {
+        public async Task Handle(SaveLogs request) {
             var path =
                 Common.Paths.TempPath.GetChildFileWithName("Sync diagnostics " + DateTime.UtcNow.ToFileTimeUtc() +
                                                            ".zip");
             Common.Paths.TempPath.MakeSurePathExists();
             await ErrorHandlerr.GenerateDiagnosticZip(path).ConfigureAwait(false);
             Tools.FileUtil.SelectInExplorer(path.ToString());
-            return Unit.Value;
+            
         }
     }
 
     public class StartInDiagnosticsMode : IAsyncVoidCommand {}
 
-    public class StartInDiagnosticsModeHandler : IAsyncVoidCommandHandler<StartInDiagnosticsMode>
+    public class StartInDiagnosticsModeHandler : IAsyncRequestHandler<StartInDiagnosticsMode>
     {
         readonly IRestarter _restarter;
 
@@ -43,11 +43,11 @@ namespace withSIX.Mini.Applications.Features.Settings
             _restarter = restarter;
         }
 
-        public async Task<Unit> Handle(StartInDiagnosticsMode request) {
+        public async Task Handle(StartInDiagnosticsMode request) {
             Common.Flags.Verbose = true;
             _restarter.RestartWithoutElevation(
                 Tools.UacHelper.GetStartupParameters().Concat(new[] {"--verbose"}).ToArray());
-            return Unit.Value;
+            
         }
     }
 }

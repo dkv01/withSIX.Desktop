@@ -38,22 +38,22 @@ namespace withSIX.Mini.Applications.Features.Main
     }
 
 
-    public class RemoveRecentHandler : DbCommandBase, IAsyncVoidCommandHandler<RemoveRecent>,
-        IAsyncVoidCommandHandler<ClearRecent>
+    public class RemoveRecentHandler : DbCommandBase, IAsyncRequestHandler<RemoveRecent>,
+        IAsyncRequestHandler<ClearRecent>
     {
         public RemoveRecentHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<Unit> Handle(ClearRecent request) {
+        public async Task Handle(ClearRecent request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             game.ClearRecent();
-            return Unit.Value;
+            
         }
 
-        public async Task<Unit> Handle(RemoveRecent request) {
+        public async Task Handle(RemoveRecent request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var content = await game.Contents.FindOrThrowFromRequestAsync(request).ConfigureAwait(false);
             content.RemoveRecentInfo();
-            return Unit.Value;
+            
         }
     }
 }

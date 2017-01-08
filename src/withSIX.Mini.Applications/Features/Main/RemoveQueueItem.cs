@@ -21,7 +21,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
-    public class RemoveQueueItemHandler : DbRequestBase, IAsyncVoidCommandHandler<RemoveQueueItem>
+    public class RemoveQueueItemHandler : DbRequestBase, IAsyncRequestHandler<RemoveQueueItem>
     {
         private readonly IQueueManager _queueManager;
 
@@ -30,6 +30,6 @@ namespace withSIX.Mini.Applications.Features.Main
             _queueManager = queueManager;
         }
 
-        public Task<Unit> Handle(RemoveQueueItem request) => _queueManager.RemoveFromQueue(request.Id).Void();
+        public Task Handle(RemoveQueueItem request) => _queueManager.RemoveFromQueue(request.Id).Void();
     }
 }

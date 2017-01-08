@@ -13,7 +13,7 @@ namespace withSIX.Mini.Applications.Features.Settings
 {
     public class ImportPwsSettings : IAsyncVoidCommand {}
 
-    public class ImportPwsSettingsHandler : DbCommandBase, IAsyncVoidCommandHandler<ImportPwsSettings>
+    public class ImportPwsSettingsHandler : DbCommandBase, IAsyncRequestHandler<ImportPwsSettings>
     {
         readonly IPlayWithSixImporter _importer;
 
@@ -22,13 +22,13 @@ namespace withSIX.Mini.Applications.Features.Settings
             _importer = importer;
         }
 
-        public async Task<Unit> Handle(ImportPwsSettings request) {
+        public async Task Handle(ImportPwsSettings request) {
             var path = _importer.DetectPwSSettings();
             if (path == null)
                 throw new ValidationException("PwS is not detected");
             await _importer.ImportPwsSettings(path).ConfigureAwait(false);
 
-            return Unit.Value;
+            
         }
     }
 }

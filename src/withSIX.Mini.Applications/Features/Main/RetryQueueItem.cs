@@ -21,7 +21,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
-    public class RetryQueueItemHandler : DbRequestBase, IAsyncVoidCommandHandler<RetryQueueItem>
+    public class RetryQueueItemHandler : DbRequestBase, IAsyncRequestHandler<RetryQueueItem>
     {
         private readonly IQueueManager _queueManager;
 
@@ -30,6 +30,6 @@ namespace withSIX.Mini.Applications.Features.Main
             _queueManager = queueManager;
         }
 
-        public Task<Unit> Handle(RetryQueueItem request) => _queueManager.Retry(request.Id).Void();
+        public Task Handle(RetryQueueItem request) => _queueManager.Retry(request.Id).Void();
     }
 }

@@ -19,7 +19,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public AccessInfo Info { get; }
     }
 
-    public class LoginHandler : DbCommandBase, IAsyncVoidCommandHandler<Login>
+    public class LoginHandler : DbCommandBase, IAsyncRequestHandler<Login>
     {
         private readonly ITokenRefresher _tokenRefresher;
 
@@ -27,12 +27,12 @@ namespace withSIX.Mini.Applications.Features.Main
             _tokenRefresher = tokenRefresher;
         }
 
-        public async Task<Unit> Handle(Login request) {
+        public async Task Handle(Login request) {
             await
                 _tokenRefresher.HandleLogin(request.Info, await SettingsContext.GetSettings().ConfigureAwait(false))
                     .Void()
                     .ConfigureAwait(false);
-            return Unit.Value;
+            
         }
     }
 }

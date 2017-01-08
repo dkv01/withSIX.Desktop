@@ -23,7 +23,7 @@ namespace withSIX.Mini.Applications.Features.Main
     }
 
 
-    public class WhiteListFoldersHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<WhiteListFolders>
+    public class WhiteListFoldersHandler : ApiDbCommandBase, IAsyncRequestHandler<WhiteListFolders>
     {
         private readonly IFolderHandler _folderHandler;
 
@@ -32,7 +32,7 @@ namespace withSIX.Mini.Applications.Features.Main
             _folderHandler = folderHandler;
         }
 
-        public Task<Unit> Handle(WhiteListFolders request) {
+        public Task Handle(WhiteListFolders request) {
             foreach (var f in request.Folders.Select(x => x.ToAbsoluteDirectoryPath()))
                 _folderHandler.WhiteListFolder(f);
             //await Store(request);

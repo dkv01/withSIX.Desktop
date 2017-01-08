@@ -68,8 +68,8 @@ namespace withSIX.Mini.Applications.Features.Main.Games
                 .ToArray(), CancelToken) {Name = Name, Href = GetHref(game)};
 
 
-        public class UninstallInstalledItemHandler : DbCommandBase, IAsyncVoidCommandHandler<UninstallContent>,
-            IAsyncVoidCommandHandler<UninstallContents>
+        public class UninstallInstalledItemHandler : DbCommandBase, IAsyncRequestHandler<UninstallContent>,
+            IAsyncRequestHandler<UninstallContents>
         {
             readonly IContentInstallationService _contentInstallation;
 
@@ -79,19 +79,19 @@ namespace withSIX.Mini.Applications.Features.Main.Games
             }
 
             // TODO: LocalContent doesnt need a spec??
-            public async Task<Unit> Handle(UninstallContent request) {
+            public async Task Handle(UninstallContent request) {
                 var game =
                     await
                         GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
                 await game.Uninstall(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-                return Unit.Value;
+                
             }
 
             // TODO: LocalContent doesnt need a spec??
-            public async Task<Unit> Handle(UninstallContents request) {
+            public async Task Handle(UninstallContents request) {
                 var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
                 await game.Uninstall(_contentInstallation, request.GetAction(game)).ConfigureAwait(false);
-                return Unit.Value;
+                
             }
         }
     }
