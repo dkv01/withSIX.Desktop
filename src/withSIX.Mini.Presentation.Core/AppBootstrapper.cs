@@ -43,7 +43,6 @@ using withSIX.Mini.Applications.Services;
 using withSIX.Mini.Applications.Services.Infra;
 using withSIX.Mini.Core;
 using withSIX.Mini.Core.Games;
-using withSIX.Mini.Core.Games.Services;
 using withSIX.Mini.Core.Games.Services.ContentInstaller;
 using withSIX.Mini.Infra.Data.Services;
 using withSIX.Mini.Presentation.Core.Commands;
@@ -58,50 +57,87 @@ using withSIX.Sync.Core.Transfer;
 using withSIX.Sync.Core.Transfer.MirrorSelectors;
 using withSIX.Sync.Core.Transfer.Protocols;
 using withSIX.Sync.Core.Transfer.Protocols.Handlers;
-using withSIX.Mini.Presentation.Core;
 
 namespace withSIX.Mini.Presentation.Core
 {
+    public static class BootstrapperExt
+    {
+        public static IEnumerable<Assembly> GetAssemblies(this IEnumerable<Type> types)
+            => types.Select(x => x.GetTypeInfo().Assembly).Distinct();
+    }
+
     public abstract class AppBootstrapper : IDisposable
     {
-        public IAbsoluteDirectoryPath RootPath { get; set; }
-        static readonly IAbsoluteDirectoryPath assemblyPath =
-            CommonBase.AssemblyLoader.GetNetEntryPath();
         // = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
-        static readonly Assembly[] coreAssemblies = new[] {
-            typeof(Game).GetTypeInfo().Assembly, typeof(IDomainService).GetTypeInfo().Assembly,
-            typeof(Tools).GetTypeInfo().Assembly, typeof(Package).GetTypeInfo().Assembly,
-            typeof(IContentEngine).GetTypeInfo().Assembly
-        }.Distinct().ToArray();
-        static readonly Assembly[] infraAssemblies = new[] {
-            typeof(SteamServiceSession).GetTypeInfo().Assembly,
-            typeof(GameContext).GetTypeInfo().Assembly,
-            typeof(ImageCacheManager).GetTypeInfo().Assembly,
-            typeof(IContentEngineGameContext).GetTypeInfo().Assembly
-        }.Distinct().ToArray();
-        static readonly Assembly[] globalPresentationAssemblies = new[] {
-            typeof(AppBootstrapper).GetTypeInfo().Assembly,
-            typeof(IPresentationService).GetTypeInfo().Assembly
-        }.Distinct().ToArray();
-        static readonly Assembly[] globalApplicationAssemblies = new[] {
-            typeof(GameSettingsApiModel).GetTypeInfo().Assembly,
-            typeof(IDialogManager).GetTypeInfo().Assembly
-        }.Distinct().ToArray();
-        private Assembly[] pluginAssemblies;
-        private Assembly[] platformAssemblies;
-        private Assembly[] _applicationAssemblies;
+        static readonly IAbsoluteDirectoryPath assemblyPath = CommonBase.AssemblyLoader.GetNetEntryPath();
+        private static readonly Assembly[] coreAssemblies = GetCoreTypes().GetAssemblies().ToArray();
+        private static readonly Assembly[] infraAssemblies = GetInfraTypes().GetAssemblies().ToArray();
+        private static readonly Assembly[] globalPresentationAssemblies =
+            GetGlobalPresentationTypes().GetAssemblies().ToArray();
+        static readonly Assembly[] globalApplicationAssemblies = GetGlobalAppTypes().GetAssemblies().ToArray();
         private readonly string[] _args;
-        Paths _paths;
-        private Assembly[] _presentationAssemblies;
         protected readonly Container Container;
+        private Assembly[] _applicationAssemblies;
         TaskPoolScheduler _cacheScheduler;
         IEnumerable<IInitializer> _initializers;
         private Func<bool> _isPremium;
+        Paths _paths;
+        private Assembly[] _platformAssemblies;
+        private Assembly[] _pluginAssemblies;
+        private Assembly[] _presentationAssemblies;
+
+        protected AppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) {
+            RootPath = rootPath;
+            _args = args;
+            Container = new Container();
+        }
+
+        public IAbsoluteDirectoryPath RootPath { get; set; }
+
+        protected virtual IEnumerable<Assembly> GetInfraAssemblies
+            =>
+                new[] {AssemblyLoadFrom(RootPath.GetChildFileWithName("withSIX.Mini.Presentation.Owin.Core.dll"))}
+                    .Concat(
+                        infraAssemblies);
+
+        public bool CommandMode { get; set; }
+
+        private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        static IEnumerable<Type> GetCoreTypes() {
+            yield return typeof(Game);
+            yield return typeof(IDomainService);
+            yield return typeof(Tools);
+            yield return typeof(Package);
+            yield return typeof(IContentEngine);
+        }
+
+        static IEnumerable<Type> GetInfraTypes() {
+            yield return typeof(SteamServiceSession);
+            yield return typeof(GameContext);
+            yield return typeof(ImageCacheManager);
+            yield return typeof(IContentEngineGameContext);
+        }
+
+        static IEnumerable<Type> GetGlobalPresentationTypes() {
+            yield return typeof(AppBootstrapper);
+            yield return typeof(IPresentationService);
+        }
+
+        static IEnumerable<Type> GetGlobalAppTypes() {
+            yield return typeof(GameSettingsApiModel);
+            yield return typeof(IDialogManager);
+        }
 
 
         public virtual void Configure() {
-            pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
-            platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
+            _pluginAssemblies = DiscoverAndLoadPlugins().Distinct().ToArray();
+            _platformAssemblies = DiscoverAndLoadPlatform().Distinct().ToArray();
 
             CommandMode = DetermineCommandMode();
 
@@ -119,27 +155,7 @@ namespace withSIX.Mini.Presentation.Core
             UserErrorHandling.Setup();
         }
 
-        protected virtual IEnumerable<Assembly> GetInfraAssemblies
-            =>
-            new[] {AssemblyLoadFrom(RootPath.GetChildFileWithName("withSIX.Mini.Presentation.Owin.Core.dll"))}.Concat(
-                infraAssemblies);
-
-        protected AppBootstrapper(string[] args, IAbsoluteDirectoryPath rootPath) {
-            RootPath = rootPath;
-            _args = args;
-            Container = new Container();
-        }
-
         protected abstract void LowInitializer();
-
-        public bool CommandMode { get; set; }
-
-        private BackgroundTasks BackgroundTasks { get; } = new BackgroundTasks();
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
         protected virtual IEnumerable<Assembly> GetApplicationAssemblies() => globalApplicationAssemblies;
 
@@ -246,7 +262,7 @@ namespace withSIX.Mini.Presentation.Core
                 // TODO: call from node?
                 var task = TaskExt.StartLongRunningTask(
                     () =>
-                            new SIHandler().HandleSingleInstanceCall(Common.Flags.FullStartupParameters.ToList()));
+                        new SIHandler().HandleSingleInstanceCall(Common.Flags.FullStartupParameters.ToList()));
             } catch (SQLiteException ex) {
                 MainLog.Logger.FormattedErrorException(ex, "A problem was found with a database");
                 var message =
@@ -288,14 +304,15 @@ namespace withSIX.Mini.Presentation.Core
         }
 
         private static async Task SetupApiPort(Settings settings, ISettingsStorage settingsStorage, IProcessManager pm) {
-            if (Cheat.Args.Port.HasValue && (settings.Local.ApiPort != Cheat.Args.Port)) {
+            if (Cheat.Args.Port.HasValue && settings.Local.ApiPort != Cheat.Args.Port) {
                 settings.Local.ApiPort = Cheat.Args.Port;
                 await settingsStorage.SaveChanges().ConfigureAwait(false);
             }
             Consts.ApiPort = settings.ApiPort;
             var pi = new PortsInfo(pm, Consts.HttpAddress, Consts.HttpsAddress, Consts.CertThumb);
             if (!pi.IsCertRegistered)
-                await WindowsApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm).ConfigureAwait(false);
+                await WindowsApiPortHandler.SetupApiPort(Consts.HttpAddress, Consts.HttpsAddress, pm)
+                    .ConfigureAwait(false);
         }
 
         private void TryHandleFirefoxInBackground()
@@ -353,7 +370,7 @@ namespace withSIX.Mini.Presentation.Core
                 RegisterPlugins<BaseCommand>(_presentationAssemblies);
 
             var serviceReg = new ServiceRegisterer(Container);
-            foreach (var t in GetTypes<ServiceRegistry>(pluginAssemblies))
+            foreach (var t in GetTypes<ServiceRegistry>(_pluginAssemblies))
                 Activator.CreateInstance(t, serviceReg);
 
             Container.Register<IInstallerSession, InstallerSession>();
@@ -362,13 +379,15 @@ namespace withSIX.Mini.Presentation.Core
         public static void RegisterApi(Container c, Func<Task<string>> authGetter) {
             c.RegisterSingleton(W6Api.Create(authGetter));
             c.RegisterSingleton(W6Api.Create());
-            c.RegisterSingleton<IW6Api>(() => new W6Api(c.GetInstance<IW6MainApi>(), c.GetInstance<IW6CDNApi>(), W6Api.CreatePolicy()));
+            c.RegisterSingleton<IW6Api>(
+                () => new W6Api(c.GetInstance<IW6MainApi>(), c.GetInstance<IW6CDNApi>(), W6Api.CreatePolicy()));
         }
 
 
         protected abstract IEnumerable<Type> GetTypes<T>(IEnumerable<Assembly> assemblies);
 
-        protected abstract void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null) where T : class;
+        protected abstract void RegisterPlugins<T>(IEnumerable<Assembly> assemblies, Lifestyle style = null)
+            where T : class;
 
         protected abstract void ConfigureContainer();
 
@@ -406,31 +425,9 @@ namespace withSIX.Mini.Presentation.Core
             Container.RegisterSingleton<ISecureCache>(
                 () =>
                     new SecureCache(_paths.RoamingDataPath.GetChildFileWithName("secure-cache.db").ToString(),
-                        Common.IsWindows ? (IEncryptionProvider)new WindowsEncryptionProvider() : new NotWindowsEncryptionProvider(), _cacheScheduler));
-        }
-
-        // Until https://github.com/aarnott/pclcrypto
-        // https://github.com/akavache/Akavache/issues/190
-        public class NotWindowsEncryptionProvider : IEncryptionProvider
-        {
-            public IObservable<byte[]> EncryptBlock(byte[] block) {
-                return Observable.Return(Encoding.UTF8.GetBytes(Convert.ToBase64String(block)));
-            }
-
-            public IObservable<byte[]> DecryptBlock(byte[] block) {
-                return Observable.Return(Convert.FromBase64String(Encoding.UTF8.GetString(block)));
-            }
-        }
-
-        public class WindowsEncryptionProvider : IEncryptionProvider
-        {
-            public IObservable<byte[]> EncryptBlock(byte[] block) {
-                return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
-            }
-
-            public IObservable<byte[]> DecryptBlock(byte[] block) {
-                return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
-            }
+                        Common.IsWindows
+                            ? (IEncryptionProvider) new WindowsEncryptionProvider()
+                            : new NotWindowsEncryptionProvider(), _cacheScheduler));
         }
 
 
@@ -447,16 +444,16 @@ namespace withSIX.Mini.Presentation.Core
 
         protected virtual IEnumerable<Assembly> GetPresentationAssemblies()
             =>
-            pluginAssemblies.Concat(platformAssemblies)
-                .Concat(
-                    assemblyPath.DirectoryInfo.GetFiles("withSIX.Core.Presentation.Bridge.dll")
-                        .Select(x => x.FullName)
-                        .Select(AssemblyLoadFrom))
-                .Concat(globalPresentationAssemblies);
+                _pluginAssemblies.Concat(_platformAssemblies)
+                    .Concat(
+                        assemblyPath.DirectoryInfo.GetFiles("withSIX.Core.Presentation.Bridge.dll")
+                            .Select(x => x.FullName)
+                            .Select(AssemblyLoadFrom))
+                    .Concat(globalPresentationAssemblies);
 
         protected virtual void RegisterServices() {
             RegisterRegisteredServices();
-            Container.RegisterValidation(GetApplicationAssemblies().Concat(pluginAssemblies));
+            Container.RegisterValidation(GetApplicationAssemblies().Concat(_pluginAssemblies));
 
             RegisterPlugins<INotificationProvider>(_presentationAssemblies, Lifestyle.Singleton);
             var assemblies = GetAllAssemblies().ToArray();
@@ -493,7 +490,7 @@ namespace withSIX.Mini.Presentation.Core
 
 
         protected IEnumerable<Assembly> GetAllAssemblies() => new[] {
-                pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
+                _pluginAssemblies, globalPresentationAssemblies, GetInfraAssemblies, _applicationAssemblies,
                 coreAssemblies
             }
             .SelectMany(x => x).Distinct();
@@ -501,9 +498,9 @@ namespace withSIX.Mini.Presentation.Core
         protected abstract void RegisterMessageBus();
 
         void RegisterRegisteredServices() {
-            RegisterSingleAllInterfaces<IDomainService>(pluginAssemblies.Concat(coreAssemblies));
-            RegisterSingleAllInterfaces<IApplicationService>(pluginAssemblies.Concat(_applicationAssemblies));
-            RegisterSingleAllInterfaces<IInfrastructureService>(pluginAssemblies.Concat(GetInfraAssemblies));
+            RegisterSingleAllInterfaces<IDomainService>(_pluginAssemblies.Concat(coreAssemblies));
+            RegisterSingleAllInterfaces<IApplicationService>(_pluginAssemblies.Concat(_applicationAssemblies));
+            RegisterSingleAllInterfaces<IInfrastructureService>(_pluginAssemblies.Concat(GetInfraAssemblies));
             RegisterSingleAllInterfaces<IPresentationService>(_presentationAssemblies);
             RegisterAllInterfaces<ITransientService>(_presentationAssemblies);
         }
@@ -729,6 +726,30 @@ namespace withSIX.Mini.Presentation.Core
                     dialogManager.MessageBox(new MessageBoxDialogParams("Settings imported succesfully", "Success"))
                         .ConfigureAwait(false);
                 await scope.SaveChangesAsync().ConfigureAwait(false);
+            }
+        }
+
+        // Until https://github.com/aarnott/pclcrypto
+        // https://github.com/akavache/Akavache/issues/190
+        public class NotWindowsEncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(Encoding.UTF8.GetBytes(Convert.ToBase64String(block)));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(Convert.FromBase64String(Encoding.UTF8.GetString(block)));
+            }
+        }
+
+        public class WindowsEncryptionProvider : IEncryptionProvider
+        {
+            public IObservable<byte[]> EncryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Protect(block, null, DataProtectionScope.CurrentUser));
+            }
+
+            public IObservable<byte[]> DecryptBlock(byte[] block) {
+                return Observable.Return(ProtectedData.Unprotect(block, null, DataProtectionScope.CurrentUser));
             }
         }
 
