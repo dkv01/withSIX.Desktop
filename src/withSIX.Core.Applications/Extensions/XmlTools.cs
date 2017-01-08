@@ -5,8 +5,8 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using NDepend.Path;
+using System.Xml.Serialization;
 
 namespace withSIX.Core.Applications.Extensions
 {
