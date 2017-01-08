@@ -57,9 +57,9 @@ namespace withSIX.Core.Presentation
             This.RegisterRequestHandlers(assemblies, typeof(IAsyncRequestHandler<,>),
                 typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
             This.RegisterNotificationHandlers(assemblies, typeof(INotificationHandler<>),
-                typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>));
+                typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>), 
+                typeof(IPipelineBehavior<,>));
         }
-
 
         static void RegisterRequestHandlers(this Container This, IReadOnlyCollection<Assembly> assemblies, params Type[] types) {
             foreach (var h in types) {

@@ -304,6 +304,7 @@ namespace withSIX.Core.Presentation.Legacy
             void RegisterRequestHandlers() {
                 var requestHandlers = new[] {
                     typeof(IAsyncRequestHandler<,>),
+                    typeof(ICancellableAsyncRequestHandler<,>),
                     typeof(IRequestHandler<,>)
                 };
 
@@ -315,7 +316,8 @@ namespace withSIX.Core.Presentation.Legacy
                 var notificationHandlers = new[] {
                     typeof(INotificationHandler<>),
                     typeof(IAsyncNotificationHandler<>),
-                    typeof(ICancellableAsyncNotificationHandler<>)
+                    typeof(ICancellableAsyncNotificationHandler<>),
+                    typeof(IPipelineBehavior<,>)
                 };
 
                 foreach (var h in notificationHandlers) {

@@ -143,7 +143,8 @@ namespace withSIX.Mini.Presentation.CoreHost
         readonly Type[] _notificationHandlers = {
             typeof(INotificationHandler<>),
             typeof(IAsyncNotificationHandler<>),
-            typeof(ICancellableAsyncNotificationHandler<>)
+            typeof(ICancellableAsyncNotificationHandler<>),
+            typeof(IPipelineBehavior<,>)
         };
         readonly Lifestyle lifestyle = Lifestyle.Transient;
 
