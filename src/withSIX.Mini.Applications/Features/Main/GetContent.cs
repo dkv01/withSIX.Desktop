@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetContent : IAsyncQuery<ClientContentInfo2>, IHaveId<Guid>
+    public class GetContent : IQuery<ClientContentInfo2>, IHaveId<Guid>
     {
         public GetContent(Guid id) {
             Id = id;

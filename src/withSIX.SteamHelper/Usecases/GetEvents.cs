@@ -9,7 +9,7 @@ using withSIX.Core.Helpers;
 namespace withSIX.Steam.Presentation.Usecases
 {
     [Obsolete("Replace with S-IR/WebSockets")]
-    public class GetEvents : IAsyncQuery<EventsModel>
+    public class GetEvents : IQuery<EventsModel>
     {
     }
 

@@ -16,7 +16,7 @@ namespace withSIX.Mini.Applications.Features.Main
         UpdateDownloaded
     }
 
-    public class UpdateAvailable : IAsyncVoidCommand
+    public class UpdateAvailable : IVoidCommand
     {
         public UpdateAvailable(UpdateState state, string version) {
             State = state;
@@ -27,7 +27,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public string Version { get; }
     }
 
-    public class PerformUpdate : IAsyncVoidCommand {}
+    public class PerformUpdate : IVoidCommand {}
 
     public interface IUpdateHandler
     {

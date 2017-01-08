@@ -14,7 +14,7 @@ using withSIX.Mini.Applications.Services.Infra;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class ResolveUserError : IAsyncVoidCommand
+    public class ResolveUserError : IVoidCommand
     {
         public ResolveUserError(Guid id, string result) {
             Id = id;

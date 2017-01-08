@@ -18,7 +18,7 @@ using withSIX.Mini.Core.Games.Attributes;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetState : IAsyncQuery<ClientContentInfo>, IHaveId<Guid>
+    public class GetState : IQuery<ClientContentInfo>, IHaveId<Guid>
     {
         public GetState(Guid id) {
             Id = id;

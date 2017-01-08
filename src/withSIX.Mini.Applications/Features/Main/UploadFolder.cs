@@ -43,7 +43,7 @@ client.prepareFolder()
     // - Once completed, signal the API for processing, the website can signal this??
     //   - Create synq package, update api etc.
     [ApiUserAction]
-    public class UploadFolder : IAsyncCommand<Guid>, IHaveGameId, IExcludeGameWriteLock
+    public class UploadFolder : ICommand<Guid>, IHaveGameId, IExcludeGameWriteLock
     {
         public UploadFolder(string folder, Guid userId, Guid gameId, Guid contentId) {
             Folder = folder;

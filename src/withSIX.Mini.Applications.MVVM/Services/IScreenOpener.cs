@@ -24,14 +24,14 @@ namespace withSIX.Mini.Applications.MVVM.Services
     {
         static readonly IDictionary<Type, IScreenViewModel> cached = new Dictionary<Type, IScreenViewModel>();
 
-        public static async Task<T> OpenAsyncQuery<T>(this IScreenOpener opener, IAsyncQuery<T> query, CancellationToken cancelToken = default(CancellationToken))
+        public static async Task<T> OpenAsyncQuery<T>(this IScreenOpener opener, IQuery<T> query, CancellationToken cancelToken = default(CancellationToken))
             where T : class, IScreenViewModel {
             var viewModel = await opener.SendAsync(query, cancelToken).ConfigureAwait(false);
             await opener.OpenAsync(viewModel).ConfigureAwait(false);
             return viewModel;
         }
 
-        public static async Task<T> OpenAsyncQueryCached<T>(this IScreenOpener opener, IAsyncQuery<T> query)
+        public static async Task<T> OpenAsyncQueryCached<T>(this IScreenOpener opener, IQuery<T> query)
             where T : class, IScreenViewModel {
             var t = typeof(T);
             if (cached.ContainsKey(t)) {

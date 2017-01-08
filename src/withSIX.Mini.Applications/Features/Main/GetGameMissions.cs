@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetGameMissions : GetContentBase, IAsyncQuery<MissionsApiModel>
+    public class GetGameMissions : GetContentBase, IQuery<MissionsApiModel>
     {
         public GetGameMissions(Guid id, int page = 1) : base(id, page) {}
     }

@@ -25,7 +25,7 @@ using withSIX.Steam.Api.Helpers;
 
 namespace withSIX.Steam.Presentation.Usecases
 {
-    public class GetServers : Core.Requests.GetServers, IAsyncQuery<BatchResult>, IHaveFilter {}
+    public class GetServers : Core.Requests.GetServers, IQuery<BatchResult>, IHaveFilter {}
 
     public static class Cheat
     {

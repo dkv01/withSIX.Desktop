@@ -207,7 +207,7 @@ namespace withSIX.Mini.Presentation.Electron
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
-        Task<object> VoidCommand<T>(object requestData) where T : IAsyncVoidCommand
+        Task<object> VoidCommand<T>(object requestData) where T : IVoidCommand
             => Request<T>(requestData).VoidObject();
 
         async Task<object> Request<T, T2>(object requestData) where T : IRequest<T2> {

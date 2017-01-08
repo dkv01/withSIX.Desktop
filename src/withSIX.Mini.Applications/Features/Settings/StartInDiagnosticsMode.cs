@@ -12,7 +12,7 @@ using withSIX.Core.Applications.Services;
 
 namespace withSIX.Mini.Applications.Features.Settings
 {
-    public class SaveLogs : IAsyncVoidCommand {}
+    public class SaveLogs : IVoidCommand {}
 
     public class SaveLogsHandler : IAsyncRequestHandler<SaveLogs>
     {
@@ -33,7 +33,7 @@ namespace withSIX.Mini.Applications.Features.Settings
         }
     }
 
-    public class StartInDiagnosticsMode : IAsyncVoidCommand {}
+    public class StartInDiagnosticsMode : IVoidCommand {}
 
     public class StartInDiagnosticsModeHandler : IAsyncRequestHandler<StartInDiagnosticsMode>
     {

@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using MediatR;
 
 namespace withSIX.Core.Applications.Services
@@ -13,9 +12,9 @@ namespace withSIX.Core.Applications.Services
 
     public interface IWrite {}
 
-    public interface IAsyncQuery<out T> : IRead, IRequest<T> {}
+    public interface IQuery<out T> : IRead, IRequest<T> {}
 
-    public interface IAsyncCommand<out T> : IWrite, IRequest<T> {}
+    public interface ICommand<out T> : IWrite, IRequest<T> {}
 
-    public interface IAsyncVoidCommand : IWrite, IRequest {}
+    public interface IVoidCommand : IWrite, IRequest {}
 }

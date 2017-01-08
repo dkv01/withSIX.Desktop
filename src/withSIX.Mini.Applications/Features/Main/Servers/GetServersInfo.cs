@@ -16,7 +16,7 @@ using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Applications.Features.Main.Servers
 {
-    public class GetServersInfo : IAsyncQuery<ServersInfo>
+    public class GetServersInfo : IQuery<ServersInfo>
     {
         public GetServersInfo(GetServerQuery info) {
             Info = info;

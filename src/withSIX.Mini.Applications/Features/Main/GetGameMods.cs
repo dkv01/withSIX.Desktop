@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetGameMods : GetContentBase, IAsyncQuery<ModsApiModel>
+    public class GetGameMods : GetContentBase, IQuery<ModsApiModel>
     {
         public GetGameMods(Guid id, int page = 1) : base(id, page) {}
     }

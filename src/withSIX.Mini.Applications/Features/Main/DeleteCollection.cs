@@ -15,7 +15,7 @@ using withSIX.Mini.Core.Games;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class DeleteCollection : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId
+    public class DeleteCollection : IVoidCommand, IHaveId<Guid>, IHaveGameId
     {
         public DeleteCollection(Guid gameId, Guid id) {
             GameId = gameId;

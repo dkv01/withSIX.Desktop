@@ -22,20 +22,20 @@ using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class ExternalDownloadStarted : IAsyncCommand<Guid>
+    public class ExternalDownloadStarted : ICommand<Guid>
     {
         public Uri Referrer { get; set; }
         public uint Id { get; set; }
     }
 
-    public class ExternalDownloadProgressing : IAsyncVoidCommand
+    public class ExternalDownloadProgressing : IVoidCommand
     {
         public uint Id { get; set; }
         public uint BytesReceived { get; set; }
         public uint TotalBytes { get; set; }
     }
 
-    public abstract class AddExternalMod : IAsyncVoidCommand, IHaveGameId, IHaveContentPublisher, IHaveRequestName
+    public abstract class AddExternalMod : IVoidCommand, IHaveGameId, IHaveContentPublisher, IHaveRequestName
     {
         readonly Regex cf = new Regex(@"https?://community.playstarbound.com/resources/([^/]+)\.(\d+)");
         readonly Regex nexus = new Regex(@"https?://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
@@ -124,7 +124,7 @@ namespace withSIX.Mini.Applications.Features.Main
             };
         }
 
-        public IAsyncVoidCommandBase GetNextAction()
+        public IVoidCommandBase GetNextAction()
             => new LaunchContent(GameId, Content);
     }
 

@@ -16,7 +16,7 @@ using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetHome : IAsyncQuery<HomeApiModel> {}
+    public class GetHome : IQuery<HomeApiModel> {}
 
     public class GetHomeHandler : DbQueryBase, IAsyncRequestHandler<GetHome, HomeApiModel>
     {

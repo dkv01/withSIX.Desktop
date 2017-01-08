@@ -15,7 +15,7 @@ using withSIX.Mini.Core.Games;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [Obsolete("No longer used")]
-    public class SyncCollections : IAsyncVoidCommand, IHaveGameId
+    public class SyncCollections : IVoidCommand, IHaveGameId
     {
         public SyncCollections(Guid gameId, List<ContentGuidSpec> contents) {
             GameId = gameId;

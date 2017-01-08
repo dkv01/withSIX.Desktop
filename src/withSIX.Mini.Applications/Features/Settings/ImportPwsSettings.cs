@@ -11,7 +11,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Settings
 {
-    public class ImportPwsSettings : IAsyncVoidCommand {}
+    public class ImportPwsSettings : IVoidCommand {}
 
     public class ImportPwsSettingsHandler : DbCommandBase, IAsyncRequestHandler<ImportPwsSettings>
     {

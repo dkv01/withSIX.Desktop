@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class RetryQueueItem : IAsyncVoidCommand
+    public class RetryQueueItem : IVoidCommand
     {
         public RetryQueueItem(Guid id) {
             Id = id;

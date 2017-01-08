@@ -10,7 +10,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetQueue : IAsyncQuery<QueueInfo> {}
+    public class GetQueue : IQuery<QueueInfo> {}
 
     public class GetQueueHandler : DbRequestBase, IAsyncRequestHandler<GetQueue, QueueInfo>
     {

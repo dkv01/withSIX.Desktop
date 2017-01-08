@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Services.Infra;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class BrowseFolder : IAsyncQuery<string>
+    public class BrowseFolder : IQuery<string>
     {
         public BrowseFolder(FolderDialogOptions options) {
             Options = options;

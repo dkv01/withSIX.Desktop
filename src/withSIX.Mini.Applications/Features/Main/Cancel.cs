@@ -15,7 +15,7 @@ using withSIX.Mini.Core.Games.Services.ContentInstaller;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class Pause : RequestBase, IAsyncVoidCommandBase, IHaveId<Guid>
+    public class Pause : RequestBase, IVoidCommandBase, IHaveId<Guid>
     {
         public Pause(Guid id) {
             Id = id;
@@ -25,7 +25,7 @@ namespace withSIX.Mini.Applications.Features.Main
     }
 
     [ApiUserAction]
-    public class CancelAll : RequestBase, IAsyncVoidCommandBase {}
+    public class CancelAll : RequestBase, IVoidCommandBase {}
 
     public class AbortCommandHandler : IAsyncRequestHandler<Pause>, IAsyncRequestHandler<CancelAll>
     {

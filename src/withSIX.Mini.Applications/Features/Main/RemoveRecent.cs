@@ -15,7 +15,7 @@ using withSIX.Mini.Core.Games;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class RemoveRecent : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId
+    public class RemoveRecent : IVoidCommand, IHaveId<Guid>, IHaveGameId
     {
         public RemoveRecent(Guid gameId, Guid id) {
             GameId = gameId;
@@ -28,7 +28,7 @@ namespace withSIX.Mini.Applications.Features.Main
     }
 
     [ApiUserAction]
-    public class ClearRecent : IAsyncVoidCommand, IHaveId<Guid>
+    public class ClearRecent : IVoidCommand, IHaveId<Guid>
     {
         public ClearRecent(Guid id) {
             Id = id;

@@ -10,7 +10,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetGeneralSettings : IAsyncQuery<GeneralSettings> {}
+    public class GetGeneralSettings : IQuery<GeneralSettings> {}
 
     public class GetGeneralSettingsHandler : DbQueryBase, IAsyncRequestHandler<GetGeneralSettings, GeneralSettings>
     {

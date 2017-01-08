@@ -31,7 +31,7 @@ namespace withSIX.Mini.Applications.Features.Main
     {
         public static async Task<T2> NotifyAction<T, T2>(this T request, Func<Task<T2>> action, string text = null,
             Uri href = null)
-            where T : IHaveGameId, IAsyncVoidCommandBase {
+            where T : IHaveGameId, IVoidCommandBase {
             Contract.Requires<ArgumentNullException>(request != null);
             Contract.Requires<ArgumentNullException>(action != null);
             var r = await request.PerformAction(action, text, href).ConfigureAwait(false);
@@ -40,7 +40,7 @@ namespace withSIX.Mini.Applications.Features.Main
         }
 
         private static Task HandleSuccessAction<T>(this T request, string text, Uri href)
-            where T : IHaveGameId, IAsyncVoidCommandBase {
+            where T : IHaveGameId, IVoidCommandBase {
             var info = request.GetInfo();
             var ov = request as IOverrideNotificationTitle;
             var endTitle = ov?.ActionTitleOverride?.GetPastFromVerb() ?? info.Past;
@@ -52,7 +52,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public static async Task<T2> PerformAction<T, T2>(this T request, Func<Task<T2>> action, string text,
             Uri href = null)
-            where T : IHaveGameId, IAsyncVoidCommandBase {
+            where T : IHaveGameId, IVoidCommandBase {
             var info = request.GetInfo();
             var ov = request as IOverrideNotificationTitle;
             var startTitle = ov?.ActionTitleOverride?.GetActingFromVerb() ?? info.Acting;
@@ -78,7 +78,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         private static async Task HandleAsPaused<T>(T request, string text, Uri href,
             NotifyingActionOverrideAttribute info,
-            Tuple<NextActionInfo, IAsyncVoidCommandBase> abortAction) where T : IHaveGameId, IAsyncVoidCommandBase {
+            Tuple<NextActionInfo, IVoidCommandBase> abortAction) where T : IHaveGameId, IVoidCommandBase {
             var nextAction = CreateNextActionFromRequest(request, text, href, "Continue");
             await
                 request.FromRequest($"{info.Noun} {abortAction.Item1.Title.GetPastFromVerb()}", text,
@@ -88,7 +88,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         private static async Task HandleAsFailed<T>(T request, string text, Uri href,
             NotifyingActionOverrideAttribute info)
-            where T : IHaveGameId, IAsyncVoidCommandBase {
+            where T : IHaveGameId, IVoidCommandBase {
             var nextAction = CreateNextActionFromRequest(request, text, href, "Retry");
             await
                 request.FromRequest($"{info.Noun} {"Fail".GetPastFromVerb()}", text, nextAction.Item1.Href,
@@ -104,15 +104,15 @@ namespace withSIX.Mini.Applications.Features.Main
             (ApiUserActionAttribute)
             successAction.GetType().GetTypeInfo().GetCustomAttribute(typeof(ApiUserActionAttribute));
 
-        private static Tuple<NextActionInfo, IAsyncVoidCommandBase> CreateNextActionFromRequest<T>(this T request,
+        private static Tuple<NextActionInfo, IVoidCommandBase> CreateNextActionFromRequest<T>(this T request,
             string text = null, Uri href = null,
-            string nameOverride = null) where T : IAsyncVoidCommandBase =>
+            string nameOverride = null) where T : IVoidCommandBase =>
             Tuple.Create(
                 new NextActionInfo(nameOverride ?? request.GetActionName(), text) {
                     RequestId = request.RequestId,
                     Href = href
                 },
-                (IAsyncVoidCommandBase) request);
+                (IVoidCommandBase) request);
 
         private static NotifyingActionOverrideAttribute GetInfo<T>(this T request) where T : IRequestBase
         => (NotifyingActionOverrideAttribute)
@@ -120,7 +120,7 @@ namespace withSIX.Mini.Applications.Features.Main
            new NotifyingActionOverrideAttribute(GetActionName(request));
 
         private static ActionNotification FromRequest<T>(this T request, string title, string text, Uri href = null,
-            ActionType type = ActionType.Start, Tuple<NextActionInfo, IAsyncVoidCommandBase> nextAction = null)
+            ActionType type = ActionType.Start, Tuple<NextActionInfo, IVoidCommandBase> nextAction = null)
             where T : IHaveGameId, IHaveClientId, IHaveRequestId
         =>
             new ActionNotification(request.GameId, title, text, request.ClientId, request.RequestId) {
@@ -166,7 +166,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public ActionType Type { get; set; }
         public NextActionInfo NextActionInfo { get; set; }
         [JsonIgnore]
-        public IAsyncVoidCommandBase NextAction { get; set; }
+        public IVoidCommandBase NextAction { get; set; }
         public Uri Href { get; set; }
         public bool DesktopNotification { get; set; } = true;
     }

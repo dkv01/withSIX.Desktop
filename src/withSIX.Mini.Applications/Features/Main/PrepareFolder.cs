@@ -14,7 +14,7 @@ using withSIX.Mini.Applications.Services.Infra;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class PrepareFolder : IAsyncCommand<string> {}
+    public class PrepareFolder : ICommand<string> {}
 
     public class PrepareFolderHandler : DbCommandBase, IAsyncRequestHandler<PrepareFolder, string>
     {

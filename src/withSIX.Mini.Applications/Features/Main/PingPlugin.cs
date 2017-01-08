@@ -19,7 +19,7 @@ namespace withSIX.Mini.Applications.Features.Main
         Edge = 4
     }
 
-    public class PingPlugin : IAsyncVoidCommand
+    public class PingPlugin : IVoidCommand
     {
         public PingPlugin(Browser browser) {
             Browser = browser;

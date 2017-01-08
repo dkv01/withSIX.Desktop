@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetGameHome : IAsyncQuery<GameHomeApiModel>, IHaveId<Guid>
+    public class GetGameHome : IQuery<GameHomeApiModel>, IHaveId<Guid>
     {
         public GetGameHome(Guid id) {
             Id = id;

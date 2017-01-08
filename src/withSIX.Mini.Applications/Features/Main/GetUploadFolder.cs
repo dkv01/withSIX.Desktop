@@ -14,7 +14,7 @@ using withSIX.Mini.Applications.Services.Infra;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction]
-    public class GetUploadFolder : IAsyncQuery<IAbsoluteDirectoryPath>
+    public class GetUploadFolder : IQuery<IAbsoluteDirectoryPath>
     {
         public GetUploadFolder(Guid contentId) {
             ContentId = contentId;

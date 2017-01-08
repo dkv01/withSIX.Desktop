@@ -19,7 +19,7 @@ namespace withSIX.Mini.Applications.Features
     // TODO: Get ClientId and RequestId from somewhere
     public interface IRequestBase : IHaveClientId, IHaveRequestId {}
 
-    public interface IAsyncVoidCommandBase : IRequestBase, IAsyncVoidCommand {}
+    public interface IVoidCommandBase : IRequestBase, IVoidCommand {}
 
     public interface INeedGameContents : IHaveGameId {}
 
@@ -46,10 +46,10 @@ namespace withSIX.Mini.Applications.Features
 
     public interface IHaveNexAction
     {
-        IAsyncVoidCommandBase GetNextAction();
+        IVoidCommandBase GetNextAction();
     }
 
-    public interface INotifyAction : IAsyncVoidCommandBase, IHandleAction, IHaveGameId, INeedGameContents {}
+    public interface INotifyAction : IVoidCommandBase, IHandleAction, IHaveGameId, INeedGameContents {}
 
     public interface ICancellable
     {

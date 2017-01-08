@@ -10,7 +10,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class Login : IAsyncVoidCommand
+    public class Login : IVoidCommand
     {
         public Login(AccessInfo info) {
             Info = info;

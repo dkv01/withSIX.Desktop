@@ -12,7 +12,7 @@ using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetFolders : IAsyncQuery<List<FolderInfo>>
+    public class GetFolders : IQuery<List<FolderInfo>>
     {
         public GetFolders(List<string> folders) {
             Folders = folders;

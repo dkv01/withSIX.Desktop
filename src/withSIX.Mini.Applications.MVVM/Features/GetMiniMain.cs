@@ -14,7 +14,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.MVVM.Features
 {
-    public class GetMiniMain : IAsyncQuery<IMiniMainWindowViewModel> {}
+    public class GetMiniMain : IQuery<IMiniMainWindowViewModel> {}
 
     public class GetMiniMainHandler : DbQueryBase, IAsyncRequestHandler<GetMiniMain, IMiniMainWindowViewModel>
     {

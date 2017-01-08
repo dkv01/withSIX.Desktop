@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetGameSettings : IAsyncQuery<GameSettings>, IHaveId<Guid>
+    public class GetGameSettings : IQuery<GameSettings>, IHaveId<Guid>
     {
         public GetGameSettings(Guid id) {
             Id = id;

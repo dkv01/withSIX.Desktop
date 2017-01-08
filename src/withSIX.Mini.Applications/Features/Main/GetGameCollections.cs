@@ -26,7 +26,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
-    public class GetGameCollections : GetContentBase, IAsyncQuery<CollectionsApiModel>
+    public class GetGameCollections : GetContentBase, IQuery<CollectionsApiModel>
     {
         public GetGameCollections(Guid id, int page = 1) : base(id, page) {}
     }

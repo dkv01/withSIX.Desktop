@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetGames : IAsyncQuery<GamesApiModel> {}
+    public class GetGames : IQuery<GamesApiModel> {}
 
     public class GetGamesHandler : DbQueryBase, IAsyncRequestHandler<GetGames, GamesApiModel>
     {

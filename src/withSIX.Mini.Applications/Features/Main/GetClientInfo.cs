@@ -9,7 +9,7 @@ using withSIX.Mini.Applications.Services;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class GetClientInfo : IAsyncQuery<ClientInfo> {}
+    public class GetClientInfo : IQuery<ClientInfo> {}
 
     public class GetClientInfoHandler : IAsyncRequestHandler<GetClientInfo, ClientInfo>
     {

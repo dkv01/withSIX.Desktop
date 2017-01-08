@@ -9,7 +9,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class SetLogin : IAsyncVoidCommand
+    public class SetLogin : IVoidCommand
     {
         public SetLogin(string apiKey) {
             ApiKey = apiKey;
