@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using ReactiveUI;
@@ -103,7 +104,7 @@ namespace withSIX.Mini.Infra.Api
             }
         }
 
-        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid actionId) {
+        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid actionId, CancellationToken ct) {
             var action = Current?.NextAction;
             if (action == null)
                 throw new ValidationException("There was no next action available");
@@ -112,7 +113,7 @@ namespace withSIX.Mini.Infra.Api
                 throw new ValidationException("This action is no longer a valid action");
             Current.NextAction = null;
             Current.NextActionInfo = null;
-            return dispatcher(action);
+            return dispatcher(action, ct);
         }
 
         public async Task AddUserError(UserErrorModel2 error) {

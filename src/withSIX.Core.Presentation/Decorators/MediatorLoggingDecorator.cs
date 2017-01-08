@@ -22,36 +22,27 @@ namespace withSIX.Core.Presentation.Decorators
 
         public MediatorLoggingDecorator(IMediator decorated) : base(decorated) {}
 
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
-            Contract.Requires<ArgumentNullException>(request != null);
-            using (
-                Decorated.Bench(
-                    startMessage:
-                    "Writes: " + (request is IWrite) + ", Data: " +
-                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
-                    caller: "Request" + ": " + request.GetType()))
-                return base.Send(request);
-        }
-
-        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request,
+            CancellationToken cancelToken = default(CancellationToken)) {
             Contract.Requires<ArgumentNullException>(request != null);
             using (Decorated.Bench(
                 startMessage:
                 "Writes: " + (request is IWrite) + ", Data: " +
                 JsonConvert.SerializeObject(request, JsonSerializerSettings),
                 caller: "RequestAsync" + ": " + request.GetType()))
-                return await base.SendAsync(request).ConfigureAwait(false);
+                return await base.Send(request, cancelToken).ConfigureAwait(false);
         }
 
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) {
+        public override async Task Send(IRequest request,
+            CancellationToken cancelToken = default(CancellationToken))
+        {
             Contract.Requires<ArgumentNullException>(request != null);
             using (Decorated.Bench(
                 startMessage:
                 "Writes: " + (request is IWrite) + ", Data: " +
                 JsonConvert.SerializeObject(request, JsonSerializerSettings),
                 caller: "RequestAsync" + ": " + request.GetType()))
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                await base.Send(request, cancelToken).ConfigureAwait(false);
         }
 
         static JsonSerializerSettings CreateJsonSerializerSettings() {

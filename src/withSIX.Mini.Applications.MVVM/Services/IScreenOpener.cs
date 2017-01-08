@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
 using withSIX.Core.Applications.Services;
@@ -23,9 +24,9 @@ namespace withSIX.Mini.Applications.MVVM.Services
     {
         static readonly IDictionary<Type, IScreenViewModel> cached = new Dictionary<Type, IScreenViewModel>();
 
-        public static async Task<T> OpenAsyncQuery<T>(this IScreenOpener opener, IAsyncQuery<T> query)
+        public static async Task<T> OpenAsyncQuery<T>(this IScreenOpener opener, IAsyncQuery<T> query, CancellationToken cancelToken = default(CancellationToken))
             where T : class, IScreenViewModel {
-            var viewModel = await opener.SendAsync(query).ConfigureAwait(false);
+            var viewModel = await opener.SendAsync(query, cancelToken).ConfigureAwait(false);
             await opener.OpenAsync(viewModel).ConfigureAwait(false);
             return viewModel;
         }

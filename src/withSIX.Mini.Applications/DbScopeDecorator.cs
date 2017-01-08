@@ -20,28 +20,12 @@ namespace withSIX.Mini.Applications
             _factory = factory;
         }
 
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
-            using (var scope = _factory.Create()) {
-                TResponseData v;
-                try {
-                    v = base.Send(request);
-                } catch (OperationCanceledException) {
-                    // we still want to save on cancelling..
-                    if (request is IWrite)
-                        scope.SaveChanges();
-                    throw;
-                }
-                if (request is IWrite)
-                    scope.SaveChanges();
-                return v;
-            }
-        }
-
-        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request,
+            CancellationToken cancelToken = default(CancellationToken)) {
             using (var scope = _factory.Create()) {
                 TResponseData r;
                 try {
-                    r = await base.SendAsync(request).ConfigureAwait(false);
+                    r = await base.Send(request, cancelToken).ConfigureAwait(false);
                 } catch (OperationCanceledException) {
                     // we still want to save on cancelling..
                     if (request is IWrite)
@@ -54,12 +38,10 @@ namespace withSIX.Mini.Applications
             }
         }
 
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) {
+        public override async Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken)) {
             using (var scope = _factory.Create()) {
-                TResponse r;
                 try {
-                    r = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                    await base.Send(request, cancelToken).ConfigureAwait(false);
                 } catch (OperationCanceledException) {
                     // we still want to save on cancelling..
                     if (request is IWrite)
@@ -68,7 +50,6 @@ namespace withSIX.Mini.Applications
                 }
                 if (request is IWrite)
                     await scope.SaveChangesAsync().ConfigureAwait(false);
-                return r;
             }
         }
     }

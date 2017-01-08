@@ -206,10 +206,10 @@ namespace withSIX.Mini.Presentation.Electron
         private Task<object> HandleSingleInstanceCall(SICall parameters)
             => new SIHandler().HandleSingleInstanceCall(parameters.pars);
 
-        Task<object> VoidCommand<T>(object requestData) where T : IAsyncRequest<Unit>
-        => Request<T, Unit>(requestData);
+        Task<object> VoidCommand<T>(object requestData) where T : IRequest<Unit>
+            => Request<T, Unit>(requestData);
 
-        async Task<object> Request<T, T2>(object requestData) where T : IAsyncRequest<T2> {
+        async Task<object> Request<T, T2>(object requestData) where T : IRequest<T2> {
             var request = Unpack<T>(requestData);
             //Console.WriteLine("Calling {0}, with data: {1}, as request: {2}. MEdiator: {3}", typeof(T), data, request, Cheat.Mediator);
             return

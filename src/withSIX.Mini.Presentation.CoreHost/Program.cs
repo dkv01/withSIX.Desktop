@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NDepend.Path;
@@ -57,7 +58,7 @@ namespace withSIX.Mini.Presentation.CoreHost
             return TaskExt.Default;
         }
 
-        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId) {
+        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId, CancellationToken cancelToken) {
             throw new NotImplementedException();
         }
 

@@ -76,7 +76,7 @@ namespace withSIX.Mini.Presentation.Core
             return Guid.TryParse(input, out output) ? output : ShortGuid.Parse(input);
         }
 
-        private Task<TResponse> RequestAsyncExecutor<TResponse>(IAsyncRequest<TResponse> request)
+        private Task<TResponse> RequestAsyncExecutor<TResponse>(IRequest<TResponse> request)
             => _executor.ApiAction(() => this.SendAsync(request), request, CreateException);
 
         private Exception CreateException(string s, Exception exception) => new UnhandledUserException(s, exception);

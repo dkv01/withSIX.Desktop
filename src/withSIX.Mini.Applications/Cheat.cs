@@ -29,28 +29,23 @@ namespace withSIX.Mini.Applications
             _stateHandler = stateHandler;
         }
 
-        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId)
-            => _stateHandler.DispatchNextAction(dispatcher, requestId);
+        public Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId)
+            => _stateHandler.DispatchNextAction(dispatcher, requestId, CancellationToken.None);
 
-        public TResponseData Send<TResponseData>(IRequest<TResponseData> request) => _mediator.Send(request);
+        public Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken))
+            => _mediator.Send(request, cancelToken);
 
-        public Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
-            => _mediator.SendAsync(request);
+        public Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken))
+            => _mediator.Send(request, cancelToken);
 
-        public Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) => _mediator.SendAsync(request, cancellationToken);
-
-        public void Publish(INotification notification) => _mediator.Publish(notification);
-
-        public Task PublishAsync(IAsyncNotification notification) => _mediator.PublishAsync(notification);
-
-        public Task PublishAsync(ICancellableAsyncNotification notification, CancellationToken cancellationToken)
-            => _mediator.PublishAsync(notification, cancellationToken);
+        public Task Publish<TNotification>(TNotification notification,
+            CancellationToken cancelToken = default(CancellationToken)) where TNotification : INotification
+            => _mediator.Publish(notification, cancelToken);
     }
 
     public interface IActionDispatcher : IMediator
     {
-        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId);
+        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId);
     }
 
     public class ArgsO

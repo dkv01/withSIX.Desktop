@@ -31,31 +31,32 @@ namespace withSIX.Core.Applications.Extensions
         /// <param name="request"></param>
         /// <returns></returns>
         public static Task<TResponseData> RequestAsyncWrapped<TResponseData>(this IMediator mediator,
-            IAsyncRequest<TResponseData> request) {
+            IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken)) {
             Contract.Requires<ArgumentNullException>(request != null);
             Contract.Requires<ArgumentNullException>(mediator != null);
-            return Task.Run(() => mediator.SendAsync(request));
+            return Task.Run(() => mediator.Send(request, cancelToken), cancelToken);
         }
 
-        public static Task<TResponseData> RequestAsync<TResponseData>(this IMediator mediator,
-            ICompositeCommand<TResponseData> message) {
+        public static Task<TResponseData> Execute<TResponseData>(this IRequest<TResponseData> message,
+            IMediator mediator, CancellationToken cancelToken = default(CancellationToken)) {
             Contract.Requires<ArgumentNullException>(message != null);
             Contract.Requires<ArgumentNullException>(mediator != null);
-            return message.Execute(mediator);
+            return mediator.Send(message, cancelToken);
         }
 
-        public static Task<TResponseData> Execute<TResponseData>(this IAsyncRequest<TResponseData> message,
-            IMediator mediator) {
-            Contract.Requires<ArgumentNullException>(message != null);
+
+        public static Task RequestAsyncWrapped(this IMediator mediator,
+            IRequest request, CancellationToken cancelToken = default(CancellationToken)) {
+            Contract.Requires<ArgumentNullException>(request != null);
             Contract.Requires<ArgumentNullException>(mediator != null);
-            return mediator.SendAsync(message);
+            return Task.Run(() => mediator.Send(request, cancelToken), cancelToken);
         }
 
-        public static Task<TResponseData> Execute<TResponseData>(this ICancellableAsyncRequest<TResponseData> message,
-            IMediator mediator, CancellationToken cancelToken) {
+        public static Task Execute(this IRequest message,
+            IMediator mediator, CancellationToken cancelToken = default(CancellationToken)) {
             Contract.Requires<ArgumentNullException>(message != null);
             Contract.Requires<ArgumentNullException>(mediator != null);
-            return mediator.SendAsync(message, cancelToken);
+            return mediator.Send(message, cancelToken);
         }
     }
 }

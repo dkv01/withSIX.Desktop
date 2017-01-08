@@ -19,7 +19,7 @@ using withSIX.Mini.Core.Games.Services.GameLauncher;
 
 namespace withSIX.Mini.Applications.Features.Main.Servers
 {
-    public class GetServerAddresses : ICancellableQuery<BatchResult>
+    public class GetServerAddresses : IQuery<BatchResult>
     {
         public GetServerAddresses(GetServersQuery info) {
             Info = info;

@@ -213,7 +213,7 @@ namespace withSIX.Mini.Applications.Features.Main
         }
 
         private static Task<Unit> SendWrite(AddExternalModRead request)
-            => Cheat.Mediator.SendAsync(new AddExternalModWrite(request.FileName, request.Referrer));
+            => Cheat.Mediator.Send(new AddExternalModWrite(request.FileName, request.Referrer));
 
         public class ExternalDownloadState
         {

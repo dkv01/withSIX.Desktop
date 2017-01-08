@@ -2,7 +2,7 @@
   "supports": {},
   "dependencies": {
     "JetBrains.Annotations": "10.2.1",
-    "MediatR": "2.1.0",
+    "MediatR": "3.0.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "Microsoft.Win32.Registry": "4.3.0",
     "NETStandard.Library": "1.6.1",

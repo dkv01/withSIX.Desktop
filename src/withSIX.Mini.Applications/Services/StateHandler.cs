@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
@@ -43,7 +44,7 @@ namespace withSIX.Mini.Applications.Services
         ClientInfo ClientInfo { get; }
         Guid SelectedGameId { get; set; }
         Task Initialize();
-        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, Task<Unit>> dispatcher, Guid requestId);
+        Task<Unit> DispatchNextAction(Func<IAsyncVoidCommand, CancellationToken, Task<Unit>> dispatcher, Guid requestId, CancellationToken ct);
         Task ResolveError(Guid id, string result, Dictionary<string, object> data);
         Task AddUserError(UserErrorModel2 error);
         Task StartUpdating();

@@ -13,7 +13,7 @@ namespace withSIX.Core.Applications.Extensions
     }
 
     public class DispatchCommand<T> : IDispatchCommand
-        where T : IAsyncRequest<Unit>
+        where T : IRequest<Unit>
     {
         readonly T _command;
 
@@ -21,6 +21,6 @@ namespace withSIX.Core.Applications.Extensions
             _command = command;
         }
 
-        public Task Dispatch(IMediator mediator) => mediator.SendAsync(_command);
+        public Task Dispatch(IMediator mediator) => mediator.Send(_command);
     }
 }

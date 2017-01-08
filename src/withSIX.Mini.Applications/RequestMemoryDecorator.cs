@@ -14,26 +14,17 @@ namespace withSIX.Mini.Applications
     {
         public RequestMemoryDecorator(IMediator target) : base(target) {}
 
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+        public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken)) {
             try {
-                return base.Send(request);
+                return await base.Send(request, cancelToken).ConfigureAwait(false);
             } finally {
                 Collect();
             }
         }
 
-        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public override async Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken)) {
             try {
-                return await base.SendAsync(request).ConfigureAwait(false);
-            } finally {
-                Collect();
-            }
-        }
-
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) {
-            try {
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                await base.Send(request, cancelToken).ConfigureAwait(false);
             } finally {
                 Collect();
             }

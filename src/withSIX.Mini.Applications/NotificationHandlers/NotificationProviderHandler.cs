@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using withSIX.Core.Applications.Services;
@@ -52,7 +53,7 @@ namespace withSIX.Mini.Applications.NotificationHandlers
             if (notification.NextAction != null) {
                 actions.Add(new TrayAction {
                     DisplayName = notification.NextActionInfo.Title,
-                    Command = () => _stateHandler.DispatchNextAction(this.SendAsync, notification.NextAction.RequestId)
+                    Command = () => _stateHandler.DispatchNextAction((c, t) => this.SendAsync(c, t), notification.NextAction.RequestId, CancellationToken.None)
                 });
             }
             return actions;

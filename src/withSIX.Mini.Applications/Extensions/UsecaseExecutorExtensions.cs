@@ -14,17 +14,11 @@ namespace withSIX.Mini.Applications.Extensions
     public static class UsecaseExecutorExtensions
     {
         public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
-            ICompositeCommand<TResponseData> message) => message.ExecuteWrapped();
+            IRequest<TResponseData> message, CancellationToken cancelToken = default(CancellationToken)) => message.ExecuteWrapped(cancelToken);
 
-        public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
-            IAsyncRequest<TResponseData> message) => message.ExecuteWrapped();
-
-        public static Task<TResponseData> SendAsync<TResponseData>(this IUsecaseExecutor _,
-                ICancellableAsyncRequest<TResponseData> message, CancellationToken cancelToken)
-            => message.ExecuteWrapped(cancelToken);
-
-        public static Task<Unit> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId)
-            => Cheat.Mediator.DispatchNextAction(message => SendAsync(executor, message), requestId);
+        public static Task<Unit> DispatchNextAction(this IUsecaseExecutor executor, Guid requestId,
+            CancellationToken cancelToken = default(CancellationToken))
+            => Cheat.Mediator.DispatchNextAction((message, ct) => SendAsync(executor, message, cancelToken), requestId);
 
         /*
         public static Task<T> OpenScreenAsync<T>(this IUsecaseExecutor executor, IAsyncQuery<T> query) where T : class, IScreenViewModel

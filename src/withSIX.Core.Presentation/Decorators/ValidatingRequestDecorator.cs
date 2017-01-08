@@ -19,21 +19,15 @@ namespace withSIX.Core.Presentation.Decorators
 
         public MediatorValidationDecorator(IMediator decorated) : base(decorated) {}
 
-
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+        public override Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken)) {
             Validate(request);
-            return base.Send(request);
+            return base.Send(request, cancelToken);
         }
 
-        public override Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
+        public override Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken))
+        {
             Validate(request);
-            return base.SendAsync(request);
-        }
-
-        public override Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) {
-            Validate(request);
-            return base.SendAsync(request, cancellationToken);
+            return base.Send(request, cancelToken);
         }
 
         [DebuggerStepThrough]
@@ -92,7 +86,7 @@ namespace withSIX.Core.Presentation.Decorators
     }
 
     public class ValidationAsyncRequestHandler<TRequest, TResponse> : IAsyncRequestHandler<TRequest, TResponse>
-        where TRequest : IAsyncRequest<TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly IAsyncRequestHandler<TRequest, TResponse> _innerHander;
         private readonly IValidator<TRequest> _validator;
@@ -110,7 +104,7 @@ namespace withSIX.Core.Presentation.Decorators
     }
 
     public class ValidationCancellableAsyncRequestHandler<TRequest, TResponse> :
-        ICancellableAsyncRequestHandler<TRequest, TResponse> where TRequest : ICancellableAsyncRequest<TResponse>
+        ICancellableAsyncRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ICancellableAsyncRequestHandler<TRequest, TResponse> _innerHander;
         private readonly IValidator<TRequest> _validator;

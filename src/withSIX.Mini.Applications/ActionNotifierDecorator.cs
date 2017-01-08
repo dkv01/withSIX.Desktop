@@ -31,19 +31,13 @@ namespace withSIX.Mini.Applications
             _networkSyncer = networkSyncer;
         }
 
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request)
-            =>
-            Perform(request,
-                    () => TaskExt.StartLongRunningTask(() => base.Send(request)))
-                .WaitAndUnwrapException();
+        public override Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request,
+            CancellationToken cancelToken = default(CancellationToken))
+            => Perform(request, () => base.Send(request, cancelToken));
 
-        public override Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request)
-            => Perform(request, () => base.SendAsync(request));
-
-        public override Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-                CancellationToken cancellationToken)
-            => Perform(request, () => base.SendAsync(request, cancellationToken));
-
+        public override Task Send(IRequest request,
+            CancellationToken cancelToken = default(CancellationToken))
+            => Perform(request, () => base.Send(request, cancelToken).Void());
 
         private Task<TResponseData> Perform<TResponseData>(object request, Func<Task<TResponseData>> exec) {
             var act = request as INotifyAction;

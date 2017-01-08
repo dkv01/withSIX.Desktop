@@ -333,11 +333,13 @@ namespace withSIX.Core
         }
     }
 
-    public interface IDomainEvent {}
+    public interface IDomainEvent : INotification {}
 
-    public interface IAsyncDomainEvent : IDomainEvent, IAsyncNotification {}
+    [Obsolete("Merge")]
+    public interface IAsyncDomainEvent : IDomainEvent {}
 
-    public interface ISyncDomainEvent : IDomainEvent, INotification {}
+    [Obsolete("Merge")]
+    public interface ISyncDomainEvent : IDomainEvent {}
 
     public abstract class DomainEvent<T> : IDomainEvent
     {

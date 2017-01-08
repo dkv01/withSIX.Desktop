@@ -7,7 +7,7 @@
     "SharpCompress": "0.14.1",
     "SimpleInjector": "3.3.2",
     "SimpleInjector.Extensions.ExecutionContextScoping": "3.3.2",
-    "SQLitePCLRaw.bundle_e_sqlite3": "1.1.1",
+    "SQLitePCLRaw.bundle_e_sqlite3": "1.1.2",
     "System.Diagnostics.Contracts": "4.3.0",
     "System.Net.Http": "4.3.0",
     "System.Security.Cryptography.ProtectedData": "4.3.0",

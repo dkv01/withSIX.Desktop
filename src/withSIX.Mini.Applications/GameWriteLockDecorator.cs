@@ -2,11 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using withSIX.Api.Models.Extensions;
 using withSIX.Core.Applications.Extensions;
 using withSIX.Core.Applications.Services;
 using withSIX.Mini.Applications.Features;
@@ -23,41 +21,35 @@ namespace withSIX.Mini.Applications
             _gameLocker = gameLocker;
         }
 
-        public override TResponseData Send<TResponseData>(IRequest<TResponseData> request) {
+        public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken)) {
             if (!ShouldLock(request))
-                return Decorated.Send(request);
-            var gameId = (request as IHaveGameId).GameId;
-            return Handle(request, gameId).WaitAndUnwrapException();
-        }
-
-        public override async Task<TResponseData> SendAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
-            if (!ShouldLock(request))
-                return await base.SendAsync(request).ConfigureAwait(false);
+                return await base.Send(request, cancelToken).ConfigureAwait(false);
             var gameId = ((IHaveGameId) request).GameId;
             using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
                 HandleCTS(request, i.Token);
-                return await base.SendAsync(request).ConfigureAwait(false);
+                return await base.Send(request, cancelToken).ConfigureAwait(false);
             }
         }
 
-        [Obsolete("Canceltoken not used")]
-        public override async Task<TResponse> SendAsync<TResponse>(ICancellableAsyncRequest<TResponse> request,
-            CancellationToken cancellationToken) {
+        public override async Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken))
+        {
             if (!ShouldLock(request))
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            var gameId = ((IHaveGameId) request).GameId;
-            using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
+                await base.Send(request, cancelToken).ConfigureAwait(false);
+            var gameId = ((IHaveGameId)request).GameId;
+            using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false))
+            {
                 HandleCTS(request, i.Token);
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                await base.Send(request, cancelToken).ConfigureAwait(false);
             }
         }
 
+        /*
         private async Task<TResponseData> Handle<TResponseData>(IRequest<TResponseData> request, Guid gameId) {
             using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
                 HandleCTS(request, i.Token);
                 return Decorated.Send(request);
             }
-        }
+        }*/
 
         private void HandleCTS(object request, CancellationToken token) {
             var a = request as ICancellable;
