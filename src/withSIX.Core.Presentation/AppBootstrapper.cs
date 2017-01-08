@@ -39,14 +39,17 @@ namespace withSIX.Core.Presentation
             SQLitePCL.Batteries.Init();
         }
 
-        public static void RegisterValidation(this Container This, IEnumerable<Assembly> validationAssemblies) {
+        public static void RegisterValidation(this Container This, IEnumerable<Assembly> validationAssemblies)
+        {
             This.RegisterCollection(typeof(IValidator<>), validationAssemblies);
             This.Register(typeof(IValidator<>), typeof(CompositeValidator<>), Lifestyle.Singleton);
 
+            This.RegisterDecorator(typeof(IRequestHandler<>), typeof(ValidationRequestHandler<>));
             This.RegisterDecorator(typeof(IRequestHandler<,>), typeof(ValidationRequestHandler<,>));
             This.RegisterDecorator(typeof(IAsyncRequestHandler<,>), typeof(ValidationAsyncRequestHandler<,>));
-            This.RegisterDecorator(typeof(ICancellableAsyncRequestHandler<,>),
-                typeof(ValidationCancellableAsyncRequestHandler<,>));
+            This.RegisterDecorator(typeof(IAsyncRequestHandler<>), typeof(ValidationAsyncRequestHandler<>));
+            This.RegisterDecorator(typeof(ICancellableAsyncRequestHandler<,>), typeof(ValidationCancellableAsyncRequestHandler<,>));
+            This.RegisterDecorator(typeof(ICancellableAsyncRequestHandler<>), typeof(ValidationCancellableAsyncRequestHandler<>));
         }
 
         public static void RegisterMediator(this Container This, IReadOnlyCollection<Assembly> assemblies) {
@@ -59,6 +62,12 @@ namespace withSIX.Core.Presentation
             This.RegisterNotificationHandlers(assemblies, typeof(INotificationHandler<>),
                 typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>), 
                 typeof(IPipelineBehavior<,>));
+        }
+
+        public static void RegisterMediatorDecorators(this Container container) {
+            container.RegisterDecorator<IMediator, MediatorValidationDecorator>(Lifestyle.Singleton);
+            if (Common.AppCommon.Type < ReleaseType.Beta)
+                container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
         }
 
         static void RegisterRequestHandlers(this Container This, IReadOnlyCollection<Assembly> assemblies, params Type[] types) {
