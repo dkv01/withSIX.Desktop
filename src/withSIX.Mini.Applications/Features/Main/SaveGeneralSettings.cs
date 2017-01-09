@@ -10,7 +10,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class SaveGeneralSettings : IVoidCommand
+    public class SaveGeneralSettings : ICommand
     {
         public GeneralSettings Settings { get; set; }
     }

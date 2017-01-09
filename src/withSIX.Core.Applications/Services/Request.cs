@@ -16,5 +16,5 @@ namespace withSIX.Core.Applications.Services
 
     public interface ICommand<out T> : IWrite, IRequest<T> {}
 
-    public interface IVoidCommand : IWrite, IRequest {}
+    public interface ICommand : IWrite, IRequest {}
 }

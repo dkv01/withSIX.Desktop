@@ -10,7 +10,7 @@ using withSIX.Core.Applications.Services;
 
 namespace withSIX.Mini.Applications.Features
 {
-    public class OpenWebLink : IVoidCommand
+    public class OpenWebLink : ICommand
     {
         public OpenWebLink(ViewType type, string additional = null) {
             Type = type;
@@ -21,7 +21,7 @@ namespace withSIX.Mini.Applications.Features
         public ViewType Type { get; }
     }
 
-    public class OpenArbWebLink : IVoidCommand
+    public class OpenArbWebLink : ICommand
     {
         public OpenArbWebLink(Uri uri) {
             Uri = uri;

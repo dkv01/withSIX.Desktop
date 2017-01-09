@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class CancelQueueItem : IVoidCommand
+    public class CancelQueueItem : ICommand
     {
         public CancelQueueItem(Guid id) {
             Id = id;
@@ -21,7 +21,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public Guid Id { get; }
     }
 
-    public class CancelQueueItemByContentId : IVoidCommand
+    public class CancelQueueItemByContentId : ICommand
     {
         public CancelQueueItemByContentId(Guid contentId) {
             ContentId = contentId;

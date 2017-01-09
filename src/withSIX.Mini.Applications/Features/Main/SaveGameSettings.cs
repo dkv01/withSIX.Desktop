@@ -25,7 +25,7 @@ namespace withSIX.Mini.Applications.Features.Main
         }
     }
 
-    public class SaveGameSettings : IVoidCommand, IHaveId<Guid>, IHaveGameId
+    public class SaveGameSettings : ICommand, IHaveId<Guid>, IHaveGameId
     {
         public GameSettingsApiModel Settings { get; set; }
         public Guid GameId => Id;

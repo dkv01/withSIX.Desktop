@@ -13,7 +13,7 @@ using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Features.Main.Games
 {
-    public class SelectGame : IVoidCommand, IHaveId<Guid>, IHaveGameId, IExcludeGameWriteLock
+    public class SelectGame : ICommand, IHaveId<Guid>, IHaveGameId, IExcludeGameWriteLock
     {
         public SelectGame(Guid id) {
             Id = id;

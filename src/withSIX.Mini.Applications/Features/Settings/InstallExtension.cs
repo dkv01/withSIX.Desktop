@@ -13,9 +13,9 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Settings
 {
-    public class InstallExtension : IVoidCommand {}
+    public class InstallExtension : ICommand {}
 
-    public class RemoveExtension : IVoidCommand {}
+    public class RemoveExtension : ICommand {}
 
     public class ExtensionHandler : DbCommandBase, IAsyncRequestHandler<InstallExtension>,
         IAsyncRequestHandler<RemoveExtension>

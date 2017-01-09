@@ -28,14 +28,14 @@ namespace withSIX.Mini.Applications.Features.Main
         public uint Id { get; set; }
     }
 
-    public class ExternalDownloadProgressing : IVoidCommand
+    public class ExternalDownloadProgressing : ICommand
     {
         public uint Id { get; set; }
         public uint BytesReceived { get; set; }
         public uint TotalBytes { get; set; }
     }
 
-    public abstract class AddExternalMod : IVoidCommand, IHaveGameId, IHaveContentPublisher, IHaveRequestName
+    public abstract class AddExternalMod : ICommand, IHaveGameId, IHaveContentPublisher, IHaveRequestName
     {
         readonly Regex cf = new Regex(@"https?://community.playstarbound.com/resources/([^/]+)\.(\d+)");
         readonly Regex nexus = new Regex(@"https?://www.nexusmods.com/([^\/#]+)/mods/([^\/#]+)/");
@@ -124,7 +124,7 @@ namespace withSIX.Mini.Applications.Features.Main
             };
         }
 
-        public IVoidCommandBase GetNextAction()
+        public ICommandBase GetNextAction()
             => new LaunchContent(GameId, Content);
     }
 

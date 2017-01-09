@@ -28,7 +28,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public CancellationToken CancelToken { get; set; }
 
-        public IVoidCommandBase GetNextAction()
+        public ICommandBase GetNextAction()
             => new LaunchContent(GameId, Content) {Name = Name};
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
@@ -61,7 +61,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public CancellationToken CancelToken { get; set; }
 
-        public IVoidCommandBase GetNextAction()
+        public ICommandBase GetNextAction()
             => new LaunchContents(GameId, Contents) {Name = Name};
 
         IContentAction<IContent> IHandleAction.GetAction(Game game) => GetAction(game);
@@ -94,7 +94,7 @@ namespace withSIX.Mini.Applications.Features.Main
 
         public CancellationToken CancelToken { get; set; }
 
-        public IVoidCommandBase GetNextAction()
+        public ICommandBase GetNextAction()
             =>
                 new LaunchContents(GameId,
                     Contents.Select(

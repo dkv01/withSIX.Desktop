@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class RemoveQueueItem : IVoidCommand
+    public class RemoveQueueItem : ICommand
     {
         public RemoveQueueItem(Guid id) {
             Id = id;

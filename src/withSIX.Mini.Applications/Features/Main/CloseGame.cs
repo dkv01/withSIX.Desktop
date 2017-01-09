@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 namespace withSIX.Mini.Applications.Features.Main
 {
     [ApiUserAction("Close")]
-    public class CloseGame : RequestBase, IHaveId<Guid>, IVoidCommand
+    public class CloseGame : RequestBase, IHaveId<Guid>, ICommand
     {
         public CloseGame(Guid id) {
             Id = id;

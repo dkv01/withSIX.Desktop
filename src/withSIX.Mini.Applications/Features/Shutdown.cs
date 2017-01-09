@@ -10,7 +10,7 @@ using withSIX.Mini.Core.Games.Services.ContentInstaller;
 namespace withSIX.Mini.Applications.Features
 {
     // We don't want a DB scope+save
-    public class Shutdown : IVoidCommand, IExcludeGameWriteLock {}
+    public class Shutdown : ICommand, IExcludeGameWriteLock {}
 
     public class ShutdownCommandHandler : IAsyncRequestHandler<Shutdown>
     {

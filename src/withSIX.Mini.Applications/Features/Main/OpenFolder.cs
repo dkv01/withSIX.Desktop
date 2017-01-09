@@ -15,7 +15,7 @@ using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class OpenFolder : IVoidCommand, IExcludeGameWriteLock, IHaveGameId
+    public class OpenFolder : ICommand, IExcludeGameWriteLock, IHaveGameId
     {
         public OpenFolder(Guid gameId, Guid? id = null, FolderType folderType = FolderType.Default) {
             GameId = gameId;

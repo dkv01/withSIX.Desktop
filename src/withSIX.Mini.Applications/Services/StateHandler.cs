@@ -44,7 +44,7 @@ namespace withSIX.Mini.Applications.Services
         Guid SelectedGameId { get; set; }
         Task Initialize();
 
-        Task DispatchNextAction(Func<IVoidCommand, CancellationToken, Task> dispatcher, Guid requestId,
+        Task DispatchNextAction(Func<ICommand, CancellationToken, Task> dispatcher, Guid requestId,
             CancellationToken ct);
 
         Task ResolveError(Guid id, string result, Dictionary<string, object> data);
@@ -62,7 +62,7 @@ namespace withSIX.Mini.Applications.Services
         public ActionType Type { get; set; }
         public NextActionInfo NextActionInfo { get; set; }
         [JsonIgnore]
-        public IVoidCommandBase NextAction { get; set; }
+        public ICommandBase NextAction { get; set; }
         public ChildActionState ChildAction { get; set; }
     }
 

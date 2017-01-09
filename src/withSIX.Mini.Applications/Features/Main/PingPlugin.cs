@@ -19,7 +19,7 @@ namespace withSIX.Mini.Applications.Features.Main
         Edge = 4
     }
 
-    public class PingPlugin : IVoidCommand
+    public class PingPlugin : ICommand
     {
         public PingPlugin(Browser browser) {
             Browser = browser;

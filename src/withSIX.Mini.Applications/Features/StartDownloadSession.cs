@@ -12,7 +12,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features
 {
-    public class StartDownloadSession : IVoidCommand, IExcludeGameWriteLock, IHaveId<Guid>
+    public class StartDownloadSession : ICommand, IExcludeGameWriteLock, IHaveId<Guid>
     {
         public StartDownloadSession(Guid id) {
             Id = id;

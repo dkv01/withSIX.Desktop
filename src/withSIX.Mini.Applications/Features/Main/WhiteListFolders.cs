@@ -13,7 +13,7 @@ using withSIX.Mini.Applications.Services.Infra;
 
 namespace withSIX.Mini.Applications.Features.Main
 {
-    public class WhiteListFolders : IVoidCommand
+    public class WhiteListFolders : ICommand
     {
         public WhiteListFolders(List<string> folders) {
             Folders = folders;
