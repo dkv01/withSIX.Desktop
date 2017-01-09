@@ -57,10 +57,17 @@ namespace withSIX.Core.Presentation
             This.RegisterSingleton(new MultiInstanceFactory(This.GetAllInstances));
             This.RegisterSingleton<IMediator, Mediator>();
 
-            This.RegisterRequestHandlers(assemblies, typeof(IAsyncRequestHandler<,>),
-                typeof(IRequestHandler<,>), typeof(ICancellableAsyncRequestHandler<,>));
-            This.RegisterNotificationHandlers(assemblies, typeof(INotificationHandler<>),
-                typeof(IAsyncNotificationHandler<>), typeof(ICancellableAsyncNotificationHandler<>), 
+            This.RegisterRequestHandlers(assemblies,
+                typeof(IAsyncRequestHandler<,>),
+                typeof(IAsyncRequestHandler<>),
+                typeof(IRequestHandler<,>),
+                typeof(IRequestHandler<>),
+                typeof(ICancellableAsyncRequestHandler<,>),
+                typeof(ICancellableAsyncRequestHandler<>));
+            This.RegisterNotificationHandlers(assemblies,
+                typeof(INotificationHandler<>),
+                typeof(IAsyncNotificationHandler<>),
+                typeof(ICancellableAsyncNotificationHandler<>),
                 typeof(IPipelineBehavior<,>));
         }
 

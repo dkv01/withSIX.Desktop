@@ -304,8 +304,11 @@ namespace withSIX.Core.Presentation.Legacy
             void RegisterRequestHandlers() {
                 var requestHandlers = new[] {
                     typeof(IAsyncRequestHandler<,>),
+                    typeof(IAsyncRequestHandler<>),
                     typeof(ICancellableAsyncRequestHandler<,>),
-                    typeof(IRequestHandler<,>)
+                    typeof(ICancellableAsyncRequestHandler<>),
+                    typeof(IRequestHandler<,>),
+                    typeof(IRequestHandler<>)
                 };
 
                 foreach (var h in requestHandlers)
