@@ -33,8 +33,10 @@ namespace withSIX.Mini.Applications
         }
 
         public override async Task Send(IRequest request, CancellationToken cancelToken = default(CancellationToken)) {
-            if (!ShouldLock(request))
+            if (!ShouldLock(request)) {
                 await base.Send(request, cancelToken).ConfigureAwait(false);
+                return;
+            }
             var gameId = ((IHaveGameId) request).GameId;
             using (var i = await _gameLocker.ConfirmLock(gameId, true).ConfigureAwait(false)) {
                 HandleCTS(request, i.Token);
