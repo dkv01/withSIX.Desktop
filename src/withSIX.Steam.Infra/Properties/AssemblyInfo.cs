@@ -29,4 +29,4 @@ using withSIX.Core;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion(BuildFlags.Version)]
 [assembly: AssemblyFileVersion(BuildFlags.Version)]
-[assembly: AssemblyInformationalVersion("1.1.2")]
+[assembly: AssemblyInformationalVersion("1.2.0")]
