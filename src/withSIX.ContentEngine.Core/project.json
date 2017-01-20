@@ -8,7 +8,7 @@
     "System.IO.FileSystem": "4.3.0",
     "System.IO.FileSystem.AccessControl": "4.3.0",
     "withSIX.Api.Models": "2.4.1",
-    "withSIX.Core": "1.1.1"
+    "withSIX.Core": "1.2.0"
   },
   "frameworks": {
     "netstandard1.3": {}
