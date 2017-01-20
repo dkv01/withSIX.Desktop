@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using withSIX.Core;
+using withSIX.Core.Extensions;
 using withSIX.Core.Helpers;
 using withSIX.Steam.Core.Requests;
 using withSIX.Steam.Core.Services;
@@ -61,8 +62,10 @@ namespace withSIX.Steam.Infra
                 .Select(x => x.Servers.Cast<T>().ToList())
                 .Do(pageAction)
                 .Subscribe()) {
-                var r = await _servers.Invoke<BatchResult>("GetServers", query, requestId).ConfigureAwait(false);
-                return r;
+                return
+                    await _servers.Invoke<BatchResult>("GetServers", query, requestId)
+                        .MakeCancellable(ct)
+                        .ConfigureAwait(false);
             }
         }
 
@@ -75,8 +78,10 @@ namespace withSIX.Steam.Infra
                 .Select(x => x.Servers)
                 .Do(pageAction)
                 .Subscribe()) {
-                var r = await _servers.Invoke<BatchResult>("GetServerAddresses", query, requestId).ConfigureAwait(false);
-                return r;
+                return
+                    await _servers.Invoke<BatchResult>("GetServerAddresses", query, requestId)
+                        .MakeCancellable(ct)
+                        .ConfigureAwait(false);
             }
         }
 

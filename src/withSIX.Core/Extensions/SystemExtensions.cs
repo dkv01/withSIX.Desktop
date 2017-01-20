@@ -33,6 +33,51 @@ namespace withSIX.Core.Extensions
 
         public static IEnumerable<Func<Task>> Create(params Func<Task>[] tasks) => tasks;
 
+        /// <summary>
+        /// Allow task to be cancellable, discard the result when cancelled.
+        /// This is a last resort method, incase a 3rd party component does not support cancellation out of the box
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="taskFunc"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public static Task<T> MakeCancellable<T>(this Func<Task<T>> taskFunc, CancellationToken ct) => taskFunc().MakeCancellable(ct);
+
+        /// <summary>
+        /// Allow task to be cancellable, discard the result when cancelled.
+        /// This is a last resort method, incase a 3rd party component does not support cancellation out of the box
+        /// </summary>
+        /// <param name="taskFunc"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public static Task MakeCancellable(this Func<Task> taskFunc, CancellationToken ct) => taskFunc().MakeCancellable(ct);
+
+        /// <summary>
+        /// Allow task to be cancellable, discard the result when cancelled.
+        /// This is a last resort method, incase a 3rd party component does not support cancellation out of the box
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public static async Task MakeCancellable(this Task t, CancellationToken ct) {
+            await Task.WhenAny(Task.Delay(-1, ct), t).ConfigureAwait(false);
+            ct.ThrowIfCancellationRequested();
+        }
+
+        /// <summary>
+        /// Allow task to be cancellable, discard the result when cancelled.
+        /// This is a last resort method, incase a 3rd party component does not support cancellation out of the box
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public static async Task<T> MakeCancellable<T>(this Task<T> t, CancellationToken ct) {
+            await Task.WhenAny(Task.Delay(-1, ct), t).ConfigureAwait(false);
+            ct.ThrowIfCancellationRequested();
+            return await t.ConfigureAwait(false);
+        }
+
         public static async Task<List<Exception>> Run(this IEnumerable<Func<Task>> content) {
             var errors = new List<Exception>();
             await content.RunInternal(errors.Add).ConfigureAwait(false);
