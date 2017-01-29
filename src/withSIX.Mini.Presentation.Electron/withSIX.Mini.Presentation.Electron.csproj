@@ -130,11 +130,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.6.4.0-beta3\lib\Net45\FluentValidation.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityModel, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.2.3.1\lib\net45\IdentityModel.dll</HintPath>
+    <Reference Include="IdentityModel, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.2.4.0\lib\net45\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
@@ -305,8 +304,8 @@
       <HintPath>..\packages\refit.3.0.1\lib\net46\Refit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpCompress, Version=0.14.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpCompress.0.14.1\lib\net45\SharpCompress.dll</HintPath>
+    <Reference Include="SharpCompress, Version=0.15.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.15.1\lib\net45\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
@@ -535,9 +534,8 @@
       <HintPath>..\packages\withSIX.Api.Models.2.4.1\lib\netstandard1.3\withSIX.Api.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YamlDotNet.4.0.0\lib\net35\YamlDotNet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.1.0\lib\net35\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "IdentityModel": "2.3.1",
+    "IdentityModel": "2.4.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
     "refit": "3.0.1",
