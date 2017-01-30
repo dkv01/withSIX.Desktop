@@ -38,9 +38,9 @@ namespace withSIX.Play.Infra.Api
 
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task,
             Func<AggregateException, Exception> exceptionTransformer, Action final) {
-            Contract.Requires<ArgumentNullException>(task != null);
-            Contract.Requires<ArgumentNullException>(exceptionTransformer != null);
-            Contract.Requires<ArgumentNullException>(final != null);
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (exceptionTransformer == null) throw new ArgumentNullException(nameof(exceptionTransformer));
+            if (final == null) throw new ArgumentNullException(nameof(final));
 
             var tcs = new TaskCompletionSource<TResult>();
             task.ContinueWith(t => {
@@ -56,8 +56,8 @@ namespace withSIX.Play.Infra.Api
 
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task,
             Func<AggregateException, Exception> exceptionTransformer) {
-            Contract.Requires<ArgumentNullException>(task != null);
-            Contract.Requires<ArgumentNullException>(exceptionTransformer != null);
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (exceptionTransformer == null) throw new ArgumentNullException(nameof(exceptionTransformer));
 
             var tcs = new TaskCompletionSource<TResult>();
             task.ContinueWith(t => HandleContinuation(exceptionTransformer, t, tcs),
@@ -81,17 +81,17 @@ namespace withSIX.Play.Infra.Api
 
 
         public static Task<TResult> SetContinuation<TResult>(this Task<TResult> task, Action final) {
-            Contract.Requires<ArgumentNullException>(task != null);
-            Contract.Requires<ArgumentNullException>(final != null);
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (final == null) throw new ArgumentNullException(nameof(final));
             return SetContinuation(task, defaultExceptionTransformer, final);
         }
 
 
         public static Task SetContinuation(this Task task, Func<AggregateException, Exception> exceptionTransformer,
             Action final) {
-            Contract.Requires<ArgumentNullException>(task != null);
-            Contract.Requires<ArgumentNullException>(exceptionTransformer != null);
-            Contract.Requires<ArgumentNullException>(final != null);
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (exceptionTransformer == null) throw new ArgumentNullException(nameof(exceptionTransformer));
+            if (final == null) throw new ArgumentNullException(nameof(final));
 
             var tcs = new TaskCompletionSource<Unit>();
             task.ContinueWith(t => {
@@ -106,8 +106,8 @@ namespace withSIX.Play.Infra.Api
 
 
         public static Task SetContinuation(this Task task, Func<AggregateException, Exception> exceptionTransformer) {
-            Contract.Requires<ArgumentNullException>(task != null);
-            Contract.Requires<ArgumentNullException>(exceptionTransformer != null);
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (exceptionTransformer == null) throw new ArgumentNullException(nameof(exceptionTransformer));
 
             var tcs = new TaskCompletionSource<Unit>();
             task.ContinueWith(t => HandleContinuation(exceptionTransformer, t, tcs),
@@ -131,8 +131,8 @@ namespace withSIX.Play.Infra.Api
 
 
         public static Task SetContinuation(this Task task, Action final) {
-            Contract.Requires<ArgumentNullException>(task != null);
-            Contract.Requires<ArgumentNullException>(final != null);
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (final == null) throw new ArgumentNullException(nameof(final));
             return SetContinuation(task, defaultExceptionTransformer, final);
         }
 

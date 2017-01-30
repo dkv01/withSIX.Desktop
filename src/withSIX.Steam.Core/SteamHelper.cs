@@ -177,7 +177,7 @@ namespace withSIX.Steam.Core
         protected SteamApp() {}
 
         public SteamApp(uint appId, IAbsoluteDirectoryPath installBase, KeyValue appConfig) {
-            Contract.Requires<ArgumentNullException>(installBase != null);
+            if (installBase == null) throw new ArgumentNullException(nameof(installBase));
             AppId = appId;
             InstallBase = installBase;
             AppConfig = appConfig;

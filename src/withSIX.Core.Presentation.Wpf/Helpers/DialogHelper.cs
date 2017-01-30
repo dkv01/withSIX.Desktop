@@ -124,14 +124,14 @@ namespace withSIX.Core.Presentation.Wpf.Helpers
             public static extern int GetDoubleClickTime();
 
             public static void RestoreWindow(Process process) {
-                Contract.Requires<ArgumentNullException>(process != null);
+                if (process == null) throw new ArgumentNullException(nameof(process));
 
                 Services.NativeMethods.ShowWindow(process.MainWindowHandle,
                     Services.NativeMethods.SW_RESTORE);
             }
 
             public static void RestoreWindow(Window window) {
-                Contract.Requires<ArgumentNullException>(window != null);
+                if (window == null) throw new ArgumentNullException(nameof(window));
                 Services.NativeMethods.ShowWindow(
                     (PresentationSource.FromVisual(window) as HwndSource).Handle,
                     Services.NativeMethods.SW_RESTORE);

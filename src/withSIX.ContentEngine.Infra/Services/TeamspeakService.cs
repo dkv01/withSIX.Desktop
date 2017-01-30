@@ -107,8 +107,8 @@ namespace withSIX.ContentEngine.Infra.Services
         bool InstallPluginFolder(IAbsoluteDirectoryPath tsPath, IContentEngineContent mod, string plugin, bool force) {
             Contract.Requires<ArgumentNullException>(tsPath.IsNotNullAndExists(),
                 "Unable to find the Teamspeak Install Directory");
-            Contract.Requires<ArgumentNullException>(mod != null, "Fatal Error Occured: Mod incorrectly registered");
-            Contract.Requires<ArgumentNullException>(plugin != null, "Fatal Error Occured: Plugin Path was not set");
+            if (mod == null) throw new ArgumentNullException(nameof(mod), "Fatal Error Occured: Mod incorrectly registered");
+            if (plugin == null) throw new ArgumentNullException(nameof(plugin), "Fatal Error Occured: Plugin Path was not set");
 
             if (!mod.IsInstalled || !mod.PathInternal.IsNotNullAndExists())
                 throw new InvalidOperationException("The mod is not installed");
@@ -123,8 +123,8 @@ namespace withSIX.ContentEngine.Infra.Services
         bool InstallPlugin(IAbsoluteDirectoryPath tsPath, IContentEngineContent mod, string plugin, bool force) {
             Contract.Requires<ArgumentNullException>(tsPath.IsNotNullAndExists(),
                 "Unable to find the Teamspeak Install Directory");
-            Contract.Requires<ArgumentNullException>(mod != null, "Fatal Error Occured: Mod incorrectly registered");
-            Contract.Requires<ArgumentNullException>(plugin != null, "Fatal Error Occured: Plugin Path was not set");
+            if (mod == null) throw new ArgumentNullException(nameof(mod), "Fatal Error Occured: Mod incorrectly registered");
+            if (plugin == null) throw new ArgumentNullException(nameof(plugin), "Fatal Error Occured: Plugin Path was not set");
 
             if (!mod.IsInstalled || !mod.PathInternal.IsNotNullAndExists())
                 throw new InvalidOperationException("The mod is not installed");
@@ -137,8 +137,8 @@ namespace withSIX.ContentEngine.Infra.Services
 
         static bool InstallDll(IAbsoluteFilePath pluginPath, IAbsoluteDirectoryPath tsPluginFolder,
             bool force = true) {
-            Contract.Requires<ArgumentNullException>(tsPluginFolder != null);
-            Contract.Requires<ArgumentNullException>(pluginPath != null);
+            if (tsPluginFolder == null) throw new ArgumentNullException(nameof(tsPluginFolder));
+            if (pluginPath == null) throw new ArgumentNullException(nameof(pluginPath));
 
             if (!pluginPath.IsNotNullAndExists())
                 throw new PathDoesntExistException(pluginPath.ToString());
@@ -166,8 +166,8 @@ namespace withSIX.ContentEngine.Infra.Services
         }
 
         static void InstallFolder(IAbsoluteDirectoryPath pluginPath, IAbsoluteDirectoryPath tsPluginFolder, bool force) {
-            Contract.Requires<ArgumentNullException>(tsPluginFolder != null);
-            Contract.Requires<ArgumentNullException>(pluginPath != null);
+            if (tsPluginFolder == null) throw new ArgumentNullException(nameof(tsPluginFolder));
+            if (pluginPath == null) throw new ArgumentNullException(nameof(pluginPath));
 
             if (!pluginPath.IsNotNullAndExists())
                 throw new PathDoesntExistException(pluginPath.ToString());

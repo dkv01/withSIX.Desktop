@@ -28,7 +28,7 @@ namespace withSIX.Core
 
 
             public string LoadTextFromFile(IAbsoluteFilePath path) {
-                Contract.Requires<ArgumentNullException>(path != null);
+                if (path == null) throw new ArgumentNullException(nameof(path));
 
                 var text = FileUtil.Ops.ReadTextFile(path);
                 return string.IsNullOrWhiteSpace(text)
@@ -37,7 +37,7 @@ namespace withSIX.Core
             }
 
             public async Task<string> LoadTextFromFileAsync(IAbsoluteFilePath path) {
-                Contract.Requires<ArgumentNullException>(path != null);
+                if (path == null) throw new ArgumentNullException(nameof(path));
 
                 var text = await FileUtil.Ops.ReadTextFileAsync(path).ConfigureAwait(false);
                 return string.IsNullOrWhiteSpace(text)
@@ -46,8 +46,8 @@ namespace withSIX.Core
             }
 
             public void SaveJsonToDiskThroughMemory(object graph, IAbsoluteFilePath filePath, bool pretty = false) {
-                Contract.Requires<ArgumentNullException>(graph != null);
-                Contract.Requires<ArgumentNullException>(filePath != null);
+                if (graph == null) throw new ArgumentNullException(nameof(graph));
+                if (filePath == null) throw new ArgumentNullException(nameof(filePath));
                 SaveJsonToDiskThroughMemory(graph, filePath, JsonSupport.DefaultSettings, pretty);
             }
 

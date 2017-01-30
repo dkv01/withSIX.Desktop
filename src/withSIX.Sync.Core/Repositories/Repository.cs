@@ -832,7 +832,7 @@ namespace withSIX.Sync.Core.Repositories
         public static T TryLoad<T>(IAbsoluteFilePath path) where T : class, new() => HandleLoadExceptions(Load<T>, path);
 
         static T Load<T>(IAbsoluteFilePath path) where T : class {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             var document = Tools.Serialization.Json.LoadTextFromFile(path);
             if (string.IsNullOrWhiteSpace(document))
                 throw new ConfigurationException("empty document " + path);
@@ -843,17 +843,17 @@ namespace withSIX.Sync.Core.Repositories
         }
 
         public static T TryLoad<TIn, T>(IAbsoluteFilePath path) where T : class, new() where TIn : class {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             return HandleLoadExceptions(Load<TIn, T>, path);
         }
 
         public static T Load<TIn, T>(IAbsoluteFilePath path) where TIn : class {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             return FromDto<T>(Load<TIn>(path));
         }
 
         public static TIn DeserializeJson<TIn>(string json) where TIn : class {
-            Contract.Requires<ArgumentNullException>(json != null);
+            if (json == null) throw new ArgumentNullException(nameof(json));
             return json.FromJson<TIn>(JsonSettings);
         }
 
@@ -1113,8 +1113,8 @@ namespace withSIX.Sync.Core.Repositories
             => Tools.Transfer.JoinPaths(BundlesDirectory, bundle + PackageFormat);
 
         public async Task<SpecificVersion> Yank(Dependency def, IAbsoluteDirectoryPath workDir) {
-            //  Contract.Requires<ArgumentNullException>(def != null);
-            //  Contract.Requires<ArgumentNullException>(workDir != null);
+            //  if (def == null) throw new ArgumentNullException(nameof(def));
+            //  if (workDir == null) throw new ArgumentNullException(nameof(workDir));
 
             var packages = GetPackages();
             var versions = packages[def.Name].ToList();
@@ -1137,9 +1137,9 @@ namespace withSIX.Sync.Core.Repositories
         }
 
         public async Task YankAndDeregister(Dependency def, IAbsoluteDirectoryPath workDir, IPublishingApi publishingApi) {
-            //            Contract.Requires<ArgumentNullException>(def != null);
-            //            Contract.Requires<ArgumentNullException>(workDir != null);
-            //            Contract.Requires<ArgumentNullException>(publishingApi != null);
+            //            if (def == null) throw new ArgumentNullException(nameof(def));
+            //            if (workDir == null) throw new ArgumentNullException(nameof(workDir));
+            //            if (publishingApi == null) throw new ArgumentNullException(nameof(publishingApi));
 
             var nextInline = await Yank(def, workDir).ConfigureAwait(false);
             await publishingApi.Deversion(nextInline).ConfigureAwait(false);
@@ -1147,19 +1147,19 @@ namespace withSIX.Sync.Core.Repositories
 
         public async Task ReversionAndRegister(Dependency dependency, string newVersion, IAbsoluteDirectoryPath workDir,
             IPublishingApi publishingApi) {
-            //            Contract.Requires<ArgumentNullException>(dependency != null);
-            //            Contract.Requires<ArgumentNullException>(newVersion != null);
-            //            Contract.Requires<ArgumentNullException>(workDir != null);
-            //            Contract.Requires<ArgumentNullException>(publishingApi != null);
+            //            if (dependency == null) throw new ArgumentNullException(nameof(dependency));
+            //            if (newVersion == null) throw new ArgumentNullException(nameof(newVersion));
+            //            if (workDir == null) throw new ArgumentNullException(nameof(workDir));
+            //            if (publishingApi == null) throw new ArgumentNullException(nameof(publishingApi));
 
             var package = await Reversion(dependency, workDir, newVersion).ConfigureAwait(false);
             await package.Register(publishingApi, null).ConfigureAwait(false);
         }
 
         public async Task<Package> Reversion(Dependency def, IAbsoluteDirectoryPath workDir, string newVersion) {
-            //            Contract.Requires<ArgumentNullException>(def != null);
-            //          Contract.Requires<ArgumentNullException>(newVersion != null);
-            //        Contract.Requires<ArgumentNullException>(workDir != null);
+            //            if (def == null) throw new ArgumentNullException(nameof(def));
+            //          if (newVersion == null) throw new ArgumentNullException(nameof(newVersion));
+            //        if (workDir == null) throw new ArgumentNullException(nameof(workDir));
 
             var packages = GetPackages();
             var versions = packages[def.Name].ToList();

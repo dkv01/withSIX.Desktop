@@ -42,8 +42,8 @@ namespace withSIX.Core
 
             public virtual void UnpackRetryUpdater(IAbsoluteFilePath sourceFile, IAbsoluteDirectoryPath outputFolder,
                 bool overwrite = false, bool fullPath = true) {
-                Contract.Requires<ArgumentNullException>(sourceFile != null);
-                Contract.Requires<ArgumentNullException>(outputFolder != null);
+                if (sourceFile == null) throw new ArgumentNullException(nameof(sourceFile));
+                if (outputFolder == null) throw new ArgumentNullException(nameof(outputFolder));
 
                 FileUtil.Ops.AddIORetryDialog(() => {
                     try {
@@ -62,8 +62,8 @@ namespace withSIX.Core
 
             public virtual void UnpackUpdater(IAbsoluteFilePath sourceFile, IAbsoluteDirectoryPath outputFolder,
                 bool overwrite = false, bool fullPath = true) {
-                Contract.Requires<ArgumentNullException>(sourceFile != null);
-                Contract.Requires<ArgumentNullException>(outputFolder != null);
+                if (sourceFile == null) throw new ArgumentNullException(nameof(sourceFile));
+                if (outputFolder == null) throw new ArgumentNullException(nameof(outputFolder));
 
                 Generic.RunUpdater(UpdaterCommands.Unpack, sourceFile.ToString(), outputFolder.ToString(),
                     overwrite ? "--overwrite" : null,

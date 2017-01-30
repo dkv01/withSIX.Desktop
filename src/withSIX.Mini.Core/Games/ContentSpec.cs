@@ -22,7 +22,7 @@ namespace withSIX.Mini.Core.Games
     public class ContentSpec<T> : IEquatable<ContentSpec<T>>, IContentSpec<T> where T : IContent
     {
         public ContentSpec(T content, string constraint = null) {
-            Contract.Requires<ArgumentNullException>(content != null);
+            if (content == null) throw new ArgumentNullException(nameof(content));
             Content = content;
             Constraint = constraint;
         }
@@ -146,7 +146,7 @@ namespace withSIX.Mini.Core.Games
     public abstract class ContentIdSpec<T> : IContentIdSpec<T>, IEquatable<ContentIdSpec<T>>
     {
         protected ContentIdSpec(T id, string constraint = null) {
-            Contract.Requires<ArgumentNullException>(id != null);
+            if (id == null) throw new ArgumentNullException(nameof(id));
             Id = id;
             Constraint = constraint;
         }

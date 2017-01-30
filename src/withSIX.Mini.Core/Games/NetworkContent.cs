@@ -110,7 +110,7 @@ namespace withSIX.Mini.Core.Games
         }
 
         public void UpdateVersionInfo(string version, DateTime updatedVersion) {
-            Contract.Requires<ArgumentNullException>(version != null);
+            if (version == null) throw new ArgumentNullException(nameof(version));
             if (Version == version)
                 return;
             Version = version;

@@ -49,7 +49,7 @@ namespace withSIX.Play.Infra.Api
         #region RestExecute
 
         public IRestResponse<T> RestExecute<T>(IRestRequest request, Uri url) where T : new() {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var client = GetClient(url);
             HandleRequest(request, client);
@@ -60,7 +60,7 @@ namespace withSIX.Play.Infra.Api
         }
 
         public IRestResponse RestExecute(IRestRequest request, Uri url) {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var client = GetClient(url);
             HandleRequest(request, client);
@@ -71,7 +71,7 @@ namespace withSIX.Play.Infra.Api
         }
 
         public async Task<IRestResponse> RestExecuteAsync(IRestRequest request, Uri url) {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var client = GetClient(url);
             HandleRequest(request, client);
@@ -83,7 +83,7 @@ namespace withSIX.Play.Infra.Api
 
         public async Task<IRestResponse<T>> RestExecuteAsync<T>(IRestRequest request, Uri url = null)
             where T : new() {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var client = GetClient(url);
             HandleRequest(request, client);
@@ -124,21 +124,21 @@ IDictionary<string, object> pars = null) => CreateRequestWithParameters(path, pa
         }
 
         protected void LogRequestInfo(IRestRequest request, IRestClient client, string type = null) {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             this.Logger().Debug(GetRequestInfo(request, client, type));
         }
 
         protected void LogResponseInfo(IRestResponse response, IRestClient client,
             string type = null) {
-            Contract.Requires<ArgumentNullException>(response != null);
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
             this.Logger().Debug(GetResponseInfo(response, client, type));
         }
 
         protected void LogResponseInfo<T>(IRestResponse<T> response, IRestClient client,
             string type = null) {
-            Contract.Requires<ArgumentNullException>(response != null);
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
             this.Logger().Debug(GetResponseInfo(response, client, type));
         }
@@ -152,7 +152,7 @@ IDictionary<string, object> pars = null) => CreateRequestWithParameters(path, pa
 
         protected static string GetResponseInfo(IRestResponse response, IRestClient client,
             string type = null) {
-            Contract.Requires<ArgumentNullException>(response != null);
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
             return
                 string.Format(
@@ -167,7 +167,7 @@ IDictionary<string, object> pars = null) => CreateRequestWithParameters(path, pa
 
         protected static string GetResponseInfo<T>(IRestResponse<T> response, IRestClient client,
             string type = null) {
-            Contract.Requires<ArgumentNullException>(response != null);
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
             return
                 string.Format(
@@ -183,7 +183,7 @@ IDictionary<string, object> pars = null) => CreateRequestWithParameters(path, pa
     : String.Join("\n", response.Headers);
 
         protected static void HandleResponseException(IRestResponse response, bool handleStatusCode = true) {
-            Contract.Requires<ArgumentNullException>(response != null);
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
             var e = GetResponseException(response, handleStatusCode);
             if (e != null)
@@ -191,7 +191,7 @@ IDictionary<string, object> pars = null) => CreateRequestWithParameters(path, pa
         }
 
         protected static Exception GetResponseException(IRestResponse response, bool handleStatusCode = true) {
-            Contract.Requires<ArgumentNullException>(response != null);
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
             if (response.ErrorException != null) {
                 return new RestResponseException(

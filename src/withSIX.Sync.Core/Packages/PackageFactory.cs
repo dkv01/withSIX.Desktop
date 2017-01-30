@@ -24,7 +24,7 @@ namespace withSIX.Sync.Core.Packages
             => PackifyPath(Repository.RepoTools.GetRootedPath(input).ToString());
 
         public Package Init(Repository repo, IAbsoluteDirectoryPath directory, PackageMetaData initialMetaData = null) {
-            Contract.Requires<ArgumentNullException>(directory != null);
+            if (directory == null) throw new ArgumentNullException(nameof(directory));
 
             if (initialMetaData == null)
                 initialMetaData = new PackageMetaData(PackifyPath(directory.ToString()));
@@ -43,12 +43,12 @@ namespace withSIX.Sync.Core.Packages
         }
 
         public Package Init(Repository repo, string packageName, IAbsoluteDirectoryPath directory) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
+            if (!(!string.IsNullOrWhiteSpace(packageName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(packageName)");
             return Init(repo, directory, new PackageMetaData(Packify(packageName)));
         }
 
         public Package Init(Repository repo, SpecificVersion version, IAbsoluteDirectoryPath directory) {
-            Contract.Requires<ArgumentNullException>(version != null);
+            if (version == null) throw new ArgumentNullException(nameof(version));
             return Init(repo, directory, new PackageMetaData(version));
         }
 
@@ -76,8 +76,8 @@ namespace withSIX.Sync.Core.Packages
         }
 
         public Package Open(Repository repo, IAbsoluteDirectoryPath directory, string packageName = null) {
-            Contract.Requires<ArgumentNullException>(repo != null);
-            Contract.Requires<ArgumentNullException>(directory != null);
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            if (directory == null) throw new ArgumentNullException(nameof(directory));
 
             if (string.IsNullOrWhiteSpace(packageName))
                 packageName = PackifyPath(directory.ToString());

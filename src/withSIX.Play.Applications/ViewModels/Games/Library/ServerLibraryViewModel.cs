@@ -170,7 +170,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
         public Task<bool> ChangePassword(Server server) => OpenPasswordDialog(server);
 
         async Task<bool> OpenPasswordDialog(Server server) {
-            Contract.Requires<ArgumentNullException>(server != null);
+            if (server == null) throw new ArgumentNullException(nameof(server));
             var msg = $"Please enter Server Password for {server.Name}:";
             var defaultInput = server.SavedPassword;
 

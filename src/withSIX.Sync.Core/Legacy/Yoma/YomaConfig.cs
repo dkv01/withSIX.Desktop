@@ -36,8 +36,8 @@ namespace withSIX.Sync.Core.Legacy.Yoma
             : this(
                 XDocument.Load(inputAddonsFile.ToString()), XDocument.Load(inputModsFile.ToString()),
                 inputServerFile == null ? null : XDocument.Load(inputServerFile.ToString())) {
-            Contract.Requires<ArgumentOutOfRangeException>(inputAddonsFile != null);
-            Contract.Requires<ArgumentOutOfRangeException>(inputModsFile != null);
+            if (!(inputAddonsFile != null)) throw new ArgumentOutOfRangeException("inputAddonsFile != null");
+            if (!(inputModsFile != null)) throw new ArgumentOutOfRangeException("inputModsFile != null");
         }
 
         public YomaAddon[] Addons { get; set; }

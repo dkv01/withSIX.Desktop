@@ -229,7 +229,7 @@ namespace withSIX.Mini.Core.Games.Services.ContentInstaller
     public class StatusChanged : ISyncDomainEvent
     {
         public StatusChanged(Status status, ProgressInfo info) {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null) throw new ArgumentNullException(nameof(info));
             Status = status;
             Info = info;
         }

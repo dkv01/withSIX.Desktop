@@ -32,9 +32,9 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
         ServerQueryState _state;
 
         public SourceServerQuery(ServerAddress address, string serverBrowserTag, IServerQueryParser parser) {
-            Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Requires<ArgumentNullException>(serverBrowserTag != null);
-            Contract.Requires<ArgumentNullException>(parser != null);
+            if (address == null) throw new ArgumentNullException(nameof(address));
+            if (serverBrowserTag == null) throw new ArgumentNullException(nameof(serverBrowserTag));
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
             _address = address;
             _parser = parser;
@@ -158,7 +158,7 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
         }
 
         byte[] ProcessPacketHeader(byte[] reply) {
-            Contract.Requires<ArgumentNullException>(reply != null);
+            if (reply == null) throw new ArgumentNullException(nameof(reply));
 
             var pos = 0;
             byte[] header = {0xFF, 0xFF, 0xFF};

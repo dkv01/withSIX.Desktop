@@ -100,7 +100,7 @@ IContentManager contentList) => contentList.FindOrCreateLocalMods(Game,
         protected class Repo
         {
             Repo(Uri uri, RepoType type) {
-                Contract.Requires<ArgumentNullException>(uri != null);
+                if (uri == null) throw new ArgumentNullException(nameof(uri));
                 Uri = uri;
                 Type = type;
             }

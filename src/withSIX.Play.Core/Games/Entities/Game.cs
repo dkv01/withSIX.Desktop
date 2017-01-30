@@ -44,8 +44,8 @@ namespace withSIX.Play.Core.Games.Entities
         string _startupLine;
 
         protected Game(Guid id, GameSettings settings) {
-            Contract.Requires<ArgumentOutOfRangeException>(id != Guid.Empty);
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (!(id != Guid.Empty)) throw new ArgumentOutOfRangeException("id != Guid.Empty");
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
 
             Id = id;
             Settings = settings;
@@ -439,8 +439,8 @@ namespace withSIX.Play.Core.Games.Entities
         protected class SeparateClientAndServerExecutable
         {
             public SeparateClientAndServerExecutable(string client, string server) {
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(client));
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(server));
+                if (!(!string.IsNullOrWhiteSpace(client))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(client)");
+                if (!(!string.IsNullOrWhiteSpace(server))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(server)");
 
                 Client = client;
                 Server = server;
@@ -541,7 +541,7 @@ namespace withSIX.Play.Core.Games.Entities
     public class SynqPathChangedEvent : ISyncDomainEvent
     {
         public SynqPathChangedEvent(ISupportModding game, ContentPaths oldPaths, ContentPaths newPaths) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             Game = game;
             OldPaths = oldPaths;
             NewPaths = newPaths;
@@ -555,7 +555,7 @@ namespace withSIX.Play.Core.Games.Entities
     public class ModPathChangedEvent : ISyncDomainEvent
     {
         public ModPathChangedEvent(ISupportModding game, ContentPaths oldPaths, ContentPaths newPaths) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             Game = game;
             OldPaths = oldPaths;
             NewPaths = newPaths;
@@ -569,7 +569,7 @@ namespace withSIX.Play.Core.Games.Entities
     public class ModAndSynqPathsChangedEvent : ISyncDomainEvent
     {
         public ModAndSynqPathsChangedEvent(ISupportModding game, ContentPaths oldPaths, ContentPaths newPaths) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             Game = game;
             OldPaths = oldPaths;
             NewPaths = newPaths;

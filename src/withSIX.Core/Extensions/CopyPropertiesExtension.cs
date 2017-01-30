@@ -14,8 +14,8 @@ namespace withSIX.Core.Extensions
         static Mapper Mapper = new Mapper(new MapperConfiguration(cfg => { cfg.CreateMissingTypeMaps = true; }));
 
         public static void CopyProperties(this object src, object dest, string[] extraExclusions = null) {
-            Contract.Requires<ArgumentNullException>(src != null);
-            Contract.Requires<ArgumentNullException>(dest != null);
+            if (src == null) throw new ArgumentNullException(nameof(src));
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
 
             if (ReferenceEquals(src, dest))
                 return;

@@ -11,8 +11,8 @@ namespace withSIX.Play.Core.Games.Entities
     public class ContentPaths
     {
         public ContentPaths(IAbsoluteDirectoryPath path, IAbsoluteDirectoryPath repositoryPath) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentNullException>(repositoryPath != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (repositoryPath == null) throw new ArgumentNullException(nameof(repositoryPath));
 
             Path = path;
             RepositoryPath = repositoryPath;

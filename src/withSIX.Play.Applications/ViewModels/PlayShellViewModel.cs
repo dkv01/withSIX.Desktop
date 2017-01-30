@@ -501,7 +501,7 @@ namespace withSIX.Play.Applications.ViewModels
             await TryProcessParams(data.Skip(1).ToArray());
         }
 
-        //Contract.Requires<ArgumentNullException>(@params != null);
+        //if (!(@params != null)) throw new ArgumentNullException("@params != null");
         Task TryProcessParams(IEnumerable<string> @params) => ErrorHandlerr.TryAction(() => ProcessParams(@params),
             "Processing of startup parameters");
 

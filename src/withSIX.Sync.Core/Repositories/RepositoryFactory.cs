@@ -24,7 +24,7 @@ namespace withSIX.Sync.Core.Repositories
     public class RepositoryFactory
     {
         public Repository Init(IAbsoluteDirectoryPath directory, RepositoryOperationMode? mode = null) {
-            Contract.Requires<ArgumentNullException>(directory != null);
+            if (directory == null) throw new ArgumentNullException(nameof(directory));
 
             if (File.Exists(directory.ToString()))
                 throw new SynqPathException("Already exists file with same name");

@@ -48,7 +48,7 @@ namespace withSIX.Core.Extensions
         public static MethodInfo GetGeneric<TAct>(TAct act, params Type[] types) => GetGeneric(null, act, types);
 
         static TAct CreateDelegate<TAct>(this MethodInfo methodInfo, object instance = null) {
-            Contract.Requires<ArgumentException>((!methodInfo.IsStatic && (instance != null)) || methodInfo.IsStatic);
+            if (!((!methodInfo.IsStatic && (instance != null)) || methodInfo.IsStatic)) throw new ArgumentException("(!methodInfo.IsStatic && (instance != null)) || methodInfo.IsStatic");
             if (instance != null)
                 return (TAct) (object) methodInfo.CreateDelegate(typeof(TAct), instance);
             return (TAct) (object) methodInfo.CreateDelegate(typeof(TAct));

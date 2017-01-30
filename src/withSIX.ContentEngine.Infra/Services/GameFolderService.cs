@@ -43,8 +43,8 @@ namespace withSIX.ContentEngine.Infra.Services
         bool InstallPlugin(IAbsoluteDirectoryPath gamePath, IContentEngineContent mod, string plugin, bool force) {
             Contract.Requires<ArgumentNullException>(gamePath.IsNotNullAndExists(),
                 "Unable to find the Game Install Directory");
-            Contract.Requires<ArgumentNullException>(mod != null, "Fatal Error Occured: Mod incorrectly registered");
-            Contract.Requires<ArgumentNullException>(plugin != null, "Fatal Error Occured: Plugin Path was not set");
+            if (mod == null) throw new ArgumentNullException(nameof(mod), "Fatal Error Occured: Mod incorrectly registered");
+            if (plugin == null) throw new ArgumentNullException(nameof(plugin), "Fatal Error Occured: Plugin Path was not set");
 
             if (!mod.IsInstalled || !mod.PathInternal.IsNotNullAndExists())
                 throw new InvalidOperationException("The mod is not installed");
@@ -57,8 +57,8 @@ namespace withSIX.ContentEngine.Infra.Services
 
         static bool InstallDll(IAbsoluteFilePath pluginPath, IAbsoluteDirectoryPath gamePluginFolder,
             bool force = true) {
-            Contract.Requires<ArgumentNullException>(gamePluginFolder != null);
-            Contract.Requires<ArgumentNullException>(pluginPath != null);
+            if (gamePluginFolder == null) throw new ArgumentNullException(nameof(gamePluginFolder));
+            if (pluginPath == null) throw new ArgumentNullException(nameof(pluginPath));
 
             if (!pluginPath.IsNotNullAndExists())
                 throw new PathDoesntExistException(pluginPath.ToString());

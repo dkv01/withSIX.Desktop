@@ -142,7 +142,7 @@ namespace withSIX.Mini.Core.Games
     public class LocalCollection : Collection
     {
         public LocalCollection(Guid gameId, string name, ICollection<ContentSpec> contents) : base(gameId, name) {
-            Contract.Requires<ArgumentNullException>(contents != null);
+            if (contents == null) throw new ArgumentNullException(nameof(contents));
             //Author = "You"; // better assume null author = you?
             Contents = contents;
             UpdateFromContents();

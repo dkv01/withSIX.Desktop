@@ -91,8 +91,8 @@ namespace withSIX.Core.Presentation.SA
 
         Tuple<string, bool> InternalHandler(Exception exception, ReportExceptionEventArgs et,
             bool loader = false) {
-            Contract.Requires<ArgumentNullException>(exception != null);
-            Contract.Requires<ArgumentNullException>(et != null);
+            if (exception == null) throw new ArgumentNullException(nameof(exception));
+            if (et == null) throw new ArgumentNullException(nameof(et));
 
             if (exception is ReportHandledException)
                 return Tuple.Create((string) null, true);

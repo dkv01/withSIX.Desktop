@@ -14,8 +14,8 @@ namespace withSIX.Sync.Core.ExternalTools
         bool _isSelected;
 
         public BiKeyPair(IAbsoluteFilePath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!path.FileName.Contains("@"));
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (!(!path.FileName.Contains("@"))) throw new ArgumentOutOfRangeException("!path.FileName.Contains(\"@\")");
 
             // TODO: Make this better!
             var p = path.ParentDirectoryPath.GetChildFileWithName(path.FileNameWithoutExtension).ToString();
@@ -38,9 +38,9 @@ namespace withSIX.Sync.Core.ExternalTools
         }
 
         public static void CreateKey(IAbsoluteFilePath path, PboTools pboTools) {
-            Contract.Requires<ArgumentOutOfRangeException>(!path.FileName.Contains("@"));
-            Contract.Requires<ArgumentOutOfRangeException>(!path.FileName.Contains(".biprivatekey"));
-            Contract.Requires<ArgumentOutOfRangeException>(!path.FileName.Contains(".bikey"));
+            if (!(!path.FileName.Contains("@"))) throw new ArgumentOutOfRangeException("!path.FileName.Contains(\"@\")");
+            if (!(!path.FileName.Contains(".biprivatekey"))) throw new ArgumentOutOfRangeException("!path.FileName.Contains(\".biprivatekey\")");
+            if (!(!path.FileName.Contains(".bikey"))) throw new ArgumentOutOfRangeException("!path.FileName.Contains(\".bikey\")");
             pboTools.CreateKey(path);
         }
     }

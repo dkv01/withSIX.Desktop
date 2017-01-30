@@ -25,7 +25,7 @@ namespace withSIX.Core.Presentation.Services
         }
 
         public UserErrorModel HandleException(Exception ex, string action = "Action") {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
 
             var unwrapped = UnwrapExceptionIfNeeded(ex);
 

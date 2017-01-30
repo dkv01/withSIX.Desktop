@@ -18,7 +18,7 @@ namespace withSIX.Play.Presentation.Wpf.Services
         public PlayExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
 
         protected override UserErrorModel HandleExceptionInternal(Exception ex, string action = "Action") {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
 
             if (ex is NotConnectedException)
                 return new NotConnectedUserError(innerException: ex);

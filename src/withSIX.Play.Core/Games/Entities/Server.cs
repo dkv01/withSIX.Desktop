@@ -86,8 +86,8 @@ namespace withSIX.Play.Core.Games.Entities
         int _verifySignatures;
 
         public Server(ISupportServers game, ServerAddress address) {
-            Contract.Requires<ArgumentNullException>(game != null);
-            Contract.Requires<ArgumentNullException>(address != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
+            if (address == null) throw new ArgumentNullException(nameof(address));
 
             Children = new ReactiveList<IHierarchicalLibraryItem>();
 

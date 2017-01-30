@@ -12,9 +12,9 @@ namespace withSIX.Mini.Core.Games
     public class ContentInfo
     {
         public ContentInfo(Guid userId, Guid gameId, Guid contentId) {
-            Contract.Requires<ArgumentOutOfRangeException>(userId != Guid.Empty);
-            Contract.Requires<ArgumentOutOfRangeException>(gameId != Guid.Empty);
-            Contract.Requires<ArgumentOutOfRangeException>(contentId != Guid.Empty);
+            if (!(userId != Guid.Empty)) throw new ArgumentOutOfRangeException("userId != Guid.Empty");
+            if (!(gameId != Guid.Empty)) throw new ArgumentOutOfRangeException("gameId != Guid.Empty");
+            if (!(contentId != Guid.Empty)) throw new ArgumentOutOfRangeException("contentId != Guid.Empty");
             UserId = userId;
             GameId = gameId;
             ContentId = contentId;
@@ -28,8 +28,8 @@ namespace withSIX.Mini.Core.Games
     public class FolderInfo
     {
         public FolderInfo(IAbsoluteDirectoryPath path, ContentInfo contentInfo) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentNullException>(contentInfo != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (contentInfo == null) throw new ArgumentNullException(nameof(contentInfo));
             Path = path;
             ContentInfo = contentInfo;
         }
@@ -41,7 +41,7 @@ namespace withSIX.Mini.Core.Games
     public class ContentFolderLink
     {
         public ContentFolderLink(List<FolderInfo> info) {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null) throw new ArgumentNullException(nameof(info));
             Infos = info;
         }
 

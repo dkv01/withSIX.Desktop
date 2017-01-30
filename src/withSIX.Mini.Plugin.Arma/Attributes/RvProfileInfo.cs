@@ -9,9 +9,9 @@ namespace withSIX.Mini.Plugin.Arma.Attributes
     public class RvProfileInfoAttribute : Attribute
     {
         public RvProfileInfoAttribute(string mainName, string otherProfilesName, string profileExtension) {
-            //            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(mainName));
-            //            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(otherProfilesName));
-            //            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(profileExtension));
+            //            if (!(!string.IsNullOrWhiteSpace(mainName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(mainName)");
+            //            if (!(!string.IsNullOrWhiteSpace(otherProfilesName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(otherProfilesName)");
+            //            if (!(!string.IsNullOrWhiteSpace(profileExtension))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(profileExtension)");
 
             DocumentsMainName = mainName;
             DocumentsOtherProfilesName = otherProfilesName;

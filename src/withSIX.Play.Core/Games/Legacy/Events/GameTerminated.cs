@@ -14,7 +14,7 @@ namespace withSIX.Play.Core.Games.Legacy.Events
         public Process Process { get; }
 
         public GameTerminated(Process process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
 
             Process = process;
         }

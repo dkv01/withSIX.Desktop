@@ -34,8 +34,8 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
         ServerQueryState _state;
 
         public GamespyServerQuery(ServerAddress address, string serverBrowserTag, IServerQueryParser parser) {
-            Contract.Requires<ArgumentNullException>(serverBrowserTag != null);
-            Contract.Requires<ArgumentNullException>(parser != null);
+            if (serverBrowserTag == null) throw new ArgumentNullException(nameof(serverBrowserTag));
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
             _address = address;
 
@@ -116,7 +116,7 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
         }
 
         static byte[] GetChallengeResponse(IEnumerable<byte> challengeResponse) {
-            Contract.Requires<ArgumentNullException>(challengeResponse != null);
+            if (challengeResponse == null) throw new ArgumentNullException(nameof(challengeResponse));
 
             var packet = challengeResponse.Skip(5).ToArray();
             var challengeString = Encoding.ASCII.GetString(packet);
@@ -170,7 +170,7 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
         }
 
         void ProcessPacketHeader(byte[] r) {
-            Contract.Requires<ArgumentNullException>(r != null);
+            if (r == null) throw new ArgumentNullException(nameof(r));
 
             var replyHeader = r.Take(16).ToArray();
             var splitNum = replyHeader.Skip(14).Take(1).First();

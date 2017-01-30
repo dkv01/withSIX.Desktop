@@ -250,7 +250,7 @@ namespace GameServerQuery
         readonly Dictionary<int, MStatus> _plainDict = new Dictionary<int, MStatus>();
 
         public byte[] ProcessPacketHeader(byte[] reply) {
-            Contract.Requires<ArgumentNullException>(reply != null);
+            if (reply == null) throw new ArgumentNullException(nameof(reply));
 
             var reader = new ByteArrayReader(reply);
             var header = reader.ReadInt();

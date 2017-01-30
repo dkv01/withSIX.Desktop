@@ -160,8 +160,8 @@ namespace withSIX.Play.Infra.Api.ConnectApi
         }
 
         public async Task UploadMission(RequestMissionUploadModel model, IAbsoluteDirectoryPath path) {
-            Contract.Requires<ArgumentNullException>(model != null);
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             ValidateObject(model);
             ConfirmConnected();

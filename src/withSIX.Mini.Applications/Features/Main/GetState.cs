@@ -100,7 +100,7 @@ namespace withSIX.Mini.Applications.Features.Main
     public class NextActionInfo
     {
         public NextActionInfo(string title, string text = null) {
-            Contract.Requires<ArgumentNullException>(title != null);
+            if (title == null) throw new ArgumentNullException(nameof(title));
             Title = title;
             Text = text;
         }

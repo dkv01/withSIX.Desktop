@@ -138,7 +138,7 @@ namespace withSIX.Sync.Core.ExternalTools
         }
 
         public void CreateKey(IAbsoluteFilePath outFile, bool overwrite = false) {
-            Contract.Requires<ArgumentNullException>(outFile != null);
+            if (outFile == null) throw new ArgumentNullException(nameof(outFile));
 
             var privateFile = outFile + ".biprivatekey";
             var publicFile = outFile + ".bikey";
@@ -160,7 +160,7 @@ namespace withSIX.Sync.Core.ExternalTools
         }
 
         public void SignFile(IAbsoluteFilePath file, IAbsoluteFilePath privateFile) {
-            Contract.Requires<ArgumentNullException>(file != null);
+            if (file == null) throw new ArgumentNullException(nameof(file));
 
             if (!file.Exists)
                 throw new IOException("File doesn't exist: " + file);

@@ -27,7 +27,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
         public RealVirtualityLauncher(IGameLauncherProcess processManager,
             IPathConfiguration pathConfiguration, IFileWriter writer, IDbContextLocator contextLocator)
             : base(processManager) {
-            Contract.Requires<ArgumentNullException>(writer != null);
+            if (writer == null) throw new ArgumentNullException(nameof(writer));
             _writer = writer;
             _contextLocator = contextLocator;
             _parPath = pathConfiguration.LocalDataPath.GetChildDirectoryWithName("games");

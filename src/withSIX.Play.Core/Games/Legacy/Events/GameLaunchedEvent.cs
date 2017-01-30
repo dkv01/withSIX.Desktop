@@ -15,7 +15,7 @@ namespace withSIX.Play.Core.Games.Legacy.Events
         public Server Server { get; }
 
         public GameLaunchedEvent(RunningGame runningGame, Server server = null) {
-            Contract.Requires<ArgumentNullException>(runningGame != null);
+            if (runningGame == null) throw new ArgumentNullException(nameof(runningGame));
             RunningGame = runningGame;
             Server = server;
         }

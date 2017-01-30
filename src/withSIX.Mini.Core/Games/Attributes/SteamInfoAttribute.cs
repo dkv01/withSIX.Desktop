@@ -16,7 +16,7 @@ namespace withSIX.Mini.Core.Games.Attributes
         protected SteamInfoAttribute() {}
 
         public SteamInfoAttribute(uint appId) {
-            Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
+            if (!(appId > 0)) throw new ArgumentOutOfRangeException("appId > 0");
 
             AppId = appId;
         }
@@ -24,8 +24,8 @@ namespace withSIX.Mini.Core.Games.Attributes
         protected SteamInfoAttribute(SteamGameIds appId) : this((uint) appId) {}
 
         public SteamInfoAttribute(uint appId, string folderFallback) {
-            Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folderFallback));
+            if (!(appId > 0)) throw new ArgumentOutOfRangeException("appId > 0");
+            if (!(!string.IsNullOrWhiteSpace(folderFallback))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(folderFallback)");
 
             AppId = appId;
             _folderFallback = folderFallback;

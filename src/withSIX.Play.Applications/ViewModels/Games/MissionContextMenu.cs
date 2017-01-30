@@ -21,7 +21,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
         public MissionLibraryViewModel Library { get; }
 
         protected MissionMenuBase(MissionLibraryViewModel library) {
-            Contract.Requires<ArgumentNullException>(library != null);
+            if (library == null) throw new ArgumentNullException(nameof(library));
             Library = library;
         }
     }

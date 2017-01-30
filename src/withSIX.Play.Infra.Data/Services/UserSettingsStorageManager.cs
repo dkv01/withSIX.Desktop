@@ -52,12 +52,12 @@ namespace withSIX.Play.Infra.Data.Services
         }
 
         public async Task Save(UserSettings settings) {
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             await _cacheManager.Set(settings);
         }
 
         public async Task SaveNow(UserSettings settings) {
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             await _cacheManager.Set(settings);
             await _cacheManager.Save();
         }

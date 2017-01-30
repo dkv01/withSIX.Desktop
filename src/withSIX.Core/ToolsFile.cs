@@ -233,20 +233,20 @@ namespace withSIX.Core
             }
 
             public void OpenFolderInExplorer(string path) {
-                Contract.Requires<ArgumentNullException>(path != null);
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(path));
+                if (path == null) throw new ArgumentNullException(nameof(path));
+                if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentException("!string.IsNullOrWhiteSpace(path)");
 
                 ProcessManager.StartAndForget(new ProcessStartInfo("Explorer.exe", "\"" + path + "\""));
             }
 
             public void OpenFolderInExplorer(IAbsoluteDirectoryPath path) {
-                Contract.Requires<ArgumentNullException>(path != null);
+                if (path == null) throw new ArgumentNullException(nameof(path));
 
                 ProcessManager.StartAndForget(new ProcessStartInfo("Explorer.exe", "\"" + path + "\""));
             }
 
             public Version GetVersion(IAbsoluteFilePath exePath) {
-                Contract.Requires<ArgumentNullException>(exePath != null);
+                if (exePath == null) throw new ArgumentNullException(nameof(exePath));
 
                 if (!exePath.Exists)
                     return null;
@@ -255,8 +255,8 @@ namespace withSIX.Core
             }
 
             public FileVersionInfo GetFileVersion(string file) {
-                Contract.Requires<ArgumentNullException>(file != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(file));
+                if (file == null) throw new ArgumentNullException(nameof(file));
+                if (!(!string.IsNullOrWhiteSpace(file))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(file)");
 
                 if (!File.Exists(file))
                     return null;
@@ -274,15 +274,15 @@ namespace withSIX.Core
 
 
             public void SelectInExplorer(string path) {
-                Contract.Requires<ArgumentNullException>(path != null);
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(path));
+                if (path == null) throw new ArgumentNullException(nameof(path));
+                if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentException("!string.IsNullOrWhiteSpace(path)");
 
                 ProcessManager.StartAndForget(new ProcessStartInfo("Explorer.exe",
                     $"/select,\"{path}\""));
             }
 
             public long SizePrediction(string filePath) {
-                Contract.Requires<ArgumentNullException>(filePath != null);
+                if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
                 var fileName = Path.GetFileName(filePath);
                 if (sizeA.IsMatch(fileName))
@@ -395,9 +395,9 @@ namespace withSIX.Core
     public class ShortcutInfo
     {
         public ShortcutInfo(IAbsoluteDirectoryPath destinationPath, string name, IAbsoluteFilePath target) {
-            Contract.Requires<ArgumentNullException>(destinationPath != null);
-            Contract.Requires<ArgumentNullException>(name != null);
-            Contract.Requires<ArgumentNullException>(target != null);
+            if (destinationPath == null) throw new ArgumentNullException(nameof(destinationPath));
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (target == null) throw new ArgumentNullException(nameof(target));
             DestinationPath = destinationPath;
             Name = name;
             Target = target;
@@ -424,35 +424,35 @@ namespace withSIX.Core
     public static class PathExtensions
     {
         public static void MakeSurePathExists(this string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             Tools.FileUtil.Ops.CreateDirectory(path);
         }
 
         public static void MakeSurePathExistsWithRetry(this string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             Tools.FileUtil.Ops.CreateDirectoryWithRetry(path);
         }
 
         public static void MakeSureParentPathExists(this string subPath, bool retry = true) {
-            Contract.Requires<ArgumentNullException>(subPath != null);
+            if (subPath == null) throw new ArgumentNullException(nameof(subPath));
             var folder = Path.GetDirectoryName(subPath);
             if (!string.IsNullOrWhiteSpace(folder))
                 MakeSurePathExists(folder);
         }
 
         public static void MakeSurePathExistsWithRetry(this IDirectoryPath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             Tools.FileUtil.Ops.CreateDirectoryWithRetry(path.ToString());
         }
 
         public static void MakeSureParentPathExists(this IPath subPath, bool retry = true) {
-            Contract.Requires<ArgumentNullException>(subPath != null);
+            if (subPath == null) throw new ArgumentNullException(nameof(subPath));
             var folder = subPath.ParentDirectoryPath;
             folder?.MakeSurePathExists();
         }
 
         public static void RemoveReadonlyWhenExists(this string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             if (File.Exists(path))
                 new FileInfo(path).RemoveReadonlyWhenExists();
             else if (Directory.Exists(path))
@@ -460,7 +460,7 @@ namespace withSIX.Core
         }
 
         public static void RemoveReadonlyWhenExists(this FileSystemInfo path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             try {
                 if (path.Exists && path.Attributes.HasFlag(FileAttributes.ReadOnly))
                     path.Attributes &= ~FileAttributes.ReadOnly;
@@ -470,24 +470,24 @@ namespace withSIX.Core
         }
 
         public static void RemoveReadonlyWhenExists(this IAbsoluteFilePath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             if (path.Exists)
                 path.FileInfo.RemoveReadonlyWhenExists();
         }
 
         public static void MakeSurePathExists(this DirectoryInfo path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             path.FullName.MakeSurePathExists();
         }
 
         public static void MakeSurePathExistsWithRetry(this DirectoryInfo path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             path.FullName.MakeSurePathExistsWithRetry();
         }
 
         public static void MakeSureParentPathExists(this DirectoryInfo subPath, bool retry = true) {
-            Contract.Requires<ArgumentNullException>(subPath != null);
+            if (subPath == null) throw new ArgumentNullException(nameof(subPath));
             var folder = subPath.Parent;
             if (folder != null)
                 folder.MakeSurePathExists();

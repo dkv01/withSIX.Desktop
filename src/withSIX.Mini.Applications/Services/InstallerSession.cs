@@ -942,8 +942,8 @@ Click CONTINUE to open the download page and follow the instructions until the d
 
             public SteamExternalInstallerSession(uint appId, IAbsoluteDirectoryPath workshopPath,
                 Dictionary<ulong, ProgressLeaf> content, ISteamHelperRunner steamHelperRunner) {
-                Contract.Requires<ArgumentNullException>(workshopPath != null);
-                Contract.Requires<ArgumentNullException>(content != null);
+                if (workshopPath == null) throw new ArgumentNullException(nameof(workshopPath));
+                if (content == null) throw new ArgumentNullException(nameof(content));
                 _appId = appId;
                 _workshopPath = workshopPath;
                 _content = content;

@@ -28,8 +28,8 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public static LocalMod FromStringIfValid(string modPath, ISupportModding game) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(modPath));
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (!(!string.IsNullOrWhiteSpace(modPath))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(modPath)");
+            if (game == null) throw new ArgumentNullException(nameof(game));
 
             if (modPath.IsValidAbsoluteFilePath()) {
                 var filePath = modPath.ToAbsoluteFilePath();
@@ -73,14 +73,14 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public static LocalMod FromLocalModInfo(LocalModInfo info, ISupportModding game) {
-            Contract.Requires<ArgumentNullException>(info != null);
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (game == null) throw new ArgumentNullException(nameof(game));
             return CreateLocalMod(info.Name, info.Path, game);
         }
 
         static LocalMod CreateLocalMod(string name, IAbsoluteDirectoryPath localModPath, ISupportModding game) {
-            Contract.Requires<ArgumentNullException>(name != null);
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (game == null) throw new ArgumentNullException(nameof(game));
 
             var localMod = new LocalMod(System.Guid.Empty) {
                 Name = name,

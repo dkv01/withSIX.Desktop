@@ -11,7 +11,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
     public class LocalModFileInfo : LocalModInfo
     {
         public LocalModFileInfo(IAbsoluteFilePath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             Name = path.FileName;
             Path = path.ParentDirectoryPath;

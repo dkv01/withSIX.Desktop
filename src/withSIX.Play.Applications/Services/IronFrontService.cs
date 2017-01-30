@@ -32,9 +32,9 @@ namespace withSIX.Play.Applications.Services
 
         public IronFrontService(IronFrontInstaller ironFrontInstaller, IGameContext gameContext,
             IRepoActionHandler actionHandler) {
-            Contract.Requires<ArgumentNullException>(ironFrontInstaller != null);
-            Contract.Requires<ArgumentNullException>(gameContext != null);
-            Contract.Requires<ArgumentNullException>(actionHandler != null);
+            if (ironFrontInstaller == null) throw new ArgumentNullException(nameof(ironFrontInstaller));
+            if (gameContext == null) throw new ArgumentNullException(nameof(gameContext));
+            if (actionHandler == null) throw new ArgumentNullException(nameof(actionHandler));
 
             _ironFrontInstaller = ironFrontInstaller;
             _gameContext = gameContext;

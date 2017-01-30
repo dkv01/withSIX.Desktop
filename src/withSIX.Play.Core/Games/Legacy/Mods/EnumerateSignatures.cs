@@ -15,7 +15,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
     public class EnumerateSignatures
     {
         public IEnumerable<string> Enumerate(IAbsoluteDirectoryPath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             return Tools.FileUtil.GetFiles(path, "*.bisign")
                 .Select(GetSignatureFromFileName).Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(x => x.ToLower())

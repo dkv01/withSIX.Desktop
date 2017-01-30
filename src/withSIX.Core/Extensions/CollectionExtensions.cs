@@ -107,8 +107,8 @@ namespace withSIX.Core.Extensions
 
         public static T UpdateOrAdd<T>(this IList<T> list, T item, bool reverse = false, string[] extraExclusions = null)
             where T : class, IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
 
             T found;
 
@@ -131,8 +131,8 @@ namespace withSIX.Core.Extensions
         public static T[] UpdateOrAdd<T>(this IList<T> list, IEnumerable<T> items, bool reverse = false,
             string[] extraExclusions = null)
             where T : class, IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
 
             T[] existingItems;
             T[] newItems;
@@ -159,8 +159,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollection<T>(this IEnumerable<T> source, IList<T> destination,
             Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             if (filter != null)
                 source = source.Where(filter);
@@ -176,14 +176,14 @@ namespace withSIX.Core.Extensions
 
         public static void ImportCollection<T>(this IList<T> destination, IEnumerable<T> source,
             Func<T, bool> filter) {
-            Contract.Requires<ArgumentNullException>(filter != null);
+            if (filter == null) throw new ArgumentNullException(nameof(filter));
             source.SyncCollection(destination, filter);
         }
 
         public static void SyncCollection2<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             if (filter != null)
                 source = source.Where(filter);
@@ -195,8 +195,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollection2Locked<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             if (filter != null)
                 source = source.Where(filter);
@@ -211,8 +211,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionOfType<T, T2>(this IEnumerable<T2> source, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             var src = source.OfType<T>();
 
@@ -226,8 +226,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionOfTypeLocked<T, T2>(this IEnumerable<T2> source, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             var src = source.OfType<T>();
 
@@ -243,8 +243,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionOfType<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             var src = source;
             if (filter != null)
@@ -257,8 +257,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionOfTypeLocked<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             var src = source;
             if (filter != null)
@@ -273,8 +273,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionPK<T>(this IEnumerable<T> source, IList<T> destination,
             Func<T, bool> filter = null) where T : class, IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             if (filter != null)
                 source = source.Where(filter);
@@ -308,8 +308,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionLocked<T>(this IEnumerable<T> source, IList<T> destination,
             Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             lock (destination)
                 SyncCollection(source, destination, filter);
@@ -317,8 +317,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionConvert<T, T2>(this IEnumerable<T> source, IList<T2> destination)
             where T2 : IHaveModel<T> where T : IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             SyncCollectionConvertCustomPK(source.ToArray(), destination,
                 x => (T2) Activator.CreateInstance(typeof(T2), x), x => true);
@@ -326,8 +326,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionConvertLocked<T, T2>(this IEnumerable<T> source, IList<T2> destination)
             where T2 : IHaveModel<T> where T : IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             lock (destination)
                 SyncCollectionConvert(source, destination);
@@ -336,8 +336,8 @@ namespace withSIX.Core.Extensions
         public static void SyncCollectionConvertCustomPK<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, T2> func, Func<T2, bool> filter)
             where T2 : IHaveModel<T> where T : IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             var srcAr = source.ToArray();
             destination.RemoveAll(destination.Where(x => filter(x) && srcAr.None(y => x.Model.ComparePK(y))).ToArray());
@@ -346,8 +346,8 @@ namespace withSIX.Core.Extensions
 
         public static void SyncCollectionConvertCustomLockedPK<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, T2> func, Func<T2, bool> filter) where T2 : IHaveModel<T> where T : IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             lock (destination)
                 SyncCollectionConvertCustomPK(source, destination, func, filter);
@@ -356,8 +356,8 @@ namespace withSIX.Core.Extensions
         public static void SyncCollectionConvertCustom<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, T2> func, Func<T2, bool> filter)
             where T2 : IHaveModel<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             var srcAr = source.ToArray();
             destination.RemoveAll(destination.Where(x => filter(x) && srcAr.None(y => x.Model.Equals(y))).ToArray());
@@ -367,16 +367,16 @@ namespace withSIX.Core.Extensions
         public static void SyncCollectionConvertCustomLocked<T, T2>(this IEnumerable<T> source, IList<T2> destination,
             Func<T, T2> func, Func<T2, bool> filter)
             where T2 : IHaveModel<T> where T : IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             lock (destination)
                 SyncCollectionConvertCustom(source, destination, func, filter);
         }
 
         public static void AddWhenMissing<T>(this ICollection<T> list, T item, bool reverse = false) where T : class {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
 
             lock (list) {
                 if (!list.None(item.Equals))
@@ -386,8 +386,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static void AddWhenMissing(this ICollection<string> list, string item, StringComparison comparer) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
             lock (list) {
                 if (!list.None(x => item.Equals(x, comparer)))
                     return;
@@ -396,8 +396,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static void AddWhenMissing<T>(this IList<T> list, T item, bool reverse = false) where T : class {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
 
             lock (list) {
                 if (!list.None(item.Equals))
@@ -412,8 +412,8 @@ namespace withSIX.Core.Extensions
 
         public static void AddWhenMissing(this IList<string> list, string item, StringComparison comparer,
             bool reverse = false) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
             lock (list) {
                 if (!list.None(x => item.Equals(x, comparer)))
                     return;
@@ -426,8 +426,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static void ReAdd<T>(this IList<T> list, T item, bool reverse = false) where T : class {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
 
             lock (list) {
                 list.Remove(item);
@@ -440,8 +440,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static void AddWhenMissing<T>(this IList<T> list, IEnumerable<T> items, bool reverse = false) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             lock (list) {
                 var missingItems = items.Where(i => list.None(j => j.Equals(i))).ToArray();
                 list.AddRange(missingItems, reverse);
@@ -450,8 +450,8 @@ namespace withSIX.Core.Extensions
 
         public static void AddWhenMissing(this IList<string> list, IEnumerable<string> items, StringComparison comparer,
             bool reverse = false) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             lock (list) {
                 var missingItems = items.Where(i => list.None(j => j.Equals(i, comparer))).ToArray();
                 list.AddRange(missingItems, reverse);
@@ -460,8 +460,8 @@ namespace withSIX.Core.Extensions
 
         public static void AddWhenMissing<T, T2>(this IDictionary<T, T2> list, IDictionary<T, T2> items,
             bool reverse = false) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             lock (list) {
                 var missingItems = items.Where(i => list.None(j => j.Key.Equals(i.Key)))
                     .ToDictionary(x => x.Key, x => x.Value);
@@ -471,8 +471,8 @@ namespace withSIX.Core.Extensions
 
         public static void AddWhenMissingPK<T>(this IList<T> list, T item, bool reverse = false)
             where T : class, IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (item == null) throw new ArgumentNullException(nameof(item));
             lock (list) {
                 if (!list.None(item.ComparePK))
                     return;
@@ -486,8 +486,8 @@ namespace withSIX.Core.Extensions
 
         public static void AddWhenMissingPK<T>(this IList<T> list, IEnumerable<T> items, bool reverse = false)
             where T : IComparePK<T> {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             lock (list) {
                 var missingItems = items.Where(i => list.None(i.ComparePK)).ToArray();
                 list.AddRange(missingItems, reverse);
@@ -495,14 +495,14 @@ namespace withSIX.Core.Extensions
         }
 
         public static T[] ToArrayLocked<T>(this IEnumerable<T> list) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             lock (list)
                 return list.ToArray();
         }
 
         public static void RemoveAll<T>(this IList<T> list, ICollection<T> items) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             var l = list as List<T>;
             if (l != null)
                 // This is the reason why we take items as ICollection - otherwise it would re-iterate the items all the time.
@@ -514,23 +514,23 @@ namespace withSIX.Core.Extensions
         }
 
         public static void RemoveAllLocked<T>(this IList<T> list, ICollection<T> items) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             lock (list) {
                 list.RemoveAll(items);
             }
         }
 
         public static void AddRange<T, T2>(this IDictionary<T, T2> list, IDictionary<T, T2> items, bool reverse = false) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             foreach (var i in reverse ? items.Reverse() : items)
                 list.Add(i.Key, i.Value);
         }
 
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> items, bool reverse = false) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             var list3 = list as List<T>;
             if (list3 != null)
                 list3.AddRange(items);
@@ -545,8 +545,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             var list3 = list as List<T>;
             if (list3 != null)
                 list3.AddRange(items);
@@ -557,8 +557,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static void RemoveAll<T>(this ICollection<T> list, IEnumerable<T> items) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (items == null) throw new ArgumentNullException(nameof(items));
             var list3 = list as List<T>;
             if (list3 != null)
                 list3.RemoveAll(items.Contains);
@@ -569,53 +569,53 @@ namespace withSIX.Core.Extensions
         }
 
         public static void RemoveAll<T, T2>(this List<T> list, Predicate<T2> predicate) where T2 : T {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.RemoveAll(x => predicate((T2) x));
         }
 
 
         public static void RemoveAllLocked<T>(this IList<T> list, Predicate<T> predicate) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             lock (list)
                 list.RemoveAll(list.Where(x => predicate(x)).ToArray());
         }
 
         public static void RemoveAllLocked<T, T2>(this IList<T> list, Predicate<T2> predicate) where T2 : T {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             lock (list)
                 list.RemoveAll(list.Where(x => predicate((T2) x)).ToArray());
         }
 
         public static void RemoveFirst<T>(this IList<T> list, Predicate<T> predicate) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.Remove(list.FirstOrDefault(x => predicate(x)));
         }
 
         public static void RemoveFirst<T, T2>(this IList<T> list, Predicate<T2> predicate) where T2 : T {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.Remove(list.Cast<T2>().FirstOrDefault(x => predicate(x)));
         }
 
         public static void RemoveSingle<T>(this IList<T> list, Predicate<T> predicate) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.Remove(list.SingleOrDefault(x => predicate(x)));
         }
 
         public static void RemoveSingle<T, T2>(this IList<T> list, Predicate<T2> predicate) where T2 : T {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.Remove(list.Cast<T2>().SingleOrDefault(x => predicate(x)));
         }
 
         public static void Each<T>(this IEnumerable<T> ie, Action<T, int> action) {
-            Contract.Requires<ArgumentNullException>(ie != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (ie == null) throw new ArgumentNullException(nameof(ie));
+            if (action == null) throw new ArgumentNullException(nameof(action));
             var i = 0;
             foreach (var e in ie)
                 action(e, i++);

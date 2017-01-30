@@ -13,8 +13,8 @@ namespace GameServerQuery
     public abstract class ServerQueryResult
     {
         protected ServerQueryResult(IPEndPoint address, ParseResult settings, bool isMasterResult = false) {
-            Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (address == null) throw new ArgumentNullException(nameof(address));
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             Address = address;
             Settings = settings;
             IsMasterResult = isMasterResult;

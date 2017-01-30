@@ -156,7 +156,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
 
 
         public async Task ModUninstall(IMod mod) {
-            Contract.Requires<ArgumentNullException>(mod != null);
+            if (mod == null) throw new ArgumentNullException(nameof(mod));
 
             LibraryVM.ActiveItem = mod;
 

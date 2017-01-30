@@ -63,7 +63,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
 
         public ModLibrarySetup(ModLibraryViewModel library, Game game, IContentManager contentList,
             UserSettings settings, IEventAggregator eventBus) {
-            Contract.Requires<ArgumentException>(game.SupportsMods());
+            if (!(game.SupportsMods())) throw new ArgumentException("game.SupportsMods()");
             _library = library;
             _game = game;
             _modding = game.Modding();

@@ -19,7 +19,7 @@ namespace withSIX.Core
         public class HashEncryptionTools
         {
             public string MD5Hash(string data) {
-                Contract.Requires<ArgumentNullException>(data != null);
+                if (data == null) throw new ArgumentNullException(nameof(data));
 
                 using (var md5 = MD5.Create())
                     return GetHash(md5.ComputeHash(Encoding.ASCII.GetBytes(data)));
@@ -28,7 +28,7 @@ namespace withSIX.Core
             string GetHash(byte[] hash) => BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
 
             public string MD5FileHash(IAbsoluteFilePath fileName) {
-                Contract.Requires<ArgumentNullException>(fileName != null);
+                if (fileName == null) throw new ArgumentNullException(nameof(fileName));
 
                 return FileUtil.Ops.AddIORetryDialog(() => {
                     using (var fs = new FileStream(fileName.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -39,7 +39,7 @@ namespace withSIX.Core
             }
 
             public string SHA1FileHash(IAbsoluteFilePath fileName) {
-                Contract.Requires<ArgumentNullException>(fileName != null);
+                if (fileName == null) throw new ArgumentNullException(nameof(fileName));
 
                 return FileUtil.Ops.AddIORetryDialog(() => {
                     using (var fs = new FileStream(fileName.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -55,8 +55,8 @@ namespace withSIX.Core
             }
 
             public string SHA256FileHash(string fileName) {
-                Contract.Requires<ArgumentNullException>(fileName != null);
-                Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrEmpty(fileName));
+                if (fileName == null) throw new ArgumentNullException(nameof(fileName));
+                if (!(!string.IsNullOrEmpty(fileName))) throw new ArgumentOutOfRangeException("!string.IsNullOrEmpty(fileName)");
 
                 return FileUtil.Ops.AddIORetryDialog(() => {
                     using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -67,21 +67,21 @@ namespace withSIX.Core
             }
 
             public string SHA256Hash(string data) {
-                Contract.Requires<ArgumentNullException>(data != null);
+                if (data == null) throw new ArgumentNullException(nameof(data));
 
                 using (var sha = SHA256.Create())
                     return GetHash(sha.ComputeHash(Encoding.ASCII.GetBytes(data)));
             }
 
             public string SHA384Hash(string data) {
-                Contract.Requires<ArgumentNullException>(data != null);
+                if (data == null) throw new ArgumentNullException(nameof(data));
 
                 using (var sha = SHA384.Create())
                     return GetHash(sha.ComputeHash(Encoding.ASCII.GetBytes(data)));
             }
 
             public string SHA512Hash(string data) {
-                Contract.Requires<ArgumentNullException>(data != null);
+                if (data == null) throw new ArgumentNullException(nameof(data));
 
                 using (var sha = SHA512.Create())
                     return GetHash(sha.ComputeHash(Encoding.ASCII.GetBytes(data)));

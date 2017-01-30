@@ -23,7 +23,7 @@ namespace withSIX.Sync.Core.Packages
         DateTime _lastSync;
 
         public BundleManager(PackageManager packageManager) {
-            Contract.Requires<ArgumentNullException>(packageManager != null);
+            if (packageManager == null) throw new ArgumentNullException(nameof(packageManager));
             PackageManager = packageManager;
         }
 

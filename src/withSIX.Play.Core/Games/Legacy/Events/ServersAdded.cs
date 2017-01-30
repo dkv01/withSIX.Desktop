@@ -11,7 +11,7 @@ namespace withSIX.Play.Core.Games.Legacy.Events
     public class ServersAdded : EventArgs
     {
         public ServersAdded(Server[] servers) {
-            Contract.Requires<ArgumentNullException>(servers != null);
+            if (servers == null) throw new ArgumentNullException(nameof(servers));
 
             Servers = servers;
         }

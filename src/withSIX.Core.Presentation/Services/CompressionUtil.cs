@@ -27,8 +27,8 @@ namespace withSIX.Core.Presentation.Services
         public void UnpackInternal(IAbsoluteFilePath sourceFile, IAbsoluteDirectoryPath outputFolder,
             bool overwrite = false, bool fullPath = true, bool checkFileIntegrity = true,
             ITProgress progress = null) {
-            Contract.Requires<ArgumentNullException>(sourceFile != null);
-            Contract.Requires<ArgumentNullException>(outputFolder != null);
+            if (sourceFile == null) throw new ArgumentNullException(nameof(sourceFile));
+            if (outputFolder == null) throw new ArgumentNullException(nameof(outputFolder));
 
             var ext = sourceFile.FileExtension;
             var options = new ExtractionOptions {PreserveFileTime = true};

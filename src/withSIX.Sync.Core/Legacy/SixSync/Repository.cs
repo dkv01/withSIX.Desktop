@@ -41,8 +41,8 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         public Repository(IZsyncMake zsyncMake, string folder = ".") : this(zsyncMake, new StatusRepo(), folder) {}
 
         public Repository(IZsyncMake zsyncMake, StatusRepo statusRepo, string folder = ".") {
-            Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
+            if (!(!string.IsNullOrWhiteSpace(folder))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(folder)");
             _zsyncMake = zsyncMake;
             Folder = RepoTools.GetRootedPath(folder);
             RsyncFolder = Folder.GetChildDirectoryWithName(RepoFolderName);
@@ -85,7 +85,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
             get { return PackVersion.ArchiveFormat; }
             set
             {
-                Contract.Requires<ArchiveFormatUnsupported>(ArchiveFormats.Any(x => x == value));
+                if (!(ArchiveFormats.Any(x => x == value))) throw new ArchiveFormatUnsupported("ArchiveFormats.Any(x => x == value)");
 
                 PackVersion.ArchiveFormat = value;
                 WdVersion.ArchiveFormat = value;
@@ -102,8 +102,8 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public virtual void CreateZsyncFile(string fileName) {
-            Contract.Requires<ArgumentNullException>(fileName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(fileName));
+            if (fileName == null) throw new ArgumentNullException(nameof(fileName));
+            if (!(!string.IsNullOrWhiteSpace(fileName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(fileName)");
 
             _zsyncMake.CreateZsyncFile(GetPackFile(fileName), ZsyncMakeOptions.Overwrite);
         }
@@ -196,7 +196,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         void ConvertFormat(string format) {
-            Contract.Requires<ArchiveFormatUnsupported>(ArchiveFormats.Any(x => x == format));
+            if (!(ArchiveFormats.Any(x => x == format))) throw new ArchiveFormatUnsupported("ArchiveFormats.Any(x => x == format)");
             if (format == ArchiveFormat)
                 throw new ArgumentOutOfRangeException("Repository already of same format");
 
@@ -391,7 +391,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         bool HandleOpts(SyncOptions opts, bool save = true) {
-            Contract.Requires<ArgumentNullException>(opts != null);
+            if (opts == null) throw new ArgumentNullException(nameof(opts));
 
             var changed = false;
 

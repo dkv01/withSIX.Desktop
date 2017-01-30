@@ -29,8 +29,8 @@ namespace withSIX.Play.Applications.UseCases.Games
         readonly IGameMapperConfig _gameMapper;
 
         public ListGamesQueryHandler(IGameContext context, IGameMapperConfig gameMapper) {
-            Contract.Requires<ArgumentNullException>(context != null);
-            Contract.Requires<ArgumentNullException>(gameMapper != null);
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (gameMapper == null) throw new ArgumentNullException(nameof(gameMapper));
 
             _context = context;
             _gameMapper = gameMapper;

@@ -50,7 +50,7 @@ namespace withSIX.Play.Core.Options.Entries
             get { return _activeProfile; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
+                if (value == null) throw new ArgumentNullException(nameof(value));
                 SetProperty(ref _activeProfile, value);
             }
         }
@@ -60,9 +60,9 @@ namespace withSIX.Play.Core.Options.Entries
         }
 
         public GameSettingsProfileBase CreateProfile(string name, string color, Guid parentId) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(color));
-            Contract.Requires<ArgumentNullException>(parentId != Guid.Empty);
+            if (!(!string.IsNullOrWhiteSpace(name))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(name)");
+            if (!(!string.IsNullOrWhiteSpace(color))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(color)");
+            if (!(parentId != Guid.Empty)) throw new ArgumentNullException("parentId != Guid.Empty");
 
             var parent = Profiles.First(x => x.Id == parentId);
 
@@ -80,7 +80,7 @@ namespace withSIX.Play.Core.Options.Entries
         }
 
         public void DeleteProfile(Guid uuid) {
-            Contract.Requires<ArgumentNullException>(uuid != Guid.Empty);
+            if (!(uuid != Guid.Empty)) throw new ArgumentNullException("uuid != Guid.Empty");
 
             if (ActiveProfile.Id == uuid)
                 ActiveProfile = _profiles.First();
@@ -92,13 +92,13 @@ namespace withSIX.Play.Core.Options.Entries
         }
 
         public void ActivateProfile(Guid uuid) {
-            Contract.Requires<ArgumentNullException>(uuid != Guid.Empty);
+            if (!(uuid != Guid.Empty)) throw new ArgumentNullException("uuid != Guid.Empty");
 
             ActiveProfile = _profiles.First(x => x.Id == uuid);
         }
 
         public void ActivateProfile(string name) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
+            if (!(!string.IsNullOrWhiteSpace(name))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(name)");
 
             var profile = _profiles.First(x => x.Name == name);
             ActiveProfile = profile;
@@ -113,7 +113,7 @@ namespace withSIX.Play.Core.Options.Entries
         .FirstOrDefault(x => !EqualityComparer<T>.Default.Equals(x, default(T)));
 
         static IEnumerable<IGetData> GetAllProfiles(GameSettingsProfileBase activeProfile) {
-            Contract.Requires<NullReferenceException>(activeProfile != null);
+            if (!(activeProfile != null)) throw new NullReferenceException("activeProfile != null");
 
             var profile = activeProfile;
             while (profile != null) {

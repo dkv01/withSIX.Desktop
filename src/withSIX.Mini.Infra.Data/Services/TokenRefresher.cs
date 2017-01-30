@@ -52,7 +52,7 @@ namespace withSIX.Mini.Infra.Data.Services
         }
 
         public async Task HandleLogin(AccessInfo info, Settings settings) {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null) throw new ArgumentNullException(nameof(info));
             if (info.AccessToken != null)
                 await TryHandleLoggedIn(info, settings).ConfigureAwait(false);
             else

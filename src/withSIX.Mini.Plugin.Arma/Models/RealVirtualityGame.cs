@@ -313,9 +313,9 @@ namespace withSIX.Mini.Plugin.Arma.Models
         protected class RvProfileInfo
         {
             public RvProfileInfo(string mainName, string otherProfilesName, string profileExtension) {
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(mainName));
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(otherProfilesName));
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(profileExtension));
+                if (!(!string.IsNullOrWhiteSpace(mainName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(mainName)");
+                if (!(!string.IsNullOrWhiteSpace(otherProfilesName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(otherProfilesName)");
+                if (!(!string.IsNullOrWhiteSpace(profileExtension))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(profileExtension)");
 
                 DocumentsMainName = mainName;
                 DocumentsOtherProfilesName = otherProfilesName;
@@ -342,7 +342,7 @@ namespace withSIX.Mini.Plugin.Arma.Models
             StartupBuilderSpec _spec;
 
             public StartupBuilder(RealVirtualityGame game) {
-                Contract.Requires<ArgumentNullException>(game != null);
+                if (game == null) throw new ArgumentNullException(nameof(game));
                 //_supportsMods = game.SupportsMods();
                 //_supportsMissions = game.SupportsMissions();
                 //_supportsServers = game.SupportsServers();
@@ -352,8 +352,8 @@ namespace withSIX.Mini.Plugin.Arma.Models
             }
 
             public StartupBuilder(RealVirtualityGame game, ModListBuilder builder) {
-                Contract.Requires<ArgumentNullException>(game != null);
-                Contract.Requires<ArgumentNullException>(builder != null);
+                if (game == null) throw new ArgumentNullException(nameof(game));
+                if (builder == null) throw new ArgumentNullException(nameof(builder));
                 _supportsMods = true;
                 //_supportsMissions = game.SupportsMissions();
                 //_supportsServers = game.SupportsServers();

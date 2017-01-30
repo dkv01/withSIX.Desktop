@@ -19,10 +19,10 @@ namespace withSIX.Play.Infra.Data.Services
         protected LaunchGameInfoBase Spec { get; }
 
         protected SULaunchGameArgumentsBuilder(LaunchGameInfoBase spec) {
-            Contract.Requires<ArgumentNullException>(spec != null);
-            Contract.Requires<ArgumentNullException>(spec.LaunchExecutable != null);
-            Contract.Requires<ArgumentNullException>(spec.WorkingDirectory != null);
-            Contract.Requires<ArgumentNullException>(spec.StartupParameters != null);
+            if (spec == null) throw new ArgumentNullException(nameof(spec));
+            if (!(spec.LaunchExecutable != null)) throw new ArgumentNullException("spec.LaunchExecutable != null");
+            if (!(spec.WorkingDirectory != null)) throw new ArgumentNullException("spec.WorkingDirectory != null");
+            if (!(spec.StartupParameters != null)) throw new ArgumentNullException("spec.StartupParameters != null");
             Spec = spec;
         }
 
@@ -72,7 +72,7 @@ namespace withSIX.Play.Infra.Data.Services
 
         public SULaunchGameJavaArgumentsBuilder(LaunchGameWithJavaInfo spec, IAbsoluteDirectoryPath javaPath)
             : base(spec) {
-            Contract.Requires<ArgumentNullException>(javaPath != null);
+            if (javaPath == null) throw new ArgumentNullException(nameof(javaPath));
             _javaPath = javaPath;
         }
 
@@ -88,8 +88,8 @@ namespace withSIX.Play.Infra.Data.Services
 
         public SULaunchGameSteamArgumentsBuilder(LaunchGameWithSteamInfo spec, IAbsoluteDirectoryPath steamPath)
             : base(spec) {
-            Contract.Requires<ArgumentNullException>(steamPath != null);
-            Contract.Requires<ArgumentNullException>(spec.SteamAppId != -1);
+            if (steamPath == null) throw new ArgumentNullException(nameof(steamPath));
+            if (!(spec.SteamAppId != -1)) throw new ArgumentNullException("spec.SteamAppId != -1");
             _steamPath = steamPath;
             _spec = spec;
         }

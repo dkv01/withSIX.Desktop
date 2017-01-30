@@ -13,10 +13,10 @@ namespace withSIX.Play.Core.Games.Entities
         public InstalledState(IAbsoluteFilePath executable, IAbsoluteFilePath launchExecutable,
             IAbsoluteDirectoryPath directory, IAbsoluteDirectoryPath workingDirectory, Version version = null,
             bool isClient = true) {
-            Contract.Requires<ArgumentNullException>(executable != null);
-            Contract.Requires<ArgumentNullException>(launchExecutable != null);
-            Contract.Requires<ArgumentNullException>(directory != null);
-            Contract.Requires<ArgumentNullException>(workingDirectory != null);
+            if (executable == null) throw new ArgumentNullException(nameof(executable));
+            if (launchExecutable == null) throw new ArgumentNullException(nameof(launchExecutable));
+            if (directory == null) throw new ArgumentNullException(nameof(directory));
+            if (workingDirectory == null) throw new ArgumentNullException(nameof(workingDirectory));
 
             Executable = executable;
             LaunchExecutable = launchExecutable;

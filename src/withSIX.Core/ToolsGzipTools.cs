@@ -20,8 +20,8 @@ namespace withSIX.Core
 
             public virtual string Gzip(IAbsoluteFilePath file, IAbsoluteFilePath dest = null,
                 bool preserveFileNameAndModificationTime = true, ITProgress status = null) {
-                Contract.Requires<ArgumentNullException>(file != null);
-                Contract.Requires<ArgumentException>(file.Exists);
+                if (file == null) throw new ArgumentNullException(nameof(file));
+                if (!(file.Exists)) throw new ArgumentException("file.Exists");
 
                 var defDest = (file + ".gz").ToAbsoluteFilePath();
                 if (dest == null)
@@ -51,8 +51,8 @@ namespace withSIX.Core
 
             public virtual string GzipStdOut(IAbsoluteFilePath inputFile, IAbsoluteFilePath outputFile = null,
                 bool preserveFileNameAndModificationTime = true, ITProgress status = null) {
-                Contract.Requires<ArgumentException>(inputFile != null);
-                Contract.Requires<ArgumentException>(inputFile.Exists);
+                if (!(inputFile != null)) throw new ArgumentException("inputFile != null");
+                if (!(inputFile.Exists)) throw new ArgumentException("inputFile.Exists");
 
                 if (outputFile == null)
                     outputFile = (inputFile + ".gz").ToAbsoluteFilePath();
@@ -82,7 +82,7 @@ namespace withSIX.Core
             }
 
             public virtual byte[] DecompressGzip(byte[] compressedBytes) {
-                Contract.Requires<ArgumentNullException>(compressedBytes != null);
+                if (compressedBytes == null) throw new ArgumentNullException(nameof(compressedBytes));
 
                 using (var ms = new MemoryStream(compressedBytes)) {
                     var step = new byte[16]; //Instead of 16 can put any 2^x

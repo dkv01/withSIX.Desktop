@@ -229,7 +229,7 @@ namespace withSIX.Mini.Plugin.Arma.Services.CommandAPI
         }
 
         Task Write(string message, int timeout = 0) {
-            Contract.Requires<ArgumentNullException>(message != null);
+            if (message == null) throw new ArgumentNullException(nameof(message));
             return WriteMessageToPipe(Encoding.UTF8.GetBytes(message), timeout);
         }
 

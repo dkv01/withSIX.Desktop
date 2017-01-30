@@ -40,8 +40,8 @@ namespace withSIX.Updater.Presentation.Wpf.Services
         }
 
         public int LaunchGame(GameLaunchSpec spec) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(spec.GamePath));
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(spec.WorkingDirectory));
+            if (!(!string.IsNullOrWhiteSpace(spec.GamePath))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(spec.GamePath)");
+            if (!(!string.IsNullOrWhiteSpace(spec.WorkingDirectory))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(spec.WorkingDirectory)");
 
             _steamError = false;
             _isSteamRunning = false;

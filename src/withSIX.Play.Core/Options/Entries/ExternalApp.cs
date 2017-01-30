@@ -56,8 +56,8 @@ namespace withSIX.Play.Core.Options.Entries
         public StartupType StartupType { get; set; }
 
         public void Launch(IProcessManager processManager) {
-            Contract.Requires<ArgumentNullException>(Path != null);
-            Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(Path));
+            if (Path == null) throw new ArgumentNullException(nameof(Path));
+            if (!(!String.IsNullOrWhiteSpace(Path))) throw new ArgumentException("!String.IsNullOrWhiteSpace(Path)");
             //if (!UserSettings.Current.AppOptions.UseElevatedService) {
             var startInfo = new ProcessStartInfoBuilder(Path, Parameters) {
                 WorkingDirectory = Path.ToAbsoluteFilePath().ParentDirectoryPath,

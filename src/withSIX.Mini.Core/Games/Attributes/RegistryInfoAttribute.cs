@@ -13,8 +13,8 @@ namespace withSIX.Mini.Core.Games.Attributes
         protected RegistryInfoAttribute() {}
 
         public RegistryInfoAttribute(string path, string key) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(path));
-            Contract.Requires<ArgumentNullException>(key != null);
+            if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(path)");
+            if (key == null) throw new ArgumentNullException(nameof(key));
             Path = path;
             Key = key;
         }

@@ -46,7 +46,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public void UpdateSynqState(ISupportModding game, PackageItem package) {
-            Contract.Requires<ArgumentNullException>(package != null);
+            if (package == null) throw new ArgumentNullException(nameof(package));
             _package = package;
             SetSharedState(game);
             _isValidSixSync = false;

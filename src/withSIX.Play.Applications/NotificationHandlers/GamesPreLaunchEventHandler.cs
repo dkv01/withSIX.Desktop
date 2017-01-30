@@ -164,7 +164,7 @@ Note: The conversion and patching process will take several minutes - please be 
         }
 
         async Task<bool> OpenPasswordDialog(Server server) {
-            Contract.Requires<ArgumentNullException>(server != null);
+            if (server == null) throw new ArgumentNullException(nameof(server));
             var msg = $"Please enter Server Password for {server.Name}:";
             var defaultInput = server.SavedPassword;
             // Hopefully we are on a bg thread here or this fails

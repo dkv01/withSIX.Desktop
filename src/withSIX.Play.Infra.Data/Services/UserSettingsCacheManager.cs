@@ -29,12 +29,12 @@ namespace withSIX.Play.Infra.Data.Services
         readonly IUserCache _cache;
 
         public UserSettingsCacheManager(IUserCache cache) {
-            Contract.Requires<ArgumentNullException>(cache != null);
+            if (cache == null) throw new ArgumentNullException(nameof(cache));
             _cache = cache;
         }
 
         public IObservable<UserSettings> Get(Version version) {
-            Contract.Requires<ArgumentNullException>(version != null);
+            if (version == null) throw new ArgumentNullException(nameof(version));
 
             return _cache.GetOrFetchObject(GetKey(version), () => TryToFindOlderVersion(version));
         }
@@ -46,7 +46,7 @@ namespace withSIX.Play.Infra.Data.Services
         }
 
         public async Task Set(UserSettings settings) {
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
 
             var versions = await GetOrCreateVersionsIndex();
             versions.Register(settings.Version);
@@ -104,12 +104,12 @@ namespace withSIX.Play.Infra.Data.Services
         public SettingsVersion() {}
 
         public SettingsVersion(Version version) : this(version.Major, version.Minor) {
-            Contract.Requires<ArgumentNullException>(version != null);
+            if (version == null) throw new ArgumentNullException(nameof(version));
         }
 
         public SettingsVersion(int major, int minor) {
-            Contract.Requires<ArgumentNullException>(major >= 0);
-            Contract.Requires<ArgumentNullException>(minor >= 0);
+            if (!(major >= 0)) throw new ArgumentNullException("major >= 0");
+            if (!(minor >= 0)) throw new ArgumentNullException("minor >= 0");
 
             Major = major;
             Minor = minor;

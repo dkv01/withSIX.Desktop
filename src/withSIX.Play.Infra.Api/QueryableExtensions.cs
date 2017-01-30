@@ -13,8 +13,8 @@ namespace withSIX.Play.Infra.Api
     public static class QueryableExtensions
     {
         public static PageModel<T> ToPageModel<T>(this IQueryable<T> query, int page, int pageSize) {
-            Contract.Requires<ArgumentOutOfRangeException>(page > 0);
-            Contract.Requires<ArgumentOutOfRangeException>(pageSize > 0);
+            if (!(page > 0)) throw new ArgumentOutOfRangeException("page > 0");
+            if (!(pageSize > 0)) throw new ArgumentOutOfRangeException("pageSize > 0");
 
             var total = query.Count();
             var list = query.AddPaging(page*pageSize, pageSize).ToList();

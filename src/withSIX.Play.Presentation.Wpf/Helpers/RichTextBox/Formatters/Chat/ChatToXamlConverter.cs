@@ -62,9 +62,9 @@ namespace withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
         }
 
         static void AddText(XmlElement parentElement, string text) {
-            Contract.Requires<ArgumentNullException>(parentElement != null);
-            Contract.Requires<ArgumentNullException>(parentElement.OwnerDocument != null);
-            Contract.Requires<ArgumentNullException>(text != null);
+            if (parentElement == null) throw new ArgumentNullException(nameof(parentElement));
+            if (!(parentElement.OwnerDocument != null)) throw new ArgumentNullException("parentElement.OwnerDocument != null");
+            if (text == null) throw new ArgumentNullException(nameof(text));
 
             var textElement = parentElement.OwnerDocument.CreateTextNode(text);
 
@@ -72,8 +72,8 @@ namespace withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
         }
 
         static void AddLineBreak(XmlElement parentElement) {
-            Contract.Requires<ArgumentNullException>(parentElement != null);
-            Contract.Requires<ArgumentNullException>(parentElement.OwnerDocument != null);
+            if (parentElement == null) throw new ArgumentNullException(nameof(parentElement));
+            if (!(parentElement.OwnerDocument != null)) throw new ArgumentNullException("parentElement.OwnerDocument != null");
 
             var lineBreakElement = parentElement.OwnerDocument.CreateElement(null, xamlLineBreak, xamlNamespace);
 
@@ -81,10 +81,10 @@ namespace withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
         }
 
         static void AddImage(XmlElement parentElement, string url) {
-            Contract.Requires<ArgumentNullException>(parentElement != null);
-            Contract.Requires<ArgumentNullException>(parentElement.OwnerDocument != null);
-            Contract.Requires<ArgumentNullException>(url != null);
-            Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(url));
+            if (parentElement == null) throw new ArgumentNullException(nameof(parentElement));
+            if (!(parentElement.OwnerDocument != null)) throw new ArgumentNullException("parentElement.OwnerDocument != null");
+            if (url == null) throw new ArgumentNullException(nameof(url));
+            if (!(!String.IsNullOrWhiteSpace(url))) throw new ArgumentException("!String.IsNullOrWhiteSpace(url)");
 
             var imageElement = parentElement.OwnerDocument.CreateElement("CControls",
                 "CachedImageWithAnimatedGifSupport", cachedImageNS);
@@ -97,10 +97,10 @@ namespace withSIX.Play.Presentation.Wpf.Helpers.RichTextBox.Formatters.Chat
         }
 
         static void AddLink(XmlElement parentElement, string url) {
-            Contract.Requires<ArgumentNullException>(parentElement != null);
-            Contract.Requires<ArgumentNullException>(parentElement.OwnerDocument != null);
-            Contract.Requires<ArgumentNullException>(url != null);
-            Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(url));
+            if (parentElement == null) throw new ArgumentNullException(nameof(parentElement));
+            if (!(parentElement.OwnerDocument != null)) throw new ArgumentNullException("parentElement.OwnerDocument != null");
+            if (url == null) throw new ArgumentNullException(nameof(url));
+            if (!(!String.IsNullOrWhiteSpace(url))) throw new ArgumentException("!String.IsNullOrWhiteSpace(url)");
 
             var linkElement = parentElement.OwnerDocument.CreateElement(null, xamlHyperlink, xamlNamespace);
 

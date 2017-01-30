@@ -13,8 +13,8 @@ namespace withSIX.Mini.Core.Games
         public static readonly GameInstalledState Default = new NotGameInstalledState();
 
         public GameInstalledState(IAbsoluteFilePath executable, IAbsoluteDirectoryPath directory, Version version = null) {
-            Contract.Requires<ArgumentNullException>(executable != null);
-            Contract.Requires<ArgumentNullException>(directory != null);
+            if (executable == null) throw new ArgumentNullException(nameof(executable));
+            if (directory == null) throw new ArgumentNullException(nameof(directory));
 
             Executable = executable;
             Directory = directory;

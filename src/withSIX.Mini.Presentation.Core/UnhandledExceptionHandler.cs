@@ -16,7 +16,7 @@ namespace withSIX.Mini.Presentation.Core
         public UnhandledExceptionHandler(IEnumerable<IHandleExceptionPlugin> ehs) : base(ehs) {}
 
         protected override UserErrorModel HandleExceptionInternal(Exception ex, string action = "Action") {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
             return Handle((dynamic) ex, action);
         }
     }

@@ -10,15 +10,15 @@ namespace withSIX.Mini.Plugin.Arma.Services
     public class WriteParFileInfo
     {
         public WriteParFileInfo(Guid gameId, string content) {
-            Contract.Requires<ArgumentNullException>(gameId != Guid.Empty);
-            Contract.Requires<ArgumentNullException>(content != null);
+            if (!(gameId != Guid.Empty)) throw new ArgumentNullException("gameId != Guid.Empty");
+            if (content == null) throw new ArgumentNullException(nameof(content));
             GameId = gameId;
             Content = content;
         }
 
         public WriteParFileInfo(Guid gameId, string content, string additionalIdentifier)
             : this(gameId, content) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(additionalIdentifier));
+            if (!(!string.IsNullOrWhiteSpace(additionalIdentifier))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(additionalIdentifier)");
             AdditionalIdentifier = additionalIdentifier;
         }
 

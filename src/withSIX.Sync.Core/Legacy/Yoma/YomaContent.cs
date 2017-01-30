@@ -19,7 +19,7 @@ namespace withSIX.Sync.Core.Legacy.Yoma
         readonly string[] YomaConfigFiles = {"Addons.xml", "Mods.xml", "Server.xml"};
 
         public YomaContent(IAbsoluteDirectoryPath destination, Uri uri, IFileDownloadHelper downloader) {
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             _downloader = downloader;
             Destination = destination;
             YasDir = Destination.GetChildDirectoryWithName(".yas");
@@ -42,7 +42,7 @@ namespace withSIX.Sync.Core.Legacy.Yoma
         }
 
         public Task DownloadConfig(string config) {
-            Contract.Requires<ArgumentNullException>(config != null);
+            if (config == null) throw new ArgumentNullException(nameof(config));
             return _downloader.DownloadFileAsync(Tools.Transfer.JoinUri(Url, config), ConfigArchive);
         }
 

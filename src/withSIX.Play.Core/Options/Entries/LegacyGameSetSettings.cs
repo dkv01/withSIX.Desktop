@@ -25,7 +25,7 @@ namespace withSIX.Play.Core.Options.Entries
     public class LegacyGameSetSettings : IComparePK<LegacyGameSetSettings>
     {
         public LegacyGameSetSettings(Game game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
 
             Uuid = game.Id;
         }

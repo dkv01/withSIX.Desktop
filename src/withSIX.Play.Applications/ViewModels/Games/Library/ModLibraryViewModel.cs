@@ -771,7 +771,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
         }
 
         public async Task RemoveCollection(CustomCollection collection) {
-            Contract.Requires<ArgumentNullException>(collection != null);
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
             if (collection.PublishedId != null)
                 await Remove(collection);
             await Task.Run(async () => {

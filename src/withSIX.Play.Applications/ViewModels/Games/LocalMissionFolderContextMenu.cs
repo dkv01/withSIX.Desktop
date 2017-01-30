@@ -17,7 +17,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
     public class LocalMissionFolderContextMenu : MissionLibraryItemMenuBase<LocalMissionsContainer>
     {
         public LocalMissionFolderContextMenu(MissionLibraryViewModel library) : base(library) {
-            Contract.Requires<ArgumentNullException>(library != null);
+            if (library == null) throw new ArgumentNullException(nameof(library));
         }
 
         [MenuItem(Icon = SixIconFont.withSIX_icon_Folder)]

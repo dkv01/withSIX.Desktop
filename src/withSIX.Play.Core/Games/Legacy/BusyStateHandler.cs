@@ -90,7 +90,7 @@ namespace withSIX.Play.Core.Games.Legacy
             readonly BusyStateHandler _handler;
 
             public BusySession(BusyStateHandler handler) {
-                Contract.Requires<ArgumentNullException>(handler != null);
+                if (handler == null) throw new ArgumentNullException(nameof(handler));
                 _handler = handler;
             }
 
@@ -104,7 +104,7 @@ namespace withSIX.Play.Core.Games.Legacy
             readonly BusyStateHandler _handler;
 
             public SuspendedSession(BusyStateHandler handler) {
-                Contract.Requires<ArgumentNullException>(handler != null);
+                if (handler == null) throw new ArgumentNullException(nameof(handler));
                 _handler = handler;
             }
 

@@ -49,7 +49,7 @@ namespace withSIX.Core.Applications.MVVM.ViewModels
         protected static readonly string ModelProperty = "Model";
 
         public ReactiveModalScreen(T2 model) {
-            Contract.Requires<ArgumentNullException>(model != null);
+            if (model == null) throw new ArgumentNullException(nameof(model));
             Model = model;
         }
 

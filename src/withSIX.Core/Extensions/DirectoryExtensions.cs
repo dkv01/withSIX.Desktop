@@ -24,8 +24,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static bool IsRootedIn(this IAbsolutePath path, IAbsoluteDirectoryPath possibleRoot) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentNullException>(possibleRoot != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (possibleRoot == null) throw new ArgumentNullException(nameof(possibleRoot));
             while (path.HasParentDirectory) {
                 if (path.ParentDirectoryPath.Equals(possibleRoot))
                     return true;

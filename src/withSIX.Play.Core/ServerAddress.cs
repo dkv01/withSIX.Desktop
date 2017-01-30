@@ -96,8 +96,8 @@ namespace withSIX.Play.Core
     public static class SAStuff
     {
         public static ServerAddress GetAddy(string address) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(address));
-            Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(address));
+            if (!(!string.IsNullOrWhiteSpace(address))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(address)");
+            if (!(!String.IsNullOrWhiteSpace(address))) throw new ArgumentException("!String.IsNullOrWhiteSpace(address)");
 
             var addrs = address.Split(':');
             return

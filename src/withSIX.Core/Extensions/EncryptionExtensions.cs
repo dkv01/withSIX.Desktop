@@ -11,7 +11,7 @@ namespace withSIX.Core.Extensions
         const string EncryptionSalt = "j8RlPSi0OKfvDrbT";
 
         public static string Encrypt(this string str) {
-            Contract.Requires<ArgumentNullException>(str != null);
+            if (str == null) throw new ArgumentNullException(nameof(str));
 
             var byteData = Encoding.UTF8.GetBytes(str);
             var encryptionSaltByteData = Encoding.UTF8.GetBytes(EncryptionSalt);
@@ -20,7 +20,7 @@ namespace withSIX.Core.Extensions
         }
 
         public static string Decrypt(this string str) {
-            Contract.Requires<ArgumentNullException>(str != null);
+            if (str == null) throw new ArgumentNullException(nameof(str));
 
             if (str == string.Empty)
                 return string.Empty;

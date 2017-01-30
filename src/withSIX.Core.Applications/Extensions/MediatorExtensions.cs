@@ -39,30 +39,30 @@ namespace withSIX.Core.Applications.Extensions
         /// <returns></returns>
         public static Task<TResponseData> RequestAsyncWrapped<TResponseData>(this IMediator mediator,
             IRequest<TResponseData> request, CancellationToken cancelToken = default(CancellationToken)) {
-            Contract.Requires<ArgumentNullException>(request != null);
-            Contract.Requires<ArgumentNullException>(mediator != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             return Task.Run(() => mediator.Send(request, cancelToken), cancelToken);
         }
 
         public static Task<TResponseData> Execute<TResponseData>(this IRequest<TResponseData> message,
             IMediator mediator, CancellationToken cancelToken = default(CancellationToken)) {
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(mediator != null);
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             return mediator.Send(message, cancelToken);
         }
 
 
         public static Task RequestAsyncWrapped(this IMediator mediator,
             IRequest request, CancellationToken cancelToken = default(CancellationToken)) {
-            Contract.Requires<ArgumentNullException>(request != null);
-            Contract.Requires<ArgumentNullException>(mediator != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             return Task.Run(() => mediator.Send(request, cancelToken), cancelToken);
         }
 
         public static Task Execute(this IRequest message,
             IMediator mediator, CancellationToken cancelToken = default(CancellationToken)) {
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(mediator != null);
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             return mediator.Send(message, cancelToken);
         }
     }

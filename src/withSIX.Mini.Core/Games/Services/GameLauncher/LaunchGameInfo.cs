@@ -25,8 +25,8 @@ namespace withSIX.Mini.Core.Games.Services.GameLauncher
         protected LaunchGameInfoBase(IAbsoluteFilePath launchExecutable, IAbsoluteFilePath expectedExecutable,
             IAbsoluteDirectoryPath workingDirectory,
             IEnumerable<string> startupParameters) {
-            Contract.Requires<ArgumentNullException>(launchExecutable != null);
-            Contract.Requires<ArgumentNullException>(workingDirectory != null);
+            if (launchExecutable == null) throw new ArgumentNullException(nameof(launchExecutable));
+            if (workingDirectory == null) throw new ArgumentNullException(nameof(workingDirectory));
 
             Priority = ProcessPriorityClass.Normal;
             LaunchExecutable = launchExecutable;

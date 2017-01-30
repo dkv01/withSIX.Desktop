@@ -19,20 +19,29 @@ namespace withSIX.Mini.Core.Games
     public abstract class PackagedContent : InstallableContent, IPackagedContent
     {
         private readonly Lazy<ContentPublisher> _source;
+        private string _packageName;
 
         protected PackagedContent() {
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
         protected PackagedContent(string packageName, Guid gameId) : base(gameId) {
-            Contract.Requires<ArgumentNullException>(packageName != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(packageName));
+            if (packageName == null) throw new ArgumentNullException(nameof(packageName));
+            if (!(!string.IsNullOrWhiteSpace(packageName))) throw new ArgumentOutOfRangeException("!string.IsNullOrWhiteSpace(packageName)");
             PackageName = packageName;
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
         [DataMember]
-        public string PackageName { get; set; }
+        public string PackageName
+        {
+            get { return _packageName; }
+            set
+            {
+                if (!(!string.IsNullOrWhiteSpace(value))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(value)");
+                _packageName = value;
+            }
+        }
         public string GetFQN(string constraint = null) => PackageName.ToLower() + "-" + (constraint ?? Version);
 
         public virtual ContentPublisher GetSource(IHaveSourcePaths game) => _source.Value;

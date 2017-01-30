@@ -7,7 +7,7 @@ namespace withSIX.Core.Applications.Extensions
     public abstract class DecoratorBase<T> where T : class
     {
         protected DecoratorBase(T decorated) {
-            // Contract.Requires<ArgumentNullException>(decorated != null);
+            // if (decorated == null) throw new ArgumentNullException(nameof(decorated));
 
             Decorated = decorated;
         }

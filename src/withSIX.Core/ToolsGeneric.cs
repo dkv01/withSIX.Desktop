@@ -138,25 +138,25 @@ namespace withSIX.Core
             }
 
             public void OpenUrl(Uri uri) {
-                Contract.Requires<ArgumentNullException>(uri != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(uri.ToString()));
+                if (uri == null) throw new ArgumentNullException(nameof(uri));
+                if (!(!string.IsNullOrWhiteSpace(uri.ToString()))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(uri.ToString())");
 
                 OpenUrl(uri.ToString());
             }
 
             RegistryKey GetRegKey(string path, RegistryView bit = RegistryView.Registry32,
                 RegistryHive hive = RegistryHive.LocalMachine) {
-                Contract.Requires<ArgumentNullException>(path != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(path));
+                if (path == null) throw new ArgumentNullException(nameof(path));
+                if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(path)");
 
                 return OpenRegistry(bit, hive).OpenSubKey(path);
             }
 
             public T GetRegKeyValue<T>(string path, string value, RegistryView bit = RegistryView.Registry32,
                 RegistryHive hive = RegistryHive.LocalMachine) {
-                Contract.Requires<ArgumentNullException>(path != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(path));
-                Contract.Requires<ArgumentNullException>(value != null);
+                if (path == null) throw new ArgumentNullException(nameof(path));
+                if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(path)");
+                if (value == null) throw new ArgumentNullException(nameof(value));
 
                 using (var key = GetRegKey(path, bit, hive)) {
                     if (key == null)
@@ -169,9 +169,9 @@ namespace withSIX.Core
             public T NullSafeGetRegKeyValue<T>(string path, string val,
                 RegistryView view = RegistryView.Registry32,
                 RegistryHive hive = RegistryHive.LocalMachine) {
-                Contract.Requires<ArgumentNullException>(path != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(path));
-                Contract.Requires<ArgumentNullException>(val != null);
+                if (path == null) throw new ArgumentNullException(nameof(path));
+                if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(path)");
+                if (val == null) throw new ArgumentNullException(nameof(val));
 
                 try {
                     return GetRegKeyValue<T>(path, val, view, hive);

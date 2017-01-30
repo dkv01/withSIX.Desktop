@@ -240,7 +240,7 @@ namespace withSIX.Play.Applications.Services
         }
 
         async Task<bool> ConfirmServerProtectionLevel(Server server) {
-            Contract.Requires<ArgumentNullException>(server != null);
+            if (server == null) throw new ArgumentNullException(nameof(server));
             if ((server.Protection != ProtectionLevel.Low) && (server.Protection != ProtectionLevel.None))
                 return false;
 

@@ -24,14 +24,14 @@ namespace withSIX.Play.Core.Games.Entities
     public abstract class LaunchableContract : ILaunchable
     {
         public Task<int> Launch(IGameLauncherFactory factory) {
-            Contract.Requires<ArgumentNullException>(factory != null);
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
             return default(Task<int>);
         }
 
         public abstract RunningGame Running { get; }
 
         public void RegisterRunning(Process process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
         }
 
         public abstract void RegisterTermination();

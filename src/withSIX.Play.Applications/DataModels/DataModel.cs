@@ -14,7 +14,7 @@ namespace withSIX.Play.Applications.DataModels
     public abstract class DataModelRequireId<TId> : DataModel, IHaveId<TId>
     {
         protected DataModelRequireId(TId id) {
-            Contract.Requires<ArgumentOutOfRangeException>(!EqualityComparer<TId>.Default.Equals(id, default(TId)));
+            if (!(!EqualityComparer<TId>.Default.Equals(id, default(TId)))) throw new ArgumentOutOfRangeException("!EqualityComparer<TId>.Default.Equals(id, default(TId))");
 
             Id = id;
         }

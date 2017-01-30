@@ -108,13 +108,13 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public bool AddPackage(string package) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(package));
+            if (!(!string.IsNullOrWhiteSpace(package))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(package)");
 
             return AddPackage(new SpecificVersion(package));
         }
 
         public bool AddPackage(SpecificVersion package) {
-            Contract.Requires<ArgumentNullException>(package != null);
+            if (package == null) throw new ArgumentNullException(nameof(package));
 
             lock (Packages) {
                 if (!HasPackage(package)) {
@@ -128,13 +128,13 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public bool RemovePackage(string package) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(package));
+            if (!(!string.IsNullOrWhiteSpace(package))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(package)");
 
             return RemovePackage(new SpecificVersion(package));
         }
 
         public bool RemovePackage(SpecificVersion package) {
-            Contract.Requires<ArgumentNullException>(package != null);
+            if (package == null) throw new ArgumentNullException(nameof(package));
 
             lock (Packages) {
                 if (HasPackage(package)) {
@@ -149,13 +149,13 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public string[] AddPackage(IEnumerable<string> packages) {
-            Contract.Requires<ArgumentNullException>(packages != null);
+            if (packages == null) throw new ArgumentNullException(nameof(packages));
             return AddPackage(packages.Select(x => new SpecificVersion(x)))
                 .Select(x => x.GetFullName()).ToArray();
         }
 
         public SpecificVersion[] AddPackage(IEnumerable<SpecificVersion> packages) {
-            Contract.Requires<ArgumentNullException>(packages != null);
+            if (packages == null) throw new ArgumentNullException(nameof(packages));
             var added = new List<SpecificVersion>();
             lock (Packages) {
                 foreach (var package in packages) {
@@ -169,7 +169,7 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public string[] RemovePackage(IEnumerable<string> packages) {
-            Contract.Requires<ArgumentNullException>(packages != null);
+            if (packages == null) throw new ArgumentNullException(nameof(packages));
             var removed = new List<string>();
             lock (Packages) {
                 foreach (var package in packages) {
@@ -238,13 +238,13 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public bool AddBundle(string bundle) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(bundle));
+            if (!(!string.IsNullOrWhiteSpace(bundle))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(bundle)");
 
             return AddBundle(new SpecificVersion(bundle));
         }
 
         public bool AddBundle(SpecificVersion bundle) {
-            Contract.Requires<ArgumentNullException>(bundle != null);
+            if (bundle == null) throw new ArgumentNullException(nameof(bundle));
 
             lock (Bundles) {
                 if (!HasBundle(bundle)) {
@@ -258,13 +258,13 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public bool RemoveBundle(string bundle) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(bundle));
+            if (!(!string.IsNullOrWhiteSpace(bundle))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(bundle)");
 
             return RemoveBundle(new SpecificVersion(bundle));
         }
 
         public bool RemoveBundle(SpecificVersion bundle) {
-            Contract.Requires<ArgumentNullException>(bundle != null);
+            if (bundle == null) throw new ArgumentNullException(nameof(bundle));
 
             lock (Bundles) {
                 if (HasBundle(bundle)) {
@@ -279,13 +279,13 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public string[] AddBundle(IEnumerable<string> bundles) {
-            Contract.Requires<ArgumentNullException>(bundles != null);
+            if (bundles == null) throw new ArgumentNullException(nameof(bundles));
             return AddBundle(bundles.Select(x => new SpecificVersion(x)))
                 .Select(x => x.GetFullName()).ToArray();
         }
 
         public IReadOnlyCollection<SpecificVersion> AddBundle(IEnumerable<SpecificVersion> bundles) {
-            Contract.Requires<ArgumentNullException>(bundles != null);
+            if (bundles == null) throw new ArgumentNullException(nameof(bundles));
             var added = new List<SpecificVersion>();
             lock (Bundles) {
                 foreach (var bundle in bundles) {
@@ -299,7 +299,7 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public string[] RemoveBundle(IEnumerable<string> bundles) {
-            Contract.Requires<ArgumentNullException>(bundles != null);
+            if (bundles == null) throw new ArgumentNullException(nameof(bundles));
             var removed = new List<string>();
             lock (Bundles) {
                 foreach (var bundle in bundles) {
@@ -313,14 +313,14 @@ namespace withSIX.Sync.Core.Repositories.Internals
         }
 
         public ObjectInfo GetObject(string unpackedHash) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(unpackedHash));
+            if (!(!string.IsNullOrWhiteSpace(unpackedHash))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(unpackedHash)");
             lock (Objects) {
                 return Objects.ContainsKey(unpackedHash) ? new ObjectInfo(unpackedHash, Objects[unpackedHash]) : null;
             }
         }
 
         public ObjectInfo GetObjectByPack(string packedHash) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packedHash));
+            if (!(!string.IsNullOrWhiteSpace(packedHash))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(packedHash)");
             lock (Objects) {
                 if (Objects.ContainsValue(packedHash))
                     return new ObjectInfo(Objects.First(x => x.Value.Equals(packedHash)).Key, packedHash);

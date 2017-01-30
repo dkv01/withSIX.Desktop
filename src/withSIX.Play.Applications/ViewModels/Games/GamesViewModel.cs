@@ -229,7 +229,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
 
         
         public void ShowSettings(GameDataModel game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             SelectedItem = game;
             _gso?.TryClose();
 
@@ -241,7 +241,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
 
         
         public void ShowInfo(GameDataModel game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             SelectedItem = game;
             ShowOverlay(_gameInfoOverlay);
         }

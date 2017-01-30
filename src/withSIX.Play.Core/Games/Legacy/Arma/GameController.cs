@@ -31,7 +31,7 @@ namespace withSIX.Play.Core.Games.Legacy.Arma
         RepositoryItem _repoItem;
 
         protected GameController(ISupportContent game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             Game = game;
             _modding = game as ISupportModding;
         }

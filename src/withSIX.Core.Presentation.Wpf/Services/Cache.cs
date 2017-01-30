@@ -40,8 +40,8 @@ namespace withSIX.Core.Presentation.Wpf.Services
             }
 
             public async Task<BitmapSource> BmiFromUrlAsync(Uri uri, CancellationToken token) {
-                Contract.Requires<ArgumentNullException>(uri != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(uri.ToString()));
+                if (uri == null) throw new ArgumentNullException(nameof(uri));
+                if (!(!string.IsNullOrWhiteSpace(uri.ToString()))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(uri.ToString())");
 
                 var image = await BmiFromUrlAsync(uri).ConfigureAwait(false);
                 token.ThrowIfCancellationRequested();
@@ -60,8 +60,8 @@ namespace withSIX.Core.Presentation.Wpf.Services
             }
 
             public Task<BitmapSource> BmiFromUriAsync(Uri uri) {
-                Contract.Requires<ArgumentNullException>(uri != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(uri.ToString()));
+                if (uri == null) throw new ArgumentNullException(nameof(uri));
+                if (!(!string.IsNullOrWhiteSpace(uri.ToString()))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(uri.ToString())");
 
                 return BmiFromUrlAsync(uri);
             }

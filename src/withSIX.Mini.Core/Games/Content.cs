@@ -20,46 +20,6 @@ using withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace withSIX.Mini.Core.Games
 {
-    [ContractClassFor(typeof(IContent))]
-    public abstract class IContentContract : IContent
-    {
-        private string _name;
-        public abstract bool IsFavorite { get; set; }
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
-                _name = value;
-            }
-        }
-        public abstract Guid GameId { get; }
-        public abstract Guid Id { get; }
-        public abstract string Version { get; }
-        public abstract ItemState ProcessingState { get; }
-        public abstract void StartProcessingState(string version, bool force);
-        public abstract void FinishProcessingState(string version, bool completed);
-        public abstract void CancelProcessingState();
-        public abstract InstallInfo InstallInfo { get; }
-        public abstract RecentInfo RecentInfo { get; }
-        public abstract ItemState GetState();
-        public abstract ItemState GetState(string constraint);
-        public abstract void Installed(string version, bool completed);
-        public abstract IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
-
-        public abstract Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken,
-            bool processed);
-
-        public abstract void RegisterAdditionalPostInstallTask(Func<bool, Task> task);
-        public abstract void Use(IContentAction<IContent> action);
-
-        public abstract Task PreUninstall(IUninstallSession installerSession, CancellationToken cancelToken,
-            bool processed);
-
-        public abstract void Use(ILaunchContentAction<IContent> action);
-    }
-
     public interface IProcessingState
     {
         ItemState ProcessingState { get; }
@@ -68,7 +28,6 @@ namespace withSIX.Mini.Core.Games
         void CancelProcessingState();
     }
 
-    [ContractClass(typeof(IContentContract))]
     public interface IContent : IHaveGameId, IHaveId<Guid>, IPostInstallable, IProcessingState
     {
         string Version { get; }
@@ -80,27 +39,10 @@ namespace withSIX.Mini.Core.Games
         void Use(IContentAction<IContent> action);
     }
 
-    [ContractClass(typeof(IHavePackageNameContract))]
     public interface IHavePackageName
     {
         string PackageName { get; set; }
         string GetFQN(string constraint = null);
-    }
-
-    [ContractClassFor(typeof(IHavePackageName))]
-    public abstract class IHavePackageNameContract : IHavePackageName
-    {
-        private string _packageName;
-        public string PackageName
-        {
-            get { return _packageName; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
-                _packageName = value;
-            }
-        }
-        public abstract string GetFQN(string constraint = null);
     }
 
     public static class ContentExtensions
@@ -158,7 +100,7 @@ namespace withSIX.Mini.Core.Games
         protected Content() {}
 
         protected Content(Guid gameId) : this() {
-            //Contract.Requires<ArgumentException>(gameId != Guid.Empty);
+            //if (!(gameId != Guid.Empty)) throw new ArgumentException("gameId != Guid.Empty");
             _gameId = gameId; // circumvent the setter protection
         }
 

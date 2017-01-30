@@ -13,7 +13,7 @@ namespace withSIX.Play.Applications.UseCases.Profiles
     public class DeleteProfileCommand : IRequest<Unit>
     {
         public DeleteProfileCommand(Guid guid) {
-            Contract.Requires<ArgumentNullException>(guid != Guid.Empty);
+            if (!(guid != Guid.Empty)) throw new ArgumentNullException("guid != Guid.Empty");
 
             Guid = guid;
         }

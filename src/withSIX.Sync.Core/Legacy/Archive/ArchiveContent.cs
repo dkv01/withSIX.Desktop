@@ -29,8 +29,8 @@ namespace withSIX.Sync.Core.Legacy.Archive
         readonly IFileDownloader _downloader;
 
         public ArchiveContent(string name, string destination, IFileDownloader downloader) {
-            Contract.Requires<ArgumentNullException>(name != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             Name = name;
             Destination = System.IO.Path.GetFullPath(destination);
             _downloader = downloader;
@@ -72,14 +72,14 @@ namespace withSIX.Sync.Core.Legacy.Archive
         }
 
         public void Download(string url) {
-            Contract.Requires<ArgumentNullException>(url != null);
+            if (url == null) throw new ArgumentNullException(nameof(url));
             Download(new Uri(url));
         }
 
         public Task DownloadAsync(Uri url) => _downloader.DownloadAsync(url, ArchivePath);
 
         public Task DownloadAsync(string url) {
-            Contract.Requires<ArgumentNullException>(url != null);
+            if (url == null) throw new ArgumentNullException(nameof(url));
             return DownloadAsync(new Uri(url));
         }
 

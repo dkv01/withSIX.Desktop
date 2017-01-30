@@ -18,8 +18,8 @@ namespace withSIX.Play.Core.Games.Legacy.Arma
     {
         public string ProcessUserconfig(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true) {
-            Contract.Requires<ArgumentNullException>(modPath != null);
-            Contract.Requires<ArgumentNullException>(gamePath != null);
+            if (modPath == null) throw new ArgumentNullException(nameof(modPath));
+            if (gamePath == null) throw new ArgumentNullException(nameof(gamePath));
 
             var backupAndClean = force;
 

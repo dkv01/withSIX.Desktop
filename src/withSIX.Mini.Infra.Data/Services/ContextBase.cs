@@ -30,12 +30,12 @@ namespace withSIX.Mini.Infra.Data.Services
         }
 
         public void AddTransactionCallback(Action act) {
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (act == null) throw new ArgumentNullException(nameof(act));
             _transactionCallbacks.Add(act);
         }
 
         public void AddTransactionCallback(Func<Task> act) {
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (act == null) throw new ArgumentNullException(nameof(act));
             _transactionCallbacksAsync.Add(act);
         }
 

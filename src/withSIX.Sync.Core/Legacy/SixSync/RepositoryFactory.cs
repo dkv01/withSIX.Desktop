@@ -66,8 +66,8 @@ namespace withSIX.Sync.Core.Legacy.SixSync
 
         public Repository Init(IAbsoluteDirectoryPath folder, IReadOnlyCollection<Uri> hosts,
             Action<SyncOptions> cfg = null) {
-            Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(hosts != null);
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
+            if (hosts == null) throw new ArgumentNullException(nameof(hosts));
 
             var opts = new SyncOptions();
             cfg?.Invoke(opts);
@@ -109,9 +109,9 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 : new Repository(_zsyncMake, folder.ToString());
 
         public async Task<Repository> Clone(IReadOnlyCollection<Uri> hosts, string folder, Action<SyncOptions> config = null) {
-            Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
-            Contract.Requires<ArgumentNullException>(hosts != null);
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
+            if (!(!string.IsNullOrWhiteSpace(folder))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(folder)");
+            if (hosts == null) throw new ArgumentNullException(nameof(hosts));
 
             var opts = new SyncOptions();
             config?.Invoke(opts);
@@ -128,7 +128,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
                 : Init(folder, new Uri[0], config);
 
         public Repository Open(IAbsoluteDirectoryPath folder, Action<SyncOptions> config = null) {
-            Contract.Requires<ArgumentNullException>(folder != null);
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
 
             var opts = new SyncOptions();
             config?.Invoke(opts);
@@ -141,13 +141,13 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public Repository Open(string folder, Action<SyncOptions> config = null) {
-            Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
+            if (!(!string.IsNullOrWhiteSpace(folder))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(folder)");
             return Open(folder.ToAbsoluteDirectoryPath(), config);
         }
 
         public Repository Convert(IAbsoluteDirectoryPath folder, Action<SyncOptions> config = null) {
-            Contract.Requires<ArgumentNullException>(folder != null);
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
 
             var opts = new SyncOptions();
             config?.Invoke(opts);

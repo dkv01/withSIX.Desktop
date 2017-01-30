@@ -17,7 +17,7 @@ namespace withSIX.Play.Core.Games.Services.GameLauncher
     public abstract class ContractClassForGameLauncherFactory : IGameLauncherFactory
     {
         public T Create<T>(ILaunchWith<T> game) where T : class, IGameLauncher {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             return default(T);
         }
     }

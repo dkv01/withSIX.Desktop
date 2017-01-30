@@ -15,7 +15,7 @@ namespace withSIX.Play.Core.Games.Entities
         bool? _isFavorite;
 
         protected Dlc(Guid id) {
-            Contract.Requires<ArgumentOutOfRangeException>(id != Guid.Empty);
+            if (!(id != Guid.Empty)) throw new ArgumentOutOfRangeException("id != Guid.Empty");
 
             Id = id;
         }

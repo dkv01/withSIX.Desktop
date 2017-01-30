@@ -66,9 +66,9 @@ namespace withSIX.Mini.Infra.Data.Services
             }
 
             public int LaunchGame(GameLaunchSpec spec) {
-                Contract.Requires<ArgumentNullException>(spec != null);
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(spec.GamePath));
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(spec.WorkingDirectory));
+                if (spec == null) throw new ArgumentNullException(nameof(spec));
+                if (!(!string.IsNullOrWhiteSpace(spec.GamePath))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(spec.GamePath)");
+                if (!(!string.IsNullOrWhiteSpace(spec.WorkingDirectory))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(spec.WorkingDirectory)");
 
                 _spec = spec;
                 _steamLauncher = new SteamLauncher(_spec.SteamPath);

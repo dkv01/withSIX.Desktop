@@ -10,13 +10,13 @@ namespace withSIX.Play.Core.Connect.Events
     public class RequestOpenBrowser : EventArgs
     {
         public RequestOpenBrowser(Uri url) {
-            Contract.Requires<ArgumentNullException>(url != null);
+            if (url == null) throw new ArgumentNullException(nameof(url));
 
             Url = url;
         }
 
         public RequestOpenBrowser(string url) {
-            Contract.Requires<ArgumentNullException>(url != null);
+            if (url == null) throw new ArgumentNullException(nameof(url));
 
             Url = new Uri(url);
         }

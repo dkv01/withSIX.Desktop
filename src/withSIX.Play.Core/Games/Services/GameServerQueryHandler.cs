@@ -23,7 +23,7 @@ namespace withSIX.Play.Core.Games.Services
     public abstract class ServersQuery
     {
         protected ServersQuery(string tag) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(tag));
+            if (!(!string.IsNullOrWhiteSpace(tag))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(tag)");
             Tag = tag;
         }
 

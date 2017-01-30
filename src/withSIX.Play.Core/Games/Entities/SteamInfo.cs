@@ -12,15 +12,15 @@ namespace withSIX.Play.Core.Games.Entities
         protected SteamInfo() {}
 
         public SteamInfo(int appId) {
-            Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
+            if (!(appId > 0)) throw new ArgumentOutOfRangeException("appId > 0");
 
             AppId = appId;
         }
 
         [Obsolete("We now only require the appId to get the game folder, use the appId only constructor.")]
         public SteamInfo(int appId, string folder) {
-            Contract.Requires<ArgumentOutOfRangeException>(appId > 0);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
+            if (!(appId > 0)) throw new ArgumentOutOfRangeException("appId > 0");
+            if (!(!string.IsNullOrWhiteSpace(folder))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(folder)");
 
             AppId = appId;
             Folder = folder;

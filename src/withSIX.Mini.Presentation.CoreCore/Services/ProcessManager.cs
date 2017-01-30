@@ -37,7 +37,7 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
         }
 
         public static ProcessManager.ProcessState MonitorProcessOutput(this Process process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
 
             var state = new ProcessManager.ProcessState();
 
@@ -56,7 +56,7 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
     public static class ReactiveProcessExtensions
     {
         public static ProcessManager.ProcessState MonitorProcessOutput(this ReactiveProcess process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
 
             var state = new ProcessManager.ProcessState();
 
@@ -164,7 +164,7 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
         public class ManagementInternal : IManagement, IEnableLogging
         {
             public virtual Process[] FindProcess(string name, string path = null) {
-                Contract.Requires<ArgumentNullException>(name != null);
+                if (name == null) throw new ArgumentNullException(nameof(name));
                 return Process.GetProcessesByName(name.Replace(".exe", string.Empty));
             }
 
@@ -198,7 +198,7 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
             }
 
             public virtual void KillProcess(Process p, bool gracefully = false) {
-                Contract.Requires<ArgumentNullException>(p != null);
+                if (p == null) throw new ArgumentNullException(nameof(p));
                 gracefully = false;
                 if (gracefully) {
                     //p.CloseMainWindow();
@@ -217,8 +217,8 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
             }
 
             public virtual bool KillByName(string name, string path = null, bool gracefully = false) {
-                Contract.Requires<ArgumentNullException>(name != null);
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (!(!string.IsNullOrWhiteSpace(name))) throw new ArgumentException("!string.IsNullOrWhiteSpace(name)");
                 var processes = FindProcess(name, path);
                 foreach (var p in processes) {
                     using (p) {
@@ -244,8 +244,8 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
 
 
             public virtual bool Running(string exe) {
-                Contract.Requires<ArgumentNullException>(exe != null);
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(exe));
+                if (exe == null) throw new ArgumentNullException(nameof(exe));
+                if (!(!string.IsNullOrWhiteSpace(exe))) throw new ArgumentException("!string.IsNullOrWhiteSpace(exe)");
 
                 return GetRunningProcesses(exe).Any();
             }
@@ -291,7 +291,7 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
             }
 
             public virtual string GetCommandlineArgs(Process process) {
-                Contract.Requires<ArgumentNullException>(process != null);
+                if (process == null) throw new ArgumentNullException(nameof(process));
                 return GetCommandlineArgs(process.Id);
             }
 
@@ -314,8 +314,8 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
             }
 
             public virtual Dictionary<Process, string> GetCommandlineArgs(string name) {
-                Contract.Requires<ArgumentNullException>(name != null);
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (!(!string.IsNullOrWhiteSpace(name))) throw new ArgumentException("!string.IsNullOrWhiteSpace(name)");
 
                 var parsedName = name.EndsWith(".exe") ? Path.GetFileNameWithoutExtension(name) : name;
                 var procs = FindProcess(parsedName);
@@ -371,8 +371,8 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
         #region Monitor
 
         Timer MonitorProcessOutput(ReactiveProcess process, TimeSpan timeout) {
-            Contract.Requires<ArgumentNullException>(process != null);
-            Contract.Requires<ArgumentNullException>(timeout != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            if (timeout == null) throw new ArgumentNullException(nameof(timeout));
 
             var state = process.MonitorProcessOutput();
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output"));
@@ -382,8 +382,8 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
         }
 
         Timer MonitorProcessOutput(Process process, TimeSpan timeout) {
-            Contract.Requires<ArgumentNullException>(process != null);
-            Contract.Requires<ArgumentNullException>(timeout != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            if (timeout == null) throw new ArgumentNullException(nameof(timeout));
 
             var state = process.MonitorProcessOutput();
             _monitorStarted.OnNext(Tuple.Create(process.StartInfo, process.Id, "Output"));
@@ -439,8 +439,8 @@ namespace withSIX.Mini.Presentation.CoreCore.Services
 
         /*
            Timer MonitorProcessResponding(Process process, TimeSpan timeout) {
-            Contract.Requires<ArgumentNullException>(process != null);
-            Contract.Requires<ArgumentNullException>(timeout != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            if (timeout == null) throw new ArgumentNullException(nameof(timeout));
 
             var state = new ProcessState();
 

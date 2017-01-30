@@ -203,7 +203,7 @@ namespace withSIX.Mini.Plugin.Arma.Models.Legacy
         public override bool Save() => WriteClientSideConfig(_game.InstalledState.Directory);
 
         bool WriteClientSideConfig(IAbsoluteDirectoryPath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             var acePath = Path.Combine(path.ToString(), @"userconfig\ace");
             var file = Path.Combine(acePath, "ace_clientside_config.hpp");

@@ -26,8 +26,8 @@ namespace withSIX.Mini.Plugin.Arma.Services
 
         string ProcessUserconfigInternal(IAbsoluteDirectoryPath modPath, IAbsoluteDirectoryPath gamePath,
             string exisitingChecksum, bool force = true) {
-            Contract.Requires<ArgumentNullException>(modPath != null);
-            Contract.Requires<ArgumentNullException>(gamePath != null);
+            if (modPath == null) throw new ArgumentNullException(nameof(modPath));
+            if (gamePath == null) throw new ArgumentNullException(nameof(gamePath));
 
             var backupAndClean = force;
 
@@ -54,7 +54,7 @@ namespace withSIX.Mini.Plugin.Arma.Services
         }
 
         public static string GetRepoName(string name) {
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (name == null) throw new ArgumentNullException(nameof(name));
 
             return name.StartsWith("@") ? name.Substring(1).ToLower() : name.ToLower();
         }

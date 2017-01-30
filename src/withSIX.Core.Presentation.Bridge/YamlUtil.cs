@@ -50,7 +50,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public string ToYaml(object graph) {
-            Contract.Requires<ArgumentNullException>(graph != null);
+            if (graph == null) throw new ArgumentNullException(nameof(graph));
 
             using (var text = new StringWriter()) {
                 text.Write("--- \r\n");
@@ -66,7 +66,7 @@ namespace withSIX.Core.Presentation.Bridge
         // We call the graph ToYaml() because it manually serialises..
 
         public void PrintMapping(YamlMappingNode mapping) {
-            Contract.Requires<ArgumentNullException>(mapping != null);
+            if (mapping == null) throw new ArgumentNullException(nameof(mapping));
 
             foreach (var entry in mapping.Children) {
                 var key = ((YamlScalarNode) entry.Key).Value;
@@ -81,28 +81,28 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public Dictionary<string, string> ToStringDictionary(IDictionary<YamlNode, YamlNode> list) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
 
             return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
                 ent => ((YamlScalarNode) ent.Value).Value);
         }
 
         public Dictionary<string, int> ToIntDictionary(IDictionary<YamlNode, YamlNode> list) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
 
             return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
                 ent => ((YamlScalarNode) ent.Value).Value.TryInt());
         }
 
         public Dictionary<string, long> ToLongDictionary(IDictionary<YamlNode, YamlNode> list) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
 
             return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
                 ent => ((YamlScalarNode) ent.Value).Value.TryLong());
         }
 
         public Dictionary<string, string> GetStringDictionaryInternal(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             var mapping = node as YamlMappingNode;
             if (mapping == null) {
@@ -123,7 +123,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public string[] GetStringArrayInternal(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             var mapping = node as YamlSequenceNode;
             if (mapping == null) {
@@ -136,7 +136,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         YamlNode GetRootNode(YamlStream yaml) {
-            Contract.Requires<ArgumentNullException>(yaml != null);
+            if (yaml == null) throw new ArgumentNullException(nameof(yaml));
 
             if (yaml.Documents.Count == 0)
                 throw new YamlParseException("Contains no documents");
@@ -144,7 +144,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public YamlMappingNode GetMapping(YamlStream yaml) {
-            Contract.Requires<ArgumentNullException>(yaml != null);
+            if (yaml == null) throw new ArgumentNullException(nameof(yaml));
 
             var node = GetRootNode(yaml);
             var mapped = node as YamlMappingNode;
@@ -154,7 +154,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public DateTime GetDateTimeOrDefault(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             var val = ((YamlScalarNode) node).Value;
             DateTime dt;
@@ -163,25 +163,25 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         public string GetStringOrDefault(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             return ((YamlScalarNode) node).Value;
         }
 
         public long GetLongOrDefault(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             return ((YamlScalarNode) node).Value.TryLong();
         }
 
         public int GetIntOrDefault(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             return ((YamlScalarNode) node).Value.TryInt();
         }
 
         public bool GetBoolOrDefault(YamlNode node) {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             return ((YamlScalarNode) node).Value.TryBool();
         }
@@ -211,8 +211,8 @@ namespace withSIX.Core.Presentation.Bridge
     public static class YamlIoExtensions
     {
         internal static void _SaveYaml(string yaml, IAbsoluteFilePath fileName) {
-            Contract.Requires<ArgumentNullException>(yaml != null);
-            Contract.Requires<ArgumentNullException>(fileName != null);
+            if (yaml == null) throw new ArgumentNullException(nameof(yaml));
+            if (fileName == null) throw new ArgumentNullException(nameof(fileName));
 
             Tools.FileTools.SafeIO.SafeSave(x => {
                 using (var sr = new StreamWriter(x.ToString()))
@@ -221,7 +221,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         internal static YamlStream ReadYaml(this string yaml) {
-            Contract.Requires<ArgumentNullException>(yaml != null);
+            if (yaml == null) throw new ArgumentNullException(nameof(yaml));
 
             using (var input = new StringReader(yaml)) {
                 var yaml1 = new YamlStream();
@@ -231,7 +231,7 @@ namespace withSIX.Core.Presentation.Bridge
         }
 
         internal static YamlStream ReadYamlFile(this IAbsoluteFilePath yaml) {
-            Contract.Requires<ArgumentNullException>(yaml != null);
+            if (yaml == null) throw new ArgumentNullException(nameof(yaml));
 
             using (var stream = File.Open(yaml.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var input = new StreamReader(stream)) {

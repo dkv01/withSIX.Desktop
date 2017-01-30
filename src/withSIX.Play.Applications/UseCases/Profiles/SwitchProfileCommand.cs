@@ -13,7 +13,7 @@ namespace withSIX.Play.Applications.UseCases.Profiles
     public class SwitchProfileCommand : IRequest<Unit>
     {
         public SwitchProfileCommand(Guid guid) {
-            Contract.Requires<ArgumentNullException>(guid != Guid.Empty);
+            if (!(guid != Guid.Empty)) throw new ArgumentNullException("guid != Guid.Empty");
 
             Guid = guid;
         }
@@ -24,7 +24,7 @@ namespace withSIX.Play.Applications.UseCases.Profiles
     public class SwitchProfileByNameCommand : IRequest<Unit>
     {
         public SwitchProfileByNameCommand(string name) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
+            if (!(!string.IsNullOrWhiteSpace(name))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(name)");
             Name = name;
         }
 

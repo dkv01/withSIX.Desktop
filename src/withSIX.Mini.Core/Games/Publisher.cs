@@ -13,7 +13,7 @@ namespace withSIX.Mini.Core.Games
     public class ContentPublisher : IEquatable<ContentPublisher>
     {
         public ContentPublisher(Publisher publisher, string publisherId) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(publisherId));
+            if (!(!string.IsNullOrWhiteSpace(publisherId))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(publisherId)");
             Publisher = publisher;
             PublisherId = publisherId;
         }

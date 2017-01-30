@@ -27,13 +27,14 @@ namespace withSIX.Mini.Core.Games
     public abstract class LocalContent : Content, IUninstallableContent, IContentWithPackageName
     {
         private readonly Lazy<ContentPublisher> _source;
+        private string _packageName;
 
         protected LocalContent() {
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
         }
 
         protected LocalContent(string packageName, Guid gameId, string version) : base(gameId) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
+            if (!(!string.IsNullOrWhiteSpace(packageName))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(packageName)");
             PackageName = packageName;
             Version = version;
             _source = SystemExtensions.CreateLazy(() => new ContentPublisher(Publisher.withSIX, PackageName));
@@ -53,7 +54,15 @@ namespace withSIX.Mini.Core.Games
         public void OverrideSource(Publisher publisher) {}
 
         [DataMember]
-        public string PackageName { get; set; }
+        public string PackageName
+        {
+            get { return _packageName; }
+            set
+            {
+                if (!(!string.IsNullOrWhiteSpace(value))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(value)");
+                _packageName = value;
+            }
+        }
 
         public string GetFQN(string constraint = null) {
             var v = constraint ?? Version;

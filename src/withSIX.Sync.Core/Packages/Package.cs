@@ -53,8 +53,8 @@ namespace withSIX.Sync.Core.Packages
         static readonly string[] synqInfoSeparator = { SynqInfoJoiner, "\n" };
 
         public Package(IAbsoluteDirectoryPath workingDirectory, string packageName, Repository repository) {
-            Contract.Requires<ArgumentNullException>(workingDirectory != null);
-            Contract.Requires<ArgumentNullException>(repository != null);
+            if (workingDirectory == null) throw new ArgumentNullException(nameof(workingDirectory));
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
 
             WorkingPath = workingDirectory;
             Repository = repository;
@@ -65,8 +65,8 @@ namespace withSIX.Sync.Core.Packages
         }
 
         public Package(IAbsoluteDirectoryPath workingDirectory, PackageMetaData metaData, Repository repository) {
-            Contract.Requires<ArgumentNullException>(workingDirectory != null);
-            Contract.Requires<ArgumentNullException>(repository != null);
+            if (workingDirectory == null) throw new ArgumentNullException(nameof(workingDirectory));
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
 
             WorkingPath = workingDirectory;
             Repository = repository;

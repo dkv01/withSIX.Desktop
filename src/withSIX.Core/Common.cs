@@ -207,7 +207,7 @@ namespace withSIX.Core
             }
 
             public string GetResourcePath(string resource) {
-                Contract.Requires<ArgumentNullException>(resource != null);
+                if (resource == null) throw new ArgumentNullException(nameof(resource));
 
                 if (resource.StartsWith("//"))
                     resource = "http:" + resource;
@@ -344,7 +344,7 @@ namespace withSIX.Core
     public abstract class DomainEvent<T> : IDomainEvent
     {
         protected DomainEvent(T subject) {
-            Contract.Requires<ArgumentNullException>(subject != null);
+            if (subject == null) throw new ArgumentNullException(nameof(subject));
             Subject = subject;
         }
 

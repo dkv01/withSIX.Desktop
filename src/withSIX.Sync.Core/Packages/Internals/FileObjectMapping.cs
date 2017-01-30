@@ -10,10 +10,10 @@ namespace withSIX.Sync.Core.Packages.Internals
     public class FileObjectMapping
     {
         public FileObjectMapping(string filePath, string checksum) {
-            Contract.Requires<ArgumentNullException>(filePath != null);
-            Contract.Requires<ArgumentNullException>(checksum != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(filePath));
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(checksum));
+            if (filePath == null) throw new ArgumentNullException(nameof(filePath));
+            if (checksum == null) throw new ArgumentNullException(nameof(checksum));
+            if (!(!string.IsNullOrWhiteSpace(filePath))) throw new ArgumentOutOfRangeException("!string.IsNullOrWhiteSpace(filePath)");
+            if (!(!string.IsNullOrWhiteSpace(checksum))) throw new ArgumentOutOfRangeException("!string.IsNullOrWhiteSpace(checksum)");
             FilePath = filePath;
             Checksum = checksum;
         }

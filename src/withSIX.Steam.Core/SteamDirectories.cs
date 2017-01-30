@@ -16,9 +16,9 @@ namespace withSIX.Steam.Core
         }
 
         public SteamDirectories(uint appId, string folder, IAbsoluteDirectoryPath steamPath) {
-            Contract.Requires<ArgumentNullException>(appId > 0);
-            Contract.Requires<ArgumentNullException>(folder != null);
-            Contract.Requires<ArgumentNullException>(steamPath != null);
+            if (!(appId > 0)) throw new ArgumentNullException("appId > 0");
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
+            if (steamPath == null) throw new ArgumentNullException(nameof(steamPath));
 
             // TODO: Take LibraryPath from KV store
             RootPath = steamPath.GetChildDirectoryWithName("steamapps");

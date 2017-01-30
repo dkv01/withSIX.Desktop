@@ -16,7 +16,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
         public T2 Library { get; }
 
         protected ContentLibraryItemMenuBase(T2 library) {
-            Contract.Requires<ArgumentNullException>(library != null);
+            if (library == null) throw new ArgumentNullException(nameof(library));
 
             Library = library;
         }

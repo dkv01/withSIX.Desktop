@@ -266,7 +266,7 @@ namespace withSIX.Core.Extensions
 
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(
             this IEnumerable<KeyValuePair<TKey, TValue>> defaults, IEnumerable<KeyValuePair<TKey, TValue>> overrides) {
-            Contract.Requires<ArgumentNullException>(overrides != null);
+            if (overrides == null) throw new ArgumentNullException(nameof(overrides));
             return overrides.Concat(defaults)
                 .GroupBy(x => x.Key)
                 .Select(g => g.First())
@@ -341,12 +341,12 @@ namespace withSIX.Core.Extensions
         }
 
         public static bool CheckParamCount(this IEnumerable list, int min) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             return list.Cast<object>().Count() >= min;
         }
 
         public static void ConfirmParamCount(this IEnumerable list, int min) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             if (!CheckParamCount(list, min))
                 throw new ArgumentException($"Wrong number of parameters. {list.Cast<object>().Count()} vs {min}");
         }
@@ -379,8 +379,8 @@ namespace withSIX.Core.Extensions
         }
 
         public static Version ToNormalizedVersion(this string versionString) {
-            Contract.Requires<ArgumentNullException>(versionString != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(versionString));
+            if (versionString == null) throw new ArgumentNullException(nameof(versionString));
+            if (!(!string.IsNullOrWhiteSpace(versionString))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(versionString)");
 
             if (singleVersion.IsMatch(versionString))
                 versionString += ".0";
@@ -413,13 +413,13 @@ namespace withSIX.Core.Extensions
         }
 
         public static string FormatWith(this string format, params object[] args) {
-            Contract.Requires<ArgumentNullException>(format != null);
+            if (format == null) throw new ArgumentNullException(nameof(format));
 
             return string.Format(format, args);
         }
 
         public static string FormatWith(this string format, IFormatProvider provider, params object[] args) {
-            Contract.Requires<ArgumentNullException>(format != null);
+            if (format == null) throw new ArgumentNullException(nameof(format));
 
             return string.Format(provider, format, args);
         }
@@ -615,7 +615,7 @@ namespace withSIX.Core.Extensions
         }
 
         public static IList<T> ToList<T>(this IEnumerable<T> items, Action<T> action) {
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (items == null) throw new ArgumentNullException(nameof(items));
             var list = items.ToList();
             foreach (var item in list)
                 action(item);
@@ -672,7 +672,7 @@ namespace withSIX.Core.Extensions
         }
 
         public static string Stringify<T>(this IEnumerable<T> val) {
-            Contract.Requires<ArgumentNullException>(val != null);
+            if (val == null) throw new ArgumentNullException(nameof(val));
             return string.Join(",", val);
         }
 

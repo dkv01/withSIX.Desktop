@@ -25,7 +25,7 @@ namespace withSIX.Play.Core.Games.Services.GameLauncher
         public RealVirtualityLauncher(IGameLauncherProcess processManager,
             IPathConfiguration pathConfiguration, IFileWriter writer)
             : base(processManager) {
-            Contract.Requires<ArgumentNullException>(writer != null);
+            if (writer == null) throw new ArgumentNullException(nameof(writer));
             _writer = writer;
             _parPath = pathConfiguration.LocalDataPath.GetChildDirectoryWithName("games");
         }

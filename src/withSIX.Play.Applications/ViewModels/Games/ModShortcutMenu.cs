@@ -16,7 +16,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
     public class ModShortcutMenu : MenuItem<CollectionLibraryItemViewModel>
     {
         public ModShortcutMenu(object parent) {
-            Contract.Requires<ArgumentNullException>(parent != null);
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
             Parent = (CustomCollectionContextMenu) parent;
         }
 

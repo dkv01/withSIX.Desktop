@@ -400,7 +400,7 @@ namespace withSIX.Mini.Applications.Services
                 .FirstOrDefault(x => !EqualityComparer<T>.Default.Equals(x, default(T)));
 
         static IEnumerable<IGetData> GetAllProfiles(GameSettingsProfileBase activeProfile) {
-            Contract.Requires<NullReferenceException>(activeProfile != null);
+            if (!(activeProfile != null)) throw new NullReferenceException("activeProfile != null");
 
             var profile = activeProfile;
             while (profile != null) {
@@ -453,7 +453,7 @@ namespace withSIX.Mini.Applications.Services
             get { return _parent; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
+                if (value == null) throw new ArgumentNullException(nameof(value));
                 _parent = value;
             }
         }
@@ -510,7 +510,7 @@ namespace withSIX.Mini.Applications.Services
 
         protected GameSettingsProfile(Guid id, string name, string color, GameSettingsProfileBase parent)
             : base(id, name, color) {
-            Contract.Requires<ArgumentNullException>(parent != null);
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
             _parent = parent;
 
             //SetupRefresh();

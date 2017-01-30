@@ -18,7 +18,7 @@ namespace withSIX.Play.Applications
         readonly IConnectApiHandler _scopeFactory;
 
         public MediatorApiContextDecorator(IMediator mediator, IConnectApiHandler scopeFactory) : base(mediator) {
-            Contract.Requires<ArgumentNullException>(scopeFactory != null);
+            if (scopeFactory == null) throw new ArgumentNullException(nameof(scopeFactory));
             _scopeFactory = scopeFactory;
         }
 

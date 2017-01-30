@@ -71,7 +71,7 @@ namespace withSIX.Core.Applications.MVVM.ViewModels
     public abstract class ViewModelBase<T> : ViewModelBase, IHaveModel<T> where T : class
     {
         protected ViewModelBase(T model) {
-            Contract.Requires<ArgumentNullException>(model != null);
+            if (model == null) throw new ArgumentNullException(nameof(model));
 
             Model = model;
         }

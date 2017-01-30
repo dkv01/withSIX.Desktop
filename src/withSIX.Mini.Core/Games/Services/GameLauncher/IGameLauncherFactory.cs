@@ -4,7 +4,6 @@
 
 namespace withSIX.Mini.Core.Games.Services.GameLauncher
 {
-    //[ContractClass(typeof (ContractClassForGameLauncherFactory))]
     public interface IGameLauncherFactory
     {
         T Create<T>(ILaunchWith<T> game) where T : class, IGameLauncher;
@@ -18,14 +17,4 @@ namespace withSIX.Mini.Core.Games.Services.GameLauncher
     public interface IServerQuery {}
 
     public interface IServerQueryWith<T> {}
-
-    /*    [ContractClassFor(typeof (IGameLauncherFactory))]
-    public abstract class ContractClassForGameLauncherFactory : IGameLauncherFactory
-    {
-        public T Create<T>(ILaunchWith<T> game) where T : class, IGameLauncher {
-            Contract.Requires<ArgumentNullException>(game != null);
-            return default(T);
-        }
-    }
-    */
 }

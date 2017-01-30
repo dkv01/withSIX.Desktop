@@ -279,9 +279,9 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         public bool HasCustomRepo() => CustomRepoUrl != null;
 
         public void UpdateCustomRepoInfo(IContentManager modList, string url, SixRepo repo) {
-            Contract.Requires<ArgumentNullException>(modList != null);
-            Contract.Requires<ArgumentNullException>(url != null);
-            Contract.Requires<ArgumentNullException>(repo != null);
+            if (modList == null) throw new ArgumentNullException(nameof(modList));
+            if (url == null) throw new ArgumentNullException(nameof(url));
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
 
             UpdateSharedRepoInfo(url, repo);
 
@@ -292,10 +292,10 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
 
         public void UpdateCustomRepoServerInfo(IContentManager modList, SixRepoServer repoServer, string url,
             SixRepo repo) {
-            Contract.Requires<ArgumentNullException>(modList != null);
-            Contract.Requires<ArgumentNullException>(repoServer != null);
-            Contract.Requires<ArgumentNullException>(url != null);
-            Contract.Requires<ArgumentNullException>(repo != null);
+            if (modList == null) throw new ArgumentNullException(nameof(modList));
+            if (repoServer == null) throw new ArgumentNullException(nameof(repoServer));
+            if (url == null) throw new ArgumentNullException(nameof(url));
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
 
             UpdateSharedRepoInfo(url, repo);
 

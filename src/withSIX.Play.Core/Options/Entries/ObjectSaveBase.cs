@@ -14,8 +14,8 @@ namespace withSIX.Play.Core.Options.Entries
         [DataMember] readonly string _key;
 
         protected ObjectSaveBase(T obj) {
-            Contract.Requires<ArgumentNullException>(obj != null);
-            Contract.Requires<ArgumentNullException>(obj.ObjectTag != null);
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (!(obj.ObjectTag != null)) throw new ArgumentNullException("obj.ObjectTag != null");
             _key = obj.ObjectTag;
         }
 

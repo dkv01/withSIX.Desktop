@@ -15,7 +15,7 @@ namespace withSIX.Play.Presentation.Wpf.Factories
         readonly IDepResolver _depResolver;
 
         public GameLauncherFactory(IDepResolver depResolver) {
-            Contract.Requires<ArgumentNullException>(depResolver != null);
+            if (depResolver == null) throw new ArgumentNullException(nameof(depResolver));
             _depResolver = depResolver;
         }
 

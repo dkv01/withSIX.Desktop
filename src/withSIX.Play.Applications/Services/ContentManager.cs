@@ -291,8 +291,8 @@ namespace withSIX.Play.Applications.Services
         }
 
         public MissionBase[] GetLocalMissions(string path = null) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(path));
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (!(!String.IsNullOrWhiteSpace(path))) throw new ArgumentException("!String.IsNullOrWhiteSpace(path)");
             var missions = GetMissions(path).ToArray();
             return missions;
         }
@@ -312,8 +312,8 @@ namespace withSIX.Play.Applications.Services
 
         public IEnumerable<Mod> FindOrCreateLocalMods(ISupportModding game, IEnumerable<string> mods,
             IReadOnlyCollection<Mod> inputMods = null) {
-            Contract.Requires<ArgumentNullException>(game != null);
-            Contract.Requires<ArgumentNullException>(mods != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
+            if (mods == null) throw new ArgumentNullException(nameof(mods));
 
             return NonNullOrEmptyMods(mods)
                 .Select(mod => FindMod(mod, inputMods) ?? LocalMod.FromStringIfValid(mod, game))
@@ -323,13 +323,13 @@ namespace withSIX.Play.Applications.Services
 
         //public IEnumerable<string> GetModsInclDependencies(IReadOnlyCollection<string> modList,
         //  IReadOnlyCollection<Mod> inputMods = null) {
-        //            Contract.Requires<ArgumentNullException>(modList != null);
+        //            if (modList == null) throw new ArgumentNullException(nameof(modList));
         //          var modsInclDependencies = GetDependencies(modList, inputMods).Concat(modList).Distinct().ToArray();
         //return Collection.CleanupAiaCup(modList, modsInclDependencies);
         //}
 
         public IEnumerable<Mod> GetDependencies(ISupportModding game, IReadOnlyCollection<Mod> mods, IReadOnlyCollection<Mod> inputMods = null) {
-            Contract.Requires<ArgumentNullException>(mods != null);
+            if (mods == null) throw new ArgumentNullException(nameof(mods));
             return
                 HandleDependencies(game,
                     mods
@@ -342,21 +342,21 @@ namespace withSIX.Play.Applications.Services
 
         public IEnumerable<Mod> GetMods(ISupportModding game, IEnumerable<string> mods,
             IReadOnlyCollection<Mod> inputMods = null) {
-            Contract.Requires<ArgumentNullException>(game != null);
-            Contract.Requires<ArgumentNullException>(mods != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
+            if (mods == null) throw new ArgumentNullException(nameof(mods));
 
             return HandleDependencies(game, FindOrCreateLocalMods(game, mods, inputMods), inputMods);
         }
 
         public Mod FindMod(string mod, IReadOnlyCollection<Mod> inputMods = null) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(mod));
+            if (!(!string.IsNullOrWhiteSpace(mod))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(mod)");
             mod = Path.GetFileName(mod);
             return FindModInLists(mod, Mods.ToArrayLocked(), inputMods);
         }
 
         public IEnumerable<Mod> CompatibleMods(IEnumerable<Mod> inputMods, ISupportModding game) {
-            Contract.Requires<ArgumentNullException>(game != null);
-            Contract.Requires<ArgumentNullException>(inputMods != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
+            if (inputMods == null) throw new ArgumentNullException(nameof(inputMods));
 
             return inputMods.Where(x => x.CompatibleWith(game));
         }
@@ -1222,8 +1222,8 @@ namespace withSIX.Play.Applications.Services
         }
 
         bool SizeCheck(string item) {
-            Contract.Requires<ArgumentNullException>(item != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(item));
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (!(!string.IsNullOrWhiteSpace(item))) throw new ArgumentOutOfRangeException("!string.IsNullOrWhiteSpace(item)");
 
             var fi = new FileInfo(item);
             if (fi.Length < AttachmentCeil)
@@ -1312,8 +1312,8 @@ namespace withSIX.Play.Applications.Services
 
         static Mod FindModInLists(string mod, IReadOnlyCollection<Mod> items,
             IReadOnlyCollection<Mod> inputMods = null) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(mod));
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (!(!string.IsNullOrWhiteSpace(mod))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(mod)");
+            if (items == null) throw new ArgumentNullException(nameof(items));
 
             var lists = new[] {inputMods, items}
                 .Where(x => x != null).ToArray();
@@ -1539,7 +1539,7 @@ namespace withSIX.Play.Applications.Services
         }
 
         CustomCollection CreateCustomCollection(Server server) {
-            Contract.Requires<ArgumentNullException>(server != null);
+            if (server == null) throw new ArgumentNullException(nameof(server));
             var name = $"Collection ({server.Name})";
             var modSet = new CustomCollection(Guid.NewGuid(), Game.Modding()) {
                 Name = name,

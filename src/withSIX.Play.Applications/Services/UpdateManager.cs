@@ -54,12 +54,12 @@ namespace withSIX.Play.Applications.Services
     public static class StatusExtensions
     {
         public static bool IsEmpty(this InstallStatusOverview overview) {
-            Contract.Requires<ArgumentNullException>(overview != null);
+            if (overview == null) throw new ArgumentNullException(nameof(overview));
             return overview.Collections.IsEmpty() && overview.Mods.IsEmpty() && overview.Missions.IsEmpty();
         }
 
         public static bool IsEmpty(this InstallStatus status) {
-            Contract.Requires<ArgumentNullException>(status != null);
+            if (status == null) throw new ArgumentNullException(nameof(status));
             return !status.Install.Any() && !status.Uninstall.Any() && !status.Update.Any();
         }
     }

@@ -103,7 +103,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         public static bool InstallTs3Plugin(IAbsoluteFilePath fi, IAbsoluteDirectoryPath path, bool force) => path != null && InstallDll(fi, path, Ts3SubPath, force);
 
         static Version GetTs3Version(IAbsoluteDirectoryPath path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             var executable = path.DirectoryInfo.EnumerateFiles("ts3client_win*.exe").FirstOrDefault();
             if (executable == null)
@@ -115,7 +115,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
 
         static void InstallFolder(IAbsoluteDirectoryPath di, IAbsoluteDirectoryPath destination, string subPath,
             bool force) {
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             if (!destination.Exists)
                 throw new PathDoesntExistException(destination.ToString());
@@ -137,7 +137,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
 
         static bool InstallDll(IAbsoluteFilePath fi, IAbsoluteDirectoryPath destination, string subPath = null,
             bool force = true) {
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             if (!destination.Exists)
                 throw new PathDoesntExistException(destination.ToString());

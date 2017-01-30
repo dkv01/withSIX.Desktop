@@ -25,7 +25,7 @@ namespace withSIX.Core
             static readonly char[] splitQsParam = {'='};
 
             public virtual Dictionary<string, string> GetDictionaryFromQueryString(string qs) {
-                Contract.Requires<ArgumentNullException>(qs != null);
+                if (qs == null) throw new ArgumentNullException(nameof(qs));
 
                 var parts = qs.Split(qsSplit);
                 var properties = parts.Skip(1);
@@ -42,9 +42,9 @@ namespace withSIX.Core
                 => model.PostJson(uri, ct, token);
 
             public Uri JoinUri(Uri host, params object[] remotePaths) {
-                Contract.Requires<ArgumentNullException>(host != null);
-                Contract.Requires<ArgumentNullException>(remotePaths != null);
-                Contract.Requires<ArgumentNullException>(remotePaths.Any());
+                if (host == null) throw new ArgumentNullException(nameof(host));
+                if (remotePaths == null) throw new ArgumentNullException(nameof(remotePaths));
+                if (!(remotePaths.Any())) throw new ArgumentNullException("remotePaths.Any()");
 
                 var remotePath = JoinPaths(remotePaths);
                 if (!host.ToString().EndsWith("/"))

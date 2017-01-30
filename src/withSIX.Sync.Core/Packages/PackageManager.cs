@@ -51,8 +51,8 @@ namespace withSIX.Sync.Core.Packages
         public PackageManager(Repository repo, IAbsoluteDirectoryPath workDir, StatusRepo statusRepo,
             bool createWhenNotExisting = false,
             string remote = null) {
-            Contract.Requires<ArgumentNullException>(repo != null);
-            Contract.Requires<ArgumentNullException>(workDir != null);
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            if (workDir == null) throw new ArgumentNullException(nameof(workDir));
             WorkDir = workDir;
             StatusRepo = statusRepo;
             Repo = repo;

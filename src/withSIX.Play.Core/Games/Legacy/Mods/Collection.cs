@@ -69,7 +69,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         public int Status = 0;
 
         public Collection(Guid id, ISupportModding game) : this(id) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             Game = game;
             GameId = ((Game) game).Id;
         }
@@ -203,8 +203,8 @@ IContentManager contentList) => contentList.FindOrCreateLocalMods(Game,
         }
 
         public void SetVersion(string dependency, string constraint) {
-            Contract.Requires<ArgumentNullException>(dependency != null);
-            Contract.Requires<ArgumentOutOfRangeException>(constraint != string.Empty);
+            if (dependency == null) throw new ArgumentNullException(nameof(dependency));
+            if (!(constraint != string.Empty)) throw new ArgumentOutOfRangeException("constraint != string.Empty");
             // TODO: What about deeper check; is this really a version denotation, etc..
 
             dependency = dependency.ToLower();
@@ -408,7 +408,7 @@ IContentManager contentList) => contentList.FindOrCreateLocalMods(Game,
         }
 
         public bool GameMatch(Game game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             return game.Id.Equals(GameId);
         }
 
@@ -445,14 +445,14 @@ IContentManager contentList) => contentList.FindOrCreateLocalMods(Game,
         }
 
         public void Process(IContentManager modList) {
-            Contract.Requires<ArgumentNullException>(modList != null);
+            if (modList == null) throw new ArgumentNullException(nameof(modList));
             HandleModsetMods(modList);
             if (string.IsNullOrWhiteSpace(SupportUrl))
                 SupportUrl = HomepageUrl;
         }
 
         public void ChangeGame(Game game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             Game = game.Modding();
             GameId = game.Id;
         }

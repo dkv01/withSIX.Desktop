@@ -20,9 +20,9 @@ namespace withSIX.Core.Applications.MVVM.Services
         public static ReactiveCommand<TOut> SetNewCommand<T, TOut>(this ReactiveCommand<TOut> command, T target,
             Expression<Func<T, ReactiveCommand<TOut>>> memberLamda)
             where T : class {
-            Contract.Requires<ArgumentNullException>(command != null);
-            Contract.Requires<ArgumentNullException>(target != null);
-            Contract.Requires<ArgumentNullException>(memberLamda != null);
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (memberLamda == null) throw new ArgumentNullException(nameof(memberLamda));
 
             var memberSelectorExpression = memberLamda.Body as MemberExpression;
             if (memberSelectorExpression == null)
@@ -38,8 +38,8 @@ namespace withSIX.Core.Applications.MVVM.Services
         [Obsolete("Use RXUI or custom factory methods instead")]
         public static ReactiveCommand SetCommand<T>(this T target, Expression<Func<T, ReactiveCommand>> memberLamda)
             where T : class {
-            Contract.Requires<ArgumentNullException>(target != null);
-            Contract.Requires<ArgumentNullException>(memberLamda != null);
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (memberLamda == null) throw new ArgumentNullException(nameof(memberLamda));
 
             var memberSelectorExpression = memberLamda.Body as MemberExpression;
             if (memberSelectorExpression == null)
@@ -56,9 +56,9 @@ namespace withSIX.Core.Applications.MVVM.Services
         public static ReactiveCommand SetCommand<T>(this T target, Expression<Func<T, ReactiveCommand>> memberLamda,
             IObservable<bool> ena,
             bool initialCondition = true) where T : class {
-            Contract.Requires<ArgumentNullException>(target != null);
-            Contract.Requires<ArgumentNullException>(memberLamda != null);
-            Contract.Requires<ArgumentNullException>(ena != null);
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (memberLamda == null) throw new ArgumentNullException(nameof(memberLamda));
+            if (ena == null) throw new ArgumentNullException(nameof(ena));
 
             var memberSelectorExpression = memberLamda.Body as MemberExpression;
             if (memberSelectorExpression == null)
@@ -75,16 +75,16 @@ namespace withSIX.Core.Applications.MVVM.Services
             => target.GetType().Name + "." + property.Name;
 
         public static ReactiveCommand ToCommand(this Action action, [CallerMemberName] string name = null) {
-            Contract.Requires<ArgumentNullException>(action != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (name == null) throw new ArgumentNullException(nameof(name));
             var command = CreateCommand(name);
             command.Subscribe(action);
             return command;
         }
 
         public static ReactiveCommand ToAsyncCommand(this Func<Task> action, string name) {
-            Contract.Requires<ArgumentNullException>(action != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (name == null) throw new ArgumentNullException(nameof(name));
             var command = CreateCommand(name);
             command.RegisterAsyncTask(action).Subscribe();
             return command;
@@ -97,8 +97,8 @@ namespace withSIX.Core.Applications.MVVM.Services
         }
 
         static ReactiveCommand CreateCommand(IObservable<bool> ena, string name, bool initialCondition = true) {
-            Contract.Requires<ArgumentNullException>(ena != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (ena == null) throw new ArgumentNullException(nameof(ena));
+            if (name == null) throw new ArgumentNullException(nameof(name));
 
             var command = new ReactiveCommand(ena, initialCondition);
             command.DefaultSetup(name);
@@ -106,7 +106,7 @@ namespace withSIX.Core.Applications.MVVM.Services
         }
 
         public static ReactiveCommand CreateCommand(string name, bool allowMultiple, bool initialCondition = true) {
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (name == null) throw new ArgumentNullException(nameof(name));
 
             var command = new ReactiveCommand(null, allowMultiple, null, initialCondition);
             command.DefaultSetup(name);

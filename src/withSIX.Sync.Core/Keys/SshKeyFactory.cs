@@ -24,7 +24,7 @@ namespace withSIX.Sync.Core.Keys
 
         public SshKeyPair Create(string outFile, bool overwrite = false, int bits = SshKeyPair.DefaultBits,
             string type = SshKeyPair.DefaultType) {
-            Contract.Requires<ArgumentNullException>(outFile != null);
+            if (outFile == null) throw new ArgumentNullException(nameof(outFile));
             CreateFiles(outFile, overwrite, bits, type);
             return new SshKeyPair(outFile);
         }

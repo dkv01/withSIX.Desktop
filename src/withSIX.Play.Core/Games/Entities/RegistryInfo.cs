@@ -12,8 +12,8 @@ namespace withSIX.Play.Core.Games.Entities
         protected RegistryInfo() {}
 
         public RegistryInfo(string path, string key) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(path));
-            Contract.Requires<ArgumentNullException>(key != null);
+            if (!(!string.IsNullOrWhiteSpace(path))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(path)");
+            if (key == null) throw new ArgumentNullException(nameof(key));
             Path = path;
             Key = key;
         }

@@ -19,15 +19,15 @@ namespace withSIX.Core.Applications.MVVM.Extensions
     {
         public static void CopyAndTrackChangesOnUiThread<T>(this IReactiveList<T> list, Action<T> add, Action<T> remove,
             Action<IEnumerable<T>> reset, Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             reset(list);
             TrackChangesOnUiThread(list, add, remove, reset, filter);
         }
 
         public static CompositeDisposable KeepCollectionInSync<T>(this IReactiveList<T> list, IList<T> destination,
             Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             lock (list) {
                 list.SyncCollection(destination, filter);
                 return list.TrackChanges(destination.Add, x => destination.Remove(x),
@@ -37,8 +37,8 @@ namespace withSIX.Core.Applications.MVVM.Extensions
 
         public static CompositeDisposable KeepCollectionInSync2<T, T2>(this IReactiveList<T> list, IList<T2> destination,
             Func<T, bool> filter = null) where T : T2 {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             lock (list) {
                 list.SyncCollection2Locked(destination, filter);
                 return list.TrackChanges(x => destination.Add(x), x => destination.Remove(x),
@@ -49,8 +49,8 @@ namespace withSIX.Core.Applications.MVVM.Extensions
         public static CompositeDisposable KeepCollectionInSyncOfType<T, T2>(this IReactiveList<T2> list,
             IList<T2> destination, Func<T, bool> filter = null)
             where T : class, T2 where T2 : class {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             lock (list) {
                 list.SyncCollectionOfTypeLocked(destination, filter);
                 return list.TrackChangesOfType(destination.Add, x => destination.Remove(x),
@@ -62,8 +62,8 @@ namespace withSIX.Core.Applications.MVVM.Extensions
             IList<T2> destination, Func<T, bool> filter = null)
             where T : class, T2
             where T2 : class {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(destination != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             lock (list) {
                 list.SyncCollectionOfTypeLocked(destination, filter);
                 return list.TrackChangesOfType(destination.Add, x => destination.Remove(x),
@@ -73,7 +73,7 @@ namespace withSIX.Core.Applications.MVVM.Extensions
 
         public static CompositeDisposable TrackChanges<T>(this IReactiveList<T> list, Action<T> add, Action<T> remove,
             Action<ICollection<T>> reset, Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             var disposables = new CompositeDisposable();
             if (add != null) {
                 var o = list.ItemsAdded;
@@ -98,7 +98,7 @@ namespace withSIX.Core.Applications.MVVM.Extensions
         public static CompositeDisposable TrackChangesBeforeAdded<T>(this IReactiveList<T> list, Action<T> add,
             Action<T> remove,
             Action<IEnumerable<T>> reset, Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             var disposables = new CompositeDisposable();
             if (add != null) {
                 var o = list.BeforeItemsAdded;
@@ -123,7 +123,7 @@ namespace withSIX.Core.Applications.MVVM.Extensions
         public static CompositeDisposable TrackChangesOnUiThread<T>(this IReactiveList<T> list, Action<T> add,
             Action<T> remove,
             Action<IEnumerable<T>> reset, Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
             var disposables = new CompositeDisposable();
             if (add != null) {
                 var o = list.ItemsAdded;
@@ -153,7 +153,7 @@ namespace withSIX.Core.Applications.MVVM.Extensions
             Action<IEnumerable<T2>> reset, Func<T, bool> filter = null)
             where T2 : class
             where T : class, T2 {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
 
             var disposables = new CompositeDisposable();
             if (add != null) {
@@ -182,8 +182,8 @@ namespace withSIX.Core.Applications.MVVM.Extensions
         public static CompositeDisposable TrackChangesDerrivedConvert<T, T2>(this IReactiveList<T> list,
             IList<T2> target,
             Func<T, T2> convert, Func<T, bool> filter = null) where T2 : class {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(target != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (target == null) throw new ArgumentNullException(nameof(target));
             return list.TrackChanges(x => target.AddWhenMissing(convert(x)), x => target.Remove(convert(x)), l => {
                 target.Clear();
                 target.AddRange(l.Select(convert));
@@ -192,8 +192,8 @@ namespace withSIX.Core.Applications.MVVM.Extensions
 
         public static CompositeDisposable TrackChangesDerrived<T>(this IReactiveList<T> list, IList<T> target,
             Func<T, bool> filter = null) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(target != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (target == null) throw new ArgumentNullException(nameof(target));
             return list.TrackChanges(target.Add, x => target.Remove(x),
                 reset => reset.SyncCollectionLocked(target), filter);
         }
@@ -201,8 +201,8 @@ namespace withSIX.Core.Applications.MVVM.Extensions
         public static T UpdateOrAdd<T, T2>(this IHaveItems<T, T2> @this, T item, string[] extraExclusions = null)
             where T : class, IComparePK<T>
             where T2 : IList<T> {
-            Contract.Requires<ArgumentNullException>(@this != null);
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (!(@this != null)) throw new ArgumentNullException("@this != null");
+            if (item == null) throw new ArgumentNullException(nameof(item));
             return @this.Items.UpdateOrAdd(item, false, extraExclusions);
         }
 
@@ -210,48 +210,48 @@ namespace withSIX.Core.Applications.MVVM.Extensions
             string[] extraExclusions = null)
             where T : class, IComparePK<T>
             where T2 : IList<T> {
-            Contract.Requires<ArgumentNullException>(@this != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (!(@this != null)) throw new ArgumentNullException("@this != null");
+            if (items == null) throw new ArgumentNullException(nameof(items));
             return @this.Items.UpdateOrAdd(items, false, extraExclusions);
         }
 
         public static void RemoveAll<T>(this IReactiveList<T> list, Predicate<T> predicate) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.RemoveAll(list.Where(x => predicate(x)).ToArray());
         }
 
         public static void RemoveAll<T, T2>(this IReactiveList<T> list, Predicate<T2> predicate) where T2 : T {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             list.RemoveAll(list.Where(x => predicate((T2) x)).ToArray());
         }
 
         public static void RemoveAllLocked<T>(this ReactiveList<T> list, IEnumerable<T> other) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(other != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (other == null) throw new ArgumentNullException(nameof(other));
             lock (list)
                 list.RemoveAll(other);
         }
 
         /*        public static void RemoveAllLocked<T, T2>(this ReactiveList<T> list, IEnumerable<T2> other) where T2 : T
         {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(other != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (other == null) throw new ArgumentNullException(nameof(other));
             lock (list)
                 list.RemoveAll(other);
         }*/
 
         public static void RemoveAllLocked<T>(this IReactiveList<T> list, Predicate<T> predicate) {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             lock (list)
                 list.RemoveAll(list.Where(x => predicate(x)).ToArray());
         }
 
         public static void RemoveAllLocked<T, T2>(this IReactiveList<T> list, Predicate<T2> predicate) where T2 : T {
-            Contract.Requires<ArgumentNullException>(list != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             lock (list)
                 list.RemoveAll(list.Where(x => predicate((T2) x)).ToArray());
         }

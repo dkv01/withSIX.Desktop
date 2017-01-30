@@ -273,8 +273,8 @@ namespace withSIX.Mini.Core.Games
         }
 
         protected void AddInstalledContent(params Content[] installedContent) {
-            Contract.Requires<ArgumentNullException>(installedContent != null);
-            Contract.Requires<ArgumentOutOfRangeException>(installedContent.Any());
+            if (installedContent == null) throw new ArgumentNullException(nameof(installedContent));
+            if (!(installedContent.Any())) throw new ArgumentOutOfRangeException("installedContent.Any()");
             Contents.AddRange(installedContent);
             PrepareEvent(new ContentInstalled(Id, installedContent));
         }

@@ -14,7 +14,7 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
     public abstract class ServerQueryResult
     {
         protected ServerQueryResult(IDictionary<string, string> settings, bool isMasterResult = false) {
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             Settings = settings;
             IsMasterResult = isMasterResult;
         }

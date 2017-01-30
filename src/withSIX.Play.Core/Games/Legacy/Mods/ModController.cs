@@ -36,7 +36,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
 
         public ModController(IMod mod)
             : base(mod) {
-            Contract.Requires<ArgumentNullException>(mod != null);
+            if (mod == null) throw new ArgumentNullException(nameof(mod));
             _contentEngine = CalculatedGameSettings.ContentManager.ContentEngine;
             Mod = mod;
             _modState = new ModState(mod);

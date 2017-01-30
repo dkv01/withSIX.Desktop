@@ -24,7 +24,7 @@ namespace withSIX.Core.Presentation.Decorators
 
         public override async Task<TResponseData> Send<TResponseData>(IRequest<TResponseData> request,
             CancellationToken cancelToken = default(CancellationToken)) {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
             using (Decorated.Bench(
                 startMessage:
                 "Writes: " + (request is IWrite) + ", Data: " +
@@ -36,7 +36,7 @@ namespace withSIX.Core.Presentation.Decorators
         public override async Task Send(IRequest request,
             CancellationToken cancelToken = default(CancellationToken))
         {
-            Contract.Requires<ArgumentNullException>(request != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
             using (Decorated.Bench(
                 startMessage:
                 "Writes: " + (request is IWrite) + ", Data: " +

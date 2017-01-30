@@ -53,7 +53,7 @@ namespace withSIX.Sync.Core.Legacy
 
         public HostPicker(IEnumerable<Uri> hosts, MultiThreadingSettings multiThreadingSettings,
             Func<ExportLifetimeContext<IHostChecker>> hostChecker) {
-            Contract.Requires<ArgumentNullException>(hosts != null);
+            if (hosts == null) throw new ArgumentNullException(nameof(hosts));
 
             ZsyncIncompatHosts = new List<Uri>();
             MultiThreadingSettings = multiThreadingSettings;
@@ -166,7 +166,7 @@ namespace withSIX.Sync.Core.Legacy
         }
 
         IEnumerable<KeyValuePair<Uri, int>> SortHosts(IEnumerable<KeyValuePair<Uri, int>> hosts) {
-            Contract.Requires<ArgumentNullException>(hosts != null);
+            if (hosts == null) throw new ArgumentNullException(nameof(hosts));
 
             switch (ProtocolPreference) {
             case ProtocolPreference.PreferRsync:

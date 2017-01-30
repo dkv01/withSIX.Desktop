@@ -24,7 +24,6 @@ namespace withSIX.Core.Services.Infrastructure
         ProcessExitResult LaunchAndProcess(LaunchAndProcessInfo info);
     }
 
-    [ContractClass(typeof(ContractClassForIProcessManager))]
     public interface IProcessManagerAsync
     {
         Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info);
@@ -43,29 +42,6 @@ namespace withSIX.Core.Services.Infrastructure
         IObservable<Tuple<ProcessStartInfo, int, string>> MonitorStarted { get; }
         IObservable<Tuple<ProcessStartInfo, int, string>> MonitorStopped { get; }
         IObservable<Tuple<ProcessStartInfo, int, int>> Terminated { get; }
-    }
-
-    [ContractClassFor(typeof(IProcessManagerAsync))]
-    public abstract class ContractClassForIProcessManager : IProcessManagerAsync
-    {
-        public Task<ProcessExitResult> LaunchAsync(BasicLaunchInfo info) {
-            Contract.Requires<ArgumentNullException>(info != null);
-            return default(Task<ProcessExitResult>);
-        }
-
-        public abstract Task<ProcessExitResult> LaunchElevatedAsync(BasicLaunchInfo info);
-
-        public Task<ProcessExitResultWithOutput> LaunchAndGrabAsync(BasicLaunchInfo info) {
-            Contract.Requires<ArgumentNullException>(info != null);
-            return default(Task<ProcessExitResultWithOutput>);
-        }
-
-        public Task<ProcessExitResult> LaunchAndProcessAsync(LaunchAndProcessInfo info) {
-            Contract.Requires<ArgumentNullException>(info != null);
-            return default(Task<ProcessExitResult>);
-        }
-
-        public abstract Process Launch(BasicLaunchInfo info);
     }
 
     public class BasicLaunchInfo

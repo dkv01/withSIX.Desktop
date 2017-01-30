@@ -12,8 +12,8 @@ namespace withSIX.Sync.Core.Transfer.Specs
     public abstract class TransferSpec
     {
         protected TransferSpec(Uri uri, IAbsoluteFilePath localFile, ITransferProgress progress) {
-            Contract.Requires<ArgumentNullException>(uri != null);
-            Contract.Requires<ArgumentNullException>(localFile != null);
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
+            if (localFile == null) throw new ArgumentNullException(nameof(localFile));
 
             Uri = uri;
             LocalFile = localFile;

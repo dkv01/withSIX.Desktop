@@ -20,7 +20,7 @@ namespace withSIX.Play.Core.Options.Entries
         bool? _includeServerMods = true;
 
         public LegacyGameSettings(Game game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
 
             ServerFilter = new ArmaServerFilter();
 

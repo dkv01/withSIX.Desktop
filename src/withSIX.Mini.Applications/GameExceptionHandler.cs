@@ -28,7 +28,7 @@ namespace withSIX.Mini.Applications
             "This might indicate a synchronization failure, the content might've been deleted, or you might not have access to the content";
 
         public override UserErrorModel HandleException(Exception ex, string action = "Action") {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
             return Handle((dynamic) ex, action);
         }
 

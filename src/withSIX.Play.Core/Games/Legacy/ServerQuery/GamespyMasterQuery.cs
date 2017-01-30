@@ -37,7 +37,7 @@ namespace withSIX.Play.Core.Games.Legacy.ServerQuery
         _serverBrowserTag);
 
         string ExecuteGsList(string arguments) {
-            Contract.Requires<ArgumentNullException>(arguments != null);
+            if (arguments == null) throw new ArgumentNullException(nameof(arguments));
             string output;
             using (var p = CreateGSProcess(arguments)) {
                 p.Start();

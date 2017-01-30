@@ -15,7 +15,7 @@ namespace withSIX.Play.Applications.ViewModels.Games
         public ModLibraryViewModel Library { get; }
 
         protected ModMenuBase(ModLibraryViewModel library) {
-            Contract.Requires<ArgumentNullException>(library != null);
+            if (library == null) throw new ArgumentNullException(nameof(library));
             Library = library;
         }
     }

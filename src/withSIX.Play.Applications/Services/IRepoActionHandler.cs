@@ -26,43 +26,43 @@ namespace withSIX.Play.Applications.Services
     public abstract class RepoHandlerContract : IRepoActionHandler
     {
         public void PerformStatusActionWithBusyHandling(StatusRepo repo, string actionText, Action act) {
-            Contract.Requires<ArgumentNullException>(repo != null);
-            Contract.Requires<ArgumentNullException>(actionText != null);
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            if (actionText == null) throw new ArgumentNullException(nameof(actionText));
+            if (act == null) throw new ArgumentNullException(nameof(act));
         }
 
         public void PerformStatusAction(string actionText, Action<StatusRepo> act) {
-            Contract.Requires<ArgumentNullException>(actionText != null);
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (actionText == null) throw new ArgumentNullException(nameof(actionText));
+            if (act == null) throw new ArgumentNullException(nameof(act));
         }
 
         public Task PerformStatusActionWithBusyHandlingAsync(StatusRepo repo, string actionText, Func<Task> act) {
-            Contract.Requires<ArgumentNullException>(repo != null);
-            Contract.Requires<ArgumentNullException>(actionText != null);
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            if (actionText == null) throw new ArgumentNullException(nameof(actionText));
+            if (act == null) throw new ArgumentNullException(nameof(act));
             return default(Task);
         }
 
         public Task PerformStatusActionAsync(string actionText, Func<StatusRepo, Task> act) {
-            Contract.Requires<ArgumentNullException>(actionText != null);
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (actionText == null) throw new ArgumentNullException(nameof(actionText));
+            if (act == null) throw new ArgumentNullException(nameof(act));
             return default(Task);
         }
 
         public Task PerformUpdaterActionSuspendedAsync(string actionText, Func<Task> act) {
-            Contract.Requires<ArgumentNullException>(actionText != null);
-            Contract.Requires<ArgumentNullException>(act != null);
+            if (actionText == null) throw new ArgumentNullException(nameof(actionText));
+            if (act == null) throw new ArgumentNullException(nameof(act));
             return default(Task);
         }
 
         public Task TryUpdaterActionAsync(Func<Task> action, string task) {
-            Contract.Requires<ArgumentNullException>(action != null);
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (task == null) throw new ArgumentNullException(nameof(task));
             return default(Task);
         }
 
         public Task<bool> DealWithUpdateException(Exception e, string task, string message, string title) {
-            Contract.Requires<ArgumentNullException>(e != null);
+            if (e == null) throw new ArgumentNullException(nameof(e));
             return Task.FromResult(default(bool));
         }
 

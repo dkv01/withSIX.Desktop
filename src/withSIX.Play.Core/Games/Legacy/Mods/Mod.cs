@@ -216,7 +216,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public bool GameMatch(ISupportModding game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             return this is LocalMod
                    || game.SupportsContent(this);
         }
@@ -264,9 +264,9 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public static IEnumerable<LocalModInfo> GetLocalMods(string path, Game game) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentException>(!String.IsNullOrWhiteSpace(path));
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (!(!String.IsNullOrWhiteSpace(path))) throw new ArgumentException("!String.IsNullOrWhiteSpace(path)");
+            if (game == null) throw new ArgumentNullException(nameof(game));
             if (game.Id == GameGuids.Homeworld2) {
                 return GetModFiles(path)
                     .ToArray();
@@ -298,14 +298,14 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public static string GetRepoName(string name) {
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (name == null) throw new ArgumentNullException(nameof(name));
 
             return name.StartsWith("@") ? name.Substring(1).ToLower() : name.ToLower();
         }
 
         // TODO: Have the game report the subgame that supports the mod, first match
         public Game FirstGameMatch(Game game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             if (this is LocalMod)
                 return game;
 
@@ -391,7 +391,7 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public bool CompatibleWith(ISupportModding game) {
-            Contract.Requires<ArgumentNullException>(game != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
             return GameMatch(game) && BuildMatch(game);
         }
 

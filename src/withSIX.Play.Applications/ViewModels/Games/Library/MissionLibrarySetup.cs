@@ -47,9 +47,9 @@ namespace withSIX.Play.Applications.ViewModels.Games.Library
         public MissionLibrarySetup(MissionLibraryViewModel library, Game game, IContentManager missionList,
             UserSettings settings,
             IEventAggregator eventBus) {
-            Contract.Requires<ArgumentNullException>(game != null);
-            Contract.Requires<NotSupportedException>(game.SupportsMissions());
-            Contract.Requires<ArgumentNullException>(missionList != null);
+            if (game == null) throw new ArgumentNullException(nameof(game));
+            if (!(game.SupportsMissions())) throw new NotSupportedException("game.SupportsMissions()");
+            if (missionList == null) throw new ArgumentNullException(nameof(missionList));
 
             _library = library;
             _game = game;

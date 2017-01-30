@@ -18,7 +18,7 @@ namespace withSIX.Sync.Core.Keys
         bool _isSelected;
 
         public SshKeyPair(string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
             Location = Path.GetDirectoryName(path);
             Name = Path.GetFileName(path);
             CreatedAt = File.GetCreationTime(path);

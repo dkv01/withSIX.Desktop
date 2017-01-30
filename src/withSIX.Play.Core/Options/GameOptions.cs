@@ -110,7 +110,7 @@ namespace withSIX.Play.Core.Options
         public string GetDesiredPackageVersion(string packageName) => DesiredPackageVersions.ContainsKey(packageName) ? DesiredPackageVersions[packageName] : null;
 
         public void SetDesiredPackageVersion(string packageName, string versionData) {
-            Contract.Requires<ArgumentOutOfRangeException>(versionData != string.Empty);
+            if (!(versionData != string.Empty)) throw new ArgumentOutOfRangeException("versionData != string.Empty");
             // TODO: What about deeper check; is this really a version denotation, etc..
 
             if (versionData == null) {

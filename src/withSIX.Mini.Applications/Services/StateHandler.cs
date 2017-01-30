@@ -101,7 +101,7 @@ namespace withSIX.Mini.Applications.Services
 
         public StatusModel(string text, string icon, ProgressInfo info, bool acting = false,
             string color = null) {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null) throw new ArgumentNullException(nameof(info));
             Text = text;
             Icon = icon;
             Acting = acting;
@@ -148,7 +148,7 @@ namespace withSIX.Mini.Applications.Services
     public static class FlatProgressInfoExtensions
     {
         public static List<FlatProgressInfo> Flatten(this ProgressComponent This) {
-            Contract.Requires<ArgumentNullException>(This != null);
+            if (This == null) throw new ArgumentNullException(nameof(This));
             var list = new List<FlatProgressInfo> {This.MapTo<FlatProgressInfo>()};
             var active = This.GetFirstActive();
             if (active == null)

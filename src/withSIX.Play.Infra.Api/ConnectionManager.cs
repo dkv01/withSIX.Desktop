@@ -40,7 +40,7 @@ namespace withSIX.Play.Infra.Api
         Task _startTask;
 
         public ConnectionManager(Uri hubHost) {
-            Contract.Requires<ArgumentNullException>(hubHost != null);
+            if (hubHost == null) throw new ArgumentNullException(nameof(hubHost));
             MessageBus = new MessageBus();
             _connection = new HubConnection(hubHost.ToString()) {JsonSerializer = CreateJsonSerializer()};
             _connection.Error += ConnectionOnError;

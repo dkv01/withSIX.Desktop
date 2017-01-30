@@ -32,9 +32,9 @@ namespace withSIX.Sync.Core.Legacy
         readonly StatusRepo _statusRepo;
 
         public FileDownloadManager(HostPicker hostPicker, StatusRepo repo, IFileDownloader downloader) {
-            Contract.Requires<ArgumentNullException>(hostPicker != null);
-            Contract.Requires<ArgumentNullException>(repo != null);
-            Contract.Requires<ArgumentNullException>(downloader != null);
+            if (hostPicker == null) throw new ArgumentNullException(nameof(hostPicker));
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            if (downloader == null) throw new ArgumentNullException(nameof(downloader));
 
             HostPicker = hostPicker;
             _statusRepo = repo;
@@ -117,9 +117,9 @@ namespace withSIX.Sync.Core.Legacy
         }
 
         public Spec GetSpec(string file, IAbsoluteFilePath fullPath, IStatus status) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(file));
-            Contract.Requires<ArgumentNullException>(fullPath != null);
-            Contract.Requires<ArgumentNullException>(status != null);
+            if (!(!string.IsNullOrWhiteSpace(file))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(file)");
+            if (fullPath == null) throw new ArgumentNullException(nameof(fullPath));
+            if (status == null) throw new ArgumentNullException(nameof(status));
 
             status.StartOutput(fullPath.ToString());
             status.Action = RepoStatus.Downloading;
@@ -308,9 +308,9 @@ namespace withSIX.Sync.Core.Legacy
     public class Spec
     {
         public Spec(string file, IAbsoluteFilePath fullPath, IStatus status) {
-            Contract.Requires<ArgumentNullException>(file != null);
-            Contract.Requires<ArgumentNullException>(fullPath != null);
-            Contract.Requires<ArgumentException>(!file.Contains(@"\"));
+            if (file == null) throw new ArgumentNullException(nameof(file));
+            if (fullPath == null) throw new ArgumentNullException(nameof(fullPath));
+            if (!(!file.Contains(@"\"))) throw new ArgumentException(@"!file.Contains(""\"")");
             File = file;
             FullPath = fullPath;
             Status = status;

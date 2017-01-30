@@ -38,7 +38,7 @@ namespace withSIX.Play.Applications.ViewModels.Games.Dialogs
         public ReactiveCommand<Unit> ShareCommand { get; private set; }
 
         public void SetCollection(CustomCollectionLibraryItemViewModel collection) {
-            Contract.Requires<ArgumentNullException>(collection != null);
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
 
             Collection = collection;
             OnlineUrl = collection.Model.ProfileUrl();

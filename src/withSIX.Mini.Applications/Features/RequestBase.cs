@@ -68,7 +68,7 @@ namespace withSIX.Mini.Applications.Features
     public class NotifyingActionOverrideAttribute : Attribute
     {
         public NotifyingActionOverrideAttribute(string verb, string acting = null, string past = null) {
-            Contract.Requires<ArgumentNullException>(verb != null);
+            if (verb == null) throw new ArgumentNullException(nameof(verb));
             Verb = verb;
             Noun = verb.GetNounFromVerb();
             Acting = acting ?? verb.GetActingFromVerb();

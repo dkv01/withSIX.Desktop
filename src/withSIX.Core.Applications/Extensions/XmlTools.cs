@@ -25,7 +25,7 @@ namespace withSIX.Core.Applications.Extensions
         }
 
         public virtual T Deserialize<T>(XElement doc) {
-            // Contract.Requires<ArgumentNullException>(doc != null);
+            // if (doc == null) throw new ArgumentNullException(nameof(doc));
 
             var xmlSerializer = new XmlSerializer(typeof(T));
             using (var reader = doc.CreateReader())
@@ -33,8 +33,8 @@ namespace withSIX.Core.Applications.Extensions
         }
 
         public virtual void SaveXmlToDiskThroughMemory(object graph, IAbsoluteFilePath filePath, bool pretty = false) {
-            // Contract.Requires<ArgumentNullException>(graph != null);
-            // Contract.Requires<ArgumentNullException>(filePath != null);
+            // if (graph == null) throw new ArgumentNullException(nameof(graph));
+            // if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
             Tools.FileUtil.Ops.AddIORetryDialog(() => Tools.FileTools.SafeIO.SafeSave(x => {
                 using (var ms = new MemoryStream()) {

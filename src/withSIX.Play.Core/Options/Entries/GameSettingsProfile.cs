@@ -61,7 +61,7 @@ namespace withSIX.Play.Core.Options.Entries
             get { return _parent; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
+                if (value == null) throw new ArgumentNullException(nameof(value));
                 _parent = value;
             }
         }
@@ -140,7 +140,7 @@ namespace withSIX.Play.Core.Options.Entries
 
         protected GameSettingsProfile(Guid id, string name, string color, GameSettingsProfileBase parent)
             : base(id, name, color) {
-            Contract.Requires<ArgumentNullException>(parent != null);
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
             _parent = parent;
 
             SetupRefresh();

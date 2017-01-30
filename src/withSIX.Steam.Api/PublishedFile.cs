@@ -20,8 +20,8 @@ namespace withSIX.Steam.Api
         public PublishedFile(ulong id, uint appId) : this(new PublishedFileId_t(id), new AppId_t(appId)) {}
 
         public PublishedFile(PublishedFileId_t id, AppId_t appId) {
-            Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(appId != null);
+            if (id == null) throw new ArgumentNullException(nameof(id));
+            if (appId == null) throw new ArgumentNullException(nameof(appId));
 
             Pid = id;
             Aid = appId;

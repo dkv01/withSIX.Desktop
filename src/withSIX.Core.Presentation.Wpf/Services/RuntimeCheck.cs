@@ -39,38 +39,38 @@ namespace withSIX.Core.Presentation.Wpf.Services
         static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
         static void SetForeground(string process) {
-            Contract.Requires<ArgumentNullException>(process != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(process));
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            if (!(!string.IsNullOrWhiteSpace(process))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(process)");
 
             SetForeground(Tools.ProcessManager.Management.FindProcess(process));
         }
 
         public static void SetForeground(Process process, int cmdShow = SW_SHOWNORMAL) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
 
             ShowWindow(process.MainWindowHandle, cmdShow);
             SetForegroundWindow(process.MainWindowHandle);
         }
 
         public static void MinimizeWindow(Process process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
 
             ShowWindow(process.MainWindowHandle, SW_SHOWMINIMIZED);
         }
 
         static void MaximizeWindow(Process process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
 
             ShowWindow(process.MainWindowHandle, SW_SHOWMAXIMIZED);
         }
 
         static void ShowWindow(Process process) {
-            Contract.Requires<ArgumentNullException>(process != null);
+            if (process == null) throw new ArgumentNullException(nameof(process));
             ShowWindow(process.MainWindowHandle, SW_SHOWNORMAL);
         }
 
         static void SetForeground(Process[] processes) {
-            Contract.Requires<ArgumentNullException>(processes != null);
+            if (processes == null) throw new ArgumentNullException(nameof(processes));
 
             foreach (var p in processes)
                 SetForeground(p);

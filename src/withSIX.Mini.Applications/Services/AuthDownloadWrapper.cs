@@ -21,8 +21,8 @@ namespace withSIX.Mini.Applications.Services
         }
 
         public async Task WrapAction(Func<Uri, Task> action, Uri uri) {
-            Contract.Requires<ArgumentNullException>(action != null);
-            Contract.Requires<ArgumentNullException>(uri != null);
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
             retry:
             try {
                 await action(uri).ConfigureAwait(false);

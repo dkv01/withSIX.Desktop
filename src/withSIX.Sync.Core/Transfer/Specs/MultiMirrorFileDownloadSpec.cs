@@ -13,9 +13,9 @@ namespace withSIX.Sync.Core.Transfer.Specs
     public class MultiMirrorFileDownloadSpec
     {
         public MultiMirrorFileDownloadSpec(string remoteFile, IAbsoluteFilePath localFile) {
-            Contract.Requires<ArgumentNullException>(remoteFile != null);
-            Contract.Requires<ArgumentNullException>(localFile != null);
-            Contract.Requires<ArgumentException>(!remoteFile.Contains(@"\"));
+            if (remoteFile == null) throw new ArgumentNullException(nameof(remoteFile));
+            if (localFile == null) throw new ArgumentNullException(nameof(localFile));
+            if (!(!remoteFile.Contains(@"\"))) throw new ArgumentException("!remoteFile.Contains(@\"\\\")");
             RemoteFile = remoteFile;
             LocalFile = localFile;
         }
@@ -23,7 +23,7 @@ namespace withSIX.Sync.Core.Transfer.Specs
         public MultiMirrorFileDownloadSpec(string remoteFile, IAbsoluteFilePath localFile,
             Func<IAbsoluteFilePath, bool> confirmValidity)
             : this(remoteFile, localFile) {
-            Contract.Requires<ArgumentNullException>(confirmValidity != null);
+            if (confirmValidity == null) throw new ArgumentNullException(nameof(confirmValidity));
             Verification = confirmValidity;
         }
 

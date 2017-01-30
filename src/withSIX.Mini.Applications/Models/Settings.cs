@@ -140,8 +140,8 @@ namespace withSIX.Mini.Applications.Models
     public class Credentials : IAuthInfo
     {
         public Credentials(string username, string password, string domain = null) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(username));
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(password));
+            if (!(!string.IsNullOrWhiteSpace(username))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(username)");
+            if (!(!string.IsNullOrWhiteSpace(password))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(password)");
             Username = username;
             Password = password;
             Domain = domain;

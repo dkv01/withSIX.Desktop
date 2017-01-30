@@ -19,7 +19,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
     public class RepositoryTools : IEnableLogging
     {
         public virtual Dictionary<string, string> DowncaseDictionary(Dictionary<string, string> dict) {
-            Contract.Requires<ArgumentNullException>(dict != null);
+            if (dict == null) throw new ArgumentNullException(nameof(dict));
             return dict.GroupBy(x => x.Key.ToLower()).Select(x => x.First())
                 .ToDictionary(x => x.Key.ToLower(), x => x.Value);
         }
@@ -47,7 +47,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public virtual string TryGetChecksum(IAbsoluteFilePath file, string change = null) {
-            Contract.Requires<ArgumentNullException>(file != null);
+            if (file == null) throw new ArgumentNullException(nameof(file));
 
             try {
                 return Tools.HashEncryption.MD5FileHash(file);
@@ -59,14 +59,14 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public virtual string GetGuid(string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             var repo = Path.Combine(path, Repository.VersionFileName).ToAbsoluteFilePath();
             return SyncEvilGlobal.Yaml.NewFromYamlFile<RepoVersion>(repo).Guid;
         }
 
         public virtual string TryGetGuid(string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             return !File.Exists(Path.Combine(path, Repository.VersionFileName)) ? null : TryGetGuid2(path);
         }
@@ -81,7 +81,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public virtual string GetNewPackPath(string path, string folderName, string guid = null) {
-            Contract.Requires<ArgumentNullException>(folderName != null);
+            if (folderName == null) throw new ArgumentNullException(nameof(folderName));
             if (path == null)
                 return null;
 
@@ -108,7 +108,7 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public virtual IAbsoluteDirectoryPath GetRootedPath(string folder) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(folder));
+            if (!(!string.IsNullOrWhiteSpace(folder))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(folder)");
             if (folder == ".")
                 return Directory.GetCurrentDirectory().ToAbsoluteDirectoryPath();
             return Path.IsPathRooted(folder)
@@ -117,14 +117,14 @@ namespace withSIX.Sync.Core.Legacy.SixSync
         }
 
         public virtual bool HasGuid(string guid, string path) {
-            Contract.Requires<ArgumentNullException>(guid != null);
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (guid == null) throw new ArgumentNullException(nameof(guid));
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             return GetGuid(path) == guid;
         }
 
         public virtual bool TryHasGuid(string guid, string path) {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             return TryGetGuid(path) == guid;
         }

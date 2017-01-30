@@ -79,7 +79,7 @@ namespace withSIX.Core.Presentation.Wpf.Extensions
         }
 
         public static T FindDataGridItem<T>(this DependencyObject dep) where T : class {
-            Contract.Requires<ArgumentNullException>(dep != null);
+            if (dep == null) throw new ArgumentNullException(nameof(dep));
 
             var row = FindItem<DataGridRow>(dep);
             if (row == null)
@@ -88,7 +88,7 @@ namespace withSIX.Core.Presentation.Wpf.Extensions
         }
 
         public static T FindListBoxItem<T>(this DependencyObject dep) where T : class {
-            Contract.Requires<ArgumentNullException>(dep != null);
+            if (dep == null) throw new ArgumentNullException(nameof(dep));
 
             var row = FindItem<ListBoxItem>(dep);
 
@@ -116,7 +116,7 @@ namespace withSIX.Core.Presentation.Wpf.Extensions
         }
 
         public static T FindItem<T>(this DependencyObject dep) where T : class {
-            Contract.Requires<ArgumentNullException>(dep != null);
+            if (dep == null) throw new ArgumentNullException(nameof(dep));
 
             while ((dep != null) && !(dep is T))
                 dep = VisualTreeHelper.GetParent(FindVisualTreeRoot(dep));
@@ -125,7 +125,7 @@ namespace withSIX.Core.Presentation.Wpf.Extensions
         }
 
         public static ContextMenu FindContextMenu(this DependencyObject dep) {
-            Contract.Requires<ArgumentNullException>(dep != null);
+            if (dep == null) throw new ArgumentNullException(nameof(dep));
 
             ContextMenu cm = null;
             var fe = dep as FrameworkElement;
@@ -143,21 +143,21 @@ namespace withSIX.Core.Presentation.Wpf.Extensions
         }
 
         public static T FindItem<T>(this MouseEventArgs args) where T : class {
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (args == null) throw new ArgumentNullException(nameof(args));
 
             var dep = (DependencyObject) args.OriginalSource;
             return dep == null ? default(T) : dep.FindItem<T>();
         }
 
         public static ContextMenu FindContextMenu(this MouseEventArgs args) {
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (args == null) throw new ArgumentNullException(nameof(args));
 
             var dep = (DependencyObject) args.OriginalSource;
             return dep == null ? null : dep.FindContextMenu();
         }
 
         public static T FindTreeViewItem<T>(this DependencyObject dep) where T : class {
-            Contract.Requires<ArgumentNullException>(dep != null);
+            if (dep == null) throw new ArgumentNullException(nameof(dep));
 
             var row = dep.FindItem<TreeViewItem>();
             if (row != null)
@@ -167,36 +167,36 @@ namespace withSIX.Core.Presentation.Wpf.Extensions
         }
 
         public static T FindTreeViewItem<T>(this RoutedEventArgs Args) where T : class {
-            Contract.Requires<ArgumentNullException>(Args != null);
+            if (Args == null) throw new ArgumentNullException(nameof(Args));
             return FindTreeViewItem<T>((DependencyObject) Args.OriginalSource);
         }
 
         public static T FindListBoxItem<T>(this MouseButtonEventArgs Args) where T : class {
-            Contract.Requires<ArgumentNullException>(Args != null);
+            if (Args == null) throw new ArgumentNullException(nameof(Args));
 
             return FindListBoxItem<T>((DependencyObject) Args.OriginalSource);
         }
 
         public static T FindTreeViewItem<T>(this MouseButtonEventArgs Args) where T : class {
-            Contract.Requires<ArgumentNullException>(Args != null);
+            if (Args == null) throw new ArgumentNullException(nameof(Args));
 
             return FindTreeViewItem<T>((DependencyObject) Args.OriginalSource);
         }
 
         public static T FindDataGridItem<T>(this MouseButtonEventArgs Args) where T : class {
-            Contract.Requires<ArgumentNullException>(Args != null);
+            if (Args == null) throw new ArgumentNullException(nameof(Args));
 
             return FindDataGridItem<T>((DependencyObject) Args.OriginalSource);
         }
 
         public static T FindListBoxItem<T>(this RoutedEventArgs Args) where T : class {
-            Contract.Requires<ArgumentNullException>(Args != null);
+            if (Args == null) throw new ArgumentNullException(nameof(Args));
 
             return FindListBoxItem<T>((DependencyObject) Args.OriginalSource);
         }
 
         public static T FindDataGridItem<T>(this RoutedEventArgs Args) where T : class {
-            Contract.Requires<ArgumentNullException>(Args != null);
+            if (Args == null) throw new ArgumentNullException(nameof(Args));
 
             return FindDataGridItem<T>((DependencyObject) Args.OriginalSource);
         }

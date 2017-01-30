@@ -21,7 +21,7 @@ namespace GameServerQuery
         private bool _isFinal;
 
         ServerFilterBuilder(List<Tuple<string, string>> filter) {
-            Contract.Requires<ArgumentNullException>(filter != null);
+            if (filter == null) throw new ArgumentNullException(nameof(filter));
             _filter = filter;
         }
         ServerFilterBuilder() : this(new List<Tuple<string, string>>()) {}

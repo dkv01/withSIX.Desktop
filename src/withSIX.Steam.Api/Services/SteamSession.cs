@@ -64,7 +64,7 @@ namespace withSIX.Steam.Api.Services
             => SetupSteam(appId, initialize, simulate);
 
         private async Task<T> SetupSteam<T>(uint appId, Func<IScheduler, Task<T>> initialize, Action simulate) {
-            Contract.Requires<ArgumentException>(appId > 0);
+            if (!(appId > 0)) throw new ArgumentException("appId > 0");
 
             _safeCall = LockedWrapper.callFactory.Create();
             await SetupAppId(appId).ConfigureAwait(false);

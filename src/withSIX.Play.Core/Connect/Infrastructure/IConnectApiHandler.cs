@@ -67,8 +67,8 @@ namespace withSIX.Play.Core.Connect.Infrastructure
     public class CollectionPublishInfo
     {
         public CollectionPublishInfo(Guid id, Guid accountId) {
-            Contract.Requires<ArgumentNullException>(id != Guid.Empty);
-            Contract.Requires<ArgumentNullException>(accountId != Guid.Empty);
+            if (!(id != Guid.Empty)) throw new ArgumentNullException("id != Guid.Empty");
+            if (!(accountId != Guid.Empty)) throw new ArgumentNullException("accountId != Guid.Empty");
             AccountId = accountId;
             Id = id;
         }

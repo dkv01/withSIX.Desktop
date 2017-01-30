@@ -15,9 +15,9 @@ namespace withSIX.Play.Applications.UseCases.Profiles
     public class CreateProfileCommand : IAsyncRequest<Guid>
     {
         public CreateProfileCommand(string name, string color, Guid guid) {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(color));
-            Contract.Requires<ArgumentNullException>(guid != Guid.Empty);
+            if (!(!string.IsNullOrWhiteSpace(name))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(name)");
+            if (!(!string.IsNullOrWhiteSpace(color))) throw new ArgumentNullException("!string.IsNullOrWhiteSpace(color)");
+            if (!(guid != Guid.Empty)) throw new ArgumentNullException("guid != Guid.Empty");
 
             Name = name;
             Color = color;
@@ -36,7 +36,7 @@ namespace withSIX.Play.Applications.UseCases.Profiles
         readonly IUserSettingsStorage _storage;
 
         public CreateProfileCommandHandler(UserSettings settings, IUserSettingsStorage storage) {
-            Contract.Requires<ArgumentNullException>(settings != null);
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             _settings = settings;
             _storage = storage;
         }

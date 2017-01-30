@@ -32,8 +32,8 @@ namespace withSIX.Mini.Applications.Features.Main
         public static async Task<T2> NotifyAction<T, T2>(this T request, Func<Task<T2>> action, string text = null,
             Uri href = null)
             where T : IHaveGameId, ICommandBase {
-            Contract.Requires<ArgumentNullException>(request != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (action == null) throw new ArgumentNullException(nameof(action));
             var r = await request.PerformAction(action, text, href).ConfigureAwait(false);
             await request.HandleSuccessAction(text, href).ConfigureAwait(false);
             return r;

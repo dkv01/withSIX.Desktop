@@ -30,9 +30,9 @@ namespace withSIX.Play.Core.Games.Legacy.Mods
 
         public async Task ConvertOrInstallOrUpdateInternal(IAbsoluteDirectoryPath path, bool force,
             StatusRepo statusRepo, ModState modState, IAbsoluteDirectoryPath packPath) {
-            Contract.Requires<ArgumentNullException>(path != null);
-            Contract.Requires<ArgumentNullException>(statusRepo != null);
-            Contract.Requires<ArgumentNullException>(modState != null);
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (statusRepo == null) throw new ArgumentNullException(nameof(statusRepo));
+            if (modState == null) throw new ArgumentNullException(nameof(modState));
 
             _path = path;
 

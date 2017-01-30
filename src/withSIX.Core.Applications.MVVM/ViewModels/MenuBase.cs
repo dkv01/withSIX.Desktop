@@ -235,14 +235,14 @@ namespace withSIX.Core.Applications.MVVM.ViewModels
         void SetCurrentItemInternal(T item) {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (item == null) throw new ArgumentNullException(nameof(item));
             CurrentItem = item;
         }
 
         public void SetNextItem(T item) {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
-            Contract.Requires<ArgumentNullException>(item != null);
+            if (item == null) throw new ArgumentNullException(nameof(item));
             _nextItem = item;
 
             // TODO: Should we consider just linking the parent menu's CurrentItem directly?
