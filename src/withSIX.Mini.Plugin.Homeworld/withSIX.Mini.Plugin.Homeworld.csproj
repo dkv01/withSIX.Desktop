@@ -1,73 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F711C10C-1E23-4EE2-8C26-4524D7D468F1}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Mini.Plugin.Homeworld</RootNamespace>
-    <AssemblyName>withSIX.Mini.Plugin.Homeworld</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj" />
+    <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj" />
+	<ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj" />
+    <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ApiModels\Homeworld2GameSettingsApiModel.cs" />
-    <Compile Include="AutoMapperPluginHomeworldConfig.cs" />
-    <Compile Include="Models\Homeworld2Game.cs" />
-    <Compile Include="Models\Homeworld2GameSettings.cs" />
-    <Compile Include="Models\Homeworld2StartupParameters.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Homeworld2GameLauncher.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj">
-      <Project>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</Project>
-      <Name>withSIX.Mini.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj">
-      <Project>{33427535-b280-4504-b1ce-02e14c086d1e}</Project>
-      <Name>withSIX.Mini.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

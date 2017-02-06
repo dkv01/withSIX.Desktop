@@ -1,89 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Core.Presentation</RootNamespace>
-    <AssemblyName>withSIX.Core.Presentation</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Assemblies\Dummy.cs" />
-    <Compile Include="Assemblies\HashTool.cs" />
-    <Compile Include="ConsoleFirstTimeLicense.cs" />
-    <Compile Include="Decorators\LoggingFileDownloaderDecorator.cs" />
-    <Compile Include="Decorators\LoggingFileTransferDecorator.cs" />
-    <Compile Include="Decorators\LoggingFileUploaderDecorator.cs" />
-    <Compile Include="Decorators\MediatorLoggingDecorator.cs" />
-    <Compile Include="Decorators\ValidatingRequestDecorator.cs" />
-    <Compile Include="IBridge.cs" />
-    <Compile Include="IFirstTimeLicense.cs" />
-    <Compile Include="IPresentationService.cs" />
-    <Compile Include="Legacy\AppBootstrapperBase.cs" />
-    <Compile Include="Legacy\ConsoleAppBootstrapper.cs" />
-    <Compile Include="Legacy\StartupManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestScope.cs" />
-    <Compile Include="Services\AutoMapperProfile.cs" />
-    <Compile Include="Services\CompressionUtil.cs" />
-    <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
-    <Compile Include="Services\DepResolver.cs" />
-    <Compile Include="Services\ICMBootStrapper.cs" />
-    <Compile Include="Services\IExitHandler.cs" />
-    <Compile Include="Services\MessageBusProxy.cs" />
-    <Compile Include="Services\UserErrorHandling.cs" />
-    <Compile Include="Services\Validation.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
-      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>withSIX.Core.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
-      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>withSIX.Core.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj">
-      <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
-      <Name>withSIX.Sync.Core</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />
+    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj" />
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akavache">
@@ -99,13 +22,4 @@
       <HintPath>..\packages\Splat.2.0.0\lib\netstandard1.1\Splat.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

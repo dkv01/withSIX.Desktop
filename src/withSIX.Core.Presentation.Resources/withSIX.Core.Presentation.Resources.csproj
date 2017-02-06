@@ -1,39 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69CFCB4F-5E81-4DAE-ADFE-D94E63989C1C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Core.Presentation.Resources</RootNamespace>
-    <AssemblyName>withSIX.Core.Presentation.Resources</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
     <EmbeddedResource Include="fonts\icons-withSIX.ttf" />
@@ -287,10 +259,6 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DummyClass.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="applicenses\applicenses.lst" />
     <Content Include="applicenses\license_caliburn_mico.txt" />
     <Content Include="applicenses\license_geoip.txt" />
@@ -301,22 +269,4 @@
     <Content Include="applicenses\license_SharpCompress_MSPL.txt" />
     <Content Include="applicenses\license_WPFToolkit_Extended_MSPL.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj">
-      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
-      <Name>withSIX.Core.Applications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>withSIX.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

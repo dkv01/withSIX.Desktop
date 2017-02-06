@@ -1,79 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3D354E1-919F-4135-9496-ACD2C39806D3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.ContentEngine.Infra</RootNamespace>
-    <AssemblyName>withSIX.ContentEngine.Infra</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="project.json" />
-    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.js.map" />
-    <None Include="TSScripts\436b875a-56e3-11e3-ba1d-001517bd964c.json" />
-    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.js.map" />
-    <None Include="TSScripts\43a33648-962d-11df-8d10-001517bd964c.json" />
-    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.js.map" />
-    <None Include="TSScripts\dd538a8d-078e-468c-87ea-c351131b495f.json" />
-    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.js.map" />
-    <None Include="TSScripts\efa97a10-29ef-11e4-864e-001517bd964c.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
+	<ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj" />
+	<ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj" />
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ContentEngine.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceService.cs" />
-    <Compile Include="Services\GameFolderService.cs" />
-    <Compile Include="Services\IContentEngineGameContext.cs" />
-    <Compile Include="Services\TeamspeakService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj">
-      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
-      <Name>withSIX.ContentEngine.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj">
-      <Project>{131B6A51-5385-4FEE-9E91-2911C936D200}</Project>
-      <Name>withSIX.Core.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
-      <Name>withSIX.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -1,56 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FEDE9EBC-C0A2-49C7-A780-4A44544508B8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>withSIX.Steam.Api</RootNamespace>
-    <AssemblyName>withSIX.Steam.Api</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App.cs" />
-    <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublishedFile.cs" />
-    <Compile Include="Services\SteamApi.cs" />
-    <Compile Include="Services\SteamDownloader.cs" />
-    <Compile Include="Services\SteamServers.cs" />
-    <Compile Include="Services\SteamSession.cs" />
-    <Compile Include="Services\SteamUploader.cs" />
+	<ProjectReference Include="..\GameServerQuery\GameServerQuery.sproj" />
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
+	<ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SteamLayerWrap">
@@ -60,26 +15,4 @@
       <HintPath>..\dll\Steamworks.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj">
-      <Project>{809F10CD-988D-475A-8D5A-7FD17938053E}</Project>
-      <Name>GameServerQuery</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj">
-      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
-      <Name>withSIX.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj">
-      <Project>{7aa7da2c-be4f-4472-b929-37b8284987b3}</Project>
-      <Name>withSIX.Steam.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
