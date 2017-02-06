@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
+      <HintPath>..\packages\FluentValidation.6.4.0-rc3\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
     <Reference Include="MediatR, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediatR.3.0.0\lib\net45\MediatR.dll</HintPath>

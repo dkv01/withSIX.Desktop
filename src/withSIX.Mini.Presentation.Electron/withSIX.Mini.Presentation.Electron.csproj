@@ -43,10 +43,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
+      <HintPath>..\packages\FluentValidation.6.4.0-rc3\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityModel, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.2.4.0\lib\net45\IdentityModel.dll</HintPath>
+    <Reference Include="IdentityModel, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.2.5.1\lib\net45\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
@@ -206,8 +206,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Polly, Version=5.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Polly.5.0.3\lib\net45\Polly.dll</HintPath>
+    <Reference Include="Polly, Version=5.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.0.5\lib\net45\Polly.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
