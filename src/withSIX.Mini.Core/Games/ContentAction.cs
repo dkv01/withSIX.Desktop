@@ -28,8 +28,8 @@ namespace withSIX.Mini.Core.Games
     {
         protected ContentAction(IReadOnlyCollection<IContentSpec<T>> content,
             CancellationToken cancelToken = default(CancellationToken)) : base(content, cancelToken) {
-            Contract.Requires<ArgumentOutOfRangeException>(!content.GroupBy(x => x.Content).Any(x => x.Count() > 1),
-                "A content action should not contain duplicates");
+            if (content.GroupBy(x => x.Content).Any(x => x.Count() > 1))
+                throw new ArgumentOutOfRangeException(nameof(content), "A content action should not contain duplicates");
         }
 
         public string Name { get; set; }

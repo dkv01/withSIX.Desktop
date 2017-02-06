@@ -41,8 +41,8 @@ namespace withSIX.ContentEngine.Infra.Services
         }
 
         bool InstallPlugin(IAbsoluteDirectoryPath gamePath, IContentEngineContent mod, string plugin, bool force) {
-            Contract.Requires<ArgumentNullException>(gamePath.IsNotNullAndExists(),
-                "Unable to find the Game Install Directory");
+            if (!gamePath.IsNotNullAndExists())
+                throw new ArgumentNullException("Unable to find the Game Install Directory");
             if (mod == null) throw new ArgumentNullException(nameof(mod), "Fatal Error Occured: Mod incorrectly registered");
             if (plugin == null) throw new ArgumentNullException(nameof(plugin), "Fatal Error Occured: Plugin Path was not set");
 
