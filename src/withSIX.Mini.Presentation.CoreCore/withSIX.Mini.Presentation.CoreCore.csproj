@@ -3,6 +3,9 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />
     <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj" />
     <ProjectReference Include="..\withSIX.Core.Presentation\withSIX.Core.Presentation.csproj" />

@@ -3,6 +3,10 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
+    <PackageReference Include="System.Net.Ping" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj" />

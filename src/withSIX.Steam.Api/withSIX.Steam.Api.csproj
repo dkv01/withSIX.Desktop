@@ -3,9 +3,12 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-	<ProjectReference Include="..\GameServerQuery\GameServerQuery.sproj" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameServerQuery\GameServerQuery.sproj" />
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
-	<ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SteamLayerWrap">

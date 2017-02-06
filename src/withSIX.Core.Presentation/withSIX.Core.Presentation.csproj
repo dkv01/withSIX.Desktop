@@ -3,6 +3,14 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="6.4.0-beta9" />
+    <PackageReference Include="SharpCompress" Version="0.15.1" />
+    <PackageReference Include="SimpleInjector" Version="3.3.2" />
+    <PackageReference Include="SimpleInjector.Extensions.ExecutionContextScoping" Version="3.3.2" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="1.1.2" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />
     <ProjectReference Include="..\withSIX.Core.Infra\withSIX.Core.Infra.csproj" />
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />

@@ -3,7 +3,18 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
-	<ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

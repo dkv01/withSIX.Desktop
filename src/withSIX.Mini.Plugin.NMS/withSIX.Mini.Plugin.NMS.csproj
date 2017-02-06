@@ -3,9 +3,12 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj" />
     <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj" />
-	<ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
+    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj" />
     <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj" />
   </ItemGroup>

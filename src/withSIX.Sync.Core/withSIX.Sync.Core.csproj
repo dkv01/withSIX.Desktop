@@ -3,6 +3,9 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
   </ItemGroup>
 </Project>
