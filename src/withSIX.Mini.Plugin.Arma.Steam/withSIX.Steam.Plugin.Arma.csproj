@@ -2,7 +2,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj" />
+    <ProjectReference Include="..\withSIX.Steam.Api\withSIX.Steam.Api.csproj" />
+    <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="SteamLayerWrap">
       <HintPath>..\dll\SteamLayerWrap.dll</HintPath>
@@ -10,17 +18,5 @@
     <Reference Include="Steamworks.NET">
       <HintPath>..\dll\Steamworks.NET.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameServerQuery\GameServerQuery.csproj" />
-    <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj" />
-    <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
-    <ProjectReference Include="..\withSIX.Mini.Applications\withSIX.Mini.Applications.csproj" />
-    <ProjectReference Include="..\withSIX.Mini.Core\withSIX.Mini.Core.csproj" />
-    <ProjectReference Include="..\withSIX.Core.Applications\withSIX.Core.Applications.csproj" />
-    <ProjectReference Include="..\withSIX.Mini.Plugin.Arma\withSIX.Mini.Plugin.Arma.csproj" />
-    <ProjectReference Include="..\withSIX.Steam.Api\withSIX.Steam.Api.csproj" />
-    <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
-    <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj" />
   </ItemGroup>
 </Project>

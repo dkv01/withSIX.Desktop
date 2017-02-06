@@ -15,9 +15,6 @@
     <ProjectReference Include="..\withSIX.Sync.Core\withSIX.Sync.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation">
-      <HintPath>..\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
-    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\dll\ReactiveUI.dll</HintPath>
     </Reference>

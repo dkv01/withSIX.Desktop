@@ -6,7 +6,6 @@
     <PackageReference Include="System.Reactive" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameServerQuery\GameServerQuery.sproj" />
     <ProjectReference Include="..\withSIX.Core\withSIX.Core.csproj" />
     <ProjectReference Include="..\withSIX.Steam.Core\withSIX.Steam.Core.csproj" />
   </ItemGroup>

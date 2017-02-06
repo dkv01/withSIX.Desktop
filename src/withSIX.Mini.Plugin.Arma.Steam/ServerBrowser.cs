@@ -18,7 +18,7 @@ using SteamLayerWrap;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Servers;
 using withSIX.Api.Models.Servers.RV.Arma3;
-using withSIX.Core.Applications.Extensions;
+using withSIX.Steam.Api.Helpers;
 using withSIX.Steam.Core.Services;
 using ServerModInfo = GameServerQuery.Games.RV.ServerModInfo;
 
