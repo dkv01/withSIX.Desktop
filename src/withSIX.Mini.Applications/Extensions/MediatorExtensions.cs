@@ -29,7 +29,10 @@ namespace withSIX.Mini.Applications.Extensions
             => message.Execute(Cheat.Mediator, cancelToken);
 
         // We are using dynamic here because the mediator relies on generic typing
-        static Task PublishToMediatorDynamically(this IDomainEvent message) => Cheat.Mediator.Publish((dynamic) message);
+        static Task PublishToMediatorDynamically(this IDomainEvent message) => PublishEvent((dynamic) message);
+
+        static Task PublishEvent<TNotification>(TNotification evt) where TNotification : INotification
+            => Cheat.Mediator.Publish(evt);
 
         public static async Task Raise(this IDomainEvent message) {
             await message.PublishToMediatorDynamically().ConfigureAwait(false);
