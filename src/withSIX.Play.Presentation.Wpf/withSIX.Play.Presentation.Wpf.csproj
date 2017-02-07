@@ -146,7 +146,7 @@
       <HintPath>..\dll\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Squirrel.Windows.1.5.1\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\squirrel.windows.1.5.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ImpromptuInterface">
@@ -246,7 +246,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Squirrel.Windows.1.5.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
+      <HintPath>..\packages\squirrel.windows.1.5.2\lib\Net45\NuGet.Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
@@ -286,7 +286,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Squirrel, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Squirrel.Windows.1.5.1\lib\Net45\Squirrel.dll</HintPath>
+      <HintPath>..\packages\squirrel.windows.1.5.2\lib\Net45\Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -1249,7 +1249,7 @@
       <ReferenceLib>$(AssemblyName).exe</ReferenceLib>
       <BaseDir>$(MSBuildProjectDirectory)</BaseDir>
       <NuGetApp>$(SolutionDir).nuGet\NuGet.exe</NuGetApp>
-      <SquirrelApp>$(SolutionDir)packages\Squirrel.Windows.1.5.1\tools\squirrel.com</SquirrelApp>
+      <SquirrelApp>$(SolutionDir)packages\squirrel.windows.1.5.2\tools\squirrel.com</SquirrelApp>
     </PropertyGroup>
     <GetAssemblyIdentity AssemblyFiles="$(TargetDir)$(ReferenceLib)">
       <Output TaskParameter="Assemblies" ItemName="assemblyInfo" />

@@ -819,7 +819,7 @@
       <ReferenceLib>$(AssemblyName).exe</ReferenceLib>
       <BaseDir>$(MSBuildProjectDirectory)</BaseDir>
       <NuGetApp>$(SolutionDir).nuGet\NuGet.exe</NuGetApp>
-      <SquirrelApp>$(SolutionDir)packages\Squirrel.Windows.1.5.1\tools\squirrel.com</SquirrelApp>
+      <SquirrelApp>$(SolutionDir)packages\squirrel.windows.1.5.2\tools\squirrel.com</SquirrelApp>
     </PropertyGroup>
     <GetAssemblyIdentity AssemblyFiles="$(TargetDir)$(ReferenceLib)">
       <Output TaskParameter="Assemblies" ItemName="assemblyInfo" />
