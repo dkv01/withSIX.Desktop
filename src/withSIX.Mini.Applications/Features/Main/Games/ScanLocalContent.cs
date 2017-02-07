@@ -13,7 +13,6 @@ using withSIX.Mini.Core.Games;
 
 namespace withSIX.Mini.Applications.Features.Main.Games
 {
-    [Obsolete("No longer used")]
     public class ScanLocalContent : ICommand, IHaveId<Guid>, IHaveGameId
     {
         public ScanLocalContent(Guid id) {

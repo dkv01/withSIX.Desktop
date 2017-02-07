@@ -62,6 +62,8 @@ namespace withSIX.Mini.Infra.Api.Hubs
 
         public Task OpenFolder(OpenFolder command) => Send(command);
         public Task StartSession(StartDownloadSession command) => Send(command);
+        public Task ScanLocalContent(Guid gameId) => Send(new ScanLocalContent(gameId));
+        public Task AddModMapping(AddModMapping command) => Send(command);
     }
 
     public interface IContentClientHub

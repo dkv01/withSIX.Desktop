@@ -51,7 +51,8 @@ namespace withSIX.Mini.Applications.Features.Main
                 Dlcs = game.InstalledDlcs().ToList(),
                 IsRunning = gameStateHandler.IsRunning,
                 ActionInfo = _stateHandler.Current,
-                UserErrors = _stateHandler.UserErrors.ToList()
+                UserErrors = _stateHandler.UserErrors.ToList(),
+                Mappings = game.Mappings.ToDictionary(x => x.Key, x => x.Value)
             };
         }
     }
@@ -65,6 +66,7 @@ namespace withSIX.Mini.Applications.Features.Main
         public ActionTabState ActionInfo { get; set; }
         public List<UserErrorModel2> UserErrors { get; set; }
         public List<Dlc> Dlcs { get; set; }
+        public Dictionary<string, Guid> Mappings { get; set; }
     }
 
     [Obsolete("Convert from original UserErrorModel?")]

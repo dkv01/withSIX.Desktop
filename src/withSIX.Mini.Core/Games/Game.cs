@@ -88,6 +88,8 @@ namespace withSIX.Mini.Core.Games
                 });
             }
         }
+        [DataMember]
+        public Dictionary<string, Guid> Mappings { get; set; } = new Dictionary<string, Guid>();
         [IgnoreDataMember]
         public GameAttribute Metadata { get; }
         [IgnoreDataMember]
