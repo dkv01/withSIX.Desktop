@@ -299,15 +299,22 @@ namespace withSIX.Sync.Core.Packages
             UpdateTag();
         }
 
-        void UpdateTag() {
-            var tagFile = GetSynqInfoPath();
+        void UpdateTag() => UpdateSynqInfoFile(WorkingPath, new SpecificVersion(MetaData.GetFullName()));
 
-            var existing = GetInstalledPackages(tagFile);
-            Tools.FileUtil.Ops.CreateText(tagFile,
-                string.Join(SynqInfoJoiner, existing.Where(x => x.Name != MetaData.Name)
-                    .Concat(new[] {new SpecificVersion(MetaData.GetFullName())})
-                    .OrderBy(x => x.Name)));
-        }
+        public static void UpdateSynqInfoFile(IAbsoluteDirectoryPath dest, params SpecificVersion[] versions)
+            => WriteSynqInfoFile(dest, BuildJoinedVersionsString(dest, versions));
+
+        private static string BuildJoinedVersionsString(IAbsoluteDirectoryPath dest, SpecificVersion[] versions)
+            => string.Join(SynqInfoJoiner, GetInstalledPackages(dest).Where(x => versions.All(v => v.Name != x.Name))
+                .Concat(versions)
+                .OrderBy(x => x.Name));
+
+        public static void WriteSynqInfoFile(IAbsoluteDirectoryPath dest, SpecificVersion version)
+            => WriteSynqInfoFile(dest, version.ToString());
+
+        private static void WriteSynqInfoFile(IAbsoluteDirectoryPath dest, string versionStr)
+            => Tools.FileUtil.Ops.CreateText(dest.GetChildFileWithName(SynqInfoFile),
+                versionStr);
 
         public static IEnumerable<SpecificVersion> GetInstalledPackages(IAbsoluteDirectoryPath path)
             => GetInstalledPackages(path.GetChildFileWithName(SynqInfoFile));
@@ -741,9 +748,7 @@ namespace withSIX.Sync.Core.Packages
             status.EndOutput();
         }
 
-        public void WriteTag() => Tools.FileUtil.Ops.CreateText(GetSynqInfoPath(), MetaData.GetFullName());
-
-        IAbsoluteFilePath GetSynqInfoPath() => WorkingPath.GetChildFileWithName(SynqInfoFile);
+        public void WriteTag() => WriteSynqInfoFile(WorkingPath, MetaData.GetFullName());
 
         static void BuildLogInfo(string type, IReadOnlyCollection<string> changes, StringBuilder overview,
             StringBuilder full) {
