@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NDepend.Path;
 using withSIX.Core.Extensions;
 using withSIX.Core.Services;
@@ -150,12 +151,18 @@ namespace withSIX.Sync.Core.ExternalTools
 
         class BiSignFile
         {
+            private readonly Regex bisign = new Regex(@"(.*\.pbo)\.([^\.]+)\.bisign$",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
             public BiSignFile(IAbsoluteFilePath filePath) {
+                if (filePath == null)
+                    throw new ArgumentNullException(nameof(filePath));
+                var match = bisign.Match(filePath.FileName);
+                if (!match.Success)
+                    throw new ArgumentException(filePath.FileName + " is not a valid bisign file", nameof(filePath));
                 FilePath = filePath;
-                var indexOf = filePath.FileNameWithoutExtension.IndexOf(".pbo");
                 Directory = filePath.ParentDirectoryPath;
-                KeyName = filePath.FileNameWithoutExtension.Substring(indexOf + 5);
-                PboName = filePath.FileNameWithoutExtension.Substring(0, indexOf + 4);
+                KeyName = match.Groups[2].Value;
+                PboName = match.Groups[1].Value;
             }
 
             public BiSignFile(string filePath) : this(filePath.ToAbsoluteFilePath()) {}
