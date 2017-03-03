@@ -41,7 +41,6 @@
     <Content Include="nss-3.11.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="project.json" />
     <EmbeddedResource Include="server.cer" />
     <EmbeddedResource Include="server.pfx" />
     <!-- A reference to the entire .NET Framework is automatically included -->

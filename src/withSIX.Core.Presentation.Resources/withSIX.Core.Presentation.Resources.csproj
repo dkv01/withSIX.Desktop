@@ -254,7 +254,6 @@
     <Content Include="images\Placeholder-GroupChat.png" />
     <Content Include="images\ProfilePlaceholder-small40x40.png" />
     <None Include="app.config" />
-    <None Include="project.json" />
     <None Include="tos.rtf" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>

@@ -1,9 +1,0 @@
-{
-  "supports": {},
-  "dependencies": {
-    "System.Diagnostics.Contracts": "4.3.0"
-  },
-  "frameworks": {
-    "netstandard1.5": {}
-  }
-}
