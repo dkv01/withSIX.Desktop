@@ -43,8 +43,8 @@
       <HintPath>..\packages\ExpectedObjects.1.2.3\lib\net40\ExpectedObjects.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FakeItEasy, Version=2.3.3.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
-      <HintPath>..\packages\FakeItEasy.2.3.3\lib\net40\FakeItEasy.dll</HintPath>
+    <Reference Include="FakeItEasy, Version=3.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.3.0.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.0\lib\net45\FluentAssertions.dll</HintPath>
@@ -53,11 +53,10 @@
       <HintPath>..\packages\FluentAssertions.4.19.0\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
     <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.6.4.0-rc3\lib\Net45\FluentValidation.dll</HintPath>
+      <HintPath>..\packages\FluentValidation.6.4.0\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="JetBrains.Annotations, Version=10.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.3.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
@@ -97,8 +96,8 @@
       <HintPath>..\packages\AutoFixture.NUnit2.3.50.2\lib\net40\nunit.core.interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Ploeh.AutoFixture, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoFixture.3.50.2\lib\net40\Ploeh.AutoFixture.dll</HintPath>
@@ -116,8 +115,8 @@
       <HintPath>..\packages\AutoFixture.NUnit2.3.50.2\lib\net40\Ploeh.AutoFixture.NUnit2.Addins.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Polly, Version=5.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Polly.5.0.5\lib\net45\Polly.dll</HintPath>
+    <Reference Include="Polly, Version=5.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.0.6\lib\net45\Polly.dll</HintPath>
     </Reference>
     <Reference Include="Refit, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\refit.3.0.1\lib\net46\Refit.dll</HintPath>
@@ -188,8 +187,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.4.3.1\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NameResolution, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.NameResolution.4.3.0\lib\net46\System.Net.NameResolution.dll</HintPath>

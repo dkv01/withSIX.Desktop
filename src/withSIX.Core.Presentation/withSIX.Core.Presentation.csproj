@@ -3,7 +3,7 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="6.4.0-rc3" />
+    <PackageReference Include="FluentValidation" Version="6.4.0" />
     <PackageReference Include="SharpCompress" Version="0.15.1" />
     <PackageReference Include="SimpleInjector" Version="3.3.2" />
     <PackageReference Include="SimpleInjector.Extensions.ExecutionContextScoping" Version="3.3.2" />

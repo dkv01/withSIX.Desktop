@@ -120,9 +120,8 @@
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="JetBrains.Annotations, Version=10.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.3.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\MahApps.Metro.dll</HintPath>
@@ -246,8 +245,7 @@
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.4.3.1\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NameResolution, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.NameResolution.4.3.0\lib\net46\System.Net.NameResolution.dll</HintPath>
@@ -686,7 +684,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
