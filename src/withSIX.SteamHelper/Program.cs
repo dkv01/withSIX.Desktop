@@ -18,6 +18,7 @@ namespace withSIX.Steam.Presentation
             try {
                 Common.Flags = new Common.StartupFlags(args, Environment.Is64BitOperatingSystem);
                 LoggingSetup.Setup("SteamHelper");
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 using (var c = new ContainerSetup(() => RunInteractive.SteamApi)) {
                     Environment.Exit(new CommandRunner(c.GetCommands()).RunCommandsAndLog(args));
                 }
@@ -35,6 +36,10 @@ namespace withSIX.Steam.Presentation
                 Error("Native code exception!", 2);
             }
         }
+
+        private static void CurrentDomainOnUnhandledException(object sender,
+            UnhandledExceptionEventArgs unhandledExceptionEventArgs) => Error(
+            "Unhandled Exception in AppDomain: " + unhandledExceptionEventArgs.ExceptionObject, 999);
 
         private static void Error(Exception ex, int exitCode) {
             var formatted = ex.Format();
