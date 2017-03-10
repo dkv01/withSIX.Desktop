@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="2.5.1" />
+    <PackageReference Include="refit" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\withSIX.ContentEngine.Core\withSIX.ContentEngine.Core.csproj" />
@@ -28,9 +29,6 @@
     </Reference>
     <Reference Include="Polly">
       <HintPath>..\packages\Polly.4.3.0\lib\net45\Polly.dll</HintPath>
-    </Reference>
-    <Reference Include="Refit">
-      <HintPath>..\packages\refit.3.0.1\lib\net46\Refit.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
