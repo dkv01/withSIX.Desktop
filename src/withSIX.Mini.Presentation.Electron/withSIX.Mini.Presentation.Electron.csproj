@@ -569,6 +569,10 @@
       <Link>SteamLayer.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\withSIX.SteamHelper\bin\Debug\net46\win7-x86\withSIX.SteamHelper.exe">
+      <Link>withSIX.SteamHelper.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -583,10 +587,6 @@
     </Content>
     <Content Include="..\packages\Libuv.1.9.1\runtimes\win7-x86\native\libuv.dll">
       <Link>libuv.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\withSIX.SteamHelper\bin\Debug\net46\win7-x64\withSIX.SteamHelper.exe">
-      <Link>withSIX.SteamHelper.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
