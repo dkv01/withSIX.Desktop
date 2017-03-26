@@ -409,7 +409,7 @@ namespace withSIX.Mini.Core.Games
 
         IAbsoluteDirectoryPath GetRepoDirectory() => Settings.RepoDirectory;
 
-        IAbsoluteFilePath GetFileInGameDirectory(IRelativeFilePath file) => file.GetAbsolutePathFrom(GetGameDirectory());
+        protected IAbsoluteFilePath GetFileInGameDirectory(IRelativeFilePath file) => file.GetAbsolutePathFrom(GetGameDirectory());
 
         IAbsoluteDirectoryPath GetGameDirectory() => Settings.GameDirectory;
 

@@ -5,27 +5,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Runtime.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using NDepend.Path;
 using withSIX.Api.Models.Extensions;
 using withSIX.Api.Models.Games;
-using withSIX.Api.Models.Servers;
 using withSIX.Core;
 using withSIX.Mini.Core.Games;
 using withSIX.Mini.Core.Games.Attributes;
-using withSIX.Mini.Core.Games.Services.GameLauncher;
 using withSIX.Mini.Plugin.Arma.Attributes;
-using withSIX.Mini.Plugin.Arma.Services;
 
 namespace withSIX.Mini.Plugin.Arma.Models
 {
     [Game(GameIds.Arma3, Name = "Arma 3", Slug = "Arma-3",
-         Executables = new[] {"arma3.exe"},
+         Executables = new[] { "arma3_x64.exe", "arma3.exe" },
          IsPublic = true,
-         ServerExecutables = new[] {"arma3server.exe"},
+         ServerExecutables = new[] { "arma3server_x64.exe", "arma3server.exe" },
          LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer}
          )]
     [SteamInfo(SteamGameIds.Arma3, "Arma 3", DRM = true)]
@@ -76,6 +70,41 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 ? Dlcs.Where(x => InstalledState.Directory.GetChildDirectoryWithName(x.PackageName).Exists).ToList()
                 : new List<Dlc>();
 
+        protected override IAbsoluteFilePath GetExecutable() {
+            var executables = GetExecutables().ToArray();
+            switch (_settings.Platform) {
+            case Platform.Default:
+                return Common.Flags.Is64BitOperatingSystem
+                    ? Get64Or32Executable(executables)
+                    : Get32Executable(executables);
+            case Platform.Force32:
+                return Get32Executable(executables);
+            case Platform.Force64:
+                return Get64Executable(executables);
+            default:
+                throw new NotSupportedException("Unsupported bitness settting");
+
+            }
+        }
+
+        private IAbsoluteFilePath Get32Executable(IRelativeFilePath[] executables) {
+            executables = executables.Skip(1).ToArray();
+            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
+            return path ?? GetFileInGameDirectory(executables.First());
+        }
+
+        private IAbsoluteFilePath Get64Executable(IRelativeFilePath[] executables)
+        {
+            executables = executables.Take(1).ToArray();
+            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
+            return path ?? GetFileInGameDirectory(executables.First());
+        }
+
+        private IAbsoluteFilePath Get64Or32Executable(IRelativeFilePath[] executables) {
+            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
+            return path ?? GetFileInGameDirectory(executables.First());
+        }
+
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {
             var content = action.Content;
@@ -125,6 +154,9 @@ namespace withSIX.Mini.Plugin.Arma.Models
             => HandleAia(base.GetLaunchables(action));
 
         protected override StartupBuilder GetStartupBuilder() => new StartupBuilder(this, new Arma3ModListBuilder());
+
+        protected override IEnumerable<string> GetBEParams() => base.GetBEParams()
+            .Concat(new[] {"-exe", InstalledState.Executable.FileName});
 
         protected override IAbsoluteFilePath GetBattleEyeClientExectuable()
             => GetExecutable().GetBrotherFileWithName(BattleEyeExe);

@@ -16,5 +16,15 @@ namespace withSIX.Mini.Plugin.Arma.Models
         }
 
         public Arma3GameSettings() : this(new Arma3StartupParameters(DefaultStartupParameters)) {}
+
+        [DataMember]
+        public Platform Platform { get; set; }
+    }
+
+    public enum Platform
+    {
+        Default, // Prefer 64
+        Force32,
+        Force64
     }
 }

@@ -71,7 +71,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
             (launchAction == LaunchAction.LaunchAsDedicatedServer) || !_settings.LaunchThroughBattlEye ||
             !beExecutable.Exists;
 
-        IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => BeGameParam.Concat(defParams);
+        IEnumerable<string> AddBattleEyeLaunchParameters(IEnumerable<string> defParams) => GetBEParams()
+            .Concat(defParams);
+
+        protected virtual IEnumerable<string> GetBEParams() => BeGameParam;
 
         protected override StartupBuilder GetStartupBuilder() => new StartupBuilder(this, new Arma2OaModListBuilder());
 
