@@ -76,13 +76,17 @@ namespace withSIX.Core.Services.Infrastructure
         static string GenerateMessage(ProcessExitResult exitResult)
             => "The process with ID: " + exitResult.Id + ", did not exit gracefully, CODE: " + exitResult.ExitCode;
 
-        public static ProcessException GenerateException(this ProcessExitResultWithOutput exitResult)
-            => new ProcessException(GenerateMessage(exitResult) + "\nOutput: " + exitResult.StandardOutput +
-                                    "\nError: " + exitResult.StandardError);
+        public static ProcessException GenerateException(this ProcessExitResultWithOutput exitResult) {
+            var output = exitResult.StandardOutput +
+                         "\nError: " + exitResult.StandardError;
+            return new ProcessException(GenerateMessage(exitResult) + "\nOutput: " + output) {Output = output};
+        }
     }
 
     public class ProcessException : Exception
     {
         public ProcessException(string message) : base(message) {}
+
+        public string Output { get; set; }
     }
 }
