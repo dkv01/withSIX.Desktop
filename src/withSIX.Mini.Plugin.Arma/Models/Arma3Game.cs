@@ -70,9 +70,10 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 ? Dlcs.Where(x => InstalledState.Directory.GetChildDirectoryWithName(x.PackageName).Exists).ToList()
                 : new List<Dlc>();
 
-        protected override IAbsoluteFilePath GetExecutable() {
-            var executables = GetExecutables().ToArray();
-            switch (_settings.Platform) {
+        protected override IEnumerable<IRelativeFilePath> GetExecutables() {
+            var executables = base.GetExecutables();
+            switch (_settings.Platform)
+            {
             case Platform.Default:
                 return Common.Flags.Is64BitOperatingSystem
                     ? Get64Or32Executable(executables)
@@ -87,23 +88,11 @@ namespace withSIX.Mini.Plugin.Arma.Models
             }
         }
 
-        private IAbsoluteFilePath Get32Executable(IRelativeFilePath[] executables) {
-            executables = executables.Skip(1).ToArray();
-            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
-            return path ?? GetFileInGameDirectory(executables.First());
-        }
+        private IRelativeFilePath[] Get32Executable(IEnumerable<IRelativeFilePath> executables) => executables.Skip(1).ToArray();
 
-        private IAbsoluteFilePath Get64Executable(IRelativeFilePath[] executables)
-        {
-            executables = executables.Take(1).ToArray();
-            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
-            return path ?? GetFileInGameDirectory(executables.First());
-        }
+        private IRelativeFilePath[] Get64Executable(IEnumerable<IRelativeFilePath> executables) => executables.Take(1).ToArray();
 
-        private IAbsoluteFilePath Get64Or32Executable(IRelativeFilePath[] executables) {
-            var path = executables.Select(GetFileInGameDirectory).FirstOrDefault(p => p.Exists);
-            return path ?? GetFileInGameDirectory(executables.First());
-        }
+        private IRelativeFilePath[] Get64Or32Executable(IEnumerable<IRelativeFilePath> executables) => executables.ToArray();
 
         protected override InstallContentAction GetInstallAction(
             IDownloadContentAction<IInstallableContent> action) {
