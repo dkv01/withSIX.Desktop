@@ -70,10 +70,12 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 ? Dlcs.Where(x => InstalledState.Directory.GetChildDirectoryWithName(x.PackageName).Exists).ToList()
                 : new List<Dlc>();
 
-        protected override IEnumerable<IRelativeFilePath> GetExecutables() {
-            var executables = base.GetExecutables();
-            switch (_settings.Platform)
-            {
+        protected override IEnumerable<IRelativeFilePath> GetLocalExecutables() => GetPlatformExecutable(base.GetLocalExecutables());
+        protected override IEnumerable<IRelativeFilePath> GetMultiplayerExecutables() => GetPlatformExecutable(base.GetMultiplayerExecutables());
+        protected override IEnumerable<IRelativeFilePath> GetServerExecutables() => GetPlatformExecutable(base.GetServerExecutables());
+
+        private IEnumerable<IRelativeFilePath> GetPlatformExecutable(IEnumerable<IRelativeFilePath> executables) {
+            switch (_settings.Platform) {
             case Platform.Default:
                 return Common.Flags.Is64BitOperatingSystem
                     ? Get64Or32Executable(executables)
@@ -84,7 +86,6 @@ namespace withSIX.Mini.Plugin.Arma.Models
                 return Get64Executable(executables);
             default:
                 throw new NotSupportedException("Unsupported bitness settting");
-
             }
         }
 

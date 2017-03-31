@@ -400,10 +400,18 @@ namespace withSIX.Mini.Core.Games
             return path ?? GetFileInGameDirectory(executables.First());
         }
 
-        protected virtual IEnumerable<IRelativeFilePath> GetExecutables() => Metadata.GetAllExecutables();
+        protected IEnumerable<IRelativeFilePath> GetExecutables() => GetLocalExecutables()
+            .Concat(GetMultiplayerExecutables())
+            .Concat(GetServerExecutables());
 
-        protected virtual IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
-            action == LaunchAction.LaunchAsDedicatedServer ? Metadata.GetServerExecutables() : Metadata.GetExecutables();
+        protected virtual IEnumerable<IRelativeFilePath> GetLocalExecutables() => Metadata.GetExecutables();
+
+        protected virtual IEnumerable<IRelativeFilePath> GetMultiplayerExecutables() => Metadata.GetMultiplayerExecutables();
+
+        protected virtual IEnumerable<IRelativeFilePath> GetServerExecutables() => Metadata.GetServerExecutables();
+
+        protected IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
+            action == LaunchAction.LaunchAsDedicatedServer ? GetServerExecutables() : GetLocalExecutables();
 
         protected virtual IAbsoluteFilePath GetLaunchExecutable(LaunchAction action) => GetExecutable(action);
 

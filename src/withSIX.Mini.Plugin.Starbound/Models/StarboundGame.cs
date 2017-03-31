@@ -112,8 +112,8 @@ namespace withSIX.Mini.Plugin.Starbound.Models
             return EnableModsInternal(content.OfType<IModContent>().Select(CreateMod), m => m.Enable());
         }
 
-        protected override IEnumerable<IRelativeFilePath> GetExecutables(LaunchAction action) =>
-            action == LaunchAction.LaunchAsDedicatedServer ? _serverExecutables.Value : _executables.Value;
+        protected override IEnumerable<IRelativeFilePath> GetServerExecutables() => _serverExecutables.Value;
+        protected override IEnumerable<IRelativeFilePath> GetLocalExecutables() => _executables.Value;
 
         protected override IAbsoluteDirectoryPath GetDefaultDirectory()
             => GetGogDir("Starbound") ?? base.GetDefaultDirectory();
