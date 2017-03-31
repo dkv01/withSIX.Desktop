@@ -23,10 +23,10 @@ namespace withSIX.Core.Applications.MVVM.ViewModels
             _otherValidator = otherValidator;
         }
 
-        public override ValidationResult Validate(T instance) {
-            var otherResult = _otherValidator.Validate(instance);
+        public override ValidationResult Validate(ValidationContext<T> ctx) {
+            var otherResult = _otherValidator.Validate(ctx);
 
-            var myResult = base.Validate(instance);
+            var myResult = base.Validate(ctx);
             foreach (var v in myResult.Errors)
                 otherResult.Errors.Add(v);
 
